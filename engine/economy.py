@@ -19,7 +19,8 @@ UNIT_COST.update({"Scoutship": UNIT_COST["Scout"], "Rammership": UNIT_COST["Ramm
 # Build action ids (StructureType, plus the tile actions the enum doesn't name; ids read from the tile changes in the saves)
 BUILD = {3: ("Road", 3), 5: ("Farm", 5), 6: ("Windmill", 5), 7: ("Fishing", 2), 8: ("Port", 7), 9: ("Hunting", 2), 12: ("LumberHut", 3),
          13: ("Sawmill", 5), 15: ("HarvestFruit", 2), 17: ("Temple", 20), 21: ("Mine", 5), 22: ("Forge", 5), 33: ("Outpost", 5),
-         37: ("Fungi", 5), 38: ("Algae", 5), 39: ("Mycelium", 5), 48: ("Bridge", 5), 50: ("Market", 5),
+         37: ("Fungi", 5), 38: ("Algae", 5), 39: ("Mycelium", 5), 41: ("Clathrus", 5), 48: ("Bridge", 5), 50: ("Market", 5),
+         70: ("Embassy", 4),
          23: ("AltarOfPeace", 0), 24: ("TowerOfWisdom", 0), 25: ("GrandBazaar", 0), 26: ("EmperorsTomb", 0), 27: ("GateOfPower", 0),
          28: ("ParkOfFortune", 0), 29: ("EyeOfGod", 0),                                   # monuments are free
          30: ("EnchantAnimal", 3), 46: ("Starfish", -8), 49: ("AquaFarm", 5), 51: ("Aquarion51", 5)}
@@ -28,7 +29,10 @@ BUILD = {3: ("Road", 3), 5: ("Farm", 5), 6: ("Windmill", 5), 7: ("Fishing", 2), 
 UPGRADE_COST = {"Scoutship": 5, "Rammership": 5, "Bomber": 15}
 TIER = {k.replace(" ", ""): v["tier"] for k, v in _tree.items()}
 TIER.update({"IceFishing": 2, "Sledding": 2, "PolarWarfare": 3, "Spearing": 3})   # MEASURED: tribe techs priced by the same formula (n=1-2 each)
-REWARD_STARS = {7: 5}                       # CityReward Resources: +5 stars now
+REWARD_STARS = {7: 5}
+ADJ_INCOME = {50: {6, 22, 13}, 41: {37}}      # Market: Windmill, Forge, Sawmill; Clathrus: Fungi
+EMBASSY_COST = 4            # Jason's game, 2026-10-23. Built as Build structure 70 (not action 27: that one is free and repeats)
+EMBASSY_INCOME = 2          # in-game text: "It will give you both 2 stars per turn, when you have a peace treaty the income is doubled"                       # CityReward Resources: +5 stars now
 REWARD_INCOME = {3: 1, 2: 1}                # Workshop, Park: +1 star per turn
 
 def meet_stars(score):
@@ -53,6 +57,10 @@ class Books:
         self.stars = {p["PlayerId"]: p["Currency"] for p in d["currentPlayers"]}
         self.tribe = {p["PlayerId"]: TRIBE.get(p["Tribe"]) for p in d["currentPlayers"]}
         self.handicap = {p["PlayerId"]: p["DifficultyHandicap"] for p in d["currentPlayers"]}
+        self.relation = {(p["PlayerId"], r["PlayerId"]): r["RelationState"] for p in d["currentPlayers"] for r in p["Diplomacy"]}
+        self.embassies = set()                          # (builder, host); the save's EmbassyLevel is almost never set, so read the log
+        self.structure = {(x, y): (t["ImprovementType"], t["Owner"]) for y, row in enumerate(d["currentTiles"])
+                          for x, t in enumerate(row) if t["ImprovementExists"]}
 
     def cities(self, pl): return [c for c in self.city.values() if c["owner"] == pl]
 
@@ -63,7 +71,14 @@ class Books:
         if model == "production": return sum(c["Production"] for _, c in cs)
         bonus = max(0, self.handicap.get(pl, 1) - 1)     # MEASURED: bot bonus = DifficultyHandicap - 1 stars a turn (Easy 1, Hard 2)
         if BONUS_NEEDS_CAPITAL and not any(self.capital.get(q) == pl and c["owner"] == pl for q, c in self.city.items()): bonus = 0
-        tot = bonus if any(c["owner"] == pl for c in self.city.values()) else 0   # MEASURED: bot bonus = DifficultyHandicap - 1 stars a turn (Easy 1, Hard 2)
+        tot = bonus if any(c["owner"] == pl for c in self.city.values()) else 0
+        for e in self.embassies:                        # both the builder and the host earn from an embassy, unless at war
+            if pl in e:
+                rel = self.relation.get((e[0], e[1]), self.relation.get((e[1], e[0]), 0))
+                if rel != WAR: tot += EMBASSY_INCOME * (2 if rel == PEACE else 1)
+        for (x, y), (imp, owner) in self.structure.items():   # in-game cards: Market +1 per adjacent Windmill/Forge/Sawmill,
+            if owner != pl or imp not in ADJ_INCOME: continue  # Clathrus +1 per adjacent Fungi (Polyfish says Algae; the v123 card says Fungi)
+            tot += sum(1 for dx in (-1, 0, 1) for dy in (-1, 0, 1) if (dx or dy) and self.structure.get((x + dx, y + dy), (None,))[0] in ADJ_INCOME[imp])   # MEASURED: bot bonus = DifficultyHandicap - 1 stars a turn (Easy 1, Hard 2)
         for q, c in cs:
             tot += c["Level"] + (1 if self.capital.get(q) == pl else 0)
             tot += sum(REWARD_INCOME.get(r, 0) for r in c["CityRewards"])
@@ -98,18 +113,26 @@ def book(b, a):
     elif t == 11:
         _, x, y, rw = struct.unpack("<BIIH", r)
         if (x, y) in b.city: b.city[(x, y)]["CityRewards"] = b.city[(x, y)]["CityRewards"] + [rw]
+    elif t == 1:
+        _, imp, x, y = struct.unpack("<BHII", r)
+        b.structure[(x, y)] = (imp, pl)
+        if imp == 70 and (x, y) in b.city: b.embassies.add((pl, b.city[(x, y)]["owner"]))   # an embassy sits in a foreign capital
     elif t == 21:
         _, x, y = struct.unpack("<BII", r)
         if (x, y) in b.city: b.city[(x, y)]["Level"] += 1
 
 RUIN_STARS = 10
+PEACE, WAR = 1, 3           # RelationState values (0 = neutral)
 BONUS_NEEDS_CAPITAL = True
 NEG_POP = True
 PAID_AT_TURN_START = False  # MEASURED: a save taken right at a turn start does not hold that turn's income yet; a mid-turn save does (596 vs 562 exact)
 
 def check(a, b, acts, model="levels", siege=True):
     """One row per player: stars before/after, income, known spending, unknown-price actions, residual (after - predicted)."""
-    bk = Books(a); after = {p["PlayerId"]: p["Currency"] for p in b["currentPlayers"]}
+    bk = Books(a)
+    for x in acts[:len(a["actions"])]:                  # embassies built before this save (none seen in any save so far)
+        if x["type"] == 1 and struct.unpack("<BHII", bytes.fromhex(x["raw"]))[1] == 70: book(bk, x)
+    after = {p["PlayerId"]: p["Currency"] for p in b["currentPlayers"]}
     rows = {pl: dict(before=s, income=0, spent=0, unknown=collections.Counter(), turns=0) for pl, s in bk.stars.items()}
     st = State(a, "current") if siege else None; R.PREV[0] = None; turn = a["currentTurn"]
     n0 = len(a["actions"])

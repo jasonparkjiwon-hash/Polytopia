@@ -33,7 +33,7 @@
   - The trailer is 3 zero bytes, the hash and a u16 action count.
 - **Player records:** the post-v114 layout plus one trailing tribe byte. Task types 1, 5 and 9 carry 6 bytes; the others 2.
 - **Action sizes** (bytes after the u16 type) are in `ACTION_SIZES` in `verify/state_v123.py`.
-- **Known action types:** 27 Establish Embassy; 28 diplomacy reply; 38 Shaman Boost; 24 Boomchi Explode. Build type 30 is Enchant Animal. Type 18 is unknown and is not Disband.
+- **Known action types:** 27 a free diplomacy action at a foreign capital (not the embassy; likely a peace request); 28 diplomacy reply; 38 Shaman Boost; 24 Boomchi Explode. Build type 30 is Enchant Animal. Type 18 is unknown and is not Disband.
 - **Start techs** appear only after StartMatch (see `data/measured_start.json`).
 
 ## Combat (confirmed by replay)
@@ -71,7 +71,7 @@
 
 ## Open work (next up)
 
-1. **Economy replay:** `engine/economy.py`, 95% of player-turns exact on the per-turn games. Open: the Crazy bot bonus, a few prices, and Market, Clathrus and Embassy income.
+1. **Economy replay:** `engine/economy.py`, 95% of player-turns exact on the per-turn games. Open: the Crazy bot bonus, structure 51, and Embassy, Market and Clathrus income (coded, not yet seen in a save).
 2. **Coverage report:** which rules each replay exercises.
 3. **Remaining replay mismatches** (bot war turn 15: 12 HP; Misty Fields: a few leftover units):
    - Action type 18.
