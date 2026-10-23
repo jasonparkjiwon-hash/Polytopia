@@ -697,6 +697,13 @@
    "level": "L3",
    "game_version": "v123 (measured in game)",
    "evidence": "7 of 7 cleanly measurable explosion targets in af181c8f match exactly; flat 2 (Polyfish), a third, or ignoring the exploder's HP match 0-3 of 7. One explosion (t25) hits 1 less on all three targets; likely the exploder was already hurt in a way the log doesn't show."
+  },
+  {
+   "id": "AQUARION-TECH-TIERS",
+   "rule": "Aquarion tech ids 47 (tier 1), 39 and 46 (tier 2) cost tier x cities + 4 like every other tech.",
+   "level": "L3 (tiers only; names unknown)",
+   "game_version": "v123 (measured in saves)",
+   "evidence": "Star check 2026-10-23: with these tiers 8 single-turn star rows in 1bf60251, e15f392c and 09a5bf1e go exact (762 -> 770); the residual was exactly the price (-5 at 1 city for 47, -6/-8 for 39/46). Names still wanted from Jason."
   }
  ]
 }

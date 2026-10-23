@@ -29,6 +29,8 @@ BUILD = {3: ("Road", 3), 5: ("Farm", 5), 6: ("Windmill", 5), 7: ("Fishing", 2), 
 UPGRADE_COST = {"Scoutship": 5, "Rammership": 5, "Bomber": 15}
 TIER = {k.replace(" ", ""): v["tier"] for k, v in _tree.items()}
 TIER.update({"IceFishing": 2, "Sledding": 2, "PolarWarfare": 3, "Spearing": 3})   # MEASURED: tribe techs priced by the same formula (n=1-2 each)
+AQUARION_TIERS = True      # Aquarion techs the TECH table doesn't name yet, keyed by save id: only the tier is known
+if AQUARION_TIERS: TIER.update({47: 1, 39: 2, 46: 2})   # MEASURED: the star check prices them as tier x cities + 4 (backlog item 1)
 REWARD_STARS = {7: 5}
 ADJ_INCOME = {50: {6, 22, 13}, 41: {37}}      # Market: Windmill, Forge, Sawmill; Clathrus: Fungi
 EMBASSY_COST = 5            # Jason, 2026-10-23 (corrected from 4; matches the v123 card in measured_ui.json): the first one;
@@ -98,7 +100,7 @@ def spend(b, pl, a):
     if t == 16:
         ut = UNIT.get(struct.unpack("<BHII", r)[1]); return UPGRADE_COST.get(ut)
     if t == 8:
-        tech = TECH.get(struct.unpack("<BH", r)[1]); tier = TIER.get(tech)
+        tid = struct.unpack("<BH", r)[1]; tech = TECH.get(tid, tid); tier = TIER.get(tech)
         if tier is None: return None
         return tech_cost(tier, len(b.cities(pl)), "Philosophy" in b.techs.get(pl, ()))
     if t == 11:
