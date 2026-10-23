@@ -28,8 +28,8 @@ sh scripts/check.sh                      # replays both games and prints match s
 Expected from `check.sh` (the current baseline):
 
 - Ankiian turn by turn: 27/27, 33/33, 39/39, 43/43, 51/51, 59/59, 66/66 units with exact HP.
-- Bot war: turn 5 66/66, turn 11 90/92, turn 15 110/122.
-- Misty Fields turn by turn (turns 1-16): exact through turn 12 (24, 29, 34, 37, 48, 69, 80, 94, 100, 103, 119, 123); then 133 (all exact), 143, 149, 157 exact with 0-2 leftover units each and no HP mismatch.
+- Bot war: turn 5 66/66, turn 11 90/92, turn 15 111/122.
+- Misty Fields turn by turn (turns 1-16): exact through turn 12 (24, 29, 34, 37, 48, 69, 80, 94, 100, 103, 119, 123); then 133, 144, 149, 157: every unit exact.
 - Oasis Struggle turn by turn (`af181c8f…_t1`–`_t26`, no t11/t17): see `data/conflicts_and_gaps.md` (full replay 2252 exact over 24 checkpoints).
 
 Replay one game by hand:

@@ -1,6 +1,6 @@
 #!/bin/sh
 # Smoke test: replay the two reference games and print how many units match the real saves.
-# Baseline (README.md): Ankiian 27,33,39,43,51,59,66 exact; bot war 66/66, 90/92, 110/122; Misty Fields see README.
+# Baseline (README.md): Ankiian 27,33,39,43,51,59,66 exact; bot war 66/66, 90/92, 111/122; Misty Fields see README.
 set -e
 D=$(cd "$(dirname "$0")/.." && pwd); cd "$D/engine"
 A=../saves/1bf60251-4e7a-4d43-9043-ffc90bf46c31

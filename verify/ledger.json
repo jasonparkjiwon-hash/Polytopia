@@ -304,7 +304,7 @@
   },
   {
    "id": "ACTION-TYPES-V123",
-   "rule": "Action meanings inferred from context: 27 = Establish Embassy (player, foreign capital x,y, owner id); 30 = embassy/peace follow-up on the same capital; 28 = diplomacy reply at turn start (player, other player, flag); 38 = Shaman ability: the save shows the Swift effect (UnitEffect 6) on Cymanti units, which matches Polyfish's v115 note that Boost became Swarm (movement only). The engine's +0.5 attack for 38 changes nothing in any replay, so attack-or-movement is still a test item; 24 = Explode (Cymanti Boomchi); Build type 30 = Enchant Animal (Elyrion, spawns a Polytaur). Type 18 is NOT Disband (36 more in e15f392c); still unknown. 14 = Examine Ruins.",
+   "rule": "Action meanings inferred from context: 27 = Establish Embassy (player, foreign capital x,y, owner id); 30 = embassy/peace follow-up on the same capital; 28 = diplomacy reply at turn start (player, other player, flag); 38 = Shaman ability: the save shows the Swift effect (UnitEffect 6) on Cymanti units, which matches Polyfish's v115 note that Boost became Swarm (movement only). The engine's +0.5 attack for 38 changes nothing in any replay, so attack-or-movement is still a test item; 24 = Explode (Cymanti Boomchi); Build type 30 = Enchant Animal (Elyrion, spawns a Polytaur). Type 18 is NOT Disband (36 more in e15f392c); still unknown. Profile over 79 uses in 33 games: bots only (never the human player), only in the three 16-player games; payload = player + tile; the tile always holds the actor's own unit (Warrior 60, Rider 6, others); 59/79 right after that unit moved; enemy unit within 2 tiles in 70/79; no change to the unit (HP, position, effects, flags) or the tile; the unit takes no further action that turn. 14 = Examine Ruins.",
    "level": "L1",
    "evidence": "engine replay 6e1bf8e0, e15f392c"
   },
@@ -352,13 +352,13 @@
   },
   {
    "id": "PORT-KILL-EMBARK",
-   "rule": "A land unit that kills a unit standing on a port moves in and boards (it becomes a boat).",
-   "level": "L3 (n=1)",
-   "evidence": "af181c8f turn 14: Ai-Mo Warrior 271 kills a Raychi on the port at (20,21), is then that tile's passenger, and the boat is upgraded to a Bomber. Engine RULES port_kill_embark."
+   "rule": "A land unit that kills a unit standing on its OWN tribe's port moves in and boards (it becomes a boat); on an enemy port it stays where it was.",
+   "level": "L3",
+   "evidence": "Own port: boarded 4/4 (e15f392c t12 unit 196, t14 unit 145; af181c8f t14 unit 271, t19 unit 402). Enemy port: stayed 2/2 (e15f392c t13 unit 60; af181c8f t21 unit 401). Without the own-port condition the bot war turn 11 dropped 90 -> 89. Engine RULES port_kill_embark."
   },
   {
    "id": "PUSH-ONTO-PORT",
-   "rule": "A forced spawn can push a land unit onto a neighbouring port, where it boards.",
+   "rule": "A forced spawn can push a land unit onto a neighbouring port of its own tribe, where it boards (own-port condition assumed from PORT-KILL-EMBARK).",
    "level": "L3 (n=2)",
    "evidence": "af181c8f turns 15 and 21: an Ai-Mo Warrior trained in the city at (20,22), pushed out by the Giant reward, ends up as the passenger of a boat on the port at (19,21) (direction toward the map centre, as in Polyfish). Engine RULES push_onto_port; net +1 exact in the per-turn replay."
   },

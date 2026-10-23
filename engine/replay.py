@@ -92,7 +92,7 @@ def push_target(st, u, actor):
     for dx, dy in order:
         q = (x + dx, y + dy)
         if q not in st.terrain or q in st.at: continue
-        if u.type in LAND_UNITS and is_water(st, *q) and not (RULES["push_onto_port"] and q in st.port): continue   # MEASURED (af181c8f t15): a port takes it, and it boards
+        if u.type in LAND_UNITS and is_water(st, *q) and not (RULES["push_onto_port"] and q in st.port and st.owner.get(q) == u.owner): continue   # MEASURED (af181c8f t15, t21): its own port takes it, and it boards
         if u.type not in LAND_UNITS and u.type in BOATS and not is_water(st, *q): continue
         return q
     return None
@@ -240,8 +240,8 @@ def apply(st, a, turn):
             remove(st, df); at.xp += 1
             if RULES["melee_moves_in_on_kill"] and dist((ox, oy), (tx, ty)) == 1 and "stiff" not in stat(at)["skills"] and stat(at).get("range", 1) == 1:
                 if not RULES["kill_move_lands"]: place(st, at, tx, ty)
-                elif at.type in LAND_UNITS and is_water(st, tx, ty) and not (RULES["port_kill_embark"] and (tx, ty) in st.port):
-                    pass                                 # a land unit doesn't follow a kill into water, except onto a port (MEASURED af181c8f t14: it boards)
+                elif at.type in LAND_UNITS and is_water(st, tx, ty) and not (RULES["port_kill_embark"] and (tx, ty) in st.port and st.owner.get((tx, ty)) == at.owner):
+                    pass                                 # a land unit doesn't follow a kill into water, except onto its own port, where it boards (MEASURED: 4/4 own port, 0/2 enemy port)
                 elif RULES["water_units_stay"] and at.type in WATER_UNITS and not (is_water(st, tx, ty) or (tx, ty) in st.flood or (tx, ty) in st.city):
                     pass                                 # MEASURED (e15f392c t9): a Shark doesn't follow a kill onto dry land
                 else:
