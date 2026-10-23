@@ -15,7 +15,7 @@ LAND_UNITS = {"Warrior", "Rider", "Archer", "Defender", "MindBender", "Swordsman
               "Polytaur", "Mooni", "IceArcher", "BattleSled", "IceFortress", "Gaami", "Hexapod", "Kiton", "Shaman", "Exida", "Doomux",
               "Centipede", "Segment", "Larva", "SteamWagon", "SteamFortress", "Pyro", "AshArcher"}   # Aquarion units are amphibious/water: never embark
 WATER_UNITS = {"Shark", "Raychi", "Puffer", "Jelly", "Crab"}   # MEASURED: seen only on water, flooded tiles or cities (Mermaid walks on land)
-RULES = {"retaliation_uses_bonus": True, "melee_moves_in_on_kill": True, "t18_disband": False, "t18_break_ice": True, "t24_explode": True, "t38_swarm": True, "t38_attack_boost": False, "mooni_freezes_units": True, "retaliation_needs_sight": True, "frozen_no_retaliation": True, "freeze_on_hit": True, "tribe_super_unit": True, "bridge_is_land": True, "stomp": True, "summon_promotion": True, "peace_spares_area_damage": True, "hidden_attacker_no_retaliation": True,
+RULES = {"retaliation_uses_bonus": True, "melee_moves_in_on_kill": True, "t18_disband": False, "t18_break_ice": True, "t24_explode": True, "t38_swarm": True, "t38_attack_boost": False, "mooni_freezes_units": True, "retaliation_needs_sight": True, "frozen_no_retaliation": True, "freeze_on_hit": True, "tribe_super_unit": True, "bridge_is_land": True, "stomp": True, "summon_promotion": True, "peace_spares_area_damage": True, "stiff_moves_in": True, "explode_poison": True, "explode_round": "round_then_half", "hidden_attacker_no_retaliation": True,
          "algae_is_land": True, "flood_keeps_form": True, "resync_terrain": True, "kill_move_lands": True, "push_polyfish": True, "push_needs_climbing": True, "ruin_unit": True, "mooni_freeze": True, "water_units_stay": True, "shaman_convert": True, "shaman_damage": True,
          "poison": True, "attack_splash": True, "poison_recover_cures": True,
          "mooni_freezes": ("Water", "Ocean"), "freezers": ("Mooni", "Gaami"), "giant_juggernaut": True,
@@ -293,7 +293,7 @@ def apply(st, a, turn):
         if RULES["freeze_on_hit"] and df.hp > 0 and "freeze" in stat(at)["skills"]: add_effect(df, FROZEN)   # Ice Archer (Freeze skill)
         if df.hp <= 0:
             remove(st, df); at.xp += 1
-            if RULES["melee_moves_in_on_kill"] and dist((ox, oy), (tx, ty)) == 1 and "stiff" not in stat(at)["skills"] and stat(at).get("range", 1) == 1:
+            if RULES["melee_moves_in_on_kill"] and dist((ox, oy), (tx, ty)) == 1 and ("stiff" not in stat(at)["skills"] or (RULES["stiff_moves_in"] and at.type in BOATS and is_water(st, tx, ty))) and stat(at).get("range", 1) == 1:
                 if not RULES["kill_move_lands"]: place(st, at, tx, ty)
                 elif at.type in LAND_UNITS and is_water(st, tx, ty) and not (RULES["port_kill_embark"] and (tx, ty) in st.port and st.owner.get((tx, ty)) == at.owner):
                     pass                                 # a land unit doesn't follow a kill into water, except onto its own port, where it boards (MEASURED: 4/4 own port, 0/2 enemy port)
@@ -390,8 +390,10 @@ def apply(st, a, turn):
             for d in list(st.units.values()):
                 if hostile(st, d.owner, pl) and dist((d.x, d.y), (x, y)) == 1 and st.at.get((d.x, d.y)) == d.id:
                     af = sa["atk"] * u.hp / u.max_hp; df = stat(d)["def"] * d.hp / d.max_hp * defence_bonus(st, d); tot = af + df
-                    dmg = math.floor(rnd(af / tot * sa["atk"] * 4.5) / 2) if tot > 0 else 0
+                    raw = af / tot * sa["atk"] * 4.5 if tot > 0 else 0
+                    dmg = math.floor(rnd(raw) / 2) if RULES["explode_round"] == "round_then_half" else (rnd(raw / 2) if RULES["explode_round"] == "half_then_round" else math.floor(raw / 2))
                     d.hp -= dmg
+                    if RULES["explode_poison"] and d.hp > 0: add_effect(d, POISON)   # Polyfish explode + af181c8f t25 (every target poisoned)
                     if d.hp <= 0: remove(st, d)
             remove(st, u); LOG["explode"] += 1
     else:
