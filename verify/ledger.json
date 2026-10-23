@@ -732,6 +732,13 @@
    "level": "L3 (n=2)",
    "game_version": "v123 (measured in saves)",
    "evidence": "6e1bf8e0 t15: host p7's Diplomacy entry for p12 has EmbassyLevel 1, EmbassyBuildTurn 13 after p12's action 30 at 1839. Star check 2026-10-23: 09a5bf1e t7->8 p1 (builder, -4) and p7 (host, +2) go exact; 6e1bf8e0 p12 stays exact (778 -> 780). SPLIT with ECON-EMBASSY (5 stars per Jason and the card): test item."
+  },
+  {
+   "id": "MOTH-V123",
+   "rule": "Cymanti Moth (v123): 10 HP, attack 2, stiff (no return fire), and its attack draws no retaliation; defence at least 1.6 (engine uses 2; Polyfish v115 says 0.1). It can explode (action 24) like a Boomchi.",
+   "level": "L3 (n=1, fitted) + replay A/B",
+   "game_version": "v123 (measured in game)",
+   "evidence": "6e1bf8e0 t11-12: Moth 213 (10/10) attacked poisoned XinXi Warrior 39 in a city (action 1494), then survived a full-HP Swordsman's hit on a mountain (1626; the Swordsman did not move in and took no return damage) and exploded on (9,3) at 1674, taking exactly 1 HP from each adjacent full-HP Swordsman (237, 344: save t15). The explosion only fits if the Moth kept 3-9 HP, which needs no retaliation at 1494 and defence >= 1.6. Engine stats.py Moth; miss.py units 4715/4745 -> 4717/4745."
   }
  ]
 }

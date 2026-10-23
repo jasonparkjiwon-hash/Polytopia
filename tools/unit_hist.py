@@ -16,6 +16,11 @@ for d in ds:
     R.add_ruin_oracle(d)
     for i, v in R.snapshot_units(d).items(): R.ORACLE.setdefault(i, (v[0], v[1], v[5]))
 a = [d for d in ds if d["currentTurn"] == ta][0]; b = ds[ds.index(a) + 1]
+for p, q in zip(ds, ds[1:ds.index(a) + 1]):     # replay earlier segments silently, as tools/miss.py does (globals carry over)
+    st = State(p, "current"); R.PREV[0] = None; turn = p["currentTurn"]
+    for k in range(len(p["actions"]), len(q["actions"])):
+        if acts[k]["type"] == 15 and bytes.fromhex(acts[k]["raw"])[0] == 255: turn += 1
+        R.apply(st, acts[k], turn)
 tr = {p["PlayerId"]: TRIBE.get(p["Tribe"]) for p in b["currentPlayers"]}
 st = State(a, "current"); R.PREV[0] = None; turn = ta
 objs = {i: st.units.get(i) for i in ids}

@@ -24,13 +24,22 @@ Save units near a tile: a 15-line scratch script (`near.py`: tile, id, tribe, ty
 - `ruin_unseen_swordsman` + `kill_move_needs_climbing` (new switches) → units 4709/4753 → 4715/4745,
   stars 762/819 held. Each alone: 4714/4746 and 4709/4754. Kept. t5->11 now 0 misses.
 
+- Restored Exida, Larva and Moth in `engine/stats.py` (inline `#` comments had swallowed them) → neutral, kept.
+- Moth (v123) fitted: defence 2 + no retaliation against its attack (`surprise` stand-in), stiff → 4715 → 4717
+  (344, 237). Defence 3 scores the same; 0.1 (Polyfish) or with retaliation: no gain. Kept, ledger MOTH-V123.
+- The ruin fix also closed 428, 309, 388, 177, 310 at t15 (they hung off unit 165's fights).
+
 ## Ruled out
+
+- Moth dies and leaves an InsectEgg that explodes: a fresh egg's blast deals 2 to a full Swordsman, save says 1.
 
 ## Current theory
 
 - t5->11 solved: XinXi unit 165 came from ruin (0,6) (action 777), died before t11, so no save named it
   and the engine summoned it as a Warrior. As a veteran Swordsman every fight fits exactly. Then
   the Luxidoor Giant's kill on mountain (1,8) at 1214 must not move in (no Climbing).
+
+- t11->15 344/237: the Moth 213 survived 237's hit at 1626 and exploded on (9,3) at 1674 (type 24 isn't only Boomchi).
 
 ## Next step
 
