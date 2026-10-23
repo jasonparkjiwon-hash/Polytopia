@@ -195,7 +195,7 @@
   },
   "replay.DASH": {
    "ledger": "ACTION-18-AFTER-MOVE",
-   "level": "L3 for Dash units (128 uses); L0 for 'a unit without Dash cannot' (2 Raft exceptions)",
+   "level": "L3 (130/130 move-then-break uses in the saves are Dash units; Jason in game)",
    "source": "engine/replay.py:284",
    "unverified": false
   },
@@ -261,9 +261,9 @@
   },
   "replay.RULES.break_ice_after_move_needs_dash": {
    "ledger": "ACTION-18-AFTER-MOVE",
-   "level": "L3 for Dash units (128 uses); L0 for 'a unit without Dash cannot' (2 Raft exceptions)",
+   "level": "L3 (130/130 move-then-break uses in the saves are Dash units; Jason in game)",
    "source": "engine/replay.py:77",
-   "unverified": true
+   "unverified": false
   },
   "replay.RULES.bridge_is_land": {
    "ledger": "BRIDGE-LAND",
@@ -387,9 +387,9 @@
   },
   "replay.RULES.peace_break_disbands": {
    "ledger": "DIPLO-BREAK-DISBAND",
-   "level": "L0 (untested)",
+   "level": "L3 for the disband (Jason in game, 2026-10-23); L0 for the rest (cannot attack that turn, units frozen)",
    "source": "engine/replay.py:76",
-   "unverified": true
+   "unverified": false
   },
   "replay.RULES.peace_spares_area_damage": {
    "ledger": "PEACE-AREA-DAMAGE",
@@ -490,7 +490,7 @@
   "replay.RULES.recover_lost_defender": {
    "ledger": "ENGINE-RESYNC",
    "level": "tool",
-   "source": "engine/replay.py:360",
+   "source": "engine/replay.py:361",
    "unverified": false
   },
   "replay.RULES.resync_terrain": {
@@ -502,7 +502,7 @@
   "replay.RULES.resync_territory": {
    "ledger": "ENGINE-RESYNC",
    "level": "tool",
-   "source": "engine/replay.py:580",
+   "source": "engine/replay.py:581",
    "unverified": false
   },
   "replay.RULES.retaliation_needs_sight": {
@@ -628,7 +628,7 @@
   "replay.RULES.territory": {
    "ledger": "CAPTURE-TERRITORY",
    "level": "L2 (replay A/B)",
-   "source": "engine/replay.py:437",
+   "source": "engine/replay.py:438",
    "unverified": false
   },
   "replay.RULES.tribe_super_unit": {
@@ -664,115 +664,115 @@
   "replay.action.1": {
    "ledger": "ACTION-TYPES-V123",
    "level": "L1",
-   "source": "engine/replay.py:418",
+   "source": "engine/replay.py:419",
    "unverified": false
   },
   "replay.action.11": {
    "ledger": "CITY-REWARDS",
    "level": "L3",
-   "source": "engine/replay.py:460",
+   "source": "engine/replay.py:461",
    "unverified": false
   },
   "replay.action.13": {
    "ledger": "PROMOTE-HP",
    "level": "L3",
-   "source": "engine/replay.py:411",
+   "source": "engine/replay.py:412",
    "unverified": false
   },
   "replay.action.14": {
    "ledger": "RUIN-UNIT-SPAWN",
    "level": "L3",
-   "source": "engine/replay.py:471",
+   "source": "engine/replay.py:472",
    "unverified": false
   },
   "replay.action.15": {
    "ledger": "FROZEN-NO-RETALIATION",
    "level": "L3",
-   "source": "engine/replay.py:328",
+   "source": "engine/replay.py:329",
    "unverified": false
   },
   "replay.action.16": {
    "ledger": "BOAT-IDS",
    "level": "L3",
-   "source": "engine/replay.py:405",
+   "source": "engine/replay.py:406",
    "unverified": false
   },
   "replay.action.17": {
    "ledger": "ACTION-17-FREEZE-AREA",
    "level": "L1 (n=1, Polyfish + one Polaris use at its Gaami's tile)",
-   "source": "engine/replay.py:428",
+   "source": "engine/replay.py:429",
    "unverified": false
   },
   "replay.action.18": {
    "ledger": "ACTION-18-BREAK-ICE",
    "level": "L3",
-   "source": "engine/replay.py:480",
+   "source": "engine/replay.py:481",
    "unverified": false
   },
   "replay.action.2": {
    "ledger": "COMBAT-FORMULA",
    "level": "L2 (replay: 63/66 exact at turn 5)",
-   "source": "engine/replay.py:356",
+   "source": "engine/replay.py:357",
    "unverified": false
   },
   "replay.action.24": {
    "ledger": "EXPLODE-DAMAGE",
    "level": "L3",
-   "source": "engine/replay.py:501",
+   "source": "engine/replay.py:502",
    "unverified": false
   },
   "replay.action.28": {
    "ledger": "DIPLO-PEACE",
    "level": "L3 (27/28); L3 n=1 (29)",
-   "source": "engine/replay.py:430",
+   "source": "engine/replay.py:431",
    "unverified": false
   },
   "replay.action.29": {
    "ledger": "DIPLO-PEACE",
    "level": "L3 (27/28); L3 n=1 (29)",
-   "source": "engine/replay.py:433",
+   "source": "engine/replay.py:434",
    "unverified": false
   },
   "replay.action.3": {
    "ledger": "HEAL-TERRITORY",
    "level": "L2",
-   "source": "engine/replay.py:414",
+   "source": "engine/replay.py:415",
    "unverified": false
   },
   "replay.action.38": {
    "ledger": "ACTION-TYPES-V123",
    "level": "L1",
-   "source": "engine/replay.py:494",
+   "source": "engine/replay.py:495",
    "unverified": false
   },
   "replay.action.4": {
    "ledger": "ACTION-4-HEAL",
    "level": "L3 (n=1)",
-   "source": "engine/replay.py:423",
+   "source": "engine/replay.py:424",
    "unverified": false
   },
   "replay.action.5": {
    "ledger": "SAVE-UNIT-IDS",
    "level": "L3 (format)",
-   "source": "engine/replay.py:402",
+   "source": "engine/replay.py:403",
    "unverified": false
   },
   "replay.action.6": {
    "ledger": "SAVE-FORMAT",
    "level": "L3",
-   "source": "engine/replay.py:344",
+   "source": "engine/replay.py:345",
    "unverified": false
   },
   "replay.action.7": {
    "ledger": "CAPTURE-TERRITORY",
    "level": "L2 (replay A/B)",
-   "source": "engine/replay.py:437",
+   "source": "engine/replay.py:438",
    "unverified": false
   },
   "replay.action.8": {
    "ledger": "TECH-TREE",
    "level": "L3",
-   "source": "engine/replay.py:457",
+   "source": "engine/replay.py:458",
    "unverified": false
   },
   "replay.defence_bonus": {

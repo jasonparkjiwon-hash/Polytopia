@@ -74,14 +74,14 @@ Priority if time is short: 26 → 27 → 28 → 30 → 29 → 31 → 32.
 
 The engine applies these rules, but no save has shown them yet, so it marks them "unverified" and later advice will flag any move that depends on them. One small test each. Export with Resume held, as before; one game can cover several items.
 
-* [ ] 35\. **Breaking peace.** Get a peace treaty with a bot (Diplomacy tech), walk 2 units inside its borders, then break the peace. Export **before** and **right after** breaking. Watch: are the 2 units removed? Can your other units still move or attack that turn?
+* [x] 35\. *Answered 23 Oct (Jason): yes, the units inside the ex-ally's territory are disbanded.* **Breaking peace.** Get a peace treaty with a bot (Diplomacy tech), walk 2 units inside its borders, then break the peace. Export **before** and **right after** breaking. Watch: are the 2 units removed? Can your other units still move or attack that turn?
 * [ ] 36\. **Embassy price and income.** Build a first embassy (note your stars before and after), then a second one in another tribe's capital. Export right after each, and once more at the start of your next turn. Shows the price (5 per the card, 4 net in the saves so far, +2 for the second?) and whether *you* earn 2 a turn while not at peace.
 * [ ] 37\. **Market.** Build a Market next to a Windmill and a Forge (or Sawmill). Note your income ("+N" stars) before and after, and export at the start of your next turn.
 * [ ] 38\. **Clathrus (Cymanti).** Build a Clathrus with 1–2 Fungi next to it and no Algae, note the income before and after, export next turn. The card says Fungi counts; Polyfish says Algae.
-* [ ] 39\. **Break Ice from a boat.** Playing near Polaris ice: move a Raft (a unit at sea with no Dash) next to ice, then try Break Ice in the same turn. Is the button there? Export after. Two bot Rafts did this in the saves, which contradicts "only Dash units can move and then break ice".
+* [x] 39\. *Answered 23 Oct (Jason): those Rafts had been upgraded to Scoutships, which have Dash; re-test shows 130/130 move-then-break uses are Dash units.* **Break Ice from a boat.** Playing near Polaris ice: move a Raft (a unit at sea with no Dash) next to ice, then try Break Ice in the same turn. Is the button there? Export after. Two bot Rafts did this in the saves, which contradicts "only Dash units can move and then break ice".
 * [ ] 40\. **Aquarion tech names.** Fresh Aquarion game, research one tech per turn and export after each (or screenshot the tech tree with costs). Confirms which id is Aquaculture and what the tier-1 tech before Marine Life is called (Polyfish's internal name: "AquaFishing").
 
-Priority: 40 (one game, no fighting) → 36 → 35 → 39 → 37 → 38.
+Priority: 40 (one game, no fighting) → 36 → 37 → 38.
 
 ## Test first (7 questions, most useful first)
 

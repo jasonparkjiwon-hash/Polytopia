@@ -73,8 +73,8 @@ RULES = {   # one switch per line; A/B each in tools/miss.py before keeping a ch
     'ruin_boat_passenger': True,
     'push_dir_persists': True,
     'push_dir_round': True,
-    'peace_break_disbands': True,       # UNVERIFIED (L0): no save has a broken peace with units inside the ex-ally's borders
-    'break_ice_after_move_needs_dash': True,   # UNVERIFIED legality check (L0 in-game text): only counts violations in LOG
+    'peace_break_disbands': True,       # Jason in game (L3): the breaker's units inside the ex-ally's territory are disbanded; no save shows it yet
+    'break_ice_after_move_needs_dash': True,   # legality check, counts violations in LOG only: 130/130 move-then-break uses are Dash units
     'polaris_capture_freezes': True,
     'idle_auto_recover': True,
     'explode_poison_halves': True,
@@ -325,6 +325,7 @@ def apply(st, a, turn):
                 if not RULES["push_dir_persists"]: u.last_from = None; u.last_attack = None
                 u.thaw = FROZEN in u.effects     # frozen before this turn: it sits this turn out, then thaws at its end
                 u.acted = False
+                u.moved_now = False              # moved this turn (break_ice_after_move_needs_dash); last_from may persist across turns
     if t == 15 and RULES["frozen_no_retaliation"]:
         for u in st.units.values():
             if u.owner == pl and getattr(u, "thaw", False): u.effects = [e for e in u.effects if e != FROZEN]; u.thaw = False
@@ -349,7 +350,7 @@ def apply(st, a, turn):
             e.effects = [f for f in e.effects if f != INVISIBLE]; LOG["move blocked by hidden unit"] += 1   # hidden Cloak stops; the mover
             return                                                                                     # attacks it from where it stood
         old = u.type                             # Stomp uses the type before the move (a Juggernaut that lands as a Giant still stomps)
-        enter(st, u, x0, y0, x1, y1); u.last_from = (x0, y0); explore(st, u.owner, x1, y1)
+        enter(st, u, x0, y0, x1, y1); u.last_from = (x0, y0); u.moved_now = True; explore(st, u.owner, x1, y1)
         vx, vy = x1 - x0, y1 - y0; m = max(abs(vx), abs(vy), 1); u.facing = (sgn(vx) * (2 * abs(vx) > m), sgn(vy) * (2 * abs(vy) > m)); u.ever_moved = True
         if RULES["stomp"] and "stomp" in STATS.get(old, {}).get("skills", ()): stomp(st, u, old)
         if u.type in RULES["freezers"]: mooni_freeze(st, x1, y1, u.owner)
@@ -480,9 +481,9 @@ def apply(st, a, turn):
     elif t == 18 and RULES["t18_break_ice"]:     # Break Ice (Jason's in-game text; 91/92 uses had ice next to the unit): the ice around
         _, x, y = v                              # the acting unit turns back to water or ocean, except under a unit
         u = unit_at(st, x, y)                    # Jason's in-game text: breaking ice uses the unit's action, so only a Dash unit can move first
-        if RULES["break_ice_after_move_needs_dash"] and u is not None and getattr(u, "last_from", None) is not None and u.type not in DASH:
+        if RULES["break_ice_after_move_needs_dash"] and u is not None and getattr(u, "moved_now", False) and u.type not in DASH:
             LOG["moved, then broke ice, no Dash"] += 1; LOG["no-dash ice breaker " + u.type] += 1
-        elif u is not None and getattr(u, "last_from", None) is not None: LOG["moved, then broke ice (Dash)"] += 1
+        elif u is not None and getattr(u, "moved_now", False): LOG["moved, then broke ice (Dash)"] += 1
         for dy in (-1, 0, 1):
             for dx in (-1, 0, 1):
                 q = (x + dx, y + dy)

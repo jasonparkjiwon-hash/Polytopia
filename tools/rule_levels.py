@@ -157,7 +157,6 @@ FUNCS = {   # formula functions: rule name -> (file key, def name, ledger id)
     "economy.Books.income.siege": ("economy", "income", "ECON-SIEGE"),
 }
 UNTESTED = {   # rules the engine applies that no save has exercised yet (they change no replay score either way)
-    "replay.RULES.peace_break_disbands", "replay.RULES.break_ice_after_move_needs_dash",
     "economy.ECON_RULES.market_income", "economy.ECON_RULES.clathrus_income",
     "economy.EMBASSY_STEP",   # no tribe built a second embassy in any save
 }
