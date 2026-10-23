@@ -31,6 +31,8 @@ Save units near a tile: a 15-line scratch script (`near.py`: tile, id, tribe, ty
 
 - `stiff_boat_lands` + Climbing check extended to boats + `stomp_on_kill_move` → 4717/4743 → 4721/4741 (223, 326,
   295). `stiff_boat_lands` alone broke af181c8f t21 (mountain, no Climbing) until the Climbing check covered boats.
+- `move_blocked_by_hidden`: a move onto a hidden enemy (Cloak) doesn't happen → 4721/4741 → 4722/4738
+  (251, 272, 234, 215 at Elyrion/Yadakk (27,10)). Kept, ledger MOVE-BLOCKED-HIDDEN.
 
 ## Ruled out
 

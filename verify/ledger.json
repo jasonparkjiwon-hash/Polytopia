@@ -802,6 +802,13 @@
    "level": "L3 (n=1 replay case; supporting count: 12 of 16 water tiles newly in Polaris territory across saves were ice at the next save)",
    "game_version": "v123 (saves)",
    "evidence": "engine RULES polaris_capture_freezes; af181c8f t13 (Battle Sled captures 9,16; a Luxidoor Warrior then walks onto 9,15 on foot); replay A/B 28 -> 27 unit misses, stars hold"
+  },
+  {
+   "id": "MOVE-BLOCKED-HIDDEN",
+   "rule": "A move onto a tile where a hidden enemy unit (Cloak) stands doesn't happen: the mover stays where it was and the hidden unit is revealed (the bot then attacked it from its own tile).",
+   "level": "L3 (n=1) + replay A/B",
+   "game_version": "v123 (measured in game)",
+   "evidence": "6e1bf8e0 t11 actions 1324-1325: Elyrion Warrior 215 'moved' (27,11)->(27,10) onto an invisible Yadakk Cloak, then attacked (27,10) from (27,11); later actions only fit if 215 killed the Cloak from (27,11), moved in, and was killed there by Yadakk 272 (1415). Engine RULES move_blocked_by_hidden; miss.py units 4721/4741 -> 4722/4738."
   }
  ]
 }

@@ -66,6 +66,7 @@ RULES = {   # one switch per line; A/B each in tools/miss.py before keeping a ch
     'kill_move_needs_climbing': True,
     'stiff_boat_lands': True,
     'stomp_on_kill_move': True,
+    'move_blocked_by_hidden': True,
     'push_dir_persists': True,
     'push_dir_round': True,
     'peace_break_disbands': True,       # UNVERIFIED (L0): no save has a broken peace with units inside the ex-ally's borders
@@ -263,7 +264,7 @@ def enter(st, u, x0, y0, x1, y1):
 
 PREV = [None]
 POISON = 1   # UnitEffect enum
-FROZEN, SWIFT = 0, 6
+FROZEN, SWIFT, INVISIBLE = 0, 6, 3
 _sk = {k: " ".join(v.get("skills") or ()).lower() for k, v in json.load(open(os.path.join(HERE, "..", "data", "units.json")))["units"].items()}
 _sk.update({k: str(v.get("skills", "")).lower() for k, v in json.load(open(os.path.join(HERE, "..", "data", "measured_ui.json")))["units"].items()})   # v123 cards win
 _sk.update({"Rammership": _sk.get("Rammer", ""), "Scoutship": _sk.get("Scout", "")})
@@ -321,6 +322,10 @@ def apply(st, a, turn):
     if t == 6:                                   # Move
         _, x0, y0, x1, y1, uid = v
         u = locate(st, uid, x0, y0, pl)
+        e = unit_at(st, x1, y1)
+        if RULES["move_blocked_by_hidden"] and e is not None and e.owner != pl and e is not u:   # MEASURED 6e1bf8e0 t11: a move onto a
+            e.effects = [f for f in e.effects if f != INVISIBLE]; LOG["move blocked by hidden unit"] += 1   # hidden Cloak stops; the mover
+            return                                                                                     # attacks it from where it stood
         old = u.type                             # Stomp uses the type before the move (a Juggernaut that lands as a Giant still stomps)
         enter(st, u, x0, y0, x1, y1); u.last_from = (x0, y0); explore(st, u.owner, x1, y1)
         if RULES["stomp"] and "stomp" in STATS.get(old, {}).get("skills", ()): stomp(st, u, old)
