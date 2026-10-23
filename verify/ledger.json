@@ -711,6 +711,20 @@
    "level": "L3",
    "game_version": "v123 (measured in saves)",
    "evidence": "Star check 2026-10-23 (engine/economy.py ROUND_START_PAID): af181c8f p1 alternated -5/+5 (one turn's income) across t12-15 and t20-24; with the rule 5 rows go exact, none break (770 -> 775)."
+  },
+  {
+   "id": "KILL-MOVE-CLIMBING",
+   "rule": "After a melee kill, a land unit doesn't move onto a mountain tile unless its tribe has Climbing (or it flies): it stays where it attacked from.",
+   "level": "L3 (n=1) + replay A/B",
+   "game_version": "v123 (measured in game)",
+   "evidence": "6e1bf8e0 t10 action 1214: Luxidoor Giant (no Climbing) killed XinXi unit 165 on mountain (1,8) and was still on (2,9) at t11; XinXi Warrior then moved onto (1,8). Engine RULES kill_move_needs_climbing; miss.py units 4714/4746 -> 4715/4745 with it."
+  },
+  {
+   "id": "RUIN-UNIT-UNSEEN",
+   "rule": "A ruin examined with no checkpoint showing its reward: if a unit with an id no save knows later first acts from that ruin tile, it is the ruin's unit reward, a veteran Swordsman (20 HP).",
+   "level": "L3 (n=1, inferred) + replay A/B",
+   "game_version": "v123 (measured in game)",
+   "evidence": "6e1bf8e0 t7-10: XinXi examined ruin (0,6) (action 777); unit 165 first moved off (0,6) and died before t11. As a Warrior the fights don't fit; as a veteran Swordsman it kills Vengir Swordsman 15 at action 936 and leaves Luxidoor Giant 231 at exactly 33 HP (save). Engine RULES ruin_unseen_swordsman; miss.py units 4709/4754 -> 4715/4745 with KILL-MOVE-CLIMBING."
   }
  ]
 }

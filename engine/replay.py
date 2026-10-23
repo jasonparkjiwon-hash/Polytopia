@@ -62,6 +62,8 @@ RULES = {   # one switch per line; A/B each in tools/miss.py before keeping a ch
     'algae_keeps_boats': True,
     'push_onto_port': True,
     'no_cities_no_units': True,
+    'ruin_unseen_swordsman': True,
+    'kill_move_needs_climbing': True,
 }
 LOG = collections.Counter(); EVENTS = []
 
@@ -179,10 +181,13 @@ def spawn(st, owner, name, x, y):
 
 RUIN = {}     # (owner, x, y) -> [(created turn, unit type, promotion)]: units a checkpoint shows standing where a ruin was examined
 ORACLE = {}   # unit id -> (owner, type, promotion) from any saved checkpoint, for units spawned by events the log doesn't spell out
+RUIN_SEEN = {}   # (owner, x, y) -> turn: ruins examined with no checkpoint showing the reward (it may be a unit that died before the next save)
 
 def summon(st, uid, owner, x, y):
     o = ORACLE.get(uid); name = o[1] if o else "Warrior"
-    u = Unit(uid, owner, name, x, y, 0, 0)
+    if o is None and RULES["ruin_unseen_swordsman"] and (owner, x, y) in RUIN_SEEN:   # MEASURED 6e1bf8e0 t8-10: unit 165 first moved off a ruin
+        o = (owner, "Swordsman", 1); LOG["ruin unit (inferred)"] += 1                  # XinXi examined; only a veteran Swordsman fits its fights
+    u = Unit(uid, owner, name if o is None else o[1], x, y, 0, 0)
     if o and RULES["summon_promotion"]: u.promotion = o[2]   # e.g. a ruin's veteran Swordsman (MEASURED af181c8f t16: 20 max HP)
     u.max_hp = max_hp(u); u.hp = u.max_hp
     st.units[uid] = u; st.at[(x, y)] = uid; st.max_unit_id = max(st.max_unit_id, uid); LOG["spawned unseen unit"] += 1
@@ -338,6 +343,8 @@ def apply(st, a, turn):
             remove(st, df); at.xp += 1
             if RULES["melee_moves_in_on_kill"] and dist((ox, oy), (tx, ty)) == 1 and ("stiff" not in stat(at)["skills"] or (RULES["stiff_moves_in"] and at.type in BOATS and is_water(st, tx, ty))) and stat(at).get("range", 1) == 1:
                 if not RULES["kill_move_lands"]: place(st, at, tx, ty)
+                elif RULES["kill_move_needs_climbing"] and st.terrain.get((tx, ty)) == "Mountain" and at.type in LAND_UNITS and "Climbing" not in st.players[at.owner].techs and "fly" not in stat(at)["skills"]:
+                    pass                                 # MEASURED 6e1bf8e0 t10: a Luxidoor Giant (no Climbing) killed a unit on a mountain and stayed put
                 elif at.type in LAND_UNITS and is_water(st, tx, ty) and not (RULES["port_kill_embark"] and (tx, ty) in st.port and st.owner.get((tx, ty)) == at.owner):
                     pass                                 # a land unit doesn't follow a kill into water, except onto its own port, where it boards (MEASURED: 4/4 own port, 0/2 enemy port)
                 elif RULES["water_units_stay"] and at.type in WATER_UNITS and not (is_water(st, tx, ty) or (tx, ty) in st.flood or (tx, ty) in st.city):
@@ -415,7 +422,7 @@ def apply(st, a, turn):
             _, name, promo = hit[0]; u = spawn(st, pl, name, x, y)
             if promo: u.promotion = promo; u.max_hp = max_hp(u); u.hp = u.max_hp
             LOG["ruin unit"] += 1
-        else: LOG["ruin (no unit)"] += 1
+        else: LOG["ruin (no unit)"] += 1; RUIN_SEEN[(pl, x, y)] = turn
     elif t == 18 and RULES["t18_break_ice"]:     # Break Ice (Jason's in-game text; 91/92 uses had ice next to the unit): the ice around
         _, x, y = v                              # the acting unit turns back to water or ocean, except under a unit
         for dy in (-1, 0, 1):

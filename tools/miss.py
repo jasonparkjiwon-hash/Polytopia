@@ -13,7 +13,7 @@ for f in glob.glob(os.path.join(ROOT, "saves", want + "*_t*.json")):
 tu = collections.Counter(); ts = collections.Counter(); lines = []
 for gid, fs in sorted(games.items()):
     ds = sorted((json.load(open(f)) for f in fs), key=lambda d: len(d["actions"])); acts = ds[-1]["actions"]
-    R.ORACLE.clear(); R.RUIN.clear()
+    R.ORACLE.clear(); R.RUIN.clear(); R.RUIN_SEEN.clear()
     for d in ds:
         R.add_ruin_oracle(d)
         for i, v in R.snapshot_units(d).items(): R.ORACLE.setdefault(i, (v[0], v[1], v[5]))
