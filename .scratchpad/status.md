@@ -27,6 +27,8 @@ _Last updated 2026-10-23._
 
 ## Waiting on Jason
 
+- Oceantology (Cymanti tech, save id 49): its tier, from the tech card or a game where a one-city Cymanti researches it.
+
 - Embassy price check: note your stars right before building one embassy, right after, and at your next turn start (saves say a net 4, you and the card say 5).
 
 - Round 3, items 35–40 on the test sheet: controlled tests for the rules the engine

@@ -1,4 +1,4 @@
-# Star tail: 57 star player-turns off
+# Star tail: 57 -> 17 star player-turns off (762 -> 802/819)
 
 _Owner: polish-star session · started 2026-10-23_
 
@@ -46,9 +46,24 @@ python3 -I tools/trace.py <game> <turnA> <turnB> x,y ...
 
 - <idea> — <why>
 
-## Current theory
+## Current theory (802/819, 17 left, all accounted for but 4 stars)
+
+- Bot war 6e1bf8e0 (13 rows): meet stars in 4-6 turn gaps. Every star row there without a meeting is exact, every
+  miss is even, and each residual fits inside the range of meet stars the met tribes' scores allow between the two
+  saves (checked row by row). Not fixable without saves in between (interpolating to FirstMeet only reshuffles).
+- 6e1bf8e0 t11->15 p16 (-8): Oceantology (id 49, Cymanti) is unpriced; tier 1, 2 or 3 all fit with meet timing.
+- af181c8f t10->12 p13 (-2): meet timing, 2-turn gap with no t11 save.
+- af181c8f t10->12 p9 (+3): tribe destroyed by p5 at action 1082, no turns after; why its stars rose is unknown, and
+  it doesn't matter for play.
+- e15f392c t11->12 p5 (-4): trade route cut by p4's new city border (3 cities to -1 pop before p5's turn, -3);
+  1 star unexplained. Would need a trade-route model (connections via roads/water routes inside own territory).
 
 ## Next step
+
+- Ask Jason (in status.md): Oceantology's tier (in-game tech card, or a Cymanti game where it is researched with one
+  city), and the embassy price check (5 per him and the card vs a net 4 in both saves).
+- Optional: trade-route model (ConnectedPlayerCapital, HasWaterRoute) if more saves show connection losses.
+- A new single-turn save series (no gaps) for any game would turn the bot-war meet rows into checks.
 
 ## Notes from the orchestrator (23 Oct)
 

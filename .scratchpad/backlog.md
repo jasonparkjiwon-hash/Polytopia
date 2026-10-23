@@ -30,9 +30,8 @@ conflict in the ledger, take upstream and re-run your ledger command). Don't edi
 
 _Owner: unassigned_
 
-Tech ids 39, 46, 47 are missing from `TECH`. The saves imply 47 is tier 1 and
-39 and 46 are tier 2 (price tier x cities + 4). Name them and add to `TIER` in
-`engine/economy.py`. The Aquarion wiki page is blocked from the cloud container
+Priced by id since 23 Oct (`AQUARION_TIERS` in `engine/economy.py`: 47 tier 1, 39 and 46
+tier 2; 8 star rows went exact). Still open: the in-game names, to replace the ids. The Aquarion wiki page is blocked from the cloud container
 (proxy 403); Jason can paste it or the tech names.
 
 ## 2. Unit misses left (44)
