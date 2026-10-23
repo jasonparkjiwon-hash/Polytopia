@@ -46,7 +46,10 @@
 - **Defence bonus:**
   - 1.5 in its own city (Fortify units); 4 with walls.
   - 1.5 on forest with Archery, or on mountain with Climbing.
-- Veteran +5 max HP; splash does half damage, floored.
+- Veteran +5 max HP; splash (Bomber) and explode hit each neighbour for half damage, floored.
+- Poison halves defence, bonus included. Fungi poisons non-Cymanti units at end of turn.
+- A Shaman converts like a Mind Bender (one sample: it also deals normal damage, with no retaliation).
+- After a kill: a boat moving onto land drops its passenger. Land units don't follow into water. Sharks and Raychi don't follow onto dry land.
 
 ## Engine bookkeeping gotchas
 
@@ -54,7 +57,15 @@
   - Train doesn't record the new id. Temporary negative ids are rekeyed by position on the unit's first Move or Attack.
   - Boarding gives the boat a new id; the passenger gets its old id back on landing.
   - An upgrade gives a new id.
-- **Forced spawns:** the Giant reward and Enchant push the occupant to a neighbour. The push rule is unknown.
+- **Forced spawns:** the Giant reward, Enchant and ruin units (spawned on the ruin tile) push the occupant to a neighbour.
+  - Polyfish's push rule fits: same direction as its last move (opposite for an enemy), otherwise toward the map centre.
+  - The log doesn't record ruin rewards; the replay reads a ruin unit from the next save.
+- **Boats:** the boat record always shows promotion 0. The passenger record keeps the veteran level.
+- **Terrain changes outside the log:**
+  - Mooni freezes the water around it after moving or capturing, and ice melts later.
+  - Aquarion flood (flag value 1): boats stay boats and walkers stay walkers.
+  - Cymanti algae (value 4): walkable water.
+  - Terrain is re-synced at checkpoints.
 - **Healing:** +4 in own territory, +2 elsewhere. Territory is re-synced at checkpoints.
 - **Fog:** explored tiles show enemies live. Only unexplored clouds hide them.
 
@@ -62,12 +73,11 @@
 
 1. **Economy replay:** check stars and income against the saves.
 2. **Coverage report:** which rules each replay exercises.
-3. **Bot-war mismatches at turns 11 and 15:**
-   - The push direction rule.
+3. **Remaining replay mismatches** (bot war turn 15: 12 HP; Misty Fields: a few leftover units):
    - Action type 18.
-   - Ruin rewards and spawns.
-   - Poison.
-   - Boat HP details.
+   - Action 38: Swarm (movement) or a +0.5 attack Boost.
+   - Ice melting.
+   - Ruin reward weights.
 4. **Waiting on Jason:** per-turn saves of a fight-heavy Crazy game; Round 2 items 26–34 on the test sheet (`docs/polytopia_open_questions_to_fill_in_while_playing.md`).
 
 ## Conventions

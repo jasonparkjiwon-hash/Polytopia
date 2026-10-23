@@ -18,6 +18,11 @@
    "capitals": 324,
    "date": "2026-10-23",
    "index": "saves/index.json"
+  },
+  "S-MISTY": {
+   "files": "e15f392c 'The Misty Fields': 16 per-turn iPhone exports (turns 1-16), v123, Massive 30x30, Jason (Imperius) vs 15 Hard bots incl. Aquarion, Polaris and Cymanti; 2254 actions, all parse to the exact end",
+   "date": "2026-10-23",
+   "index": "saves/index.json"
   }
  },
  "rules": [
@@ -221,9 +226,9 @@
   },
   {
    "id": "RUIN-LOG",
-   "rule": "Logged ruin rewards (inferred from state differences): Jason/Imperius turn 4 at (15,6) gave a free tech (Climbing; owned with no Research action). Luxidoor bot turn 4: not a tech, no surviving unit, so stars, population or Explorer (needs a replay).",
-   "level": "data",
-   "evidence": "save 9847d452"
+   "rule": "Logged ruin rewards. 9847d452: Imperius turn 4 free tech (Climbing); Luxidoor turn 4 stars/pop/Explorer. e15f392c (11 ruins): veteran Swordsman (20 HP) twice, spawned ON the ruin tile and pushing the explorer to a neighbour; free tech six times (Navigation, Ramming, Sailing, Archery, Forestry+Mathematics); 3 with no unit or tech (stars, population or Explorer; star spending hides which).",
+   "level": "data (L3 per event)",
+   "evidence": "saves 9847d452, e15f392c"
   },
   {
    "id": "UNIT-STATS-UI",
@@ -293,9 +298,9 @@
   },
   {
    "id": "ACTION-TYPES-V123",
-   "rule": "Action meanings inferred from context: 27 = Establish Embassy (player, foreign capital x,y, owner id); 30 = embassy/peace follow-up on the same capital; 28 = diplomacy reply at turn start (player, other player, flag); 38 = Boost (Cymanti Shaman, followed by an adjacent attack); 24 = Explode (Cymanti Boomchi; adding it improves the replay slightly); Build type 30 = Enchant Animal (Elyrion, spawns a Polytaur). Type 18 is NOT Disband (treating it as Disband worsens the replay); still unknown.",
+   "rule": "Action meanings inferred from context: 27 = Establish Embassy (player, foreign capital x,y, owner id); 30 = embassy/peace follow-up on the same capital; 28 = diplomacy reply at turn start (player, other player, flag); 38 = Shaman ability: the save shows the Swift effect (UnitEffect 6) on Cymanti units, which matches Polyfish's v115 note that Boost became Swarm (movement only). The engine's +0.5 attack for 38 changes nothing in any replay, so attack-or-movement is still a test item; 24 = Explode (Cymanti Boomchi); Build type 30 = Enchant Animal (Elyrion, spawns a Polytaur). Type 18 is NOT Disband (36 more in e15f392c); still unknown. 14 = Examine Ruins.",
    "level": "L1",
-   "evidence": "engine replay 6e1bf8e0"
+   "evidence": "engine replay 6e1bf8e0, e15f392c"
   },
   {
    "id": "BOAT-IDS",
@@ -311,15 +316,63 @@
   },
   {
    "id": "ENGINE-STATUS-2",
-   "rule": "Engine replay after the boat-id and territory fixes: the per-turn game 1bf60251 is exact at every checkpoint (turns 1-7, 27 to 66 units), apart from one push position on turn 3. Bot war 6e1bf8e0: 66/66 at turn 5, 85/92 at turn 11, 106/118 at turn 15.",
+   "rule": "Engine replay after the e15f392c rules: Ankiian 1bf60251 exact at every checkpoint (27 to 66 units, the turn 3 push now right). Bot war 6e1bf8e0: 66/66 at turn 5, 90/92 at turn 11, 110/122 at turn 15. Misty Fields e15f392c (16 checkpoints): exact through turn 12, 157 exact with 2 leftover units at turn 16, and no HP mismatch at any checkpoint. Restarted from each saved turn, 1417 of 1422 unit checks are exact.",
    "level": "tool",
-   "evidence": "engine/replay.py"
+   "evidence": "engine/replay.py, scripts/check.sh"
   },
   {
    "id": "PUSH-DIRECTION",
-   "rule": "Forced-spawn pushes (Enchant Animal, Giant) move the occupant to a neighbouring tile. Seen offsets: (-1,0), (-1,-1), (-1,1). The rule is not yet known; the engine recovers on the unit's next logged move.",
-   "level": "L0",
-   "evidence": "3 pushes"
+   "rule": "Forced-spawn pushes follow Polyfish's rule (functions.rs calculate_pushable_position): the occupant keeps going in the direction of its last move this turn (or toward its last ranged attack target); an enemy of the acting player is pushed the opposite way; a unit that has not moved goes toward the map centre (straight south from the exact centre). A blocked or unsuitable tile is skipped for the next direction either side, the one nearer the centre first.",
+   "level": "L2 (Polyfish + 2/2 ruin pushes in e15f392c land on the saved tile + replay A/B: Ankiian turn 3 becomes exact, bot war turn 15 +2)",
+   "evidence": "engine RULES push_polyfish; e15f392c turns 4 and 13"
+  },
+  {
+   "id": "RUIN-UNIT-SPAWN",
+   "rule": "A unit reward from a ruin appears on the ruin tile itself; the unit that examined the ruin is pushed to a neighbour (push rule above). The reward is not in the action log, so the replay reads it from the next checkpoint (a unit created that turn standing on the ruin tile).",
+   "level": "L3",
+   "evidence": "e15f392c turns 4 and 13; engine RULES ruin_unit"
+  },
+  {
+   "id": "MOONI-FREEZE",
+   "rule": "Right after a Polaris Mooni moves or captures, the water tiles around it are ice, so land units walk onto them without boarding. Ice also melts back later (e15f392c (15,10): ice at turn 4, water at 5, ice at 6). Ocean freezing not seen yet.",
+   "level": "L3 (4/4 Warrior-on-ice cases in e15f392c) + Polyfish AutoFreeze",
+   "evidence": "engine RULES mooni_freeze; e15f392c turns 5, 7, 8, 12"
+  },
+  {
+   "id": "FLOOD-ALGAE",
+   "rule": "Tile effects live in the save as FloodedFlag + FloodedValue = the TileEffect enum (1 Flooded, 4 Algae). Aquarion-flooded fields and forests: a boat that sails onto one stays a boat, and a land unit walks on it without boarding; a flooded city counts as plain land. Cymanti algae on water: land units walk on it like land. Seen: 242 flooded land tiles near Aquarion, 24 algae tiles in Cymanti land.",
+   "level": "L3",
+   "evidence": "all saves (unit kind by terrain and flag); engine RULES flood_keeps_form, algae_is_land"
+  },
+  {
+   "id": "BOAT-RECORD",
+   "rule": "A boat's save record always has promotion 0; the passenger record keeps the veteran level. The boat's Health is live; the passenger copy is a stale snapshot from boarding.",
+   "level": "L3 (all boats with passengers across the saves)",
+   "evidence": "engine state.py"
+  },
+  {
+   "id": "KILL-MOVE-IN",
+   "rule": "After a melee kill: a boat moving onto land drops its passenger (who gets their id back); a land unit does not follow a kill into water; a water-only unit (Shark, Raychi, Puffer, Jelly, Crab: seen only on water, flooded tiles or in cities) does not follow a kill onto dry land.",
+   "level": "L3 + replay A/B",
+   "evidence": "e15f392c turns 9 and 15; bot war turn 11 +2, turn 15 +1; engine RULES kill_move_lands, water_units_stay"
+  },
+  {
+   "id": "SPLASH",
+   "rule": "Splash (Bomber, Fire Dragon): every enemy next to the target takes half the damage a direct attack would deal it, floored, with no retaliation. Same formula as Explode.",
+   "level": "L2 (Polyfish + the save + replay A/B)",
+   "evidence": "e15f392c turn 13 (Bomber hit a Rider next to its target); bot war turn 11 88 -> 90; engine RULES attack_splash"
+  },
+  {
+   "id": "C7",
+   "rule": "Poison (v115+): a poisoned unit's defence is halved, bonus included (Polyfish; the old wiki said -30% and no bonus). Sources: poison-skill attackers poison their target (a poison defender poisons a contact attacker); Cymanti Fungi poisons non-Cymanti units of other owners standing on it at each end of turn; Clathrus poisons enemies stepping on it. Cure: Recover removes poison instead of healing (wiki; not yet seen in a save).",
+   "level": "L3 for the -50% (e15f392c turn 11: a Raychi one-shots a 10 HP Warrior that ended a turn on Fungi; 10 damage exactly), L1 for the cure",
+   "evidence": "engine RULES poison, poison_recover_cures"
+  },
+  {
+   "id": "SHAMAN",
+   "rule": "Shaman (Cymanti, v123) attacks like a Mind Bender converts: the target changes owner, and (one sample) the Shaman also deals its normal damage and takes no retaliation.",
+   "level": "L3 (n=1)",
+   "evidence": "e15f392c turn 9: Shaman 14 vs Scoutship 161, which ends up Cymanti with 6 HP; engine RULES shaman_convert, shaman_damage"
   }
  ]
 }

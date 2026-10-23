@@ -24,14 +24,14 @@ The fandom pages mix patch eras. NamuWiki and the 2025 balance-pass post are dat
 | C4 | Cymanti start | WK Cymanti page: Farming (Fungi) + Shaman. BP25: zero Cymanti changes. | **Settled**: Farming + Shaman, 630. | - | SIM |
 | C5 | Kickoo start score | PE 515, fandom Score 615. | 515 lean (low-medium). | Turn 0 as Kickoo | SIM |
 | C6 | Retaliation uses defence bonus? | WK Combat: bonus is applied to defenceForce, so it **raises** retaliation. PE excludes it. | **WK (medium-high)**: the Combat page states it explicitly. PE deviates. | Q5 in the doc | SIM |
-| C7 | Poison | WK Combat: -30% defence, -50% healing, no defence bonus, drops spores/algae on death; cured by self-heal once, Mind Bender, Mycelium. PE: different bonus table, no healing cut. | **WK (medium)**. | Optional | SIM (Cymanti) |
+| C7 | Poison | WK Combat: -30% defence, -50% healing, no defence bonus, drops spores/algae on death; cured by self-heal once, Mind Bender, Mycelium. PE: different bonus table, no healing cut. Polyfish (v115 notes): defence halved, bonuses intact. | **Defence halved (L3, e15f392c turn 11)**; Polyfish right, old wiki stale. Cure by Recover still untested. | Watch a poisoned unit Recover | SIM (Cymanti) |
 | C8 | Water tech gates | WK Sailing: "Scout and movement on ocean". WK Fishing (post Patch-the-Ocean): Port, Fishing action, "movement on ocean tiles" (likely means shallow water). WK Navigation: Battleship, all naval units on ocean. WK Explorer: shallow needs Sailing, ocean needs Navigation (pre-ocean-update wording). Aquarion page: base Fishing = starfish sight; Navigation = starfish harvesting. | Fishing = shallow-water boats + port + starfish visible; Sailing = deep ocean; Navigation = Battleship, starfish harvest (medium). Explorer page and PE Explorer are stale. | Q7 | FOG, SIM |
 | C9 | Villages after terrain | WK Map Generation: ~30% before terrain, then "attempt to assign 60%" after; Drylands 0% before, ~80% after; Waterworld ~10% before. PE fills every slot. | **WK (medium)**: target ~60% of max total. | Q4 | MAP |
 | C10 | Capital guarantees | WK Map Generation: **every** capital gets ≥2 identical resources, force-spawned if missing. Starting-tech resource for Bardur, Imperius, Kickoo, Zebasi, Elyrion, Cymanti; Xin-xi 2 metal; Oumaji 2 fruit; Hoodrick 2 animals; others 2 of a random tier-1 resource (fish, animal or fruit). Kickoo gets 2 fish water tiles even on Drylands. PE implements only 4 tribes. | **WK (medium-high)**: most detailed and internally consistent. | Q1 counts | MAP, FOG |
 | C11 | Bardur terrain | WK: 1.5× fruit, 0× crop. PE: 0.8× forest, 0× crop. | WK (medium). | Optional | MAP |
 | C12 | All tribe terrain modifiers | WK now gives a full table (below). PE has fewer. | **WK table (medium)**. Order: mountain mod first, then forest, field = rest. | Optional | MAP |
 | C13 | Water modifiers | Listed but not applied in code (WK says so). | Settled: ignore. | - | MAP |
-| C14 | Ruin rewards | WK: Battleship, Explorer, Navalon, Population, Stars, Super Unit, Technology (no weights). Ocean ruin always gives an Aquarion "Lost City" when Aquarion is in game. PE: uniform pool. | Weights unknown. | Ruin log | SIM, BOT |
+| C14 | Ruin rewards | WK: Battleship, Explorer, Navalon, Population, Stars, Super Unit, Technology (no weights). Ocean ruin always gives an Aquarion "Lost City" when Aquarion is in game. PE: uniform pool. | Pool settled (Ruin page, 2026-10-23). Log so far (13 ruins): tech 7, veteran Swordsman 2, other 4. Weights still unknown. | More ruin logs | SIM, BOT |
 | C15 | Explorer | WK Explorer: 15 moves, random walk, steers toward fog only when exactly 1 tile from it; no ruin Explorer if ruin is >2 tiles from fog. PE: 15 steps. | **15 settled**; random-walk rule new. | - | FOG |
 | C16 | Ruin placement | WK: any terrain except shallow water, not next to city/village/ruin. | Settled: WK. | - | MAP |
 | C17 | Starting stars | PE, NM, BP25 agree. | **Settled**. | - | SIM |
@@ -206,3 +206,22 @@ All six are Massive maps, game v123, turn 0, each with 15 Crazy bots, giving 96 
 - **Bot war 6e1bf8e0 (16 players, 468 attacks by turn 15):** at turn 5, 63 of 66 units have exact HP. Matches drop later: 77 at turn 11 and 93 at turn 15, against 14 and 20 HP mismatches, because of the open items below.
 - **Settled by A/B replay (L2):** C6, the counter-attack does include the defence bonus. Also settled: the city bonus applies only to Fortify units (4 with walls), the terrain bonus needs its tech, rounding is half-up, there is no counter-attack from out of range, and melee attackers move in after a kill.
 - **Still to model:** Aquarion v123 units (ids 46 and 53 are not in any enum; 46 is amphibious and probably Shark-like), boat HP, healing (passive or reward?), unknown action types 18/24/27/38 (abilities), splash, poison, explode (Cymanti), and Polaris freezing.
+
+## The Misty Fields (e15f392c), 16 turns in a row, 2026-10-23
+Jason (Imperius) vs 15 Hard bots on a 30x30 map, exported every turn from 1 to 16 (2254 actions, all decoded). This game has Aquarion, Polaris and Cymanti, so it exercises most of the special rules. A per-turn tool (restart from each save, replay one turn) pinned each mismatch to its turn. Every change below was A/B tested on all three replay games and kept only if no score dropped.
+- **Push direction (was L0, now L2):** Polyfish's rule. The unit keeps going the way it last moved, enemies go the opposite way, and a unit that hasn't moved goes toward the map centre. 2/2 ruin pushes land on the saved tile. Ankiian turn 3 is now exact.
+- **Ruins (C14, G4):** a unit reward spawns on the ruin tile and pushes the explorer. The log grows to 13 ruins (above). The weights are still open.
+- **Polaris ice:** a Mooni freezes the water around it straight after it moves or captures (4/4 cases). Ice also melts again, which is not modelled; the replay re-reads terrain at each checkpoint.
+- **Flood and algae:** the save's flood flag is the TileEffect enum (1 Flooded, 4 Algae). On Aquarion-flooded land, boats stay boats and walkers stay walkers (a city is plain land). On Cymanti algae, land units walk on water.
+- **Moving in after a kill:** a boat landing after a kill drops its passenger. A land unit doesn't follow a kill into water. Sharks and Raychi (water-only) don't follow onto dry land.
+- **Boat records:** a boat's own record always shows promotion 0. The passenger record keeps veteran status, and the boat's HP is the live value.
+- **Splash** (Bomber): neighbours take half damage, floored. **Poison** (C7): defence halved. Fungi poisons non-Cymanti units at end of turn.
+- **Shaman:** converts like a Mind Bender. In one sample it also dealt normal damage and took no retaliation (L3, n=1).
+- **Test items, not decided:**
+  - Action 38: Polyfish says the Shaman's Boost became Swarm, which adds movement only. The +0.5 attack makes no difference in any replay.
+  - Action 18: still unknown (36 more samples).
+  - Whether Recover cures poison.
+  - Shaman damage plus conversion needs a second sample.
+- **Result:**
+  - Misty Fields is exact through turn 12, with 157 exact at turn 16 and no HP mismatch at any checkpoint.
+  - Bot war: 66/66, 90/92, 110/122 (was 85/92, 106/118).

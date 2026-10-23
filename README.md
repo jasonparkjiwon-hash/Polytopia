@@ -11,7 +11,7 @@ A long-term build of an AI "wartime general" for The Battle of Polytopia. Claude
 | `engine/` | Replay engine: a Python copy of the game rules that replays a real save's action log and checks every unit's HP and position against the game's own end state. `replay.py` (rules and replay), `state.py` (game state from a save), `stats.py` (unit stats). |
 | `verify/` | Save decoder for game v123 (`state_v123.py`), save ingest (`ingest_saves.py`), the evidence **ledger** (`ledger.json`: every rule with its source and evidence level), and the Polyfish cross-check plus map analysis tools. `state2json/` and `statedebug/` are Go tools (binaries not committed; `go build` them). |
 | `data/` | Rules dataset (units, tech tree, combat, economy, map generation, fog, tribes), measured tables from real saves (`measured_*.json`), and `conflicts_and_gaps.md` (every open conflict C1–C29 and gap G1–G12). |
-| `saves/` | **Local only, not committed** (gitignored); `scripts/check.sh` needs it. Real iPhone `.state` saves from 31 games (42 files with the per-turn copies), their decoded JSON and `index.json`. Includes the bot war (`6e1bf8e0…` at turns 5/11/15) and Ankiian turn-by-turn (`1bf60251…_t1`–`_t7`). `public_game_links.tsv` is Polyfish's list of ~11.7k public share links. |
+| `saves/` | **Local only, not committed** (gitignored); `scripts/check.sh` needs it. Real iPhone `.state` saves from 32 games (plus per-turn copies), their decoded JSON and `index.json`. Includes the bot war (`6e1bf8e0…` at turns 5/11/15), Ankiian turn by turn (`1bf60251…_t1`–`_t7`) and The Misty Fields turn by turn (`e15f392c…_t1`–`_t16`). `public_game_links.tsv` is Polyfish's list of ~11.7k public share links. |
 | `sim/` | Map generator from the wiki rules (`wiki_mapgen.py`, with measured mode) and `pfcore/`, the Polyfish Rust engine core (Apache-2.0). |
 | `notebook/` | `polytopia_engine.ipynb`, a self-contained Google Colab notebook (built by `build_notebook.py`). |
 | `docs/` | Markdown exports of the Claude Docs: Phase 1 spec, roadmap, the in-game test sheet, plus `verify_tools.md`. |
@@ -27,8 +27,9 @@ sh scripts/check.sh                      # replays both games and prints match s
 
 Expected from `check.sh` (the current baseline):
 
-- Ankiian turn by turn: 27/27, 33/33, 39/39 (one position differs), 43/43, 51/51, 59/59, 66/66 units with exact HP.
-- Bot war: turn 5 66/66, turn 11 85/92, turn 15 106/118.
+- Ankiian turn by turn: 27/27, 33/33, 39/39, 43/43, 51/51, 59/59, 66/66 units with exact HP.
+- Bot war: turn 5 66/66, turn 11 90/92, turn 15 110/122.
+- Misty Fields turn by turn (turns 1-16): exact through turn 12 (24, 29, 34, 37, 48, 69, 80, 94, 100, 103, 119, 123); then 132, 144, 148, 157 exact with 1-3 leftover units each and no HP mismatch.
 
 Replay one game by hand:
 
