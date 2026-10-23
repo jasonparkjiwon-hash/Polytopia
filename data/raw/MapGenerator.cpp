@@ -1,0 +1,918 @@
+src/world/MapGenerator.cpp (file, 34843 bytes)
+Content:
+//
+// Polytopia-like map generation.
+//
+
+#include "MapGenerator.h"
+
+#include <algorithm>
+#include <cmath>
+#include <numeric>
+
+namespace {
+
+constexpr int kMinSuburbs = 1;
+constexpr int kMaxSuburbs = 2;
+constexpr float kPreTerrainVillageDensity = 0.30f;
+
+// Lakes terrain tuning. These are intentionally grouped here so the map
+// character can be adjusted without exposing runtime sliders.
+constexpr int kLakesSmoothingPasses = 2;
+constexpr bool kLakesDryMapEdges = true;
+constexpr float kLakesDryEdgeValue = 1.0f;
+constexpr float kLakesMinWaterFraction = 0.25f;
+constexpr float kLakesMaxBaseWaterFraction = 0.28f;
+
+// Water World follows the reference preset: high water coverage, two passes
+// of local smoothing, no suburbs, and fewer villages before terrain is set.
+constexpr int kWaterWorldSmoothingPasses = 2;
+constexpr float kWaterWorldOutsideNoiseValue = 0.5f;
+constexpr float kWaterWorldFraction = 0.85f;
+constexpr float kWaterWorldPreTerrainVillageDensity = 0.10f;
+
+// The documented 50% fish rate applies only to shallow water.  Ocean fish
+// are allowed near a city's territory (and its immediate outer ring), but at
+// a deliberately lower density.  The public documentation does not define a
+// numeric ocean rate, so keep this separate and easy to tune.
+constexpr float kShallowFishSpawnChance = 0.50f;
+constexpr float kOceanFishSpawnChance = 0.10f;
+
+bool isWater(BaseTerrainEnum terrain) {
+    return terrain == BaseTerrainEnum::Water || terrain == BaseTerrainEnum::Ocean;
+}
+
+int ruinTargetForMapSize(int tileCount) {
+    switch (tileCount) {
+        case 121: return 4;  // Tiny, 11x11
+        case 196: return 5;  // Small, 14x14
+        case 256: return 7;  // Normal, 16x16
+        case 324: return 9;  // Large, 18x18
+        case 400: return 11; // Huge, 20x20
+        case 900: return 23; // Massive, 30x30
+        default: return std::max(1, static_cast<int>(std::lround(tileCount * 23.0 / 900.0)));
+    }
+}
+
+} // namespace
+
+int MapGenerator::randInt(std::mt19937& rng, int a, int b) {
+    std::uniform_int_distribution<int> distribution(a, b);
+    return distribution(rng);
+}
+
+float MapGenerator::rand01(std::mt19937& rng) {
+    std::uniform_real_distribution<float> distribution(0.0f, 1.0f);
+    return distribution(rng);
+}
+
+int MapGenerator::chebyshevDistance(int a, int b, int size) {
+    return std::max(std::abs(a % size - b % size), std::abs(a / size - b / size));
+}
+
+std::vector<int> MapGenerator::circle(int center, int radius, int size) {
+    std::vector<int> cells;
+    const int cx = center % size;
+    const int cy = center / size;
+    for (int y = cy - radius; y <= cy + radius; ++y) {
+        for (int x = cx - radius; x <= cx + radius; ++x) {
+            if (x < 0 || y < 0 || x >= size || y >= size) continue;
+            if (std::max(std::abs(x - cx), std::abs(y - cy)) == radius) {
+                cells.push_back(y * size + x);
+            }
+        }
+    }
+    return cells;
+}
+
+std::vector<int> MapGenerator::round(int center, int radius, int size) {
+    std::vector<int> cells;
+    const int cx = center % size;
+    const int cy = center / size;
+    for (int y = cy - radius; y <= cy + radius; ++y) {
+        for (int x = cx - radius; x <= cx + radius; ++x) {
+            if (x >= 0 && y >= 0 && x < size && y < size) cells.push_back(y * size + x);
+        }
+    }
+    return cells;
+}
+
+std::vector<int> MapGenerator::plusSign(int center, int size) {
+    std::vector<int> cells;
+    const int x = center % size;
+    const int y = center / size;
+    if (x > 0) cells.push_back(center - 1);
+    if (x + 1 < size) cells.push_back(center + 1);
+    if (y > 0) cells.push_back(center - size);
+    if (y + 1 < size) cells.push_back(center + size);
+    return cells;
+}
+
+bool MapGenerator::isLandLike(BaseTerrainEnum terrain) {
+    return terrain == BaseTerrainEnum::Land || terrain == BaseTerrainEnum::Forest ||
+           terrain == BaseTerrainEnum::Mountain;
+}
+
+MapGenerator::TribeProbs MapGenerator::probsForTribe(TribeType tribe) {
+    TribeProbs probabilities{};
+    switch (tribe) {
+        case TribeType::Kickoo: probabilities.fish = 1.5f; probabilities.mountain = 0.5f; break;
+        case TribeType::Aquarion: probabilities.forest = 0.5f; break;
+        case TribeType::Bardur: probabilities.forest = 0.8f; probabilities.crops = 0.0f; break;
+        case TribeType::XinXi: probabilities.mountain = 1.5f; probabilities.metal = 1.5f; break;
+        case TribeType::AiMo: probabilities.mountain = 1.5f; probabilities.crops = 0.1f; break;
+        case TribeType::Oumaji: probabilities.forest = 0.2f; probabilities.mountain = 0.5f; probabilities.animals = 0.2f; break;
+        case TribeType::Vengir: probabilities.metal = 2.0f; probabilities.animals = 0.1f; probabilities.fruit = 0.1f; probabilities.fish = 0.1f; break;
+        case TribeType::Imperius: probabilities.fruit = 2.0f; probabilities.animals = 0.5f; break;
+        case TribeType::Hoodrick: probabilities.forest = 1.5f; probabilities.mountain = 0.5f; break;
+        case TribeType::Zebasi: probabilities.forest = 0.5f; probabilities.mountain = 0.5f; probabilities.fruit = 0.5f; break;
+        case TribeType::Quetzali: probabilities.fruit = 2.0f; probabilities.crops = 0.1f; break;
+        case TribeType::Yadakk: probabilities.forest = 0.5f; probabilities.mountain = 0.5f; probabilities.fruit = 1.5f; break;
+        default: break;
+    }
+    return probabilities;
+}
+
+std::vector<Pos> MapGenerator::generate(Map& map, const Params& params) {
+    const int size = params.mapSize;
+    const int tileCount = size * size;
+    const auto& tribes = map.getActiveTribes();
+    if (size < 3 || tribes.size() < 2 || tribes.size() > 16) return {};
+    if (map.getWidth() != size || map.getHeight() != size) map.init(size, size);
+
+    std::mt19937 rng(params.seed == 0 ? std::random_device{}() : params.seed);
+    auto& tiles = map.allTiles();
+    const auto isCorner = [size](int cell) {
+        return cell == 0 || cell == size - 1 || cell == size * (size - 1) || cell == size * size - 1;
+    };
+    for (Tile& tile : tiles) {
+        tile.setBaseTerrain(BaseTerrainEnum::Ocean);
+        tile.setResource(ResourcesEnum::None);
+        tile.clearSettlement();
+        tile.setBuildingType(BuildingTypeEnum::None);
+        tile.setRoadBridge(RoadBridgeEnum::None);
+        tile.setTribe(TribeType::Unknown);
+        tile.clearTerritory();
+    }
+
+    const int players = static_cast<int>(tribes.size());
+    const bool lakes = params.mapType == MapType::Lakes;
+    const bool drylands = params.mapType == MapType::Drylands;
+    const bool waterWorld = params.mapType == MapType::WaterWorld;
+
+    // 1. Capitals are chosen before terrain. This mirrors the reference
+    // generator's sector layout: a ceil(sqrt(players)) grid of equal base
+    // spans, with the remainder used to offset sector origins. A location is
+    // then drawn with a strong preference for the sector centre.
+    const int sectorGrid = static_cast<int>(std::ceil(std::sqrt(static_cast<double>(players))));
+    const int baseSpan = size / sectorGrid;
+    const int leftoverTiles = size - baseSpan * sectorGrid;
+    std::vector<int> availableSectors(sectorGrid * sectorGrid);
+    std::iota(availableSectors.begin(), availableSectors.end(), 0);
+    std::shuffle(availableSectors.begin(), availableSectors.end(), rng);
+
+    const auto sectorNudge = [leftoverTiles](int sectorCoordinate) {
+        // The source first clamps the coordinate to the remainder, moves it
+        // one tile toward the preceding sector, and clamps again.
+        return std::min(leftoverTiles,
+                        std::max(1, std::min(leftoverTiles, sectorCoordinate) - 1));
+    };
+    const auto sectorOrigin = [&](int sectorCoordinate) {
+        return sectorCoordinate * baseSpan + sectorNudge(sectorCoordinate);
+    };
+    const auto sectorFocus = [&](int sectorCoordinate) {
+        return sectorOrigin(sectorCoordinate) + baseSpan / 2;
+    };
+    const auto weightedCapitalCell = [&](int sectorId) {
+        const int gridX = sectorId % sectorGrid;
+        const int gridY = sectorId / sectorGrid;
+
+        // The original generator rejects maps whose sectors are narrower than
+        // three tiles. Keep this engine's existing small-map support by using
+        // a centered proportional fallback only for that unsupported case.
+        if (baseSpan < 3) {
+            const int beginX = gridX * size / sectorGrid;
+            const int endX = (gridX + 1) * size / sectorGrid;
+            const int beginY = gridY * size / sectorGrid;
+            const int endY = (gridY + 1) * size / sectorGrid;
+            const int focusX = (beginX + endX - 1) / 2;
+            const int focusY = (beginY + endY - 1) / 2;
+            return std::clamp(focusY, 1, size - 2) * size + std::clamp(focusX, 1, size - 2);
+        }
+
+        const int innerMargin = baseSpan > 4 ? 2 : 1;
+        const int firstX = std::max(2, sectorOrigin(gridX) + innerMargin);
+        const int pastLastX = std::min(size - 2, sectorOrigin(gridX) + baseSpan - innerMargin);
+        const int firstY = std::max(2, sectorOrigin(gridY) + innerMargin);
+        const int pastLastY = std::min(size - 2, sectorOrigin(gridY) + baseSpan - innerMargin);
+
+        struct CandidateCell {
+            int index;
+            int weight;
+        };
+        std::vector<CandidateCell> pool;
+        int totalWeight = 0;
+        for (int y = firstY; y < pastLastY; ++y) {
+            for (int x = firstX; x < pastLastX; ++x) {
+                int bestWeight = 1;
+                for (int candidateY = 0; candidateY < sectorGrid; ++candidateY) {
+                    for (int candidateX = 0; candidateX < sectorGrid; ++candidateX) {
+                        const int distance = std::max(
+                            std::abs(x - sectorFocus(candidateX)),
+                            std::abs(y - sectorFocus(candidateY)));
+                        const int proximity = std::max(1, baseSpan / 2 - distance);
+                        bestWeight = std::max(bestWeight, proximity * proximity * proximity);
+                    }
+                }
+                pool.push_back({y * size + x, bestWeight});
+                totalWeight += bestWeight;
+            }
+        }
+
+        if (pool.empty()) {
+            return std::clamp(sectorFocus(gridY), 1, size - 2) * size +
+                std::clamp(sectorFocus(gridX), 1, size - 2);
+        }
+        const int roll = randInt(rng, 0, totalWeight - 1);
+        int cumulativeWeight = 0;
+        for (const CandidateCell& entry : pool) {
+            cumulativeWeight += entry.weight;
+            if (roll < cumulativeWeight) return entry.index;
+        }
+        return pool.back().index;
+    };
+
+    std::vector<int> capitals(static_cast<size_t>(players));
+    std::vector<uint8_t> reservedGround(static_cast<size_t>(tileCount), 0);
+    for (int player = 0; player < players; ++player) {
+        const int capital = weightedCapitalCell(availableSectors[static_cast<size_t>(player)]);
+        capitals[static_cast<size_t>(player)] = capital;
+        reservedGround[static_cast<size_t>(capital)] = 1;
+    }
+
+    // 2. Lakes has suburbs; Water World and Drylands do not. Water World
+    // still retains its reference preset's sparse pre-terrain villages.
+    std::vector<int> reservedCities = capitals;
+    std::vector<int> suburbs;
+    auto isFarFromCities = [&](int cell) {
+        return std::all_of(reservedCities.begin(), reservedCities.end(), [&](int city) {
+            return chebyshevDistance(cell, city, size) > 2;
+        });
+    };
+    for (int capital : capitals) {
+        if (!lakes) break;
+        std::vector<int> candidates;
+        for (int cell : round(capital, 4, size)) {
+            const int x = cell % size, y = cell / size;
+            if (x > 0 && y > 0 && x + 1 < size && y + 1 < size && isFarFromCities(cell)) candidates.push_back(cell);
+        }
+        std::shuffle(candidates.begin(), candidates.end(), rng);
+        const int wanted = std::min(kMaxSuburbs, std::max(kMinSuburbs, static_cast<int>(candidates.size())));
+        for (int i = 0; i < wanted && i < static_cast<int>(candidates.size()); ++i) {
+            const int cell = candidates[static_cast<size_t>(i)];
+            if (!isFarFromCities(cell)) continue;
+            suburbs.push_back(cell);
+            reservedCities.push_back(cell);
+            reservedGround[static_cast<size_t>(cell)] = 1;
+        }
+    }
+
+    // Wiki formula for Lakes:
+    // floor(((mapWidth / 3)^2 - capitals - suburbs) * densityCoefficient).
+    // Integer division deliberately rounds mapWidth / 3 down before squaring.
+    const int gridSlots = (size / 3) * (size / 3);
+    const int availablePreTerrainVillageSlots = std::max(0, gridSlots -
+        static_cast<int>(capitals.size()) - static_cast<int>(suburbs.size()));
+    const float preTerrainVillageDensity = lakes ? kPreTerrainVillageDensity :
+        waterWorld ? kWaterWorldPreTerrainVillageDensity : 0.0f;
+    const int preTerrainTarget = static_cast<int>(std::floor(
+        availablePreTerrainVillageSlots * preTerrainVillageDensity));
+    std::vector<int> preTerrainVillages;
+    for (int i = 0; i < preTerrainTarget; ++i) {
+        std::vector<int> candidates;
+        for (int y = 1; y + 1 < size; ++y) for (int x = 1; x + 1 < size; ++x) {
+            const int cell = y * size + x;
+            if (isFarFromCities(cell)) candidates.push_back(cell);
+        }
+        if (candidates.empty()) break;
+        const int cell = candidates[static_cast<size_t>(randInt(rng, 0, static_cast<int>(candidates.size()) - 1))];
+        preTerrainVillages.push_back(cell);
+        reservedCities.push_back(cell);
+        reservedGround[static_cast<size_t>(cell)] = 1;
+    }
+
+    // 3. Water-bearing map types start as a random floating-point field.
+    // After local smoothing, the lowest values become the binary water mask.
+    std::vector<uint8_t> ground(static_cast<size_t>(tileCount), 1);
+    if (lakes) {
+        const int minWaterTiles = static_cast<int>(std::ceil(tileCount * kLakesMinWaterFraction));
+        const int maxWaterTiles = static_cast<int>(std::floor(tileCount * kLakesMaxBaseWaterFraction));
+        std::vector<uint8_t> lockedLand = reservedGround;
+        for (int capital : capitals) for (int neighbour : plusSign(capital, size)) {
+            lockedLand[static_cast<size_t>(neighbour)] = 1;
+        }
+        std::vector<float> lakeField(static_cast<size_t>(tileCount));
+        for (float& value : lakeField) value = rand01(rng);
+        for (int cell = 0; cell < tileCount; ++cell) if (lockedLand[static_cast<size_t>(cell)]) {
+            lakeField[static_cast<size_t>(cell)] = kLakesDryEdgeValue;
+        }
+
+        for (int pass = 0; pass < kLakesSmoothingPasses; ++pass) {
+            std::vector<float> next(static_cast<size_t>(tileCount), kLakesDryEdgeValue);
+            for (int y = 0; y < size; ++y) for (int x = 0; x < size; ++x) {
+                const int cell = y * size + x;
+                if (lockedLand[static_cast<size_t>(cell)]) continue;
+                float sum = 0.0f;
+                int sampleCount = 0;
+                for (int oy = -1; oy <= 1; ++oy) for (int ox = -1; ox <= 1; ++ox) {
+                    const int nx = x + ox;
+                    const int ny = y + oy;
+                    if (nx < 0 || ny < 0 || nx >= size || ny >= size) {
+                        if (kLakesDryMapEdges) {
+                            sum += kLakesDryEdgeValue;
+                            ++sampleCount;
+                        }
+                        continue;
+                    }
+                    sum += lakeField[static_cast<size_t>(ny * size + nx)];
+                    ++sampleCount;
+                }
+                next[static_cast<size_t>(cell)] = sum / sampleCount;
+            }
+            lakeField.swap(next);
+        }
+
+        std::vector<int> waterCandidates;
+        waterCandidates.reserve(static_cast<size_t>(tileCount));
+        for (int cell = 0; cell < tileCount; ++cell) {
+            if (!lockedLand[static_cast<size_t>(cell)]) waterCandidates.push_back(cell);
+        }
+        std::sort(waterCandidates.begin(), waterCandidates.end(), [&](int left, int right) {
+            return lakeField[static_cast<size_t>(left)] < lakeField[static_cast<size_t>(right)];
+        });
+        const int targetWaterTiles = randInt(rng, minWaterTiles, maxWaterTiles);
+        std::vector<uint8_t> waterMask(static_cast<size_t>(tileCount), 0);
+        for (int index = 0; index < targetWaterTiles && index < static_cast<int>(waterCandidates.size()); ++index) {
+            waterMask[static_cast<size_t>(waterCandidates[static_cast<size_t>(index)])] = 1;
+        }
+        for (int cell = 0; cell < tileCount; ++cell) {
+            ground[static_cast<size_t>(cell)] = !waterMask[static_cast<size_t>(cell)];
+        }
+    } else if (waterWorld) {
+        std::vector<uint8_t> lockedLand = reservedGround;
+        for (int capital : capitals) for (int neighbour : plusSign(capital, size)) {
+            lockedLand[static_cast<size_t>(neighbour)] = 1;
+        }
+
+        std::vector<float> waterField(static_cast<size_t>(tileCount));
+        for (int cell = 0; cell < tileCount; ++cell) {
+            waterField[static_cast<size_t>(cell)] = lockedLand[static_cast<size_t>(cell)]
+                ? 1.0f : rand01(rng);
+        }
+        for (int pass = 0; pass < kWaterWorldSmoothingPasses; ++pass) {
+            std::vector<float> next(static_cast<size_t>(tileCount));
+            for (int y = 0; y < size; ++y) for (int x = 0; x < size; ++x) {
+                const int cell = y * size + x;
+                if (lockedLand[static_cast<size_t>(cell)]) {
+                    next[static_cast<size_t>(cell)] = waterField[static_cast<size_t>(cell)];
+                    continue;
+                }
+                float sum = 0.0f;
+                for (int oy = -1; oy <= 1; ++oy) for (int ox = -1; ox <= 1; ++ox) {
+                    const int nx = x + ox;
+                    const int ny = y + oy;
+                    sum += (nx < 0 || ny < 0 || nx >= size || ny >= size)
+                        ? kWaterWorldOutsideNoiseValue
+                        : waterField[static_cast<size_t>(ny * size + nx)];
+                }
+                next[static_cast<size_t>(cell)] = sum / 9.0f;
+            }
+            waterField.swap(next);
+        }
+
+        std::vector<int> waterCandidates;
+        waterCandidates.reserve(static_cast<size_t>(tileCount));
+        for (int cell = 0; cell < tileCount; ++cell) {
+            if (!lockedLand[static_cast<size_t>(cell)]) waterCandidates.push_back(cell);
+        }
+        std::sort(waterCandidates.begin(), waterCandidates.end(), [&](int left, int right) {
+            return waterField[static_cast<size_t>(left)] < waterField[static_cast<size_t>(right)];
+        });
+        const int targetWaterTiles = std::min(
+            static_cast<int>(std::floor(tileCount * kWaterWorldFraction)),
+            static_cast<int>(waterCandidates.size()));
+        for (int index = 0; index < targetWaterTiles; ++index) {
+            ground[static_cast<size_t>(waterCandidates[static_cast<size_t>(index)])] = 0;
+        }
+    }
+    for (int cell = 0; cell < tileCount; ++cell) if (reservedGround[static_cast<size_t>(cell)]) {
+        ground[static_cast<size_t>(cell)] = 1;
+    }
+    for (int capital : capitals) for (int neighbor : plusSign(capital, size)) {
+        ground[static_cast<size_t>(neighbor)] = 1;
+    }
+
+    for (int cell = 0; cell < tileCount; ++cell) {
+        tiles[static_cast<size_t>(cell)].setBaseTerrain(
+            ground[static_cast<size_t>(cell)] ? BaseTerrainEnum::Land : BaseTerrainEnum::Ocean);
+    }
+    for (int player = 0; player < players; ++player) {
+        Tile& tile = tiles[static_cast<size_t>(capitals[static_cast<size_t>(player)])];
+        tile.setSettlement(SettlementTypeEnum::City, static_cast<SettlementId>(player));
+        tile.setRoadBridge(RoadBridgeEnum::Road);
+    }
+    SettlementId nextSettlement = static_cast<SettlementId>(players);
+    for (int cell : suburbs) tiles[static_cast<size_t>(cell)].setSettlement(SettlementTypeEnum::Village, nextSettlement++);
+    for (int cell : preTerrainVillages) tiles[static_cast<size_t>(cell)].setSettlement(SettlementTypeEnum::Village, nextSettlement++);
+
+    // 6. Post-terrain villages are selected only after water has been established.
+    const int postTerrainTarget = std::max(0, gridSlots - static_cast<int>(capitals.size()) -
+        static_cast<int>(preTerrainVillages.size()));
+    for (int placed = 0; placed < postTerrainTarget; ++placed) {
+        std::vector<int> candidates;
+        for (int y = 2; y + 2 < size; ++y) for (int x = 2; x + 2 < size; ++x) {
+            const int cell = y * size + x;
+            if (tiles[static_cast<size_t>(cell)].getBaseTerrain() != BaseTerrainEnum::Land) continue;
+            if (isFarFromCities(cell)) candidates.push_back(cell);
+        }
+        if (candidates.empty()) break;
+        const int cell = candidates[static_cast<size_t>(randInt(rng, 0, static_cast<int>(candidates.size()) - 1))];
+        tiles[static_cast<size_t>(cell)].setSettlement(SettlementTypeEnum::Village, nextSettlement++);
+        reservedCities.push_back(cell);
+    }
+
+    // 7. Assign biomes by alternating four-directional border growth.  Each
+    // claimant chooses from its entire current border, so the eventual seams
+    // are irregular without relying on distance-to-capital regions.
+    std::vector<int> landOwner(static_cast<size_t>(tileCount), -1);
+    std::vector<std::vector<int>> borderCells(static_cast<size_t>(players));
+    int assignedLand = 0;
+    int landCount = 0;
+    for (int cell = 0; cell < tileCount; ++cell) {
+        if (tiles[static_cast<size_t>(cell)].getBaseTerrain() == BaseTerrainEnum::Land) ++landCount;
+    }
+    for (int player = 0; player < players; ++player) {
+        const int capital = capitals[static_cast<size_t>(player)];
+        landOwner[static_cast<size_t>(capital)] = player;
+        borderCells[static_cast<size_t>(player)].push_back(capital);
+        ++assignedLand;
+    }
+
+    while (assignedLand < landCount) {
+        bool expanded = false;
+        std::vector<int> turnOrder(static_cast<size_t>(players));
+        std::iota(turnOrder.begin(), turnOrder.end(), 0);
+        std::shuffle(turnOrder.begin(), turnOrder.end(), rng);
+        for (int player : turnOrder) {
+            auto& border = borderCells[static_cast<size_t>(player)];
+            std::vector<int> candidates;
+            for (int source : border) for (int neighbor : plusSign(source, size)) {
+                if (landOwner[static_cast<size_t>(neighbor)] == -1 &&
+                    tiles[static_cast<size_t>(neighbor)].getBaseTerrain() == BaseTerrainEnum::Land) {
+                    candidates.push_back(neighbor);
+                }
+            }
+            if (candidates.empty()) continue;
+            std::sort(candidates.begin(), candidates.end());
+            candidates.erase(std::unique(candidates.begin(), candidates.end()), candidates.end());
+            const int chosen = candidates[static_cast<size_t>(randInt(rng, 0, static_cast<int>(candidates.size()) - 1))];
+            landOwner[static_cast<size_t>(chosen)] = player;
+            border.push_back(chosen);
+            ++assignedLand;
+            expanded = true;
+        }
+        if (expanded) continue;
+
+        // A disconnected island has no land path to a claimant. Assign its
+        // first tile to the closest capital instead of a random tribe, so a
+        // remote island cannot receive an unrelated biome.
+        std::vector<int> unassigned;
+        for (int cell = 0; cell < tileCount; ++cell) {
+            if (tiles[static_cast<size_t>(cell)].getBaseTerrain() == BaseTerrainEnum::Land &&
+                landOwner[static_cast<size_t>(cell)] == -1) unassigned.push_back(cell);
+        }
+        if (unassigned.empty()) break;
+        const int chosen = unassigned[static_cast<size_t>(randInt(rng, 0, static_cast<int>(unassigned.size()) - 1))];
+        int player = 0;
+        int closestDistance = chebyshevDistance(chosen, capitals[0], size);
+        for (int candidate = 1; candidate < players; ++candidate) {
+            const int distance = chebyshevDistance(chosen, capitals[static_cast<size_t>(candidate)], size);
+            if (distance < closestDistance) {
+                closestDistance = distance;
+                player = candidate;
+            }
+        }
+        landOwner[static_cast<size_t>(chosen)] = player;
+        borderCells[static_cast<size_t>(player)].push_back(chosen);
+        ++assignedLand;
+    }
+
+    // Turn already claimed land into its final terrain appearance.
+    for (int cell = 0; cell < tileCount; ++cell) {
+        Tile& tile = tiles[static_cast<size_t>(cell)];
+        if (tile.getBaseTerrain() != BaseTerrainEnum::Land) continue;
+        const int owner = landOwner[static_cast<size_t>(cell)];
+        if (owner < 0) continue;
+        tile.setTribe(tribes[static_cast<size_t>(owner)]);
+        if (tile.getSettlementType() != SettlementTypeEnum::None) continue;
+        const TribeProbs probabilities = probsForTribe(tile.getTribe());
+        // Standard terrain shares are 14% mountains, 38% forest and 48%
+        // fields. A mountain modifier redistributes its difference between
+        // forest and field before the forest modifier is applied.
+        constexpr float kBaseMountain = 0.14f;
+        constexpr float kBaseForest = 0.38f;
+        constexpr float kBaseField = 0.48f;
+        const float mountain = std::clamp(kBaseMountain * probabilities.mountain, 0.0f, 1.0f);
+        const float forestBeforeModifier = kBaseForest + (kBaseMountain - mountain) *
+            (kBaseForest / (kBaseForest + kBaseField));
+        const float forest = std::clamp(forestBeforeModifier * probabilities.forest, 0.0f, 1.0f - mountain);
+        const float roll = rand01(rng);
+        if (roll < mountain) tile.setBaseTerrain(BaseTerrainEnum::Mountain);
+        else if (roll < mountain + forest) tile.setBaseTerrain(BaseTerrainEnum::Forest);
+    }
+
+    auto makeOcean = [&] {
+        std::vector<uint8_t> shallow(static_cast<size_t>(tileCount), 0);
+        for (int cell = 0; cell < tileCount; ++cell) {
+            if (!isWater(tiles[static_cast<size_t>(cell)].getBaseTerrain())) continue;
+            for (int neighbor : plusSign(cell, size)) if (isLandLike(tiles[static_cast<size_t>(neighbor)].getBaseTerrain())) { shallow[static_cast<size_t>(cell)] = 1; break; }
+        }
+        for (int cell = 0; cell < tileCount; ++cell) if (isWater(tiles[static_cast<size_t>(cell)].getBaseTerrain())) {
+            tiles[static_cast<size_t>(cell)].setBaseTerrain(shallow[static_cast<size_t>(cell)] ? BaseTerrainEnum::Water : BaseTerrainEnum::Ocean);
+            tiles[static_cast<size_t>(cell)].setTribe(TribeType::Unknown);
+        }
+    };
+    makeOcean();
+
+    // 8. AddResources. Resources occur only within two tiles of a city or
+    // village. The adjacent ring is the inner-city area and uses the higher
+    // spawn rates from the map-generation table.
+    std::vector<uint8_t> resourceArea(static_cast<size_t>(tileCount), 0);
+    std::vector<uint8_t> innerResourceArea(static_cast<size_t>(tileCount), 0);
+    for (int city : reservedCities) {
+        for (int cell : round(city, 2, size)) resourceArea[static_cast<size_t>(cell)] = 1;
+        for (int cell : round(city, 1, size)) innerResourceArea[static_cast<size_t>(cell)] = 1;
+    }
+    const auto resourceProbabilities = [&](int cell, const Tile& tile) {
+        if (tile.getTribe() != TribeType::Unknown) return probsForTribe(tile.getTribe());
+
+        // Water has no displayed tribe. Use the nearest generated land biome
+        // so shore fish retain the fish modifier of their local climate.
+        int closestOwner = -1;
+        int closestDistance = size * 2;
+        for (int candidate = 0; candidate < tileCount; ++candidate) {
+            const int owner = landOwner[static_cast<size_t>(candidate)];
+            if (owner < 0) continue;
+            const int distance = chebyshevDistance(cell, candidate, size);
+            if (distance < closestDistance) {
+                closestDistance = distance;
+                closestOwner = owner;
+            }
+        }
+        return closestOwner >= 0 ? probsForTribe(tribes[static_cast<size_t>(closestOwner)]) : TribeProbs{};
+    };
+    for (int cell = 0; cell < tileCount; ++cell) {
+        Tile& tile = tiles[static_cast<size_t>(cell)];
+        // The 50% fish rate applies to shallow water only. Ocean tiles in the
+        // same resource area are also candidates, but with a lower rate.
+        const bool shallowWaterTile = tile.getBaseTerrain() == BaseTerrainEnum::Water;
+        const bool oceanTile = tile.getBaseTerrain() == BaseTerrainEnum::Ocean;
+        if (isCorner(cell) || tile.getSettlementType() != SettlementTypeEnum::None ||
+            !resourceArea[static_cast<size_t>(cell)]) continue;
+        const TribeProbs probabilities = resourceProbabilities(cell, tile);
+        const bool innerCity = innerResourceArea[static_cast<size_t>(cell)] != 0;
+        const float roll = rand01(rng);
+        if (tile.getBaseTerrain() == BaseTerrainEnum::Land) {
+            const float fruit = (innerCity ? 0.18f : 0.06f) * probabilities.fruit;
+            const float crops = (innerCity ? 0.18f : 0.06f) * probabilities.crops;
+            if (roll < fruit) tile.setResource(ResourcesEnum::Fruit);
+            else if (roll < fruit + crops) tile.setResource(ResourcesEnum::Crops);
+        } else if (tile.getBaseTerrain() == BaseTerrainEnum::Forest &&
+                   roll < (innerCity ? 0.19f : 0.06f) * probabilities.animals) {
+            tile.setResource(ResourcesEnum::Animal);
+        } else if (tile.getBaseTerrain() == BaseTerrainEnum::Mountain &&
+                   roll < (innerCity ? 0.11f : 0.03f) * probabilities.metal) {
+            tile.setResource(ResourcesEnum::Metal);
+        } else if (shallowWaterTile && roll < kShallowFishSpawnChance * probabilities.fish) {
+            tile.setResource(ResourcesEnum::Fish);
+        } else if (oceanTile && roll < kOceanFishSpawnChance * probabilities.fish) {
+            tile.setResource(ResourcesEnum::Fish);
+        }
+    }
+
+    // 9. Guaranteed opening resources are added after normal resource generation.
+    auto ensureCapitalResource = [&](int player, ResourcesEnum resource, BaseTerrainEnum terrain, int count) {
+        int present = 0;
+        for (int cell : round(capitals[static_cast<size_t>(player)], 1, size)) {
+            const Tile& tile = tiles[static_cast<size_t>(cell)];
+            if (tile.getBaseTerrain() == terrain && tile.getResource() == resource) ++present;
+        }
+        for (int cell : round(capitals[static_cast<size_t>(player)], 1, size)) {
+            if (present >= count) break;
+            Tile& tile = tiles[static_cast<size_t>(cell)];
+            if (tile.getSettlementType() != SettlementTypeEnum::None) continue;
+            tile.setBaseTerrain(terrain); tile.setResource(resource);
+            tile.setTribe(terrain == BaseTerrainEnum::Water ? TribeType::Unknown : tribes[static_cast<size_t>(player)]);
+            ++present;
+        }
+    };
+    for (int player = 0; player < players; ++player) switch (tribes[static_cast<size_t>(player)]) {
+        case TribeType::Bardur: ensureCapitalResource(player, ResourcesEnum::Animal, BaseTerrainEnum::Forest, 2); break;
+        case TribeType::Imperius: ensureCapitalResource(player, ResourcesEnum::Fruit, BaseTerrainEnum::Land, 2); break;
+        case TribeType::Kickoo: ensureCapitalResource(player, ResourcesEnum::Fish, BaseTerrainEnum::Water, 2); break;
+        case TribeType::Zebasi: ensureCapitalResource(player, ResourcesEnum::Crops, BaseTerrainEnum::Land, 1); break;
+        default: break;
+    }
+    // Drylands is land-only except for the two fish tiles guaranteed next to
+    // Kickoo and Aquarion capitals.
+    if (drylands) {
+        for (int player = 0; player < players; ++player) {
+            if (tribes[static_cast<size_t>(player)] == TribeType::Aquarion) {
+                ensureCapitalResource(player, ResourcesEnum::Fish, BaseTerrainEnum::Water, 2);
+            }
+        }
+    }
+    makeOcean();
+
+    // 10. Ruins and starfish are the final map objects.
+    std::vector<int> ruinCandidates;
+    for (int cell = 0; cell < tileCount; ++cell) {
+        if (!isCorner(cell) && tiles[static_cast<size_t>(cell)].getSettlementType() == SettlementTypeEnum::None) {
+            ruinCandidates.push_back(cell);
+        }
+    }
+    std::shuffle(ruinCandidates.begin(), ruinCandidates.end(), rng);
+    const int ruinTarget = ruinTargetForMapSize(tileCount);
+    int ruins = 0;
+    for (int cell : ruinCandidates) {
+        if (ruins >= ruinTarget) break;
+        bool nearObject = false;
+        for (int neighbor : round(cell, 2, size)) if (tiles[static_cast<size_t>(neighbor)].getSettlementType() != SettlementTypeEnum::None) { nearObject = true; break; }
+        if (!nearObject) { tiles[static_cast<size_t>(cell)].setSettlement(SettlementTypeEnum::Ruin, nextSettlement++); ++ruins; }
+    }
+    std::vector<int> waterCandidates;
+    int waterTileCount = 0;
+    for (int cell = 0; cell < tileCount; ++cell) {
+        const Tile& tile = tiles[static_cast<size_t>(cell)];
+        if (isWater(tile.getBaseTerrain())) ++waterTileCount;
+        if (!isCorner(cell) && isWater(tile.getBaseTerrain()) &&
+            tile.getSettlementType() == SettlementTypeEnum::None &&
+            tile.getResource() == ResourcesEnum::None) {
+            waterCandidates.push_back(cell);
+        }
+    }
+    std::shuffle(waterCandidates.begin(), waterCandidates.end(), rng);
+    const int starfishTarget = waterTileCount / 25;
+    int starfish = 0;
+    for (int cell : waterCandidates) {
+        if (starfish >= starfishTarget) break;
+        bool adjacent = false;
+        for (int neighbor : round(cell, 1, size)) if (tiles[static_cast<size_t>(neighbor)].getSettlementType() != SettlementTypeEnum::None) { adjacent = true; break; }
+        if (!adjacent) { tiles[static_cast<size_t>(cell)].setSettlement(SettlementTypeEnum::Starfish, nextSettlement++); ++starfish; }
+    }
+
+    // Existing map types keep the four corners as empty ground. Water World
+    // intentionally leaves them to its terrain mask.
+    if (!waterWorld) {
+        for (int corner : {0, size - 1, size * (size - 1), size * size - 1}) {
+            Tile& tile = tiles[static_cast<size_t>(corner)];
+            tile.setBaseTerrain(BaseTerrainEnum::Land);
+            tile.setResource(ResourcesEnum::None);
+            tile.clearSettlement();
+            tile.setBuildingType(BuildingTypeEnum::None);
+            tile.setRoadBridge(RoadBridgeEnum::None);
+        }
+    }
+
+    std::vector<Pos> capitalPositions;
+    capitalPositions.reserve(static_cast<size_t>(players));
+    for (int cell : capitals) capitalPositions.push_back(Pos{cell % size, cell / size});
+    return capitalPositions;
+}
+
+---
+src/world/MapGenerator.h (file, 2002 bytes)
+Content:
+//
+// Created by Fryderyk Niedzwiecki on 14/01/2026.
+//
+
+#ifndef GAME_ENGINE_MAPGENERATOR_H
+#define GAME_ENGINE_MAPGENERATOR_H
+
+#include <cstdint>
+#include <random>
+#include <vector>
+
+#include "world/Map.h"
+#include "../content/tribes/Tribe.h"
+#include "world/Pos.h"
+
+enum class MapType : uint8_t {
+    Lakes = 0,
+    Drylands = 1,
+    WaterWorld = 2,
+};
+
+class MapGenerator {
+public:
+    struct Params {
+        int mapSize = 16;          // width = height
+        MapType mapType = MapType::Lakes;
+        uint32_t seed = 0;         // 0 -> random_device
+    };
+
+    // Generates a Polytopia-like map into `map` and returns the starting
+    // capitals in player/active-tribe order.
+    // - `map` will be re-initialized to params.mapSize x params.mapSize if needed.
+    // - `map.getActiveTribes()` must contain 2..16 tribes.
+    //
+    // The capital positions are intentionally returned by value instead of
+    // being kept in generator-global state: multiple games may generate maps
+    // concurrently (for example from VectorGameEnv worker threads).
+    [[nodiscard]] static std::vector<Pos> generate(Map& map, const Params& params);
+
+private:
+    // Grid helpers (square grid, Chebyshev distance like in the python generator)
+    static int chebyshevDistance(int a, int b, int size);
+    static std::vector<int> circle(int center, int radius, int size);
+    static std::vector<int> round(int center, int radius, int size);
+    static std::vector<int> plusSign(int center, int size);
+
+    static int randInt(std::mt19937& rng, int a, int b);
+    static float rand01(std::mt19937& rng);
+
+    static bool isLandLike(BaseTerrainEnum t);
+
+    struct TribeProbs {
+        float forest = 1.0f;
+        float mountain = 1.0f;
+        float metal = 1.0f;
+        float fruit = 1.0f;
+        float crops = 1.0f;
+        float animals = 1.0f;
+        float fish = 1.0f;
+        float starfish = 1.0f;
+    };
+
+    static TribeProbs probsForTribe(TribeType tribe);
+};
+
+#endif //GAME_ENGINE_MAPGENERATOR_H
+
+---
+src/world/Pos.cpp (file, 73 bytes)
+Content:
+//
+// Created by Fryderyk Niedzwiecki on 11/01/2026.
+//
+
+#include "Pos.h"
+---
+src/world/Pos.h (file, 621 bytes)
+Content:
+//
+// Created by Fryderyk Niedzwiecki on 11/01/2026.
+//
+
+#ifndef GAME_ENGINE_POS_H
+#define GAME_ENGINE_POS_H
+
+
+struct Pos {
+    int x = 0;
+    int y = 0;
+
+    Pos() = default;
+    Pos(int x, int y) : x(x), y(y) {}
+
+    bool operator==(const Pos& other) const {
+        return x == other.x && y == other.y;
+    }
+
+    bool operator!=(const Pos& other) const {
+        return !(*this == other);
+    }
+
+    Pos operator+(const Pos& other) const {
+        return { x + other.x, y + other.y };
+    }
+
+    Pos operator-(const Pos& other) const {
+        return { x - other.x, y - other.y };
+    }
+};
+
+#endif //GAME_ENGINE_POS_H
+---
+src/world/Tile.cpp (file, 413 bytes)
+Content:
+//
+// Created by Fryderyk Niedzwiecki on 11/01/2026.
+//
+
+#include "Tile.h"
+
+void Tile::removeResourceFlag(ResourcesEnum flag) {
+    if (resource == flag) {
+        resource = ResourcesEnum::None;
+    }
+}
+
+void Tile::addResourceFlag(ResourcesEnum flag) {
+    if (flag != ResourcesEnum::None) {
+        resource = flag;
+    }
+}
+
+bool Tile::hasResourceFlag(ResourcesEnum flag) const {
+    return resource == flag;
+}
+
+---
+src/world/Tile.h (file, 2908 bytes)
+Content:
+//
+// Created by Fryderyk Niedzwiecki on 11/01/2026.
+//
+
+#ifndef GAME_ENGINE_TILE_H
+#define GAME_ENGINE_TILE_H
+#include "terrain/BaseTerrainEnum.h"
+#include "terrain/BuildingTypeEnum.h"
+#include "terrain/ResourcesEnum.h"
+#include "terrain/RoadBridgeEnum.h"
+#include "terrain/SettlementId.h"
+#include "terrain/SettlementTypeEnum.h"
+#include "terrain/VisibilityEnum.h"
+#include "../content/tribes/Tribe.h"
+#include "core/Ids.h"
+
+
+class Tile {
+public:
+
+    // Read
+    ResourcesEnum getResource() const { return resource; }
+    BaseTerrainEnum getBaseTerrain() const { return baseTerrain; }
+    SettlementTypeEnum getSettlementType() const { return settlementType; }
+    SettlementId getSettlementId() const { return settlementId; }
+    BuildingTypeEnum getBuildingType() const { return buildingType; }
+    RoadBridgeEnum getRoadBridge() const { return roadBridge; }
+    VisibilityEnum getVisibility() const { return visibility; }
+    TribeType getTribe() const { return tribe; }
+
+    // Territory / city control (not the settlement that sits on the tile)
+    CityId getTerritoryCityId() const { return territoryCityId; }
+
+    // Write
+    void setResource(ResourcesEnum v) { resource = v; }
+
+    // Resource flag helpers
+    bool hasResourceFlag(ResourcesEnum flag) const ;
+
+    void addResourceFlag(ResourcesEnum flag);
+
+    void removeResourceFlag(ResourcesEnum flag);
+    void setBaseTerrain(BaseTerrainEnum v) { baseTerrain = v; }
+    void setSettlement(SettlementTypeEnum t, SettlementId id) {
+        settlementType = t;
+        settlementId = id;
+        if (t == SettlementTypeEnum::City || t == SettlementTypeEnum::Village) {
+            roadBridge = RoadBridgeEnum::Road;
+        }
+    }
+    void clearSettlement() { settlementType = SettlementTypeEnum::None; settlementId = kNoSettlement; }
+    void setBuildingType(BuildingTypeEnum v) { buildingType = v; }
+    void setRoadBridge(RoadBridgeEnum v) {
+        roadBridge = settlementType == SettlementTypeEnum::City ||
+                     settlementType == SettlementTypeEnum::Village
+                         ? RoadBridgeEnum::Road
+                         : v;
+    }
+    void setVisibility(VisibilityEnum v) { visibility = v; }
+    void setTribe(TribeType v) { tribe = v; }
+    void setTerritoryCityId(CityId v) { territoryCityId = v; }
+    void clearTerritory() { territoryCityId = kNoCity; }
+
+
+private:
+    //visibility of difrent players
+    VisibilityEnum visibility = VisibilityEnum::None;
+    CityId territoryCityId = kNoCity;
+    RoadBridgeEnum roadBridge = RoadBridgeEnum::None;
+    BuildingTypeEnum buildingType = BuildingTypeEnum::None;
+    SettlementTypeEnum settlementType = SettlementTypeEnum::None;
+    SettlementId   settlementId = kNoSettlement;
+    ResourcesEnum resource = ResourcesEnum::None;
+    BaseTerrainEnum baseTerrain = BaseTerrainEnum::Ocean;
+    TribeType tribe = TribeType::Unknown;
+
+
+};
+
+
+#endif //GAME_ENGINE_TILE_H
+
+---
+src/world/terrain (dir, 0 bytes)

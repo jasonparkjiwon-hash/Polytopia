@@ -1,15 +1,15 @@
-# Python
 __pycache__/
-*.py[cod]
-.venv/
-venv/
-
-# Game saves and generated data
-saves/
-*.state
-
-# External engine checkouts and build output
-vendor/
-target/
-
+*.pyc
+.ipynb_checkpoints/
 .DS_Store
+
+# third-party clones (scripts/fetch_third_party.sh)
+ext/
+
+# build outputs
+sim/pfcore/target/
+sim/vendor/
+sim/gitsrc/
+verify/state2json/state2json
+verify/statedebug/statedebug
+*.decomp

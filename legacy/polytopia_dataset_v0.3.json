@@ -1,0 +1,2450 @@
+{
+ "combat.json": {
+  "damage": {
+   "attackForce": "attack * hp/maxHp",
+   "defenseForce": "defense * hp/maxHp * defenseBonus",
+   "total": "attackForce + defenseForce",
+   "attackResult": "round(attackForce/total * attack * 4.5)   (damage dealt)",
+   "defenseResult_WK": "round(defenseForce/total * defense * 4.5)   (bonus INCLUDED)",
+   "defenseResult_PE": "round(retaliationForce/(attackForce+retaliationForce) * defense * 4.5) with retaliationForce = defense*hp/maxHp  (bonus EXCLUDED)",
+   "cid": "C6",
+   "conf": "med",
+   "src": "WK+PE",
+   "rounding": "PE: std::llround = round half away from zero; WK unspecified",
+   "note": "Attacker's defense and defender's attack are not used in the main hit. Verified against PE CombatSystem.cpp."
+  },
+  "retaliation_rules": {
+   "none_if_target_dies": true,
+   "only_if_attacker_within_defender_range": {
+    "v": "chebyshev(defender, attacker) <= defender.range",
+    "src": "PE",
+    "conf": "med"
+   },
+   "blocked_by": [
+    "attacker has Surprise",
+    "defender has Stiff"
+   ],
+   "src": "PE"
+  },
+  "defence_bonus": {
+   "none": 1.0,
+   "terrain": 1.5,
+   "city_fortify": 1.5,
+   "city_wall": 4.0,
+   "terrain_rules": "Forest needs Archery; Mountain needs Climbing; shallow Water and Ocean need Aquatism (all x1.5, owner's tech)",
+   "city_rules": "only for the city's OWNER and only units with Fortify; wall adds +2.5 (total 4.0); city bonus replaces terrain bonus if larger; invaders in an enemy city get none; Giant has no Fortify",
+   "poisoned_PE": "bonus<=1 -> 0.5 ; <=1.5 -> 0.7 ; else 2.0",
+   "poisoned_WK": "defence reduced by 30%, bonuses blocked",
+   "cid": "C7",
+   "src": "PE+WK",
+   "conf": "med"
+  },
+  "healing": {
+   "idle_recovery": {
+    "v": "a unit that neither moved nor attacked heals 2 HP, or 4 HP on tiles of its own city territory",
+    "src": "PE+WK",
+    "conf": "high"
+   },
+   "heal_skill": {
+    "v": "Heal action (Mind Bender, Siren): +4 HP to every adjacent friendly; consumes the action; no-op if nobody is hurt",
+    "src": "PE+WK",
+    "conf": "high"
+   },
+   "poison_halves_healing_WK": "WK only; not seen in PE heal()"
+  },
+  "veteran": {
+   "v": "3 kills -> veteran: +5 max HP and full heal; not for StaticSkill units (Giants, boats, special units)",
+   "src": "PE",
+   "conf": "high",
+   "note": "Also granted by ruin 'veteran unit' reward; Warrior vet = 15 HP."
+  },
+  "attack_flow": {
+   "after_moving": "only units with Dash may attack after moving; Escape lets a unit move after attacking; Persist lets it attack again after a kill",
+   "advance_on_kill": "melee (range 1) and Rammer step into the killed unit's tile if legal",
+   "splash": "Splash: half the main damage (floor) to every enemy adjacent to the target",
+   "stomp": "Stomp units hit all adjacent enemies for floor(mainHit/2) per step moved, no retaliation",
+   "convert": "Convert replaces damage: target changes owner, keeps HP/vet, can't act next turn; Bunny/Bunta unconvertible; counts as an attack",
+   "infiltrate": "Cloak/Dinghy/Scuba adjacent to enemy city: steals that city's next income, deals base-attack damage to unit inside, spawns Daggers/Pirates = city level (cap 5); infiltrator is consumed",
+   "src": "PE",
+   "conf": "med"
+  },
+  "zone_of_control": {
+   "v": "entering a tile adjacent (8-neighbour) to a visible enemy unit forces a stop; Creep ignores ZoC; Hide units don't project it",
+   "src": "PE",
+   "conf": "med"
+  },
+  "movement": {
+   "grid": "8-neighbour square grid",
+   "base_cost": "1 move point",
+   "road_cost": "0.5 when both tiles are road/bridge/city/village AND neither is enemy territory",
+   "terminal_tiles": "Mountain and Forest (without road) end the move (Creep exempt)",
+   "tech_gates": "mountain: Climbing ; land->water via owned Port: Fishing ; Bridge on water: none ; ocean: Sailing (PE movement) vs Navigation (PE Explorer)",
+   "embark": "land unit stepping onto an OWN Port becomes Raft (Giant -> Juggernaut), keeps HP; disembark onto land restores type; both end the unit's turn",
+   "water_units_on_land": "may enter coastal land only, then must stop",
+   "cid": "C8",
+   "src": "PE",
+   "conf": "med"
+  },
+  "skills_read_from_code": [
+   "Dash",
+   "Fortify",
+   "Escape",
+   "Hide",
+   "Creep",
+   "Infiltrate",
+   "Stiff",
+   "Scout",
+   "Persist",
+   "Surprise",
+   "Independent",
+   "WaterOnly",
+   "Carry",
+   "Splash",
+   "Stomp",
+   "Convert",
+   "Heal",
+   "Amphibious",
+   "StaticSkill"
+  ],
+  "skills_NOT_yet_read": [
+   "Tentacles",
+   "Drench",
+   "Grow",
+   "Air",
+   "Freeze",
+   "Skate",
+   "AutoFreeze",
+   "FreezeArea",
+   "Poison",
+   "Sneak",
+   "DoubleAttack",
+   "Swarm",
+   "Explode",
+   "Algae",
+   "AutoFlood"
+  ]
+ },
+ "economy.json": {
+  "stars": {
+   "income_per_turn": {
+    "v": "sum over own cities: (level + base + 1 if capital + 1 if workshop + parks + min(0,population)) + market income; besieged city = 0; infiltrated city loses only its normal income once",
+    "src": "PE",
+    "conf": "high"
+   },
+   "turn_start": "income is applied at the START of your turn (not on turn 0)",
+   "siege": "an enemy unit standing on the city centre tile"
+  },
+  "city": {
+   "level_up": {
+    "v": "population >= level+1 ; then population -= level+1 ; level+=1 ; reward choice is mandatory",
+    "src": "PE",
+    "conf": "high",
+    "note": "WK Score page consistent: 50 pts per level."
+   },
+   "unit_capacity": {
+    "v": "level + 1 units supported",
+    "src": "PE",
+    "conf": "high"
+   },
+   "rewards": {
+    "2": [
+     "Workshop (+1 star/turn)",
+     "Explorer"
+    ],
+    "3": [
+     "City Wall",
+     "Resources (+5 stars now)"
+    ],
+    "4": [
+     "Population Growth (+3 pop)",
+     "Border Growth (claim radius 2)"
+    ],
+    "5+": [
+     "Park (+1 star/turn, +250 score)",
+     "Super Unit (Giant)"
+    ]
+   },
+   "territory": "capital/city claims radius 1 (3x3) on founding; Border Growth claims free tiles to radius 2",
+   "capture": "unit must START the turn on the city tile; consumes the unit's turn; supported units lose their origin city",
+   "village_to_city": "unit starting turn on village; consumes turn; becomes level-1 city (pop 0)",
+   "src": "PE",
+   "conf": "high"
+  },
+  "tile_actions": {
+   "hunt": {
+    "cost": 2,
+    "tech": "Hunting",
+    "effect": "+1 pop, removes animal"
+   },
+   "harvest_fruit": {
+    "cost": 2,
+    "tech": "Organization",
+    "effect": "+1 pop, removes fruit"
+   },
+   "fish": {
+    "cost": 2,
+    "tech": "Fishing",
+    "effect": "+1 pop, removes fish"
+   },
+   "clear_forest": {
+    "cost": 0,
+    "tech": "Forestry",
+    "effect": "forest->field, +1 star (PE); wiki Forestry page says +2 stars, undated - C19"
+   },
+   "burn_forest": {
+    "cost": 3,
+    "tech": "Construction",
+    "effect": "forest->field with crop",
+    "src": "2025 balance pass dev post (PE had 5, stale)"
+   },
+   "grow_forest": {
+    "cost": 5,
+    "tech": "Spiritualism",
+    "effect": "empty field->forest"
+   },
+   "road": {
+    "cost": 3,
+    "tech": "Roads",
+    "effect": "road on land/forest, own or neutral territory; wiki Roads page says 2, undated - C19"
+   },
+   "bridge": {
+    "cost": 5,
+    "tech": "Roads",
+    "effect": "bridge on shallow water between two land tiles (N-S or E-W)"
+   },
+   "destroy": {
+    "cost": 0,
+    "tech": "Chivalry (Construction for bridges)",
+    "effect": "remove building/resource; roads not destroyable"
+   },
+   "disband_unit": {
+    "tech": "Free Spirit",
+    "effect": "refund floor(cost/2) stars; Giant/Juggernaut 5"
+   },
+   "all actions require own territory (except road: neutral ok)": true,
+   "src": "PE",
+   "conf": "med"
+  },
+  "buildings": {
+   "Farm": {
+    "cost": 5,
+    "tech": "Farming",
+    "on": "Field with Crops",
+    "pop": 2
+   },
+   "Mine": {
+    "cost": 5,
+    "tech": "Mining",
+    "on": "Mountain with Metal",
+    "pop": 2,
+    "note": "PE header comment says 'Mine = 1' but code sets 2 (code trusted)"
+   },
+   "LumberHut": {
+    "cost": 3,
+    "tech": "Forestry",
+    "on": "Forest",
+    "pop": 1
+   },
+   "Port": {
+    "cost": 7,
+    "tech": "Fishing",
+    "on": "Shallow water",
+    "pop": 1
+   },
+   "Forge": {
+    "cost": 5,
+    "tech": "Smithery",
+    "on": "Field",
+    "pop": "+2 per adjacent own Mine",
+    "limit": "1 per city"
+   },
+   "Sawmill": {
+    "cost": 5,
+    "tech": "Mathematics",
+    "on": "Field",
+    "pop": "+1 per adjacent own Lumber Hut",
+    "limit": "1 per city"
+   },
+   "Windmill": {
+    "cost": 5,
+    "tech": "Construction",
+    "on": "Field",
+    "pop": "+1 per adjacent own Farm",
+    "limit": "1 per city"
+   },
+   "Market": {
+    "cost": 5,
+    "tech": "Trade",
+    "on": "Field adjacent to own Forge/Sawmill/Windmill",
+    "income": "stars/turn = sum of adjacent booster levels (cap 8)"
+   },
+   "booster_level": "Forge = adjacent own Mines, Sawmill = adjacent Lumber Huts, Windmill = adjacent Farms (0..8)",
+   "not_modelled_in_PE": [
+    "Temples (all kinds)",
+    "Outpost",
+    "Embassy",
+    "Ice Bank",
+    "Atoll",
+    "Aqua Farm",
+    "Clathrus",
+    "Sanctuary",
+    "Guard Tower"
+   ],
+   "src": "PE",
+   "conf": "med-high"
+  },
+  "monuments": {
+   "AltarOfPeace": "5 consecutive turns with no attack + Meditation",
+   "EmperorsTomb": ">=100 stars + Trade",
+   "EyeOfGod": "discover all 4 lighthouses",
+   "GateOfPower": "10 kills",
+   "GrandBazaar": "5 non-capital cities connected to capital",
+   "ParkOfFortune": "a city reaches level 5",
+   "TowerOfWisdom": "own all techs",
+   "build": "cost 0, +3 pop, +400 score, one of each per player",
+   "src": "PE",
+   "conf": "med"
+  },
+  "score": {
+   "per_explored_tile": 5,
+   "per_territory_tile": 20,
+   "per_unit_cost_star": 5,
+   "per_super_unit": 50,
+   "per_tech_tier": 100,
+   "per_park": 250,
+   "per_monument": 400,
+   "city": "100 + 50 per level above 1 + 5 per current population",
+   "embarked_unit_counts_as_land_unit": true,
+   "src": "PE+SC",
+   "conf": "high",
+   "pe_caveat": "PE ScoreSystem.startingScore() is stubbed to 0 (commented-out table disagrees with Tribe.cpp). Use tribes.json for starting scores."
+  },
+  "ruins": {
+   "action": "unit must START its turn on the ruin; uses the unit's turn; ruin disappears",
+   "PE_reward_pool": "uniform pick from the AVAILABLE pool: Stars(+10), Tech (random obtainable), Population(+3 to capital, if capital owned), Explorer (if hidden tile in 5x5), VeteranUnit (Swordsman 20HP vet, or Rammer 15HP on water)",
+   "WK_reward_names": [
+    "Battleship (Navalon)",
+    "Explorer",
+    "Population Growth",
+    "Stars",
+    "Super Unit",
+    "Technology"
+   ],
+   "cid": "C14",
+   "conf": "low",
+   "src": "PE vs WK",
+   "note": "Real probabilities unknown (G4). PE uses worldSeed+position hash, i.e. NOT the real RNG."
+  }
+ },
+ "fog_vision.json": {
+  "_about": "How reveal works (PE VisionSystem/MovementSystem/CitySystem) plus what that means for inference. WK Fog-of-War page was unreachable (client error) so these rules are PE-only unless marked.",
+  "geometry": {
+   "v": "square (Chebyshev) disk of radius r around the unit: all tiles with max(|dx|,|dy|)<=r",
+   "src": "PE",
+   "conf": "med"
+  },
+  "unit_vision": {
+   "v": "r = unit.visionRange (1 for most; 2 for Scout skill units: Cloak, Scuba, Scout boat, BabyDragon, FireDragon, IceFortress, Dinghy... ) ; a unit standing on a MOUNTAIN gets max(r,2)",
+   "src": "PE+WK",
+   "conf": "high",
+   "note": "WK Combat page: 'Mountains give a two-tile sight radius; Scout units see two tiles in every direction.'"
+  },
+  "persistence": {
+   "v": "reveal is permanent for the game (a per-player bit is set and never cleared).",
+   "src": "PE",
+   "conf": "low",
+   "note": "PE only ADDS visibility. Whether the real game shows STALE or LIVE info for previously-seen-but-out-of-vision tiles is UNKNOWN (G3) - matters a lot for belief tracking."
+  },
+  "movement_reveal": {
+   "v": "reveals along the whole traversed path (using the best vision seen during the move), plus final tile; mountain destination -> radius 2",
+   "src": "PE",
+   "conf": "med"
+  },
+  "must_end_on_visible_tile": {
+   "v": "a unit may only END its move on a tile that is revealed to its player",
+   "src": "PE",
+   "conf": "med"
+  },
+  "initial_reveal": {
+   "real_game_5x5": {
+    "v": "start score arithmetic needs 25 explored tiles (5x5 around capital); SC: capital near a corner scores 5 less because the corner tile isn't revealed",
+    "src": "DER+SC",
+    "conf": "med",
+    "cid": "C21"
+   },
+   "PE": "territory radius-1 (3x3) tiles revealed + the start unit's radius-1 vision; corners are skipped on Initial reveal"
+  },
+  "explorer": {
+   "source": "Level-2 city reward 'Explorer' (Luxidoor can't take it in capital) and ruin reward",
+   "algorithm": {
+    "v": "15 steps. Each step: BFS (8-neighbour) dist<=4 over tiles the owner may enter (mountain needs Climbing, shallow water Sailing, ocean Navigation); score tile = 183 - 10*fog_tiles_cleared (plus-shape of 5 tiles, capped at 4) minus 33 if it clears a lighthouse; propagate +100 per BFS layer (3 layers); step to the best adjacent tile, -tie random, +5 penalty for stepping straight back; reveal a plus (centre+4 orthogonal) at every step",
+    "src": "PE",
+    "conf": "med",
+    "note": "A mirror site says 'up to 20 moves' (OLD, low). PE's 15 and wiki-derived scoring constants agree with each other."
+   },
+   "tie_break_rng": "seeded from turn, player, start position",
+   "reveals_ruin_area": "ruin 'Explorer' reward only offered if some tile of the 5x5 around the ruin is still hidden"
+  },
+  "lighthouses": {
+   "positions": "the four map corners",
+   "reward": {
+    "v": "first time a player reveals a corner: +1 population in capital (else best city)",
+    "src": "PE",
+    "conf": "med"
+   },
+   "monument": "Eye of God after discovering all 4",
+   "fog_use": "Corner tiles are KNOWN: land, no resource, no settlement (non-waterworld). Don't spend belief mass there."
+  },
+  "tech_gated_visibility": {
+   "v": {
+    "crop": "Organization|Farming",
+    "metal": "Climbing",
+    "starfish": "Fishing (WK) / Sailing (PE docs)"
+   },
+   "src": "WK",
+   "conf": "med",
+   "cid": "C8",
+   "note": "Before the tech, those resources are not displayed. So 'no crop seen' without Organization carries NO information."
+  },
+  "enemy_visibility": {
+   "units_cities": "visible only while inside current vision (playerIsCurrentlyVisibleTo checks live tiles)",
+   "hide_skill": "Cloak/Dinghy/Scuba with Hide are invisible to others AFTER they have moved this turn (lastMoveDir != 0); then not targetable and don't project ZoC",
+   "retaliation_blind": {
+    "v": "defender cannot retaliate if it cannot see the attacker (WK). PE ignores this.",
+    "src": "WK",
+    "conf": "low",
+    "cid": "C20"
+   }
+  },
+  "meeting_reward": {
+   "v": "first time you SEE any unit/city of tribe X: +stars = min(11, 1 + 2*ceil(score_of_X/1000))",
+   "src": "PE",
+   "conf": "low",
+   "cid": "C18",
+   "note": "resolved at start of your turn and at end of an opponent's turn from live vision; non-Initial reveals trigger it immediately. Real values not verified."
+  },
+  "player_visibility_state": "PE stores a 16-bit mask per tile (bit i = player i has seen it).",
+  "inference_hooks": [
+   "unseen tile ∈ {prior from map_generation} conditioned on: distance to nearest known settlement, tribe of nearest capital, shallow/deep water, tech gates",
+   "every known city/village excludes all unseen cells within Chebyshev<=2 for NEW villages (spacing >=3)",
+   "capital ring has >=2 identical resources (C10) -> sharp posterior for rival capital surroundings",
+   "map edge tiles never hold villages; corners are lighthouses",
+   "number of villages is bounded by (size//3)^2 - capitals, giving a total budget to allocate over unseen area"
+  ]
+ },
+ "map_generation.json": {
+  "_about": "Everything needed to simulate/estimate a freshly generated map. Square grid, Chebyshev distance, coordinates (x,y), index = y*size+x. Tile counts are size*size.",
+  "map_sizes": {
+   "v": {
+    "tiny": 11,
+    "small": 14,
+    "normal": 16,
+    "large": 18,
+    "huge": 20,
+    "massive": 30
+   },
+   "src": "WK",
+   "conf": "high",
+   "note": "Perfection=normal 16x16; Domination: 1 opp tiny, 2 small, 3 normal, 4+ large. Tiny supports <=9 players, others <=16."
+  },
+  "map_types": {
+   "implemented_in_PE": [
+    "lakes",
+    "drylands",
+    "waterworld"
+   ],
+   "named_in_WK": [
+    "drylands",
+    "lakes",
+    "continents",
+    "pangea",
+    "archipelago",
+    "water_world"
+   ],
+   "note": "PE implements only 3 of the 6 wiki types; continents/pangea/archipelago pipelines are UNKNOWN (gap G1)."
+  },
+  "capital_placement": {
+   "sector_grid": {
+    "v": "ceil(sqrt(players)) per side  ->  1-4 players: 2x2 (4 domains), 5-9: 3x3 (9), 10-16: 4x4 (16)",
+    "src": "PE+WK",
+    "conf": "high",
+    "note": "PE formula and wiki table agree exactly."
+   },
+   "sector_assignment": {
+    "v": "players are assigned to a uniformly random permutation of the sector cells (extra sectors stay empty)",
+    "src": "PE",
+    "conf": "med"
+   },
+   "base_span": {
+    "v": "size // grid ; leftover = size - base_span*grid is distributed as origin offsets: origin(c)=c*base_span + min(leftover, max(1, min(leftover,c)-1))",
+    "src": "PE",
+    "conf": "med",
+    "note": "Wiki: 11x11 -> 5x5 domains, 14x14 -> 7x7 (both agree)"
+   },
+   "eligible_cells": {
+    "v": "inner margin = 2 if base_span>4 else 1; x,y in [max(2,origin+margin), min(size-2, origin+span-margin)) ; wiki: capitals never within 2 tiles of a domain border",
+    "src": "PE+WK",
+    "conf": "med"
+   },
+   "cell_weight": {
+    "v": "weight = max over ALL sector centres of max(1, base_span//2 - chebyshev(cell, centre))^3  (cubic pull towards a sector centre)",
+    "src": "PE",
+    "conf": "med",
+    "note": "Wiki only says 'random within domain'. Cubic weighting is PE's reading of the reference generator."
+   },
+   "capital_guarantees": {
+    "v": "capital tile = City + Road. The 4 orthogonal neighbours of every capital are forced to Land.",
+    "src": "PE",
+    "conf": "med"
+   }
+  },
+  "villages": {
+   "spacing": {
+    "v": "a village/suburb must be >2 (Chebyshev) from every city/village/capital, i.e. >=3 apart; never on map edge; <=1 per 3x3 area",
+    "src": "PE+WK",
+    "conf": "high"
+   },
+   "suburbs": {
+    "v": {
+     "per_capital_min": 1,
+     "per_capital_max": 2,
+     "radius": 4,
+     "map_types": [
+      "lakes (PE) ; wiki: all except drylands & water world"
+     ]
+    },
+    "src": "PE+WK",
+    "conf": "med",
+    "note": "Suburbs are villages placed close to a capital: PE draws candidates in the 9x9 square around it. Wiki says 'all map types except Drylands and Water World' (so also continents etc.)"
+   },
+   "grid_slots": {
+    "v": "(size // 3)^2  (integer division first)",
+    "src": "PE",
+    "conf": "med"
+   },
+   "pre_terrain_count": {
+    "v": "floor((grid_slots - capitals - suburbs) * density) ; density lakes=0.30, waterworld=0.10, drylands=0.0",
+    "src": "PE+WK",
+    "conf": "high",
+    "note": "Wiki: ~30% of theoretical max placed before terrain (10% water world, 0% drylands)."
+   },
+   "post_terrain_target": {
+    "v": "PE: tries grid_slots - capitals - pre_terrain villages, placing on LAND cells with x,y in [2,size-3] and >2 from every city; stops when no candidate. WIKI: 'about 60% after terrain' (80% drylands).",
+    "src": "PE vs WK",
+    "conf": "low",
+    "cid": "C9",
+    "note": "Real post-terrain village count is therefore uncertain. Empirically count villages in real games to fix this."
+   }
+  },
+  "terrain": {
+   "lakes": {
+    "land_locked": "capitals, suburbs, pre-terrain villages and the 4 neighbours of each capital are forced land",
+    "field": "uniform random noise, locked-land cells = 1.0, outside the map counts as 1.0 (dry edges), 2 passes of 3x3 mean smoothing",
+    "water_fraction": {
+     "v": "water tiles = randint(ceil(0.25*N), floor(0.28*N)) lowest-field unlocked cells",
+     "src": "PE",
+     "conf": "low",
+     "note": "0.25/0.28 are PE's tuned constants ('kLakesMinWaterFraction' etc.), not wiki facts."
+    }
+   },
+   "waterworld": {
+    "water_fraction": {
+     "v": 0.85,
+     "src": "PE",
+     "conf": "low"
+    },
+    "smoothing_passes": 2,
+    "outside_noise_value": 0.5,
+    "note": "Corners are NOT forced to land in water world (PE)."
+   },
+   "drylands": {
+    "water": "none, except 2 fish water tiles beside Kickoo/Aquarion capitals",
+    "src": "PE+WK",
+    "conf": "high"
+   },
+   "shallow_vs_ocean": {
+    "v": "a water tile edge-adjacent (4-neighbour) to land/forest/mountain is 'shallow Water'; every other water tile is deep 'Ocean'. Diagonal-only contact = ocean.",
+    "src": "PE+WK",
+    "conf": "high"
+   },
+   "corners": {
+    "v": "In non-waterworld maps the four corner tiles are forced Land with no resource/settlement; they are the 4 LIGHTHOUSE tiles.",
+    "src": "PE",
+    "conf": "med"
+   }
+  },
+  "biome_assignment": {
+   "method": {
+    "v": "each capital claims land by alternating 4-directional border growth in a freshly shuffled player order each round; each claim picks a uniformly random tile among the claimant's whole current frontier. Disconnected land goes to the nearest capital by Chebyshev distance.",
+    "src": "PE",
+    "conf": "med",
+    "note": "Wiki: 'neighbouring tribes can influence capital terrain on 121-tile maps'."
+   },
+   "base_shares": {
+    "v": {
+     "mountain": 0.14,
+     "forest": 0.38,
+     "field": 0.48
+    },
+    "src": "WK+PE",
+    "conf": "high",
+    "note": "Enforced as exact shares since update 2.0.58 per wiki (PE draws i.i.d., so counts are only approximate)."
+   },
+   "modifier_rule": {
+    "v": "mountain = 0.14*mod_m ; forest_before = 0.38 + (0.14-mountain)*(0.38/0.86) ; forest = min(forest_before*mod_f, 1-mountain) ; field = remainder",
+    "src": "PE+WK",
+    "conf": "high",
+    "note": "Wiki: mountains applied first (affect forest+field), forest next (affects only field)."
+   },
+   "settlement_tiles_keep_land": true
+  },
+  "resources": {
+   "area": {
+    "v": "resources appear only within Chebyshev distance 2 of ANY city/village/capital; 'inner' = distance 1 (the 8 tiles around it)",
+    "src": "PE+WK",
+    "conf": "high"
+   },
+   "rates": {
+    "inner": {
+     "fruit_on_field": 0.18,
+     "crop_on_field": 0.18,
+     "empty_field": 0.12,
+     "animal_in_forest": 0.19,
+     "empty_forest": 0.19,
+     "metal_in_mountain": 0.11,
+     "empty_mountain": 0.03
+    },
+    "outer": {
+     "fruit_on_field": 0.06,
+     "crop_on_field": 0.06,
+     "empty_field": 0.36,
+     "animal_in_forest": 0.06,
+     "empty_forest": 0.32,
+     "metal_in_mountain": 0.03,
+     "empty_mountain": 0.11
+    },
+    "src": "WK+PE",
+    "conf": "med",
+    "cid": "C23",
+    "note": "NUMBERS agree between wiki and PE, INTERPRETATION does not. PE reads them as P(resource | terrain), e.g. P(fruit|field,inner)=0.18. The wiki rows sum to the terrain total (18+18+12=48), i.e. they are shares of ALL tiles, which implies P(fruit|field,inner)=0.375. Expected resources in the 8-tile inner ring: PE ~2.1, wiki reading ~5.3. Settle with C23 test before trusting either. Multiply by tribe modifiers (fruit, crops, animals, metal)."
+   },
+   "fish": {
+    "shallow": {
+     "v": "0.50 * tribe_fish_mod, only inside the resource area",
+     "src": "WK+PE",
+     "conf": "high"
+    },
+    "ocean": {
+     "v": "0.10 * tribe_fish_mod inside the resource area",
+     "src": "PE",
+     "conf": "low",
+     "note": "PE: 'public docs do not define a numeric ocean rate' - 0.10 is a tuned guess. Wiki says fish can appear in ocean inside borders."
+    },
+    "water_tile_tribe": "water has no tribe; PE uses the nearest generated land biome's tribe for the fish modifier"
+   },
+   "excluded": "corner tiles and tiles that hold a settlement get no resource",
+   "visibility_gates": {
+    "v": {
+     "crop": "Organization (or Farming)",
+     "metal": "Climbing",
+     "starfish": "Fishing (WK) | Sailing (PE docs)"
+    },
+    "src": "WK",
+    "conf": "med",
+    "cid": "C8"
+   },
+   "capital_guarantee": {
+    "PE_implements": {
+     "Bardur": "2 animals in forest within ring 1",
+     "Imperius": "2 fruit on land",
+     "Kickoo": "2 fish on shallow water",
+     "Zebasi": "1 crop"
+    },
+    "WK_says": "EVERY capital has >=2 identical resources within its ring: Xin-xi 2 metal, Oumaji 2 fruit, Hoodrick 2 animals; Bardur/Imperius/Kickoo/Zebasi/Elyrion/Cymanti tied to their start tech; all others 2 of a random tier-1 resource (fish, animal or fruit). Missing ones are force-spawned by replacing tiles.",
+    "cid": "C10",
+    "conf": "med",
+    "use_for_fog": "STRONG PRIOR: the 3x3 ring around an unseen enemy capital contains >=2 of the same resource; for most tribes the type is known."
+   }
+  },
+  "tribe_modifiers": {
+   "_note": "Missing key = 1.0. fish/animals/fruit/crops/metal multiply the resource rates; forest/mountain feed biome_assignment.modifier_rule.",
+   "Kickoo": {
+    "v": {
+     "fish": 1.5,
+     "mountain": 0.5
+    },
+    "src": "PE+WK",
+    "conf": "high",
+    "note": "WK also lists 2.0x water, but water mods are NOT applied by the game (WK)."
+   },
+   "Aquarion": {
+    "v": {
+     "forest": 0.5
+    },
+    "src": "PE+WK",
+    "conf": "high",
+    "note": "WK: 1.5x water exists in code but has no effect."
+   },
+   "Bardur": {
+    "v": {
+     "forest": 0.8,
+     "crops": 0.0
+    },
+    "src": "PE",
+    "conf": "low",
+    "cid": "C11",
+    "note": "WK instead says '1.5x fruit, 0x crop'. Unresolved."
+   },
+   "XinXi": {
+    "v": {
+     "mountain": 1.5,
+     "metal": 1.5
+    },
+    "src": "PE+WK",
+    "conf": "high"
+   },
+   "AiMo": {
+    "v": {
+     "mountain": 1.5,
+     "crops": 0.1
+    },
+    "src": "PE+WK",
+    "conf": "high"
+   },
+   "Oumaji": {
+    "v": {
+     "forest": 0.2,
+     "mountain": 0.5,
+     "animals": 0.2
+    },
+    "src": "PE+WK",
+    "conf": "high",
+    "note": "WK also 0.5x water (not applied)."
+   },
+   "Vengir": {
+    "v": {
+     "metal": 2.0,
+     "animals": 0.1,
+     "fruit": 0.1,
+     "fish": 0.1
+    },
+    "src": "PE+WK",
+    "conf": "high"
+   },
+   "Imperius": {
+    "v": {
+     "fruit": 2.0,
+     "animals": 0.5
+    },
+    "src": "PE+WK",
+    "conf": "high"
+   },
+   "Hoodrick": {
+    "v": {
+     "forest": 1.5,
+     "mountain": 0.5
+    },
+    "src": "PE+WK",
+    "conf": "high"
+   },
+   "Zebasi": {
+    "v": {
+     "forest": 0.5,
+     "mountain": 0.5,
+     "fruit": 0.5
+    },
+    "src": "PE+WK",
+    "conf": "high"
+   },
+   "Quetzali": {
+    "v": {
+     "fruit": 2.0,
+     "crops": 0.1
+    },
+    "src": "PE+WK",
+    "conf": "high"
+   },
+   "Yadakk": {
+    "v": {
+     "forest": 0.5,
+     "mountain": 0.5,
+     "fruit": 1.5
+    },
+    "src": "PE+WK",
+    "conf": "high"
+   },
+   "Luxidoor": {
+    "v": {},
+    "src": "PE+WK",
+    "conf": "med",
+    "note": "WK table: base rate. (Luxidoor page: '++fruit, -game' - unquantified, ignored.)"
+   },
+   "Elyrion": {
+    "v": {
+     "mountain": 0.5,
+     "crops": 1.5
+    },
+    "src": "WK",
+    "conf": "low",
+    "note": "PE has NO modifiers for Elyrion."
+   },
+   "Polaris": {
+    "v": {},
+    "src": "WK",
+    "conf": "low",
+    "note": "WK: no own rates; land converts to Polaris terrain; mirror/mixed uses Imperius land."
+   },
+   "Cymanti": {
+    "v": {
+     "mountain": 1.2,
+     "crops": 0.0,
+     "spores": "replaces crops (rate unknown)"
+    },
+    "src": "WK",
+    "conf": "low",
+    "note": "PE has no modifiers for Cymanti."
+   }
+  },
+  "ruins": {
+   "count_by_tiles": {
+    "v": {
+     "121": 4,
+     "196": 5,
+     "256": 7,
+     "324": 9,
+     "400": 11,
+     "900": 23
+    },
+    "src": "PE",
+    "conf": "med",
+    "note": "Formula for other sizes: round(tiles*23/900). Wiki page gave no counts."
+   },
+   "placement": {
+    "v": "random non-corner tile with no settlement; PE requires no settlement within Chebyshev 2",
+    "src": "PE",
+    "conf": "med"
+   },
+   "wiki_rule": "WK: cannot spawn on shallow water, nor next to a village, city or another ruin."
+  },
+  "starfish": {
+   "count": {
+    "v": "floor(water_tiles / 25)",
+    "src": "PE",
+    "conf": "med"
+   },
+   "placement": "non-corner water tile with no resource and no settlement in its 3x3",
+   "reward_stars": {
+    "v": 8,
+    "src": "PE",
+    "conf": "med",
+    "note": "collected when a unit enters the tile"
+   },
+   "wiki_flag": "WK marks 'no adjacent starfish' as possibly incorrect"
+  },
+  "known_version_notes": [
+   "2.0.58 (Balance Pass 2): terrain percentages followed as exactly as possible.",
+   "Water rules pre-date Path of the Ocean update and may be outdated (WK).",
+   "Kickoo/Aquarion 'continents' 40%/30% water replacement is bugged and does nothing (WK)."
+  ]
+ },
+ "modes_bots.json": {
+  "modes": {
+   "Perfection": "singleplayer, 30 turns, maximise score; 3-star ~50k (WK)",
+   "Domination": "singleplayer, defeat all tribes in as few turns as possible; up to 10 opponents",
+   "Glory": "multiplayer; first to 10,000 points and hold the lead one turn",
+   "Might": "multiplayer; capture enemy capitals",
+   "src": "WK",
+   "conf": "med"
+  },
+  "bot_difficulty": {
+   "capital_income_per_turn": {
+    "v": {
+     "Easy": 1,
+     "Normal": 2,
+     "Hard": 3,
+     "Crazy": 5
+    },
+    "src": "DEV+WK",
+    "conf": "medium-high",
+    "note": "TOTAL starting capital income, not a bonus on top: wiki Game Modes says 'Normal 2 (same as humans)'. So Easy bots earn LESS than a human (C24)."
+   },
+   "aggression": "higher ratings on higher difficulty (no numbers)",
+   "vision_cheating": "NOT stated anywhere found (G5)",
+   "implication": "bots win by income handicap, not by planning; their decision policy is undocumented. Needs black-box observation (replay logs)."
+  }
+ },
+ "sources.json": {
+  "PE": {
+   "name": "PolyEnv engine source (FryOne2137, MIT, C++, Jan-Feb 2026)",
+   "kind": "code",
+   "reliability": "med-high",
+   "note": "A fan RE-IMPLEMENTATION written against the wiki. Good for exact constants and edge cases, but it is not the game's own code: it contains tuned values, stubs and deliberate deviations."
+  },
+  "WK": {
+   "name": "Polytopia fandom wiki (pages: Map Generation, Technology, Combat, Score, Tribes, tribe pages, Ruins, Singleplayer)",
+   "kind": "community docs",
+   "reliability": "med",
+   "note": "Partly Discord-sourced; individual pages disagree with each other (see C1/C2). Map Generation page says domain behaviour verified in v2.0.49 and terrain % enforced since 2.0.58."
+  },
+  "SC": {
+   "name": "Polytopia fandom wiki - Score page (incl. starting-score table)",
+   "kind": "community docs",
+   "reliability": "med-high",
+   "note": "Numbers are checkable by arithmetic (see validate_dataset.py), which raises trust."
+  },
+  "DEV": {
+   "name": "Polytopia staff (Zoythrus) Steam comment on difficulty, ~2019",
+   "kind": "developer statement",
+   "reliability": "high but old"
+  },
+  "DER": {
+   "name": "Derived here by arithmetic from other facts",
+   "kind": "derived",
+   "reliability": "see conf"
+  },
+  "GA": {
+   "name": "GAIGResearch/Tribes (Java, 2019-2021)",
+   "kind": "code",
+   "reliability": "old ruleset",
+   "note": "README only retrieved; numeric tables (terrainProbs.json) NOT retrieved. Do not use for current numbers."
+  },
+  "OLD": {
+   "name": "pocketgamer 2018 article; community python generator; namu.moe mirror",
+   "kind": "old/low",
+   "reliability": "low",
+   "note": "Pre-Moonrise or unverifiable. Used only as tie-breakers, never as primary."
+  }
+ },
+ "tech_tree.json": {
+  "_about": "25 base techs. Prerequisites verified from PE TechDB and consistent with the wiki branch structure. A tier-2/3 tech needs ITS ONE prerequisite (not all lower tiers).",
+  "research_rule_2025": {
+   "v": "A tech is researchable if you own its prerequisite OR any tech it leads to ('backwards' research, e.g. Vengir Smithery -> Mining without Climbing).",
+   "src": "2025 balance pass dev post",
+   "conf": "medium-high",
+   "note": "PE may not implement this; matters for Vengir (Smithery) and Ai-Mo (Philosophy) starts. C25."
+  },
+  "cost_formula": {
+   "v": "tier * number_of_cities_owned + 4 ; with Literacy: ceil(base * 2/3)",
+   "src": "PE+WK",
+   "conf": "high",
+   "note": "Wiki worked example (1 city): 5/6/7, with Literacy 4/4/5."
+  },
+  "literacy_source": {
+   "v": "Philosophy tech",
+   "src": "PE+WK",
+   "conf": "high"
+  },
+  "ruin_tech_rule": "ruin 'Technology' reward picks uniformly among techs whose prerequisite you own (PE) ",
+  "techs": {
+   "Climbing": {
+    "tier": 1,
+    "prerequisite": null,
+    "unlocks": "Mountain movement + mountain defence bonus (x1.5); reveals metal",
+    "src": "PE+WK",
+    "conf": "high"
+   },
+   "Fishing": {
+    "tier": 1,
+    "prerequisite": null,
+    "unlocks": "Fishing action, Port, Raft (embark), water movement; reveals starfish (WK)",
+    "src": "PE+WK",
+    "conf": "high"
+   },
+   "Hunting": {
+    "tier": 1,
+    "prerequisite": null,
+    "unlocks": "Hunt animals action",
+    "src": "PE+WK",
+    "conf": "high"
+   },
+   "Organization": {
+    "tier": 1,
+    "prerequisite": null,
+    "unlocks": "Harvest fruit action; reveals crops",
+    "src": "PE+WK",
+    "conf": "high"
+   },
+   "Riding": {
+    "tier": 1,
+    "prerequisite": null,
+    "unlocks": "Rider",
+    "src": "PE+WK",
+    "conf": "high"
+   },
+   "Archery": {
+    "tier": 2,
+    "prerequisite": "Hunting",
+    "unlocks": "Archer; forest defence bonus (x1.5)",
+    "src": "PE+WK",
+    "conf": "high"
+   },
+   "Ramming": {
+    "tier": 2,
+    "prerequisite": "Fishing",
+    "unlocks": "Rammer (boat upgrade)",
+    "src": "PE+WK",
+    "conf": "high"
+   },
+   "Farming": {
+    "tier": 2,
+    "prerequisite": "Organization",
+    "unlocks": "Farm",
+    "src": "PE+WK",
+    "conf": "high"
+   },
+   "Forestry": {
+    "tier": 2,
+    "prerequisite": "Hunting",
+    "unlocks": "Lumber Hut; Clear Forest",
+    "src": "PE+WK",
+    "conf": "high"
+   },
+   "Free Spirit": {
+    "tier": 2,
+    "prerequisite": "Riding",
+    "unlocks": "Temple; Disband",
+    "src": "PE+WK",
+    "conf": "high"
+   },
+   "Meditation": {
+    "tier": 2,
+    "prerequisite": "Climbing",
+    "unlocks": "Mountain Temple; Pacifist task (Altar of Peace)",
+    "src": "PE+WK",
+    "conf": "high"
+   },
+   "Mining": {
+    "tier": 2,
+    "prerequisite": "Climbing",
+    "unlocks": "Mine",
+    "src": "PE+WK",
+    "conf": "high"
+   },
+   "Roads": {
+    "tier": 2,
+    "prerequisite": "Riding",
+    "unlocks": "Roads + Bridges; Network task",
+    "src": "PE+WK",
+    "conf": "high"
+   },
+   "Sailing": {
+    "tier": 2,
+    "prerequisite": "Fishing",
+    "unlocks": "Scout (boat); ocean movement",
+    "src": "PE+WK",
+    "conf": "high"
+   },
+   "Strategy": {
+    "tier": 2,
+    "prerequisite": "Organization",
+    "unlocks": "Defender; Peace Treaty",
+    "src": "PE+WK",
+    "conf": "high"
+   },
+   "Aquatism": {
+    "tier": 3,
+    "prerequisite": "Ramming",
+    "unlocks": "Water Temple; defence bonus on water/ocean (x1.5)",
+    "src": "PE+WK",
+    "conf": "high"
+   },
+   "Chivalry": {
+    "tier": 3,
+    "prerequisite": "Free Spirit",
+    "unlocks": "Knight; Destroy",
+    "src": "PE+WK",
+    "conf": "high"
+   },
+   "Construction": {
+    "tier": 3,
+    "prerequisite": "Farming",
+    "unlocks": "Windmill; Burn Forest",
+    "src": "PE+WK",
+    "conf": "high"
+   },
+   "Diplomacy": {
+    "tier": 3,
+    "prerequisite": "Strategy",
+    "unlocks": "Cloak, Embassy, Capital Vision",
+    "src": "PE+WK",
+    "conf": "high"
+   },
+   "Mathematics": {
+    "tier": 3,
+    "prerequisite": "Forestry",
+    "unlocks": "Catapult; Sawmill",
+    "src": "PE+WK",
+    "conf": "high"
+   },
+   "Navigation": {
+    "tier": 3,
+    "prerequisite": "Sailing",
+    "unlocks": "Bomber (boat); Starfish Harvesting",
+    "src": "PE+WK",
+    "conf": "high"
+   },
+   "Philosophy": {
+    "tier": 3,
+    "prerequisite": "Meditation",
+    "unlocks": "Mind Bender; Literacy (-33% tech cost); Genius task",
+    "src": "PE+WK",
+    "conf": "high"
+   },
+   "Smithery": {
+    "tier": 3,
+    "prerequisite": "Mining",
+    "unlocks": "Swordsman; Forge",
+    "src": "PE+WK",
+    "conf": "high"
+   },
+   "Spiritualism": {
+    "tier": 3,
+    "prerequisite": "Archery",
+    "unlocks": "Forest Temple; Grow Forest",
+    "src": "PE+WK",
+    "conf": "high"
+   },
+   "Trade": {
+    "tier": 3,
+    "prerequisite": "Roads",
+    "unlocks": "Market; Wealth task; (with 100 stars) Emperor's Tomb",
+    "src": "PE+WK",
+    "conf": "high"
+   }
+  },
+  "removed_from_game": [
+   "Whaling (T2)",
+   "Engineering (T3, Guard Tower)"
+  ],
+  "special_tribe_trees": {
+   "_note": "Special tribes REPLACE some techs. PE implements only the 25 base techs for every tribe, so these are NOT simulable with PE data.",
+   "Aquarion": {
+    "Fishing": "starfish sight + ocean movement",
+    "Ramming": "->Aquaculture (Aqua Farm)",
+    "Sailing": "->Marine Life (Shark)",
+    "Navigation": "Jelly, Starfish Harvesting",
+    "Riding": "Amphibian, water movement",
+    "Roads": "->Waterways (Atoll, Flood)",
+    "Chivalry": "->Spearing (Tridention, Destroy)",
+    "Mathematics": "Puffer, Sawmill",
+    "Free Spirit": "->Free Diving"
+   },
+   "Elyrion": {
+    "Hunting": "->Forest Magic (Enchant Animal -> Polytaur)",
+    "Forestry": "Sanctuary, Lumber Hut"
+   },
+   "Polaris": {
+    "Fishing": "->Frostwork (Outpost, Mooni)",
+    "Archery": "Ice Archer",
+    "Ramming": "->Ice Fishing",
+    "Sailing": "->Sledding (Battle Sled)",
+    "Aquatism": "->Polarism (Ice Temple, Glide)",
+    "Navigation": "->Polar Warfare (Ice Fortress)",
+    "Trade": "Ice Bank, Wealth"
+   },
+   "Cymanti": {
+    "Farming": "Fungi",
+    "Archery": "Phychi",
+    "Ramming": "->Hydrology (Algae)",
+    "Sailing": "->Pescetism (Raychi)",
+    "Strategy": "Kiton",
+    "Riding": "Hexapod",
+    "Roads": "Mycelium, Network",
+    "Chivalry": "->Shock Tactics (Doomux)",
+    "Construction": "->Recycling (Decompose)",
+    "Mathematics": "Exida, Sawmill",
+    "Philosophy": "Shaman, Literacy, Genius",
+    "Trade": "Clathrus, Wealth",
+    "Organization": "does NOT reveal crops",
+    "Fishing": "no Ports or Rafts"
+   },
+   "src": "WK (Technology page)",
+   "conf": "med"
+  },
+  "tribe_start_tech": "see tribes.json"
+ },
+ "tribes.json": {
+  "_about": "Per-tribe start state + terrain modifiers (map_generation.json holds the modifier numbers). 'resolved' is MY best current belief given all evidence; 'PE'/'WK' are what each source says.",
+  "tribes": {
+   "XinXi": {
+    "id": 1,
+    "kind": "regular",
+    "start_stars": {
+     "v": 7,
+     "src": "PE+NM",
+     "conf": "med-high",
+     "note": "PE and NamuWiki agree for all 16 (XinXi/Hoodrick/Quetzali/Yadakk 7, Oumaji 6, Luxidoor 2 [Nov 2025], rest 5). Yadakk 5->7 in June 2025."
+    },
+    "start_tech_PE": "Climbing",
+    "start_tech_WK": "Climbing",
+    "start_unit_PE": "Warrior",
+    "start_score_PE": 515,
+    "start_score_WK": 515,
+    "conflict": null
+   },
+   "Imperius": {
+    "id": 2,
+    "kind": "regular",
+    "start_stars": {
+     "v": 5,
+     "src": "PE+NM",
+     "conf": "med-high",
+     "note": "PE and NamuWiki agree for all 16 (XinXi/Hoodrick/Quetzali/Yadakk 7, Oumaji 6, Luxidoor 2 [Nov 2025], rest 5). Yadakk 5->7 in June 2025."
+    },
+    "start_tech_PE": "Organization",
+    "start_tech_WK": "Organization",
+    "start_unit_PE": "Warrior",
+    "start_score_PE": 515,
+    "start_score_WK": 515,
+    "conflict": null
+   },
+   "Bardur": {
+    "id": 3,
+    "kind": "regular",
+    "start_stars": {
+     "v": 5,
+     "src": "PE+NM",
+     "conf": "med-high",
+     "note": "PE and NamuWiki agree for all 16 (XinXi/Hoodrick/Quetzali/Yadakk 7, Oumaji 6, Luxidoor 2 [Nov 2025], rest 5). Yadakk 5->7 in June 2025."
+    },
+    "start_tech_PE": "Hunting",
+    "start_tech_WK": "Hunting",
+    "start_unit_PE": "Warrior",
+    "start_score_PE": 515,
+    "start_score_WK": 515,
+    "conflict": null
+   },
+   "Oumaji": {
+    "id": 4,
+    "kind": "regular",
+    "start_stars": {
+     "v": 6,
+     "src": "PE+NM",
+     "conf": "med-high",
+     "note": "PE and NamuWiki agree for all 16 (XinXi/Hoodrick/Quetzali/Yadakk 7, Oumaji 6, Luxidoor 2 [Nov 2025], rest 5). Yadakk 5->7 in June 2025."
+    },
+    "start_tech_PE": "Riding",
+    "start_tech_WK": "Riding",
+    "start_unit_PE": "Rider",
+    "start_score_PE": 520,
+    "start_score_WK": 520,
+    "conflict": null
+   },
+   "Kickoo": {
+    "id": 5,
+    "kind": "regular",
+    "start_stars": {
+     "v": 5,
+     "src": "PE+NM",
+     "conf": "med-high",
+     "note": "PE and NamuWiki agree for all 16 (XinXi/Hoodrick/Quetzali/Yadakk 7, Oumaji 6, Luxidoor 2 [Nov 2025], rest 5). Yadakk 5->7 in June 2025."
+    },
+    "start_tech_PE": "Fishing",
+    "start_tech_WK": "Fishing",
+    "start_unit_PE": "Warrior",
+    "start_score_PE": 515,
+    "start_score_WK": 615,
+    "conflict": "C5"
+   },
+   "Hoodrick": {
+    "id": 6,
+    "kind": "regular",
+    "start_stars": {
+     "v": 7,
+     "src": "PE+NM",
+     "conf": "med-high",
+     "note": "PE and NamuWiki agree for all 16 (XinXi/Hoodrick/Quetzali/Yadakk 7, Oumaji 6, Luxidoor 2 [Nov 2025], rest 5). Yadakk 5->7 in June 2025."
+    },
+    "start_tech_PE": "Archery",
+    "start_tech_WK": "Archery",
+    "start_unit_PE": "Archer",
+    "start_score_PE": 620,
+    "start_score_WK": 620,
+    "conflict": null
+   },
+   "Luxidoor": {
+    "id": 7,
+    "kind": "regular",
+    "start_stars": {
+     "v": 2,
+     "src": "PE+NM",
+     "conf": "med-high",
+     "note": "PE and NamuWiki agree for all 16 (XinXi/Hoodrick/Quetzali/Yadakk 7, Oumaji 6, Luxidoor 2 [Nov 2025], rest 5). Yadakk 5->7 in June 2025."
+    },
+    "start_tech_PE": null,
+    "start_tech_WK": null,
+    "start_unit_PE": "Warrior",
+    "start_score_PE": 515,
+    "start_score_WK": 465,
+    "conflict": "C2"
+   },
+   "Vengir": {
+    "id": 8,
+    "kind": "regular",
+    "start_stars": {
+     "v": 5,
+     "src": "PE+NM",
+     "conf": "med-high",
+     "note": "PE and NamuWiki agree for all 16 (XinXi/Hoodrick/Quetzali/Yadakk 7, Oumaji 6, Luxidoor 2 [Nov 2025], rest 5). Yadakk 5->7 in June 2025."
+    },
+    "start_tech_PE": "Smithery",
+    "start_tech_WK": "Smithery",
+    "start_unit_PE": "Swordsman",
+    "start_score_PE": 730,
+    "start_score_WK": 730,
+    "conflict": null
+   },
+   "Zebasi": {
+    "id": 9,
+    "kind": "regular",
+    "start_stars": {
+     "v": 5,
+     "src": "PE+NM",
+     "conf": "med-high",
+     "note": "PE and NamuWiki agree for all 16 (XinXi/Hoodrick/Quetzali/Yadakk 7, Oumaji 6, Luxidoor 2 [Nov 2025], rest 5). Yadakk 5->7 in June 2025."
+    },
+    "start_tech_PE": "Farming",
+    "start_tech_WK": "Farming",
+    "start_unit_PE": "Warrior",
+    "start_score_PE": 615,
+    "start_score_WK": 615,
+    "conflict": null
+   },
+   "AiMo": {
+    "id": 10,
+    "kind": "regular",
+    "start_stars": {
+     "v": 5,
+     "src": "PE+NM",
+     "conf": "med-high",
+     "note": "PE and NamuWiki agree for all 16 (XinXi/Hoodrick/Quetzali/Yadakk 7, Oumaji 6, Luxidoor 2 [Nov 2025], rest 5). Yadakk 5->7 in June 2025."
+    },
+    "start_tech_PE": "Philosophy",
+    "start_tech_WK": "Meditation (Ai-Mo/Tribes pages, 2018 article) | Philosophy (Technology page)",
+    "start_unit_PE": "MindBender",
+    "start_score_PE": 615,
+    "start_score_WK": 615,
+    "conflict": "C1"
+   },
+   "Quetzali": {
+    "id": 11,
+    "kind": "regular",
+    "start_stars": {
+     "v": 7,
+     "src": "PE+NM",
+     "conf": "med-high",
+     "note": "PE and NamuWiki agree for all 16 (XinXi/Hoodrick/Quetzali/Yadakk 7, Oumaji 6, Luxidoor 2 [Nov 2025], rest 5). Yadakk 5->7 in June 2025."
+    },
+    "start_tech_PE": "Strategy",
+    "start_tech_WK": "Strategy",
+    "start_unit_PE": "Defender",
+    "start_score_PE": 620,
+    "start_score_WK": 620,
+    "conflict": null
+   },
+   "Yadakk": {
+    "id": 12,
+    "kind": "regular",
+    "start_stars": {
+     "v": 7,
+     "src": "PE+NM",
+     "conf": "med-high",
+     "note": "PE and NamuWiki agree for all 16 (XinXi/Hoodrick/Quetzali/Yadakk 7, Oumaji 6, Luxidoor 2 [Nov 2025], rest 5). Yadakk 5->7 in June 2025."
+    },
+    "start_tech_PE": "Roads",
+    "start_tech_WK": "Roads",
+    "start_unit_PE": "Warrior",
+    "start_score_PE": 615,
+    "start_score_WK": 615,
+    "conflict": null
+   },
+   "Aquarion": {
+    "id": 13,
+    "kind": "special",
+    "start_stars": {
+     "v": 5,
+     "src": "PE+NM",
+     "conf": "med-high",
+     "note": "PE and NamuWiki agree for all 16 (XinXi/Hoodrick/Quetzali/Yadakk 7, Oumaji 6, Luxidoor 2 [Nov 2025], rest 5). Yadakk 5->7 in June 2025."
+    },
+    "start_tech_PE": null,
+    "start_tech_WK": null,
+    "start_unit_PE": "Mermaid",
+    "start_score_PE": 415,
+    "start_score_WK": null,
+    "conflict": null
+   },
+   "Elyrion": {
+    "id": 14,
+    "kind": "special",
+    "start_stars": {
+     "v": 5,
+     "src": "PE+NM",
+     "conf": "med-high",
+     "note": "PE and NamuWiki agree for all 16 (XinXi/Hoodrick/Quetzali/Yadakk 7, Oumaji 6, Luxidoor 2 [Nov 2025], rest 5). Yadakk 5->7 in June 2025."
+    },
+    "start_tech_PE": null,
+    "start_tech_WK": "Forest Magic (replaces Hunting)",
+    "start_unit_PE": "Warrior",
+    "start_score_PE": 515,
+    "start_score_WK": 515,
+    "conflict": null
+   },
+   "Polaris": {
+    "id": 15,
+    "kind": "special",
+    "start_stars": {
+     "v": 5,
+     "src": "PE+NM",
+     "conf": "med-high",
+     "note": "PE and NamuWiki agree for all 16 (XinXi/Hoodrick/Quetzali/Yadakk 7, Oumaji 6, Luxidoor 2 [Nov 2025], rest 5). Yadakk 5->7 in June 2025."
+    },
+    "start_tech_PE": null,
+    "start_tech_WK": "Frostwork (replaces Fishing)",
+    "start_unit_PE": "Mooni",
+    "start_score_PE": 630,
+    "start_score_WK": 530,
+    "conflict": "C3"
+   },
+   "Cymanti": {
+    "id": 16,
+    "kind": "special",
+    "start_stars": {
+     "v": 5,
+     "src": "PE+NM",
+     "conf": "med-high",
+     "note": "PE and NamuWiki agree for all 16 (XinXi/Hoodrick/Quetzali/Yadakk 7, Oumaji 6, Luxidoor 2 [Nov 2025], rest 5). Yadakk 5->7 in June 2025."
+    },
+    "start_tech_PE": null,
+    "start_tech_WK": "Farming",
+    "start_unit_PE": "Shaman",
+    "start_score_PE": 515,
+    "start_score_WK": 630,
+    "conflict": "C4"
+   }
+  },
+  "start_score_decomposition": {
+   "formula": "city 100 + 50/level above 1 + 20/territory tile + 5/explored tile + 5*unit_cost + 100*tier(each tech)",
+   "constants": "start: level-1 capital (100), territory 3x3 = 9 tiles (180), 5x5 = 25 explored tiles (125) -> 405 before unit/tech/level",
+   "verified_by": "validate_dataset.py reproduces 14 of the 15 wiki start scores exactly from components (all except Kickoo, C5); the PE start packages for Ai-Mo/Luxidoor/Kickoo do not (C1,C2,C5).",
+   "corner_rule": "SC: a capital whose 5x5 reveal contains a corner starts 5 points lower (corner tile not revealed).",
+   "implication": "The REAL initial reveal around a capital is 5x5 (25 tiles). PE reveals only the 3x3 territory + unit radius 1 (C21)."
+  },
+  "start_conditions_common": {
+   "units": {
+    "v": "exactly one unit in the capital",
+    "src": "WK",
+    "conf": "high"
+   },
+   "capital_level": {
+    "v": 1,
+    "src": "SC(DER)",
+    "conf": "med",
+    "note": "except Luxidoor (see C2)"
+   },
+   "capital_income": {
+    "v": "level + 1 (capital bonus) -> 2 stars/turn at level 1",
+    "src": "PE+DEV",
+    "conf": "high",
+    "note": "DEV: bot baseline +2 stars/turn from capital"
+   }
+  },
+  "resolved": {
+   "_note": "Best current belief; confidence reflects agreement between sources AND the arithmetic score check.",
+   "AiMo": {
+    "v": {
+     "start_tech": "Philosophy",
+     "start_unit": "MindBender",
+     "start_score": 730
+    },
+    "src": "NM+PE",
+    "conf": "med-high",
+    "cid": "C1",
+    "note": "NamuWiki: 2025 patch changed Ai-Mo from Meditation to Philosophy + Hypnotist(Mind Bender), -33% tech cost. Fandom Ai-Mo/Tribes pages and the 615 score are pre-patch. 730 = 405+25+300 by formula; PE's own commented table also says 730."
+   },
+   "Luxidoor": {
+    "v": {
+     "start_tech": null,
+     "start_unit": "Warrior",
+     "capital_level": 3,
+     "start_stars": 2,
+     "start_score": 515
+    },
+    "src": "NM+PE",
+    "conf": "med-high",
+    "cid": "C2",
+    "note": "NamuWiki: Apr 2021 capital cut to level 2; Nov 2025 patch cut stars to 2 and RESTORED level 3. Fandom score 465 (level 2) is pre-Nov-2025. Level 3 = 515 by formula = PE. Wall: unconfirmed. Namu guaranteed-near-capital list: 2 fruit, 2 animal, 1 crop, 2 fish, 1 iron (8 tiles)."
+   },
+   "Polaris": {
+    "v": {
+     "start_tech": "Frostwork",
+     "start_unit": "Mooni",
+     "start_score": 530
+    },
+    "src": "SC(DER)",
+    "conf": "low-med",
+    "cid": "C3",
+    "note": "530 = 405+25(Mooni cost 5)+100(T1) by formula. Wiki Score page may be pre-2025; PE says 630. Unresolved - version drift possible."
+   },
+   "Cymanti": {
+    "v": {
+     "start_tech": "Farming",
+     "start_unit": "Shaman",
+     "start_score": 630
+    },
+    "src": "SC(DER)+WK+NM",
+    "conf": "med",
+    "cid": "C4",
+    "note": "630 = 405+25(Shaman)+200(T2 Farming). NamuWiki also lists Farming (mushroom farming) and Shaman/Warrior ambiguity; PE has Shaman but no start tech."
+   },
+   "Kickoo": {
+    "v": {
+     "start_tech": "Fishing",
+     "start_score": 515
+    },
+    "src": "PE+NM",
+    "conf": "low-med",
+    "cid": "C5",
+    "note": "Fishing+Warrior = 515 by formula and NamuWiki lists nothing else. The fandom score 615 is unexplained and possibly from an older version. Lean 515."
+   }
+  },
+  "special_tribe_mechanics": {
+   "Aquarion": [
+    "no start tech; starts with Mermaid (amphibious)",
+    "all units can move on water; land slow unless flooded",
+    "can build on water & place monuments on ocean",
+    "unique: Aqua Farm, Atoll, Flood/Fill, Tridention, Shark, Puffer, Jelly, Crab(super)"
+   ],
+   "Elyrion": [
+    "start tech Forest Magic; Enchant Animal -> Polytaur; Sanctuary",
+    "'at least 2 animals' guaranteed near capital (Strategies page)"
+   ],
+   "Polaris": [
+    "terraforming instead of boats; captured territory turns to Polaris terrain and water freezes",
+    "Gaami super unit freezes tiles",
+    "Ice Bank (income, max level raised 8->10 in 2019 nerf), Outpost gives 1 pop (was 2)"
+   ],
+   "Cymanti": [
+    "spores replace crops; >=2 spores guaranteed at start",
+    "Shaman boost: +0.5 attack, +1 move until it acts (WK Combat)",
+    "8 unique units, 6 unique skills, 4 unique buildings",
+    "no Ports/Rafts; Organization doesn't reveal crops"
+   ],
+   "src": "WK",
+   "conf": "low-med (summaries only; PE has unit stats but not these mechanics)"
+  }
+ },
+ "units.json": {
+  "source": "PolyEnv data/Units.json",
+  "defaults": {
+   "maxHealth": 10,
+   "attack": 1.0,
+   "defense": 1.0,
+   "movePoints": 1,
+   "range": 1,
+   "cost": 0,
+   "visionRange": 1,
+   "requiredTechToSpawn": null,
+   "skills": [],
+   "veteranEligible": true
+  },
+  "units": {
+   "Warrior": {
+    "maxHealth": 10,
+    "attack": 2.0,
+    "defense": 2.0,
+    "movePoints": 1,
+    "range": 1,
+    "cost": 2,
+    "visionRange": 1,
+    "requiredTechToSpawn": null,
+    "skills": [
+     "Dash",
+     "Fortify"
+    ],
+    "veteranEligible": true
+   },
+   "Archer": {
+    "maxHealth": 10,
+    "attack": 2.0,
+    "defense": 1.0,
+    "movePoints": 1,
+    "range": 2,
+    "cost": 3,
+    "visionRange": 1,
+    "requiredTechToSpawn": "Archery",
+    "skills": [
+     "Dash",
+     "Fortify"
+    ],
+    "veteranEligible": true
+   },
+   "Defender": {
+    "maxHealth": 15,
+    "attack": 1.0,
+    "defense": 3.0,
+    "movePoints": 1,
+    "range": 1,
+    "cost": 3,
+    "visionRange": 1,
+    "requiredTechToSpawn": "Strategy",
+    "skills": [
+     "Fortify"
+    ],
+    "veteranEligible": true
+   },
+   "Rider": {
+    "maxHealth": 10,
+    "attack": 2.0,
+    "defense": 1.0,
+    "movePoints": 2,
+    "range": 1,
+    "cost": 3,
+    "visionRange": 1,
+    "requiredTechToSpawn": "Riding",
+    "skills": [
+     "Dash",
+     "Escape",
+     "Fortify"
+    ],
+    "veteranEligible": true
+   },
+   "Cloak": {
+    "maxHealth": 5,
+    "attack": 0.0,
+    "defense": 0.5,
+    "movePoints": 2,
+    "range": 1,
+    "cost": 8,
+    "visionRange": 2,
+    "requiredTechToSpawn": "Diplomacy",
+    "skills": [
+     "Hide",
+     "Creep",
+     "Infiltrate",
+     "Dash",
+     "Stiff",
+     "Scout",
+     "StaticSkill"
+    ],
+    "veteranEligible": false
+   },
+   "MindBender": {
+    "maxHealth": 10,
+    "attack": 0.0,
+    "defense": 1.0,
+    "movePoints": 1,
+    "range": 1,
+    "cost": 5,
+    "visionRange": 1,
+    "requiredTechToSpawn": "Philosophy",
+    "skills": [
+     "Heal",
+     "Convert",
+     "Stiff"
+    ],
+    "veteranEligible": true
+   },
+   "Swordsman": {
+    "maxHealth": 15,
+    "attack": 3.0,
+    "defense": 3.0,
+    "movePoints": 1,
+    "range": 1,
+    "cost": 5,
+    "visionRange": 1,
+    "requiredTechToSpawn": "Smithery",
+    "skills": [
+     "Dash"
+    ],
+    "veteranEligible": true
+   },
+   "Catapult": {
+    "maxHealth": 10,
+    "attack": 4.0,
+    "defense": 0.0,
+    "movePoints": 1,
+    "range": 3,
+    "cost": 8,
+    "visionRange": 1,
+    "requiredTechToSpawn": "Mathematics",
+    "skills": [
+     "Stiff"
+    ],
+    "veteranEligible": true
+   },
+   "Knight": {
+    "maxHealth": 10,
+    "attack": 3.5,
+    "defense": 1.0,
+    "movePoints": 3,
+    "range": 1,
+    "cost": 8,
+    "visionRange": 1,
+    "requiredTechToSpawn": "Chivalry",
+    "skills": [
+     "Dash",
+     "Persist",
+     "Fortify"
+    ],
+    "veteranEligible": true
+   },
+   "Dagger": {
+    "maxHealth": 10,
+    "attack": 2.0,
+    "defense": 2.0,
+    "movePoints": 1,
+    "range": 1,
+    "cost": 0,
+    "visionRange": 1,
+    "requiredTechToSpawn": null,
+    "skills": [
+     "Dash",
+     "Surprise",
+     "Independent",
+     "StaticSkill"
+    ],
+    "veteranEligible": false
+   },
+   "Giant": {
+    "maxHealth": 40,
+    "attack": 5.0,
+    "defense": 4.0,
+    "movePoints": 1,
+    "range": 1,
+    "cost": 0,
+    "visionRange": 1,
+    "requiredTechToSpawn": null,
+    "skills": [
+     "StaticSkill"
+    ],
+    "veteranEligible": false
+   },
+   "GiantSuper": {
+    "maxHealth": 40,
+    "attack": 5.0,
+    "defense": 4.0,
+    "movePoints": 1,
+    "range": 1,
+    "cost": 0,
+    "visionRange": 1,
+    "requiredTechToSpawn": null,
+    "skills": [
+     "StaticSkill"
+    ],
+    "veteranEligible": false
+   },
+   "Bunny": {
+    "maxHealth": 20,
+    "attack": 5.0,
+    "defense": 1.0,
+    "movePoints": 1,
+    "range": 1,
+    "cost": 0,
+    "visionRange": 1,
+    "requiredTechToSpawn": null,
+    "skills": [
+     "Independent"
+    ],
+    "veteranEligible": false
+   },
+   "Bunta": {
+    "maxHealth": 20,
+    "attack": 5.0,
+    "defense": 1.0,
+    "movePoints": 1,
+    "range": 1,
+    "cost": 0,
+    "visionRange": 1,
+    "requiredTechToSpawn": null,
+    "skills": [
+     "Independent"
+    ],
+    "veteranEligible": false
+   },
+   "Raft": {
+    "maxHealth": 0,
+    "attack": 0.0,
+    "defense": 1.0,
+    "movePoints": 2,
+    "range": 1,
+    "cost": 0,
+    "visionRange": 1,
+    "requiredTechToSpawn": "Fishing",
+    "skills": [
+     "WaterOnly",
+     "Carry",
+     "StaticSkill",
+     "Stiff"
+    ],
+    "veteranEligible": false
+   },
+   "Scout": {
+    "maxHealth": 0,
+    "attack": 2.0,
+    "defense": 1.0,
+    "movePoints": 3,
+    "range": 2,
+    "cost": 5,
+    "visionRange": 2,
+    "requiredTechToSpawn": "Sailing",
+    "skills": [
+     "WaterOnly",
+     "Dash",
+     "Carry",
+     "Scout",
+     "StaticSkill"
+    ],
+    "veteranEligible": false
+   },
+   "Rammer": {
+    "maxHealth": 0,
+    "attack": 3.0,
+    "defense": 3.0,
+    "movePoints": 3,
+    "range": 1,
+    "cost": 5,
+    "visionRange": 1,
+    "requiredTechToSpawn": "Ramming",
+    "skills": [
+     "WaterOnly",
+     "Dash",
+     "Carry",
+     "StaticSkill"
+    ],
+    "veteranEligible": false
+   },
+   "Bomber": {
+    "maxHealth": 0,
+    "attack": 3.0,
+    "defense": 2.0,
+    "movePoints": 2,
+    "range": 3,
+    "cost": 15,
+    "visionRange": 1,
+    "requiredTechToSpawn": "Navigation",
+    "skills": [
+     "WaterOnly",
+     "Carry",
+     "Splash",
+     "Stiff",
+     "StaticSkill"
+    ],
+    "veteranEligible": false
+   },
+   "Dinghy": {
+    "maxHealth": 5,
+    "attack": 0.0,
+    "defense": 0.5,
+    "movePoints": 2,
+    "range": 1,
+    "cost": 0,
+    "visionRange": 1,
+    "requiredTechToSpawn": null,
+    "skills": [
+     "WaterOnly",
+     "Carry",
+     "Hide",
+     "Infiltrate",
+     "Dash",
+     "Scout",
+     "StaticSkill",
+     "Stiff"
+    ],
+    "veteranEligible": false
+   },
+   "Pirate": {
+    "maxHealth": 10,
+    "attack": 2.0,
+    "defense": 2.0,
+    "movePoints": 1,
+    "range": 1,
+    "cost": 0,
+    "visionRange": 1,
+    "requiredTechToSpawn": null,
+    "skills": [
+     "WaterOnly",
+     "Carry",
+     "Dash",
+     "Surprise",
+     "Independent",
+     "StaticSkill"
+    ],
+    "veteranEligible": false
+   },
+   "Juggernaut": {
+    "maxHealth": 40,
+    "attack": 4.0,
+    "defense": 4.0,
+    "movePoints": 2,
+    "range": 1,
+    "cost": 0,
+    "visionRange": 1,
+    "requiredTechToSpawn": null,
+    "skills": [
+     "WaterOnly",
+     "Carry",
+     "Stiff",
+     "Stomp",
+     "StaticSkill"
+    ],
+    "veteranEligible": false
+   },
+   "Mermaid": {
+    "maxHealth": 10,
+    "attack": 2.0,
+    "defense": 2.0,
+    "movePoints": 1,
+    "range": 1,
+    "cost": 2,
+    "visionRange": 1,
+    "requiredTechToSpawn": null,
+    "skills": [
+     "Dash",
+     "Fortify",
+     "Amphibious"
+    ],
+    "veteranEligible": true
+   },
+   "AquaticAmphibian": {
+    "maxHealth": 10,
+    "attack": 2.0,
+    "defense": 1.0,
+    "movePoints": 2,
+    "range": 1,
+    "cost": 3,
+    "visionRange": 1,
+    "requiredTechToSpawn": "Riding",
+    "skills": [
+     "Amphibious",
+     "Dash",
+     "Escape",
+     "Fortify"
+    ],
+    "veteranEligible": true
+   },
+   "MermaidArcher": {
+    "maxHealth": 10,
+    "attack": 2.0,
+    "defense": 1.0,
+    "movePoints": 1,
+    "range": 2,
+    "cost": 3,
+    "visionRange": 1,
+    "requiredTechToSpawn": "Archery",
+    "skills": [
+     "Dash",
+     "Fortify",
+     "Amphibious"
+    ],
+    "veteranEligible": true
+   },
+   "MermaidDefender": {
+    "maxHealth": 15,
+    "attack": 1.0,
+    "defense": 3.0,
+    "movePoints": 1,
+    "range": 1,
+    "cost": 3,
+    "visionRange": 1,
+    "requiredTechToSpawn": "Strategy",
+    "skills": [
+     "Fortify",
+     "Amphibious"
+    ],
+    "veteranEligible": true
+   },
+   "Swordsmaid": {
+    "maxHealth": 15,
+    "attack": 3.0,
+    "defense": 3.0,
+    "movePoints": 1,
+    "range": 1,
+    "cost": 5,
+    "visionRange": 1,
+    "requiredTechToSpawn": null,
+    "skills": [
+     "Dash",
+     "Amphibious"
+    ],
+    "veteranEligible": true
+   },
+   "Scuba": {
+    "maxHealth": 5,
+    "attack": 0.0,
+    "defense": 0.5,
+    "movePoints": 2,
+    "range": 1,
+    "cost": 8,
+    "visionRange": 2,
+    "requiredTechToSpawn": "Diplomacy",
+    "skills": [
+     "Hide",
+     "Creep",
+     "Infiltrate",
+     "Dash",
+     "Scout",
+     "Stiff",
+     "StaticSkill",
+     "Amphibious"
+    ],
+    "veteranEligible": false
+   },
+   "Siren": {
+    "maxHealth": 10,
+    "attack": 0.0,
+    "defense": 1.0,
+    "movePoints": 1,
+    "range": 1,
+    "cost": 8,
+    "visionRange": 1,
+    "requiredTechToSpawn": "Philosophy",
+    "skills": [
+     "Heal",
+     "Convert",
+     "Amphibious",
+     "Stiff"
+    ],
+    "veteranEligible": true
+   },
+   "Shark": {
+    "maxHealth": 10,
+    "attack": 3.5,
+    "defense": 2.0,
+    "movePoints": 3,
+    "range": 1,
+    "cost": 8,
+    "visionRange": 1,
+    "requiredTechToSpawn": null,
+    "skills": [
+     "Dash",
+     "Surprise",
+     "WaterOnly"
+    ],
+    "veteranEligible": true
+   },
+   "YellyBelly": {
+    "maxHealth": 20,
+    "attack": 0.0,
+    "defense": 2.0,
+    "movePoints": 2,
+    "range": 1,
+    "cost": 8,
+    "visionRange": 1,
+    "requiredTechToSpawn": "Navigation",
+    "skills": [
+     "Tentacles",
+     "WaterOnly",
+     "Stiff",
+     "StaticSkill"
+    ],
+    "veteranEligible": true
+   },
+   "Puffer": {
+    "maxHealth": 10,
+    "attack": 4.0,
+    "defense": 0.0,
+    "movePoints": 2,
+    "range": 3,
+    "cost": 8,
+    "visionRange": 1,
+    "requiredTechToSpawn": "Mathematics",
+    "skills": [
+     "Drench",
+     "WaterOnly",
+     "Stiff"
+    ],
+    "veteranEligible": true
+   },
+   "TridentionAq": {
+    "maxHealth": 10,
+    "attack": 2.5,
+    "defense": 1.0,
+    "movePoints": 2,
+    "range": 2,
+    "cost": 8,
+    "visionRange": 1,
+    "requiredTechToSpawn": "Chivalry",
+    "skills": [
+     "Dash",
+     "Persist",
+     "Amphibious"
+    ],
+    "veteranEligible": true
+   },
+   "CrabAq": {
+    "maxHealth": 40,
+    "attack": 4.0,
+    "defense": 5.0,
+    "movePoints": 2,
+    "range": 1,
+    "cost": 0,
+    "visionRange": 1,
+    "requiredTechToSpawn": null,
+    "skills": [
+     "Amphibious",
+     "Escape",
+     "AutoFlood",
+     "StaticSkill"
+    ],
+    "veteranEligible": false
+   },
+   "Polytaur": {
+    "maxHealth": 15,
+    "attack": 3.0,
+    "defense": 1.0,
+    "movePoints": 1,
+    "range": 1,
+    "cost": 3,
+    "visionRange": 1,
+    "requiredTechToSpawn": null,
+    "skills": [
+     "Dash",
+     "Fortify",
+     "Independent",
+     "StaticSkill"
+    ],
+    "veteranEligible": false
+   },
+   "DragonEgg": {
+    "maxHealth": 10,
+    "attack": 0.0,
+    "defense": 2.0,
+    "movePoints": 1,
+    "range": 1,
+    "cost": 0,
+    "visionRange": 1,
+    "requiredTechToSpawn": null,
+    "skills": [
+     "Grow",
+     "Fortify",
+     "Stiff",
+     "StaticSkill"
+    ],
+    "veteranEligible": false
+   },
+   "BabyDragon": {
+    "maxHealth": 15,
+    "attack": 3.0,
+    "defense": 3.0,
+    "movePoints": 2,
+    "range": 1,
+    "cost": 0,
+    "visionRange": 2,
+    "requiredTechToSpawn": null,
+    "skills": [
+     "Air",
+     "Grow",
+     "Dash",
+     "Escape",
+     "Scout",
+     "StaticSkill"
+    ],
+    "veteranEligible": false
+   },
+   "FireDragon": {
+    "maxHealth": 20,
+    "attack": 4.0,
+    "defense": 3.0,
+    "movePoints": 3,
+    "range": 2,
+    "cost": 0,
+    "visionRange": 2,
+    "requiredTechToSpawn": null,
+    "skills": [
+     "Air",
+     "Dash",
+     "Splash",
+     "Scout",
+     "StaticSkill"
+    ],
+    "veteranEligible": false
+   },
+   "IceArcher": {
+    "maxHealth": 10,
+    "attack": 1.0,
+    "defense": 1.0,
+    "movePoints": 1,
+    "range": 2,
+    "cost": 3,
+    "visionRange": 1,
+    "requiredTechToSpawn": "Archery",
+    "skills": [
+     "Dash",
+     "Freeze",
+     "Fortify",
+     "Stiff"
+    ],
+    "veteranEligible": true
+   },
+   "BattleSled": {
+    "maxHealth": 15,
+    "attack": 3.0,
+    "defense": 2.0,
+    "movePoints": 2,
+    "range": 1,
+    "cost": 5,
+    "visionRange": 1,
+    "requiredTechToSpawn": null,
+    "skills": [
+     "Dash",
+     "Escape",
+     "Skate"
+    ],
+    "veteranEligible": true
+   },
+   "Mooni": {
+    "maxHealth": 10,
+    "attack": 0.0,
+    "defense": 2.0,
+    "movePoints": 1,
+    "range": 1,
+    "cost": 5,
+    "visionRange": 1,
+    "requiredTechToSpawn": null,
+    "skills": [
+     "Skate",
+     "AutoFreeze",
+     "Stiff"
+    ],
+    "veteranEligible": true
+   },
+   "IceFortress": {
+    "maxHealth": 20,
+    "attack": 4.0,
+    "defense": 3.0,
+    "movePoints": 1,
+    "range": 2,
+    "cost": 15,
+    "visionRange": 2,
+    "requiredTechToSpawn": null,
+    "skills": [
+     "Skate",
+     "Scout",
+     "Escape",
+     "StaticSkill"
+    ],
+    "veteranEligible": false
+   },
+   "Gaami": {
+    "maxHealth": 30,
+    "attack": 4.0,
+    "defense": 3.0,
+    "movePoints": 1,
+    "range": 1,
+    "cost": 0,
+    "visionRange": 1,
+    "requiredTechToSpawn": null,
+    "skills": [
+     "AutoFreeze",
+     "FreezeArea",
+     "StaticSkill"
+    ],
+    "veteranEligible": false
+   },
+   "Hexapod": {
+    "maxHealth": 5,
+    "attack": 3.0,
+    "defense": 1.0,
+    "movePoints": 2,
+    "range": 1,
+    "cost": 3,
+    "visionRange": 1,
+    "requiredTechToSpawn": "Riding",
+    "skills": [
+     "Dash",
+     "Escape",
+     "Creep",
+     "Sneak"
+    ],
+    "veteranEligible": true
+   },
+   "Kiton": {
+    "maxHealth": 15,
+    "attack": 1.0,
+    "defense": 3.0,
+    "movePoints": 1,
+    "range": 1,
+    "cost": 3,
+    "visionRange": 1,
+    "requiredTechToSpawn": "Strategy",
+    "skills": [
+     "Poison",
+     "Creep"
+    ],
+    "veteranEligible": true
+   },
+   "Phychi": {
+    "maxHealth": 5,
+    "attack": 0.7,
+    "defense": 1.0,
+    "movePoints": 2,
+    "range": 2,
+    "cost": 3,
+    "visionRange": 1,
+    "requiredTechToSpawn": "Archery",
+    "skills": [
+     "Air",
+     "Dash",
+     "Poison",
+     "Surprise",
+     "DoubleAttack"
+    ],
+    "veteranEligible": true
+   },
+   "Shaman": {
+    "maxHealth": 10,
+    "attack": 1.0,
+    "defense": 1.0,
+    "movePoints": 1,
+    "range": 1,
+    "cost": 5,
+    "visionRange": 1,
+    "requiredTechToSpawn": "Philosophy",
+    "skills": [
+     "Convert",
+     "Swarm"
+    ],
+    "veteranEligible": true
+   },
+   "Raychi": {
+    "maxHealth": 10,
+    "attack": 3.0,
+    "defense": 2.0,
+    "movePoints": 3,
+    "range": 1,
+    "cost": 5,
+    "visionRange": 1,
+    "requiredTechToSpawn": "Sailing",
+    "skills": [
+     "WaterOnly",
+     "Dash"
+    ],
+    "veteranEligible": true
+   },
+   "Exida": {
+    "maxHealth": 10,
+    "attack": 3.0,
+    "defense": 1.0,
+    "movePoints": 2,
+    "range": 3,
+    "cost": 8,
+    "visionRange": 1,
+    "requiredTechToSpawn": "Mathematics",
+    "skills": [
+     "Poison",
+     "Splash",
+     "Creep"
+    ],
+    "veteranEligible": true
+   },
+   "Doomux": {
+    "maxHealth": 20,
+    "attack": 3.5,
+    "defense": 2.0,
+    "movePoints": 3,
+    "range": 1,
+    "cost": 10,
+    "visionRange": 1,
+    "requiredTechToSpawn": "Chivalry",
+    "skills": [
+     "Dash",
+     "Creep",
+     "Explode",
+     "StaticSkill"
+    ],
+    "veteranEligible": false
+   },
+   "MothC": {
+    "maxHealth": 10,
+    "attack": 0.0,
+    "defense": 0.1,
+    "movePoints": 2,
+    "range": 1,
+    "cost": 5,
+    "visionRange": 1,
+    "requiredTechToSpawn": "Diplomacy",
+    "skills": [
+     "Air",
+     "Dash",
+     "Sneak",
+     "Infiltrate",
+     "Poison",
+     "StaticSkill",
+     "Stiff"
+    ],
+    "veteranEligible": false
+   },
+   "LarvaC": {
+    "maxHealth": 10,
+    "attack": 2.0,
+    "defense": 2.0,
+    "movePoints": 1,
+    "range": 1,
+    "cost": 0,
+    "visionRange": 1,
+    "requiredTechToSpawn": null,
+    "skills": [
+     "Dash",
+     "Creep",
+     "Surprise",
+     "Independent",
+     "StaticSkill",
+     "Grow"
+    ],
+    "veteranEligible": false
+   },
+   "InsectEgg": {
+    "maxHealth": 10,
+    "attack": 2.0,
+    "defense": 3.0,
+    "movePoints": 0,
+    "range": 1,
+    "cost": 0,
+    "visionRange": 1,
+    "requiredTechToSpawn": null,
+    "skills": [
+     "Grow",
+     "Stiff",
+     "Explode",
+     "StaticSkill"
+    ],
+    "veteranEligible": false
+   },
+   "Boomchi": {
+    "maxHealth": 10,
+    "attack": 3.0,
+    "defense": 3.0,
+    "movePoints": 1,
+    "range": 1,
+    "cost": 5,
+    "visionRange": 1,
+    "requiredTechToSpawn": null,
+    "skills": [
+     "Dash",
+     "Explode",
+     "Stiff"
+    ],
+    "veteranEligible": true
+   },
+   "LivingIsland": {
+    "maxHealth": 20,
+    "attack": 4.0,
+    "defense": 4.0,
+    "movePoints": 2,
+    "range": 1,
+    "cost": 20,
+    "visionRange": 1,
+    "requiredTechToSpawn": "Navigation",
+    "skills": [
+     "WaterOnly",
+     "Stomp",
+     "Algae",
+     "StaticSkill",
+     "Poison"
+    ],
+    "veteranEligible": false
+   }
+  }
+ }
+}

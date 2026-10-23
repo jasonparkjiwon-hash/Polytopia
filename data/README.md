@@ -1,0 +1,25 @@
+# Polytopia knowledge base (v0.1)
+
+Step 1 of the "wartime general" project: accurate rules and measures, with sources, confidence and the places where sources disagree.
+
+| File | Contents |
+|---|---|
+| `map_generation.json` | Sizes, capital placement, villages, terrain, resource rates, tribe modifiers, ruins, starfish, capital guarantees |
+| `fog_vision.json` | Vision geometry, mountain rule, Explorer algorithm, lighthouses, tech-gated visibility, meeting reward, inference hooks |
+| `tribes.json` | 16 tribes: start tech/unit/stars/score per source, my resolved best belief, special-tribe mechanics |
+| `units.json` | 54 unit definitions (cost, HP, attack, defence, movement, range, vision, tech, skills) from PolyEnv `Units.json` |
+| `tech_tree.json` | 25 base techs with verified prerequisites, cost formula, unlocks, special-tribe replacements |
+| `combat.json` | Damage formulas, defence bonuses, healing, veterans, ZoC, movement rules, skills read so far |
+| `economy.json` | Stars income, city levels/rewards, tile actions, buildings, monuments, score, ruins |
+| `modes_bots.json` | Game modes, bot difficulty (staff statement) |
+| `sources.json` | Source list with reliability notes |
+| `conflicts_and_gaps.md` | 23 conflicts and 11 gaps, each with the cheapest test to settle it |
+| `verify_in_game.md` | Nine observation tests that close the biggest conflicts |
+| `build_dataset.py`, `validate_dataset.py` | Regenerate the JSON; self-consistency checks |
+| `raw/` | Source text extracted from PolyEnv, for audit |
+
+Each fact is `{"v": value, "src": ..., "conf": high|med|low, "cid": conflict id}`. Source tags: PE = PolyEnv engine code (a fan reimplementation), WK = fandom wiki, SC = wiki Score page, DEV = staff statement, DER = derived here by arithmetic.
+
+**Trust the arithmetic checks most.** `validate_dataset.py` rebuilds the wiki's starting scores from components and matches 14 of 15 tribes, which independently validates the score constants, the 3×3 starting territory and a 5×5 initial reveal.
+
+Known weak spots: resource-rate interpretation (C23), post-terrain village count (C9), tribe start data for Ai-Mo, Luxidoor, Kickoo, Polaris and Cymanti, and everything about special-tribe mechanics.

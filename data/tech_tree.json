@@ -1,0 +1,253 @@
+{
+ "_about": "25 base techs. Prerequisites verified from PE TechDB and consistent with the wiki branch structure. A tier-2/3 tech needs ITS ONE prerequisite (not all lower tiers).",
+ "research_rule_2025": {
+  "v": "Backwards research is allowed: Ai-Mo (owns Philosophy) can buy Meditation without Climbing",
+  "src": "GAME-UI (Jason's v123 info cards, 2026-10-23)",
+  "conf": "L3"
+ },
+ "cost_formula": {
+  "v": "tier * number_of_cities_owned + 4 ; with Literacy: ceil(base * 2/3)",
+  "src": "PE+WK",
+  "conf": "high",
+  "note": "Wiki worked example (1 city): 5/6/7, with Literacy 4/4/5.",
+  "ui_check": "1 city: 5/6 without Literacy; 4/4/5 for tiers 1/2/3 with Literacy (ceil(base*2/3)), GAME-UI (Jason's v123 info cards, 2026-10-23)"
+ },
+ "literacy_source": {
+  "v": "Philosophy tech",
+  "src": "PE+WK",
+  "conf": "high"
+ },
+ "ruin_tech_rule": "ruin 'Technology' reward picks uniformly among techs whose prerequisite you own (PE) ",
+ "techs": {
+  "Climbing": {
+   "tier": 1,
+   "prerequisite": null,
+   "unlocks": "Mountain movement + mountain defence bonus (x1.5); reveals metal",
+   "src": "PE+WK",
+   "conf": "high"
+  },
+  "Fishing": {
+   "tier": 1,
+   "prerequisite": null,
+   "unlocks": "Fishing action, Port, Raft (embark), water movement; reveals starfish (WK)",
+   "src": "PE+WK",
+   "conf": "high"
+  },
+  "Hunting": {
+   "tier": 1,
+   "prerequisite": null,
+   "unlocks": "Hunt animals action",
+   "src": "PE+WK",
+   "conf": "high"
+  },
+  "Organization": {
+   "tier": 1,
+   "prerequisite": null,
+   "unlocks": "Harvest fruit action; reveals crops",
+   "src": "PE+WK",
+   "conf": "high"
+  },
+  "Riding": {
+   "tier": 1,
+   "prerequisite": null,
+   "unlocks": "Rider",
+   "src": "PE+WK",
+   "conf": "high"
+  },
+  "Archery": {
+   "tier": 2,
+   "prerequisite": "Hunting",
+   "unlocks": "Archer; forest defence bonus (x1.5)",
+   "src": "PE+WK",
+   "conf": "high"
+  },
+  "Ramming": {
+   "tier": 2,
+   "prerequisite": "Fishing",
+   "unlocks": "Rammer (boat upgrade)",
+   "src": "PE+WK",
+   "conf": "high"
+  },
+  "Farming": {
+   "tier": 2,
+   "prerequisite": "Organization",
+   "unlocks": "Farm",
+   "src": "PE+WK",
+   "conf": "high"
+  },
+  "Forestry": {
+   "tier": 2,
+   "prerequisite": "Hunting",
+   "unlocks": "Lumber Hut; Clear Forest",
+   "src": "PE+WK",
+   "conf": "high"
+  },
+  "Free Spirit": {
+   "tier": 2,
+   "prerequisite": "Riding",
+   "unlocks": "Temple; Disband",
+   "src": "PE+WK",
+   "conf": "high"
+  },
+  "Meditation": {
+   "tier": 2,
+   "prerequisite": "Climbing",
+   "unlocks": "Mountain Temple; Pacifist task (Altar of Peace)",
+   "src": "PE+WK",
+   "conf": "high"
+  },
+  "Mining": {
+   "tier": 2,
+   "prerequisite": "Climbing",
+   "unlocks": "Mine",
+   "src": "PE+WK",
+   "conf": "high"
+  },
+  "Roads": {
+   "tier": 2,
+   "prerequisite": "Riding",
+   "unlocks": "Roads + Bridges; Network task",
+   "src": "PE+WK",
+   "conf": "high"
+  },
+  "Sailing": {
+   "tier": 2,
+   "prerequisite": "Fishing",
+   "unlocks": "Scout (boat); ocean movement",
+   "src": "PE+WK",
+   "conf": "high"
+  },
+  "Strategy": {
+   "tier": 2,
+   "prerequisite": "Organization",
+   "unlocks": "Defender; Peace Treaty",
+   "src": "PE+WK",
+   "conf": "high"
+  },
+  "Aquatism": {
+   "tier": 3,
+   "prerequisite": "Ramming",
+   "unlocks": "Water Temple; defence bonus on water/ocean (x1.5)",
+   "src": "PE+WK",
+   "conf": "high"
+  },
+  "Chivalry": {
+   "tier": 3,
+   "prerequisite": "Free Spirit",
+   "unlocks": "Knight; Destroy",
+   "src": "PE+WK",
+   "conf": "high"
+  },
+  "Construction": {
+   "tier": 3,
+   "prerequisite": "Farming",
+   "unlocks": "Windmill; Burn Forest",
+   "src": "PE+WK",
+   "conf": "high"
+  },
+  "Diplomacy": {
+   "tier": 3,
+   "prerequisite": "Strategy",
+   "unlocks": "Cloak, Embassy, Capital Vision",
+   "src": "PE+WK",
+   "conf": "high"
+  },
+  "Mathematics": {
+   "tier": 3,
+   "prerequisite": "Forestry",
+   "unlocks": "Catapult; Sawmill",
+   "src": "PE+WK",
+   "conf": "high"
+  },
+  "Navigation": {
+   "tier": 3,
+   "prerequisite": "Sailing",
+   "unlocks": "Bomber (boat); Starfish Harvesting",
+   "src": "PE+WK",
+   "conf": "high"
+  },
+  "Philosophy": {
+   "tier": 3,
+   "prerequisite": "Meditation",
+   "unlocks": "Mind Bender; Literacy (-33% tech cost); Genius task",
+   "src": "PE+WK",
+   "conf": "high"
+  },
+  "Smithery": {
+   "tier": 3,
+   "prerequisite": "Mining",
+   "unlocks": "Swordsman; Forge",
+   "src": "PE+WK",
+   "conf": "high"
+  },
+  "Spiritualism": {
+   "tier": 3,
+   "prerequisite": "Archery",
+   "unlocks": "Forest Temple; Grow Forest",
+   "src": "PE+WK",
+   "conf": "high"
+  },
+  "Trade": {
+   "tier": 3,
+   "prerequisite": "Roads",
+   "unlocks": "Market; Wealth task; (with 100 stars) Emperor's Tomb",
+   "src": "PE+WK",
+   "conf": "high"
+  }
+ },
+ "removed_from_game": [
+  "Whaling (T2)",
+  "Engineering (T3, Guard Tower)"
+ ],
+ "special_tribe_trees": {
+  "_note": "Special tribes REPLACE some techs. PE implements only the 25 base techs for every tribe, so these are NOT simulable with PE data.",
+  "Aquarion": {
+   "Fishing": "starfish sight + ocean movement",
+   "Ramming": "->Aquaculture (Aqua Farm)",
+   "Sailing": "->Marine Life (Shark)",
+   "Navigation": "Jelly, Starfish Harvesting",
+   "Riding": "Amphibian, water movement",
+   "Roads": "->Waterways (Atoll, Flood)",
+   "Chivalry": "->Spearing (Tridention, Destroy)",
+   "Mathematics": "Puffer, Sawmill",
+   "Free Spirit": "->Free Diving"
+  },
+  "Elyrion": {
+   "Hunting": "->Forest Magic (Enchant Animal -> Polytaur)",
+   "Forestry": "Sanctuary, Lumber Hut"
+  },
+  "Polaris": {
+   "Fishing": "->Frostwork (Outpost, Mooni)",
+   "Archery": "Ice Archer",
+   "Ramming": "->Ice Fishing",
+   "Sailing": "->Sledding (Battle Sled)",
+   "Aquatism": "->Polarism (Ice Temple, Glide)",
+   "Navigation": "->Polar Warfare (Ice Fortress)",
+   "Trade": "Ice Bank, Wealth"
+  },
+  "Cymanti": {
+   "Farming": "Fungi",
+   "Archery": "Phychi",
+   "Ramming": "->Hydrology (Algae)",
+   "Sailing": "->Pescetism (Raychi)",
+   "Strategy": "Kiton",
+   "Riding": "Hexapod",
+   "Roads": "Mycelium, Network",
+   "Chivalry": "->Shock Tactics (Doomux)",
+   "Construction": "->Recycling (Decompose)",
+   "Mathematics": "Exida, Sawmill",
+   "Philosophy": "Shaman, Literacy, Genius",
+   "Trade": "Clathrus, Wealth",
+   "Organization": "does NOT reveal crops",
+   "Fishing": "no Ports or Rafts"
+  },
+  "src": "WK (Technology page)",
+  "conf": "med",
+  "Solaris": {
+   "v": "Heatwork (start; replaces Fishing) -> Osteophagy -> Magmaism; Heatwork -> Steam Engine -> Explosives; Climbing -> Geothermics (replaces Mining) -> Smithery; Climbing -> Meditation -> Philosophy; Hunting/Riding/Organization branches standard",
+   "start": "Heatwork",
+   "src": "GAME-UI (Jason's v123 info cards, 2026-10-23)"
+  }
+ },
+ "tribe_start_tech": "see tribes.json"
+}

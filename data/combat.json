@@ -1,0 +1,125 @@
+{
+ "damage": {
+  "attackForce": "attack * hp/maxHp",
+  "defenseForce": "defense * hp/maxHp * defenseBonus",
+  "total": "attackForce + defenseForce",
+  "attackResult": "round(attackForce/total * attack * 4.5)   (damage dealt)",
+  "defenseResult_WK": "round(defenseForce/total * defense * 4.5)   (bonus INCLUDED)",
+  "defenseResult_PE": "round(retaliationForce/(attackForce+retaliationForce) * defense * 4.5) with retaliationForce = defense*hp/maxHp  (bonus EXCLUDED)",
+  "cid": "C6",
+  "conf": "med",
+  "src": "WK+PE",
+  "rounding": "PE: std::llround = round half away from zero; WK unspecified",
+  "note": "Attacker's defense and defender's attack are not used in the main hit. Verified against PE CombatSystem.cpp."
+ },
+ "retaliation_rules": {
+  "none_if_target_dies": true,
+  "only_if_attacker_within_defender_range": {
+   "v": "chebyshev(defender, attacker) <= defender.range",
+   "src": "PE",
+   "conf": "med"
+  },
+  "blocked_by": [
+   "attacker has Surprise",
+   "defender has Stiff"
+  ],
+  "src": "PE"
+ },
+ "defence_bonus": {
+  "none": 1.0,
+  "terrain": 1.5,
+  "city_fortify": 1.5,
+  "city_wall": 4.0,
+  "terrain_rules": "Forest needs Archery; Mountain needs Climbing; shallow Water and Ocean need Aquatism (all x1.5, owner's tech)",
+  "city_rules": "only for the city's OWNER and only units with Fortify; wall adds +2.5 (total 4.0); city bonus replaces terrain bonus if larger; invaders in an enemy city get none; Giant has no Fortify",
+  "poisoned_PE": "bonus<=1 -> 0.5 ; <=1.5 -> 0.7 ; else 2.0",
+  "poisoned_WK": "defence reduced by 30%, bonuses blocked",
+  "cid": "C7",
+  "src": "PE+WK",
+  "conf": "med"
+ },
+ "healing": {
+  "idle_recovery": {
+   "v": "a unit that neither moved nor attacked heals 2 HP, or 4 HP on tiles of its own city territory",
+   "src": "PE+WK",
+   "conf": "high"
+  },
+  "heal_skill": {
+   "v": "Heal action (Mind Bender, Siren): +4 HP to every adjacent friendly; consumes the action; no-op if nobody is hurt",
+   "src": "PE+WK",
+   "conf": "high"
+  },
+  "poison_halves_healing_WK": "WK only; not seen in PE heal()"
+ },
+ "veteran": {
+  "v": "3 kills -> veteran: +5 max HP and full heal; not for StaticSkill units (Giants, boats, special units)",
+  "src": "PE",
+  "conf": "high",
+  "note": "Also granted by ruin 'veteran unit' reward; Warrior vet = 15 HP."
+ },
+ "attack_flow": {
+  "after_moving": "only units with Dash may attack after moving; Escape lets a unit move after attacking; Persist lets it attack again after a kill",
+  "advance_on_kill": "melee (range 1) and Rammer step into the killed unit's tile if legal",
+  "splash": "Splash: half the main damage (floor) to every enemy adjacent to the target",
+  "stomp": "Stomp units hit all adjacent enemies for floor(mainHit/2) per step moved, no retaliation",
+  "convert": "Convert replaces damage: target changes owner, keeps HP/vet, can't act next turn; Bunny/Bunta unconvertible; counts as an attack",
+  "infiltrate": "Cloak/Dinghy/Scuba adjacent to enemy city: steals that city's next income, deals base-attack damage to unit inside, spawns Daggers/Pirates = city level (cap 5); infiltrator is consumed",
+  "src": "PE",
+  "conf": "med"
+ },
+ "zone_of_control": {
+  "v": "entering a tile adjacent (8-neighbour) to a visible enemy unit forces a stop; Creep ignores ZoC; Hide units don't project it",
+  "src": "PE",
+  "conf": "med"
+ },
+ "movement": {
+  "grid": "8-neighbour square grid",
+  "base_cost": "1 move point",
+  "road_cost": "0.5 when both tiles are road/bridge/city/village AND neither is enemy territory",
+  "terminal_tiles": "Mountain and Forest (without road) end the move (Creep exempt)",
+  "tech_gates": "mountain: Climbing ; land->water via owned Port: Fishing ; Bridge on water: none ; ocean: Sailing (PE movement) vs Navigation (PE Explorer)",
+  "embark": "land unit stepping onto an OWN Port becomes Raft (Giant -> Juggernaut), keeps HP; disembark onto land restores type; both end the unit's turn",
+  "water_units_on_land": "may enter coastal land only, then must stop",
+  "cid": "C8",
+  "src": "PE",
+  "conf": "med"
+ },
+ "skills_read_from_code": [
+  "Dash",
+  "Fortify",
+  "Escape",
+  "Hide",
+  "Creep",
+  "Infiltrate",
+  "Stiff",
+  "Scout",
+  "Persist",
+  "Surprise",
+  "Independent",
+  "WaterOnly",
+  "Carry",
+  "Splash",
+  "Stomp",
+  "Convert",
+  "Heal",
+  "Amphibious",
+  "StaticSkill"
+ ],
+ "skills_NOT_yet_read": [
+  "Tentacles",
+  "Drench",
+  "Grow",
+  "Air",
+  "Freeze",
+  "Skate",
+  "AutoFreeze",
+  "FreezeArea",
+  "Poison",
+  "Sneak",
+  "DoubleAttack",
+  "Swarm",
+  "Explode",
+  "Algae",
+  "AutoFlood"
+ ]
+}

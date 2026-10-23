@@ -1,0 +1,1349 @@
+{
+ "source": "HenBOMB/Polyfish polyfish-rs/src/settings (game version 115, commit 2026-09-02)",
+ "units": {
+  "None": {
+   "cost": -1,
+   "attack": -1.0,
+   "movement": null,
+   "defense": null,
+   "range": null,
+   "health": 1.0,
+   "upgrade_from": null,
+   "skills": []
+  },
+  "Warrior": {
+   "cost": 2,
+   "attack": 2.0,
+   "movement": 1,
+   "defense": 2.0,
+   "range": 1,
+   "health": 10.0,
+   "upgrade_from": null,
+   "skills": [
+    "Dash",
+    "Fortify"
+   ]
+  },
+  "Rider": {
+   "cost": 3,
+   "attack": 2.0,
+   "movement": 2,
+   "defense": 1.0,
+   "range": 1,
+   "health": 10.0,
+   "upgrade_from": null,
+   "skills": [
+    "Dash",
+    "Escape",
+    "Fortify"
+   ]
+  },
+  "Knight": {
+   "cost": 8,
+   "attack": 3.5,
+   "movement": 3,
+   "defense": 1.0,
+   "range": 1,
+   "health": 10.0,
+   "upgrade_from": null,
+   "skills": [
+    "Dash",
+    "Fortify",
+    "Persist"
+   ]
+  },
+  "Defender": {
+   "cost": 3,
+   "attack": 1.0,
+   "movement": 1,
+   "defense": 3.0,
+   "range": 1,
+   "health": 15.0,
+   "upgrade_from": null,
+   "skills": [
+    "Fortify"
+   ]
+  },
+  "Catapult": {
+   "cost": 8,
+   "attack": 4.0,
+   "movement": 1,
+   "defense": 0.0,
+   "range": 3,
+   "health": 10.0,
+   "upgrade_from": null,
+   "skills": [
+    "Stiff"
+   ]
+  },
+  "Archer": {
+   "cost": 3,
+   "attack": 2.0,
+   "movement": 1,
+   "defense": 1.0,
+   "range": 2,
+   "health": 10.0,
+   "upgrade_from": null,
+   "skills": [
+    "Dash",
+    "Fortify"
+   ]
+  },
+  "MindBender": {
+   "cost": 5,
+   "attack": 0.0,
+   "movement": 1,
+   "defense": 1.0,
+   "range": 1,
+   "health": 10.0,
+   "upgrade_from": null,
+   "skills": [
+    "Convert",
+    "HealOthers",
+    "Stiff"
+   ]
+  },
+  "Swordsman": {
+   "cost": 5,
+   "attack": 3.0,
+   "movement": 1,
+   "defense": 3.0,
+   "range": 1,
+   "health": 15.0,
+   "upgrade_from": null,
+   "skills": [
+    "Dash"
+   ]
+  },
+  "Giant": {
+   "cost": 10,
+   "attack": 5.0,
+   "movement": 1,
+   "defense": 4.0,
+   "range": 1,
+   "health": 40.0,
+   "upgrade_from": null,
+   "skills": [
+    "Static"
+   ]
+  },
+  "Cloak": {
+   "cost": 8,
+   "attack": 0.0,
+   "movement": 2,
+   "defense": 0.5,
+   "range": 1,
+   "health": 5.0,
+   "upgrade_from": null,
+   "skills": [
+    "Creep",
+    "Dash",
+    "Hide",
+    "Infiltrate",
+    "Scout",
+    "Static"
+   ]
+  },
+  "Dagger": {
+   "cost": 2,
+   "attack": 2.0,
+   "movement": 1,
+   "defense": 2.0,
+   "range": 1,
+   "health": 10.0,
+   "upgrade_from": null,
+   "skills": [
+    "Dash",
+    "Independent",
+    "Static",
+    "Surprise"
+   ]
+  },
+  "Pirate": {
+   "cost": 2,
+   "attack": 2.0,
+   "movement": 2,
+   "defense": 2.0,
+   "range": 1,
+   "health": 10.0,
+   "upgrade_from": null,
+   "skills": [
+    "Carry",
+    "Dash",
+    "Float",
+    "Independent",
+    "Static",
+    "Surprise"
+   ]
+  },
+  "Dinghy": {
+   "cost": 2,
+   "attack": 0.0,
+   "movement": 2,
+   "defense": 0.5,
+   "range": 1,
+   "health": 5.0,
+   "upgrade_from": null,
+   "skills": [
+    "Carry",
+    "Dash",
+    "Float",
+    "Hide",
+    "Infiltrate",
+    "Scout",
+    "Static"
+   ]
+  },
+  "Raft": {
+   "cost": 0,
+   "attack": 0.0,
+   "movement": 2,
+   "defense": 1.0,
+   "range": 2,
+   "health": 10.0,
+   "upgrade_from": null,
+   "skills": [
+    "Carry",
+    "Float",
+    "Static",
+    "Stiff"
+   ]
+  },
+  "Scoutship": {
+   "cost": 5,
+   "attack": 2.0,
+   "movement": 3,
+   "defense": 1.0,
+   "range": 2,
+   "health": 10.0,
+   "upgrade_from": "Raft",
+   "skills": [
+    "Carry",
+    "Dash",
+    "Float",
+    "Scout",
+    "Static"
+   ]
+  },
+  "Rammership": {
+   "cost": 5,
+   "attack": 3.0,
+   "movement": 3,
+   "defense": 3.0,
+   "range": 1,
+   "health": 10.0,
+   "upgrade_from": "Raft",
+   "skills": [
+    "Carry",
+    "Dash",
+    "Float",
+    "Static"
+   ]
+  },
+  "Bomber": {
+   "cost": 15,
+   "attack": 3.0,
+   "movement": 2,
+   "defense": 2.0,
+   "range": 3,
+   "health": 10.0,
+   "upgrade_from": "Raft",
+   "skills": [
+    "Carry",
+    "Float",
+    "Splash",
+    "Static",
+    "Stiff"
+   ]
+  },
+  "Juggernaut": {
+   "cost": 10,
+   "attack": 4.0,
+   "movement": 2,
+   "defense": 4.0,
+   "range": 1,
+   "health": 40.0,
+   "upgrade_from": null,
+   "skills": [
+    "Carry",
+    "Float",
+    "Static",
+    "Stiff",
+    "Stomp"
+   ]
+  },
+  "Crab": {
+   "cost": 10,
+   "attack": 4.0,
+   "movement": 2,
+   "defense": 5.0,
+   "range": 1,
+   "health": 40.0,
+   "upgrade_from": null,
+   "skills": [
+    "Amphibious",
+    "AutoFlood",
+    "Escape",
+    "Static"
+   ]
+  },
+  "Amphibian": {
+   "cost": 3,
+   "attack": 2.0,
+   "movement": 2,
+   "defense": 1.0,
+   "range": 1,
+   "health": 10.0,
+   "upgrade_from": null,
+   "skills": [
+    "Amphibious",
+    "Dash",
+    "Escape",
+    "Fortify"
+   ]
+  },
+  "Tridention": {
+   "cost": 8,
+   "attack": 2.5,
+   "movement": 2,
+   "defense": 1.0,
+   "range": 2,
+   "health": 10.0,
+   "upgrade_from": null,
+   "skills": [
+    "Amphibious",
+    "Dash",
+    "Persist"
+   ]
+  },
+  "Gaami": {
+   "cost": 10,
+   "attack": 4.0,
+   "movement": 1,
+   "defense": 3.0,
+   "range": 1,
+   "health": 30.0,
+   "upgrade_from": null,
+   "skills": [
+    "AutoFreeze",
+    "FreezeArea",
+    "Static"
+   ]
+  },
+  "IceArcher": {
+   "cost": 3,
+   "attack": 1.0,
+   "movement": 1,
+   "defense": 1.0,
+   "range": 2,
+   "health": 10.0,
+   "upgrade_from": null,
+   "skills": [
+    "Dash",
+    "Fortify",
+    "Freeze",
+    "Stiff"
+   ]
+  },
+  "IceFortress": {
+   "cost": 15,
+   "attack": 4.0,
+   "movement": 1,
+   "defense": 3.0,
+   "range": 2,
+   "health": 20.0,
+   "upgrade_from": null,
+   "skills": [
+    "Escape",
+    "Scout",
+    "Skate",
+    "Static"
+   ]
+  },
+  "Mooni": {
+   "cost": 5,
+   "attack": 0.0,
+   "movement": 1,
+   "defense": 1.0,
+   "range": 1,
+   "health": 10.0,
+   "upgrade_from": null,
+   "skills": [
+    "AutoFreeze",
+    "Skate",
+    "Static",
+    "Stiff"
+   ]
+  },
+  "BattleSled": {
+   "cost": 5,
+   "attack": 3.0,
+   "movement": 2,
+   "defense": 2.0,
+   "range": 1,
+   "health": 15.0,
+   "upgrade_from": null,
+   "skills": [
+    "Dash",
+    "Escape",
+    "Skate"
+   ]
+  },
+  "Mantis": {
+   "cost": 5,
+   "attack": 3.0,
+   "movement": 1,
+   "defense": 3.0,
+   "range": 1,
+   "health": 15.0,
+   "upgrade_from": null,
+   "skills": [
+    "Creep",
+    "Dash"
+   ]
+  },
+  "Centipede": {
+   "cost": 10,
+   "attack": 4.0,
+   "movement": 2,
+   "defense": 3.0,
+   "range": 1,
+   "health": 20.0,
+   "upgrade_from": null,
+   "skills": [
+    "Creep",
+    "Dash",
+    "Eat",
+    "Static"
+   ]
+  },
+  "Segment": {
+   "cost": 10,
+   "attack": 2.0,
+   "movement": 1,
+   "defense": 2.0,
+   "range": 1,
+   "health": 10.0,
+   "upgrade_from": null,
+   "skills": [
+    "Creep",
+    "Dash",
+    "Explode",
+    "Independent",
+    "Static",
+    "Stiff"
+   ]
+  },
+  "Doomux": {
+   "cost": 10,
+   "attack": 3.5,
+   "movement": 3,
+   "defense": 2.0,
+   "range": 1,
+   "health": 20.0,
+   "upgrade_from": null,
+   "skills": [
+    "Creep",
+    "Dash",
+    "Explode",
+    "Static"
+   ]
+  },
+  "Shaman": {
+   "cost": 10,
+   "attack": 1.0,
+   "movement": 1,
+   "defense": 1.0,
+   "range": 1,
+   "health": 10.0,
+   "upgrade_from": null,
+   "skills": [
+    "Convert",
+    "Static",
+    "Swarm"
+   ]
+  },
+  "Kiton": {
+   "cost": 3,
+   "attack": 1.0,
+   "movement": 1,
+   "defense": 3.0,
+   "range": 1,
+   "health": 15.0,
+   "upgrade_from": null,
+   "skills": [
+    "Creep",
+    "Poison"
+   ]
+  },
+  "Hexapod": {
+   "cost": 3,
+   "attack": 3.0,
+   "movement": 2,
+   "defense": 1.0,
+   "range": 1,
+   "health": 5.0,
+   "upgrade_from": null,
+   "skills": [
+    "Creep",
+    "Dash",
+    "Escape",
+    "Sneak"
+   ]
+  },
+  "Raychi": {
+   "cost": 5,
+   "attack": 3.0,
+   "movement": 3,
+   "defense": 2.0,
+   "range": 1,
+   "health": 10.0,
+   "upgrade_from": null,
+   "skills": [
+    "Dash",
+    "Water"
+   ]
+  },
+  "Boomchi": {
+   "cost": 5,
+   "attack": 3.0,
+   "movement": 2,
+   "defense": 3.0,
+   "range": 1,
+   "health": 10.0,
+   "upgrade_from": null,
+   "skills": [
+    "Amphibious",
+    "Dash",
+    "Explode",
+    "Stiff"
+   ]
+  },
+  "Phychi": {
+   "cost": 3,
+   "attack": 0.7,
+   "movement": 2,
+   "defense": 1.0,
+   "range": 2,
+   "health": 5.0,
+   "upgrade_from": null,
+   "skills": [
+    "Dash",
+    "DoubleAttack",
+    "Fly",
+    "Poison",
+    "Surprise"
+   ]
+  },
+  "Exida": {
+   "cost": 8,
+   "attack": 3.0,
+   "movement": 1,
+   "defense": 1.0,
+   "range": 3,
+   "health": 10.0,
+   "upgrade_from": null,
+   "skills": [
+    "Creep",
+    "Poison",
+    "Splash"
+   ]
+  },
+  "LivingIsland": {
+   "cost": 20,
+   "attack": 4.0,
+   "movement": 2,
+   "defense": 4.0,
+   "range": 1,
+   "health": 20.0,
+   "upgrade_from": null,
+   "skills": [
+    "Algae",
+    "Poison",
+    "Static",
+    "Stomp",
+    "Water"
+   ]
+  },
+  "InsectEgg": {
+   "cost": 0,
+   "attack": 2.0,
+   "movement": 0,
+   "defense": 3.0,
+   "range": 1,
+   "health": 10.0,
+   "upgrade_from": null,
+   "skills": [
+    "Explode",
+    "Grow",
+    "Static",
+    "Stiff"
+   ]
+  },
+  "Larva": {
+   "cost": 0,
+   "attack": 2.0,
+   "movement": 1,
+   "defense": 2.0,
+   "range": 1,
+   "health": 10.0,
+   "upgrade_from": null,
+   "skills": [
+    "Creep",
+    "Dash",
+    "Grow",
+    "Independent",
+    "Static",
+    "Surprise"
+   ]
+  },
+  "Moth": {
+   "cost": 5,
+   "attack": 2.0,
+   "movement": 2,
+   "defense": 0.1,
+   "range": 1,
+   "health": 10.0,
+   "upgrade_from": null,
+   "skills": [
+    "Dash",
+    "Fly",
+    "Infiltrate",
+    "Poison",
+    "Sneak",
+    "Static",
+    "Stiff"
+   ]
+  },
+  "DragonEgg": {
+   "cost": 10,
+   "attack": -1.0,
+   "movement": 1,
+   "defense": 2.0,
+   "range": 1,
+   "health": 10.0,
+   "upgrade_from": null,
+   "skills": [
+    "Fortify",
+    "Grow",
+    "Static",
+    "Stiff"
+   ]
+  },
+  "BabyDragon": {
+   "cost": 10,
+   "attack": 3.0,
+   "movement": 2,
+   "defense": 3.0,
+   "range": 1,
+   "health": 15.0,
+   "upgrade_from": null,
+   "skills": [
+    "Dash",
+    "Escape",
+    "Fly",
+    "Grow",
+    "Scout",
+    "Static"
+   ]
+  },
+  "FireDragon": {
+   "cost": 10,
+   "attack": 4.0,
+   "movement": 3,
+   "defense": 3.0,
+   "range": 2,
+   "health": 20.0,
+   "upgrade_from": null,
+   "skills": [
+    "Dash",
+    "Fly",
+    "Scout",
+    "Splash",
+    "Static"
+   ]
+  },
+  "Polytaur": {
+   "cost": 2,
+   "attack": 3.0,
+   "movement": 1,
+   "defense": 1.0,
+   "range": 1,
+   "health": 15.0,
+   "upgrade_from": null,
+   "skills": [
+    "Dash",
+    "Fortify",
+    "Independent",
+    "Static"
+   ]
+  }
+ },
+ "techs": {
+  "Basic": {
+   "tier": 0,
+   "requires": null,
+   "replaces_tech": null,
+   "tribe_type": null,
+   "unlocks_unit": "Warrior",
+   "unlocks_structure": null,
+   "unlocks_terrain": null,
+   "explicit_cost": null
+  },
+  "Riding": {
+   "tier": 1,
+   "requires": null,
+   "replaces_tech": null,
+   "tribe_type": null,
+   "unlocks_unit": "Rider",
+   "unlocks_structure": null,
+   "unlocks_terrain": null,
+   "explicit_cost": null
+  },
+  "Roads": {
+   "tier": 2,
+   "requires": "Riding",
+   "replaces_tech": null,
+   "tribe_type": null,
+   "unlocks_unit": null,
+   "unlocks_structure": "Road",
+   "unlocks_terrain": null,
+   "explicit_cost": null
+  },
+  "Trade": {
+   "tier": 3,
+   "requires": "Roads",
+   "replaces_tech": null,
+   "tribe_type": null,
+   "unlocks_unit": null,
+   "unlocks_structure": "Market",
+   "unlocks_terrain": null,
+   "explicit_cost": null
+  },
+  "FreeSpirit": {
+   "tier": 2,
+   "requires": "Riding",
+   "replaces_tech": null,
+   "tribe_type": null,
+   "unlocks_unit": null,
+   "unlocks_structure": "Temple",
+   "unlocks_terrain": null,
+   "explicit_cost": null
+  },
+  "Chivalry": {
+   "tier": 3,
+   "requires": "FreeSpirit",
+   "replaces_tech": null,
+   "tribe_type": null,
+   "unlocks_unit": "Knight",
+   "unlocks_structure": null,
+   "unlocks_terrain": null,
+   "explicit_cost": null
+  },
+  "Organization": {
+   "tier": 1,
+   "requires": null,
+   "replaces_tech": null,
+   "tribe_type": null,
+   "unlocks_unit": null,
+   "unlocks_structure": null,
+   "unlocks_terrain": null,
+   "explicit_cost": null
+  },
+  "Farming": {
+   "tier": 2,
+   "requires": "Organization",
+   "replaces_tech": null,
+   "tribe_type": null,
+   "unlocks_unit": null,
+   "unlocks_structure": "Farm",
+   "unlocks_terrain": null,
+   "explicit_cost": null
+  },
+  "Construction": {
+   "tier": 3,
+   "requires": "Farming",
+   "replaces_tech": null,
+   "tribe_type": null,
+   "unlocks_unit": null,
+   "unlocks_structure": "Windmill",
+   "unlocks_terrain": null,
+   "explicit_cost": 2
+  },
+  "Strategy": {
+   "tier": 2,
+   "requires": "Organization",
+   "replaces_tech": null,
+   "tribe_type": null,
+   "unlocks_unit": "Defender",
+   "unlocks_structure": null,
+   "unlocks_terrain": null,
+   "explicit_cost": null
+  },
+  "Diplomacy": {
+   "tier": 3,
+   "requires": "Strategy",
+   "replaces_tech": null,
+   "tribe_type": null,
+   "unlocks_unit": "Cloak",
+   "unlocks_structure": "Embassy",
+   "unlocks_terrain": null,
+   "explicit_cost": null
+  },
+  "Climbing": {
+   "tier": 1,
+   "requires": null,
+   "replaces_tech": null,
+   "tribe_type": null,
+   "unlocks_unit": null,
+   "unlocks_structure": null,
+   "unlocks_terrain": "Mountain",
+   "explicit_cost": null
+  },
+  "Mining": {
+   "tier": 2,
+   "requires": "Climbing",
+   "replaces_tech": null,
+   "tribe_type": null,
+   "unlocks_unit": null,
+   "unlocks_structure": "Mine",
+   "unlocks_terrain": null,
+   "explicit_cost": null
+  },
+  "Smithery": {
+   "tier": 3,
+   "requires": "Mining",
+   "replaces_tech": null,
+   "tribe_type": null,
+   "unlocks_unit": "Swordsman",
+   "unlocks_structure": "Forge",
+   "unlocks_terrain": null,
+   "explicit_cost": null
+  },
+  "Meditation": {
+   "tier": 2,
+   "requires": "Climbing",
+   "replaces_tech": null,
+   "tribe_type": null,
+   "unlocks_unit": null,
+   "unlocks_structure": null,
+   "unlocks_terrain": null,
+   "explicit_cost": null
+  },
+  "Philosophy": {
+   "tier": 3,
+   "requires": "Meditation",
+   "replaces_tech": null,
+   "tribe_type": null,
+   "unlocks_unit": "MindBender",
+   "unlocks_structure": "MountainTemple",
+   "unlocks_terrain": null,
+   "explicit_cost": null
+  },
+  "Fishing": {
+   "tier": 1,
+   "requires": null,
+   "replaces_tech": null,
+   "tribe_type": null,
+   "unlocks_unit": "Raft",
+   "unlocks_structure": "Port",
+   "unlocks_terrain": "Water",
+   "explicit_cost": null
+  },
+  "Sailing": {
+   "tier": 2,
+   "requires": "Fishing",
+   "replaces_tech": null,
+   "tribe_type": null,
+   "unlocks_unit": "Scoutship",
+   "unlocks_structure": null,
+   "unlocks_terrain": "Ocean",
+   "explicit_cost": null
+  },
+  "Navigation": {
+   "tier": 3,
+   "requires": "Ramming",
+   "replaces_tech": null,
+   "tribe_type": null,
+   "unlocks_unit": "Bomber",
+   "unlocks_structure": null,
+   "unlocks_terrain": null,
+   "explicit_cost": null
+  },
+  "Ramming": {
+   "tier": 2,
+   "requires": "Fishing",
+   "replaces_tech": null,
+   "tribe_type": null,
+   "unlocks_unit": "Rammership",
+   "unlocks_structure": null,
+   "unlocks_terrain": null,
+   "explicit_cost": null
+  },
+  "Aquatism": {
+   "tier": 3,
+   "requires": "Ramming",
+   "replaces_tech": null,
+   "tribe_type": null,
+   "unlocks_unit": null,
+   "unlocks_structure": "WaterTemple",
+   "unlocks_terrain": null,
+   "explicit_cost": null
+  },
+  "Hunting": {
+   "tier": 1,
+   "requires": null,
+   "replaces_tech": null,
+   "tribe_type": null,
+   "unlocks_unit": null,
+   "unlocks_structure": null,
+   "unlocks_terrain": null,
+   "explicit_cost": null
+  },
+  "Archery": {
+   "tier": 2,
+   "requires": "Hunting",
+   "replaces_tech": null,
+   "tribe_type": null,
+   "unlocks_unit": "Archer",
+   "unlocks_structure": null,
+   "unlocks_terrain": null,
+   "explicit_cost": null
+  },
+  "Spiritualism": {
+   "tier": 3,
+   "requires": "Archery",
+   "replaces_tech": null,
+   "tribe_type": null,
+   "unlocks_unit": null,
+   "unlocks_structure": "ForestTemple",
+   "unlocks_terrain": null,
+   "explicit_cost": 5
+  },
+  "Forestry": {
+   "tier": 2,
+   "requires": "Hunting",
+   "replaces_tech": null,
+   "tribe_type": null,
+   "unlocks_unit": null,
+   "unlocks_structure": "LumberHut",
+   "unlocks_terrain": null,
+   "explicit_cost": null
+  },
+  "Mathematics": {
+   "tier": 3,
+   "requires": "Forestry",
+   "replaces_tech": null,
+   "tribe_type": null,
+   "unlocks_unit": "Catapult",
+   "unlocks_structure": "Sawmill",
+   "unlocks_terrain": null,
+   "explicit_cost": null
+  },
+  "Frostwork": {
+   "tier": null,
+   "requires": null,
+   "replaces_tech": "Fishing",
+   "tribe_type": "Polaris",
+   "unlocks_unit": "Mooni",
+   "unlocks_structure": null,
+   "unlocks_terrain": null,
+   "explicit_cost": null
+  },
+  "Sledding": {
+   "tier": null,
+   "requires": null,
+   "replaces_tech": "Sailing",
+   "tribe_type": "Polaris",
+   "unlocks_unit": "BattleSled",
+   "unlocks_structure": null,
+   "unlocks_terrain": null,
+   "explicit_cost": null
+  },
+  "IceFishing": {
+   "tier": null,
+   "requires": null,
+   "replaces_tech": "Ramming",
+   "tribe_type": "Polaris",
+   "unlocks_unit": null,
+   "unlocks_structure": null,
+   "unlocks_terrain": null,
+   "explicit_cost": null
+  },
+  "PolarWarfare": {
+   "tier": null,
+   "requires": null,
+   "replaces_tech": "Navigation",
+   "tribe_type": "Polaris",
+   "unlocks_unit": "IceFortress",
+   "unlocks_structure": null,
+   "unlocks_terrain": null,
+   "explicit_cost": null
+  },
+  "Polarism": {
+   "tier": null,
+   "requires": null,
+   "replaces_tech": "Aquatism",
+   "tribe_type": "Polaris",
+   "unlocks_unit": null,
+   "unlocks_structure": "IceTemple",
+   "unlocks_terrain": null,
+   "explicit_cost": null
+  },
+  "Recycling": {
+   "tier": null,
+   "requires": null,
+   "replaces_tech": "Construction",
+   "tribe_type": "Cymanti",
+   "unlocks_unit": null,
+   "unlocks_structure": null,
+   "unlocks_terrain": null,
+   "explicit_cost": null
+  },
+  "Hydrology": {
+   "tier": null,
+   "requires": null,
+   "replaces_tech": "Sailing",
+   "tribe_type": "Cymanti",
+   "unlocks_unit": null,
+   "unlocks_structure": null,
+   "unlocks_terrain": null,
+   "explicit_cost": null
+  },
+  "Rituals": {
+   "tier": 2,
+   "requires": "Climbing",
+   "replaces_tech": "Meditation",
+   "tribe_type": "Cymanti",
+   "unlocks_unit": null,
+   "unlocks_structure": null,
+   "unlocks_terrain": null,
+   "explicit_cost": null
+  },
+  "ShockTactics": {
+   "tier": null,
+   "requires": null,
+   "replaces_tech": "Chivalry",
+   "tribe_type": "Cymanti",
+   "unlocks_unit": "Doomux",
+   "unlocks_structure": null,
+   "unlocks_terrain": null,
+   "explicit_cost": null
+  },
+  "Oceantology": {
+   "tier": null,
+   "requires": null,
+   "replaces_tech": "Navigation",
+   "tribe_type": "Cymanti",
+   "unlocks_unit": "LivingIsland",
+   "unlocks_structure": null,
+   "unlocks_terrain": null,
+   "explicit_cost": null
+  },
+  "Synergy": {
+   "tier": null,
+   "requires": null,
+   "replaces_tech": "Diplomacy",
+   "tribe_type": "Cymanti",
+   "unlocks_unit": "Moth",
+   "unlocks_structure": null,
+   "unlocks_terrain": null,
+   "explicit_cost": null
+  },
+  "Spearing": {
+   "tier": null,
+   "requires": null,
+   "replaces_tech": "Chivalry",
+   "tribe_type": "Aquarion",
+   "unlocks_unit": "Tridention",
+   "unlocks_structure": null,
+   "unlocks_terrain": null,
+   "explicit_cost": null
+  },
+  "Waterways": {
+   "tier": null,
+   "requires": "Riding",
+   "replaces_tech": "Roads",
+   "tribe_type": "Aquarion",
+   "unlocks_unit": null,
+   "unlocks_structure": null,
+   "unlocks_terrain": null,
+   "explicit_cost": null
+  },
+  "FreeDiving": {
+   "tier": null,
+   "requires": null,
+   "replaces_tech": "FreeSpirit",
+   "tribe_type": "Aquarion",
+   "unlocks_unit": null,
+   "unlocks_structure": null,
+   "unlocks_terrain": "Ocean",
+   "explicit_cost": null
+  },
+  "ForestMagic": {
+   "tier": null,
+   "requires": null,
+   "replaces_tech": "Hunting",
+   "tribe_type": "Elyrion",
+   "unlocks_unit": null,
+   "unlocks_structure": null,
+   "unlocks_terrain": null,
+   "explicit_cost": null
+  }
+ },
+ "resources": {
+  "Game": {
+   "cost": 2,
+   "tech_required": "Hunting",
+   "struct_required": null,
+   "visible_required": [],
+   "reward_pop": 1,
+   "reward_stars": null
+  },
+  "Crop": {
+   "cost": null,
+   "tech_required": "Farming",
+   "struct_required": "Farm",
+   "visible_required": [
+    "Organization",
+    "Farming",
+    "Construction"
+   ],
+   "reward_pop": 2,
+   "reward_stars": null
+  },
+  "Fish": {
+   "cost": 2,
+   "tech_required": "Fishing",
+   "struct_required": null,
+   "visible_required": [],
+   "reward_pop": 1,
+   "reward_stars": null
+  },
+  "Metal": {
+   "cost": null,
+   "tech_required": "Mining",
+   "struct_required": "Mine",
+   "visible_required": [
+    "Climbing",
+    "Mining",
+    "Smithery"
+   ],
+   "reward_pop": 2,
+   "reward_stars": null
+  },
+  "Fruit": {
+   "cost": 2,
+   "tech_required": "Organization",
+   "struct_required": null,
+   "visible_required": [],
+   "reward_pop": 1,
+   "reward_stars": null
+  },
+  "Spores": {
+   "cost": null,
+   "tech_required": "Basic",
+   "struct_required": "Fungi",
+   "visible_required": [],
+   "reward_pop": 1,
+   "reward_stars": null
+  },
+  "Starfish": {
+   "cost": null,
+   "tech_required": "Navigation",
+   "struct_required": null,
+   "visible_required": [
+    "Fishing",
+    "Sailing",
+    "Navigation"
+   ],
+   "reward_pop": null,
+   "reward_stars": 8
+  },
+  "AquaCrop": {
+   "cost": null,
+   "tech_required": "BeyondComprehension",
+   "struct_required": null,
+   "visible_required": [],
+   "reward_pop": 2,
+   "reward_stars": null
+  }
+ },
+ "structures": {
+  "Spores": {
+   "cost": null,
+   "reward_pop": null,
+   "reward_stars": null,
+   "reward_score": null,
+   "tribe_type": "Cymanti"
+  },
+  "Algae": {
+   "cost": 5,
+   "reward_pop": 1,
+   "reward_stars": null,
+   "reward_score": null,
+   "tribe_type": "Cymanti"
+  },
+  "Mycelium": {
+   "cost": 5,
+   "reward_pop": null,
+   "reward_stars": null,
+   "reward_score": null,
+   "tribe_type": "Cymanti"
+  },
+  "Clathrus": {
+   "cost": 5,
+   "reward_pop": null,
+   "reward_stars": 1,
+   "reward_score": null,
+   "tribe_type": "Cymanti"
+  },
+  "Road": {
+   "cost": 3,
+   "reward_pop": null,
+   "reward_stars": null,
+   "reward_score": null,
+   "tribe_type": null
+  },
+  "Bridge": {
+   "cost": 5,
+   "reward_pop": null,
+   "reward_stars": null,
+   "reward_score": null,
+   "tribe_type": null
+  },
+  "Temple": {
+   "cost": 20,
+   "reward_pop": 1,
+   "reward_stars": null,
+   "reward_score": null,
+   "tribe_type": null
+  },
+  "Market": {
+   "cost": 5,
+   "reward_pop": null,
+   "reward_stars": 1,
+   "reward_score": null,
+   "tribe_type": null
+  },
+  "Farm": {
+   "cost": 5,
+   "reward_pop": 2,
+   "reward_stars": null,
+   "reward_score": null,
+   "tribe_type": null
+  },
+  "Windmill": {
+   "cost": 5,
+   "reward_pop": 1,
+   "reward_stars": null,
+   "reward_score": null,
+   "tribe_type": null
+  },
+  "Embassy": {
+   "cost": 5,
+   "reward_pop": null,
+   "reward_stars": null,
+   "reward_score": null,
+   "tribe_type": null
+  },
+  "Mine": {
+   "cost": 5,
+   "reward_pop": 2,
+   "reward_stars": null,
+   "reward_score": null,
+   "tribe_type": null
+  },
+  "Forge": {
+   "cost": 5,
+   "reward_pop": 2,
+   "reward_stars": null,
+   "reward_score": null,
+   "tribe_type": null
+  },
+  "MountainTemple": {
+   "cost": 20,
+   "reward_pop": 1,
+   "reward_stars": null,
+   "reward_score": null,
+   "tribe_type": null
+  },
+  "Port": {
+   "cost": 7,
+   "reward_pop": 1,
+   "reward_stars": null,
+   "reward_score": null,
+   "tribe_type": null
+  },
+  "WaterTemple": {
+   "cost": 20,
+   "reward_pop": 1,
+   "reward_stars": null,
+   "reward_score": null,
+   "tribe_type": null
+  },
+  "LumberHut": {
+   "cost": 3,
+   "reward_pop": 1,
+   "reward_stars": null,
+   "reward_score": null,
+   "tribe_type": null
+  },
+  "Sawmill": {
+   "cost": 5,
+   "reward_pop": 1,
+   "reward_stars": null,
+   "reward_score": null,
+   "tribe_type": null
+  },
+  "ForestTemple": {
+   "cost": 15,
+   "reward_pop": 1,
+   "reward_stars": null,
+   "reward_score": null,
+   "tribe_type": null
+  },
+  "Outpost": {
+   "cost": 5,
+   "reward_pop": 1,
+   "reward_stars": null,
+   "reward_score": null,
+   "tribe_type": "Polaris"
+  },
+  "IceTemple": {
+   "cost": 20,
+   "reward_pop": 1,
+   "reward_stars": null,
+   "reward_score": null,
+   "tribe_type": "Polaris"
+  },
+  "IceBank": {
+   "cost": 20,
+   "reward_pop": null,
+   "reward_stars": null,
+   "reward_score": null,
+   "tribe_type": "Polaris"
+  },
+  "Sanctuary": {
+   "cost": 5,
+   "reward_pop": null,
+   "reward_stars": 1,
+   "reward_score": null,
+   "tribe_type": "Elyrion"
+  },
+  "Fungi": {
+   "cost": 5,
+   "reward_pop": 1,
+   "reward_stars": null,
+   "reward_score": null,
+   "tribe_type": "Cymanti"
+  },
+  "ChurchOfConverts": {
+   "cost": null,
+   "reward_pop": 3,
+   "reward_stars": null,
+   "reward_score": 400,
+   "tribe_type": null
+  }
+ }
+}

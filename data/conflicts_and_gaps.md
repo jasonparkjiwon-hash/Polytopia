@@ -1,0 +1,208 @@
+# Conflicts and gaps (v0.3, wiki recheck 2026-10-22)
+
+Where sources disagree, both claims are kept. "Lean" is my best current belief, not a decision.
+Impact tags: **MAP** = map prior / hidden-tile model, **FOG** = vision/inference, **SIM** = forward model, **BOT** = opponent modelling.
+Sources: PE = PolyEnv engine (Jan-Feb 2026), WK = fandom wiki (undated, mixed eras), NM = NamuWiki (dated), BP25 = 2025 balance pass dev post (devtrackers.gg, dated 2025), DEV = staff comment ~2019.
+
+## Biggest lesson: version drift (updated)
+
+The fandom pages mix patch eras. NamuWiki and the 2025 balance-pass post are dated. **New this round: PE is not fully current either.** BP25 puts Burn Forest at 3 stars (PE: 5) and allows "backwards" research, which PE likely lacks. Rule now: dated patch source > PE > undated wiki, and anything only one source states stays a test.
+
+## Status at a glance
+
+- **Settled or strongly leaned (no test needed):** C1, C2, C4, C13, C16, C17, C22, plus C3 (low priority).
+- **Wiki recheck moved the lean (still worth a quick in-game check):** C6, C7, C9, C10, C11, C12, C20, C24, C25, C26.
+- **Still genuinely open:** C5, C8, C14, C15, C18, C19, C21, C23.
+
+## Conflicts
+
+| ID | Topic | Claims | Lean after 2026-10-22 | Settle by | Impact |
+|---|---|---|---|---|---|
+| C1 | Ai-Mo start | PE, NM, BP25: Philosophy + Mind Bender. Old fandom: Meditation. | **Settled**: Philosophy + Mind Bender, 730. | - | SIM |
+| C2 | Luxidoor start | PE/NM: level-3 capital, 2 stars, 515. WK Luxidoor page: level 3 **with city wall**, 4 stars/turn. | **Settled** level 3 + 2 stars (BP25). Wall: WK says yes (medium). | Turn 0 as Luxidoor (wall only) | SIM |
+| C3 | Polaris start score | PE 630, WK 530. | 530 (medium-high). | Turn 0 | SIM |
+| C4 | Cymanti start | WK Cymanti page: Farming (Fungi) + Shaman. BP25: zero Cymanti changes. | **Settled**: Farming + Shaman, 630. | - | SIM |
+| C5 | Kickoo start score | PE 515, fandom Score 615. | 515 lean (low-medium). | Turn 0 as Kickoo | SIM |
+| C6 | Retaliation uses defence bonus? | WK Combat: bonus is applied to defenceForce, so it **raises** retaliation. PE excludes it. | **WK (medium-high)**: the Combat page states it explicitly. PE deviates. | Q5 in the doc | SIM |
+| C7 | Poison | WK Combat: -30% defence, -50% healing, no defence bonus, drops spores/algae on death; cured by self-heal once, Mind Bender, Mycelium. PE: different bonus table, no healing cut. | **WK (medium)**. | Optional | SIM (Cymanti) |
+| C8 | Water tech gates | WK Sailing: "Scout and movement on ocean". WK Fishing (post Patch-the-Ocean): Port, Fishing action, "movement on ocean tiles" (likely means shallow water). WK Navigation: Battleship, all naval units on ocean. WK Explorer: shallow needs Sailing, ocean needs Navigation (pre-ocean-update wording). Aquarion page: base Fishing = starfish sight; Navigation = starfish harvesting. | Fishing = shallow-water boats + port + starfish visible; Sailing = deep ocean; Navigation = Battleship, starfish harvest (medium). Explorer page and PE Explorer are stale. | Q7 | FOG, SIM |
+| C9 | Villages after terrain | WK Map Generation: ~30% before terrain, then "attempt to assign 60%" after; Drylands 0% before, ~80% after; Waterworld ~10% before. PE fills every slot. | **WK (medium)**: target ~60% of max total. | Q4 | MAP |
+| C10 | Capital guarantees | WK Map Generation: **every** capital gets ≥2 identical resources, force-spawned if missing. Starting-tech resource for Bardur, Imperius, Kickoo, Zebasi, Elyrion, Cymanti; Xin-xi 2 metal; Oumaji 2 fruit; Hoodrick 2 animals; others 2 of a random tier-1 resource (fish, animal or fruit). Kickoo gets 2 fish water tiles even on Drylands. PE implements only 4 tribes. | **WK (medium-high)**: most detailed and internally consistent. | Q1 counts | MAP, FOG |
+| C11 | Bardur terrain | WK: 1.5× fruit, 0× crop. PE: 0.8× forest, 0× crop. | WK (medium). | Optional | MAP |
+| C12 | All tribe terrain modifiers | WK now gives a full table (below). PE has fewer. | **WK table (medium)**. Order: mountain mod first, then forest, field = rest. | Optional | MAP |
+| C13 | Water modifiers | Listed but not applied in code (WK says so). | Settled: ignore. | - | MAP |
+| C14 | Ruin rewards | WK: Battleship, Explorer, Navalon, Population, Stars, Super Unit, Technology (no weights). Ocean ruin always gives an Aquarion "Lost City" when Aquarion is in game. PE: uniform pool. | Weights unknown. | Ruin log | SIM, BOT |
+| C15 | Explorer | WK Explorer: 15 moves, random walk, steers toward fog only when exactly 1 tile from it; no ruin Explorer if ruin is >2 tiles from fog. PE: 15 steps. | **15 settled**; random-walk rule new. | - | FOG |
+| C16 | Ruin placement | WK: any terrain except shallow water, not next to city/village/ruin. | Settled: WK. | - | MAP |
+| C17 | Starting stars | PE, NM, BP25 agree. | **Settled**. | - | SIM |
+| C18 | Meeting reward | PE only formula. WK Stars page gives none. | Unverified. | Meet a tribe | SIM |
+| C19 | Tile action costs | PE: clear forest 0 cost +1 star; road 3. WK (undated): clear forest +2 stars; road 2. | **Open**; read the buttons. | Q in doc | SIM |
+| C20 | Retaliation vs fog | WK Combat: no retaliation if defender cannot see attacker, or attacker kills. | **WK (medium-high)**. | Optional | SIM, FOG |
+| C21 | Initial reveal | Derived 5×5. | 5×5 (medium-high). | Q3 | FOG |
+| C22 | Domains vs sectors | Same mapping. | Settled. | - | MAP |
+| C23 | Resource table: shares or conditionals? | WK table columns sum to 100% and the page says "48% of their biome" (share wording). Since 2.0.58 terrain "always follows these percentages or as close as possible". Fish 50% of shallow tiles. | Leans **shares** (wiki reading, ~5 resources in a capital ring before guarantees). Still the top test. | Q1 | **MAP (highest)** |
+| C24 | Bot income | DEV: "how many stars the AI get from their capital". WK Game Modes: starting income Easy 1, Normal 2 (same as humans), Hard 3, Crazy 5. | **NEW, medium-high**: these are TOTAL capital income, not a bonus on top. Easy bots earn less than you. Older dataset read it as a bonus. | Watch a bot's score/stars if visible | BOT |
+| C25 | Backwards research | BP25: techs can be researched backwards (Vengir Smithery → Mining without Climbing). PE: prerequisite only. | **NEW, medium-high**. Matters for Vengir and Ai-Mo. | Turn 0 tech screen as Vengir or Ai-Mo | SIM |
+| C26 | Other 2025 changes | BP25: Burn Forest 3 stars (PE 5), Forges allowed on forests, Temples +100 points per level (was 50), Polytaur 3 stars, embassies cheaper and scale with count, Polaris unit tweaks. | **NEW, medium-high** (dated). PE stale on these. | - | SIM |
+
+### Tribe terrain modifiers (WK Map Generation, undated, post-2.0.58 likely)
+
+Xin-xi 1.5× mountain, 1.5× metal · Imperius 0.5× animal, 2× fruit · Bardur 1.5× fruit, 0× crop · Oumaji 0.2× forest, 0.2× animal, 0.5× mountain · Kickoo 0.5× mountain, 1.5× fish · Hoodrick 0.5× mountain, 1.5× forest · Luxidoor base · Vengir 2× metal, 0.1× animal, 0.1× fruit, 0.1× fish · Zebasi 0.5× mountain, 0.5× forest, 0.5× fruit · Ai-Mo 1.5× mountain, 0.1× crop · Quetzali 2× fruit, 0.1× crop · Yădakk 0.5× mountain, 0.5× forest, 1.5× fruit · Aquarion 0.5× forest · Elyrion 0.5× mountain, 1.5× crop · Cymanti 1.2× mountain, spores replace crops · Polaris none (takes over neighbours' land, freezes it).
+
+## Gaps
+
+| ID | Missing | Status after 2026-10-22 |
+|---|---|---|
+| G1 | Continents / pangea / archipelago pipelines | **Partly filled (qualitative)**: Lakes has a land-bridge border and every player has land links to ≥2 villages; Continents = large discrete landmasses (same guarantee); Pangea = one central mass, ocean rim; Archipelago = broken landmasses, almost every city coastal; Waterworld = small islands with 1-2 villages. Process: capitals, then 1-2 suburbs each (not Drylands/Waterworld), then ~1/3 of remaining villages, then smoothed-noise terrain. No numbers for land fraction per type. |
+| G2 | Whales, sharks, starfish counts | Open. Resources/Starfish/Whale pages would not load. Starfish can spawn on any water tile. Whaling tech removed. |
+| G3 | Stale vs live fog | Open. Fog of War and Vision pages would not load (fandom and API). In-game test Q6. |
+| G4 | Ruin reward weights | Open. Needs a ruin log. |
+| G5 | Bot vision and policy | **Partly filled**: income (C24); Easy bots stay peaceful unless provoked, Crazy may attack immediately. Bots page would not load. Vision cheating still unknown. |
+| G6 | Skill semantics | **Mostly filled** from WK Unit Skills: Carry, Convert, Dash, Escape, Fortify, Heal (adjacent, up to 4), Persist, Scout (5×5 vs 3×3 reveal), Auto Freeze, Boost, Creep, Eat, Explode, Fly, Freeze, Freeze Area, Grow, Navigate, Poison, Skate, Sneak-type (ignore enemy ZoC), Splash-type, no-retaliation (Phychi), Independent-type (no pop slot). Not covered: Tentacles, Drench, Swarm, Static, Stiff, Stomp, Surprise, Autoflood. PE source still unread. |
+| G7 | Special-tribe trees | **Partly filled**: Cymanti full replacement table; Aquarion table (Fishing/Aquaculture/Marine Life/Navigation/Riding/Waterways/Spearing/Mathematics); Elyrion (Forest Magic replaces Hunting, Forestry → Sanctuary, Water Magic). Polaris tree is an image only. Unit stats still missing. |
+| G8 | Extra buildings | **Partly filled** (WK Buildings, some rows pre-ocean-update): Customs House 5 (2★/turn per adjacent port), Sawmill/Windmill/Forge, Library, temples (Temple 20, Forest 15, Mountain 20, Water 20, Ice 20), Sanctuary 5, Ice Bank 20 (3★/turn per 20 frozen tiles), Outpost 5, Algae 5, Clathrus 5, Fungi 5, Mycelium 5. Embassy: only "cheaper, scales with count" (BP25). Port listed as 10 under Sailing is the old pre-ocean value. |
+| G9 | City vision radius | Open (part of fog pages). |
+| G10 | GAIG terrainProbs.json | Not retried; low value now that WK gives the full modifier table. |
+| G11 | Fog of War, Bots, Resources, Starfish, Whale, Vision, AI pages | **Still blocked** on fandom (client error, also via api.php). Wayback is blocked from here. You can open them on your phone and paste text, or I can try another mirror. |
+| G12 | **New: Solaris** | BP25 mentions "Solaris Crater" and "Solaris Lava Bank": a newer special tribe not in any dataset. Unknown. |
+
+## Second-engine cross-check (2026-10-23, overnight)
+
+New source **PF = Polyfish** (github HenBOMB/Polyfish, Rust engine, Apache-2.0, last commit 2026-09-02, targets game version 115 "Cymanti Rework" with dated per-version rules in `version_sync.rs`). It loads states captured from the real Steam game, so its enum ids and many rules are tied to real data. Automated diff (`verify/crosscheck.py`): **283 fields agree, 31 differ**, most of which are Aquarion/Cymanti units PF lacks.
+
+| ID | Effect of PF evidence |
+|---|---|
+| C6 | PF uses defenseForce (with bonus) for retaliation: **wiki + PF vs PE → settled wiki (L1)**. |
+| C7 | PF v115 notes: poison defence debuff now **50%**, defence bonuses kept, poison slows units (Cymanti Rework). Wiki's 30% is pre-v115. |
+| C8 | PF: Fishing → water (shallow) movement + Port; Sailing → ocean; **Navigation requires Ramming** (not Sailing). Starfish visible with Fishing/Sailing/Navigation, harvest needs Navigation, +8 stars. New conflict **C27** (Navigation prerequisite). |
+| C19 | PF `version_sync`: after v105 clear forest **+1 star**, burn forest **3**. Matches PE (+1) and BP25 (3). **Settled**. Road still open. |
+| C20 | PF retaliates unless Stiff / Surprise / out of range; no fog check (same as PE). Wiki is alone: stays open, test needed. |
+| G1 | PF land ratios per map type: Drylands 0.95, Lakes 0.72, Continents 0.45, Pangea 0.78, Archipelago 0.38, Waterworld 0.15 (single source, L0). |
+| G2 | PF: starfish +8 stars on capture. |
+| NEW C28 | **Visibility of resources**: PF says crops are hidden until Organization/Farming/Construction, metal until Climbing/Mining/Smithery. So turn-1 screenshots undercount; the test sheet must log techs. |
+| NEW C29 | Unit stat differences PE vs PF: Raft range 1 vs 2, Pirate move 1 vs 2, Mooni defence 2 vs 1, Shaman cost 5 vs 10, Exida move 2 vs 1, Boomchi move 1 vs 2 (+amphibious), Polytaur cost 3 (BP25) vs 2. Cymanti rows: PF is v115-current, prefer PF. |
+
+C23 now has a pre-registered test (`verify/c23_models.py`): three generator models simulated per tribe; a verdict needs a Bayes factor > 10. Power analysis: WIKI is decided in ~3 capitals if true; PE vs PF needs ~8-30 capitals. Best tribes to separate PE from PF: Hoodrick, Quetzali, Elyrion, Yadakk, Cymanti, Aquarion.
+
+## Engine inconsistencies to remember when using PolyEnv as the simulator
+
+- `ScoreSystem::startingScore()` is stubbed to return 0. Starting score comes from `Tribe.cpp`, which is wrong for several tribes.
+- Ocean gate: movement uses Sailing, Explorer uses Navigation (C8).
+- Retaliation excludes defence bonus (C6) and ignores fog (C20): both contradict the wiki.
+- Burn Forest 5 (now 3), no backwards research, temples 50 per level: pre-2025 values (C25, C26).
+- Only 4 capital guarantees (wiki says all tribes, C10).
+- `TurnSystem.refreshUnitsForCurrentPlayer` is flagged as a placeholder in its own comments.
+- Special tribes have unit stats but not their techs, buildings or mechanics.
+
+## Polyfish engine runs (2026-10-23 morning)
+
+The slim Polyfish engine (no AI, server or replay modules) builds offline. Its dependencies are vendored from GitHub tags; see `sim/`.
+
+- **Test set:** 660 generated maps. They are 300 normal-size Lakes maps with 4 players (15 tribes cycled), plus 60 maps of each type.
+- **Capital ring (8 tiles):** mean 4.4 resources, close to the wiki reading. 93% of capitals have 2 or more identical resources. Per-tribe values are in `verify/pf_engine_ring8.json`.
+- **Lakes, normal size:** land 0.72, 13.8 settlements out of 25 grid slots (55%, near the wiki's 60%), 7 ruins in most maps (matches the ruin table), starfish about 4 (vs water/25 = 2).
+- **Drylands (Polyfish mapgen issue):** only 0.51 land. The wiki says Drylands is all land, so Polyfish's mapgen is NOT fully faithful.
+- **How it is used:** it is treated as a third model in the C23 test, not as ground truth.
+- **C23 power on turn-1 visible counts:** 4-10 capitals median (90th percentile 10-25) to reach a verdict, 90-98% correct.
+- **Jason plays on iPhone, and there are no save files.** Gate C therefore moves to 15 or more test-sheet capitals.
+
+## First real save (2026-10-23, iPhone, game version 123)
+
+Jason's turn-0 save is a Massive 30x30 Drylands map with 15 Crazy bots (16 capitals). It was read with the new `verify/state_v123.py`: the iOS file is double LZ4-wrapped, and the v123 header differs from the Go library's layout. Full rows are in `verify/ledger.json`.
+
+**Settled at L3 (measured in the real game):**
+
+- **C23:** the wiki table is SHARES of land tiles. Measured P(resource | terrain) matches the wiki reading (|z| <= 1.5); the PolyEnv reading is rejected (z 4 to 18). Capital rings average 5.9 resources.
+- **C10:** every capital (16 of 16, 12 tribes) has 2 or more identical resources.
+- **C21:** the turn-0 reveal is exactly 5x5 for every player.
+- **Resources:** none beyond distance 2 of a settlement.
+- **Ruins:** 23 on a 900-tile map.
+- **Start units** are confirmed for 12 tribes.
+- **Drylands:** Aquarion capitals also get 2 fish water tiles.
+
+**Consistent but still L2:** C9 (70 settlements vs 66 predicted by the wiki-literal generator).
+
+**Partly off:** C12. Hoodrick, Aquarion, Zebasi and Oumaji terrain shares deviate from the wiki table; more maps are needed.
+
+**New tool:** `sim/wiki_mapgen.py` is a wiki-literal generator (wiki numbers applied as written; its PARAMs are flagged). Its self-check reproduces the wiki shares to within 0.7% (terrain) and sampling noise (resources).
+
+## Six real saves, one per map type (2026-10-23 07:45)
+
+All six are Massive maps, game v123, turn 0, each with 15 Crazy bots, giving 96 capitals in total. See `verify/ledger.json` and `saves/real_vs_generator_by_type.json`.
+
+**Map type codes and land share:**
+
+- The header map-type codes run 1 to 6: Drylands, Lakes, Continents, Archipelago, Waterworld, Pangea.
+- Measured land share by type:
+
+| Type | Land share |
+|---|---|
+| Drylands | 0.996 |
+| Lakes | 0.733 |
+| Continents | 0.468 |
+| Archipelago | 0.399 |
+| Waterworld | 0.151 |
+| Pangea | 0.513 |
+
+**Settled or narrowed:**
+
+- **C23 (resource table):** settled by all six maps.
+- **C10 (2 identical resources at the capital):** holds for every tribe except Vengir. Vengir has no guarantee.
+- **C12 (terrain modifiers):** a corrected forest rule fits better. The forest multiplier re-weights forest against field; it is not simply applied as written. This was fitted on 3 maps and confirmed on 3 new maps.
+- **Starfish:** the count is about water tiles / 25.
+
+**Still open:**
+
+- **C9 (village count):** the generator places 5 too few on Lakes and Drylands and 8 too many on Continents and Pangea.
+- **Capital rings:** these run about 0.25 resources richer than the generator predicts.
+- **AquaCrop (resource 9):** found next to Vengir capitals. Unexplained.
+
+## 27 saves (adds 4 Massive, 6 Normal 16x16, 3 Lakes at 14/18/20), 2026-10-23
+- **AquaCrop is a general water resource (L3).** 831 tiles on Water/Ocean across 27 saves, next to capitals of every tribe except Luxidoor. Shallow water within 1 tile of a settlement: Fish 0.44, AquaCrop 0.22, none 0.34. At distance 2: 0.13 / 0.08. The wiki's "Fish 0.5" ignores it; the generator never makes it.
+- **The capital-ring gap is AquaCrop.** Real ring-8 mean is 5.79, or 5.34 without AquaCrop; the generator gives 5.47. The "+0.25 richer" gap is closed.
+- **Ruins match the wiki size table exactly**: 14->5, 16->7, 18->9, 20->11, 30->23.
+- **Land share does not depend on size.** Lakes runs 0.74-0.78 at every size; the other types at Normal match Massive. Continents is the noisiest, 0.47-0.63.
+- **C9 village counts are still open.** Normal totals: Drylands 16, Lakes 16, Continents 14, Archipelago 15, Pangea 12, Waterworld 7. The generator is close at Normal size, except Pangea (14.8) and Huge Lakes (22 vs real 28). A fit on area alone misses Archipelago and Waterworld badly, so placement likely depends on islands or landmasses.
+- **C10 holds at all sizes.** All 305 non-Vengir capitals have a pair; 11 of 19 Vengir capitals do.
+- **C21 5x5 reveal holds at all sizes.**
+
+## Generator now uses the saves first (measured mode), 2026-10-23
+- `sim/wiki_mapgen.py generate(..., mode="measured")` is the default. Tables come from `data/measured_mapgen.json`, built by `verify/build_measured_tables.py` from all saves. Rebuild after adding saves.
+- **The wiki is overruled on:** AquaCrop (missing from the wiki); fixed capital pairs for every tribe (the wiki says random for six of them); Luxidoor's fixed ring; per-tribe mountain/forest/field shares; village totals per map type (Drylands 0.67, Lakes 0.65, Archipelago 0.60, Continents 0.52, Pangea 0.48, Waterworld 0.24 of the (n//3)^2 slots); land share.
+- **The wiki still supplies:** placement order, spacing, resource zones, the tribe multipliers as a prior, ruins, starfish and lighthouses.
+- **Check** (`sim/validate_measured.py`): capital rings are within 0.2 of real for all 16 tribes (the wiki mode is off by up to 2.6 for Luxidoor and 0.9 for Zebasi). Water resources and land share match. Village counts are within the real spread, except Huge Lakes, where there is only 1 save.
+
+## Full save decoding and start table, 2026-10-23
+- `verify/state_v123.py read_state()` now decodes whole files: the initial state, the current state, players (stars, score, techs, kills/losses, diplomacy) and the action list. All 27 saves decode with 0 bytes left over.
+- **Actions record what was done, not the result.** Combat damage is checked by replaying a game from its turn-0 state and comparing with the saved current state. One played save therefore tests the whole combat model.
+- **Start table (L3, 324 players):** stars 7/6/2/5 as the wiki says, starting units confirmed, Luxidoor capital at level 3. Aquarion's unit is id 46, which Polyfish lacks. Turn-0 scores are in `data/measured_start.json`. Adding 100 × the start tech's tier gives every wiki start score, which settles C3 = 530 and C5 = 515.
+- **Starting techs are granted at turn 1**, so turn-0 saves list none.
+- **The tech tree is confirmed from a screenshot:** all 25 links. Costs are 5 at tier 1 and 6 at tier 2 with 1 city.
+- **Solaris exists in v123** (Jason). It needs a turn-0 save.
+- **Goal set by Jason:** winning and combat. Score is not a target.
+
+## Ruin page and real ruin placement, 2026-10-23
+- **C14 / G4:** the wiki Ruin page now says rewards are a uniform pick among the eligible options, which agrees with PolyEnv. The reward list is updated: Veteran Swordsman on land (not a Super Unit), Veteran Rammer with a Warrior on water (not a Battleship), Lost City for Aquarion on deep ocean. The frequencies still need a ruin log, and the exact Explorer fog condition is unclear.
+- **Placement (L3, 481 ruins):** the wiki is wrong that ruins can touch villages since 2.0.58. In v123 they are ≥2 from villages, ≥3 from capitals and ≥3 from other ruins, never on shallow water, sometimes on deep ocean, and sometimes on top of a hidden resource. The generator's measured mode uses these spacings.
+
+## Starting techs and scores settled (L3), 2026-10-23
+- The save's current state (after the StartMatch action) holds starting techs and start scores. I misread this earlier as "granted at turn 1".
+- **Settled:** C1 Ai-Mo Philosophy 730; C3 Polaris Frostwork 530; C4 Cymanti Farming 630; C5 Kickoo 515 (PolyEnv was right, the old fandom figure wrong). Aquarion's start tech has id 45, which Polyfish lacks. Full table in `data/measured_start.json`.
+- **G3 fog:** Jason sees enemy units stay drawn after he walks away. Still to check: stale image or live view of explored tiles.
+
+## Game info cards (40 screenshots), 2026-10-23
+- **The unit stats in the dataset are correct** for 10 standard units, apart from two fixes: Cloak attack is 2, not 0; boats show 10 HP.
+- **C19 mostly settled:** Road costs 3 (PolyEnv right), Burn Forest 3 (as in the 2025 patch), Port 7. Every building price read is listed in `data/measured_ui.json`. Not yet seen: Clear Forest, Sawmill, Customs House, Sanctuary.
+- **C25 settled:** backwards research is allowed.
+- **Literacy:** −33%, rounded up; 4/4/5 at 1 city.
+- **G8:** Embassy costs 5 and pays both sides while you are not at war, double with a peace treaty.
+- **G12 Solaris:** its tech tree, 4 units and 2 buildings are recorded. It still needs a save for its ids.
+
+## G3 fog settled, 2026-10-23
+- **No stale fog:** an explored tile stays visible, and units on it are shown live. Only unexplored cloud tiles hide units. The explored set in the save is therefore the player's exact vision. Hidden information means units in unexplored tiles plus unexplored terrain.
+
+## Engine v0: combat checked by replay, 2026-10-23
+- `engine/` (stats.py, state.py, replay.py) replays a save's actions from turn 0 and compares unit HP, type, position and owner at each exported checkpoint.
+- **Bot war 6e1bf8e0 (16 players, 468 attacks by turn 15):** at turn 5, 63 of 66 units have exact HP. Matches drop later: 77 at turn 11 and 93 at turn 15, against 14 and 20 HP mismatches, because of the open items below.
+- **Settled by A/B replay (L2):** C6, the counter-attack does include the defence bonus. Also settled: the city bonus applies only to Fortify units (4 with walls), the terrain bonus needs its tech, rounding is half-up, there is no counter-attack from out of range, and melee attackers move in after a kill.
+- **Still to model:** Aquarion v123 units (ids 46 and 53 are not in any enum; 46 is amphibious and probably Shark-like), boat HP, healing (passive or reward?), unknown action types 18/24/27/38 (abilities), splash, poison, explode (Cymanti), and Polaris freezing.

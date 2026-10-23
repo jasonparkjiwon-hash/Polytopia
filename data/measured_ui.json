@@ -1,0 +1,393 @@
+{
+ "_about": "Read from Jason's in-game info-card screenshots, game v123, 2026-10-23 (40 images: Solaris and Ai-Mo tech trees) + 11 Aquarion unit cards (2026-10-23)",
+ "units": {
+  "SteamWagon": {
+   "cost": 5,
+   "skills": "DASH ESCAPE ROLL",
+   "hp": 15,
+   "attack": 3,
+   "defense": 2,
+   "movement": 3,
+   "range": 1,
+   "domain": "Land",
+   "tribe": "Solaris"
+  },
+  "SteamFortress": {
+   "cost": 15,
+   "skills": "ROLL SCOUT ESCAPE STATIC",
+   "hp": 20,
+   "attack": 4,
+   "defense": 3,
+   "movement": 2,
+   "range": 2,
+   "domain": "Land",
+   "tribe": "Solaris"
+  },
+  "Pyro": {
+   "cost": 5,
+   "skills": "ROLL AUTO_BURN STIFF",
+   "hp": 10,
+   "attack": 0,
+   "defense": 1,
+   "movement": 2,
+   "range": 1,
+   "domain": "Land",
+   "tribe": "Solaris"
+  },
+  "AshArcher": {
+   "cost": 3,
+   "skills": "DASH BURN FORTIFY STIFF",
+   "hp": 10,
+   "attack": 1,
+   "defense": 1,
+   "movement": 1,
+   "range": 2,
+   "domain": "Land",
+   "tribe": "Solaris"
+  },
+  "Rider": {
+   "cost": 3,
+   "skills": "DASH ESCAPE FORTIFY",
+   "hp": 10,
+   "attack": 2,
+   "defense": 1,
+   "movement": 2,
+   "range": 1,
+   "domain": "Land",
+   "tribe": null
+  },
+  "Catapult": {
+   "cost": 8,
+   "skills": "STIFF",
+   "hp": 10,
+   "attack": 4,
+   "defense": 0,
+   "movement": 1,
+   "range": 3,
+   "domain": "Land",
+   "tribe": null
+  },
+  "Archer": {
+   "cost": 3,
+   "skills": "DASH FORTIFY",
+   "hp": 10,
+   "attack": 2,
+   "defense": 1,
+   "movement": 1,
+   "range": 2,
+   "domain": "Land",
+   "tribe": null
+  },
+  "Knight": {
+   "cost": 8,
+   "skills": "DASH PERSIST FORTIFY",
+   "hp": 10,
+   "attack": 3.5,
+   "defense": 1,
+   "movement": 3,
+   "range": 1,
+   "domain": "Land",
+   "tribe": null
+  },
+  "Defender": {
+   "cost": 3,
+   "skills": "FORTIFY",
+   "hp": 15,
+   "attack": 1,
+   "defense": 3,
+   "movement": 1,
+   "range": 1,
+   "domain": "Land",
+   "tribe": null
+  },
+  "Swordsman": {
+   "cost": 5,
+   "skills": "DASH",
+   "hp": 15,
+   "attack": 3,
+   "defense": 3,
+   "movement": 1,
+   "range": 1,
+   "domain": "Land",
+   "tribe": null
+  },
+  "Cloak": {
+   "cost": 8,
+   "skills": "HIDE CREEP INFILTRATE DASH SCOUT STIFF STATIC",
+   "hp": 5,
+   "attack": 2,
+   "defense": 0.5,
+   "movement": 2,
+   "range": 1,
+   "domain": "Land",
+   "tribe": null
+  },
+  "MindBender": {
+   "cost": 5,
+   "skills": "HEAL CONVERT STIFF",
+   "hp": 10,
+   "attack": 0,
+   "defense": 1,
+   "movement": 1,
+   "range": 1,
+   "domain": "Land",
+   "tribe": null
+  },
+  "Bomber": {
+   "cost": 15,
+   "skills": "CARRY SPLASH STIFF STATIC",
+   "hp": 10,
+   "attack": 3,
+   "defense": 2,
+   "movement": 2,
+   "range": 3,
+   "domain": "Water",
+   "tribe": null
+  },
+  "Scout": {
+   "cost": 5,
+   "skills": "DASH CARRY SCOUT STATIC",
+   "hp": 10,
+   "attack": 2,
+   "defense": 1,
+   "movement": 3,
+   "range": 2,
+   "domain": "Water",
+   "tribe": null
+  },
+  "Rammer": {
+   "cost": 5,
+   "skills": "DASH CARRY STATIC",
+   "hp": 10,
+   "attack": 3,
+   "defense": 3,
+   "movement": 3,
+   "range": 1,
+   "domain": "Water",
+   "tribe": null
+  },
+  "Puffer": {
+   "cost": 8,
+   "skills": "DRENCH STIFF",
+   "hp": 10,
+   "attack": 4,
+   "defense": 0,
+   "movement": 2,
+   "range": 3,
+   "domain": "Water",
+   "tribe": "Aquarion"
+  },
+  "Tridention": {
+   "cost": 8,
+   "skills": "DASH PERSIST",
+   "hp": 10,
+   "attack": 2.5,
+   "defense": 1,
+   "movement": 2,
+   "range": 2,
+   "domain": "Amphibious",
+   "tribe": "Aquarion"
+  },
+  "Shark": {
+   "cost": 8,
+   "skills": "DASH SURPRISE",
+   "hp": 10,
+   "attack": 3.5,
+   "defense": 2,
+   "movement": 3,
+   "range": 1,
+   "domain": "Water",
+   "tribe": "Aquarion"
+  },
+  "Jelly": {
+   "cost": 8,
+   "skills": "STIFF TENTACLES STATIC",
+   "hp": 20,
+   "attack": 2,
+   "defense": 2,
+   "movement": 2,
+   "range": 1,
+   "domain": "Water",
+   "tribe": "Aquarion"
+  },
+  "Amphibian": {
+   "cost": 3,
+   "skills": "DASH ESCAPE",
+   "hp": 10,
+   "attack": 2,
+   "defense": 1,
+   "movement": 2,
+   "range": 1,
+   "domain": "Amphibious",
+   "tribe": "Aquarion"
+  },
+  "MermaidArcher": {
+   "cost": 3,
+   "skills": "DASH FORTIFY",
+   "hp": 10,
+   "attack": 2,
+   "defense": 1,
+   "movement": 1,
+   "range": 2,
+   "domain": "Amphibious",
+   "tribe": "Aquarion"
+  },
+  "Siren": {
+   "cost": 5,
+   "skills": "HEAL CONVERT STIFF",
+   "hp": 10,
+   "attack": 0,
+   "defense": 1,
+   "movement": 1,
+   "range": 1,
+   "domain": "Amphibious",
+   "tribe": "Aquarion"
+  },
+  "Swordsmaid": {
+   "cost": 5,
+   "skills": "DASH",
+   "hp": 15,
+   "attack": 3,
+   "defense": 3,
+   "movement": 1,
+   "range": 1,
+   "domain": "Amphibious",
+   "tribe": "Aquarion"
+  },
+  "Scuba": {
+   "cost": 8,
+   "skills": "HIDE CREEP INFILTRATE DASH SCOUT STATIC STIFF",
+   "hp": 5,
+   "attack": 2,
+   "defense": 0.5,
+   "movement": 2,
+   "range": 1,
+   "domain": "Amphibious",
+   "tribe": "Aquarion"
+  },
+  "MermaidDefender": {
+   "cost": 8,
+   "skills": "FORTIFY",
+   "hp": 15,
+   "attack": 1,
+   "defense": 3,
+   "movement": 1,
+   "range": 1,
+   "domain": "Amphibious",
+   "tribe": "Aquarion"
+  },
+  "Mermaid": {
+   "cost": 2,
+   "skills": "DASH FORTIFY",
+   "hp": 10,
+   "attack": 2,
+   "defense": 2,
+   "movement": 1,
+   "range": 1,
+   "domain": "Amphibious",
+   "tribe": "Aquarion"
+  }
+ },
+ "actions_buildings": {
+  "Crater": {
+   "cost": 5,
+   "effect": "Solaris (Heatwork): +1 pop; trade routes through Lava to other Craters within 5 tiles"
+  },
+  "Turbine": {
+   "cost": 5,
+   "effect": "Solaris (Geothermics): +2 pop, must be on a Volcano tile"
+  },
+  "HarvestFruit": {
+   "cost": 2,
+   "effect": "Organization: +1 pop, on Fruit"
+  },
+  "Hunting": {
+   "cost": 2,
+   "effect": "Hunting: +1 pop, on Wild Animal"
+  },
+  "Fishing": {
+   "cost": 2,
+   "effect": "Fishing: +1 pop, on Fish"
+  },
+  "Port": {
+   "cost": 7,
+   "effect": "Fishing: +1 pop; trade routes through Ocean/Water/Wetland to other Ports within 5 tiles; units moving here become boats"
+  },
+  "LumberHut": {
+   "cost": 3,
+   "effect": "Forestry: +1 pop"
+  },
+  "Market": {
+   "cost": 5,
+   "effect": "Trade: +1 star per turn for each nearby Windmill, Forge, Sawmill; one per city"
+  },
+  "Road": {
+   "cost": 3,
+   "effect": "Roads: connects cities to the capital (connected city +1 pop); movement bonus; can be built outside your territory"
+  },
+  "Bridge": {
+   "cost": 5,
+   "effect": "Roads: trade routes through Water to another Bridge within 1 tile; any unit can cross; can be built outside your territory"
+  },
+  "Temple": {
+   "cost": 20,
+   "effect": "Free Spirit: +1 pop, 100 score, +100 score every 2 turns"
+  },
+  "Windmill": {
+   "cost": 5,
+   "effect": "Construction: +1 pop per nearby Farm/Aqua Farm; one per city"
+  },
+  "BurnForest": {
+   "cost": 3,
+   "effect": "Construction: forest -> field with crop"
+  },
+  "Farm": {
+   "cost": 5,
+   "effect": "Farming: +2 pop, on Crop"
+  },
+  "Embassy": {
+   "cost": 5,
+   "effect": "Diplomacy: income for both sides while not at war, doubled with a peace treaty"
+  },
+  "Forge": {
+   "cost": 5,
+   "effect": "Smithery: +2 pop per nearby Mine; one per city"
+  },
+  "Mine": {
+   "cost": 5,
+   "effect": "Mining: +2 pop, on Metal"
+  },
+  "MountainTemple": {
+   "cost": 20,
+   "effect": "Meditation: +1 pop, 100 score, +100 every 2 turns"
+  },
+  "WaterTemple": {
+   "cost": 20,
+   "effect": "Aquatism: same as temple"
+  },
+  "GrowForest": {
+   "cost": 5,
+   "effect": "Spiritualism: field -> forest"
+  },
+  "ForestTemple": {
+   "cost": 15,
+   "effect": "Spiritualism: same as temple"
+  }
+ },
+ "tech": {
+  "Solaris_tree": "Heatwork (start; replaces Fishing) -> Osteophagy -> Magmaism; Heatwork -> Steam Engine -> Explosives; Climbing -> Geothermics (replaces Mining) -> Smithery; Climbing -> Meditation -> Philosophy; Hunting/Riding/Organization branches standard",
+  "Solaris_start": "Heatwork, 5 stars (+2), score 530",
+  "tech_cost_1_city": {
+   "no_literacy": {
+    "tier1": 5,
+    "tier2": 6
+   },
+   "with_literacy(Ai-Mo)": {
+    "tier1": 4,
+    "tier2": 4,
+    "tier3": 5
+   }
+  },
+  "backwards_research": "Ai-Mo owns Philosophy only; Meditation (tier 2) shows as buyable at 4 stars while Climbing is unowned, so backwards research is allowed"
+ }
+}

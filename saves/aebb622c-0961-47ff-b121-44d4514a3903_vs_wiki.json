@@ -1,0 +1,286 @@
+{
+ "map": {
+  "size": 16,
+  "settlements": 16,
+  "capitals": 4,
+  "land": 0.992
+ },
+ "terrain_by_biome": [
+  [
+   "AiMo",
+   59,
+   {
+    "Field": 0.458,
+    "Forest": 0.322,
+    "Mountain": 0.22
+   },
+   {
+    "Mountain": 0.21,
+    "Forest": 0.349,
+    "Field": 0.441
+   }
+  ],
+  [
+   "Kickoo",
+   79,
+   {
+    "Field": 0.494,
+    "Forest": 0.43,
+    "Mountain": 0.076
+   },
+   {
+    "Mountain": 0.07,
+    "Forest": 0.411,
+    "Field": 0.519
+   }
+  ],
+  [
+   "Polaris",
+   8,
+   {
+    "Field": 0.75,
+    "Forest": 0.25,
+    "Mountain": 0.0
+   },
+   null
+  ],
+  [
+   "Zebasi",
+   81,
+   {
+    "Field": 0.642,
+    "Forest": 0.272,
+    "Mountain": 0.086
+   },
+   {
+    "Mountain": 0.07,
+    "Forest": 0.264,
+    "Field": 0.666
+   }
+  ]
+ ],
+ "pooled_rates": {
+  "inner Fruit|Field": [
+   18,
+   54,
+   0.333
+  ],
+  "inner Crop|Field": [
+   21,
+   54,
+   0.389
+  ],
+  "inner Spores|Field": [
+   0,
+   54,
+   0.0
+  ],
+  "inner Game|Forest": [
+   17,
+   36,
+   0.472
+  ],
+  "inner Metal|Mountain": [
+   5,
+   6,
+   0.833
+  ],
+  "outer Fruit|Field": [
+   10,
+   52,
+   0.192
+  ],
+  "outer Crop|Field": [
+   2,
+   52,
+   0.038
+  ],
+  "outer Spores|Field": [
+   0,
+   52,
+   0.0
+  ],
+  "outer Game|Forest": [
+   6,
+   31,
+   0.194
+  ],
+  "outer Metal|Mountain": [
+   7,
+   15,
+   0.467
+  ],
+  "beyond_2 Fruit|Field": [
+   0,
+   6,
+   0.0
+  ],
+  "beyond_2 Crop|Field": [
+   0,
+   6,
+   0.0
+  ],
+  "beyond_2 Spores|Field": [
+   0,
+   6,
+   0.0
+  ],
+  "beyond_2 Game|Forest": [
+   0,
+   5,
+   0.0
+  ],
+  "beyond_2 Metal|Mountain": [
+   0,
+   3,
+   0.0
+  ]
+ },
+ "rates_vs_readings": [
+  {
+   "cell": "inner Fruit|Field",
+   "n": 54,
+   "real": 0.333,
+   "wiki_reading": 0.292,
+   "z_vs_wiki": 0.7,
+   "PE_reading": 0.14,
+   "z_vs_PE": 4.1
+  },
+  {
+   "cell": "inner Crop|Field",
+   "n": 54,
+   "real": 0.389,
+   "wiki_reading": 0.325,
+   "z_vs_wiki": 1.0,
+   "PE_reading": 0.156,
+   "z_vs_PE": 4.7
+  },
+  {
+   "cell": "inner Spores|Field",
+   "n": 54,
+   "real": 0.0,
+   "wiki_reading": null,
+   "z_vs_wiki": null,
+   "PE_reading": null,
+   "z_vs_PE": null
+  },
+  {
+   "cell": "inner Game|Forest",
+   "n": 36,
+   "real": 0.472,
+   "wiki_reading": 0.5,
+   "z_vs_wiki": -0.3,
+   "PE_reading": 0.19,
+   "z_vs_PE": 4.3
+  },
+  {
+   "cell": "inner Metal|Mountain",
+   "n": 6,
+   "real": 0.833,
+   "wiki_reading": 0.786,
+   "z_vs_wiki": 0.3,
+   "PE_reading": 0.11,
+   "z_vs_PE": 5.7
+  },
+  {
+   "cell": "outer Fruit|Field",
+   "n": 52,
+   "real": 0.192,
+   "wiki_reading": 0.102,
+   "z_vs_wiki": 2.1,
+   "PE_reading": 0.049,
+   "z_vs_PE": 4.8
+  },
+  {
+   "cell": "outer Crop|Field",
+   "n": 52,
+   "real": 0.038,
+   "wiki_reading": 0.09,
+   "z_vs_wiki": -1.3,
+   "PE_reading": 0.043,
+   "z_vs_PE": -0.2
+  },
+  {
+   "cell": "outer Spores|Field",
+   "n": 52,
+   "real": 0.0,
+   "wiki_reading": null,
+   "z_vs_wiki": null,
+   "PE_reading": null,
+   "z_vs_PE": null
+  },
+  {
+   "cell": "outer Game|Forest",
+   "n": 31,
+   "real": 0.194,
+   "wiki_reading": 0.158,
+   "z_vs_wiki": 0.5,
+   "PE_reading": 0.06,
+   "z_vs_PE": 3.1
+  },
+  {
+   "cell": "outer Metal|Mountain",
+   "n": 15,
+   "real": 0.467,
+   "wiki_reading": 0.214,
+   "z_vs_wiki": 2.4,
+   "PE_reading": 0.03,
+   "z_vs_PE": 9.9
+  },
+  {
+   "cell": "beyond_2 Fruit|Field",
+   "n": 6,
+   "real": 0.0,
+   "wiki_reading": 0.0,
+   "z_vs_wiki": 0.0,
+   "PE_reading": 0.0,
+   "z_vs_PE": 0.0
+  },
+  {
+   "cell": "beyond_2 Crop|Field",
+   "n": 6,
+   "real": 0.0,
+   "wiki_reading": 0.0,
+   "z_vs_wiki": 0.0,
+   "PE_reading": 0.0,
+   "z_vs_PE": 0.0
+  },
+  {
+   "cell": "beyond_2 Spores|Field",
+   "n": 6,
+   "real": 0.0,
+   "wiki_reading": 0.0,
+   "z_vs_wiki": 0.0,
+   "PE_reading": 0.0,
+   "z_vs_PE": 0.0
+  },
+  {
+   "cell": "beyond_2 Game|Forest",
+   "n": 5,
+   "real": 0.0,
+   "wiki_reading": 0.0,
+   "z_vs_wiki": 0.0,
+   "PE_reading": 0.0,
+   "z_vs_PE": 0.0
+  },
+  {
+   "cell": "beyond_2 Metal|Mountain",
+   "n": 3,
+   "real": 0.0,
+   "wiki_reading": 0.0,
+   "z_vs_wiki": 0.0,
+   "PE_reading": 0.0,
+   "z_vs_PE": 0.0
+  }
+ ],
+ "water_tiles": {
+  "108": [
+   "Water",
+   "Fish"
+  ],
+  "109": [
+   "Water",
+   "Fish"
+  ]
+ }
+}

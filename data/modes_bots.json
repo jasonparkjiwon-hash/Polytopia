@@ -1,0 +1,26 @@
+{
+ "modes": {
+  "Perfection": "singleplayer, 30 turns, maximise score; 3-star ~50k (WK)",
+  "Domination": "singleplayer, defeat all tribes in as few turns as possible; up to 10 opponents",
+  "Glory": "multiplayer; first to 10,000 points and hold the lead one turn",
+  "Might": "multiplayer; capture enemy capitals",
+  "src": "WK",
+  "conf": "med"
+ },
+ "bot_difficulty": {
+  "capital_income_per_turn": {
+   "v": {
+    "Easy": 1,
+    "Normal": 2,
+    "Hard": 3,
+    "Crazy": 5
+   },
+   "src": "DEV+WK",
+   "conf": "medium-high",
+   "note": "TOTAL starting capital income, not a bonus on top: wiki Game Modes says 'Normal 2 (same as humans)'. So Easy bots earn LESS than a human (C24)."
+  },
+  "aggression": "higher ratings on higher difficulty (no numbers)",
+  "vision_cheating": "NOT stated anywhere found (G5)",
+  "implication": "bots win by income handicap, not by planning; their decision policy is undocumented. Needs black-box observation (replay logs)."
+ }
+}

@@ -1,0 +1,325 @@
+{
+ "_about": "Evidence ledger: one row per rule, with its trust level (L0 one source, L1 two agree, L2 three agree or pre-registered test passed, L3 measured in the real game). Real-game rows cite the save they came from.",
+ "saves": {
+  "S1-S6": {
+   "files": "6 iPhone saves, game v123, turn 0, Massive 30x30, 15 Crazy bots each, one per map type (codes 1-6 = Drylands, Lakes, Continents, Archipelago, Waterworld, Pangea)",
+   "date": "2026-10-23",
+   "capitals": 96,
+   "index": "saves/index.json"
+  },
+  "S1-S14": {
+   "files": "14 iPhone saves, game v123, turn 0, Massive 30x30, 15 Crazy bots: Drylands 3, Lakes 3, Continents 3, Archipelago 3, Pangea 1, Waterworld 1",
+   "capitals": 224,
+   "date": "2026-10-23",
+   "index": "saves/index.json"
+  },
+  "S1-S27": {
+   "files": "27 iPhone saves, v123, turn 0, Crazy bots. Massive 30x30 x15 bots: 3 of each map type (18). Normal 16x16 x3 bots: one per map type (6). Lakes at Small 14, Large 18, Huge 20 x3 bots (3).",
+   "capitals": 324,
+   "date": "2026-10-23",
+   "index": "saves/index.json"
+  }
+ },
+ "rules": [
+  {
+   "id": "C23",
+   "rule": "Resource table rows are SHARES of land tiles per zone, so P(resource|terrain) = share / terrain share (inner fruit|field 0.375, animal|forest 0.50, metal|mountain 0.786; outer 0.125 / 0.158 / 0.214), times tribe multipliers",
+   "level": "L3",
+   "evidence": "14 maps, capital rings excluded: wiki reading within |z| <= 2.8 on all 8 cells (residuals of 2-3 points on crop/outer fruit); PolyEnv reading rejected at z 5 to 48."
+  },
+  {
+   "id": "C23b",
+   "rule": "Capital 8-tile ring averages about 5.7 resources",
+   "level": "L3",
+   "evidence": "224 capitals over 14 maps: mean 5.75; wiki-literal generator about 5.45."
+  },
+  {
+   "id": "C10",
+   "rule": "Every capital gets a fixed identical pair: animal for Ai-Mo, Bardur, Elyrion, Hoodrick and Polaris; fish for Aquarion and Kickoo; fruit for Imperius, Oumaji, Quetzali and Yadakk; metal for Xin-xi; crop/spores for Zebasi and Cymanti. Luxidoor's ring is fixed (2 fruit, 2 animal, 2 fish, 1 crop, 1 metal on Field 3/Forest 2/Mountain 1/Water 2, 18 of 18). Vengir has no guarantee (11 of 19 paired).",
+   "level": "L3",
+   "evidence": "218 of 224 capitals; all 6 failures are Vengir (6 of 13 Vengir capitals lacked a pair). | S1-S27: all 305 non-Vengir capitals paired; Vengir 11 of 19 paired. | S1-S27 per-tribe pair table in data/measured_mapgen.json capital_ring. The wiki's 'random tier-1 for the rest' is wrong: Ai-Mo 20/20 animal, Aquarion 22/22 fish."
+  },
+  {
+   "id": "RES-AREA",
+   "rule": "No resources farther than distance 2 from any settlement",
+   "level": "L3",
+   "evidence": "6 maps: 0 resources on 117 land tiles beyond distance 2."
+  },
+  {
+   "id": "C21",
+   "rule": "Turn-0 reveal is a 5x5 square around the capital (25 tiles)",
+   "level": "L3",
+   "evidence": "S1: all 16 players see exactly 25 tiles (offsets -2..2). | S1-S27: 5x5 reveal holds at sizes 14-30 (one 14x14 capital saw 24, edge-clipped)."
+  },
+  {
+   "id": "RUINS-900",
+   "rule": "Ruin count by map size matches the wiki table exactly: 14->5, 16->7, 18->9, 20->11, 30->23",
+   "level": "L3",
+   "evidence": "S1-S27, all 27 saves exact"
+  },
+  {
+   "id": "C9",
+   "rule": "Settlements per Massive map",
+   "level": "L1 (open)",
+   "evidence": "Massive, 16 players: drylands 70/61/70, lakes 62/65/63, continents 50/54/52, archipelago 59/60/62, pangea 50, waterworld 23. | S1-S27 totals (capitals+villages): Normal 16: Dry 16, Lakes 16, Cont 14, Arch 15, Pangea 12, WW 7 (generator 18.1/15.0/14.6/14.4/14.8/6.0); Lakes 14/18/20: 12/21/28 (gen 11.7/20.3/22.0). Massive Pangea 50/49/46 vs gen 58.5. A land+water linear fit misses Archipelago by +15 and Waterworld by -11, so the count depends on the map-type layout (islands), not just area."
+  },
+  {
+   "id": "DRY-FISH",
+   "rule": "On Drylands, Aquarion capitals also get 2 fish water tiles (wiki names only Kickoo)",
+   "level": "L3",
+   "evidence": "S1: both Aquarion capitals have exactly 2 Water tiles with fish; these are the map's only 4 water tiles."
+  },
+  {
+   "id": "START-UNITS",
+   "rule": "Start unit per tribe, all 16 seen: Warrior (Imperius, Bardur, Xin-xi, Zebasi, Elyrion, Kickoo, Yadakk, Luxidoor), Archer (Hoodrick), Rider (Oumaji), Defender 15 HP (Quetzali), Swordsman 15 HP (Vengir), Mind Bender (Ai-Mo), Shaman (Cymanti), Mooni (Polaris), Mermaid id 46 (Aquarion)",
+   "level": "L3",
+   "evidence": "14 saves, capital records of 224 players. | Re-read from unit records: Ai-Mo Mind Bender, Cymanti Shaman, Polaris Mooni, Vengir Swordsman, Hoodrick Archer, Oumaji Rider, Quetzali Defender, Aquarion unit 46, Warrior for the rest (324 of 324)."
+  },
+  {
+   "id": "ENUM-IDS",
+   "rule": "Polyfish enum ids (terrain, resource, improvement, unit, tribe) equal the real game's ids",
+   "level": "L3",
+   "evidence": "S1 decoded consistently with Polyfish types.rs; Aquarion Mermaid id 46 is missing from Polyfish."
+  },
+  {
+   "id": "C12",
+   "rule": "Tribe terrain: mountain multiplier applied directly; forest multiplier RE-WEIGHTS forest against field: forest = fb*mod/(fb*mod + field_b)*(1-mountain)",
+   "level": "L2",
+   "evidence": "14 maps, 30 cells: chi2 58 for the re-weighting rule vs 124 for the wiki text. Better, but still above the ~30 expected: rule close, not exact."
+  },
+  {
+   "id": "LAND-TYPE",
+   "rule": "Land share by map type (Massive, 16 players), varies per map: drylands 0.99-1.0, lakes 0.73-0.75, continents 0.47-0.60, archipelago 0.40-0.41, pangea 0.51 (1 map), waterworld 0.15 (1 map)",
+   "level": "L3",
+   "evidence": "S1-S6; Polyfish constants were right except pangea (0.78). | Size check: Lakes 0.75/0.78/0.74/0.75 at 14/16/18/20 vs 0.73-0.75 at 30; Normal Drylands 0.99, Archipelago 0.39, Pangea 0.50, Waterworld 0.15 all match Massive. Continents 16x16 0.63 (Massive 0.47-0.60) is the widest. Land share does not depend on size."
+  },
+  {
+   "id": "STARFISH",
+   "rule": "Starfish count is about water tiles / 25 (within +-2)",
+   "level": "L2",
+   "evidence": "real vs water/25: 17/19.2, 29/30.6, 21/21.6, 11/9.6, 17/17.5, 0/0.2. | Normal 16: Waterworld 9 (water/25=8.7), Archipelago 7 (6.3)."
+  },
+  {
+   "id": "MAPTYPE-CODE",
+   "rule": "Save header map type code: 1 Drylands, 2 Lakes, 3 Continents, 4 Archipelago, 5 Waterworld, 6 Pangea (same as Polyfish enum)",
+   "level": "L3",
+   "evidence": "matches the land shares of Jason's six games."
+  },
+  {
+   "id": "AQUACROP",
+   "rule": "AquaCrop (resource id 9) is a general water resource on Water/Ocean (831 tiles in 27 saves), next to capitals of 15 of 16 tribes. Within distance 1 of a settlement water is ~44% Fish / 22% AquaCrop / 34% none; at distance 2 ~13% / 8%. The wiki's Fish 0.5 does not mention it.",
+   "level": "L3",
+   "evidence": "S1-S27. It also explains the capital-ring gap: real ring-8 mean 5.79 with AquaCrop, 5.34 without, generator 5.47."
+  },
+  {
+   "id": "SPACING",
+   "rule": "Settlements are >= 3 apart (Chebyshev) and never on the map edge",
+   "level": "L3",
+   "evidence": "6 maps: minimum spacing exactly 3, 0 on edge."
+  },
+  {
+   "id": "C2-LUX",
+   "rule": "Luxidoor capital starts at level 3; every other tribe level 1",
+   "level": "L3",
+   "evidence": "14 saves: Luxidoor capitals level 3, all others level 1. City wall not visible in the parsed fields yet."
+  },
+  {
+   "id": "TERRAIN-MEASURED",
+   "rule": "Per-tribe terrain shares on real maps: mountains run above the wiki's figure for most tribes (e.g. Zebasi 0.10 vs 0.07, Oumaji 0.12 vs 0.07, Aquarion 0.175 vs 0.14). The generator's measured mode uses the counted shares.",
+   "level": "L3",
+   "evidence": "S1-S27, 391-664 land tiles per tribe, capital rings excluded"
+  },
+  {
+   "id": "GEN-MEASURED",
+   "rule": "The generator's default 'measured' mode puts the saves first. Terrain, resource and water rates come from per-tribe counts blended with a wiki prior (50/30 tiles; water uses the all-tribe measured rate because the wiki has no AquaCrop). The village total is settlements per (n//3)^2 slot by map type. Land share is the measured value. Capital rings are copied from a real ring of the same tribe and map type. 'wiki' mode is kept for comparison.",
+   "level": "tool",
+   "evidence": "sim/validate_measured.py -> saves/generator_validation.json: ring means within 0.2 of real for every tribe; inner water fish/aquacrop 0.416/0.228 vs real 0.41/0.226; settlements and land within the spread of real maps, except Huge Lakes (1 save, 28 vs 23) and Continents 16 land (1 save)."
+  },
+  {
+   "id": "TECH-TREE",
+   "rule": "v123 tech tree: Riding->Roads->Trade, Riding->Free Spirit->Chivalry; Organization->Farming->Construction, Organization->Strategy->Diplomacy; Climbing->Mining->Smithery, Climbing->Meditation->Philosophy; Fishing->Sailing->Navigation, Fishing->Ramming->Aquatism; Hunting->Archery->Spiritualism, Hunting->Forestry->Mathematics. All 25 prerequisite links match the dataset.",
+   "level": "L3",
+   "evidence": "Jason's tech-tree screenshot 2026-10-23 (Imperius, turn 0, 1 city)."
+  },
+  {
+   "id": "TECH-COST",
+   "rule": "cost = tier x cities + 4: tier 1 costs 5 and tier 2 costs 6 at 1 city, as the screen shows; the in-game hint says costs rise with each city.",
+   "level": "L2 (tier 3 and the Literacy discount not yet seen)",
+   "evidence": "Screenshot 2026-10-23"
+  },
+  {
+   "id": "SOLARIS",
+   "rule": "Solaris is a playable tribe in Jason's v123 game.",
+   "level": "L1 (Jason)",
+   "evidence": "Jason 2026-10-23; not yet in any dataset. Needs its tribe id, start, tech tree and units."
+  },
+  {
+   "id": "GOAL",
+   "rule": "Advisor goal: win, with combat as the priority; score/Perfection is not a target.",
+   "level": "decision",
+   "evidence": "Jason 2026-10-23"
+  },
+  {
+   "id": "SAVE-FORMAT",
+   "rule": "A v123 .state file holds the initial state, 7 bytes, the current state (its first header field is a 32-bit hash, not the version), 2 bytes, then the action list. Player records follow polytopiamapmodelgo's post-v114 layout plus 1 trailing byte (equal to the tribe id). All 27 saves decode to the last byte. Actions store what was done (move, attack origin and target, train, research), not the results, so combat damage has to be checked by replaying actions in a simulator and comparing with the saved current state.",
+   "level": "L3",
+   "evidence": "verify/state_v123.py read_state(), 27 of 27 saves, 0 unparsed bytes. Action payload sizes are confirmed for v123 only for type 20 (StartMatch, 10 bytes). | Played save 9847d452 (turn 6, 130 actions) parses to the last byte. Action layouts follow polytopiamapmodelgo; StartMatch (type 20) is 1 byte, and the file ends with a 9-byte trailer (3 zero bytes, the state hash, the action count). Confirmed in v123: Build, Train, Move, Capture, Research, CityReward, ExamineRuins, EndTurn, StartMatch. Not yet seen: Attack, Promote, Upgrade, CityLevelUp and others. | Bot-war save 6e1bf8e0 (Massive, 16 players; exports at turns 5, 11, 15; 2,157 actions with 300 attacks) parses exactly. Sizes now confirmed by an exact end: Attack 21, Recover 9, Promote 9, Upgrade 11, CityLevelUp 9, types 18/24 9, 27/30 10, 28 3, and a new type 38 (9 bytes: player + tile, from Cymanti). Player tasks: type 9 carries 6 bytes, like 1 and 5."
+  },
+  {
+   "id": "START-STARS",
+   "rule": "Starting stars: 7 for Xin-xi, Hoodrick, Quetzali and Yadakk; 6 for Oumaji; 2 for Luxidoor; 5 for the other 10 tribes (Polaris included).",
+   "level": "L3",
+   "evidence": "324 players across 27 saves (27 human, 297 bots), no exceptions. Settles C17."
+  },
+  {
+   "id": "START-SCORE",
+   "rule": "Start scores (after StartMatch): 730 Ai-Mo and Vengir; 630 Cymanti; 620 Hoodrick and Quetzali; 615 Yadakk and Zebasi; 530 Polaris; 520 Oumaji; 515 Bardur, Elyrion, Imperius, Kickoo, Luxidoor and Xin-xi; 415 Aquarion. Edge capitals score 5 less. This settles C1 (Ai-Mo 730), C3 (Polaris 530), C4 (Cymanti 630) and C5 (Kickoo 515: PolyEnv right, old fandom 615 wrong).",
+   "level": "L3",
+   "evidence": "28 saves, current-state player records"
+  },
+  {
+   "id": "START-TECH-TIMING",
+   "rule": "Starting techs are granted by the StartMatch action: the save's turn-0 snapshot has none, its current state has them. Everyone also holds tech 0 ('Basic'). Start techs: Ai-Mo Philosophy, Bardur Hunting, Cymanti Farming, Elyrion Forest Magic, Hoodrick Archery, Imperius Organization, Kickoo Fishing, Oumaji Riding, Polaris Frostwork, Quetzali Strategy, Vengir Smithery, Xin-xi Climbing, Yadakk Roads, Zebasi Farming, Aquarion tech id 45 (not in Polyfish's enum), Luxidoor none.",
+   "level": "L3",
+   "evidence": "28 saves, 340 players, no exceptions. Corrects the earlier 'granted at turn 1' reading."
+  },
+  {
+   "id": "HANDICAP",
+   "rule": "Player field DifficultyHandicap: 1 for the human, 2 for Hard bots, 4 for Crazy bots. Probably tied to bot income (C24).",
+   "level": "L1",
+   "evidence": "28 Crazy saves plus 1 Hard save (Giants of Shaza)"
+  },
+  {
+   "id": "AQUARION-UNIT",
+   "rule": "Aquarion starts with unit type 46 (10 HP) on water: the wiki's Mermaid. Polyfish's v115 enum has no ids 46-55.",
+   "level": "L3",
+   "evidence": "22 of 22 Aquarion players"
+  },
+  {
+   "id": "RUIN-PLACE",
+   "rule": "v123 ruin placement: never on shallow water (154 of 481 are on deep ocean); at least 2 tiles from any village (0 adjacent), at least 3 from any capital, at least 3 from any other ruin; map edges are allowed; resources can sit hidden under a ruin (62 of 481). The wiki says ruins may touch villages since 2.0.58; the saves say they never do.",
+   "level": "L3",
+   "evidence": "481 ruins in 27 saves; nearest village distance 2 for 285 ruins, never 1. The generator's measured mode now applies these spacings."
+  },
+  {
+   "id": "RUIN-REWARD",
+   "rule": "Wiki Ruin page: uniform pick among the rewards eligible at that ruin. 10 stars (always); a random free tech from the currently researchable ones (tree not finished); +3 population to the capital (must own one; otherwise the highest-level capital); a free Explorer (5x5 fog condition, not on mountains, Cymanti not on water); a Veteran Swordsman (land only; was a Giant before 2.0.58); a Veteran Rammer carrying a Warrior (water only); Lost City (Aquarion on deep ocean: a level-3 walled city with 4 shallow tiles). The unit must start its turn on the ruin, and examining uses its turn.",
+   "level": "L1 (wiki + PolyEnv's uniform pool agree; the weights are untested)",
+   "evidence": "polytopia.fandom.com/wiki/Ruin fetched 2026-10-23. Open point: the wiki fetch read the Explorer condition as 'no tile in the 5x5 explored' while PolyEnv says 'some tile still hidden'. A ruin log decides it."
+  },
+  {
+   "id": "ELYRION-RUINS",
+   "rule": "Elyrion sees ruins through fog (clouds).",
+   "level": "L0",
+   "evidence": "wiki Ruin page"
+  },
+  {
+   "id": "FOG-STALE",
+   "rule": "No stale fog: uncovered tiles stay uncovered for good, and enemy units on them are shown live. Units are hidden only under clouds (never-explored tiles); you see an enemy step into the clouds but not where it goes. Each save's PlayerVisibility (explored set) is therefore exactly what a player can see.",
+   "level": "L3",
+   "evidence": "Jason 2026-10-23 (two answers). Settles G3 and gate D's design. A cross-check across saves (the explored set never shrinks) is pending more played saves. | Explored sets never shrink across turns 5, 11 and 15 for any of 16 players (save 6e1bf8e0)."
+  },
+  {
+   "id": "RUIN-LOG",
+   "rule": "Logged ruin rewards (inferred from state differences): Jason/Imperius turn 4 at (15,6) gave a free tech (Climbing; owned with no Research action). Luxidoor bot turn 4: not a tech, no surviving unit, so stars, population or Explorer (needs a replay).",
+   "level": "data",
+   "evidence": "save 9847d452"
+  },
+  {
+   "id": "UNIT-STATS-UI",
+   "rule": "Info cards for Rider, Catapult, Archer, Knight, Defender, Swordsman, Mind Bender, Bomber, Scout and Rammer match the dataset's cost, attack, defense, range and skills exactly. Fixes: Cloak attack is 2, not 0; boats show 10 max HP.",
+   "level": "L3",
+   "evidence": "data/measured_ui.json"
+  },
+  {
+   "id": "SOLARIS",
+   "rule": "Solaris: starts with Heatwork (replaces Fishing), 5 stars, score 530. Tree: Heatwork -> Osteophagy -> Magmaism; Heatwork -> Steam Engine -> Explosives; Climbing -> Geothermics (replaces Mining) -> Smithery. Units: Steam Wagon 5 (15hp 3/2 mv3 r1, Dash Escape Roll), Steam Fortress 15 (20hp 4/3 mv2 r2, Roll Scout Escape Static), Pyro 5 (10hp 0/1 mv2, Roll AutoBurn Stiff), Ash Archer 3 (10hp 1/1 mv1 r2, Dash Burn Fortify Stiff). Buildings: Crater 5 (+1 pop; lava trade routes to Craters within 5), Turbine 5 (+2 pop on a Volcano).",
+   "level": "L3 (UI)",
+   "evidence": "Jason's screenshots 2026-10-23. Needs a save for the tribe id, unit ids, terrain, and what Osteophagy/Magmaism/Explosives unlock."
+  },
+  {
+   "id": "C25-BACKWARDS",
+   "rule": "Backwards research is allowed (Ai-Mo can buy Meditation while owning Philosophy without Climbing).",
+   "level": "L3 (UI)",
+   "evidence": "screenshots"
+  },
+  {
+   "id": "C19-COSTS",
+   "rule": "Tile action and building costs from the game UI: Road 3, Bridge 5, Burn Forest 3, Grow Forest 5, Harvest Fruit/Hunting/Fishing 2, Lumber Hut 3, Farm 5, Mine 5, Port 7, Windmill 5, Forge 5, Market 5, Embassy 5, Temple 20, Mountain Temple 20, Water Temple 20, Forest Temple 15. Still unseen: Clear Forest (its star gain), Sawmill, Customs House, Sanctuary.",
+   "level": "L3",
+   "evidence": "screenshots"
+  },
+  {
+   "id": "COMBAT-FORMULA",
+   "rule": "Damage = round_half_up(aF/(aF+dF) x atk x 4.5), with aF = atk x hp/maxhp and dF = def x hp/maxhp x bonus. A melee attacker that kills moves into the tile.",
+   "level": "L2 (replay: 63/66 exact at turn 5)",
+   "evidence": "Engine replay of bot-war save 6e1bf8e0 (468 attacks to turn 15) vs checkpoints at turns 5/11/15. Exact-HP matches with the rule, then without: banker's rounding loses 0/5/4 matches; no move-in loses 3/0/5."
+  },
+  {
+   "id": "C6",
+   "rule": "The counter-attack uses the defender's bonus-boosted defence force: ret = round(dF/(aF+dF) x def x 4.5). The wiki and calculator are right; PolyEnv is wrong.",
+   "level": "L2 (replay A/B)",
+   "evidence": "Engine replay of bot-war save 6e1bf8e0 (468 attacks to turn 15) vs checkpoints at turns 5/11/15. Exact-HP matches with the rule, then without: 63/77/93 with the bonus vs 60/70/87 without."
+  },
+  {
+   "id": "DEF-BONUS",
+   "rule": "Defence bonus 1.5 in your own city for Fortify units only (4 with walls); 1.5 on forest with Archery and on mountain with Climbing (the tech is required); otherwise 1.",
+   "level": "L2 (replay A/B)",
+   "evidence": "Engine replay of bot-war save 6e1bf8e0 (468 attacks to turn 15) vs checkpoints at turns 5/11/15. Exact-HP matches with the rule, then without: no city bonus 58/66/83; city bonus for any unit 63/75/89; terrain bonus without tech 60/74/86."
+  },
+  {
+   "id": "RET-RANGE",
+   "rule": "The defender hits back only if the attacker is within the defender's range.",
+   "level": "L2 (replay A/B)",
+   "evidence": "Engine replay of bot-war save 6e1bf8e0 (468 attacks to turn 15) vs checkpoints at turns 5/11/15. Exact-HP matches with the rule, then without: retaliating at any range: 63/73/89."
+  },
+  {
+   "id": "SAVE-UNIT-IDS",
+   "rule": "New unit ids are not recorded on Train. Ids are also used by boarding and upgrading boats and by forced spawns (Giant reward, Elyrion Enchant Animal = Build type 30, which creates a Polytaur and pushes the occupant to a neighbouring tile). The replay assigns temporary ids until a Move or Attack names the unit.",
+   "level": "L3 (format)",
+   "evidence": "save 6e1bf8e0: MaxUnitId 109 at turn 5 vs 78 trained or starting units"
+  },
+  {
+   "id": "AQUARION-UNITS",
+   "rule": "Aquarion v123 cards: Mermaid 2 (10hp 2/2 mv1, amphibious, Dash Fortify; start unit = id 46), Amphibian 3 (10hp 2/1 mv2, Dash Escape), Mermaid Archer 3 (10hp 2/1 r2), Siren 5 (10hp 0/1, Heal Convert Stiff), Swordsmaid 5 (15hp 3/3), Mermaid Defender 8 (15hp 1/3, Fortify), Scuba 8 (5hp 2/0.5 mv2, Hide etc.), Tridention 8 (10hp 2.5/1 mv2 r2, Dash Persist), Puffer 8 (water, 10hp 4/0 r3, Drench Stiff), Shark 8 (water, 10hp 3.5/2 mv3, Dash Surprise), Jelly 8 (water, 20hp 2/2, Stiff Tentacles Static).",
+   "level": "L3 (UI)",
+   "evidence": "Jason's screenshots 2026-10-23; data/measured_ui.json"
+  },
+  {
+   "id": "UNIT-ID-53",
+   "rule": "Unit type id 53 = Shark (inferred: the best replay fit, 96 exact HP at turn 15 vs 90 for other 10-HP Aquarion units; 32 trained by Aquarion bots).",
+   "level": "L1",
+   "evidence": "engine replay 6e1bf8e0"
+  },
+  {
+   "id": "ACTION-TYPES-V123",
+   "rule": "Action meanings inferred from context: 27 = Establish Embassy (player, foreign capital x,y, owner id); 30 = embassy/peace follow-up on the same capital; 28 = diplomacy reply at turn start (player, other player, flag); 38 = Boost (Cymanti Shaman, followed by an adjacent attack); 24 = Explode (Cymanti Boomchi; adding it improves the replay slightly); Build type 30 = Enchant Animal (Elyrion, spawns a Polytaur). Type 18 is NOT Disband (treating it as Disband worsens the replay); still unknown.",
+   "level": "L1",
+   "evidence": "engine replay 6e1bf8e0"
+  },
+  {
+   "id": "BOAT-IDS",
+   "rule": "Boarding a boat creates a new unit id for the boat; the passenger keeps its own id and gets it back on landing (Luxidoor Warrior 17 -> Raft 58 on turn 6 -> Warrior 17 again on turn 7).",
+   "level": "L3",
+   "evidence": "per-turn save 1bf60251 (Ankiian Mountain), checkpoints 6 and 7"
+  },
+  {
+   "id": "HEAL-TERRITORY",
+   "rule": "Recover heals 4 inside your own territory and 2 outside. Territory grows (capture, Border Growth), so it must be tracked live; the turn-0 borders give wrong heals.",
+   "level": "L2",
+   "evidence": "Vengir Defender at (5,23): 11 -> 15 after one Recover, on a tile that became Vengir territory on turn 5"
+  },
+  {
+   "id": "ENGINE-STATUS-2",
+   "rule": "Engine replay after the boat-id and territory fixes: the per-turn game 1bf60251 is exact at every checkpoint (turns 1-7, 27 to 66 units), apart from one push position on turn 3. Bot war 6e1bf8e0: 66/66 at turn 5, 85/92 at turn 11, 106/118 at turn 15.",
+   "level": "tool",
+   "evidence": "engine/replay.py"
+  },
+  {
+   "id": "PUSH-DIRECTION",
+   "rule": "Forced-spawn pushes (Enchant Animal, Giant) move the occupant to a neighbouring tile. Seen offsets: (-1,0), (-1,-1), (-1,1). The rule is not yet known; the engine recovers on the unit's next logged move.",
+   "level": "L0",
+   "evidence": "3 pushes"
+  }
+ ]
+}

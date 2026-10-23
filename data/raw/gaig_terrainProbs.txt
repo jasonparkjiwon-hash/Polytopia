@@ -1,0 +1,30 @@
+## Repository structure
+
+The top-level listing on the `master` branch (922 commits) shows:
+
+- **Folders:** `data`, `img`, `levels`, `lib`, `py`, `src`
+- **Files:** `.gitignore`, `README.md`, `elites.json`, `play.json`, `run.sh`, `starting_map_elites.txt`, `terrainProbs.json`, `tournament.json`, `tribes.sh`
+
+The README names these entry points:
+
+- `Play.java` (sources root): runs games. Player types are set in `_getAgent` and the `PlayerType` enum.
+- `Tournament.java`: runs round-robin tournaments, configured by `tournament.json`.
+- `core/Constants.java`: the `VISUALS` flag toggles visuals.
+- `core/TribesConfig.java`: game configuration, such as unit attack power.
+
+## README summary
+
+The project is an open source AI research framework for *The Battle of Polytopia*. The README describes it as a multi-player, multi-agent, stochastic, partially observable turn-based strategy game. It requires Java 8 or later and provides a Forward Model for statistical forward planning methods. It cites a 2020 AIIDE paper by Pérez-Liébana et al.
+
+## File locations for requested topics
+
+- **Unit stats:** Not shown. The README only points to `core/TribesConfig.java` for adjusting unit values.
+- **Tech tree:** Not shown. The README mentions a technology tree but gives no file path.
+- **Tribe definitions:** Not shown. The README refers to tribes in `Play.java` and level files, but no definition file is named.
+- **Combat formula:** Not shown.
+- **Fog of war / vision range:** Not shown.
+- **Level generation:** The README covers the level generator's use from `Play.java`, but not its implementation. The `levels/` folder and `terrainProbs.json` may be related, but the page does not say so.
+
+## Polytopia version and known differences
+
+The page does not state which version of *The Battle of Polytopia* is implemented, and it does not list differences from the real game. The README mentions a "version 1.0" with two game modes, Capitals and Score, but does not describe what it covers. Checking the `src/` code, the wiki, or the release notes would be needed to answer these questions.

@@ -1,0 +1,2590 @@
+{
+ "agree": 283,
+ "disagree": 31,
+ "rows": [
+  {
+   "area": "unit",
+   "item": "Warrior",
+   "field": "cost",
+   "ours": 2,
+   "polyfish": 2,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Warrior",
+   "field": "attack",
+   "ours": 2.0,
+   "polyfish": 2.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Warrior",
+   "field": "defense",
+   "ours": 2.0,
+   "polyfish": 2.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Warrior",
+   "field": "movePoints",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Warrior",
+   "field": "range",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Warrior",
+   "field": "maxHealth",
+   "ours": 10,
+   "polyfish": 10.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Warrior",
+   "field": "skills",
+   "ours": "dash,fortify",
+   "polyfish": "dash,fortify",
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Archer",
+   "field": "cost",
+   "ours": 3,
+   "polyfish": 3,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Archer",
+   "field": "attack",
+   "ours": 2.0,
+   "polyfish": 2.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Archer",
+   "field": "defense",
+   "ours": 1.0,
+   "polyfish": 1.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Archer",
+   "field": "movePoints",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Archer",
+   "field": "range",
+   "ours": 2,
+   "polyfish": 2,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Archer",
+   "field": "maxHealth",
+   "ours": 10,
+   "polyfish": 10.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Archer",
+   "field": "skills",
+   "ours": "dash,fortify",
+   "polyfish": "dash,fortify",
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Defender",
+   "field": "cost",
+   "ours": 3,
+   "polyfish": 3,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Defender",
+   "field": "attack",
+   "ours": 1.0,
+   "polyfish": 1.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Defender",
+   "field": "defense",
+   "ours": 3.0,
+   "polyfish": 3.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Defender",
+   "field": "movePoints",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Defender",
+   "field": "range",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Defender",
+   "field": "maxHealth",
+   "ours": 15,
+   "polyfish": 15.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Defender",
+   "field": "skills",
+   "ours": "fortify",
+   "polyfish": "fortify",
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Rider",
+   "field": "cost",
+   "ours": 3,
+   "polyfish": 3,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Rider",
+   "field": "attack",
+   "ours": 2.0,
+   "polyfish": 2.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Rider",
+   "field": "defense",
+   "ours": 1.0,
+   "polyfish": 1.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Rider",
+   "field": "movePoints",
+   "ours": 2,
+   "polyfish": 2,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Rider",
+   "field": "range",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Rider",
+   "field": "maxHealth",
+   "ours": 10,
+   "polyfish": 10.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Rider",
+   "field": "skills",
+   "ours": "dash,escape,fortify",
+   "polyfish": "dash,escape,fortify",
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Cloak",
+   "field": "cost",
+   "ours": 8,
+   "polyfish": 8,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Cloak",
+   "field": "attack",
+   "ours": 0.0,
+   "polyfish": 0.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Cloak",
+   "field": "defense",
+   "ours": 0.5,
+   "polyfish": 0.5,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Cloak",
+   "field": "movePoints",
+   "ours": 2,
+   "polyfish": 2,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Cloak",
+   "field": "range",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Cloak",
+   "field": "maxHealth",
+   "ours": 5,
+   "polyfish": 5.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Cloak",
+   "field": "skills",
+   "ours": "creep,dash,hide,infiltrate,scout,static,stiff",
+   "polyfish": "creep,dash,hide,infiltrate,scout,static",
+   "agree": false
+  },
+  {
+   "area": "unit",
+   "item": "MindBender",
+   "field": "cost",
+   "ours": 5,
+   "polyfish": 5,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "MindBender",
+   "field": "attack",
+   "ours": 0.0,
+   "polyfish": 0.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "MindBender",
+   "field": "defense",
+   "ours": 1.0,
+   "polyfish": 1.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "MindBender",
+   "field": "movePoints",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "MindBender",
+   "field": "range",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "MindBender",
+   "field": "maxHealth",
+   "ours": 10,
+   "polyfish": 10.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "MindBender",
+   "field": "skills",
+   "ours": "convert,healothers,stiff",
+   "polyfish": "convert,healothers,stiff",
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Swordsman",
+   "field": "cost",
+   "ours": 5,
+   "polyfish": 5,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Swordsman",
+   "field": "attack",
+   "ours": 3.0,
+   "polyfish": 3.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Swordsman",
+   "field": "defense",
+   "ours": 3.0,
+   "polyfish": 3.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Swordsman",
+   "field": "movePoints",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Swordsman",
+   "field": "range",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Swordsman",
+   "field": "maxHealth",
+   "ours": 15,
+   "polyfish": 15.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Swordsman",
+   "field": "skills",
+   "ours": "dash",
+   "polyfish": "dash",
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Catapult",
+   "field": "cost",
+   "ours": 8,
+   "polyfish": 8,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Catapult",
+   "field": "attack",
+   "ours": 4.0,
+   "polyfish": 4.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Catapult",
+   "field": "defense",
+   "ours": 0.0,
+   "polyfish": 0.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Catapult",
+   "field": "movePoints",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Catapult",
+   "field": "range",
+   "ours": 3,
+   "polyfish": 3,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Catapult",
+   "field": "maxHealth",
+   "ours": 10,
+   "polyfish": 10.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Catapult",
+   "field": "skills",
+   "ours": "stiff",
+   "polyfish": "stiff",
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Knight",
+   "field": "cost",
+   "ours": 8,
+   "polyfish": 8,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Knight",
+   "field": "attack",
+   "ours": 3.5,
+   "polyfish": 3.5,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Knight",
+   "field": "defense",
+   "ours": 1.0,
+   "polyfish": 1.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Knight",
+   "field": "movePoints",
+   "ours": 3,
+   "polyfish": 3,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Knight",
+   "field": "range",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Knight",
+   "field": "maxHealth",
+   "ours": 10,
+   "polyfish": 10.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Knight",
+   "field": "skills",
+   "ours": "dash,fortify,persist",
+   "polyfish": "dash,fortify,persist",
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Dagger",
+   "field": "attack",
+   "ours": 2.0,
+   "polyfish": 2.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Dagger",
+   "field": "defense",
+   "ours": 2.0,
+   "polyfish": 2.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Dagger",
+   "field": "movePoints",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Dagger",
+   "field": "range",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Dagger",
+   "field": "maxHealth",
+   "ours": 10,
+   "polyfish": 10.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Dagger",
+   "field": "skills",
+   "ours": "dash,independent,static,surprise",
+   "polyfish": "dash,independent,static,surprise",
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Giant",
+   "field": "attack",
+   "ours": 5.0,
+   "polyfish": 5.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Giant",
+   "field": "defense",
+   "ours": 4.0,
+   "polyfish": 4.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Giant",
+   "field": "movePoints",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Giant",
+   "field": "range",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Giant",
+   "field": "maxHealth",
+   "ours": 40,
+   "polyfish": 40.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Giant",
+   "field": "skills",
+   "ours": "static",
+   "polyfish": "static",
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "GiantSuper",
+   "field": "(exists)",
+   "ours": "yes",
+   "polyfish": "missing",
+   "agree": false
+  },
+  {
+   "area": "unit",
+   "item": "Bunny",
+   "field": "(exists)",
+   "ours": "yes",
+   "polyfish": "missing",
+   "agree": false
+  },
+  {
+   "area": "unit",
+   "item": "Bunta",
+   "field": "(exists)",
+   "ours": "yes",
+   "polyfish": "missing",
+   "agree": false
+  },
+  {
+   "area": "unit",
+   "item": "Raft",
+   "field": "attack",
+   "ours": 0.0,
+   "polyfish": 0.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Raft",
+   "field": "defense",
+   "ours": 1.0,
+   "polyfish": 1.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Raft",
+   "field": "movePoints",
+   "ours": 2,
+   "polyfish": 2,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Raft",
+   "field": "range",
+   "ours": 1,
+   "polyfish": 2,
+   "agree": false
+  },
+  {
+   "area": "unit",
+   "item": "Raft",
+   "field": "skills",
+   "ours": "carry,float,static,stiff",
+   "polyfish": "carry,float,static,stiff",
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Scout",
+   "field": "cost",
+   "ours": 5,
+   "polyfish": 5,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Scout",
+   "field": "attack",
+   "ours": 2.0,
+   "polyfish": 2.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Scout",
+   "field": "defense",
+   "ours": 1.0,
+   "polyfish": 1.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Scout",
+   "field": "movePoints",
+   "ours": 3,
+   "polyfish": 3,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Scout",
+   "field": "range",
+   "ours": 2,
+   "polyfish": 2,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Scout",
+   "field": "skills",
+   "ours": "carry,dash,float,scout,static",
+   "polyfish": "carry,dash,float,scout,static",
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Rammer",
+   "field": "cost",
+   "ours": 5,
+   "polyfish": 5,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Rammer",
+   "field": "attack",
+   "ours": 3.0,
+   "polyfish": 3.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Rammer",
+   "field": "defense",
+   "ours": 3.0,
+   "polyfish": 3.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Rammer",
+   "field": "movePoints",
+   "ours": 3,
+   "polyfish": 3,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Rammer",
+   "field": "range",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Rammer",
+   "field": "skills",
+   "ours": "carry,dash,float,static",
+   "polyfish": "carry,dash,float,static",
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Bomber",
+   "field": "cost",
+   "ours": 15,
+   "polyfish": 15,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Bomber",
+   "field": "attack",
+   "ours": 3.0,
+   "polyfish": 3.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Bomber",
+   "field": "defense",
+   "ours": 2.0,
+   "polyfish": 2.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Bomber",
+   "field": "movePoints",
+   "ours": 2,
+   "polyfish": 2,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Bomber",
+   "field": "range",
+   "ours": 3,
+   "polyfish": 3,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Bomber",
+   "field": "skills",
+   "ours": "carry,float,splash,static,stiff",
+   "polyfish": "carry,float,splash,static,stiff",
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Dinghy",
+   "field": "attack",
+   "ours": 0.0,
+   "polyfish": 0.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Dinghy",
+   "field": "defense",
+   "ours": 0.5,
+   "polyfish": 0.5,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Dinghy",
+   "field": "movePoints",
+   "ours": 2,
+   "polyfish": 2,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Dinghy",
+   "field": "range",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Dinghy",
+   "field": "maxHealth",
+   "ours": 5,
+   "polyfish": 5.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Dinghy",
+   "field": "skills",
+   "ours": "carry,dash,float,hide,infiltrate,scout,static,stiff",
+   "polyfish": "carry,dash,float,hide,infiltrate,scout,static",
+   "agree": false
+  },
+  {
+   "area": "unit",
+   "item": "Pirate",
+   "field": "attack",
+   "ours": 2.0,
+   "polyfish": 2.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Pirate",
+   "field": "defense",
+   "ours": 2.0,
+   "polyfish": 2.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Pirate",
+   "field": "movePoints",
+   "ours": 1,
+   "polyfish": 2,
+   "agree": false
+  },
+  {
+   "area": "unit",
+   "item": "Pirate",
+   "field": "range",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Pirate",
+   "field": "maxHealth",
+   "ours": 10,
+   "polyfish": 10.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Pirate",
+   "field": "skills",
+   "ours": "carry,dash,float,independent,static,surprise",
+   "polyfish": "carry,dash,float,independent,static,surprise",
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Juggernaut",
+   "field": "attack",
+   "ours": 4.0,
+   "polyfish": 4.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Juggernaut",
+   "field": "defense",
+   "ours": 4.0,
+   "polyfish": 4.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Juggernaut",
+   "field": "movePoints",
+   "ours": 2,
+   "polyfish": 2,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Juggernaut",
+   "field": "range",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Juggernaut",
+   "field": "maxHealth",
+   "ours": 40,
+   "polyfish": 40.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Juggernaut",
+   "field": "skills",
+   "ours": "carry,float,static,stiff,stomp",
+   "polyfish": "carry,float,static,stiff,stomp",
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Mermaid",
+   "field": "(exists)",
+   "ours": "yes",
+   "polyfish": "missing",
+   "agree": false
+  },
+  {
+   "area": "unit",
+   "item": "AquaticAmphibian",
+   "field": "(exists)",
+   "ours": "yes",
+   "polyfish": "missing",
+   "agree": false
+  },
+  {
+   "area": "unit",
+   "item": "MermaidArcher",
+   "field": "(exists)",
+   "ours": "yes",
+   "polyfish": "missing",
+   "agree": false
+  },
+  {
+   "area": "unit",
+   "item": "MermaidDefender",
+   "field": "(exists)",
+   "ours": "yes",
+   "polyfish": "missing",
+   "agree": false
+  },
+  {
+   "area": "unit",
+   "item": "Swordsmaid",
+   "field": "(exists)",
+   "ours": "yes",
+   "polyfish": "missing",
+   "agree": false
+  },
+  {
+   "area": "unit",
+   "item": "Scuba",
+   "field": "(exists)",
+   "ours": "yes",
+   "polyfish": "missing",
+   "agree": false
+  },
+  {
+   "area": "unit",
+   "item": "Siren",
+   "field": "(exists)",
+   "ours": "yes",
+   "polyfish": "missing",
+   "agree": false
+  },
+  {
+   "area": "unit",
+   "item": "Shark",
+   "field": "(exists)",
+   "ours": "yes",
+   "polyfish": "missing",
+   "agree": false
+  },
+  {
+   "area": "unit",
+   "item": "YellyBelly",
+   "field": "(exists)",
+   "ours": "yes",
+   "polyfish": "missing",
+   "agree": false
+  },
+  {
+   "area": "unit",
+   "item": "Puffer",
+   "field": "(exists)",
+   "ours": "yes",
+   "polyfish": "missing",
+   "agree": false
+  },
+  {
+   "area": "unit",
+   "item": "TridentionAq",
+   "field": "(exists)",
+   "ours": "yes",
+   "polyfish": "missing",
+   "agree": false
+  },
+  {
+   "area": "unit",
+   "item": "CrabAq",
+   "field": "(exists)",
+   "ours": "yes",
+   "polyfish": "missing",
+   "agree": false
+  },
+  {
+   "area": "unit",
+   "item": "Polytaur",
+   "field": "cost",
+   "ours": 3,
+   "polyfish": 2,
+   "agree": false
+  },
+  {
+   "area": "unit",
+   "item": "Polytaur",
+   "field": "attack",
+   "ours": 3.0,
+   "polyfish": 3.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Polytaur",
+   "field": "defense",
+   "ours": 1.0,
+   "polyfish": 1.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Polytaur",
+   "field": "movePoints",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Polytaur",
+   "field": "range",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Polytaur",
+   "field": "maxHealth",
+   "ours": 15,
+   "polyfish": 15.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Polytaur",
+   "field": "skills",
+   "ours": "dash,fortify,independent,static",
+   "polyfish": "dash,fortify,independent,static",
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "DragonEgg",
+   "field": "attack",
+   "ours": 0.0,
+   "polyfish": -1.0,
+   "agree": false
+  },
+  {
+   "area": "unit",
+   "item": "DragonEgg",
+   "field": "defense",
+   "ours": 2.0,
+   "polyfish": 2.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "DragonEgg",
+   "field": "movePoints",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "DragonEgg",
+   "field": "range",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "DragonEgg",
+   "field": "maxHealth",
+   "ours": 10,
+   "polyfish": 10.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "DragonEgg",
+   "field": "skills",
+   "ours": "fortify,grow,static,stiff",
+   "polyfish": "fortify,grow,static,stiff",
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "BabyDragon",
+   "field": "attack",
+   "ours": 3.0,
+   "polyfish": 3.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "BabyDragon",
+   "field": "defense",
+   "ours": 3.0,
+   "polyfish": 3.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "BabyDragon",
+   "field": "movePoints",
+   "ours": 2,
+   "polyfish": 2,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "BabyDragon",
+   "field": "range",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "BabyDragon",
+   "field": "maxHealth",
+   "ours": 15,
+   "polyfish": 15.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "BabyDragon",
+   "field": "skills",
+   "ours": "dash,escape,fly,grow,scout,static",
+   "polyfish": "dash,escape,fly,grow,scout,static",
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "FireDragon",
+   "field": "attack",
+   "ours": 4.0,
+   "polyfish": 4.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "FireDragon",
+   "field": "defense",
+   "ours": 3.0,
+   "polyfish": 3.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "FireDragon",
+   "field": "movePoints",
+   "ours": 3,
+   "polyfish": 3,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "FireDragon",
+   "field": "range",
+   "ours": 2,
+   "polyfish": 2,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "FireDragon",
+   "field": "maxHealth",
+   "ours": 20,
+   "polyfish": 20.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "FireDragon",
+   "field": "skills",
+   "ours": "dash,fly,scout,splash,static",
+   "polyfish": "dash,fly,scout,splash,static",
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "IceArcher",
+   "field": "cost",
+   "ours": 3,
+   "polyfish": 3,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "IceArcher",
+   "field": "attack",
+   "ours": 1.0,
+   "polyfish": 1.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "IceArcher",
+   "field": "defense",
+   "ours": 1.0,
+   "polyfish": 1.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "IceArcher",
+   "field": "movePoints",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "IceArcher",
+   "field": "range",
+   "ours": 2,
+   "polyfish": 2,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "IceArcher",
+   "field": "maxHealth",
+   "ours": 10,
+   "polyfish": 10.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "IceArcher",
+   "field": "skills",
+   "ours": "dash,fortify,freeze,stiff",
+   "polyfish": "dash,fortify,freeze,stiff",
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "BattleSled",
+   "field": "cost",
+   "ours": 5,
+   "polyfish": 5,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "BattleSled",
+   "field": "attack",
+   "ours": 3.0,
+   "polyfish": 3.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "BattleSled",
+   "field": "defense",
+   "ours": 2.0,
+   "polyfish": 2.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "BattleSled",
+   "field": "movePoints",
+   "ours": 2,
+   "polyfish": 2,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "BattleSled",
+   "field": "range",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "BattleSled",
+   "field": "maxHealth",
+   "ours": 15,
+   "polyfish": 15.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "BattleSled",
+   "field": "skills",
+   "ours": "dash,escape,skate",
+   "polyfish": "dash,escape,skate",
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Mooni",
+   "field": "cost",
+   "ours": 5,
+   "polyfish": 5,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Mooni",
+   "field": "attack",
+   "ours": 0.0,
+   "polyfish": 0.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Mooni",
+   "field": "defense",
+   "ours": 2.0,
+   "polyfish": 1.0,
+   "agree": false
+  },
+  {
+   "area": "unit",
+   "item": "Mooni",
+   "field": "movePoints",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Mooni",
+   "field": "range",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Mooni",
+   "field": "maxHealth",
+   "ours": 10,
+   "polyfish": 10.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Mooni",
+   "field": "skills",
+   "ours": "autofreeze,skate,stiff",
+   "polyfish": "autofreeze,skate,static,stiff",
+   "agree": false
+  },
+  {
+   "area": "unit",
+   "item": "IceFortress",
+   "field": "cost",
+   "ours": 15,
+   "polyfish": 15,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "IceFortress",
+   "field": "attack",
+   "ours": 4.0,
+   "polyfish": 4.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "IceFortress",
+   "field": "defense",
+   "ours": 3.0,
+   "polyfish": 3.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "IceFortress",
+   "field": "movePoints",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "IceFortress",
+   "field": "range",
+   "ours": 2,
+   "polyfish": 2,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "IceFortress",
+   "field": "maxHealth",
+   "ours": 20,
+   "polyfish": 20.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "IceFortress",
+   "field": "skills",
+   "ours": "escape,scout,skate,static",
+   "polyfish": "escape,scout,skate,static",
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Gaami",
+   "field": "attack",
+   "ours": 4.0,
+   "polyfish": 4.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Gaami",
+   "field": "defense",
+   "ours": 3.0,
+   "polyfish": 3.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Gaami",
+   "field": "movePoints",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Gaami",
+   "field": "range",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Gaami",
+   "field": "maxHealth",
+   "ours": 30,
+   "polyfish": 30.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Gaami",
+   "field": "skills",
+   "ours": "autofreeze,freezearea,static",
+   "polyfish": "autofreeze,freezearea,static",
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Hexapod",
+   "field": "cost",
+   "ours": 3,
+   "polyfish": 3,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Hexapod",
+   "field": "attack",
+   "ours": 3.0,
+   "polyfish": 3.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Hexapod",
+   "field": "defense",
+   "ours": 1.0,
+   "polyfish": 1.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Hexapod",
+   "field": "movePoints",
+   "ours": 2,
+   "polyfish": 2,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Hexapod",
+   "field": "range",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Hexapod",
+   "field": "maxHealth",
+   "ours": 5,
+   "polyfish": 5.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Hexapod",
+   "field": "skills",
+   "ours": "creep,dash,escape,sneak",
+   "polyfish": "creep,dash,escape,sneak",
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Kiton",
+   "field": "cost",
+   "ours": 3,
+   "polyfish": 3,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Kiton",
+   "field": "attack",
+   "ours": 1.0,
+   "polyfish": 1.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Kiton",
+   "field": "defense",
+   "ours": 3.0,
+   "polyfish": 3.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Kiton",
+   "field": "movePoints",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Kiton",
+   "field": "range",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Kiton",
+   "field": "maxHealth",
+   "ours": 15,
+   "polyfish": 15.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Kiton",
+   "field": "skills",
+   "ours": "creep,poison",
+   "polyfish": "creep,poison",
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Phychi",
+   "field": "cost",
+   "ours": 3,
+   "polyfish": 3,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Phychi",
+   "field": "attack",
+   "ours": 0.7,
+   "polyfish": 0.7,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Phychi",
+   "field": "defense",
+   "ours": 1.0,
+   "polyfish": 1.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Phychi",
+   "field": "movePoints",
+   "ours": 2,
+   "polyfish": 2,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Phychi",
+   "field": "range",
+   "ours": 2,
+   "polyfish": 2,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Phychi",
+   "field": "maxHealth",
+   "ours": 5,
+   "polyfish": 5.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Phychi",
+   "field": "skills",
+   "ours": "dash,doubleattack,fly,poison,surprise",
+   "polyfish": "dash,doubleattack,fly,poison,surprise",
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Shaman",
+   "field": "cost",
+   "ours": 5,
+   "polyfish": 10,
+   "agree": false
+  },
+  {
+   "area": "unit",
+   "item": "Shaman",
+   "field": "attack",
+   "ours": 1.0,
+   "polyfish": 1.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Shaman",
+   "field": "defense",
+   "ours": 1.0,
+   "polyfish": 1.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Shaman",
+   "field": "movePoints",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Shaman",
+   "field": "range",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Shaman",
+   "field": "maxHealth",
+   "ours": 10,
+   "polyfish": 10.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Shaman",
+   "field": "skills",
+   "ours": "convert,swarm",
+   "polyfish": "convert,static,swarm",
+   "agree": false
+  },
+  {
+   "area": "unit",
+   "item": "Raychi",
+   "field": "cost",
+   "ours": 5,
+   "polyfish": 5,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Raychi",
+   "field": "attack",
+   "ours": 3.0,
+   "polyfish": 3.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Raychi",
+   "field": "defense",
+   "ours": 2.0,
+   "polyfish": 2.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Raychi",
+   "field": "movePoints",
+   "ours": 3,
+   "polyfish": 3,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Raychi",
+   "field": "range",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Raychi",
+   "field": "maxHealth",
+   "ours": 10,
+   "polyfish": 10.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Raychi",
+   "field": "skills",
+   "ours": "dash,float",
+   "polyfish": "dash,float",
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Exida",
+   "field": "cost",
+   "ours": 8,
+   "polyfish": 8,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Exida",
+   "field": "attack",
+   "ours": 3.0,
+   "polyfish": 3.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Exida",
+   "field": "defense",
+   "ours": 1.0,
+   "polyfish": 1.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Exida",
+   "field": "movePoints",
+   "ours": 2,
+   "polyfish": 1,
+   "agree": false
+  },
+  {
+   "area": "unit",
+   "item": "Exida",
+   "field": "range",
+   "ours": 3,
+   "polyfish": 3,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Exida",
+   "field": "maxHealth",
+   "ours": 10,
+   "polyfish": 10.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Exida",
+   "field": "skills",
+   "ours": "creep,poison,splash",
+   "polyfish": "creep,poison,splash",
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Doomux",
+   "field": "cost",
+   "ours": 10,
+   "polyfish": 10,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Doomux",
+   "field": "attack",
+   "ours": 3.5,
+   "polyfish": 3.5,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Doomux",
+   "field": "defense",
+   "ours": 2.0,
+   "polyfish": 2.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Doomux",
+   "field": "movePoints",
+   "ours": 3,
+   "polyfish": 3,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Doomux",
+   "field": "range",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Doomux",
+   "field": "maxHealth",
+   "ours": 20,
+   "polyfish": 20.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Doomux",
+   "field": "skills",
+   "ours": "creep,dash,explode,static",
+   "polyfish": "creep,dash,explode,static",
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "MothC",
+   "field": "(exists)",
+   "ours": "yes",
+   "polyfish": "missing",
+   "agree": false
+  },
+  {
+   "area": "unit",
+   "item": "LarvaC",
+   "field": "(exists)",
+   "ours": "yes",
+   "polyfish": "missing",
+   "agree": false
+  },
+  {
+   "area": "unit",
+   "item": "InsectEgg",
+   "field": "attack",
+   "ours": 2.0,
+   "polyfish": 2.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "InsectEgg",
+   "field": "defense",
+   "ours": 3.0,
+   "polyfish": 3.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "InsectEgg",
+   "field": "movePoints",
+   "ours": 0,
+   "polyfish": 0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "InsectEgg",
+   "field": "range",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "InsectEgg",
+   "field": "maxHealth",
+   "ours": 10,
+   "polyfish": 10.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "InsectEgg",
+   "field": "skills",
+   "ours": "explode,grow,static,stiff",
+   "polyfish": "explode,grow,static,stiff",
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Boomchi",
+   "field": "cost",
+   "ours": 5,
+   "polyfish": 5,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Boomchi",
+   "field": "attack",
+   "ours": 3.0,
+   "polyfish": 3.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Boomchi",
+   "field": "defense",
+   "ours": 3.0,
+   "polyfish": 3.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Boomchi",
+   "field": "movePoints",
+   "ours": 1,
+   "polyfish": 2,
+   "agree": false
+  },
+  {
+   "area": "unit",
+   "item": "Boomchi",
+   "field": "range",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Boomchi",
+   "field": "maxHealth",
+   "ours": 10,
+   "polyfish": 10.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "Boomchi",
+   "field": "skills",
+   "ours": "dash,explode,stiff",
+   "polyfish": "amphibious,dash,explode,stiff",
+   "agree": false
+  },
+  {
+   "area": "unit",
+   "item": "LivingIsland",
+   "field": "cost",
+   "ours": 20,
+   "polyfish": 20,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "LivingIsland",
+   "field": "attack",
+   "ours": 4.0,
+   "polyfish": 4.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "LivingIsland",
+   "field": "defense",
+   "ours": 4.0,
+   "polyfish": 4.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "LivingIsland",
+   "field": "movePoints",
+   "ours": 2,
+   "polyfish": 2,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "LivingIsland",
+   "field": "range",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "LivingIsland",
+   "field": "maxHealth",
+   "ours": 20,
+   "polyfish": 20.0,
+   "agree": true
+  },
+  {
+   "area": "unit",
+   "item": "LivingIsland",
+   "field": "skills",
+   "ours": "algae,float,poison,static,stomp",
+   "polyfish": "algae,float,poison,static,stomp",
+   "agree": true
+  },
+  {
+   "area": "tech",
+   "item": "Climbing",
+   "field": "tier",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "tech",
+   "item": "Fishing",
+   "field": "tier",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "tech",
+   "item": "Hunting",
+   "field": "tier",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "tech",
+   "item": "Organization",
+   "field": "tier",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "tech",
+   "item": "Riding",
+   "field": "tier",
+   "ours": 1,
+   "polyfish": 1,
+   "agree": true
+  },
+  {
+   "area": "tech",
+   "item": "Archery",
+   "field": "tier",
+   "ours": 2,
+   "polyfish": 2,
+   "agree": true
+  },
+  {
+   "area": "tech",
+   "item": "Archery",
+   "field": "prerequisite",
+   "ours": "Hunting",
+   "polyfish": "Hunting",
+   "agree": true
+  },
+  {
+   "area": "tech",
+   "item": "Ramming",
+   "field": "tier",
+   "ours": 2,
+   "polyfish": 2,
+   "agree": true
+  },
+  {
+   "area": "tech",
+   "item": "Ramming",
+   "field": "prerequisite",
+   "ours": "Fishing",
+   "polyfish": "Fishing",
+   "agree": true
+  },
+  {
+   "area": "tech",
+   "item": "Farming",
+   "field": "tier",
+   "ours": 2,
+   "polyfish": 2,
+   "agree": true
+  },
+  {
+   "area": "tech",
+   "item": "Farming",
+   "field": "prerequisite",
+   "ours": "Organization",
+   "polyfish": "Organization",
+   "agree": true
+  },
+  {
+   "area": "tech",
+   "item": "Forestry",
+   "field": "tier",
+   "ours": 2,
+   "polyfish": 2,
+   "agree": true
+  },
+  {
+   "area": "tech",
+   "item": "Forestry",
+   "field": "prerequisite",
+   "ours": "Hunting",
+   "polyfish": "Hunting",
+   "agree": true
+  },
+  {
+   "area": "tech",
+   "item": "Free Spirit",
+   "field": "tier",
+   "ours": 2,
+   "polyfish": 2,
+   "agree": true
+  },
+  {
+   "area": "tech",
+   "item": "Free Spirit",
+   "field": "prerequisite",
+   "ours": "Riding",
+   "polyfish": "Riding",
+   "agree": true
+  },
+  {
+   "area": "tech",
+   "item": "Meditation",
+   "field": "tier",
+   "ours": 2,
+   "polyfish": 2,
+   "agree": true
+  },
+  {
+   "area": "tech",
+   "item": "Meditation",
+   "field": "prerequisite",
+   "ours": "Climbing",
+   "polyfish": "Climbing",
+   "agree": true
+  },
+  {
+   "area": "tech",
+   "item": "Mining",
+   "field": "tier",
+   "ours": 2,
+   "polyfish": 2,
+   "agree": true
+  },
+  {
+   "area": "tech",
+   "item": "Mining",
+   "field": "prerequisite",
+   "ours": "Climbing",
+   "polyfish": "Climbing",
+   "agree": true
+  },
+  {
+   "area": "tech",
+   "item": "Roads",
+   "field": "tier",
+   "ours": 2,
+   "polyfish": 2,
+   "agree": true
+  },
+  {
+   "area": "tech",
+   "item": "Roads",
+   "field": "prerequisite",
+   "ours": "Riding",
+   "polyfish": "Riding",
+   "agree": true
+  },
+  {
+   "area": "tech",
+   "item": "Sailing",
+   "field": "tier",
+   "ours": 2,
+   "polyfish": 2,
+   "agree": true
+  },
+  {
+   "area": "tech",
+   "item": "Sailing",
+   "field": "prerequisite",
+   "ours": "Fishing",
+   "polyfish": "Fishing",
+   "agree": true
+  },
+  {
+   "area": "tech",
+   "item": "Strategy",
+   "field": "tier",
+   "ours": 2,
+   "polyfish": 2,
+   "agree": true
+  },
+  {
+   "area": "tech",
+   "item": "Strategy",
+   "field": "prerequisite",
+   "ours": "Organization",
+   "polyfish": "Organization",
+   "agree": true
+  },
+  {
+   "area": "tech",
+   "item": "Aquatism",
+   "field": "tier",
+   "ours": 3,
+   "polyfish": 3,
+   "agree": true
+  },
+  {
+   "area": "tech",
+   "item": "Aquatism",
+   "field": "prerequisite",
+   "ours": "Ramming",
+   "polyfish": "Ramming",
+   "agree": true
+  },
+  {
+   "area": "tech",
+   "item": "Chivalry",
+   "field": "tier",
+   "ours": 3,
+   "polyfish": 3,
+   "agree": true
+  },
+  {
+   "area": "tech",
+   "item": "Chivalry",
+   "field": "prerequisite",
+   "ours": "Free Spirit",
+   "polyfish": "FreeSpirit",
+   "agree": true
+  },
+  {
+   "area": "tech",
+   "item": "Construction",
+   "field": "tier",
+   "ours": 3,
+   "polyfish": 3,
+   "agree": true
+  },
+  {
+   "area": "tech",
+   "item": "Construction",
+   "field": "prerequisite",
+   "ours": "Farming",
+   "polyfish": "Farming",
+   "agree": true
+  },
+  {
+   "area": "tech",
+   "item": "Diplomacy",
+   "field": "tier",
+   "ours": 3,
+   "polyfish": 3,
+   "agree": true
+  },
+  {
+   "area": "tech",
+   "item": "Diplomacy",
+   "field": "prerequisite",
+   "ours": "Strategy",
+   "polyfish": "Strategy",
+   "agree": true
+  },
+  {
+   "area": "tech",
+   "item": "Mathematics",
+   "field": "tier",
+   "ours": 3,
+   "polyfish": 3,
+   "agree": true
+  },
+  {
+   "area": "tech",
+   "item": "Mathematics",
+   "field": "prerequisite",
+   "ours": "Forestry",
+   "polyfish": "Forestry",
+   "agree": true
+  },
+  {
+   "area": "tech",
+   "item": "Navigation",
+   "field": "tier",
+   "ours": 3,
+   "polyfish": 3,
+   "agree": true
+  },
+  {
+   "area": "tech",
+   "item": "Navigation",
+   "field": "prerequisite",
+   "ours": "Sailing",
+   "polyfish": "Ramming",
+   "agree": false
+  },
+  {
+   "area": "tech",
+   "item": "Philosophy",
+   "field": "tier",
+   "ours": 3,
+   "polyfish": 3,
+   "agree": true
+  },
+  {
+   "area": "tech",
+   "item": "Philosophy",
+   "field": "prerequisite",
+   "ours": "Meditation",
+   "polyfish": "Meditation",
+   "agree": true
+  },
+  {
+   "area": "tech",
+   "item": "Smithery",
+   "field": "tier",
+   "ours": 3,
+   "polyfish": 3,
+   "agree": true
+  },
+  {
+   "area": "tech",
+   "item": "Smithery",
+   "field": "prerequisite",
+   "ours": "Mining",
+   "polyfish": "Mining",
+   "agree": true
+  },
+  {
+   "area": "tech",
+   "item": "Spiritualism",
+   "field": "tier",
+   "ours": 3,
+   "polyfish": 3,
+   "agree": true
+  },
+  {
+   "area": "tech",
+   "item": "Spiritualism",
+   "field": "prerequisite",
+   "ours": "Archery",
+   "polyfish": "Archery",
+   "agree": true
+  },
+  {
+   "area": "tech",
+   "item": "Trade",
+   "field": "tier",
+   "ours": 3,
+   "polyfish": 3,
+   "agree": true
+  },
+  {
+   "area": "tech",
+   "item": "Trade",
+   "field": "prerequisite",
+   "ours": "Roads",
+   "polyfish": "Roads",
+   "agree": true
+  },
+  {
+   "area": "building",
+   "item": "Farm",
+   "field": "cost",
+   "ours": 5,
+   "polyfish": 5,
+   "agree": true
+  },
+  {
+   "area": "building",
+   "item": "Mine",
+   "field": "cost",
+   "ours": 5,
+   "polyfish": 5,
+   "agree": true
+  },
+  {
+   "area": "building",
+   "item": "LumberHut",
+   "field": "cost",
+   "ours": 3,
+   "polyfish": 3,
+   "agree": true
+  },
+  {
+   "area": "building",
+   "item": "Port",
+   "field": "cost",
+   "ours": 7,
+   "polyfish": 7,
+   "agree": true
+  },
+  {
+   "area": "building",
+   "item": "Forge",
+   "field": "cost",
+   "ours": 5,
+   "polyfish": 5,
+   "agree": true
+  },
+  {
+   "area": "building",
+   "item": "Sawmill",
+   "field": "cost",
+   "ours": 5,
+   "polyfish": 5,
+   "agree": true
+  },
+  {
+   "area": "building",
+   "item": "Windmill",
+   "field": "cost",
+   "ours": 5,
+   "polyfish": 5,
+   "agree": true
+  },
+  {
+   "area": "building",
+   "item": "Market",
+   "field": "cost",
+   "ours": 5,
+   "polyfish": 5,
+   "agree": true
+  },
+  {
+   "area": "tile_action",
+   "item": "hunt",
+   "field": "cost",
+   "ours": 2,
+   "polyfish": "see version_sync.rs",
+   "agree": null
+  },
+  {
+   "area": "tile_action",
+   "item": "harvest_fruit",
+   "field": "cost",
+   "ours": 2,
+   "polyfish": "see version_sync.rs",
+   "agree": null
+  },
+  {
+   "area": "tile_action",
+   "item": "fish",
+   "field": "cost",
+   "ours": 2,
+   "polyfish": "see version_sync.rs",
+   "agree": null
+  },
+  {
+   "area": "tile_action",
+   "item": "clear_forest",
+   "field": "cost",
+   "ours": 0,
+   "polyfish": "see version_sync.rs",
+   "agree": null
+  },
+  {
+   "area": "tile_action",
+   "item": "burn_forest",
+   "field": "cost",
+   "ours": 3,
+   "polyfish": "see version_sync.rs",
+   "agree": null
+  },
+  {
+   "area": "tile_action",
+   "item": "grow_forest",
+   "field": "cost",
+   "ours": 5,
+   "polyfish": "see version_sync.rs",
+   "agree": null
+  },
+  {
+   "area": "tile_action",
+   "item": "road",
+   "field": "cost",
+   "ours": 3,
+   "polyfish": "see version_sync.rs",
+   "agree": null
+  },
+  {
+   "area": "tile_action",
+   "item": "bridge",
+   "field": "cost",
+   "ours": 5,
+   "polyfish": "see version_sync.rs",
+   "agree": null
+  },
+  {
+   "area": "tile_action",
+   "item": "destroy",
+   "field": "cost",
+   "ours": 0,
+   "polyfish": "see version_sync.rs",
+   "agree": null
+  }
+ ]
+}

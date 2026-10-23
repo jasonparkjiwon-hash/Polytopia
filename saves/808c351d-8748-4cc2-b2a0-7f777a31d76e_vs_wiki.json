@@ -1,0 +1,1406 @@
+{
+ "map": {
+  "size": 30,
+  "settlements": 65,
+  "capitals": 16,
+  "land": 0.733
+ },
+ "terrain_by_biome": [
+  [
+   "AiMo",
+   32,
+   {
+    "Field": 0.469,
+    "Forest": 0.344,
+    "Mountain": 0.188
+   },
+   {
+    "Mountain": 0.21,
+    "Forest": 0.349,
+    "Field": 0.441
+   }
+  ],
+  [
+   "Aquarion",
+   50,
+   {
+    "Field": 0.58,
+    "Forest": 0.28,
+    "Mountain": 0.14
+   },
+   {
+    "Mountain": 0.14,
+    "Forest": 0.244,
+    "Field": 0.616
+   }
+  ],
+  [
+   "Bardur",
+   41,
+   {
+    "Field": 0.488,
+    "Forest": 0.341,
+    "Mountain": 0.171
+   },
+   {
+    "Mountain": 0.14,
+    "Forest": 0.38,
+    "Field": 0.48
+   }
+  ],
+  [
+   "Cymanti",
+   37,
+   {
+    "Field": 0.486,
+    "Forest": 0.378,
+    "Mountain": 0.135
+   },
+   {
+    "Mountain": 0.168,
+    "Forest": 0.368,
+    "Field": 0.464
+   }
+  ],
+  [
+   "Elyrion",
+   38,
+   {
+    "Field": 0.526,
+    "Forest": 0.395,
+    "Mountain": 0.079
+   },
+   {
+    "Mountain": 0.07,
+    "Forest": 0.411,
+    "Field": 0.519
+   }
+  ],
+  [
+   "Hoodrick",
+   34,
+   {
+    "Field": 0.412,
+    "Forest": 0.5,
+    "Mountain": 0.088
+   },
+   {
+    "Mountain": 0.07,
+    "Forest": 0.505,
+    "Field": 0.425
+   }
+  ],
+  [
+   "Imperius",
+   41,
+   {
+    "Field": 0.463,
+    "Forest": 0.39,
+    "Mountain": 0.146
+   },
+   {
+    "Mountain": 0.14,
+    "Forest": 0.38,
+    "Field": 0.48
+   }
+  ],
+  [
+   "Kickoo",
+   36,
+   {
+    "Field": 0.472,
+    "Forest": 0.417,
+    "Mountain": 0.111
+   },
+   {
+    "Mountain": 0.07,
+    "Forest": 0.411,
+    "Field": 0.519
+   }
+  ],
+  [
+   "Luxidoor",
+   36,
+   {
+    "Field": 0.444,
+    "Forest": 0.389,
+    "Mountain": 0.167
+   },
+   {
+    "Mountain": 0.14,
+    "Forest": 0.38,
+    "Field": 0.48
+   }
+  ],
+  [
+   "Oumaji",
+   29,
+   {
+    "Field": 0.724,
+    "Forest": 0.138,
+    "Mountain": 0.138
+   },
+   {
+    "Mountain": 0.07,
+    "Forest": 0.127,
+    "Field": 0.803
+   }
+  ],
+  [
+   "Polaris",
+   8,
+   {
+    "Field": 0.375,
+    "Forest": 0.25,
+    "Mountain": 0.375
+   },
+   null
+  ],
+  [
+   "Quetzali",
+   36,
+   {
+    "Field": 0.444,
+    "Forest": 0.389,
+    "Mountain": 0.167
+   },
+   {
+    "Mountain": 0.14,
+    "Forest": 0.38,
+    "Field": 0.48
+   }
+  ],
+  [
+   "Vengir",
+   30,
+   {
+    "Field": 0.467,
+    "Forest": 0.367,
+    "Mountain": 0.167
+   },
+   {
+    "Mountain": 0.14,
+    "Forest": 0.38,
+    "Field": 0.48
+   }
+  ],
+  [
+   "XinXi",
+   49,
+   {
+    "Field": 0.408,
+    "Forest": 0.367,
+    "Mountain": 0.224
+   },
+   {
+    "Mountain": 0.21,
+    "Forest": 0.349,
+    "Field": 0.441
+   }
+  ],
+  [
+   "Yadakk",
+   26,
+   {
+    "Field": 0.615,
+    "Forest": 0.269,
+    "Mountain": 0.115
+   },
+   {
+    "Mountain": 0.07,
+    "Forest": 0.264,
+    "Field": 0.666
+   }
+  ],
+  [
+   "Zebasi",
+   45,
+   {
+    "Field": 0.6,
+    "Forest": 0.311,
+    "Mountain": 0.089
+   },
+   {
+    "Mountain": 0.07,
+    "Forest": 0.264,
+    "Field": 0.666
+   }
+  ]
+ ],
+ "pooled_rates": {
+  "inner Fruit|Field": [
+   65,
+   145,
+   0.448
+  ],
+  "inner Crop|Field": [
+   42,
+   145,
+   0.29
+  ],
+  "inner Spores|Field": [
+   1,
+   145,
+   0.007
+  ],
+  "inner Game|Forest": [
+   44,
+   104,
+   0.423
+  ],
+  "inner Metal|Mountain": [
+   32,
+   41,
+   0.78
+  ],
+  "outer Fruit|Field": [
+   14,
+   90,
+   0.156
+  ],
+  "outer Crop|Field": [
+   7,
+   90,
+   0.078
+  ],
+  "outer Spores|Field": [
+   0,
+   90,
+   0.0
+  ],
+  "outer Game|Forest": [
+   9,
+   56,
+   0.161
+  ],
+  "outer Metal|Mountain": [
+   10,
+   29,
+   0.345
+  ],
+  "beyond_2 Fruit|Field": [
+   0,
+   12,
+   0.0
+  ],
+  "beyond_2 Crop|Field": [
+   0,
+   12,
+   0.0
+  ],
+  "beyond_2 Spores|Field": [
+   0,
+   12,
+   0.0
+  ],
+  "beyond_2 Game|Forest": [
+   0,
+   8,
+   0.0
+  ],
+  "beyond_2 Metal|Mountain": [
+   0,
+   3,
+   0.0
+  ]
+ },
+ "rates_vs_readings": [
+  {
+   "cell": "inner Fruit|Field",
+   "n": 145,
+   "real": 0.448,
+   "wiki_reading": 0.411,
+   "z_vs_wiki": 0.9,
+   "PE_reading": 0.197,
+   "z_vs_PE": 7.6
+  },
+  {
+   "cell": "inner Crop|Field",
+   "n": 145,
+   "real": 0.29,
+   "wiki_reading": 0.344,
+   "z_vs_wiki": -1.4,
+   "PE_reading": 0.165,
+   "z_vs_PE": 4.1
+  },
+  {
+   "cell": "inner Spores|Field",
+   "n": 145,
+   "real": 0.007,
+   "wiki_reading": 0.375,
+   "z_vs_wiki": -9.2,
+   "PE_reading": 0.18,
+   "z_vs_PE": -5.4
+  },
+  {
+   "cell": "inner Game|Forest",
+   "n": 104,
+   "real": 0.423,
+   "wiki_reading": 0.431,
+   "z_vs_wiki": -0.2,
+   "PE_reading": 0.164,
+   "z_vs_PE": 7.1
+  },
+  {
+   "cell": "inner Metal|Mountain",
+   "n": 41,
+   "real": 0.78,
+   "wiki_reading": 0.819,
+   "z_vs_wiki": -0.6,
+   "PE_reading": 0.121,
+   "z_vs_PE": 12.9
+  },
+  {
+   "cell": "outer Fruit|Field",
+   "n": 90,
+   "real": 0.156,
+   "wiki_reading": 0.135,
+   "z_vs_wiki": 0.6,
+   "PE_reading": 0.065,
+   "z_vs_PE": 3.5
+  },
+  {
+   "cell": "outer Crop|Field",
+   "n": 90,
+   "real": 0.078,
+   "wiki_reading": 0.105,
+   "z_vs_wiki": -0.8,
+   "PE_reading": 0.051,
+   "z_vs_PE": 1.2
+  },
+  {
+   "cell": "outer Spores|Field",
+   "n": 90,
+   "real": 0.0,
+   "wiki_reading": 0.125,
+   "z_vs_wiki": -3.6,
+   "PE_reading": 0.06,
+   "z_vs_PE": -2.4
+  },
+  {
+   "cell": "outer Game|Forest",
+   "n": 56,
+   "real": 0.161,
+   "wiki_reading": 0.146,
+   "z_vs_wiki": 0.3,
+   "PE_reading": 0.055,
+   "z_vs_PE": 3.5
+  },
+  {
+   "cell": "outer Metal|Mountain",
+   "n": 29,
+   "real": 0.345,
+   "wiki_reading": 0.253,
+   "z_vs_wiki": 1.1,
+   "PE_reading": 0.035,
+   "z_vs_PE": 9.1
+  },
+  {
+   "cell": "beyond_2 Fruit|Field",
+   "n": 12,
+   "real": 0.0,
+   "wiki_reading": 0.0,
+   "z_vs_wiki": 0.0,
+   "PE_reading": 0.0,
+   "z_vs_PE": 0.0
+  },
+  {
+   "cell": "beyond_2 Crop|Field",
+   "n": 12,
+   "real": 0.0,
+   "wiki_reading": 0.0,
+   "z_vs_wiki": 0.0,
+   "PE_reading": 0.0,
+   "z_vs_PE": 0.0
+  },
+  {
+   "cell": "beyond_2 Spores|Field",
+   "n": 12,
+   "real": 0.0,
+   "wiki_reading": 0.0,
+   "z_vs_wiki": 0.0,
+   "PE_reading": 0.0,
+   "z_vs_PE": 0.0
+  },
+  {
+   "cell": "beyond_2 Game|Forest",
+   "n": 8,
+   "real": 0.0,
+   "wiki_reading": 0.0,
+   "z_vs_wiki": 0.0,
+   "PE_reading": 0.0,
+   "z_vs_PE": 0.0
+  },
+  {
+   "cell": "beyond_2 Metal|Mountain",
+   "n": 3,
+   "real": 0.0,
+   "wiki_reading": 0.0,
+   "z_vs_wiki": 0.0,
+   "PE_reading": 0.0,
+   "z_vs_PE": 0.0
+  }
+ ],
+ "water_tiles": {
+  "33": [
+   "Water",
+   null
+  ],
+  "34": [
+   "Water",
+   null
+  ],
+  "45": [
+   "Water",
+   "AquaCrop"
+  ],
+  "55": [
+   "Water",
+   "Fish"
+  ],
+  "56": [
+   "Water",
+   null
+  ],
+  "57": [
+   "Water",
+   null
+  ],
+  "58": [
+   "Water",
+   null
+  ],
+  "61": [
+   "Water",
+   "AquaCrop"
+  ],
+  "62": [
+   "Water",
+   "Fish"
+  ],
+  "63": [
+   "Ocean",
+   null
+  ],
+  "64": [
+   "Water",
+   null
+  ],
+  "74": [
+   "Water",
+   null
+  ],
+  "75": [
+   "Ocean",
+   "AquaCrop"
+  ],
+  "76": [
+   "Water",
+   "Fish"
+  ],
+  "81": [
+   "Water",
+   null
+  ],
+  "82": [
+   "Water",
+   null
+  ],
+  "83": [
+   "Water",
+   "AquaCrop"
+  ],
+  "85": [
+   "Water",
+   "Fish"
+  ],
+  "86": [
+   "Ocean",
+   null
+  ],
+  "87": [
+   "Ocean",
+   null
+  ],
+  "88": [
+   "Water",
+   null
+  ],
+  "91": [
+   "Water",
+   null
+  ],
+  "92": [
+   "Ocean",
+   "Fish"
+  ],
+  "93": [
+   "Water",
+   "Fish"
+  ],
+  "105": [
+   "Water",
+   "Fish"
+  ],
+  "110": [
+   "Water",
+   "Fish"
+  ],
+  "111": [
+   "Water",
+   null
+  ],
+  "114": [
+   "Water",
+   null
+  ],
+  "115": [
+   "Ocean",
+   "Fish"
+  ],
+  "116": [
+   "Ocean",
+   null
+  ],
+  "117": [
+   "Water",
+   null
+  ],
+  "118": [
+   "Water",
+   "Fish"
+  ],
+  "121": [
+   "Water",
+   null
+  ],
+  "122": [
+   "Water",
+   "AquaCrop"
+  ],
+  "139": [
+   "Water",
+   "AquaCrop"
+  ],
+  "145": [
+   "Water",
+   null
+  ],
+  "146": [
+   "Water",
+   "AquaCrop"
+  ],
+  "148": [
+   "Water",
+   null
+  ],
+  "151": [
+   "Water",
+   null
+  ],
+  "156": [
+   "Water",
+   null
+  ],
+  "157": [
+   "Water",
+   null
+  ],
+  "168": [
+   "Water",
+   "Fish"
+  ],
+  "169": [
+   "Ocean",
+   null
+  ],
+  "170": [
+   "Water",
+   null
+  ],
+  "176": [
+   "Water",
+   "Fish"
+  ],
+  "177": [
+   "Water",
+   "Fish"
+  ],
+  "181": [
+   "Water",
+   "Fish"
+  ],
+  "184": [
+   "Water",
+   null
+  ],
+  "185": [
+   "Water",
+   null
+  ],
+  "186": [
+   "Ocean",
+   null
+  ],
+  "187": [
+   "Water",
+   "Fish"
+  ],
+  "193": [
+   "Water",
+   null
+  ],
+  "194": [
+   "Water",
+   "AquaCrop"
+  ],
+  "197": [
+   "Water",
+   null
+  ],
+  "198": [
+   "Ocean",
+   null
+  ],
+  "199": [
+   "Ocean",
+   null
+  ],
+  "200": [
+   "Ocean",
+   "AquaCrop"
+  ],
+  "201": [
+   "Water",
+   "Fish"
+  ],
+  "211": [
+   "Water",
+   "Fish"
+  ],
+  "216": [
+   "Water",
+   null
+  ],
+  "217": [
+   "Water",
+   null
+  ],
+  "225": [
+   "Water",
+   null
+  ],
+  "226": [
+   "Water",
+   null
+  ],
+  "227": [
+   "Ocean",
+   null
+  ],
+  "228": [
+   "Ocean",
+   null
+  ],
+  "229": [
+   "Ocean",
+   null
+  ],
+  "230": [
+   "Ocean",
+   "Fish"
+  ],
+  "231": [
+   "Water",
+   "Fish"
+  ],
+  "232": [
+   "Water",
+   null
+  ],
+  "241": [
+   "Water",
+   null
+  ],
+  "242": [
+   "Water",
+   null
+  ],
+  "254": [
+   "Water",
+   "Fish"
+  ],
+  "255": [
+   "Ocean",
+   "AquaCrop"
+  ],
+  "256": [
+   "Ocean",
+   null
+  ],
+  "257": [
+   "Ocean",
+   "Starfish"
+  ],
+  "258": [
+   "Water",
+   null
+  ],
+  "259": [
+   "Water",
+   null
+  ],
+  "260": [
+   "Water",
+   null
+  ],
+  "272": [
+   "Water",
+   null
+  ],
+  "277": [
+   "Water",
+   null
+  ],
+  "284": [
+   "Water",
+   null
+  ],
+  "285": [
+   "Water",
+   "Starfish"
+  ],
+  "286": [
+   "Ocean",
+   null
+  ],
+  "287": [
+   "Water",
+   null
+  ],
+  "302": [
+   "Water",
+   "AquaCrop"
+  ],
+  "303": [
+   "Water",
+   "Fish"
+  ],
+  "307": [
+   "Water",
+   "Fish"
+  ],
+  "308": [
+   "Water",
+   null
+  ],
+  "316": [
+   "Water",
+   "AquaCrop"
+  ],
+  "332": [
+   "Water",
+   null
+  ],
+  "337": [
+   "Water",
+   "AquaCrop"
+  ],
+  "339": [
+   "Water",
+   "AquaCrop"
+  ],
+  "354": [
+   "Water",
+   "Fish"
+  ],
+  "365": [
+   "Water",
+   "Fish"
+  ],
+  "367": [
+   "Water",
+   "Fish"
+  ],
+  "368": [
+   "Water",
+   null
+  ],
+  "369": [
+   "Ocean",
+   "Fish"
+  ],
+  "370": [
+   "Water",
+   null
+  ],
+  "373": [
+   "Water",
+   null
+  ],
+  "374": [
+   "Water",
+   null
+  ],
+  "376": [
+   "Water",
+   "Fish"
+  ],
+  "382": [
+   "Water",
+   "Fish"
+  ],
+  "383": [
+   "Water",
+   null
+  ],
+  "384": [
+   "Ocean",
+   "Fish"
+  ],
+  "385": [
+   "Water",
+   "Fish"
+  ],
+  "386": [
+   "Water",
+   "Fish"
+  ],
+  "398": [
+   "Water",
+   null
+  ],
+  "399": [
+   "Ocean",
+   null
+  ],
+  "400": [
+   "Ocean",
+   null
+  ],
+  "401": [
+   "Water",
+   null
+  ],
+  "402": [
+   "Water",
+   null
+  ],
+  "403": [
+   "Ocean",
+   null
+  ],
+  "404": [
+   "Ocean",
+   "Starfish"
+  ],
+  "405": [
+   "Water",
+   "Fish"
+  ],
+  "411": [
+   "Water",
+   null
+  ],
+  "412": [
+   "Ocean",
+   null
+  ],
+  "413": [
+   "Ocean",
+   null
+  ],
+  "414": [
+   "Ocean",
+   "Fish"
+  ],
+  "415": [
+   "Ocean",
+   null
+  ],
+  "416": [
+   "Ocean",
+   null
+  ],
+  "417": [
+   "Water",
+   null
+  ],
+  "427": [
+   "Water",
+   "AquaCrop"
+  ],
+  "428": [
+   "Ocean",
+   "Fish"
+  ],
+  "429": [
+   "Water",
+   "Fish"
+  ],
+  "430": [
+   "Water",
+   null
+  ],
+  "432": [
+   "Water",
+   "Fish"
+  ],
+  "433": [
+   "Ocean",
+   "Fish"
+  ],
+  "434": [
+   "Ocean",
+   "Fish"
+  ],
+  "435": [
+   "Water",
+   null
+  ],
+  "441": [
+   "Water",
+   "Fish"
+  ],
+  "442": [
+   "Ocean",
+   null
+  ],
+  "443": [
+   "Ocean",
+   null
+  ],
+  "444": [
+   "Ocean",
+   null
+  ],
+  "445": [
+   "Ocean",
+   null
+  ],
+  "446": [
+   "Water",
+   "Fish"
+  ],
+  "457": [
+   "Water",
+   "AquaCrop"
+  ],
+  "458": [
+   "Water",
+   null
+  ],
+  "463": [
+   "Water",
+   "AquaCrop"
+  ],
+  "464": [
+   "Water",
+   null
+  ],
+  "471": [
+   "Water",
+   "AquaCrop"
+  ],
+  "472": [
+   "Water",
+   null
+  ],
+  "473": [
+   "Ocean",
+   "Starfish"
+  ],
+  "474": [
+   "Ocean",
+   null
+  ],
+  "475": [
+   "Water",
+   null
+  ],
+  "482": [
+   "Water",
+   null
+  ],
+  "487": [
+   "Water",
+   null
+  ],
+  "488": [
+   "Water",
+   "AquaCrop"
+  ],
+  "503": [
+   "Water",
+   null
+  ],
+  "504": [
+   "Water",
+   "Fish"
+  ],
+  "505": [
+   "Water",
+   "Fish"
+  ],
+  "511": [
+   "Water",
+   "AquaCrop"
+  ],
+  "512": [
+   "Water",
+   "Starfish"
+  ],
+  "576": [
+   "Water",
+   "AquaCrop"
+  ],
+  "577": [
+   "Water",
+   null
+  ],
+  "587": [
+   "Water",
+   "AquaCrop"
+  ],
+  "588": [
+   "Water",
+   "Starfish"
+  ],
+  "592": [
+   "Water",
+   null
+  ],
+  "593": [
+   "Water",
+   "Fish"
+  ],
+  "605": [
+   "Water",
+   "Fish"
+  ],
+  "606": [
+   "Water",
+   null
+  ],
+  "607": [
+   "Water",
+   null
+  ],
+  "616": [
+   "Water",
+   null
+  ],
+  "617": [
+   "Ocean",
+   null
+  ],
+  "618": [
+   "Ocean",
+   null
+  ],
+  "619": [
+   "Water",
+   null
+  ],
+  "621": [
+   "Water",
+   null
+  ],
+  "622": [
+   "Water",
+   null
+  ],
+  "637": [
+   "Water",
+   "Fish"
+  ],
+  "638": [
+   "Water",
+   "Fish"
+  ],
+  "645": [
+   "Water",
+   null
+  ],
+  "646": [
+   "Ocean",
+   "AquaCrop"
+  ],
+  "647": [
+   "Ocean",
+   null
+  ],
+  "648": [
+   "Ocean",
+   "AquaCrop"
+  ],
+  "649": [
+   "Ocean",
+   null
+  ],
+  "650": [
+   "Water",
+   null
+  ],
+  "651": [
+   "Ocean",
+   "Starfish"
+  ],
+  "652": [
+   "Ocean",
+   "AquaCrop"
+  ],
+  "653": [
+   "Water",
+   "Fish"
+  ],
+  "661": [
+   "Water",
+   null
+  ],
+  "662": [
+   "Water",
+   null
+  ],
+  "667": [
+   "Water",
+   null
+  ],
+  "668": [
+   "Ocean",
+   null
+  ],
+  "669": [
+   "Water",
+   "Fish"
+  ],
+  "675": [
+   "Water",
+   null
+  ],
+  "676": [
+   "Water",
+   null
+  ],
+  "677": [
+   "Water",
+   "AquaCrop"
+  ],
+  "678": [
+   "Water",
+   null
+  ],
+  "679": [
+   "Water",
+   null
+  ],
+  "680": [
+   "Water",
+   null
+  ],
+  "681": [
+   "Ocean",
+   "AquaCrop"
+  ],
+  "682": [
+   "Ocean",
+   "Fish"
+  ],
+  "683": [
+   "Water",
+   "Fish"
+  ],
+  "685": [
+   "Water",
+   "AquaCrop"
+  ],
+  "686": [
+   "Water",
+   "Starfish"
+  ],
+  "687": [
+   "Water",
+   null
+  ],
+  "691": [
+   "Water",
+   null
+  ],
+  "697": [
+   "Water",
+   "AquaCrop"
+  ],
+  "698": [
+   "Ocean",
+   null
+  ],
+  "699": [
+   "Ocean",
+   null
+  ],
+  "700": [
+   "Water",
+   "Starfish"
+  ],
+  "705": [
+   "Water",
+   null
+  ],
+  "711": [
+   "Water",
+   "Fish"
+  ],
+  "712": [
+   "Water",
+   "Fish"
+  ],
+  "715": [
+   "Water",
+   null
+  ],
+  "716": [
+   "Ocean",
+   null
+  ],
+  "717": [
+   "Water",
+   "AquaCrop"
+  ],
+  "727": [
+   "Water",
+   "AquaCrop"
+  ],
+  "728": [
+   "Ocean",
+   "Starfish"
+  ],
+  "729": [
+   "Ocean",
+   null
+  ],
+  "730": [
+   "Water",
+   "Fish"
+  ],
+  "741": [
+   "Water",
+   null
+  ],
+  "746": [
+   "Water",
+   null
+  ],
+  "747": [
+   "Water",
+   null
+  ],
+  "757": [
+   "Water",
+   null
+  ],
+  "758": [
+   "Ocean",
+   "Fish"
+  ],
+  "759": [
+   "Water",
+   null
+  ],
+  "762": [
+   "Water",
+   "Fish"
+  ],
+  "771": [
+   "Water",
+   null
+  ],
+  "786": [
+   "Water",
+   null
+  ],
+  "787": [
+   "Ocean",
+   "Fish"
+  ],
+  "788": [
+   "Water",
+   "Fish"
+  ],
+  "789": [
+   "Water",
+   "Fish"
+  ],
+  "813": [
+   "Water",
+   null
+  ],
+  "814": [
+   "Water",
+   "Fish"
+  ],
+  "815": [
+   "Water",
+   null
+  ],
+  "816": [
+   "Water",
+   "AquaCrop"
+  ],
+  "817": [
+   "Water",
+   "AquaCrop"
+  ],
+  "820": [
+   "Water",
+   "Fish"
+  ],
+  "821": [
+   "Water",
+   "Fish"
+  ],
+  "822": [
+   "Water",
+   null
+  ],
+  "833": [
+   "Water",
+   "Fish"
+  ],
+  "834": [
+   "Water",
+   "Fish"
+  ],
+  "837": [
+   "Water",
+   "AquaCrop"
+  ],
+  "838": [
+   "Water",
+   null
+  ],
+  "850": [
+   "Water",
+   null
+  ],
+  "851": [
+   "Water",
+   null
+  ],
+  "852": [
+   "Water",
+   null
+  ],
+  "863": [
+   "Water",
+   null
+  ],
+  "867": [
+   "Water",
+   null
+  ],
+  "868": [
+   "Water",
+   "Starfish"
+  ]
+ }
+}

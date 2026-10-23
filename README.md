@@ -1,48 +1,58 @@
-# Polytopia AI
+# polytopia-ai
 
-Claude as a wartime general for The Battle of Polytopia: an advisor (later a
-planner) that beats the built-in bots using a sourced rules dataset, a forward
-model, fog inference and search.
+A long-term build of an AI "wartime general" for The Battle of Polytopia. Claude is the general and Jason is the president. The goal is to **win, with combat first**; score doesn't matter.
 
-## Docs
+**Current phase: Phase 1, data and verification.** No advisor or search work starts until the Phase 1 exit gates pass (`docs/polytopia_ai_phase_1_spec.md`).
 
-- [`docs/roadmap.md`](docs/roadmap.md) — the seven phases and their exit tests.
-- [`docs/phase1-spec.md`](docs/phase1-spec.md) — Phase 1 (data) exit gates,
-  evidence ladder (L0–L3), data paths and status board.
-- [`docs/open-questions.md`](docs/open-questions.md) — the in-game test sheet
-  and save-file checklist.
+## What's here
 
-Live versions: [roadmap](https://claude.ai/artifact/BRUwionha6Zkjd7fY5WaQz) ·
-[Phase 1 spec](https://claude.ai/artifact/K9wQ2L9xnNqnaxfckBGcwp) ·
-[open questions](https://claude.ai/artifact/VdTo8Kw8UGqYRQfygEVS2s)
+| Folder | What it is |
+|---|---|
+| `engine/` | Replay engine: a Python copy of the game rules that replays a real save's action log and checks every unit's HP and position against the game's own end state. `replay.py` (rules and replay), `state.py` (game state from a save), `stats.py` (unit stats). |
+| `verify/` | Save decoder for game v123 (`state_v123.py`), save ingest (`ingest_saves.py`), the evidence **ledger** (`ledger.json`: every rule with its source and evidence level), and the Polyfish cross-check plus map analysis tools. `state2json/` and `statedebug/` are Go tools (binaries not committed; `go build` them). |
+| `data/` | Rules dataset (units, tech tree, combat, economy, map generation, fog, tribes), measured tables from real saves (`measured_*.json`), and `conflicts_and_gaps.md` (every open conflict C1–C29 and gap G1–G12). |
+| `saves/` | Real iPhone `.state` saves from 31 games (42 files with the per-turn copies), their decoded JSON and `index.json`. Includes the bot war (`6e1bf8e0…` at turns 5/11/15) and Ankiian turn-by-turn (`1bf60251…_t1`–`_t7`). `public_game_links.tsv` is Polyfish's list of ~11.7k public share links. |
+| `sim/` | Map generator from the wiki rules (`wiki_mapgen.py`, with measured mode) and `pfcore/`, the Polyfish Rust engine core (Apache-2.0). |
+| `notebook/` | `polytopia_engine.ipynb`, a self-contained Google Colab notebook (built by `build_notebook.py`). |
+| `docs/` | Markdown exports of the Claude Docs: Phase 1 spec, roadmap, the in-game test sheet, plus `verify_tools.md`. |
+| `legacy/` | Dataset v0.3 snapshot and the first map models (`polymap.py`, `hidden_tiles.py`, out of date). |
+| `scripts/` | `check.sh` (smoke test), `fetch_third_party.sh` (re-clone reference repos into `ext/`), `run_notebook.py` (run the notebook headless). |
 
-## Intended layout
+## Quick start
 
-The code lives in the claude.ai "Polytopia" project and has not been added
-here yet. Expected paths, per the docs:
-
-```
-polytopia_ai/
-  data/
-    *.json                  rules dataset (v0.3)
-    build_dataset.py        rebuilds the dataset
-    validate_dataset.py     self-check
-    conflicts_and_gaps.md   conflict table (C1–C29, G1–G12)
-  polymap.py                map model (out of date: old weights)
-  hidden_tiles.py           hidden-tile model (out of date)
-  verify/
-    run_all.sh              rebuild dataset + run every check
-    state2json              .state save file -> JSON
-    analyze_map.py          measure a real map against open conflicts
-    c23_models.py           pre-registered capital-resource test
-    crosscheck.py           field-by-field comparison with Polyfish
-    parse_polyfish.py
+```sh
+python3 -m pip install matplotlib        # only the notebook/map plots need it; the engine is pure stdlib
+sh scripts/check.sh                      # replays both games and prints match scores
 ```
 
-External engines referenced: Polyfish (game version 115 re-implementation,
-used for cross-checks and map generation) and PolyEnv (C++).
+Expected from `check.sh` (the current baseline):
 
-## Data
+- Ankiian turn by turn: 27/27, 33/33, 39/39 (one position differs), 43/43, 51/51, 59/59, 66/66 units with exact HP.
+- Bot war: turn 5 66/66, turn 11 85/92, turn 15 106/118.
 
-Real `.state` saves stay out of git (see `.gitignore`); keep them in `saves/`
-locally.
+Replay one game by hand:
+
+```sh
+cd engine
+python3 replay.py ../saves/<id>_t15.json ../saves/<id>_t5.json ../saves/<id>_t11.json   # final save, then checkpoints
+```
+
+Add a new save from the iPhone (the text export: first line is the device path, then base64):
+
+```sh
+python3 -I verify/ingest_saves.py saves export.txt
+```
+
+Rebuild all save JSONs from the raw `.state` files: `python3 -I verify/ingest_saves.py saves saves/*.state`.
+
+## Third-party code
+
+Reference repos (Polyfish, PolyEnv/Tribes, save editors and others) are **not committed**. `scripts/fetch_third_party.sh` re-clones them into `ext/` at the commits used. See `THIRD_PARTY.md`.
+
+## Live docs (claude.ai)
+
+- Phase 1 spec: https://claude.ai/artifact/K9wQ2L9xnNqnaxfckBGcwp
+- Roadmap: https://claude.ai/artifact/BRUwionha6Zkjd7fY5WaQz
+- Test sheet: https://claude.ai/artifact/VdTo8Kw8UGqYRQfygEVS2s
+
+The copies in `docs/` were exported on 23 Oct 2026.

@@ -1,0 +1,371 @@
+{
+ "_about": "Per-tribe start state + terrain modifiers (map_generation.json holds the modifier numbers). 'resolved' is MY best current belief given all evidence; 'PE'/'WK' are what each source says.",
+ "tribes": {
+  "XinXi": {
+   "id": 1,
+   "kind": "regular",
+   "start_stars": {
+    "v": 7,
+    "src": "PE+NM",
+    "conf": "med-high",
+    "note": "PE and NamuWiki agree for all 16 (XinXi/Hoodrick/Quetzali/Yadakk 7, Oumaji 6, Luxidoor 2 [Nov 2025], rest 5). Yadakk 5->7 in June 2025."
+   },
+   "start_tech_PE": "Climbing",
+   "start_tech_WK": "Climbing",
+   "start_unit_PE": "Warrior",
+   "start_score_PE": 515,
+   "start_score_WK": 515,
+   "conflict": null
+  },
+  "Imperius": {
+   "id": 2,
+   "kind": "regular",
+   "start_stars": {
+    "v": 5,
+    "src": "PE+NM",
+    "conf": "med-high",
+    "note": "PE and NamuWiki agree for all 16 (XinXi/Hoodrick/Quetzali/Yadakk 7, Oumaji 6, Luxidoor 2 [Nov 2025], rest 5). Yadakk 5->7 in June 2025."
+   },
+   "start_tech_PE": "Organization",
+   "start_tech_WK": "Organization",
+   "start_unit_PE": "Warrior",
+   "start_score_PE": 515,
+   "start_score_WK": 515,
+   "conflict": null
+  },
+  "Bardur": {
+   "id": 3,
+   "kind": "regular",
+   "start_stars": {
+    "v": 5,
+    "src": "PE+NM",
+    "conf": "med-high",
+    "note": "PE and NamuWiki agree for all 16 (XinXi/Hoodrick/Quetzali/Yadakk 7, Oumaji 6, Luxidoor 2 [Nov 2025], rest 5). Yadakk 5->7 in June 2025."
+   },
+   "start_tech_PE": "Hunting",
+   "start_tech_WK": "Hunting",
+   "start_unit_PE": "Warrior",
+   "start_score_PE": 515,
+   "start_score_WK": 515,
+   "conflict": null
+  },
+  "Oumaji": {
+   "id": 4,
+   "kind": "regular",
+   "start_stars": {
+    "v": 6,
+    "src": "PE+NM",
+    "conf": "med-high",
+    "note": "PE and NamuWiki agree for all 16 (XinXi/Hoodrick/Quetzali/Yadakk 7, Oumaji 6, Luxidoor 2 [Nov 2025], rest 5). Yadakk 5->7 in June 2025."
+   },
+   "start_tech_PE": "Riding",
+   "start_tech_WK": "Riding",
+   "start_unit_PE": "Rider",
+   "start_score_PE": 520,
+   "start_score_WK": 520,
+   "conflict": null
+  },
+  "Kickoo": {
+   "id": 5,
+   "kind": "regular",
+   "start_stars": {
+    "v": 5,
+    "src": "PE+NM",
+    "conf": "med-high",
+    "note": "PE and NamuWiki agree for all 16 (XinXi/Hoodrick/Quetzali/Yadakk 7, Oumaji 6, Luxidoor 2 [Nov 2025], rest 5). Yadakk 5->7 in June 2025."
+   },
+   "start_tech_PE": "Fishing",
+   "start_tech_WK": "Fishing",
+   "start_unit_PE": "Warrior",
+   "start_score_PE": 515,
+   "start_score_WK": 615,
+   "conflict": "C5"
+  },
+  "Hoodrick": {
+   "id": 6,
+   "kind": "regular",
+   "start_stars": {
+    "v": 7,
+    "src": "PE+NM",
+    "conf": "med-high",
+    "note": "PE and NamuWiki agree for all 16 (XinXi/Hoodrick/Quetzali/Yadakk 7, Oumaji 6, Luxidoor 2 [Nov 2025], rest 5). Yadakk 5->7 in June 2025."
+   },
+   "start_tech_PE": "Archery",
+   "start_tech_WK": "Archery",
+   "start_unit_PE": "Archer",
+   "start_score_PE": 620,
+   "start_score_WK": 620,
+   "conflict": null
+  },
+  "Luxidoor": {
+   "id": 7,
+   "kind": "regular",
+   "start_stars": {
+    "v": 2,
+    "src": "PE+NM",
+    "conf": "med-high",
+    "note": "PE and NamuWiki agree for all 16 (XinXi/Hoodrick/Quetzali/Yadakk 7, Oumaji 6, Luxidoor 2 [Nov 2025], rest 5). Yadakk 5->7 in June 2025."
+   },
+   "start_tech_PE": null,
+   "start_tech_WK": null,
+   "start_unit_PE": "Warrior",
+   "start_score_PE": 515,
+   "start_score_WK": 465,
+   "conflict": "C2"
+  },
+  "Vengir": {
+   "id": 8,
+   "kind": "regular",
+   "start_stars": {
+    "v": 5,
+    "src": "PE+NM",
+    "conf": "med-high",
+    "note": "PE and NamuWiki agree for all 16 (XinXi/Hoodrick/Quetzali/Yadakk 7, Oumaji 6, Luxidoor 2 [Nov 2025], rest 5). Yadakk 5->7 in June 2025."
+   },
+   "start_tech_PE": "Smithery",
+   "start_tech_WK": "Smithery",
+   "start_unit_PE": "Swordsman",
+   "start_score_PE": 730,
+   "start_score_WK": 730,
+   "conflict": null
+  },
+  "Zebasi": {
+   "id": 9,
+   "kind": "regular",
+   "start_stars": {
+    "v": 5,
+    "src": "PE+NM",
+    "conf": "med-high",
+    "note": "PE and NamuWiki agree for all 16 (XinXi/Hoodrick/Quetzali/Yadakk 7, Oumaji 6, Luxidoor 2 [Nov 2025], rest 5). Yadakk 5->7 in June 2025."
+   },
+   "start_tech_PE": "Farming",
+   "start_tech_WK": "Farming",
+   "start_unit_PE": "Warrior",
+   "start_score_PE": 615,
+   "start_score_WK": 615,
+   "conflict": null
+  },
+  "AiMo": {
+   "id": 10,
+   "kind": "regular",
+   "start_stars": {
+    "v": 5,
+    "src": "PE+NM",
+    "conf": "med-high",
+    "note": "PE and NamuWiki agree for all 16 (XinXi/Hoodrick/Quetzali/Yadakk 7, Oumaji 6, Luxidoor 2 [Nov 2025], rest 5). Yadakk 5->7 in June 2025."
+   },
+   "start_tech_PE": "Philosophy",
+   "start_tech_WK": "Meditation (Ai-Mo/Tribes pages, 2018 article) | Philosophy (Technology page)",
+   "start_unit_PE": "MindBender",
+   "start_score_PE": 615,
+   "start_score_WK": 615,
+   "conflict": "C1"
+  },
+  "Quetzali": {
+   "id": 11,
+   "kind": "regular",
+   "start_stars": {
+    "v": 7,
+    "src": "PE+NM",
+    "conf": "med-high",
+    "note": "PE and NamuWiki agree for all 16 (XinXi/Hoodrick/Quetzali/Yadakk 7, Oumaji 6, Luxidoor 2 [Nov 2025], rest 5). Yadakk 5->7 in June 2025."
+   },
+   "start_tech_PE": "Strategy",
+   "start_tech_WK": "Strategy",
+   "start_unit_PE": "Defender",
+   "start_score_PE": 620,
+   "start_score_WK": 620,
+   "conflict": null
+  },
+  "Yadakk": {
+   "id": 12,
+   "kind": "regular",
+   "start_stars": {
+    "v": 7,
+    "src": "PE+NM",
+    "conf": "med-high",
+    "note": "PE and NamuWiki agree for all 16 (XinXi/Hoodrick/Quetzali/Yadakk 7, Oumaji 6, Luxidoor 2 [Nov 2025], rest 5). Yadakk 5->7 in June 2025."
+   },
+   "start_tech_PE": "Roads",
+   "start_tech_WK": "Roads",
+   "start_unit_PE": "Warrior",
+   "start_score_PE": 615,
+   "start_score_WK": 615,
+   "conflict": null
+  },
+  "Aquarion": {
+   "id": 13,
+   "kind": "special",
+   "start_stars": {
+    "v": 5,
+    "src": "PE+NM",
+    "conf": "med-high",
+    "note": "PE and NamuWiki agree for all 16 (XinXi/Hoodrick/Quetzali/Yadakk 7, Oumaji 6, Luxidoor 2 [Nov 2025], rest 5). Yadakk 5->7 in June 2025."
+   },
+   "start_tech_PE": null,
+   "start_tech_WK": null,
+   "start_unit_PE": "Mermaid",
+   "start_score_PE": 415,
+   "start_score_WK": null,
+   "conflict": null
+  },
+  "Elyrion": {
+   "id": 14,
+   "kind": "special",
+   "start_stars": {
+    "v": 5,
+    "src": "PE+NM",
+    "conf": "med-high",
+    "note": "PE and NamuWiki agree for all 16 (XinXi/Hoodrick/Quetzali/Yadakk 7, Oumaji 6, Luxidoor 2 [Nov 2025], rest 5). Yadakk 5->7 in June 2025."
+   },
+   "start_tech_PE": null,
+   "start_tech_WK": "Forest Magic (replaces Hunting)",
+   "start_unit_PE": "Warrior",
+   "start_score_PE": 515,
+   "start_score_WK": 515,
+   "conflict": null
+  },
+  "Polaris": {
+   "id": 15,
+   "kind": "special",
+   "start_stars": {
+    "v": 5,
+    "src": "PE+NM",
+    "conf": "med-high",
+    "note": "PE and NamuWiki agree for all 16 (XinXi/Hoodrick/Quetzali/Yadakk 7, Oumaji 6, Luxidoor 2 [Nov 2025], rest 5). Yadakk 5->7 in June 2025."
+   },
+   "start_tech_PE": null,
+   "start_tech_WK": "Frostwork (replaces Fishing)",
+   "start_unit_PE": "Mooni",
+   "start_score_PE": 630,
+   "start_score_WK": 530,
+   "conflict": "C3"
+  },
+  "Cymanti": {
+   "id": 16,
+   "kind": "special",
+   "start_stars": {
+    "v": 5,
+    "src": "PE+NM",
+    "conf": "med-high",
+    "note": "PE and NamuWiki agree for all 16 (XinXi/Hoodrick/Quetzali/Yadakk 7, Oumaji 6, Luxidoor 2 [Nov 2025], rest 5). Yadakk 5->7 in June 2025."
+   },
+   "start_tech_PE": null,
+   "start_tech_WK": "Farming",
+   "start_unit_PE": "Shaman",
+   "start_score_PE": 515,
+   "start_score_WK": 630,
+   "conflict": "C4"
+  }
+ },
+ "start_score_decomposition": {
+  "formula": "city 100 + 50/level above 1 + 20/territory tile + 5/explored tile + 5*unit_cost + 100*tier(each tech)",
+  "constants": "start: level-1 capital (100), territory 3x3 = 9 tiles (180), 5x5 = 25 explored tiles (125) -> 405 before unit/tech/level",
+  "verified_by": "validate_dataset.py reproduces 14 of the 15 wiki start scores exactly from components (all except Kickoo, C5); the PE start packages for Ai-Mo/Luxidoor/Kickoo do not (C1,C2,C5).",
+  "corner_rule": "SC: a capital whose 5x5 reveal contains a corner starts 5 points lower (corner tile not revealed).",
+  "implication": "The REAL initial reveal around a capital is 5x5 (25 tiles). PE reveals only the 3x3 territory + unit radius 1 (C21)."
+ },
+ "start_conditions_common": {
+  "units": {
+   "v": "exactly one unit in the capital",
+   "src": "WK",
+   "conf": "high"
+  },
+  "capital_level": {
+   "v": 1,
+   "src": "SC(DER)",
+   "conf": "med",
+   "note": "except Luxidoor (see C2)"
+  },
+  "capital_income": {
+   "v": "level + 1 (capital bonus) -> 2 stars/turn at level 1",
+   "src": "PE+DEV",
+   "conf": "high",
+   "note": "DEV: bot baseline +2 stars/turn from capital"
+  }
+ },
+ "resolved": {
+  "_note": "Best current belief; confidence reflects agreement between sources AND the arithmetic score check.",
+  "AiMo": {
+   "v": {
+    "start_tech": "Philosophy",
+    "start_unit": "MindBender",
+    "start_score": 730
+   },
+   "src": "NM+PE",
+   "conf": "med-high",
+   "cid": "C1",
+   "note": "NamuWiki: 2025 patch changed Ai-Mo from Meditation to Philosophy + Hypnotist(Mind Bender), -33% tech cost. Fandom Ai-Mo/Tribes pages and the 615 score are pre-patch. 730 = 405+25+300 by formula; PE's own commented table also says 730."
+  },
+  "Luxidoor": {
+   "v": {
+    "start_tech": null,
+    "start_unit": "Warrior",
+    "capital_level": 3,
+    "start_stars": 2,
+    "start_score": 515
+   },
+   "src": "NM+PE",
+   "conf": "med-high",
+   "cid": "C2",
+   "note": "NamuWiki: Apr 2021 capital cut to level 2; Nov 2025 patch cut stars to 2 and RESTORED level 3. Fandom score 465 (level 2) is pre-Nov-2025. Level 3 = 515 by formula = PE. Wall: unconfirmed. Namu guaranteed-near-capital list: 2 fruit, 2 animal, 1 crop, 2 fish, 1 iron (8 tiles)."
+  },
+  "Polaris": {
+   "v": {
+    "start_tech": "Frostwork",
+    "start_unit": "Mooni",
+    "start_score": 530
+   },
+   "src": "SC(DER)",
+   "conf": "low-med",
+   "cid": "C3",
+   "note": "530 = 405+25(Mooni cost 5)+100(T1) by formula. Wiki Score page may be pre-2025; PE says 630. Unresolved - version drift possible."
+  },
+  "Cymanti": {
+   "v": {
+    "start_tech": "Farming",
+    "start_unit": "Shaman",
+    "start_score": 630
+   },
+   "src": "SC(DER)+WK+NM",
+   "conf": "med",
+   "cid": "C4",
+   "note": "630 = 405+25(Shaman)+200(T2 Farming). NamuWiki also lists Farming (mushroom farming) and Shaman/Warrior ambiguity; PE has Shaman but no start tech."
+  },
+  "Kickoo": {
+   "v": {
+    "start_tech": "Fishing",
+    "start_score": 515
+   },
+   "src": "PE+NM",
+   "conf": "low-med",
+   "cid": "C5",
+   "note": "Fishing+Warrior = 515 by formula and NamuWiki lists nothing else. The fandom score 615 is unexplained and possibly from an older version. Lean 515."
+  }
+ },
+ "special_tribe_mechanics": {
+  "Aquarion": [
+   "no start tech; starts with Mermaid (amphibious)",
+   "all units can move on water; land slow unless flooded",
+   "can build on water & place monuments on ocean",
+   "unique: Aqua Farm, Atoll, Flood/Fill, Tridention, Shark, Puffer, Jelly, Crab(super)"
+  ],
+  "Elyrion": [
+   "start tech Forest Magic; Enchant Animal -> Polytaur; Sanctuary",
+   "'at least 2 animals' guaranteed near capital (Strategies page)"
+  ],
+  "Polaris": [
+   "terraforming instead of boats; captured territory turns to Polaris terrain and water freezes",
+   "Gaami super unit freezes tiles",
+   "Ice Bank (income, max level raised 8->10 in 2019 nerf), Outpost gives 1 pop (was 2)"
+  ],
+  "Cymanti": [
+   "spores replace crops; >=2 spores guaranteed at start",
+   "Shaman boost: +0.5 attack, +1 move until it acts (WK Combat)",
+   "8 unique units, 6 unique skills, 4 unique buildings",
+   "no Ports/Rafts; Organization doesn't reveal crops"
+  ],
+  "src": "WK",
+  "conf": "low-med (summaries only; PE has unit stats but not these mechanics)"
+ }
+}

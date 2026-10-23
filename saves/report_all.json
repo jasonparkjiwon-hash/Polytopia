@@ -1,0 +1,8399 @@
+{
+ "per_game": [
+  {
+   "source": "0d1aa91b-668a-4cae-9fb6-6c09ff767b33.json",
+   "kind": "real .state (turn-0 map)",
+   "version": 123,
+   "size": 30,
+   "map_type": null,
+   "land_fraction": 0.993,
+   "terrain_counts": {
+    "Field": 492,
+    "Forest": 289,
+    "Mountain": 113,
+    "Water": 6
+   },
+   "capitals": [
+    {
+     "player": 15,
+     "tribe": "Polaris",
+     "ring8_resources": {
+      "Fruit": 2,
+      "Game": 4
+     },
+     "ring8_total": 6,
+     "ring24_total": 16,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 3,
+      "Forest": 5
+     }
+    },
+    {
+     "player": 4,
+     "tribe": "Elyrion",
+     "ring8_resources": {
+      "Crop": 4,
+      "Fruit": 2,
+      "Game": 2
+     },
+     "ring8_total": 8,
+     "ring24_total": 16,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 6,
+      "Forest": 2
+     }
+    },
+    {
+     "player": 7,
+     "tribe": "Imperius",
+     "ring8_resources": {
+      "Fruit": 3,
+      "Crop": 1
+     },
+     "ring8_total": 4,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Mountain": 1,
+      "Field": 4,
+      "Forest": 3
+     }
+    },
+    {
+     "player": 12,
+     "tribe": "Quetzali",
+     "ring8_resources": {
+      "Fruit": 4,
+      "Metal": 2,
+      "Game": 1
+     },
+     "ring8_total": 7,
+     "ring24_total": 18,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 4,
+      "Mountain": 3,
+      "Forest": 1
+     }
+    },
+    {
+     "player": 10,
+     "tribe": "Bardur",
+     "ring8_resources": {
+      "Fruit": 3,
+      "Game": 2
+     },
+     "ring8_total": 5,
+     "ring24_total": 11,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 3,
+      "Field": 5
+     }
+    },
+    {
+     "player": 6,
+     "tribe": "Yadakk",
+     "ring8_resources": {
+      "Fruit": 3,
+      "Crop": 2,
+      "Game": 1,
+      "Metal": 1
+     },
+     "ring8_total": 7,
+     "ring24_total": 14,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 5,
+      "Forest": 2,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 8,
+     "tribe": "Hoodrick",
+     "ring8_resources": {
+      "Game": 3,
+      "Crop": 1,
+      "Metal": 2
+     },
+     "ring8_total": 6,
+     "ring24_total": 15,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 5,
+      "Field": 1,
+      "Mountain": 2
+     }
+    },
+    {
+     "player": 3,
+     "tribe": "Zebasi",
+     "ring8_resources": {
+      "Game": 1,
+      "Metal": 1,
+      "Crop": 2,
+      "Fruit": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 15,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 2,
+      "Mountain": 2,
+      "Field": 4
+     }
+    },
+    {
+     "player": 1,
+     "tribe": "Kickoo",
+     "ring8_resources": {
+      "Crop": 2,
+      "Fish": 2,
+      "Game": 3
+     },
+     "ring8_total": 7,
+     "ring24_total": 16,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 2,
+      "Forest": 4,
+      "Water": 2
+     }
+    },
+    {
+     "player": 9,
+     "tribe": "Cymanti",
+     "ring8_resources": {
+      "Metal": 1,
+      "Spores": 2,
+      "Game": 1,
+      "Fruit": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 13,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 4,
+      "Mountain": 1,
+      "Field": 3
+     }
+    },
+    {
+     "player": 5,
+     "tribe": "Vengir",
+     "ring8_resources": {
+      "Crop": 1,
+      "Metal": 1
+     },
+     "ring8_total": 2,
+     "ring24_total": 8,
+     "has_2_identical": false,
+     "ring8_terrain": {
+      "Forest": 5,
+      "Field": 2,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 14,
+     "tribe": "AiMo",
+     "ring8_resources": {
+      "Fruit": 4,
+      "Game": 2
+     },
+     "ring8_total": 6,
+     "ring24_total": 11,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 6,
+      "Forest": 2
+     }
+    },
+    {
+     "player": 13,
+     "tribe": "XinXi",
+     "ring8_resources": {
+      "Metal": 2,
+      "Game": 1,
+      "Fruit": 1
+     },
+     "ring8_total": 4,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 3,
+      "Mountain": 2,
+      "Field": 3
+     }
+    },
+    {
+     "player": 16,
+     "tribe": "Aquarion",
+     "ring8_resources": {
+      "Fruit": 2,
+      "Fish": 2,
+      "Game": 2,
+      "Metal": 1
+     },
+     "ring8_total": 7,
+     "ring24_total": 15,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 3,
+      "Water": 2,
+      "Forest": 2,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 11,
+     "tribe": "Oumaji",
+     "ring8_resources": {
+      "Metal": 1,
+      "Crop": 2,
+      "Fruit": 2
+     },
+     "ring8_total": 5,
+     "ring24_total": 8,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Mountain": 1,
+      "Field": 6,
+      "Forest": 1
+     }
+    },
+    {
+     "player": 2,
+     "tribe": "Luxidoor",
+     "ring8_resources": {
+      "Fish": 2,
+      "Fruit": 2,
+      "Game": 2,
+      "Metal": 1,
+      "Crop": 1
+     },
+     "ring8_total": 8,
+     "ring24_total": 14,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 2,
+      "Field": 3,
+      "Forest": 2,
+      "Mountain": 1
+     }
+    }
+   ],
+   "villages_and_cities": 70,
+   "non_capital_settlements": 54,
+   "village_grid_slots": 100,
+   "ruins": 23,
+   "ruins_expected_table": 23,
+   "starfish": 0,
+   "starfish_expected_water_div_25": 0,
+   "lighthouses": 4,
+   "fish_rate_shallow_near_settlement": 1.0,
+   "P(fruit|Field,inner)": 0.431,
+   "share(fruit,inner_all_land)": 0.224,
+   "P(crop|Field,inner)": 0.292,
+   "share(crop,inner_all_land)": 0.152,
+   "P(animal|Forest,inner)": 0.448,
+   "share(animal,inner_all_land)": 0.155,
+   "P(metal|Mountain,inner)": 0.811,
+   "share(metal,inner_all_land)": 0.108,
+   "explored_tiles_per_player": {
+    "15": 25,
+    "4": 25,
+    "7": 25,
+    "12": 25,
+    "10": 25,
+    "6": 25,
+    "8": 25,
+    "3": 25,
+    "1": 25,
+    "9": 25,
+    "5": 25,
+    "14": 25,
+    "13": 25,
+    "16": 25,
+    "11": 25,
+    "2": 25
+   },
+   "players": [
+    {
+     "id": 15,
+     "tribe": "Polaris"
+    },
+    {
+     "id": 4,
+     "tribe": "Elyrion"
+    },
+    {
+     "id": 7,
+     "tribe": "Imperius"
+    },
+    {
+     "id": 12,
+     "tribe": "Quetzali"
+    },
+    {
+     "id": 10,
+     "tribe": "Bardur"
+    },
+    {
+     "id": 6,
+     "tribe": "Yadakk"
+    },
+    {
+     "id": 8,
+     "tribe": "Hoodrick"
+    },
+    {
+     "id": 3,
+     "tribe": "Zebasi"
+    },
+    {
+     "id": 1,
+     "tribe": "Kickoo"
+    },
+    {
+     "id": 9,
+     "tribe": "Cymanti"
+    },
+    {
+     "id": 5,
+     "tribe": "Vengir"
+    },
+    {
+     "id": 14,
+     "tribe": "AiMo"
+    },
+    {
+     "id": 13,
+     "tribe": "XinXi"
+    },
+    {
+     "id": 16,
+     "tribe": "Aquarion"
+    },
+    {
+     "id": 11,
+     "tribe": "Oumaji"
+    },
+    {
+     "id": 2,
+     "tribe": "Luxidoor"
+    }
+   ]
+  },
+  {
+   "source": "139e8307-3a13-4803-9148-046ca92dc7f2.json",
+   "kind": "real .state (turn-0 map)",
+   "version": 123,
+   "size": 16,
+   "map_type": null,
+   "land_fraction": 0.387,
+   "terrain_counts": {
+    "Ocean": 41,
+    "Water": 116,
+    "Field": 58,
+    "Forest": 30,
+    "Mountain": 11
+   },
+   "capitals": [
+    {
+     "player": 3,
+     "tribe": "Cymanti",
+     "ring8_resources": {
+      "Spores": 2,
+      "Fish": 1,
+      "AquaCrop": 1
+     },
+     "ring8_total": 4,
+     "ring24_total": 13,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 4,
+      "Forest": 3,
+      "Field": 1
+     }
+    },
+    {
+     "player": 4,
+     "tribe": "Zebasi",
+     "ring8_resources": {
+      "Crop": 2,
+      "Fish": 1,
+      "AquaCrop": 1
+     },
+     "ring8_total": 4,
+     "ring24_total": 8,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 3,
+      "Forest": 1,
+      "Water": 4
+     }
+    },
+    {
+     "player": 1,
+     "tribe": "Imperius",
+     "ring8_resources": {
+      "Game": 1,
+      "Fruit": 2,
+      "AquaCrop": 1,
+      "Crop": 1,
+      "Fish": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 13,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 2,
+      "Field": 3,
+      "Water": 3
+     }
+    },
+    {
+     "player": 2,
+     "tribe": "Kickoo",
+     "ring8_resources": {
+      "Game": 1,
+      "Fish": 2,
+      "Crop": 2
+     },
+     "ring8_total": 5,
+     "ring24_total": 15,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 3,
+      "Water": 2,
+      "Field": 3
+     }
+    }
+   ],
+   "villages_and_cities": 15,
+   "non_capital_settlements": 11,
+   "village_grid_slots": 25,
+   "ruins": 7,
+   "ruins_expected_table": 7,
+   "starfish": 7,
+   "starfish_expected_water_div_25": 6,
+   "lighthouses": 4,
+   "fish_rate_shallow_near_settlement": 0.38,
+   "P(fruit|Field,inner)": 0.385,
+   "share(fruit,inner_all_land)": 0.196,
+   "P(crop|Field,inner)": 0.346,
+   "share(crop,inner_all_land)": 0.176,
+   "P(animal|Forest,inner)": 0.368,
+   "share(animal,inner_all_land)": 0.137,
+   "P(metal|Mountain,inner)": 0.667,
+   "share(metal,inner_all_land)": 0.078,
+   "explored_tiles_per_player": {
+    "3": 25,
+    "4": 25,
+    "1": 25,
+    "2": 25
+   },
+   "players": [
+    {
+     "id": 3,
+     "tribe": "Cymanti"
+    },
+    {
+     "id": 4,
+     "tribe": "Zebasi"
+    },
+    {
+     "id": 1,
+     "tribe": "Imperius"
+    },
+    {
+     "id": 2,
+     "tribe": "Kickoo"
+    }
+   ]
+  },
+  {
+   "source": "167f59ed-c868-45c0-b62a-7b68cf773077.json",
+   "kind": "real .state (turn-0 map)",
+   "version": 123,
+   "size": 20,
+   "map_type": null,
+   "land_fraction": 0.748,
+   "terrain_counts": {
+    "Field": 165,
+    "Forest": 93,
+    "Mountain": 41,
+    "Water": 79,
+    "Ocean": 22
+   },
+   "capitals": [
+    {
+     "player": 2,
+     "tribe": "Quetzali",
+     "ring8_resources": {
+      "Fish": 1,
+      "Game": 1,
+      "Fruit": 4
+     },
+     "ring8_total": 6,
+     "ring24_total": 14,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 1,
+      "Forest": 2,
+      "Mountain": 1,
+      "Field": 4
+     }
+    },
+    {
+     "player": 3,
+     "tribe": "AiMo",
+     "ring8_resources": {
+      "Game": 4,
+      "Metal": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 11,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 1,
+      "Forest": 5,
+      "Mountain": 2
+     }
+    },
+    {
+     "player": 1,
+     "tribe": "Imperius",
+     "ring8_resources": {
+      "Game": 1,
+      "Fruit": 3,
+      "AquaCrop": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 15,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 3,
+      "Mountain": 1,
+      "Field": 3,
+      "Water": 1
+     }
+    },
+    {
+     "player": 4,
+     "tribe": "Zebasi",
+     "ring8_resources": {
+      "Crop": 2,
+      "Metal": 1,
+      "Game": 1,
+      "Fish": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 13,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 3,
+      "Forest": 2,
+      "Mountain": 1,
+      "Water": 2
+     }
+    }
+   ],
+   "villages_and_cities": 28,
+   "non_capital_settlements": 24,
+   "village_grid_slots": 36,
+   "ruins": 11,
+   "ruins_expected_table": 11,
+   "starfish": 5,
+   "starfish_expected_water_div_25": 4,
+   "lighthouses": 4,
+   "fish_rate_shallow_near_settlement": 0.329,
+   "P(fruit|Field,inner)": 0.617,
+   "share(fruit,inner_all_land)": 0.294,
+   "P(crop|Field,inner)": 0.235,
+   "share(crop,inner_all_land)": 0.112,
+   "P(animal|Forest,inner)": 0.4,
+   "share(animal,inner_all_land)": 0.141,
+   "P(metal|Mountain,inner)": 0.69,
+   "share(metal,inner_all_land)": 0.118,
+   "explored_tiles_per_player": {
+    "2": 25,
+    "3": 25,
+    "1": 25,
+    "4": 25
+   },
+   "players": [
+    {
+     "id": 2,
+     "tribe": "Quetzali"
+    },
+    {
+     "id": 3,
+     "tribe": "AiMo"
+    },
+    {
+     "id": 1,
+     "tribe": "Imperius"
+    },
+    {
+     "id": 4,
+     "tribe": "Zebasi"
+    }
+   ]
+  },
+  {
+   "source": "1f20aef7-80b1-4db3-930f-bc980fe0d42d.json",
+   "kind": "real .state (turn-0 map)",
+   "version": 123,
+   "size": 30,
+   "map_type": null,
+   "land_fraction": 0.468,
+   "terrain_counts": {
+    "Field": 246,
+    "Forest": 124,
+    "Water": 162,
+    "Ocean": 317,
+    "Mountain": 51
+   },
+   "capitals": [
+    {
+     "player": 7,
+     "tribe": "Yadakk",
+     "ring8_resources": {
+      "Fruit": 2,
+      "Fish": 3,
+      "Metal": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 16,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 2,
+      "Water": 5,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 4,
+     "tribe": "Polaris",
+     "ring8_resources": {
+      "Crop": 2,
+      "Game": 2,
+      "Fruit": 1,
+      "Metal": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 14,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 5,
+      "Forest": 2,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 13,
+     "tribe": "Luxidoor",
+     "ring8_resources": {
+      "Crop": 1,
+      "Fruit": 2,
+      "Fish": 2,
+      "Metal": 1,
+      "Game": 2
+     },
+     "ring8_total": 8,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 3,
+      "Water": 2,
+      "Mountain": 1,
+      "Forest": 2
+     }
+    },
+    {
+     "player": 16,
+     "tribe": "Oumaji",
+     "ring8_resources": {
+      "Fruit": 3,
+      "Metal": 1,
+      "Crop": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 6,
+      "Forest": 1,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 10,
+     "tribe": "XinXi",
+     "ring8_resources": {
+      "Metal": 2,
+      "Fish": 4,
+      "AquaCrop": 1
+     },
+     "ring8_total": 7,
+     "ring24_total": 11,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Mountain": 2,
+      "Water": 4,
+      "Ocean": 2
+     }
+    },
+    {
+     "player": 11,
+     "tribe": "Kickoo",
+     "ring8_resources": {
+      "Metal": 1,
+      "AquaCrop": 2,
+      "Crop": 1,
+      "Fish": 2
+     },
+     "ring8_total": 6,
+     "ring24_total": 17,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Mountain": 1,
+      "Forest": 2,
+      "Water": 3,
+      "Field": 1,
+      "Ocean": 1
+     }
+    },
+    {
+     "player": 5,
+     "tribe": "Hoodrick",
+     "ring8_resources": {
+      "Crop": 2,
+      "Fruit": 1,
+      "Game": 2,
+      "AquaCrop": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 11,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 3,
+      "Forest": 2,
+      "Water": 2,
+      "Ocean": 1
+     }
+    },
+    {
+     "player": 1,
+     "tribe": "Aquarion",
+     "ring8_resources": {
+      "AquaCrop": 5,
+      "Fish": 2
+     },
+     "ring8_total": 7,
+     "ring24_total": 13,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Ocean": 4,
+      "Water": 4
+     }
+    },
+    {
+     "player": 6,
+     "tribe": "Vengir",
+     "ring8_resources": {
+      "AquaCrop": 1,
+      "Metal": 1,
+      "Crop": 1,
+      "Fish": 1
+     },
+     "ring8_total": 4,
+     "ring24_total": 7,
+     "has_2_identical": false,
+     "ring8_terrain": {
+      "Water": 3,
+      "Forest": 3,
+      "Mountain": 1,
+      "Field": 1
+     }
+    },
+    {
+     "player": 2,
+     "tribe": "Quetzali",
+     "ring8_resources": {
+      "AquaCrop": 1,
+      "Game": 1,
+      "Fruit": 4,
+      "Fish": 1
+     },
+     "ring8_total": 7,
+     "ring24_total": 14,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 2,
+      "Forest": 2,
+      "Field": 4
+     }
+    },
+    {
+     "player": 12,
+     "tribe": "Elyrion",
+     "ring8_resources": {
+      "Fish": 3,
+      "Game": 2,
+      "Crop": 1,
+      "Fruit": 1
+     },
+     "ring8_total": 7,
+     "ring24_total": 13,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Ocean": 1,
+      "Water": 3,
+      "Forest": 2,
+      "Field": 2
+     }
+    },
+    {
+     "player": 3,
+     "tribe": "AiMo",
+     "ring8_resources": {
+      "AquaCrop": 1,
+      "Game": 2,
+      "Fruit": 2
+     },
+     "ring8_total": 5,
+     "ring24_total": 10,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 3,
+      "Forest": 3,
+      "Field": 2
+     }
+    },
+    {
+     "player": 15,
+     "tribe": "Bardur",
+     "ring8_resources": {
+      "Game": 2,
+      "Fruit": 2,
+      "Metal": 1,
+      "Spores": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 13,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 4,
+      "Field": 3,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 14,
+     "tribe": "Zebasi",
+     "ring8_resources": {
+      "AquaCrop": 3,
+      "Crop": 2,
+      "Metal": 2,
+      "Game": 1
+     },
+     "ring8_total": 8,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 3,
+      "Field": 2,
+      "Mountain": 2,
+      "Forest": 1
+     }
+    },
+    {
+     "player": 8,
+     "tribe": "Imperius",
+     "ring8_resources": {
+      "Fruit": 3,
+      "Metal": 1,
+      "Crop": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 11,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 4,
+      "Mountain": 2,
+      "Forest": 2
+     }
+    },
+    {
+     "player": 9,
+     "tribe": "Cymanti",
+     "ring8_resources": {
+      "Spores": 2,
+      "Fruit": 1
+     },
+     "ring8_total": 3,
+     "ring24_total": 7,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 2,
+      "Field": 3,
+      "Water": 3
+     }
+    }
+   ],
+   "villages_and_cities": 50,
+   "non_capital_settlements": 34,
+   "village_grid_slots": 100,
+   "ruins": 23,
+   "ruins_expected_table": 23,
+   "starfish": 17,
+   "starfish_expected_water_div_25": 19,
+   "lighthouses": 4,
+   "fish_rate_shallow_near_settlement": 0.268,
+   "P(fruit|Field,inner)": 0.463,
+   "share(fruit,inner_all_land)": 0.244,
+   "P(crop|Field,inner)": 0.294,
+   "share(crop,inner_all_land)": 0.155,
+   "P(animal|Forest,inner)": 0.452,
+   "share(animal,inner_all_land)": 0.147,
+   "P(metal|Mountain,inner)": 0.868,
+   "share(metal,inner_all_land)": 0.128,
+   "explored_tiles_per_player": {
+    "7": 25,
+    "4": 25,
+    "13": 25,
+    "16": 25,
+    "10": 25,
+    "11": 25,
+    "5": 25,
+    "1": 25,
+    "6": 25,
+    "2": 25,
+    "12": 25,
+    "3": 25,
+    "15": 25,
+    "14": 25,
+    "8": 25,
+    "9": 25
+   },
+   "players": [
+    {
+     "id": 7,
+     "tribe": "Yadakk"
+    },
+    {
+     "id": 4,
+     "tribe": "Polaris"
+    },
+    {
+     "id": 13,
+     "tribe": "Luxidoor"
+    },
+    {
+     "id": 16,
+     "tribe": "Oumaji"
+    },
+    {
+     "id": 10,
+     "tribe": "XinXi"
+    },
+    {
+     "id": 11,
+     "tribe": "Kickoo"
+    },
+    {
+     "id": 5,
+     "tribe": "Hoodrick"
+    },
+    {
+     "id": 1,
+     "tribe": "Aquarion"
+    },
+    {
+     "id": 6,
+     "tribe": "Vengir"
+    },
+    {
+     "id": 2,
+     "tribe": "Quetzali"
+    },
+    {
+     "id": 12,
+     "tribe": "Elyrion"
+    },
+    {
+     "id": 3,
+     "tribe": "AiMo"
+    },
+    {
+     "id": 15,
+     "tribe": "Bardur"
+    },
+    {
+     "id": 14,
+     "tribe": "Zebasi"
+    },
+    {
+     "id": 8,
+     "tribe": "Imperius"
+    },
+    {
+     "id": 9,
+     "tribe": "Cymanti"
+    }
+   ]
+  },
+  {
+   "source": "1fd9141a-2c0f-4788-94ef-335130ee739c.json",
+   "kind": "real .state (turn-0 map)",
+   "version": 123,
+   "size": 30,
+   "map_type": null,
+   "land_fraction": 0.151,
+   "terrain_counts": {
+    "Ocean": 573,
+    "Water": 191,
+    "Mountain": 18,
+    "Field": 79,
+    "Forest": 39
+   },
+   "capitals": [
+    {
+     "player": 6,
+     "tribe": "Zebasi",
+     "ring8_resources": {
+      "Crop": 2,
+      "Metal": 1,
+      "Game": 2
+     },
+     "ring8_total": 5,
+     "ring24_total": 8,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 4,
+      "Forest": 3,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 14,
+     "tribe": "Hoodrick",
+     "ring8_resources": {
+      "Game": 2,
+      "Fruit": 2,
+      "Crop": 1,
+      "Fish": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 10,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 4,
+      "Field": 3,
+      "Water": 1
+     }
+    },
+    {
+     "player": 13,
+     "tribe": "AiMo",
+     "ring8_resources": {
+      "Fish": 1,
+      "Game": 3,
+      "Metal": 2
+     },
+     "ring8_total": 6,
+     "ring24_total": 13,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 1,
+      "Forest": 3,
+      "Field": 2,
+      "Mountain": 2
+     }
+    },
+    {
+     "player": 3,
+     "tribe": "Kickoo",
+     "ring8_resources": {
+      "Fish": 2,
+      "AquaCrop": 1,
+      "Crop": 1,
+      "Metal": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 8,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 3,
+      "Field": 3,
+      "Mountain": 1,
+      "Forest": 1
+     }
+    },
+    {
+     "player": 4,
+     "tribe": "Oumaji",
+     "ring8_resources": {
+      "Fish": 2,
+      "Fruit": 2
+     },
+     "ring8_total": 4,
+     "ring24_total": 8,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 3,
+      "Field": 4,
+      "Forest": 1
+     }
+    },
+    {
+     "player": 2,
+     "tribe": "Aquarion",
+     "ring8_resources": {
+      "Fruit": 1,
+      "Fish": 2,
+      "AquaCrop": 1
+     },
+     "ring8_total": 4,
+     "ring24_total": 10,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 2,
+      "Forest": 1,
+      "Water": 4,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 8,
+     "tribe": "Bardur",
+     "ring8_resources": {
+      "Fish": 2,
+      "Game": 2,
+      "Fruit": 1,
+      "AquaCrop": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 8,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 5,
+      "Forest": 2,
+      "Field": 1
+     }
+    },
+    {
+     "player": 10,
+     "tribe": "Polaris",
+     "ring8_resources": {
+      "Metal": 1,
+      "Crop": 1,
+      "Fruit": 2,
+      "Game": 2
+     },
+     "ring8_total": 6,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Mountain": 1,
+      "Field": 5,
+      "Forest": 2
+     }
+    },
+    {
+     "player": 5,
+     "tribe": "Quetzali",
+     "ring8_resources": {
+      "Metal": 2,
+      "Fruit": 3,
+      "Game": 3
+     },
+     "ring8_total": 8,
+     "ring24_total": 13,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Mountain": 2,
+      "Field": 3,
+      "Forest": 3
+     }
+    },
+    {
+     "player": 1,
+     "tribe": "Imperius",
+     "ring8_resources": {
+      "Fruit": 3,
+      "Fish": 1,
+      "AquaCrop": 2
+     },
+     "ring8_total": 6,
+     "ring24_total": 10,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 4,
+      "Field": 3,
+      "Forest": 1
+     }
+    },
+    {
+     "player": 11,
+     "tribe": "Yadakk",
+     "ring8_resources": {
+      "Metal": 1,
+      "Fish": 3,
+      "Fruit": 2
+     },
+     "ring8_total": 6,
+     "ring24_total": 9,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 5,
+      "Mountain": 1,
+      "Field": 2
+     }
+    },
+    {
+     "player": 7,
+     "tribe": "Luxidoor",
+     "ring8_resources": {
+      "Fish": 2,
+      "Crop": 1,
+      "Fruit": 2,
+      "Game": 2,
+      "Metal": 1
+     },
+     "ring8_total": 8,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 2,
+      "Field": 3,
+      "Forest": 2,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 9,
+     "tribe": "Elyrion",
+     "ring8_resources": {
+      "Fish": 3,
+      "Game": 2,
+      "AquaCrop": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 5,
+      "Forest": 2,
+      "Ocean": 1
+     }
+    },
+    {
+     "player": 12,
+     "tribe": "XinXi",
+     "ring8_resources": {
+      "Fruit": 1,
+      "Crop": 1,
+      "Metal": 2,
+      "AquaCrop": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 11,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 3,
+      "Field": 2,
+      "Forest": 1,
+      "Mountain": 2
+     }
+    },
+    {
+     "player": 16,
+     "tribe": "Cymanti",
+     "ring8_resources": {
+      "Spores": 2,
+      "Fish": 1,
+      "AquaCrop": 3
+     },
+     "ring8_total": 6,
+     "ring24_total": 8,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 4,
+      "Forest": 2,
+      "Field": 1,
+      "Ocean": 1
+     }
+    },
+    {
+     "player": 15,
+     "tribe": "Vengir",
+     "ring8_resources": {
+      "AquaCrop": 2,
+      "Metal": 1
+     },
+     "ring8_total": 3,
+     "ring24_total": 6,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Ocean": 2,
+      "Water": 5,
+      "Mountain": 1
+     }
+    }
+   ],
+   "villages_and_cities": 23,
+   "non_capital_settlements": 7,
+   "village_grid_slots": 100,
+   "ruins": 23,
+   "ruins_expected_table": 23,
+   "starfish": 29,
+   "starfish_expected_water_div_25": 30,
+   "lighthouses": 4,
+   "fish_rate_shallow_near_settlement": 0.233,
+   "P(fruit|Field,inner)": 0.5,
+   "share(fruit,inner_all_land)": 0.242,
+   "P(crop|Field,inner)": 0.227,
+   "share(crop,inner_all_land)": 0.11,
+   "P(animal|Forest,inner)": 0.625,
+   "share(animal,inner_all_land)": 0.22,
+   "P(metal|Mountain,inner)": 0.933,
+   "share(metal,inner_all_land)": 0.154,
+   "explored_tiles_per_player": {
+    "6": 25,
+    "14": 25,
+    "13": 25,
+    "3": 25,
+    "4": 25,
+    "2": 25,
+    "8": 25,
+    "10": 25,
+    "5": 25,
+    "1": 25,
+    "11": 25,
+    "7": 25,
+    "9": 25,
+    "12": 25,
+    "16": 25,
+    "15": 25
+   },
+   "players": [
+    {
+     "id": 6,
+     "tribe": "Zebasi"
+    },
+    {
+     "id": 14,
+     "tribe": "Hoodrick"
+    },
+    {
+     "id": 13,
+     "tribe": "AiMo"
+    },
+    {
+     "id": 3,
+     "tribe": "Kickoo"
+    },
+    {
+     "id": 4,
+     "tribe": "Oumaji"
+    },
+    {
+     "id": 2,
+     "tribe": "Aquarion"
+    },
+    {
+     "id": 8,
+     "tribe": "Bardur"
+    },
+    {
+     "id": 10,
+     "tribe": "Polaris"
+    },
+    {
+     "id": 5,
+     "tribe": "Quetzali"
+    },
+    {
+     "id": 1,
+     "tribe": "Imperius"
+    },
+    {
+     "id": 11,
+     "tribe": "Yadakk"
+    },
+    {
+     "id": 7,
+     "tribe": "Luxidoor"
+    },
+    {
+     "id": 9,
+     "tribe": "Elyrion"
+    },
+    {
+     "id": 12,
+     "tribe": "XinXi"
+    },
+    {
+     "id": 16,
+     "tribe": "Cymanti"
+    },
+    {
+     "id": 15,
+     "tribe": "Vengir"
+    }
+   ]
+  },
+  {
+   "source": "2c1e26f4-14e4-4604-8770-860daa0f5368.json",
+   "kind": "real .state (turn-0 map)",
+   "version": 123,
+   "size": 18,
+   "map_type": null,
+   "land_fraction": 0.735,
+   "terrain_counts": {
+    "Field": 137,
+    "Forest": 70,
+    "Mountain": 31,
+    "Water": 52,
+    "Ocean": 34
+   },
+   "capitals": [
+    {
+     "player": 1,
+     "tribe": "Imperius",
+     "ring8_resources": {
+      "Game": 1,
+      "Fruit": 2,
+      "Fish": 2,
+      "AquaCrop": 2
+     },
+     "ring8_total": 7,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 2,
+      "Field": 2,
+      "Water": 4
+     }
+    },
+    {
+     "player": 4,
+     "tribe": "Elyrion",
+     "ring8_resources": {
+      "Game": 2,
+      "Fruit": 1,
+      "Fish": 1,
+      "AquaCrop": 1,
+      "Crop": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 15,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 2,
+      "Field": 3,
+      "Water": 2,
+      "Ocean": 1
+     }
+    },
+    {
+     "player": 3,
+     "tribe": "Aquarion",
+     "ring8_resources": {
+      "Fruit": 2,
+      "Fish": 2,
+      "Game": 1,
+      "Metal": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 3,
+      "Forest": 2,
+      "Water": 2,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 2,
+     "tribe": "Bardur",
+     "ring8_resources": {
+      "Game": 2,
+      "Fruit": 1,
+      "Metal": 1,
+      "Fish": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 10,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 2,
+      "Field": 3,
+      "Mountain": 1,
+      "Water": 2
+     }
+    }
+   ],
+   "villages_and_cities": 21,
+   "non_capital_settlements": 17,
+   "village_grid_slots": 36,
+   "ruins": 9,
+   "ruins_expected_table": 9,
+   "starfish": 4,
+   "starfish_expected_water_div_25": 3,
+   "lighthouses": 4,
+   "fish_rate_shallow_near_settlement": 0.396,
+   "P(fruit|Field,inner)": 0.507,
+   "share(fruit,inner_all_land)": 0.273,
+   "P(crop|Field,inner)": 0.187,
+   "share(crop,inner_all_land)": 0.101,
+   "P(animal|Forest,inner)": 0.429,
+   "share(animal,inner_all_land)": 0.129,
+   "P(metal|Mountain,inner)": 0.773,
+   "share(metal,inner_all_land)": 0.122,
+   "explored_tiles_per_player": {
+    "1": 25,
+    "4": 25,
+    "3": 25,
+    "2": 25
+   },
+   "players": [
+    {
+     "id": 1,
+     "tribe": "Imperius"
+    },
+    {
+     "id": 4,
+     "tribe": "Elyrion"
+    },
+    {
+     "id": 3,
+     "tribe": "Aquarion"
+    },
+    {
+     "id": 2,
+     "tribe": "Bardur"
+    }
+   ]
+  },
+  {
+   "source": "2c273d4b-84c5-4a4a-9fca-d8cf1d501c12.json",
+   "kind": "real .state (turn-0 map)",
+   "version": 123,
+   "size": 30,
+   "map_type": null,
+   "land_fraction": 0.556,
+   "terrain_counts": {
+    "Ocean": 201,
+    "Water": 199,
+    "Mountain": 62,
+    "Field": 278,
+    "Forest": 156,
+    "Ice": 4
+   },
+   "capitals": [
+    {
+     "player": 11,
+     "tribe": "AiMo",
+     "ring8_resources": {
+      "Fruit": 1,
+      "Fish": 1,
+      "Game": 2,
+      "AquaCrop": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 9,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 2,
+      "Water": 4,
+      "Forest": 2
+     }
+    },
+    {
+     "player": 5,
+     "tribe": "Elyrion",
+     "ring8_resources": {
+      "Game": 2,
+      "Fish": 2,
+      "Crop": 2,
+      "AquaCrop": 1,
+      "Fruit": 1
+     },
+     "ring8_total": 8,
+     "ring24_total": 16,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 2,
+      "Water": 2,
+      "Ocean": 1,
+      "Field": 3
+     }
+    },
+    {
+     "player": 9,
+     "tribe": "Luxidoor",
+     "ring8_resources": {
+      "Metal": 1,
+      "Fish": 2,
+      "Game": 2,
+      "Fruit": 2,
+      "Crop": 1
+     },
+     "ring8_total": 8,
+     "ring24_total": 17,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Mountain": 1,
+      "Water": 2,
+      "Forest": 2,
+      "Field": 3
+     }
+    },
+    {
+     "player": 4,
+     "tribe": "Yadakk",
+     "ring8_resources": {
+      "Fish": 1,
+      "Crop": 1,
+      "Fruit": 3,
+      "AquaCrop": 1,
+      "Game": 1
+     },
+     "ring8_total": 7,
+     "ring24_total": 13,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 2,
+      "Field": 5,
+      "Forest": 1
+     }
+    },
+    {
+     "player": 12,
+     "tribe": "Imperius",
+     "ring8_resources": {
+      "Fruit": 2,
+      "Metal": 1,
+      "Game": 1,
+      "Fish": 3
+     },
+     "ring8_total": 7,
+     "ring24_total": 14,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 2,
+      "Mountain": 1,
+      "Forest": 2,
+      "Water": 3
+     }
+    },
+    {
+     "player": 6,
+     "tribe": "Aquarion",
+     "ring8_resources": {
+      "Fish": 3,
+      "AquaCrop": 1,
+      "Fruit": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 10,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 2,
+      "Water": 3,
+      "Ocean": 1,
+      "Forest": 2
+     }
+    },
+    {
+     "player": 16,
+     "tribe": "Bardur",
+     "ring8_resources": {
+      "AquaCrop": 1,
+      "Fruit": 2,
+      "Fish": 2,
+      "Game": 2
+     },
+     "ring8_total": 7,
+     "ring24_total": 9,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 3,
+      "Field": 3,
+      "Forest": 2
+     }
+    },
+    {
+     "player": 2,
+     "tribe": "Vengir",
+     "ring8_resources": {
+      "Metal": 1,
+      "Crop": 1,
+      "AquaCrop": 1
+     },
+     "ring8_total": 3,
+     "ring24_total": 8,
+     "has_2_identical": false,
+     "ring8_terrain": {
+      "Mountain": 1,
+      "Field": 2,
+      "Water": 4,
+      "Ocean": 1
+     }
+    },
+    {
+     "player": 13,
+     "tribe": "Hoodrick",
+     "ring8_resources": {
+      "Metal": 1,
+      "Fruit": 1,
+      "Game": 2,
+      "Fish": 1,
+      "AquaCrop": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Mountain": 1,
+      "Field": 2,
+      "Forest": 2,
+      "Water": 3
+     }
+    },
+    {
+     "player": 14,
+     "tribe": "Polaris",
+     "ring8_resources": {
+      "AquaCrop": 3,
+      "Fruit": 1,
+      "Game": 2,
+      "Fish": 1,
+      "Crop": 1
+     },
+     "ring8_total": 8,
+     "ring24_total": 11,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Ice": 4,
+      "Field": 2,
+      "Forest": 2
+     }
+    },
+    {
+     "player": 1,
+     "tribe": "Oumaji",
+     "ring8_resources": {
+      "Crop": 1,
+      "AquaCrop": 2,
+      "Fish": 2,
+      "Fruit": 2
+     },
+     "ring8_total": 7,
+     "ring24_total": 13,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 3,
+      "Water": 5
+     }
+    },
+    {
+     "player": 7,
+     "tribe": "Kickoo",
+     "ring8_resources": {
+      "Fish": 2,
+      "Crop": 1,
+      "Fruit": 1,
+      "Game": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 2,
+      "Forest": 2,
+      "Field": 4
+     }
+    },
+    {
+     "player": 10,
+     "tribe": "XinXi",
+     "ring8_resources": {
+      "AquaCrop": 3,
+      "Metal": 2
+     },
+     "ring8_total": 5,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 4,
+      "Mountain": 2,
+      "Forest": 2
+     }
+    },
+    {
+     "player": 8,
+     "tribe": "Quetzali",
+     "ring8_resources": {
+      "Fruit": 2,
+      "Metal": 1,
+      "Fish": 1,
+      "Crop": 1,
+      "Game": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 10,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 2,
+      "Field": 3,
+      "Mountain": 1,
+      "Water": 2
+     }
+    },
+    {
+     "player": 15,
+     "tribe": "Cymanti",
+     "ring8_resources": {
+      "Game": 4,
+      "Metal": 2,
+      "Spores": 2
+     },
+     "ring8_total": 8,
+     "ring24_total": 11,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 4,
+      "Mountain": 2,
+      "Field": 2
+     }
+    },
+    {
+     "player": 3,
+     "tribe": "Zebasi",
+     "ring8_resources": {
+      "Crop": 5
+     },
+     "ring8_total": 5,
+     "ring24_total": 10,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 7,
+      "Forest": 1
+     }
+    }
+   ],
+   "villages_and_cities": 54,
+   "non_capital_settlements": 38,
+   "village_grid_slots": 100,
+   "ruins": 23,
+   "ruins_expected_table": 23,
+   "starfish": 17,
+   "starfish_expected_water_div_25": 16,
+   "lighthouses": 4,
+   "fish_rate_shallow_near_settlement": 0.292,
+   "P(fruit|Field,inner)": 0.374,
+   "share(fruit,inner_all_land)": 0.193,
+   "P(crop|Field,inner)": 0.331,
+   "share(crop,inner_all_land)": 0.17,
+   "P(animal|Forest,inner)": 0.531,
+   "share(animal,inner_all_land)": 0.189,
+   "P(metal|Mountain,inner)": 0.839,
+   "share(metal,inner_all_land)": 0.096,
+   "explored_tiles_per_player": {
+    "11": 25,
+    "5": 25,
+    "9": 25,
+    "4": 25,
+    "12": 25,
+    "6": 25,
+    "16": 25,
+    "2": 25,
+    "13": 25,
+    "14": 25,
+    "1": 25,
+    "7": 25,
+    "10": 25,
+    "8": 24,
+    "15": 25,
+    "3": 24
+   },
+   "players": [
+    {
+     "id": 11,
+     "tribe": "AiMo"
+    },
+    {
+     "id": 5,
+     "tribe": "Elyrion"
+    },
+    {
+     "id": 9,
+     "tribe": "Luxidoor"
+    },
+    {
+     "id": 4,
+     "tribe": "Yadakk"
+    },
+    {
+     "id": 12,
+     "tribe": "Imperius"
+    },
+    {
+     "id": 6,
+     "tribe": "Aquarion"
+    },
+    {
+     "id": 16,
+     "tribe": "Bardur"
+    },
+    {
+     "id": 2,
+     "tribe": "Vengir"
+    },
+    {
+     "id": 13,
+     "tribe": "Hoodrick"
+    },
+    {
+     "id": 14,
+     "tribe": "Polaris"
+    },
+    {
+     "id": 1,
+     "tribe": "Oumaji"
+    },
+    {
+     "id": 7,
+     "tribe": "Kickoo"
+    },
+    {
+     "id": 10,
+     "tribe": "XinXi"
+    },
+    {
+     "id": 8,
+     "tribe": "Quetzali"
+    },
+    {
+     "id": 15,
+     "tribe": "Cymanti"
+    },
+    {
+     "id": 3,
+     "tribe": "Zebasi"
+    }
+   ]
+  },
+  {
+   "source": "3365604e-5002-4696-a53d-88b91b4401d5.json",
+   "kind": "real .state (turn-0 map)",
+   "version": 123,
+   "size": 30,
+   "map_type": null,
+   "land_fraction": 0.739,
+   "terrain_counts": {
+    "Field": 375,
+    "Forest": 204,
+    "Mountain": 86,
+    "Water": 182,
+    "Ocean": 53
+   },
+   "capitals": [
+    {
+     "player": 14,
+     "tribe": "Cymanti",
+     "ring8_resources": {
+      "Fruit": 2,
+      "Metal": 2,
+      "Spores": 2
+     },
+     "ring8_total": 6,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 4,
+      "Mountain": 2,
+      "Forest": 2
+     }
+    },
+    {
+     "player": 10,
+     "tribe": "AiMo",
+     "ring8_resources": {
+      "Game": 3,
+      "Fruit": 1,
+      "Crop": 1,
+      "Metal": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 15,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 3,
+      "Water": 1,
+      "Field": 3,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 8,
+     "tribe": "Yadakk",
+     "ring8_resources": {
+      "Fruit": 2,
+      "Fish": 1,
+      "AquaCrop": 1
+     },
+     "ring8_total": 4,
+     "ring24_total": 7,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 3,
+      "Field": 4,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 7,
+     "tribe": "Luxidoor",
+     "ring8_resources": {
+      "Metal": 1,
+      "Fruit": 2,
+      "Game": 2,
+      "Fish": 2,
+      "Crop": 1
+     },
+     "ring8_total": 8,
+     "ring24_total": 16,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Mountain": 1,
+      "Field": 3,
+      "Forest": 2,
+      "Water": 2
+     }
+    },
+    {
+     "player": 12,
+     "tribe": "Polaris",
+     "ring8_resources": {
+      "Fruit": 3,
+      "Game": 2
+     },
+     "ring8_total": 5,
+     "ring24_total": 11,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 6,
+      "Forest": 2
+     }
+    },
+    {
+     "player": 16,
+     "tribe": "XinXi",
+     "ring8_resources": {
+      "Fruit": 2,
+      "Metal": 2
+     },
+     "ring8_total": 4,
+     "ring24_total": 14,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 3,
+      "Mountain": 2,
+      "Water": 3
+     }
+    },
+    {
+     "player": 2,
+     "tribe": "Imperius",
+     "ring8_resources": {
+      "Crop": 2,
+      "Fruit": 2,
+      "Game": 1,
+      "Metal": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 14,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 4,
+      "Forest": 3,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 4,
+     "tribe": "Aquarion",
+     "ring8_resources": {
+      "Metal": 2,
+      "Fruit": 1,
+      "Fish": 2
+     },
+     "ring8_total": 5,
+     "ring24_total": 7,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 3,
+      "Mountain": 2,
+      "Water": 2,
+      "Forest": 1
+     }
+    },
+    {
+     "player": 5,
+     "tribe": "Oumaji",
+     "ring8_resources": {
+      "Fruit": 3,
+      "AquaCrop": 1,
+      "Crop": 1,
+      "Fish": 2
+     },
+     "ring8_total": 7,
+     "ring24_total": 18,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 4,
+      "Forest": 1,
+      "Water": 3
+     }
+    },
+    {
+     "player": 3,
+     "tribe": "Bardur",
+     "ring8_resources": {
+      "Game": 2,
+      "Metal": 2,
+      "Fish": 2,
+      "AquaCrop": 1
+     },
+     "ring8_total": 7,
+     "ring24_total": 18,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 2,
+      "Mountain": 2,
+      "Field": 1,
+      "Water": 3
+     }
+    },
+    {
+     "player": 11,
+     "tribe": "Quetzali",
+     "ring8_resources": {
+      "Fruit": 4,
+      "Metal": 1,
+      "Game": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 11,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 3,
+      "Field": 4,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 13,
+     "tribe": "Kickoo",
+     "ring8_resources": {
+      "Crop": 1,
+      "Fish": 2
+     },
+     "ring8_total": 3,
+     "ring24_total": 13,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 3,
+      "Forest": 3,
+      "Water": 2
+     }
+    },
+    {
+     "player": 6,
+     "tribe": "Hoodrick",
+     "ring8_resources": {
+      "Game": 3,
+      "Fruit": 2
+     },
+     "ring8_total": 5,
+     "ring24_total": 10,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 5,
+      "Field": 3
+     }
+    },
+    {
+     "player": 1,
+     "tribe": "Vengir",
+     "ring8_resources": {
+      "Metal": 2,
+      "Crop": 1
+     },
+     "ring8_total": 3,
+     "ring24_total": 4,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 3,
+      "Forest": 3,
+      "Mountain": 2
+     }
+    },
+    {
+     "player": 9,
+     "tribe": "Elyrion",
+     "ring8_resources": {
+      "Game": 2,
+      "Fruit": 1,
+      "Metal": 1,
+      "Fish": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 11,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 3,
+      "Field": 2,
+      "Mountain": 1,
+      "Water": 2
+     }
+    },
+    {
+     "player": 15,
+     "tribe": "Zebasi",
+     "ring8_resources": {
+      "Fish": 1,
+      "Fruit": 1,
+      "Crop": 2,
+      "Game": 1,
+      "Metal": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 1,
+      "Field": 4,
+      "Forest": 2,
+      "Mountain": 1
+     }
+    }
+   ],
+   "villages_and_cities": 62,
+   "non_capital_settlements": 46,
+   "village_grid_slots": 100,
+   "ruins": 23,
+   "ruins_expected_table": 23,
+   "starfish": 11,
+   "starfish_expected_water_div_25": 9,
+   "lighthouses": 4,
+   "fish_rate_shallow_near_settlement": 0.339,
+   "P(fruit|Field,inner)": 0.422,
+   "share(fruit,inner_all_land)": 0.214,
+   "P(crop|Field,inner)": 0.26,
+   "share(crop,inner_all_land)": 0.132,
+   "P(animal|Forest,inner)": 0.422,
+   "share(animal,inner_all_land)": 0.143,
+   "P(metal|Mountain,inner)": 0.862,
+   "share(metal,inner_all_land)": 0.132,
+   "explored_tiles_per_player": {
+    "14": 25,
+    "10": 25,
+    "8": 25,
+    "7": 25,
+    "12": 25,
+    "16": 25,
+    "2": 25,
+    "4": 25,
+    "5": 25,
+    "3": 25,
+    "11": 25,
+    "13": 25,
+    "6": 25,
+    "1": 25,
+    "9": 25,
+    "15": 25
+   },
+   "players": [
+    {
+     "id": 14,
+     "tribe": "Cymanti"
+    },
+    {
+     "id": 10,
+     "tribe": "AiMo"
+    },
+    {
+     "id": 8,
+     "tribe": "Yadakk"
+    },
+    {
+     "id": 7,
+     "tribe": "Luxidoor"
+    },
+    {
+     "id": 12,
+     "tribe": "Polaris"
+    },
+    {
+     "id": 16,
+     "tribe": "XinXi"
+    },
+    {
+     "id": 2,
+     "tribe": "Imperius"
+    },
+    {
+     "id": 4,
+     "tribe": "Aquarion"
+    },
+    {
+     "id": 5,
+     "tribe": "Oumaji"
+    },
+    {
+     "id": 3,
+     "tribe": "Bardur"
+    },
+    {
+     "id": 11,
+     "tribe": "Quetzali"
+    },
+    {
+     "id": 13,
+     "tribe": "Kickoo"
+    },
+    {
+     "id": 6,
+     "tribe": "Hoodrick"
+    },
+    {
+     "id": 1,
+     "tribe": "Vengir"
+    },
+    {
+     "id": 9,
+     "tribe": "Elyrion"
+    },
+    {
+     "id": 15,
+     "tribe": "Zebasi"
+    }
+   ]
+  },
+  {
+   "source": "39c1f765-2ccc-4f00-bc95-64e91707afa6.json",
+   "kind": "real .state (turn-0 map)",
+   "version": 123,
+   "size": 30,
+   "map_type": null,
+   "land_fraction": 0.399,
+   "terrain_counts": {
+    "Water": 433,
+    "Field": 213,
+    "Mountain": 43,
+    "Forest": 102,
+    "Ocean": 108,
+    "Ice": 1
+   },
+   "capitals": [
+    {
+     "player": 4,
+     "tribe": "Elyrion",
+     "ring8_resources": {
+      "Game": 2,
+      "Fish": 2,
+      "Fruit": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 11,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 4,
+      "Forest": 2,
+      "Field": 2
+     }
+    },
+    {
+     "player": 3,
+     "tribe": "Cymanti",
+     "ring8_resources": {
+      "Spores": 2,
+      "AquaCrop": 1,
+      "Fish": 2,
+      "Fruit": 2
+     },
+     "ring8_total": 7,
+     "ring24_total": 16,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 4,
+      "Forest": 2,
+      "Field": 2
+     }
+    },
+    {
+     "player": 5,
+     "tribe": "Luxidoor",
+     "ring8_resources": {
+      "Fruit": 2,
+      "Fish": 2,
+      "Metal": 1,
+      "Crop": 1,
+      "Game": 2
+     },
+     "ring8_total": 8,
+     "ring24_total": 14,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 3,
+      "Water": 2,
+      "Mountain": 1,
+      "Forest": 2
+     }
+    },
+    {
+     "player": 12,
+     "tribe": "Bardur",
+     "ring8_resources": {
+      "Game": 2,
+      "Fruit": 2,
+      "Fish": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 10,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 2,
+      "Forest": 2,
+      "Field": 3,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 1,
+     "tribe": "Oumaji",
+     "ring8_resources": {
+      "Fish": 2,
+      "Fruit": 2,
+      "Metal": 1,
+      "AquaCrop": 2
+     },
+     "ring8_total": 7,
+     "ring24_total": 17,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 4,
+      "Field": 2,
+      "Mountain": 2
+     }
+    },
+    {
+     "player": 9,
+     "tribe": "Kickoo",
+     "ring8_resources": {
+      "AquaCrop": 1,
+      "Game": 1,
+      "Metal": 1,
+      "Crop": 1,
+      "Fish": 2
+     },
+     "ring8_total": 6,
+     "ring24_total": 11,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 3,
+      "Forest": 3,
+      "Mountain": 1,
+      "Field": 1
+     }
+    },
+    {
+     "player": 7,
+     "tribe": "AiMo",
+     "ring8_resources": {
+      "Metal": 1,
+      "Game": 2,
+      "Fish": 2
+     },
+     "ring8_total": 5,
+     "ring24_total": 10,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Mountain": 1,
+      "Forest": 2,
+      "Field": 3,
+      "Water": 2
+     }
+    },
+    {
+     "player": 8,
+     "tribe": "Polaris",
+     "ring8_resources": {
+      "Metal": 1,
+      "Game": 2,
+      "Crop": 1
+     },
+     "ring8_total": 4,
+     "ring24_total": 11,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 4,
+      "Mountain": 1,
+      "Ice": 1,
+      "Field": 2
+     }
+    },
+    {
+     "player": 15,
+     "tribe": "Imperius",
+     "ring8_resources": {
+      "Fruit": 2,
+      "Fish": 2,
+      "AquaCrop": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 14,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 2,
+      "Field": 2,
+      "Water": 4
+     }
+    },
+    {
+     "player": 13,
+     "tribe": "Hoodrick",
+     "ring8_resources": {
+      "Fish": 1,
+      "Crop": 2,
+      "Game": 2
+     },
+     "ring8_total": 5,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Ocean": 1,
+      "Water": 3,
+      "Field": 2,
+      "Forest": 2
+     }
+    },
+    {
+     "player": 10,
+     "tribe": "XinXi",
+     "ring8_resources": {
+      "Metal": 3,
+      "Fish": 2,
+      "Fruit": 1,
+      "Crop": 1
+     },
+     "ring8_total": 7,
+     "ring24_total": 13,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Mountain": 3,
+      "Water": 2,
+      "Field": 3
+     }
+    },
+    {
+     "player": 6,
+     "tribe": "Vengir",
+     "ring8_resources": {
+      "Metal": 1,
+      "AquaCrop": 1
+     },
+     "ring8_total": 2,
+     "ring24_total": 8,
+     "has_2_identical": false,
+     "ring8_terrain": {
+      "Field": 2,
+      "Forest": 3,
+      "Water": 2,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 2,
+     "tribe": "Aquarion",
+     "ring8_resources": {
+      "Fish": 2,
+      "Crop": 1,
+      "Fruit": 1
+     },
+     "ring8_total": 4,
+     "ring24_total": 13,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 4,
+      "Mountain": 1,
+      "Field": 3
+     }
+    },
+    {
+     "player": 16,
+     "tribe": "Yadakk",
+     "ring8_resources": {
+      "AquaCrop": 1,
+      "Fruit": 2
+     },
+     "ring8_total": 3,
+     "ring24_total": 9,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 2,
+      "Field": 2,
+      "Forest": 4
+     }
+    },
+    {
+     "player": 14,
+     "tribe": "Zebasi",
+     "ring8_resources": {
+      "Crop": 2,
+      "Game": 2,
+      "Fish": 1,
+      "AquaCrop": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 2,
+      "Forest": 2,
+      "Water": 4
+     }
+    },
+    {
+     "player": 11,
+     "tribe": "Quetzali",
+     "ring8_resources": {
+      "Game": 1,
+      "Fruit": 3,
+      "Fish": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 13,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 4,
+      "Forest": 1,
+      "Field": 3
+     }
+    }
+   ],
+   "villages_and_cities": 59,
+   "non_capital_settlements": 43,
+   "village_grid_slots": 100,
+   "ruins": 23,
+   "ruins_expected_table": 23,
+   "starfish": 21,
+   "starfish_expected_water_div_25": 21,
+   "lighthouses": 4,
+   "fish_rate_shallow_near_settlement": 0.287,
+   "P(fruit|Field,inner)": 0.46,
+   "share(fruit,inner_all_land)": 0.222,
+   "P(crop|Field,inner)": 0.29,
+   "share(crop,inner_all_land)": 0.14,
+   "P(animal|Forest,inner)": 0.519,
+   "share(animal,inner_all_land)": 0.193,
+   "P(metal|Mountain,inner)": 0.828,
+   "share(metal,inner_all_land)": 0.116,
+   "explored_tiles_per_player": {
+    "4": 25,
+    "3": 25,
+    "5": 25,
+    "12": 25,
+    "1": 25,
+    "9": 25,
+    "7": 25,
+    "8": 25,
+    "15": 25,
+    "13": 25,
+    "10": 25,
+    "6": 25,
+    "2": 25,
+    "16": 25,
+    "14": 25,
+    "11": 25
+   },
+   "players": [
+    {
+     "id": 4,
+     "tribe": "Elyrion"
+    },
+    {
+     "id": 3,
+     "tribe": "Cymanti"
+    },
+    {
+     "id": 5,
+     "tribe": "Luxidoor"
+    },
+    {
+     "id": 12,
+     "tribe": "Bardur"
+    },
+    {
+     "id": 1,
+     "tribe": "Oumaji"
+    },
+    {
+     "id": 9,
+     "tribe": "Kickoo"
+    },
+    {
+     "id": 7,
+     "tribe": "AiMo"
+    },
+    {
+     "id": 8,
+     "tribe": "Polaris"
+    },
+    {
+     "id": 15,
+     "tribe": "Imperius"
+    },
+    {
+     "id": 13,
+     "tribe": "Hoodrick"
+    },
+    {
+     "id": 10,
+     "tribe": "XinXi"
+    },
+    {
+     "id": 6,
+     "tribe": "Vengir"
+    },
+    {
+     "id": 2,
+     "tribe": "Aquarion"
+    },
+    {
+     "id": 16,
+     "tribe": "Yadakk"
+    },
+    {
+     "id": 14,
+     "tribe": "Zebasi"
+    },
+    {
+     "id": 11,
+     "tribe": "Quetzali"
+    }
+   ]
+  },
+  {
+   "source": "3d2fd9d3-26b5-4ecc-86f1-96d2c39d9249.json",
+   "kind": "real .state (turn-0 map)",
+   "version": 123,
+   "size": 30,
+   "map_type": null,
+   "land_fraction": 0.993,
+   "terrain_counts": {
+    "Field": 495,
+    "Forest": 286,
+    "Mountain": 113,
+    "Water": 6
+   },
+   "capitals": [
+    {
+     "player": 3,
+     "tribe": "Aquarion",
+     "ring8_resources": {
+      "Metal": 1,
+      "Fish": 2,
+      "Fruit": 2
+     },
+     "ring8_total": 5,
+     "ring24_total": 9,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Mountain": 1,
+      "Water": 2,
+      "Forest": 1,
+      "Field": 4
+     }
+    },
+    {
+     "player": 9,
+     "tribe": "Kickoo",
+     "ring8_resources": {
+      "Crop": 2,
+      "Game": 3,
+      "Fruit": 1,
+      "Fish": 2
+     },
+     "ring8_total": 8,
+     "ring24_total": 16,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 3,
+      "Forest": 3,
+      "Water": 2
+     }
+    },
+    {
+     "player": 1,
+     "tribe": "Luxidoor",
+     "ring8_resources": {
+      "Metal": 1,
+      "Game": 2,
+      "Fish": 2,
+      "Fruit": 2,
+      "Crop": 1
+     },
+     "ring8_total": 8,
+     "ring24_total": 11,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Mountain": 1,
+      "Forest": 2,
+      "Water": 2,
+      "Field": 3
+     }
+    },
+    {
+     "player": 14,
+     "tribe": "Zebasi",
+     "ring8_resources": {
+      "Crop": 3,
+      "Game": 1
+     },
+     "ring8_total": 4,
+     "ring24_total": 14,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 6,
+      "Forest": 2
+     }
+    },
+    {
+     "player": 2,
+     "tribe": "Bardur",
+     "ring8_resources": {
+      "Game": 2,
+      "Metal": 1,
+      "Fruit": 2
+     },
+     "ring8_total": 5,
+     "ring24_total": 11,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 2,
+      "Field": 5,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 13,
+     "tribe": "Polaris",
+     "ring8_resources": {
+      "Crop": 2,
+      "Game": 2,
+      "Fruit": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 4,
+      "Forest": 4
+     }
+    },
+    {
+     "player": 8,
+     "tribe": "XinXi",
+     "ring8_resources": {
+      "Game": 2,
+      "Metal": 4,
+      "Fruit": 1
+     },
+     "ring8_total": 7,
+     "ring24_total": 16,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 3,
+      "Mountain": 4,
+      "Field": 1
+     }
+    },
+    {
+     "player": 10,
+     "tribe": "Oumaji",
+     "ring8_resources": {
+      "Fruit": 2,
+      "Metal": 1,
+      "Crop": 2
+     },
+     "ring8_total": 5,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 5,
+      "Mountain": 1,
+      "Forest": 2
+     }
+    },
+    {
+     "player": 16,
+     "tribe": "AiMo",
+     "ring8_resources": {
+      "Game": 2,
+      "Fruit": 1,
+      "Metal": 1
+     },
+     "ring8_total": 4,
+     "ring24_total": 14,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 5,
+      "Field": 2,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 6,
+     "tribe": "Yadakk",
+     "ring8_resources": {
+      "Fruit": 4,
+      "Game": 2,
+      "Crop": 1
+     },
+     "ring8_total": 7,
+     "ring24_total": 14,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 6,
+      "Forest": 2
+     }
+    },
+    {
+     "player": 15,
+     "tribe": "Quetzali",
+     "ring8_resources": {
+      "Fruit": 5,
+      "Metal": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 16,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 2,
+      "Field": 5,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 7,
+     "tribe": "Elyrion",
+     "ring8_resources": {
+      "Game": 2,
+      "Metal": 1,
+      "Crop": 3,
+      "Fruit": 1
+     },
+     "ring8_total": 7,
+     "ring24_total": 15,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 2,
+      "Mountain": 1,
+      "Field": 5
+     }
+    },
+    {
+     "player": 12,
+     "tribe": "Vengir",
+     "ring8_resources": {
+      "Crop": 1,
+      "Metal": 2
+     },
+     "ring8_total": 3,
+     "ring24_total": 6,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 3,
+      "Forest": 3,
+      "Mountain": 2
+     }
+    },
+    {
+     "player": 4,
+     "tribe": "Hoodrick",
+     "ring8_resources": {
+      "Game": 3,
+      "Crop": 1,
+      "Fruit": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 8,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 5,
+      "Field": 3
+     }
+    },
+    {
+     "player": 5,
+     "tribe": "Imperius",
+     "ring8_resources": {
+      "Crop": 3,
+      "Metal": 2,
+      "Fruit": 2
+     },
+     "ring8_total": 7,
+     "ring24_total": 14,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 1,
+      "Field": 5,
+      "Mountain": 2
+     }
+    },
+    {
+     "player": 11,
+     "tribe": "Cymanti",
+     "ring8_resources": {
+      "Metal": 1,
+      "Spores": 2,
+      "Game": 3
+     },
+     "ring8_total": 6,
+     "ring24_total": 17,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Mountain": 1,
+      "Forest": 4,
+      "Field": 3
+     }
+    }
+   ],
+   "villages_and_cities": 61,
+   "non_capital_settlements": 45,
+   "village_grid_slots": 100,
+   "ruins": 23,
+   "ruins_expected_table": 23,
+   "starfish": 0,
+   "starfish_expected_water_div_25": 0,
+   "lighthouses": 4,
+   "fish_rate_shallow_near_settlement": 1.0,
+   "P(fruit|Field,inner)": 0.441,
+   "share(fruit,inner_all_land)": 0.234,
+   "P(crop|Field,inner)": 0.293,
+   "share(crop,inner_all_land)": 0.156,
+   "P(animal|Forest,inner)": 0.461,
+   "share(animal,inner_all_land)": 0.147,
+   "P(metal|Mountain,inner)": 0.861,
+   "share(metal,inner_all_land)": 0.129,
+   "explored_tiles_per_player": {
+    "3": 25,
+    "9": 25,
+    "1": 25,
+    "14": 25,
+    "2": 25,
+    "13": 25,
+    "8": 25,
+    "10": 25,
+    "16": 25,
+    "6": 25,
+    "15": 25,
+    "7": 25,
+    "12": 25,
+    "4": 25,
+    "5": 25,
+    "11": 25
+   },
+   "players": [
+    {
+     "id": 3,
+     "tribe": "Aquarion"
+    },
+    {
+     "id": 9,
+     "tribe": "Kickoo"
+    },
+    {
+     "id": 1,
+     "tribe": "Luxidoor"
+    },
+    {
+     "id": 14,
+     "tribe": "Zebasi"
+    },
+    {
+     "id": 2,
+     "tribe": "Bardur"
+    },
+    {
+     "id": 13,
+     "tribe": "Polaris"
+    },
+    {
+     "id": 8,
+     "tribe": "XinXi"
+    },
+    {
+     "id": 10,
+     "tribe": "Oumaji"
+    },
+    {
+     "id": 16,
+     "tribe": "AiMo"
+    },
+    {
+     "id": 6,
+     "tribe": "Yadakk"
+    },
+    {
+     "id": 15,
+     "tribe": "Quetzali"
+    },
+    {
+     "id": 7,
+     "tribe": "Elyrion"
+    },
+    {
+     "id": 12,
+     "tribe": "Vengir"
+    },
+    {
+     "id": 4,
+     "tribe": "Hoodrick"
+    },
+    {
+     "id": 5,
+     "tribe": "Imperius"
+    },
+    {
+     "id": 11,
+     "tribe": "Cymanti"
+    }
+   ]
+  },
+  {
+   "source": "632a10ca-997a-4107-853e-c6a015082402.json",
+   "kind": "real .state (turn-0 map)",
+   "version": 123,
+   "size": 14,
+   "map_type": null,
+   "land_fraction": 0.75,
+   "terrain_counts": {
+    "Field": 82,
+    "Forest": 45,
+    "Mountain": 20,
+    "Water": 43,
+    "Ocean": 6
+   },
+   "capitals": [
+    {
+     "player": 1,
+     "tribe": "Imperius",
+     "ring8_resources": {
+      "Fruit": 4,
+      "Fish": 1,
+      "Metal": 1,
+      "AquaCrop": 1,
+      "Crop": 1
+     },
+     "ring8_total": 8,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 5,
+      "Water": 2,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 4,
+     "tribe": "Kickoo",
+     "ring8_resources": {
+      "Fish": 2,
+      "Game": 2,
+      "Fruit": 2
+     },
+     "ring8_total": 6,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 3,
+      "Forest": 2,
+      "Field": 3
+     }
+    },
+    {
+     "player": 3,
+     "tribe": "Aquarion",
+     "ring8_resources": {
+      "Fish": 3,
+      "AquaCrop": 2,
+      "Fruit": 2
+     },
+     "ring8_total": 7,
+     "ring24_total": 13,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Ocean": 1,
+      "Water": 5,
+      "Field": 2
+     }
+    },
+    {
+     "player": 2,
+     "tribe": "XinXi",
+     "ring8_resources": {
+      "Metal": 3,
+      "Crop": 1,
+      "Fruit": 1,
+      "Game": 2
+     },
+     "ring8_total": 7,
+     "ring24_total": 13,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Mountain": 3,
+      "Forest": 3,
+      "Field": 2
+     }
+    }
+   ],
+   "villages_and_cities": 12,
+   "non_capital_settlements": 8,
+   "village_grid_slots": 16,
+   "ruins": 5,
+   "ruins_expected_table": 5,
+   "starfish": 2,
+   "starfish_expected_water_div_25": 1,
+   "lighthouses": 4,
+   "fish_rate_shallow_near_settlement": 0.419,
+   "P(fruit|Field,inner)": 0.5,
+   "share(fruit,inner_all_land)": 0.25,
+   "P(crop|Field,inner)": 0.176,
+   "share(crop,inner_all_land)": 0.088,
+   "P(animal|Forest,inner)": 0.5,
+   "share(animal,inner_all_land)": 0.191,
+   "P(metal|Mountain,inner)": 0.875,
+   "share(metal,inner_all_land)": 0.103,
+   "explored_tiles_per_player": {
+    "1": 24,
+    "4": 25,
+    "3": 25,
+    "2": 25
+   },
+   "players": [
+    {
+     "id": 1,
+     "tribe": "Imperius"
+    },
+    {
+     "id": 4,
+     "tribe": "Kickoo"
+    },
+    {
+     "id": 3,
+     "tribe": "Aquarion"
+    },
+    {
+     "id": 2,
+     "tribe": "XinXi"
+    }
+   ]
+  },
+  {
+   "source": "6f3f99a2-6c0d-4b7c-b5a5-48ec337295f6.json",
+   "kind": "real .state (turn-0 map)",
+   "version": 123,
+   "size": 30,
+   "map_type": null,
+   "land_fraction": 0.399,
+   "terrain_counts": {
+    "Water": 427,
+    "Field": 212,
+    "Ocean": 114,
+    "Forest": 102,
+    "Mountain": 44,
+    "Ice": 1
+   },
+   "capitals": [
+    {
+     "player": 15,
+     "tribe": "XinXi",
+     "ring8_resources": {
+      "Metal": 2,
+      "Game": 2,
+      "Fish": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 10,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Mountain": 2,
+      "Forest": 3,
+      "Water": 1,
+      "Field": 2
+     }
+    },
+    {
+     "player": 4,
+     "tribe": "Oumaji",
+     "ring8_resources": {
+      "Fish": 4,
+      "Fruit": 2,
+      "Crop": 1
+     },
+     "ring8_total": 7,
+     "ring24_total": 16,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 4,
+      "Field": 4
+     }
+    },
+    {
+     "player": 7,
+     "tribe": "Yadakk",
+     "ring8_resources": {
+      "Fish": 1,
+      "Fruit": 2,
+      "Crop": 1,
+      "Game": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 9,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 2,
+      "Field": 4,
+      "Forest": 2
+     }
+    },
+    {
+     "player": 9,
+     "tribe": "Zebasi",
+     "ring8_resources": {
+      "Fish": 1,
+      "Fruit": 3,
+      "Game": 1,
+      "Crop": 2,
+      "Metal": 1
+     },
+     "ring8_total": 8,
+     "ring24_total": 13,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 1,
+      "Field": 5,
+      "Forest": 1,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 11,
+     "tribe": "AiMo",
+     "ring8_resources": {
+      "Game": 2,
+      "AquaCrop": 2,
+      "Fish": 2
+     },
+     "ring8_total": 6,
+     "ring24_total": 14,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 2,
+      "Water": 4,
+      "Field": 1,
+      "Ocean": 1
+     }
+    },
+    {
+     "player": 16,
+     "tribe": "Polaris",
+     "ring8_resources": {
+      "Game": 3,
+      "Spores": 1,
+      "Metal": 1,
+      "Fish": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 15,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 3,
+      "Field": 2,
+      "Mountain": 2,
+      "Ice": 1
+     }
+    },
+    {
+     "player": 10,
+     "tribe": "Bardur",
+     "ring8_resources": {
+      "Game": 2,
+      "AquaCrop": 1,
+      "Metal": 1
+     },
+     "ring8_total": 4,
+     "ring24_total": 13,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 4,
+      "Forest": 2,
+      "Mountain": 2
+     }
+    },
+    {
+     "player": 6,
+     "tribe": "Cymanti",
+     "ring8_resources": {
+      "Game": 2,
+      "Spores": 2,
+      "AquaCrop": 1,
+      "Fish": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 15,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 4,
+      "Water": 2,
+      "Field": 1,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 2,
+     "tribe": "Kickoo",
+     "ring8_resources": {
+      "AquaCrop": 1,
+      "Game": 1,
+      "Fish": 2,
+      "Fruit": 1,
+      "Metal": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 15,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 3,
+      "Forest": 2,
+      "Field": 2,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 12,
+     "tribe": "Quetzali",
+     "ring8_resources": {
+      "AquaCrop": 1,
+      "Fish": 2,
+      "Fruit": 3,
+      "Metal": 1,
+      "Game": 1
+     },
+     "ring8_total": 8,
+     "ring24_total": 17,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 3,
+      "Field": 3,
+      "Mountain": 1,
+      "Forest": 1
+     }
+    },
+    {
+     "player": 14,
+     "tribe": "Elyrion",
+     "ring8_resources": {
+      "AquaCrop": 2,
+      "Fruit": 2,
+      "Game": 2,
+      "Crop": 1
+     },
+     "ring8_total": 7,
+     "ring24_total": 17,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 2,
+      "Field": 3,
+      "Forest": 2,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 8,
+     "tribe": "Luxidoor",
+     "ring8_resources": {
+      "Fruit": 2,
+      "Fish": 2,
+      "Game": 2,
+      "Crop": 1,
+      "Metal": 1
+     },
+     "ring8_total": 8,
+     "ring24_total": 15,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 3,
+      "Water": 2,
+      "Forest": 2,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 3,
+     "tribe": "Aquarion",
+     "ring8_resources": {
+      "Fish": 2,
+      "Fruit": 2,
+      "Game": 1,
+      "AquaCrop": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 3,
+      "Field": 3,
+      "Forest": 1,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 1,
+     "tribe": "Hoodrick",
+     "ring8_resources": {
+      "Fish": 1,
+      "Game": 2,
+      "Metal": 2,
+      "Crop": 2
+     },
+     "ring8_total": 7,
+     "ring24_total": 11,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 1,
+      "Forest": 3,
+      "Mountain": 2,
+      "Field": 2
+     }
+    },
+    {
+     "player": 5,
+     "tribe": "Imperius",
+     "ring8_resources": {
+      "Crop": 1,
+      "AquaCrop": 2,
+      "Fruit": 2,
+      "Fish": 1,
+      "Metal": 1
+     },
+     "ring8_total": 7,
+     "ring24_total": 11,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 1,
+      "Field": 3,
+      "Water": 3,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 13,
+     "tribe": "Vengir",
+     "ring8_resources": {
+      "AquaCrop": 3,
+      "Metal": 1
+     },
+     "ring8_total": 4,
+     "ring24_total": 11,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 5,
+      "Field": 1,
+      "Mountain": 1,
+      "Ocean": 1
+     }
+    }
+   ],
+   "villages_and_cities": 60,
+   "non_capital_settlements": 44,
+   "village_grid_slots": 100,
+   "ruins": 23,
+   "ruins_expected_table": 23,
+   "starfish": 23,
+   "starfish_expected_water_div_25": 21,
+   "lighthouses": 4,
+   "fish_rate_shallow_near_settlement": 0.327,
+   "P(fruit|Field,inner)": 0.442,
+   "share(fruit,inner_all_land)": 0.223,
+   "P(crop|Field,inner)": 0.269,
+   "share(crop,inner_all_land)": 0.136,
+   "P(animal|Forest,inner)": 0.597,
+   "share(animal,inner_all_land)": 0.194,
+   "P(metal|Mountain,inner)": 0.676,
+   "share(metal,inner_all_land)": 0.112,
+   "explored_tiles_per_player": {
+    "15": 25,
+    "4": 25,
+    "7": 25,
+    "9": 25,
+    "11": 25,
+    "16": 25,
+    "10": 25,
+    "6": 25,
+    "2": 25,
+    "12": 25,
+    "14": 25,
+    "8": 25,
+    "3": 25,
+    "1": 25,
+    "5": 25,
+    "13": 25
+   },
+   "players": [
+    {
+     "id": 15,
+     "tribe": "XinXi"
+    },
+    {
+     "id": 4,
+     "tribe": "Oumaji"
+    },
+    {
+     "id": 7,
+     "tribe": "Yadakk"
+    },
+    {
+     "id": 9,
+     "tribe": "Zebasi"
+    },
+    {
+     "id": 11,
+     "tribe": "AiMo"
+    },
+    {
+     "id": 16,
+     "tribe": "Polaris"
+    },
+    {
+     "id": 10,
+     "tribe": "Bardur"
+    },
+    {
+     "id": 6,
+     "tribe": "Cymanti"
+    },
+    {
+     "id": 2,
+     "tribe": "Kickoo"
+    },
+    {
+     "id": 12,
+     "tribe": "Quetzali"
+    },
+    {
+     "id": 14,
+     "tribe": "Elyrion"
+    },
+    {
+     "id": 8,
+     "tribe": "Luxidoor"
+    },
+    {
+     "id": 3,
+     "tribe": "Aquarion"
+    },
+    {
+     "id": 1,
+     "tribe": "Hoodrick"
+    },
+    {
+     "id": 5,
+     "tribe": "Imperius"
+    },
+    {
+     "id": 13,
+     "tribe": "Vengir"
+    }
+   ]
+  },
+  {
+   "source": "70e72a52-0f69-4adf-96e5-37acaa931992.json",
+   "kind": "real .state (turn-0 map)",
+   "version": 123,
+   "size": 30,
+   "map_type": null,
+   "land_fraction": 0.153,
+   "terrain_counts": {
+    "Ocean": 563,
+    "Water": 199,
+    "Field": 77,
+    "Mountain": 20,
+    "Forest": 38,
+    "Ice": 3
+   },
+   "capitals": [
+    {
+     "player": 15,
+     "tribe": "Vengir",
+     "ring8_resources": {
+      "AquaCrop": 2,
+      "Crop": 1,
+      "Metal": 1
+     },
+     "ring8_total": 4,
+     "ring24_total": 5,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 4,
+      "Ocean": 1,
+      "Field": 1,
+      "Forest": 1,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 8,
+     "tribe": "Kickoo",
+     "ring8_resources": {
+      "Fish": 3,
+      "AquaCrop": 1,
+      "Fruit": 2
+     },
+     "ring8_total": 6,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Ocean": 1,
+      "Water": 3,
+      "Field": 3,
+      "Forest": 1
+     }
+    },
+    {
+     "player": 1,
+     "tribe": "Quetzali",
+     "ring8_resources": {
+      "Fruit": 2,
+      "Fish": 2,
+      "AquaCrop": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 8,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 2,
+      "Water": 4,
+      "Forest": 1,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 3,
+     "tribe": "Imperius",
+     "ring8_resources": {
+      "Fruit": 5,
+      "Metal": 1,
+      "Game": 1
+     },
+     "ring8_total": 7,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 1,
+      "Field": 5,
+      "Mountain": 1,
+      "Forest": 1
+     }
+    },
+    {
+     "player": 16,
+     "tribe": "Luxidoor",
+     "ring8_resources": {
+      "Game": 2,
+      "Metal": 1,
+      "Fruit": 2,
+      "Crop": 1,
+      "Fish": 2
+     },
+     "ring8_total": 8,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 2,
+      "Mountain": 1,
+      "Field": 3,
+      "Water": 2
+     }
+    },
+    {
+     "player": 6,
+     "tribe": "Oumaji",
+     "ring8_resources": {
+      "Metal": 1,
+      "Fruit": 2,
+      "Fish": 1
+     },
+     "ring8_total": 4,
+     "ring24_total": 7,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 5,
+      "Mountain": 1,
+      "Field": 2
+     }
+    },
+    {
+     "player": 13,
+     "tribe": "Yadakk",
+     "ring8_resources": {
+      "Fish": 2,
+      "Crop": 1,
+      "Fruit": 3,
+      "Metal": 1
+     },
+     "ring8_total": 7,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 2,
+      "Field": 4,
+      "Forest": 1,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 14,
+     "tribe": "Cymanti",
+     "ring8_resources": {
+      "Game": 1,
+      "Fruit": 2,
+      "Metal": 2,
+      "Spores": 2
+     },
+     "ring8_total": 7,
+     "ring24_total": 10,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 2,
+      "Field": 4,
+      "Mountain": 2
+     }
+    },
+    {
+     "player": 4,
+     "tribe": "Elyrion",
+     "ring8_resources": {
+      "Metal": 1,
+      "Game": 2,
+      "Crop": 2,
+      "Fruit": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 11,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Mountain": 1,
+      "Forest": 4,
+      "Field": 3
+     }
+    },
+    {
+     "player": 11,
+     "tribe": "Aquarion",
+     "ring8_resources": {
+      "AquaCrop": 1,
+      "Fish": 2,
+      "Crop": 1
+     },
+     "ring8_total": 4,
+     "ring24_total": 8,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 5,
+      "Field": 3
+     }
+    },
+    {
+     "player": 7,
+     "tribe": "XinXi",
+     "ring8_resources": {
+      "Game": 2,
+      "Crop": 2,
+      "Metal": 2
+     },
+     "ring8_total": 6,
+     "ring24_total": 13,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 3,
+      "Field": 3,
+      "Mountain": 2
+     }
+    },
+    {
+     "player": 12,
+     "tribe": "Hoodrick",
+     "ring8_resources": {
+      "Game": 2,
+      "Fish": 2,
+      "AquaCrop": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 9,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 4,
+      "Forest": 2,
+      "Field": 1,
+      "Ocean": 1
+     }
+    },
+    {
+     "player": 5,
+     "tribe": "Polaris",
+     "ring8_resources": {
+      "Game": 2,
+      "Crop": 2,
+      "AquaCrop": 1,
+      "Fruit": 1,
+      "Fish": 1
+     },
+     "ring8_total": 7,
+     "ring24_total": 11,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 2,
+      "Field": 3,
+      "Ice": 3
+     }
+    },
+    {
+     "player": 2,
+     "tribe": "Bardur",
+     "ring8_resources": {
+      "Fish": 4,
+      "Game": 2,
+      "AquaCrop": 1
+     },
+     "ring8_total": 7,
+     "ring24_total": 11,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 5,
+      "Forest": 2,
+      "Ocean": 1
+     }
+    },
+    {
+     "player": 9,
+     "tribe": "Zebasi",
+     "ring8_resources": {
+      "Fish": 3,
+      "AquaCrop": 1,
+      "Crop": 2
+     },
+     "ring8_total": 6,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Ocean": 2,
+      "Water": 4,
+      "Field": 2
+     }
+    },
+    {
+     "player": 10,
+     "tribe": "AiMo",
+     "ring8_resources": {
+      "AquaCrop": 1,
+      "Fish": 2,
+      "Game": 2,
+      "Fruit": 2
+     },
+     "ring8_total": 7,
+     "ring24_total": 11,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 3,
+      "Water": 2,
+      "Ocean": 1,
+      "Forest": 2
+     }
+    }
+   ],
+   "villages_and_cities": 23,
+   "non_capital_settlements": 7,
+   "village_grid_slots": 100,
+   "ruins": 23,
+   "ruins_expected_table": 23,
+   "starfish": 31,
+   "starfish_expected_water_div_25": 30,
+   "lighthouses": 4,
+   "fish_rate_shallow_near_settlement": 0.267,
+   "P(fruit|Field,inner)": 0.521,
+   "share(fruit,inner_all_land)": 0.266,
+   "P(crop|Field,inner)": 0.25,
+   "share(crop,inner_all_land)": 0.128,
+   "P(animal|Forest,inner)": 0.69,
+   "share(animal,inner_all_land)": 0.213,
+   "P(metal|Mountain,inner)": 0.857,
+   "share(metal,inner_all_land)": 0.128,
+   "explored_tiles_per_player": {
+    "15": 25,
+    "8": 25,
+    "1": 25,
+    "3": 25,
+    "16": 25,
+    "6": 25,
+    "13": 25,
+    "14": 25,
+    "4": 25,
+    "11": 25,
+    "7": 25,
+    "12": 25,
+    "5": 25,
+    "2": 25,
+    "9": 25,
+    "10": 25
+   },
+   "players": [
+    {
+     "id": 15,
+     "tribe": "Vengir"
+    },
+    {
+     "id": 8,
+     "tribe": "Kickoo"
+    },
+    {
+     "id": 1,
+     "tribe": "Quetzali"
+    },
+    {
+     "id": 3,
+     "tribe": "Imperius"
+    },
+    {
+     "id": 16,
+     "tribe": "Luxidoor"
+    },
+    {
+     "id": 6,
+     "tribe": "Oumaji"
+    },
+    {
+     "id": 13,
+     "tribe": "Yadakk"
+    },
+    {
+     "id": 14,
+     "tribe": "Cymanti"
+    },
+    {
+     "id": 4,
+     "tribe": "Elyrion"
+    },
+    {
+     "id": 11,
+     "tribe": "Aquarion"
+    },
+    {
+     "id": 7,
+     "tribe": "XinXi"
+    },
+    {
+     "id": 12,
+     "tribe": "Hoodrick"
+    },
+    {
+     "id": 5,
+     "tribe": "Polaris"
+    },
+    {
+     "id": 2,
+     "tribe": "Bardur"
+    },
+    {
+     "id": 9,
+     "tribe": "Zebasi"
+    },
+    {
+     "id": 10,
+     "tribe": "AiMo"
+    }
+   ]
+  },
+  {
+   "source": "743ec20b-4aeb-46f6-9ade-bea575acaf63.json",
+   "kind": "real .state (turn-0 map)",
+   "version": 123,
+   "size": 16,
+   "map_type": null,
+   "land_fraction": 0.777,
+   "terrain_counts": {
+    "Field": 124,
+    "Mountain": 21,
+    "Forest": 54,
+    "Water": 46,
+    "Ocean": 11
+   },
+   "capitals": [
+    {
+     "player": 1,
+     "tribe": "Cymanti",
+     "ring8_resources": {
+      "Spores": 2,
+      "Game": 3,
+      "Fruit": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 4,
+      "Field": 4
+     }
+    },
+    {
+     "player": 2,
+     "tribe": "Elyrion",
+     "ring8_resources": {
+      "Crop": 1,
+      "Metal": 1,
+      "Game": 2,
+      "Fruit": 2
+     },
+     "ring8_total": 6,
+     "ring24_total": 10,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 3,
+      "Forest": 4,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 4,
+     "tribe": "Oumaji",
+     "ring8_resources": {
+      "Fruit": 2,
+      "AquaCrop": 3,
+      "Metal": 1,
+      "Fish": 2
+     },
+     "ring8_total": 8,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 2,
+      "Water": 3,
+      "Ocean": 2,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 3,
+     "tribe": "Zebasi",
+     "ring8_resources": {
+      "Crop": 3,
+      "Game": 1
+     },
+     "ring8_total": 4,
+     "ring24_total": 9,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 6,
+      "Forest": 1,
+      "Mountain": 1
+     }
+    }
+   ],
+   "villages_and_cities": 16,
+   "non_capital_settlements": 12,
+   "village_grid_slots": 25,
+   "ruins": 7,
+   "ruins_expected_table": 7,
+   "starfish": 4,
+   "starfish_expected_water_div_25": 2,
+   "lighthouses": 4,
+   "fish_rate_shallow_near_settlement": 0.283,
+   "P(fruit|Field,inner)": 0.368,
+   "share(fruit,inner_all_land)": 0.206,
+   "P(crop|Field,inner)": 0.298,
+   "share(crop,inner_all_land)": 0.167,
+   "P(animal|Forest,inner)": 0.433,
+   "share(animal,inner_all_land)": 0.127,
+   "P(metal|Mountain,inner)": 0.867,
+   "share(metal,inner_all_land)": 0.127,
+   "explored_tiles_per_player": {
+    "1": 25,
+    "2": 25,
+    "4": 25,
+    "3": 25
+   },
+   "players": [
+    {
+     "id": 1,
+     "tribe": "Cymanti"
+    },
+    {
+     "id": 2,
+     "tribe": "Elyrion"
+    },
+    {
+     "id": 4,
+     "tribe": "Oumaji"
+    },
+    {
+     "id": 3,
+     "tribe": "Zebasi"
+    }
+   ]
+  },
+  {
+   "source": "808c351d-8748-4cc2-b2a0-7f777a31d76e.json",
+   "kind": "real .state (turn-0 map)",
+   "version": 123,
+   "size": 30,
+   "map_type": null,
+   "land_fraction": 0.733,
+   "terrain_counts": {
+    "Field": 367,
+    "Forest": 207,
+    "Mountain": 86,
+    "Water": 182,
+    "Ocean": 58
+   },
+   "capitals": [
+    {
+     "player": 10,
+     "tribe": "Elyrion",
+     "ring8_resources": {
+      "Fish": 2,
+      "Game": 2,
+      "AquaCrop": 1,
+      "Fruit": 1,
+      "Crop": 1
+     },
+     "ring8_total": 7,
+     "ring24_total": 13,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Ocean": 1,
+      "Water": 2,
+      "Forest": 3,
+      "Field": 2
+     }
+    },
+    {
+     "player": 7,
+     "tribe": "XinXi",
+     "ring8_resources": {
+      "Metal": 2,
+      "Game": 1
+     },
+     "ring8_total": 3,
+     "ring24_total": 9,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 4,
+      "Field": 2,
+      "Mountain": 2
+     }
+    },
+    {
+     "player": 6,
+     "tribe": "AiMo",
+     "ring8_resources": {
+      "Fruit": 2,
+      "Crop": 1,
+      "Game": 2,
+      "AquaCrop": 1,
+      "Fish": 1
+     },
+     "ring8_total": 7,
+     "ring24_total": 13,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 3,
+      "Forest": 2,
+      "Water": 2,
+      "Ocean": 1
+     }
+    },
+    {
+     "player": 13,
+     "tribe": "Cymanti",
+     "ring8_resources": {
+      "Game": 1,
+      "Fruit": 1,
+      "Spores": 3
+     },
+     "ring8_total": 5,
+     "ring24_total": 11,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 4,
+      "Water": 1,
+      "Field": 3
+     }
+    },
+    {
+     "player": 1,
+     "tribe": "Aquarion",
+     "ring8_resources": {
+      "Fish": 2,
+      "Fruit": 1,
+      "Crop": 1,
+      "Game": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 15,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 2,
+      "Forest": 3,
+      "Field": 3
+     }
+    },
+    {
+     "player": 11,
+     "tribe": "Yadakk",
+     "ring8_resources": {
+      "Fruit": 4,
+      "Crop": 2
+     },
+     "ring8_total": 6,
+     "ring24_total": 8,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 6,
+      "Water": 1,
+      "Forest": 1
+     }
+    },
+    {
+     "player": 2,
+     "tribe": "Oumaji",
+     "ring8_resources": {
+      "Crop": 3,
+      "Fruit": 2,
+      "Metal": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 13,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 7,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 15,
+     "tribe": "Hoodrick",
+     "ring8_resources": {
+      "Game": 4,
+      "Fish": 4
+     },
+     "ring8_total": 8,
+     "ring24_total": 15,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 4,
+      "Water": 3,
+      "Ocean": 1
+     }
+    },
+    {
+     "player": 14,
+     "tribe": "Vengir",
+     "ring8_resources": {
+      "Crop": 3,
+      "Fruit": 1,
+      "Metal": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 2,
+      "Field": 5,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 4,
+     "tribe": "Quetzali",
+     "ring8_resources": {
+      "Fish": 2,
+      "Fruit": 2,
+      "Crop": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 13,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 3,
+      "Forest": 2,
+      "Field": 3
+     }
+    },
+    {
+     "player": 3,
+     "tribe": "Polaris",
+     "ring8_resources": {
+      "Metal": 3,
+      "Game": 2,
+      "Crop": 1,
+      "Fruit": 1
+     },
+     "ring8_total": 7,
+     "ring24_total": 13,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Mountain": 3,
+      "Forest": 2,
+      "Field": 3
+     }
+    },
+    {
+     "player": 8,
+     "tribe": "Imperius",
+     "ring8_resources": {
+      "Fruit": 2,
+      "Crop": 1
+     },
+     "ring8_total": 3,
+     "ring24_total": 11,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 3,
+      "Mountain": 2,
+      "Field": 3
+     }
+    },
+    {
+     "player": 16,
+     "tribe": "Zebasi",
+     "ring8_resources": {
+      "Crop": 2,
+      "Game": 2,
+      "Fruit": 1,
+      "Metal": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 14,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 5,
+      "Forest": 2,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 5,
+     "tribe": "Kickoo",
+     "ring8_resources": {
+      "Fish": 2,
+      "Fruit": 2,
+      "Crop": 1,
+      "Metal": 1,
+      "Game": 1
+     },
+     "ring8_total": 7,
+     "ring24_total": 16,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 2,
+      "Field": 3,
+      "Mountain": 1,
+      "Forest": 2
+     }
+    },
+    {
+     "player": 9,
+     "tribe": "Bardur",
+     "ring8_resources": {
+      "Game": 2,
+      "Fruit": 1,
+      "Metal": 1
+     },
+     "ring8_total": 4,
+     "ring24_total": 9,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 4,
+      "Forest": 3,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 12,
+     "tribe": "Luxidoor",
+     "ring8_resources": {
+      "Game": 2,
+      "Metal": 1,
+      "Fruit": 2,
+      "Crop": 1,
+      "Fish": 2
+     },
+     "ring8_total": 8,
+     "ring24_total": 14,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 2,
+      "Mountain": 1,
+      "Field": 3,
+      "Water": 2
+     }
+    }
+   ],
+   "villages_and_cities": 65,
+   "non_capital_settlements": 49,
+   "village_grid_slots": 100,
+   "ruins": 23,
+   "ruins_expected_table": 23,
+   "starfish": 11,
+   "starfish_expected_water_div_25": 9,
+   "lighthouses": 4,
+   "fish_rate_shallow_near_settlement": 0.29,
+   "P(fruit|Field,inner)": 0.44,
+   "share(fruit,inner_all_land)": 0.222,
+   "P(crop|Field,inner)": 0.3,
+   "share(crop,inner_all_land)": 0.151,
+   "P(animal|Forest,inner)": 0.448,
+   "share(animal,inner_all_land)": 0.161,
+   "P(metal|Mountain,inner)": 0.796,
+   "share(metal,inner_all_land)": 0.108,
+   "explored_tiles_per_player": {
+    "10": 25,
+    "7": 25,
+    "6": 25,
+    "13": 25,
+    "1": 25,
+    "11": 25,
+    "2": 25,
+    "15": 25,
+    "14": 25,
+    "4": 25,
+    "3": 25,
+    "8": 25,
+    "16": 25,
+    "5": 25,
+    "9": 25,
+    "12": 25
+   },
+   "players": [
+    {
+     "id": 10,
+     "tribe": "Elyrion"
+    },
+    {
+     "id": 7,
+     "tribe": "XinXi"
+    },
+    {
+     "id": 6,
+     "tribe": "AiMo"
+    },
+    {
+     "id": 13,
+     "tribe": "Cymanti"
+    },
+    {
+     "id": 1,
+     "tribe": "Aquarion"
+    },
+    {
+     "id": 11,
+     "tribe": "Yadakk"
+    },
+    {
+     "id": 2,
+     "tribe": "Oumaji"
+    },
+    {
+     "id": 15,
+     "tribe": "Hoodrick"
+    },
+    {
+     "id": 14,
+     "tribe": "Vengir"
+    },
+    {
+     "id": 4,
+     "tribe": "Quetzali"
+    },
+    {
+     "id": 3,
+     "tribe": "Polaris"
+    },
+    {
+     "id": 8,
+     "tribe": "Imperius"
+    },
+    {
+     "id": 16,
+     "tribe": "Zebasi"
+    },
+    {
+     "id": 5,
+     "tribe": "Kickoo"
+    },
+    {
+     "id": 9,
+     "tribe": "Bardur"
+    },
+    {
+     "id": 12,
+     "tribe": "Luxidoor"
+    }
+   ]
+  },
+  {
+   "source": "82c496e0-4207-4fe9-a665-99745230a05e.json",
+   "kind": "real .state (turn-0 map)",
+   "version": 123,
+   "size": 30,
+   "map_type": null,
+   "land_fraction": 0.414,
+   "terrain_counts": {
+    "Water": 430,
+    "Field": 216,
+    "Ocean": 97,
+    "Forest": 107,
+    "Mountain": 47,
+    "Ice": 3
+   },
+   "capitals": [
+    {
+     "player": 9,
+     "tribe": "Kickoo",
+     "ring8_resources": {
+      "Fish": 3,
+      "AquaCrop": 2,
+      "Game": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 13,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 4,
+      "Forest": 3,
+      "Ocean": 1
+     }
+    },
+    {
+     "player": 1,
+     "tribe": "Bardur",
+     "ring8_resources": {
+      "Fruit": 1,
+      "Game": 2,
+      "Fish": 1
+     },
+     "ring8_total": 4,
+     "ring24_total": 11,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 2,
+      "Forest": 2,
+      "Water": 4
+     }
+    },
+    {
+     "player": 5,
+     "tribe": "Quetzali",
+     "ring8_resources": {
+      "Fruit": 3,
+      "AquaCrop": 1,
+      "Game": 2
+     },
+     "ring8_total": 6,
+     "ring24_total": 14,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 3,
+      "Water": 2,
+      "Forest": 3
+     }
+    },
+    {
+     "player": 11,
+     "tribe": "XinXi",
+     "ring8_resources": {
+      "Fish": 3,
+      "Game": 1,
+      "Metal": 2,
+      "AquaCrop": 1
+     },
+     "ring8_total": 7,
+     "ring24_total": 14,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 3,
+      "Forest": 1,
+      "Mountain": 2,
+      "Field": 1,
+      "Ocean": 1
+     }
+    },
+    {
+     "player": 12,
+     "tribe": "Zebasi",
+     "ring8_resources": {
+      "AquaCrop": 2,
+      "Crop": 2,
+      "Metal": 1,
+      "Fruit": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 11,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 2,
+      "Forest": 2,
+      "Field": 3,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 15,
+     "tribe": "Aquarion",
+     "ring8_resources": {
+      "AquaCrop": 1,
+      "Fruit": 2,
+      "Metal": 1,
+      "Fish": 2
+     },
+     "ring8_total": 6,
+     "ring24_total": 13,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 3,
+      "Forest": 1,
+      "Field": 3,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 16,
+     "tribe": "AiMo",
+     "ring8_resources": {
+      "Game": 2,
+      "Metal": 1,
+      "Fruit": 2
+     },
+     "ring8_total": 5,
+     "ring24_total": 16,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 2,
+      "Forest": 3,
+      "Mountain": 1,
+      "Field": 2
+     }
+    },
+    {
+     "player": 10,
+     "tribe": "Luxidoor",
+     "ring8_resources": {
+      "Fruit": 2,
+      "Crop": 1,
+      "Game": 2,
+      "Fish": 2,
+      "Metal": 1
+     },
+     "ring8_total": 8,
+     "ring24_total": 16,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 3,
+      "Forest": 2,
+      "Water": 2,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 8,
+     "tribe": "Elyrion",
+     "ring8_resources": {
+      "Fish": 3,
+      "Crop": 1,
+      "Game": 2
+     },
+     "ring8_total": 6,
+     "ring24_total": 16,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 4,
+      "Field": 1,
+      "Forest": 3
+     }
+    },
+    {
+     "player": 13,
+     "tribe": "Imperius",
+     "ring8_resources": {
+      "Fish": 1,
+      "Fruit": 3
+     },
+     "ring8_total": 4,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 4,
+      "Forest": 1,
+      "Field": 3
+     }
+    },
+    {
+     "player": 6,
+     "tribe": "Oumaji",
+     "ring8_resources": {
+      "Fish": 3,
+      "Fruit": 2,
+      "Metal": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 17,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 4,
+      "Forest": 1,
+      "Field": 2,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 7,
+     "tribe": "Cymanti",
+     "ring8_resources": {
+      "Fish": 2,
+      "Spores": 2,
+      "Metal": 2
+     },
+     "ring8_total": 6,
+     "ring24_total": 15,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 3,
+      "Field": 2,
+      "Mountain": 2,
+      "Forest": 1
+     }
+    },
+    {
+     "player": 14,
+     "tribe": "Hoodrick",
+     "ring8_resources": {
+      "Game": 2,
+      "Fruit": 1,
+      "AquaCrop": 2
+     },
+     "ring8_total": 5,
+     "ring24_total": 11,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 3,
+      "Water": 4,
+      "Field": 1
+     }
+    },
+    {
+     "player": 3,
+     "tribe": "Yadakk",
+     "ring8_resources": {
+      "Fruit": 2,
+      "Fish": 3,
+      "Game": 1,
+      "Crop": 1
+     },
+     "ring8_total": 7,
+     "ring24_total": 18,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 3,
+      "Water": 3,
+      "Forest": 2
+     }
+    },
+    {
+     "player": 4,
+     "tribe": "Polaris",
+     "ring8_resources": {
+      "Fish": 1,
+      "Fruit": 1,
+      "Game": 2,
+      "Metal": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 13,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Ice": 3,
+      "Forest": 3,
+      "Field": 1,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 2,
+     "tribe": "Vengir",
+     "ring8_resources": {
+      "Metal": 1,
+      "Fish": 1,
+      "Crop": 2
+     },
+     "ring8_total": 4,
+     "ring24_total": 9,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Mountain": 1,
+      "Water": 3,
+      "Field": 3,
+      "Forest": 1
+     }
+    }
+   ],
+   "villages_and_cities": 62,
+   "non_capital_settlements": 46,
+   "village_grid_slots": 100,
+   "ruins": 23,
+   "ruins_expected_table": 23,
+   "starfish": 22,
+   "starfish_expected_water_div_25": 21,
+   "lighthouses": 4,
+   "fish_rate_shallow_near_settlement": 0.335,
+   "P(fruit|Field,inner)": 0.465,
+   "share(fruit,inner_all_land)": 0.222,
+   "P(crop|Field,inner)": 0.317,
+   "share(crop,inner_all_land)": 0.151,
+   "P(animal|Forest,inner)": 0.458,
+   "share(animal,inner_all_land)": 0.156,
+   "P(metal|Mountain,inner)": 0.944,
+   "share(metal,inner_all_land)": 0.16,
+   "explored_tiles_per_player": {
+    "9": 25,
+    "1": 25,
+    "5": 25,
+    "11": 25,
+    "12": 25,
+    "15": 25,
+    "16": 25,
+    "10": 25,
+    "8": 25,
+    "13": 25,
+    "6": 25,
+    "7": 25,
+    "14": 25,
+    "3": 25,
+    "4": 25,
+    "2": 25
+   },
+   "players": [
+    {
+     "id": 9,
+     "tribe": "Kickoo"
+    },
+    {
+     "id": 1,
+     "tribe": "Bardur"
+    },
+    {
+     "id": 5,
+     "tribe": "Quetzali"
+    },
+    {
+     "id": 11,
+     "tribe": "XinXi"
+    },
+    {
+     "id": 12,
+     "tribe": "Zebasi"
+    },
+    {
+     "id": 15,
+     "tribe": "Aquarion"
+    },
+    {
+     "id": 16,
+     "tribe": "AiMo"
+    },
+    {
+     "id": 10,
+     "tribe": "Luxidoor"
+    },
+    {
+     "id": 8,
+     "tribe": "Elyrion"
+    },
+    {
+     "id": 13,
+     "tribe": "Imperius"
+    },
+    {
+     "id": 6,
+     "tribe": "Oumaji"
+    },
+    {
+     "id": 7,
+     "tribe": "Cymanti"
+    },
+    {
+     "id": 14,
+     "tribe": "Hoodrick"
+    },
+    {
+     "id": 3,
+     "tribe": "Yadakk"
+    },
+    {
+     "id": 4,
+     "tribe": "Polaris"
+    },
+    {
+     "id": 2,
+     "tribe": "Vengir"
+    }
+   ]
+  },
+  {
+   "source": "8ecb8d87-a289-418b-a7e1-65e0abe2da6e.json",
+   "kind": "real .state (turn-0 map)",
+   "version": 123,
+   "size": 30,
+   "map_type": null,
+   "land_fraction": 0.513,
+   "terrain_counts": {
+    "Ocean": 310,
+    "Water": 128,
+    "Forest": 145,
+    "Field": 262,
+    "Mountain": 55
+   },
+   "capitals": [
+    {
+     "player": 16,
+     "tribe": "Bardur",
+     "ring8_resources": {
+      "Game": 2,
+      "Fish": 2,
+      "AquaCrop": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 9,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 2,
+      "Water": 4,
+      "Ocean": 2
+     }
+    },
+    {
+     "player": 6,
+     "tribe": "Aquarion",
+     "ring8_resources": {
+      "Fish": 2,
+      "Metal": 1,
+      "Game": 1
+     },
+     "ring8_total": 4,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 3,
+      "Ocean": 1,
+      "Mountain": 2,
+      "Forest": 2
+     }
+    },
+    {
+     "player": 3,
+     "tribe": "Luxidoor",
+     "ring8_resources": {
+      "Fish": 2,
+      "Game": 2,
+      "Fruit": 2,
+      "Metal": 1,
+      "Crop": 1
+     },
+     "ring8_total": 8,
+     "ring24_total": 15,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 2,
+      "Forest": 2,
+      "Field": 3,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 11,
+     "tribe": "Zebasi",
+     "ring8_resources": {
+      "Fish": 2,
+      "AquaCrop": 1,
+      "Metal": 2,
+      "Crop": 2
+     },
+     "ring8_total": 7,
+     "ring24_total": 14,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 3,
+      "Mountain": 2,
+      "Field": 3
+     }
+    },
+    {
+     "player": 12,
+     "tribe": "Hoodrick",
+     "ring8_resources": {
+      "Crop": 4,
+      "Game": 2
+     },
+     "ring8_total": 6,
+     "ring24_total": 15,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 6,
+      "Forest": 2
+     }
+    },
+    {
+     "player": 1,
+     "tribe": "AiMo",
+     "ring8_resources": {
+      "Game": 2,
+      "AquaCrop": 1,
+      "Fish": 1
+     },
+     "ring8_total": 4,
+     "ring24_total": 10,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 4,
+      "Water": 2,
+      "Ocean": 1,
+      "Field": 1
+     }
+    },
+    {
+     "player": 10,
+     "tribe": "Yadakk",
+     "ring8_resources": {
+      "Fruit": 4,
+      "Game": 1,
+      "Metal": 1,
+      "Crop": 1
+     },
+     "ring8_total": 7,
+     "ring24_total": 13,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 6,
+      "Forest": 1,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 13,
+     "tribe": "Imperius",
+     "ring8_resources": {
+      "Metal": 2,
+      "Fruit": 4
+     },
+     "ring8_total": 6,
+     "ring24_total": 15,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Mountain": 2,
+      "Field": 4,
+      "Forest": 2
+     }
+    },
+    {
+     "player": 5,
+     "tribe": "Kickoo",
+     "ring8_resources": {
+      "Fish": 2,
+      "Crop": 2,
+      "Fruit": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 13,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 2,
+      "Field": 5,
+      "Forest": 1
+     }
+    },
+    {
+     "player": 15,
+     "tribe": "XinXi",
+     "ring8_resources": {
+      "Game": 1,
+      "Metal": 2
+     },
+     "ring8_total": 3,
+     "ring24_total": 9,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 4,
+      "Mountain": 2,
+      "Field": 2
+     }
+    },
+    {
+     "player": 14,
+     "tribe": "Elyrion",
+     "ring8_resources": {
+      "Fruit": 2,
+      "Crop": 3,
+      "Game": 2,
+      "Metal": 1
+     },
+     "ring8_total": 8,
+     "ring24_total": 18,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 5,
+      "Forest": 2,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 9,
+     "tribe": "Polaris",
+     "ring8_resources": {
+      "Fruit": 1,
+      "Crop": 4,
+      "Game": 2
+     },
+     "ring8_total": 7,
+     "ring24_total": 10,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 5,
+      "Forest": 3
+     }
+    },
+    {
+     "player": 7,
+     "tribe": "Oumaji",
+     "ring8_resources": {
+      "Crop": 2,
+      "Fish": 1,
+      "Fruit": 2
+     },
+     "ring8_total": 5,
+     "ring24_total": 15,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 5,
+      "Water": 3
+     }
+    },
+    {
+     "player": 2,
+     "tribe": "Cymanti",
+     "ring8_resources": {
+      "Fruit": 1,
+      "Spores": 2,
+      "Fish": 1,
+      "AquaCrop": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 9,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Ocean": 2,
+      "Water": 3,
+      "Field": 1,
+      "Forest": 2
+     }
+    },
+    {
+     "player": 8,
+     "tribe": "Quetzali",
+     "ring8_resources": {
+      "Fruit": 5,
+      "Metal": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 17,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 5,
+      "Forest": 1,
+      "Mountain": 1,
+      "Water": 1
+     }
+    },
+    {
+     "player": 4,
+     "tribe": "Vengir",
+     "ring8_resources": {
+      "Metal": 2,
+      "Crop": 1,
+      "Fruit": 1,
+      "AquaCrop": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 7,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Mountain": 2,
+      "Field": 4,
+      "Forest": 1,
+      "Water": 1
+     }
+    }
+   ],
+   "villages_and_cities": 50,
+   "non_capital_settlements": 34,
+   "village_grid_slots": 100,
+   "ruins": 23,
+   "ruins_expected_table": 23,
+   "starfish": 17,
+   "starfish_expected_water_div_25": 17,
+   "lighthouses": 4,
+   "fish_rate_shallow_near_settlement": 0.297,
+   "P(fruit|Field,inner)": 0.405,
+   "share(fruit,inner_all_land)": 0.208,
+   "P(crop|Field,inner)": 0.345,
+   "share(crop,inner_all_land)": 0.176,
+   "P(animal|Forest,inner)": 0.41,
+   "share(animal,inner_all_land)": 0.142,
+   "P(metal|Mountain,inner)": 0.976,
+   "share(metal,inner_all_land)": 0.138,
+   "explored_tiles_per_player": {
+    "16": 24,
+    "6": 25,
+    "3": 25,
+    "11": 25,
+    "12": 25,
+    "1": 25,
+    "10": 25,
+    "13": 25,
+    "5": 25,
+    "15": 25,
+    "14": 25,
+    "9": 25,
+    "7": 25,
+    "2": 25,
+    "8": 25,
+    "4": 25
+   },
+   "players": [
+    {
+     "id": 16,
+     "tribe": "Bardur"
+    },
+    {
+     "id": 6,
+     "tribe": "Aquarion"
+    },
+    {
+     "id": 3,
+     "tribe": "Luxidoor"
+    },
+    {
+     "id": 11,
+     "tribe": "Zebasi"
+    },
+    {
+     "id": 12,
+     "tribe": "Hoodrick"
+    },
+    {
+     "id": 1,
+     "tribe": "AiMo"
+    },
+    {
+     "id": 10,
+     "tribe": "Yadakk"
+    },
+    {
+     "id": 13,
+     "tribe": "Imperius"
+    },
+    {
+     "id": 5,
+     "tribe": "Kickoo"
+    },
+    {
+     "id": 15,
+     "tribe": "XinXi"
+    },
+    {
+     "id": 14,
+     "tribe": "Elyrion"
+    },
+    {
+     "id": 9,
+     "tribe": "Polaris"
+    },
+    {
+     "id": 7,
+     "tribe": "Oumaji"
+    },
+    {
+     "id": 2,
+     "tribe": "Cymanti"
+    },
+    {
+     "id": 8,
+     "tribe": "Quetzali"
+    },
+    {
+     "id": 4,
+     "tribe": "Vengir"
+    }
+   ]
+  },
+  {
+   "source": "a7db62b7-23b4-499c-bab2-2929277b4f16.json",
+   "kind": "real .state (turn-0 map)",
+   "version": 123,
+   "size": 16,
+   "map_type": null,
+   "land_fraction": 0.633,
+   "terrain_counts": {
+    "Field": 95,
+    "Mountain": 22,
+    "Forest": 45,
+    "Water": 40,
+    "Ocean": 54
+   },
+   "capitals": [
+    {
+     "player": 3,
+     "tribe": "Zebasi",
+     "ring8_resources": {
+      "Crop": 3,
+      "Metal": 1
+     },
+     "ring8_total": 4,
+     "ring24_total": 8,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 6,
+      "Forest": 1,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 1,
+     "tribe": "Aquarion",
+     "ring8_resources": {
+      "Fruit": 1,
+      "Fish": 2,
+      "Metal": 1,
+      "AquaCrop": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 14,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 2,
+      "Water": 3,
+      "Ocean": 2,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 2,
+     "tribe": "XinXi",
+     "ring8_resources": {
+      "Fish": 1,
+      "Metal": 2,
+      "Fruit": 1,
+      "Crop": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 3,
+      "Mountain": 2,
+      "Field": 2,
+      "Forest": 1
+     }
+    },
+    {
+     "player": 4,
+     "tribe": "Cymanti",
+     "ring8_resources": {
+      "Metal": 4,
+      "Fruit": 1,
+      "Spores": 2
+     },
+     "ring8_total": 7,
+     "ring24_total": 10,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Mountain": 4,
+      "Field": 3,
+      "Forest": 1
+     }
+    }
+   ],
+   "villages_and_cities": 14,
+   "non_capital_settlements": 10,
+   "village_grid_slots": 25,
+   "ruins": 7,
+   "ruins_expected_table": 7,
+   "starfish": 6,
+   "starfish_expected_water_div_25": 3,
+   "lighthouses": 4,
+   "fish_rate_shallow_near_settlement": 0.27,
+   "P(fruit|Field,inner)": 0.271,
+   "share(fruit,inner_all_land)": 0.153,
+   "P(crop|Field,inner)": 0.229,
+   "share(crop,inner_all_land)": 0.129,
+   "P(animal|Forest,inner)": 0.5,
+   "share(animal,inner_all_land)": 0.129,
+   "P(metal|Mountain,inner)": 0.933,
+   "share(metal,inner_all_land)": 0.165,
+   "explored_tiles_per_player": {
+    "3": 24,
+    "1": 25,
+    "2": 25,
+    "4": 25
+   },
+   "players": [
+    {
+     "id": 3,
+     "tribe": "Zebasi"
+    },
+    {
+     "id": 1,
+     "tribe": "Aquarion"
+    },
+    {
+     "id": 2,
+     "tribe": "XinXi"
+    },
+    {
+     "id": 4,
+     "tribe": "Cymanti"
+    }
+   ]
+  },
+  {
+   "source": "ac6608c4-21a2-4211-b13b-ba4be71cc59f.json",
+   "kind": "real .state (turn-0 map)",
+   "version": 123,
+   "size": 16,
+   "map_type": null,
+   "land_fraction": 0.5,
+   "terrain_counts": {
+    "Ocean": 75,
+    "Water": 53,
+    "Field": 70,
+    "Forest": 39,
+    "Mountain": 19
+   },
+   "capitals": [
+    {
+     "player": 1,
+     "tribe": "Vengir",
+     "ring8_resources": {
+      "AquaCrop": 1,
+      "Metal": 1
+     },
+     "ring8_total": 2,
+     "ring24_total": 7,
+     "has_2_identical": false,
+     "ring8_terrain": {
+      "Water": 2,
+      "Field": 3,
+      "Mountain": 1,
+      "Forest": 2
+     }
+    },
+    {
+     "player": 4,
+     "tribe": "XinXi",
+     "ring8_resources": {
+      "Fish": 2,
+      "AquaCrop": 1,
+      "Game": 1,
+      "Metal": 2,
+      "Fruit": 2
+     },
+     "ring8_total": 8,
+     "ring24_total": 14,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Ocean": 1,
+      "Water": 2,
+      "Forest": 1,
+      "Mountain": 2,
+      "Field": 2
+     }
+    },
+    {
+     "player": 2,
+     "tribe": "Luxidoor",
+     "ring8_resources": {
+      "Fish": 2,
+      "Fruit": 2,
+      "Game": 2,
+      "Metal": 1,
+      "Crop": 1
+     },
+     "ring8_total": 8,
+     "ring24_total": 11,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 2,
+      "Field": 3,
+      "Forest": 2,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 3,
+     "tribe": "Yadakk",
+     "ring8_resources": {
+      "Fruit": 4,
+      "Metal": 1,
+      "Crop": 2,
+      "Fish": 1
+     },
+     "ring8_total": 8,
+     "ring24_total": 13,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 6,
+      "Mountain": 1,
+      "Water": 1
+     }
+    }
+   ],
+   "villages_and_cities": 12,
+   "non_capital_settlements": 8,
+   "village_grid_slots": 25,
+   "ruins": 7,
+   "ruins_expected_table": 7,
+   "starfish": 6,
+   "starfish_expected_water_div_25": 5,
+   "lighthouses": 4,
+   "fish_rate_shallow_near_settlement": 0.188,
+   "P(fruit|Field,inner)": 0.472,
+   "share(fruit,inner_all_land)": 0.254,
+   "P(crop|Field,inner)": 0.333,
+   "share(crop,inner_all_land)": 0.179,
+   "P(animal|Forest,inner)": 0.476,
+   "share(animal,inner_all_land)": 0.149,
+   "P(metal|Mountain,inner)": 0.9,
+   "share(metal,inner_all_land)": 0.134,
+   "explored_tiles_per_player": {
+    "1": 25,
+    "4": 25,
+    "2": 25,
+    "3": 24
+   },
+   "players": [
+    {
+     "id": 1,
+     "tribe": "Vengir"
+    },
+    {
+     "id": 4,
+     "tribe": "XinXi"
+    },
+    {
+     "id": 2,
+     "tribe": "Luxidoor"
+    },
+    {
+     "id": 3,
+     "tribe": "Yadakk"
+    }
+   ]
+  },
+  {
+   "source": "aebb622c-0961-47ff-b121-44d4514a3903.json",
+   "kind": "real .state (turn-0 map)",
+   "version": 123,
+   "size": 16,
+   "map_type": null,
+   "land_fraction": 0.992,
+   "terrain_counts": {
+    "Field": 146,
+    "Forest": 81,
+    "Mountain": 27,
+    "Water": 2
+   },
+   "capitals": [
+    {
+     "player": 4,
+     "tribe": "AiMo",
+     "ring8_resources": {
+      "Game": 2,
+      "Fruit": 1,
+      "Metal": 1
+     },
+     "ring8_total": 4,
+     "ring24_total": 7,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 4,
+      "Field": 3,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 3,
+     "tribe": "Kickoo",
+     "ring8_resources": {
+      "Crop": 2,
+      "Metal": 2,
+      "Game": 2,
+      "Fish": 2
+     },
+     "ring8_total": 8,
+     "ring24_total": 16,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 2,
+      "Mountain": 2,
+      "Forest": 2,
+      "Water": 2
+     }
+    },
+    {
+     "player": 1,
+     "tribe": "Polaris",
+     "ring8_resources": {
+      "Crop": 3,
+      "Game": 2,
+      "Fruit": 2
+     },
+     "ring8_total": 7,
+     "ring24_total": 13,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 6,
+      "Forest": 2
+     }
+    },
+    {
+     "player": 2,
+     "tribe": "Zebasi",
+     "ring8_resources": {
+      "Crop": 2,
+      "Fruit": 1,
+      "Game": 1
+     },
+     "ring8_total": 4,
+     "ring24_total": 8,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 7,
+      "Forest": 1
+     }
+    }
+   ],
+   "villages_and_cities": 16,
+   "non_capital_settlements": 12,
+   "village_grid_slots": 25,
+   "ruins": 7,
+   "ruins_expected_table": 7,
+   "starfish": 0,
+   "starfish_expected_water_div_25": 0,
+   "lighthouses": 4,
+   "fish_rate_shallow_near_settlement": 1.0,
+   "P(fruit|Field,inner)": 0.306,
+   "share(fruit,inner_all_land)": 0.175,
+   "P(crop|Field,inner)": 0.389,
+   "share(crop,inner_all_land)": 0.222,
+   "P(animal|Forest,inner)": 0.533,
+   "share(animal,inner_all_land)": 0.19,
+   "P(metal|Mountain,inner)": 0.889,
+   "share(metal,inner_all_land)": 0.063,
+   "explored_tiles_per_player": {
+    "4": 25,
+    "3": 25,
+    "1": 25,
+    "2": 25
+   },
+   "players": [
+    {
+     "id": 4,
+     "tribe": "AiMo"
+    },
+    {
+     "id": 3,
+     "tribe": "Kickoo"
+    },
+    {
+     "id": 1,
+     "tribe": "Polaris"
+    },
+    {
+     "id": 2,
+     "tribe": "Zebasi"
+    }
+   ]
+  },
+  {
+   "source": "afd022f4-1504-4cd1-a29c-c3b61d6a10d1.json",
+   "kind": "real .state (turn-0 map)",
+   "version": 123,
+   "size": 30,
+   "map_type": null,
+   "land_fraction": 0.512,
+   "terrain_counts": {
+    "Ocean": 318,
+    "Water": 121,
+    "Field": 253,
+    "Ice": 4,
+    "Mountain": 61,
+    "Forest": 143
+   },
+   "capitals": [
+    {
+     "player": 14,
+     "tribe": "Polaris",
+     "ring8_resources": {
+      "Game": 2
+     },
+     "ring8_total": 2,
+     "ring24_total": 8,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Ice": 4,
+      "Field": 2,
+      "Forest": 2
+     }
+    },
+    {
+     "player": 3,
+     "tribe": "Vengir",
+     "ring8_resources": {
+      "AquaCrop": 1,
+      "Fruit": 2,
+      "Crop": 1,
+      "Metal": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 8,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 2,
+      "Forest": 2,
+      "Field": 3,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 15,
+     "tribe": "Quetzali",
+     "ring8_resources": {
+      "Fruit": 3,
+      "Game": 2
+     },
+     "ring8_total": 5,
+     "ring24_total": 16,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 3,
+      "Forest": 5
+     }
+    },
+    {
+     "player": 4,
+     "tribe": "Elyrion",
+     "ring8_resources": {
+      "Fish": 2,
+      "Metal": 2,
+      "Game": 2,
+      "Crop": 1
+     },
+     "ring8_total": 7,
+     "ring24_total": 13,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 2,
+      "Field": 2,
+      "Mountain": 2,
+      "Forest": 2
+     }
+    },
+    {
+     "player": 13,
+     "tribe": "Aquarion",
+     "ring8_resources": {
+      "AquaCrop": 2,
+      "Fish": 4,
+      "Fruit": 1
+     },
+     "ring8_total": 7,
+     "ring24_total": 14,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Ocean": 2,
+      "Water": 4,
+      "Field": 1,
+      "Forest": 1
+     }
+    },
+    {
+     "player": 8,
+     "tribe": "Bardur",
+     "ring8_resources": {
+      "Metal": 1,
+      "Game": 3,
+      "Fruit": 3
+     },
+     "ring8_total": 7,
+     "ring24_total": 9,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Mountain": 1,
+      "Forest": 4,
+      "Field": 3
+     }
+    },
+    {
+     "player": 16,
+     "tribe": "Cymanti",
+     "ring8_resources": {
+      "Fish": 1,
+      "Game": 1,
+      "Fruit": 1,
+      "Spores": 2
+     },
+     "ring8_total": 5,
+     "ring24_total": 10,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 6,
+      "Water": 1,
+      "Forest": 1
+     }
+    },
+    {
+     "player": 6,
+     "tribe": "Hoodrick",
+     "ring8_resources": {
+      "Game": 2,
+      "Fish": 2,
+      "AquaCrop": 1,
+      "Metal": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 11,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 4,
+      "Forest": 3,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 10,
+     "tribe": "XinXi",
+     "ring8_resources": {
+      "Metal": 2,
+      "Fruit": 2,
+      "Game": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Mountain": 2,
+      "Forest": 3,
+      "Field": 3
+     }
+    },
+    {
+     "player": 7,
+     "tribe": "Oumaji",
+     "ring8_resources": {
+      "Fruit": 2,
+      "Crop": 1
+     },
+     "ring8_total": 3,
+     "ring24_total": 6,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 5,
+      "Forest": 3
+     }
+    },
+    {
+     "player": 9,
+     "tribe": "Luxidoor",
+     "ring8_resources": {
+      "Metal": 1,
+      "Game": 2,
+      "Fruit": 2,
+      "Crop": 1,
+      "Fish": 2
+     },
+     "ring8_total": 8,
+     "ring24_total": 17,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Mountain": 1,
+      "Forest": 2,
+      "Field": 3,
+      "Water": 2
+     }
+    },
+    {
+     "player": 2,
+     "tribe": "Yadakk",
+     "ring8_resources": {
+      "Fruit": 2,
+      "AquaCrop": 1,
+      "Fish": 3
+     },
+     "ring8_total": 6,
+     "ring24_total": 14,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 1,
+      "Field": 2,
+      "Water": 4,
+      "Ocean": 1
+     }
+    },
+    {
+     "player": 1,
+     "tribe": "AiMo",
+     "ring8_resources": {
+      "Game": 2,
+      "Metal": 3
+     },
+     "ring8_total": 5,
+     "ring24_total": 8,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 2,
+      "Mountain": 3,
+      "Water": 2,
+      "Ocean": 1
+     }
+    },
+    {
+     "player": 12,
+     "tribe": "Kickoo",
+     "ring8_resources": {
+      "Game": 2,
+      "Fish": 4,
+      "AquaCrop": 1
+     },
+     "ring8_total": 7,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 3,
+      "Water": 4,
+      "Ocean": 1
+     }
+    },
+    {
+     "player": 11,
+     "tribe": "Imperius",
+     "ring8_resources": {
+      "Metal": 1,
+      "Fruit": 3,
+      "Crop": 2
+     },
+     "ring8_total": 6,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Mountain": 1,
+      "Field": 5,
+      "Forest": 2
+     }
+    },
+    {
+     "player": 5,
+     "tribe": "Zebasi",
+     "ring8_resources": {
+      "Crop": 2,
+      "Game": 1,
+      "AquaCrop": 1,
+      "Fish": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 11,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 2,
+      "Field": 4,
+      "Water": 2
+     }
+    }
+   ],
+   "villages_and_cities": 49,
+   "non_capital_settlements": 33,
+   "village_grid_slots": 100,
+   "ruins": 23,
+   "ruins_expected_table": 23,
+   "starfish": 17,
+   "starfish_expected_water_div_25": 17,
+   "lighthouses": 4,
+   "fish_rate_shallow_near_settlement": 0.43,
+   "P(fruit|Field,inner)": 0.426,
+   "share(fruit,inner_all_land)": 0.218,
+   "P(crop|Field,inner)": 0.241,
+   "share(crop,inner_all_land)": 0.124,
+   "P(animal|Forest,inner)": 0.457,
+   "share(animal,inner_all_land)": 0.153,
+   "P(metal|Mountain,inner)": 0.974,
+   "share(metal,inner_all_land)": 0.135,
+   "explored_tiles_per_player": {
+    "14": 25,
+    "3": 25,
+    "15": 25,
+    "4": 25,
+    "13": 25,
+    "8": 25,
+    "16": 25,
+    "6": 25,
+    "10": 25,
+    "7": 25,
+    "9": 25,
+    "2": 25,
+    "1": 25,
+    "12": 25,
+    "11": 25,
+    "5": 25
+   },
+   "players": [
+    {
+     "id": 14,
+     "tribe": "Polaris"
+    },
+    {
+     "id": 3,
+     "tribe": "Vengir"
+    },
+    {
+     "id": 15,
+     "tribe": "Quetzali"
+    },
+    {
+     "id": 4,
+     "tribe": "Elyrion"
+    },
+    {
+     "id": 13,
+     "tribe": "Aquarion"
+    },
+    {
+     "id": 8,
+     "tribe": "Bardur"
+    },
+    {
+     "id": 16,
+     "tribe": "Cymanti"
+    },
+    {
+     "id": 6,
+     "tribe": "Hoodrick"
+    },
+    {
+     "id": 10,
+     "tribe": "XinXi"
+    },
+    {
+     "id": 7,
+     "tribe": "Oumaji"
+    },
+    {
+     "id": 9,
+     "tribe": "Luxidoor"
+    },
+    {
+     "id": 2,
+     "tribe": "Yadakk"
+    },
+    {
+     "id": 1,
+     "tribe": "AiMo"
+    },
+    {
+     "id": 12,
+     "tribe": "Kickoo"
+    },
+    {
+     "id": 11,
+     "tribe": "Imperius"
+    },
+    {
+     "id": 5,
+     "tribe": "Zebasi"
+    }
+   ]
+  },
+  {
+   "source": "bbbdf2c8-3dc1-4258-a895-c655a1aaf2fb.json",
+   "kind": "real .state (turn-0 map)",
+   "version": 123,
+   "size": 30,
+   "map_type": null,
+   "land_fraction": 0.996,
+   "terrain_counts": {
+    "Field": 501,
+    "Forest": 272,
+    "Mountain": 123,
+    "Water": 4
+   },
+   "capitals": [
+    {
+     "player": 2,
+     "tribe": "AiMo",
+     "ring8_resources": {
+      "Metal": 2,
+      "Fruit": 2,
+      "Game": 2
+     },
+     "ring8_total": 6,
+     "ring24_total": 11,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 4,
+      "Mountain": 2,
+      "Forest": 2
+     }
+    },
+    {
+     "player": 4,
+     "tribe": "Hoodrick",
+     "ring8_resources": {
+      "Game": 2,
+      "Fruit": 2,
+      "Crop": 1,
+      "Metal": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 14,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 2,
+      "Field": 4,
+      "Mountain": 2
+     }
+    },
+    {
+     "player": 1,
+     "tribe": "Imperius",
+     "ring8_resources": {
+      "Fruit": 7,
+      "Metal": 1
+     },
+     "ring8_total": 8,
+     "ring24_total": 16,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 7,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 14,
+     "tribe": "Aquarion",
+     "ring8_resources": {
+      "Fruit": 2,
+      "Fish": 2,
+      "Metal": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 17,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 5,
+      "Water": 2,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 3,
+     "tribe": "Cymanti",
+     "ring8_resources": {
+      "Fruit": 1,
+      "Spores": 2,
+      "Game": 3
+     },
+     "ring8_total": 6,
+     "ring24_total": 13,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Mountain": 1,
+      "Field": 4,
+      "Forest": 3
+     }
+    },
+    {
+     "player": 11,
+     "tribe": "Oumaji",
+     "ring8_resources": {
+      "Fruit": 3,
+      "Metal": 1,
+      "Crop": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 13,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Mountain": 3,
+      "Field": 4,
+      "Forest": 1
+     }
+    },
+    {
+     "player": 10,
+     "tribe": "Aquarion",
+     "ring8_resources": {
+      "Game": 2,
+      "Fish": 2,
+      "Fruit": 2
+     },
+     "ring8_total": 6,
+     "ring24_total": 14,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 4,
+      "Water": 2,
+      "Field": 2
+     }
+    },
+    {
+     "player": 16,
+     "tribe": "Polaris",
+     "ring8_resources": {
+      "Fruit": 2,
+      "Game": 2,
+      "Metal": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 15,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 4,
+      "Forest": 3,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 15,
+     "tribe": "Bardur",
+     "ring8_resources": {
+      "Game": 2,
+      "Fruit": 3,
+      "Metal": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 11,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 5,
+      "Forest": 2,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 5,
+     "tribe": "XinXi",
+     "ring8_resources": {
+      "Metal": 2,
+      "Fruit": 2,
+      "Crop": 1,
+      "Game": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 14,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 4,
+      "Forest": 2,
+      "Mountain": 2
+     }
+    },
+    {
+     "player": 8,
+     "tribe": "Elyrion",
+     "ring8_resources": {
+      "Game": 2,
+      "Metal": 1,
+      "Fruit": 2
+     },
+     "ring8_total": 5,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 3,
+      "Forest": 4,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 13,
+     "tribe": "Quetzali",
+     "ring8_resources": {
+      "Fruit": 3,
+      "Metal": 2,
+      "Game": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 3,
+      "Forest": 3,
+      "Mountain": 2
+     }
+    },
+    {
+     "player": 9,
+     "tribe": "Quetzali",
+     "ring8_resources": {
+      "Fruit": 5,
+      "Game": 2,
+      "Metal": 1
+     },
+     "ring8_total": 8,
+     "ring24_total": 14,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 5,
+      "Forest": 2,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 12,
+     "tribe": "Polaris",
+     "ring8_resources": {
+      "Crop": 3,
+      "Game": 3,
+      "Fruit": 1,
+      "Metal": 1
+     },
+     "ring8_total": 8,
+     "ring24_total": 15,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 4,
+      "Forest": 3,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 6,
+     "tribe": "Zebasi",
+     "ring8_resources": {
+      "Game": 1,
+      "Crop": 3
+     },
+     "ring8_total": 4,
+     "ring24_total": 9,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 3,
+      "Field": 5
+     }
+    },
+    {
+     "player": 7,
+     "tribe": "Bardur",
+     "ring8_resources": {
+      "Game": 2,
+      "Metal": 2
+     },
+     "ring8_total": 4,
+     "ring24_total": 9,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Mountain": 4,
+      "Forest": 2,
+      "Field": 2
+     }
+    }
+   ],
+   "villages_and_cities": 70,
+   "non_capital_settlements": 54,
+   "village_grid_slots": 100,
+   "ruins": 23,
+   "ruins_expected_table": 23,
+   "starfish": 0,
+   "starfish_expected_water_div_25": 0,
+   "lighthouses": 4,
+   "fish_rate_shallow_near_settlement": 1.0,
+   "P(fruit|Field,inner)": 0.479,
+   "share(fruit,inner_all_land)": 0.241,
+   "P(crop|Field,inner)": 0.221,
+   "share(crop,inner_all_land)": 0.112,
+   "P(animal|Forest,inner)": 0.554,
+   "share(animal,inner_all_land)": 0.194,
+   "P(metal|Mountain,inner)": 0.827,
+   "share(metal,inner_all_land)": 0.121,
+   "explored_tiles_per_player": {
+    "2": 25,
+    "4": 25,
+    "1": 25,
+    "14": 25,
+    "3": 25,
+    "11": 25,
+    "10": 25,
+    "16": 25,
+    "15": 25,
+    "5": 25,
+    "8": 25,
+    "13": 25,
+    "9": 25,
+    "12": 25,
+    "6": 25,
+    "7": 25
+   },
+   "players": [
+    {
+     "id": 2,
+     "tribe": "AiMo"
+    },
+    {
+     "id": 4,
+     "tribe": "Hoodrick"
+    },
+    {
+     "id": 1,
+     "tribe": "Imperius"
+    },
+    {
+     "id": 14,
+     "tribe": "Aquarion"
+    },
+    {
+     "id": 3,
+     "tribe": "Cymanti"
+    },
+    {
+     "id": 11,
+     "tribe": "Oumaji"
+    },
+    {
+     "id": 10,
+     "tribe": "Aquarion"
+    },
+    {
+     "id": 16,
+     "tribe": "Polaris"
+    },
+    {
+     "id": 15,
+     "tribe": "Bardur"
+    },
+    {
+     "id": 5,
+     "tribe": "XinXi"
+    },
+    {
+     "id": 8,
+     "tribe": "Elyrion"
+    },
+    {
+     "id": 13,
+     "tribe": "Quetzali"
+    },
+    {
+     "id": 9,
+     "tribe": "Quetzali"
+    },
+    {
+     "id": 12,
+     "tribe": "Polaris"
+    },
+    {
+     "id": 6,
+     "tribe": "Zebasi"
+    },
+    {
+     "id": 7,
+     "tribe": "Bardur"
+    }
+   ]
+  },
+  {
+   "source": "c54f7482-e048-4b10-a084-a50401012292.json",
+   "kind": "real .state (turn-0 map)",
+   "version": 123,
+   "size": 30,
+   "map_type": null,
+   "land_fraction": 0.598,
+   "terrain_counts": {
+    "Ocean": 245,
+    "Water": 117,
+    "Field": 302,
+    "Forest": 164,
+    "Mountain": 68,
+    "Ice": 4
+   },
+   "capitals": [
+    {
+     "player": 2,
+     "tribe": "Kickoo",
+     "ring8_resources": {
+      "AquaCrop": 2,
+      "Crop": 1,
+      "Fish": 2,
+      "Game": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 13,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 4,
+      "Field": 1,
+      "Forest": 2,
+      "Ocean": 1
+     }
+    },
+    {
+     "player": 11,
+     "tribe": "Aquarion",
+     "ring8_resources": {
+      "Fish": 2,
+      "Game": 1,
+      "Metal": 1,
+      "Fruit": 2
+     },
+     "ring8_total": 6,
+     "ring24_total": 13,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 4,
+      "Water": 2,
+      "Forest": 1,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 5,
+     "tribe": "Yadakk",
+     "ring8_resources": {
+      "Crop": 3,
+      "Fruit": 4,
+      "Metal": 1
+     },
+     "ring8_total": 8,
+     "ring24_total": 16,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 7,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 14,
+     "tribe": "Vengir",
+     "ring8_resources": {
+      "Metal": 1,
+      "Crop": 1
+     },
+     "ring8_total": 2,
+     "ring24_total": 7,
+     "has_2_identical": false,
+     "ring8_terrain": {
+      "Mountain": 1,
+      "Field": 4,
+      "Forest": 3
+     }
+    },
+    {
+     "player": 8,
+     "tribe": "Bardur",
+     "ring8_resources": {
+      "Fruit": 2,
+      "Game": 2,
+      "Fish": 3
+     },
+     "ring8_total": 7,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 3,
+      "Forest": 2,
+      "Water": 3
+     }
+    },
+    {
+     "player": 6,
+     "tribe": "Polaris",
+     "ring8_resources": {
+      "Fruit": 1,
+      "Game": 2,
+      "AquaCrop": 2
+     },
+     "ring8_total": 5,
+     "ring24_total": 11,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 2,
+      "Ice": 4,
+      "Forest": 2
+     }
+    },
+    {
+     "player": 12,
+     "tribe": "Luxidoor",
+     "ring8_resources": {
+      "Fish": 2,
+      "Fruit": 2,
+      "Metal": 1,
+      "Game": 2,
+      "Crop": 1
+     },
+     "ring8_total": 8,
+     "ring24_total": 15,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 2,
+      "Field": 3,
+      "Mountain": 1,
+      "Forest": 2
+     }
+    },
+    {
+     "player": 16,
+     "tribe": "Imperius",
+     "ring8_resources": {
+      "Fruit": 3,
+      "Metal": 1
+     },
+     "ring8_total": 4,
+     "ring24_total": 10,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 4,
+      "Forest": 3,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 1,
+     "tribe": "Zebasi",
+     "ring8_resources": {
+      "Fish": 1,
+      "Crop": 2,
+      "Metal": 1,
+      "AquaCrop": 2
+     },
+     "ring8_total": 6,
+     "ring24_total": 11,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Ocean": 1,
+      "Water": 4,
+      "Field": 2,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 10,
+     "tribe": "XinXi",
+     "ring8_resources": {
+      "Game": 3,
+      "Metal": 2,
+      "Fruit": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 14,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 4,
+      "Field": 2,
+      "Mountain": 2
+     }
+    },
+    {
+     "player": 15,
+     "tribe": "Elyrion",
+     "ring8_resources": {
+      "Crop": 2,
+      "Game": 2,
+      "Metal": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 10,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 2,
+      "Forest": 4,
+      "Water": 1,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 13,
+     "tribe": "Oumaji",
+     "ring8_resources": {
+      "Fruit": 2,
+      "Fish": 1,
+      "AquaCrop": 1,
+      "Metal": 1,
+      "Crop": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 3,
+      "Field": 4,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 3,
+     "tribe": "Quetzali",
+     "ring8_resources": {
+      "Game": 2,
+      "Fruit": 4,
+      "Metal": 1
+     },
+     "ring8_total": 7,
+     "ring24_total": 14,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 3,
+      "Field": 4,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 9,
+     "tribe": "Cymanti",
+     "ring8_resources": {
+      "Game": 3,
+      "Spores": 2,
+      "Fruit": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 11,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 4,
+      "Forest": 4
+     }
+    },
+    {
+     "player": 7,
+     "tribe": "AiMo",
+     "ring8_resources": {
+      "Game": 2,
+      "Metal": 1
+     },
+     "ring8_total": 3,
+     "ring24_total": 8,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 5,
+      "Forest": 2,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 4,
+     "tribe": "Hoodrick",
+     "ring8_resources": {
+      "Game": 2,
+      "Fruit": 1
+     },
+     "ring8_total": 3,
+     "ring24_total": 5,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 2,
+      "Forest": 5,
+      "Mountain": 1
+     }
+    }
+   ],
+   "villages_and_cities": 52,
+   "non_capital_settlements": 36,
+   "village_grid_slots": 100,
+   "ruins": 23,
+   "ruins_expected_table": 23,
+   "starfish": 16,
+   "starfish_expected_water_div_25": 14,
+   "lighthouses": 4,
+   "fish_rate_shallow_near_settlement": 0.371,
+   "P(fruit|Field,inner)": 0.389,
+   "share(fruit,inner_all_land)": 0.205,
+   "P(crop|Field,inner)": 0.296,
+   "share(crop,inner_all_land)": 0.156,
+   "P(animal|Forest,inner)": 0.5,
+   "share(animal,inner_all_land)": 0.166,
+   "P(metal|Mountain,inner)": 0.9,
+   "share(metal,inner_all_land)": 0.117,
+   "explored_tiles_per_player": {
+    "2": 25,
+    "11": 25,
+    "5": 24,
+    "14": 25,
+    "8": 25,
+    "6": 25,
+    "12": 25,
+    "16": 25,
+    "1": 25,
+    "10": 25,
+    "15": 25,
+    "13": 25,
+    "3": 25,
+    "9": 25,
+    "7": 25,
+    "4": 24
+   },
+   "players": [
+    {
+     "id": 2,
+     "tribe": "Kickoo"
+    },
+    {
+     "id": 11,
+     "tribe": "Aquarion"
+    },
+    {
+     "id": 5,
+     "tribe": "Yadakk"
+    },
+    {
+     "id": 14,
+     "tribe": "Vengir"
+    },
+    {
+     "id": 8,
+     "tribe": "Bardur"
+    },
+    {
+     "id": 6,
+     "tribe": "Polaris"
+    },
+    {
+     "id": 12,
+     "tribe": "Luxidoor"
+    },
+    {
+     "id": 16,
+     "tribe": "Imperius"
+    },
+    {
+     "id": 1,
+     "tribe": "Zebasi"
+    },
+    {
+     "id": 10,
+     "tribe": "XinXi"
+    },
+    {
+     "id": 15,
+     "tribe": "Elyrion"
+    },
+    {
+     "id": 13,
+     "tribe": "Oumaji"
+    },
+    {
+     "id": 3,
+     "tribe": "Quetzali"
+    },
+    {
+     "id": 9,
+     "tribe": "Cymanti"
+    },
+    {
+     "id": 7,
+     "tribe": "AiMo"
+    },
+    {
+     "id": 4,
+     "tribe": "Hoodrick"
+    }
+   ]
+  },
+  {
+   "source": "d31fcdee-1dfa-48fd-9474-4cd6ca414b51.json",
+   "kind": "real .state (turn-0 map)",
+   "version": 123,
+   "size": 30,
+   "map_type": null,
+   "land_fraction": 0.753,
+   "terrain_counts": {
+    "Field": 376,
+    "Forest": 215,
+    "Mountain": 87,
+    "Water": 171,
+    "Ocean": 51
+   },
+   "capitals": [
+    {
+     "player": 10,
+     "tribe": "Imperius",
+     "ring8_resources": {
+      "Crop": 2,
+      "Fruit": 2,
+      "Game": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 13,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 4,
+      "Forest": 4
+     }
+    },
+    {
+     "player": 15,
+     "tribe": "Elyrion",
+     "ring8_resources": {
+      "Game": 2,
+      "Fish": 1,
+      "Fruit": 2,
+      "Crop": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 4,
+      "Water": 1,
+      "Field": 3
+     }
+    },
+    {
+     "player": 7,
+     "tribe": "Luxidoor",
+     "ring8_resources": {
+      "Game": 2,
+      "Fruit": 2,
+      "Fish": 2,
+      "Crop": 1,
+      "Metal": 1
+     },
+     "ring8_total": 8,
+     "ring24_total": 15,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 2,
+      "Field": 3,
+      "Water": 2,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 3,
+     "tribe": "Kickoo",
+     "ring8_resources": {
+      "Game": 2,
+      "Fish": 2,
+      "Crop": 1,
+      "Fruit": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 11,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 3,
+      "Water": 2,
+      "Field": 3
+     }
+    },
+    {
+     "player": 4,
+     "tribe": "Vengir",
+     "ring8_resources": {
+      "Metal": 1,
+      "Fruit": 1
+     },
+     "ring8_total": 2,
+     "ring24_total": 5,
+     "has_2_identical": false,
+     "ring8_terrain": {
+      "Mountain": 1,
+      "Water": 1,
+      "Field": 5,
+      "Forest": 1
+     }
+    },
+    {
+     "player": 9,
+     "tribe": "AiMo",
+     "ring8_resources": {
+      "Fruit": 3,
+      "Metal": 1,
+      "Game": 2
+     },
+     "ring8_total": 6,
+     "ring24_total": 17,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 3,
+      "Field": 3,
+      "Mountain": 2
+     }
+    },
+    {
+     "player": 8,
+     "tribe": "Cymanti",
+     "ring8_resources": {
+      "Spores": 2,
+      "Metal": 1,
+      "Fruit": 1
+     },
+     "ring8_total": 4,
+     "ring24_total": 15,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 2,
+      "Mountain": 2,
+      "Field": 4
+     }
+    },
+    {
+     "player": 11,
+     "tribe": "Oumaji",
+     "ring8_resources": {
+      "Metal": 1,
+      "Fruit": 2,
+      "Crop": 2
+     },
+     "ring8_total": 5,
+     "ring24_total": 10,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Mountain": 1,
+      "Field": 6,
+      "Forest": 1
+     }
+    },
+    {
+     "player": 16,
+     "tribe": "XinXi",
+     "ring8_resources": {
+      "Game": 2,
+      "Metal": 3,
+      "Crop": 2
+     },
+     "ring8_total": 7,
+     "ring24_total": 15,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 3,
+      "Mountain": 3,
+      "Field": 2
+     }
+    },
+    {
+     "player": 5,
+     "tribe": "Bardur",
+     "ring8_resources": {
+      "Game": 2,
+      "Metal": 2,
+      "Fruit": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 13,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 4,
+      "Field": 2,
+      "Mountain": 2
+     }
+    },
+    {
+     "player": 6,
+     "tribe": "Polaris",
+     "ring8_resources": {
+      "Fruit": 4,
+      "Game": 2,
+      "Metal": 1
+     },
+     "ring8_total": 7,
+     "ring24_total": 14,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 5,
+      "Forest": 2,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 14,
+     "tribe": "Quetzali",
+     "ring8_resources": {
+      "Game": 2,
+      "Fish": 2,
+      "Fruit": 2
+     },
+     "ring8_total": 6,
+     "ring24_total": 19,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 4,
+      "Water": 2,
+      "Field": 2
+     }
+    },
+    {
+     "player": 12,
+     "tribe": "Hoodrick",
+     "ring8_resources": {
+      "Fish": 3,
+      "Game": 2,
+      "Fruit": 3
+     },
+     "ring8_total": 8,
+     "ring24_total": 20,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 3,
+      "Forest": 2,
+      "Field": 3
+     }
+    },
+    {
+     "player": 13,
+     "tribe": "Zebasi",
+     "ring8_resources": {
+      "Fish": 2,
+      "Crop": 2,
+      "Metal": 1,
+      "Game": 1,
+      "AquaCrop": 1
+     },
+     "ring8_total": 7,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Ocean": 1,
+      "Water": 3,
+      "Field": 2,
+      "Mountain": 1,
+      "Forest": 1
+     }
+    },
+    {
+     "player": 1,
+     "tribe": "Yadakk",
+     "ring8_resources": {
+      "Fruit": 2,
+      "Game": 1
+     },
+     "ring8_total": 3,
+     "ring24_total": 11,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 3,
+      "Forest": 2,
+      "Water": 3
+     }
+    },
+    {
+     "player": 2,
+     "tribe": "Aquarion",
+     "ring8_resources": {
+      "Fruit": 3,
+      "Fish": 2,
+      "Crop": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 14,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 4,
+      "Forest": 2,
+      "Water": 2
+     }
+    }
+   ],
+   "villages_and_cities": 63,
+   "non_capital_settlements": 47,
+   "village_grid_slots": 100,
+   "ruins": 23,
+   "ruins_expected_table": 23,
+   "starfish": 11,
+   "starfish_expected_water_div_25": 8,
+   "lighthouses": 4,
+   "fish_rate_shallow_near_settlement": 0.323,
+   "P(fruit|Field,inner)": 0.521,
+   "share(fruit,inner_all_land)": 0.257,
+   "P(crop|Field,inner)": 0.214,
+   "share(crop,inner_all_land)": 0.105,
+   "P(animal|Forest,inner)": 0.5,
+   "share(animal,inner_all_land)": 0.177,
+   "P(metal|Mountain,inner)": 0.864,
+   "share(metal,inner_all_land)": 0.131,
+   "explored_tiles_per_player": {
+    "10": 25,
+    "15": 25,
+    "7": 25,
+    "3": 25,
+    "4": 25,
+    "9": 25,
+    "8": 25,
+    "11": 25,
+    "16": 25,
+    "5": 25,
+    "6": 25,
+    "14": 25,
+    "12": 25,
+    "13": 25,
+    "1": 25,
+    "2": 25
+   },
+   "players": [
+    {
+     "id": 10,
+     "tribe": "Imperius"
+    },
+    {
+     "id": 15,
+     "tribe": "Elyrion"
+    },
+    {
+     "id": 7,
+     "tribe": "Luxidoor"
+    },
+    {
+     "id": 3,
+     "tribe": "Kickoo"
+    },
+    {
+     "id": 4,
+     "tribe": "Vengir"
+    },
+    {
+     "id": 9,
+     "tribe": "AiMo"
+    },
+    {
+     "id": 8,
+     "tribe": "Cymanti"
+    },
+    {
+     "id": 11,
+     "tribe": "Oumaji"
+    },
+    {
+     "id": 16,
+     "tribe": "XinXi"
+    },
+    {
+     "id": 5,
+     "tribe": "Bardur"
+    },
+    {
+     "id": 6,
+     "tribe": "Polaris"
+    },
+    {
+     "id": 14,
+     "tribe": "Quetzali"
+    },
+    {
+     "id": 12,
+     "tribe": "Hoodrick"
+    },
+    {
+     "id": 13,
+     "tribe": "Zebasi"
+    },
+    {
+     "id": 1,
+     "tribe": "Yadakk"
+    },
+    {
+     "id": 2,
+     "tribe": "Aquarion"
+    }
+   ]
+  },
+  {
+   "source": "ec2d6e50-3080-447a-ad36-c59092423201.json",
+   "kind": "real .state (turn-0 map)",
+   "version": 123,
+   "size": 16,
+   "map_type": null,
+   "land_fraction": 0.152,
+   "terrain_counts": {
+    "Ocean": 160,
+    "Water": 57,
+    "Field": 25,
+    "Forest": 9,
+    "Mountain": 5
+   },
+   "capitals": [
+    {
+     "player": 1,
+     "tribe": "Kickoo",
+     "ring8_resources": {
+      "Fish": 3,
+      "Crop": 2,
+      "Metal": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 11,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 3,
+      "Field": 2,
+      "Forest": 2,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 3,
+     "tribe": "Vengir",
+     "ring8_resources": {
+      "AquaCrop": 1,
+      "Metal": 1,
+      "Crop": 1
+     },
+     "ring8_total": 3,
+     "ring24_total": 5,
+     "has_2_identical": false,
+     "ring8_terrain": {
+      "Ocean": 1,
+      "Water": 3,
+      "Forest": 2,
+      "Mountain": 1,
+      "Field": 1
+     }
+    },
+    {
+     "player": 4,
+     "tribe": "Bardur",
+     "ring8_resources": {
+      "Game": 2,
+      "Fruit": 2,
+      "AquaCrop": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 3,
+      "Field": 3,
+      "Mountain": 1,
+      "Water": 1
+     }
+    },
+    {
+     "player": 2,
+     "tribe": "Oumaji",
+     "ring8_resources": {
+      "Fruit": 2,
+      "Metal": 2,
+      "Fish": 1,
+      "Crop": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 4,
+      "Mountain": 2,
+      "Water": 2
+     }
+    }
+   ],
+   "villages_and_cities": 7,
+   "non_capital_settlements": 3,
+   "village_grid_slots": 25,
+   "ruins": 7,
+   "ruins_expected_table": 7,
+   "starfish": 9,
+   "starfish_expected_water_div_25": 8,
+   "lighthouses": 4,
+   "fish_rate_shallow_near_settlement": 0.204,
+   "P(fruit|Field,inner)": 0.455,
+   "share(fruit,inner_all_land)": 0.217,
+   "P(crop|Field,inner)": 0.364,
+   "share(crop,inner_all_land)": 0.174,
+   "P(animal|Forest,inner)": 0.286,
+   "share(animal,inner_all_land)": 0.087,
+   "P(metal|Mountain,inner)": 0.8,
+   "share(metal,inner_all_land)": 0.174,
+   "explored_tiles_per_player": {
+    "1": 25,
+    "3": 25,
+    "4": 25,
+    "2": 25
+   },
+   "players": [
+    {
+     "id": 1,
+     "tribe": "Kickoo"
+    },
+    {
+     "id": 3,
+     "tribe": "Vengir"
+    },
+    {
+     "id": 4,
+     "tribe": "Bardur"
+    },
+    {
+     "id": 2,
+     "tribe": "Oumaji"
+    }
+   ]
+  },
+  {
+   "source": "ed303236-1384-4633-b807-f50547c6fd18.json",
+   "kind": "real .state (turn-0 map)",
+   "version": 123,
+   "size": 30,
+   "map_type": null,
+   "land_fraction": 0.507,
+   "terrain_counts": {
+    "Ocean": 328,
+    "Water": 116,
+    "Field": 261,
+    "Mountain": 59,
+    "Forest": 135,
+    "Ice": 1
+   },
+   "capitals": [
+    {
+     "player": 1,
+     "tribe": "Elyrion",
+     "ring8_resources": {
+      "Metal": 1,
+      "Crop": 2,
+      "Game": 2
+     },
+     "ring8_total": 5,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Ocean": 1,
+      "Water": 2,
+      "Mountain": 1,
+      "Field": 2,
+      "Forest": 2
+     }
+    },
+    {
+     "player": 9,
+     "tribe": "Cymanti",
+     "ring8_resources": {
+      "Fish": 1,
+      "Spores": 2,
+      "Game": 2,
+      "Fruit": 2
+     },
+     "ring8_total": 7,
+     "ring24_total": 13,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 1,
+      "Field": 5,
+      "Forest": 2
+     }
+    },
+    {
+     "player": 12,
+     "tribe": "Imperius",
+     "ring8_resources": {
+      "Fish": 1,
+      "Game": 1,
+      "Crop": 1,
+      "AquaCrop": 1,
+      "Fruit": 2,
+      "Metal": 1
+     },
+     "ring8_total": 7,
+     "ring24_total": 10,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 3,
+      "Forest": 1,
+      "Field": 3,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 6,
+     "tribe": "Oumaji",
+     "ring8_resources": {
+      "Fish": 2,
+      "Metal": 1,
+      "Fruit": 2
+     },
+     "ring8_total": 5,
+     "ring24_total": 11,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Ocean": 1,
+      "Water": 3,
+      "Field": 3,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 13,
+     "tribe": "Zebasi",
+     "ring8_resources": {
+      "Crop": 2,
+      "Metal": 1,
+      "Fruit": 1,
+      "Game": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 13,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 6,
+      "Mountain": 1,
+      "Forest": 1
+     }
+    },
+    {
+     "player": 8,
+     "tribe": "Polaris",
+     "ring8_resources": {
+      "Fish": 1,
+      "Fruit": 2,
+      "Game": 2,
+      "Crop": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 10,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Ice": 1,
+      "Field": 4,
+      "Forest": 3
+     }
+    },
+    {
+     "player": 10,
+     "tribe": "Bardur",
+     "ring8_resources": {
+      "Game": 3,
+      "Metal": 2,
+      "Fruit": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 2,
+      "Forest": 4,
+      "Mountain": 2
+     }
+    },
+    {
+     "player": 3,
+     "tribe": "XinXi",
+     "ring8_resources": {
+      "Fish": 1,
+      "Metal": 2,
+      "Game": 1,
+      "Crop": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 8,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 2,
+      "Water": 2,
+      "Ocean": 1,
+      "Mountain": 2,
+      "Forest": 1
+     }
+    },
+    {
+     "player": 14,
+     "tribe": "Luxidoor",
+     "ring8_resources": {
+      "Fish": 2,
+      "Fruit": 2,
+      "Metal": 1,
+      "Crop": 1,
+      "Game": 2
+     },
+     "ring8_total": 8,
+     "ring24_total": 15,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 2,
+      "Field": 3,
+      "Mountain": 1,
+      "Forest": 2
+     }
+    },
+    {
+     "player": 5,
+     "tribe": "Yadakk",
+     "ring8_resources": {
+      "Fruit": 4,
+      "Game": 1,
+      "Metal": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Mountain": 2,
+      "Field": 4,
+      "Forest": 2
+     }
+    },
+    {
+     "player": 7,
+     "tribe": "Quetzali",
+     "ring8_resources": {
+      "Fruit": 5,
+      "AquaCrop": 1,
+      "Metal": 2
+     },
+     "ring8_total": 8,
+     "ring24_total": 13,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 5,
+      "Water": 1,
+      "Mountain": 2
+     }
+    },
+    {
+     "player": 16,
+     "tribe": "Aquarion",
+     "ring8_resources": {
+      "Fish": 2,
+      "Metal": 1,
+      "Fruit": 1,
+      "Game": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 14,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 2,
+      "Water": 2,
+      "Mountain": 2,
+      "Field": 2
+     }
+    },
+    {
+     "player": 4,
+     "tribe": "Kickoo",
+     "ring8_resources": {
+      "Crop": 1,
+      "Game": 2,
+      "AquaCrop": 1,
+      "Fish": 2,
+      "Fruit": 1
+     },
+     "ring8_total": 7,
+     "ring24_total": 10,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 2,
+      "Forest": 3,
+      "Water": 2,
+      "Ocean": 1
+     }
+    },
+    {
+     "player": 15,
+     "tribe": "Hoodrick",
+     "ring8_resources": {
+      "Game": 2,
+      "Metal": 2,
+      "Fruit": 1,
+      "Fish": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 3,
+      "Mountain": 2,
+      "Field": 2,
+      "Water": 1
+     }
+    },
+    {
+     "player": 11,
+     "tribe": "Vengir",
+     "ring8_resources": {
+      "Crop": 4,
+      "Metal": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 7,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 5,
+      "Mountain": 1,
+      "Forest": 1,
+      "Water": 1
+     }
+    },
+    {
+     "player": 2,
+     "tribe": "AiMo",
+     "ring8_resources": {
+      "Game": 2,
+      "Fruit": 1,
+      "Fish": 1,
+      "AquaCrop": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 9,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 2,
+      "Field": 3,
+      "Water": 3
+     }
+    }
+   ],
+   "villages_and_cities": 46,
+   "non_capital_settlements": 30,
+   "village_grid_slots": 100,
+   "ruins": 23,
+   "ruins_expected_table": 23,
+   "starfish": 18,
+   "starfish_expected_water_div_25": 17,
+   "lighthouses": 4,
+   "fish_rate_shallow_near_settlement": 0.264,
+   "P(fruit|Field,inner)": 0.43,
+   "share(fruit,inner_all_land)": 0.217,
+   "P(crop|Field,inner)": 0.244,
+   "share(crop,inner_all_land)": 0.124,
+   "P(animal|Forest,inner)": 0.516,
+   "share(animal,inner_all_land)": 0.184,
+   "P(metal|Mountain,inner)": 0.861,
+   "share(metal,inner_all_land)": 0.116,
+   "explored_tiles_per_player": {
+    "1": 25,
+    "9": 25,
+    "12": 25,
+    "6": 25,
+    "13": 25,
+    "8": 25,
+    "10": 25,
+    "3": 25,
+    "14": 25,
+    "5": 25,
+    "7": 25,
+    "16": 25,
+    "4": 25,
+    "15": 25,
+    "11": 25,
+    "2": 25
+   },
+   "players": [
+    {
+     "id": 1,
+     "tribe": "Elyrion"
+    },
+    {
+     "id": 9,
+     "tribe": "Cymanti"
+    },
+    {
+     "id": 12,
+     "tribe": "Imperius"
+    },
+    {
+     "id": 6,
+     "tribe": "Oumaji"
+    },
+    {
+     "id": 13,
+     "tribe": "Zebasi"
+    },
+    {
+     "id": 8,
+     "tribe": "Polaris"
+    },
+    {
+     "id": 10,
+     "tribe": "Bardur"
+    },
+    {
+     "id": 3,
+     "tribe": "XinXi"
+    },
+    {
+     "id": 14,
+     "tribe": "Luxidoor"
+    },
+    {
+     "id": 5,
+     "tribe": "Yadakk"
+    },
+    {
+     "id": 7,
+     "tribe": "Quetzali"
+    },
+    {
+     "id": 16,
+     "tribe": "Aquarion"
+    },
+    {
+     "id": 4,
+     "tribe": "Kickoo"
+    },
+    {
+     "id": 15,
+     "tribe": "Hoodrick"
+    },
+    {
+     "id": 11,
+     "tribe": "Vengir"
+    },
+    {
+     "id": 2,
+     "tribe": "AiMo"
+    }
+   ]
+  },
+  {
+   "source": "fb71de48-7ab4-4c1c-9f99-ac86a82fbd50.json",
+   "kind": "real .state (turn-0 map)",
+   "version": 123,
+   "size": 30,
+   "map_type": null,
+   "land_fraction": 0.156,
+   "terrain_counts": {
+    "Ocean": 568,
+    "Water": 192,
+    "Forest": 41,
+    "Field": 78,
+    "Mountain": 18,
+    "Ice": 3
+   },
+   "capitals": [
+    {
+     "player": 7,
+     "tribe": "Imperius",
+     "ring8_resources": {
+      "Fruit": 3,
+      "Game": 1,
+      "Metal": 1
+     },
+     "ring8_total": 5,
+     "ring24_total": 10,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 3,
+      "Forest": 4,
+      "Mountain": 1
+     }
+    },
+    {
+     "player": 3,
+     "tribe": "Quetzali",
+     "ring8_resources": {
+      "Game": 1,
+      "AquaCrop": 1,
+      "Fish": 3,
+      "Metal": 1,
+      "Fruit": 2
+     },
+     "ring8_total": 8,
+     "ring24_total": 9,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 1,
+      "Water": 3,
+      "Ocean": 1,
+      "Mountain": 1,
+      "Field": 2
+     }
+    },
+    {
+     "player": 2,
+     "tribe": "Yadakk",
+     "ring8_resources": {
+      "Game": 1,
+      "Crop": 1,
+      "Fruit": 3,
+      "AquaCrop": 2
+     },
+     "ring8_total": 7,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 1,
+      "Field": 4,
+      "Water": 3
+     }
+    },
+    {
+     "player": 14,
+     "tribe": "Kickoo",
+     "ring8_resources": {
+      "Fish": 5,
+      "AquaCrop": 2
+     },
+     "ring8_total": 7,
+     "ring24_total": 16,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Ocean": 2,
+      "Water": 5,
+      "Forest": 1
+     }
+    },
+    {
+     "player": 13,
+     "tribe": "Cymanti",
+     "ring8_resources": {
+      "Fish": 2,
+      "Spores": 2,
+      "Metal": 2,
+      "Fruit": 1
+     },
+     "ring8_total": 7,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 3,
+      "Field": 3,
+      "Mountain": 2
+     }
+    },
+    {
+     "player": 11,
+     "tribe": "Vengir",
+     "ring8_resources": {
+      "Metal": 1,
+      "Crop": 1,
+      "Game": 2
+     },
+     "ring8_total": 4,
+     "ring24_total": 8,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 3,
+      "Mountain": 1,
+      "Field": 1,
+      "Forest": 3
+     }
+    },
+    {
+     "player": 10,
+     "tribe": "Bardur",
+     "ring8_resources": {
+      "AquaCrop": 1,
+      "Game": 2,
+      "Fruit": 2,
+      "Metal": 2
+     },
+     "ring8_total": 7,
+     "ring24_total": 10,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 1,
+      "Forest": 3,
+      "Field": 2,
+      "Mountain": 2
+     }
+    },
+    {
+     "player": 6,
+     "tribe": "Oumaji",
+     "ring8_resources": {
+      "Crop": 1,
+      "Fruit": 2
+     },
+     "ring8_total": 3,
+     "ring24_total": 10,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 4,
+      "Ocean": 1,
+      "Field": 3
+     }
+    },
+    {
+     "player": 8,
+     "tribe": "Elyrion",
+     "ring8_resources": {
+      "Fish": 2,
+      "Game": 2,
+      "Fruit": 1,
+      "AquaCrop": 1
+     },
+     "ring8_total": 6,
+     "ring24_total": 15,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 3,
+      "Forest": 3,
+      "Mountain": 1,
+      "Field": 1
+     }
+    },
+    {
+     "player": 12,
+     "tribe": "Hoodrick",
+     "ring8_resources": {
+      "Fish": 1,
+      "Game": 2,
+      "Fruit": 2
+     },
+     "ring8_total": 5,
+     "ring24_total": 9,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 2,
+      "Forest": 3,
+      "Field": 3
+     }
+    },
+    {
+     "player": 9,
+     "tribe": "Luxidoor",
+     "ring8_resources": {
+      "Crop": 1,
+      "Game": 2,
+      "Fruit": 2,
+      "Metal": 1,
+      "Fish": 2
+     },
+     "ring8_total": 8,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Field": 3,
+      "Forest": 2,
+      "Mountain": 1,
+      "Water": 2
+     }
+    },
+    {
+     "player": 4,
+     "tribe": "Aquarion",
+     "ring8_resources": {
+      "AquaCrop": 2,
+      "Metal": 2,
+      "Fish": 2,
+      "Crop": 1
+     },
+     "ring8_total": 7,
+     "ring24_total": 8,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 4,
+      "Mountain": 2,
+      "Forest": 1,
+      "Field": 1
+     }
+    },
+    {
+     "player": 15,
+     "tribe": "AiMo",
+     "ring8_resources": {
+      "AquaCrop": 1,
+      "Fish": 3,
+      "Game": 2
+     },
+     "ring8_total": 6,
+     "ring24_total": 10,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 5,
+      "Ocean": 1,
+      "Forest": 2
+     }
+    },
+    {
+     "player": 16,
+     "tribe": "Polaris",
+     "ring8_resources": {
+      "Fish": 2,
+      "AquaCrop": 1,
+      "Game": 2,
+      "Fruit": 2
+     },
+     "ring8_total": 7,
+     "ring24_total": 12,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Ice": 3,
+      "Forest": 2,
+      "Field": 3
+     }
+    },
+    {
+     "player": 1,
+     "tribe": "XinXi",
+     "ring8_resources": {
+      "Fish": 5,
+      "Metal": 2
+     },
+     "ring8_total": 7,
+     "ring24_total": 14,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 5,
+      "Mountain": 2,
+      "Ocean": 1
+     }
+    },
+    {
+     "player": 5,
+     "tribe": "Zebasi",
+     "ring8_resources": {
+      "AquaCrop": 3,
+      "Crop": 2,
+      "Fish": 2
+     },
+     "ring8_total": 7,
+     "ring24_total": 13,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Water": 5,
+      "Field": 2,
+      "Ocean": 1
+     }
+    }
+   ],
+   "villages_and_cities": 25,
+   "non_capital_settlements": 9,
+   "village_grid_slots": 100,
+   "ruins": 23,
+   "ruins_expected_table": 23,
+   "starfish": 30,
+   "starfish_expected_water_div_25": 30,
+   "lighthouses": 4,
+   "fish_rate_shallow_near_settlement": 0.265,
+   "P(fruit|Field,inner)": 0.558,
+   "share(fruit,inner_all_land)": 0.261,
+   "P(crop|Field,inner)": 0.279,
+   "share(crop,inner_all_land)": 0.13,
+   "P(animal|Forest,inner)": 0.6,
+   "share(animal,inner_all_land)": 0.196,
+   "P(metal|Mountain,inner)": 0.938,
+   "share(metal,inner_all_land)": 0.163,
+   "explored_tiles_per_player": {
+    "7": 25,
+    "3": 25,
+    "2": 25,
+    "14": 25,
+    "13": 25,
+    "11": 25,
+    "10": 25,
+    "6": 25,
+    "8": 25,
+    "12": 25,
+    "9": 25,
+    "4": 25,
+    "15": 25,
+    "16": 25,
+    "1": 25,
+    "5": 25
+   },
+   "players": [
+    {
+     "id": 7,
+     "tribe": "Imperius"
+    },
+    {
+     "id": 3,
+     "tribe": "Quetzali"
+    },
+    {
+     "id": 2,
+     "tribe": "Yadakk"
+    },
+    {
+     "id": 14,
+     "tribe": "Kickoo"
+    },
+    {
+     "id": 13,
+     "tribe": "Cymanti"
+    },
+    {
+     "id": 11,
+     "tribe": "Vengir"
+    },
+    {
+     "id": 10,
+     "tribe": "Bardur"
+    },
+    {
+     "id": 6,
+     "tribe": "Oumaji"
+    },
+    {
+     "id": 8,
+     "tribe": "Elyrion"
+    },
+    {
+     "id": 12,
+     "tribe": "Hoodrick"
+    },
+    {
+     "id": 9,
+     "tribe": "Luxidoor"
+    },
+    {
+     "id": 4,
+     "tribe": "Aquarion"
+    },
+    {
+     "id": 15,
+     "tribe": "AiMo"
+    },
+    {
+     "id": 16,
+     "tribe": "Polaris"
+    },
+    {
+     "id": 1,
+     "tribe": "XinXi"
+    },
+    {
+     "id": 5,
+     "tribe": "Zebasi"
+    }
+   ]
+  }
+ ],
+ "pooled": {
+  "games": 27,
+  "capitals": 324,
+  "ring8_total_mean": 5.79,
+  "share_with_2_identical": 0.98,
+  "verdict_C23": "wiki-shares reading (~5)",
+  "land_fraction_by_map_type": {
+   "null": 0.582
+  }
+ }
+}

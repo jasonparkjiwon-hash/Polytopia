@@ -1,0 +1,208 @@
+src/content/settlements/City.cpp (file, 1863 bytes)
+Content:
+#include "City.h"
+
+#include <algorithm>
+
+// City is currently a data-only type with inline accessors in City.h.
+// Keep this translation unit for future non-inline logic (constructors, helpers, etc.).
+
+void City::addUnit(UnitId id) {
+    if (id == kNoUnit) return;
+
+
+    // Avoid duplicates.
+    if (std::find(units.begin(), units.end(), id) != units.end()) return;
+
+    units.push_back(id);
+}
+
+void City::removeUnit(UnitId id) {
+    if (id == kNoUnit) return;
+    auto it = std::remove(units.begin(), units.end(), id);
+    if (it != units.end()) {
+        units.erase(it, units.end());
+    }
+}
+
+uint8_t City::populationNeededToLevelUp() const {
+    return getLevel()+1;
+
+}
+
+bool City::levelUp() {
+    uint8_t level = getLevel();
+    uint8_t population = getPopulation();
+    uint8_t populationNeeded = populationNeededToLevelUp();
+
+    if (population < populationNeeded) {
+        return false;
+    }
+
+    setPopulation(population-populationNeeded);
+    setLevel(level+1);
+    return true;
+}
+
+
+uint8_t City::maxUnitCapacity() const {
+    return getLevel()+1;
+}
+
+uint8_t City::getUnitsCount() const {
+    return units.size();
+}
+
+uint8_t City::getStarsPerRound() const {
+    int perRound = static_cast<int>(getLevel()) + static_cast<int>(starsPerRound);
+    if (isCapitalCity()) {
+        perRound += 1;
+    }
+    if (hasWorkshopEnabled()) {
+        perRound += 1;
+    }
+    perRound += static_cast<int>(parkCount);
+
+    // Every point of negative population removes one star from normal city
+    // income. Separate sources such as Markets are calculated elsewhere.
+    perRound += std::min(0, static_cast<int>(getPopulation()));
+    return static_cast<uint8_t>(std::clamp(perRound, 0, 255));
+}
+
+bool City::addPopulation(uint16_t v) {
+    population += v;
+
+    if (population >= populationNeededToLevelUp()) {
+        return levelUp();
+    }
+
+
+    return true;
+}
+
+---
+src/content/settlements/City.h (file, 2094 bytes)
+Content:
+#ifndef GAME_ENGINE_CITY_H
+#define GAME_ENGINE_CITY_H
+
+#include <cstdint>
+#include <string>
+#include <vector>
+
+#include "Settlement.h"
+#include "core/Ids.h"
+
+
+class City : public Settlement {
+public:
+    CityId getCityId() const { return cityId; }
+    uint8_t getLevel() const { return level; }
+    int16_t getPopulation() const { return population; }
+    uint8_t getStarsPerRound() const;
+    uint8_t getOwnerId() const { return ownerId; }
+    uint8_t populationNeededToLevelUp() const ;
+
+    bool getIsCapital() const { return isCapital; }
+    bool getIsInfiltrated() const { return isInfiltrated; }
+
+    const std::string& getName() const { return name; }
+    bool hasCityWallEnabled() const { return hasCityWall; }
+    bool hasWorkshopEnabled() const { return hasWorkshop; }
+    bool isCapitalCity() const { return isCapital; }
+    void setCapital(bool v) { isCapital = v; }
+
+    void setIsInfiltrated(bool v) { isInfiltrated=v; }
+    // Buildings / upgrades toggles
+    void setCityWallEnabled(bool v) { hasCityWall = v; }
+    void setWorkshopEnabled(bool v) { hasWorkshop = v; }
+
+
+
+    void setOwnerId(uint8_t v) { ownerId = v; }
+    void setName(const std::string& n) { name = n; }
+
+    void setCityId(CityId id) { cityId = id; }
+    void setLevel(uint8_t v) { level = v; }
+    void setPopulation(int16_t v) { population = v; }
+    void setStarsPerRound(uint8_t v) { starsPerRound = v; }
+
+    void addUnit(UnitId id);
+    void removeUnit(UnitId id);
+
+
+    bool addPopulation(uint16_t v);
+
+    uint8_t maxUnitCapacity() const;
+    uint8_t getUnitsCount() const;
+
+    uint8_t getParkCount() const{return parkCount;};
+    void setParkCount(uint8_t v) { parkCount=v;};
+    void addParkCount() { parkCount++;};
+
+
+private:
+    CityId cityId = kNoCity;
+    uint8_t ownerId = 0;
+    uint8_t level = 1;
+    int16_t population = 0;
+    uint8_t starsPerRound = 0;
+    uint8_t parkCount = 0;
+
+    bool isCapital = false;
+    bool isInfiltrated=false;
+
+    bool hasCityWall = false;
+    bool hasWorkshop = false;
+
+    std::vector<UnitId> units;
+
+
+    std::string name;
+    bool levelUp();
+};
+
+#endif
+
+---
+src/content/settlements/Settlement.cpp (file, 194 bytes)
+Content:
+//
+// Created by Fryderyk Niedzwiecki on 13/01/2026.
+//
+
+#include "Settlement.h"
+
+
+
+
+Pos Settlement::getPos() const {
+    return pos;
+}
+
+SettlementId Settlement::getId() const {
+    return id;
+}
+---
+src/content/settlements/Settlement.h (file, 358 bytes)
+Content:
+#ifndef GAME_ENGINE_SETTLEMENT_H
+#define GAME_ENGINE_SETTLEMENT_H
+
+#include "Pos.h"
+#include "terrain/SettlementId.h"
+
+class Settlement {
+public:
+    SettlementId getId() const ;
+    Pos getPos() const ;
+
+    void setId(SettlementId v) { id = v; }
+    void setPos(Pos p) { pos = p; }
+
+protected:
+    Pos pos{};
+    SettlementId id = kNoSettlement;
+};
+
+#endif

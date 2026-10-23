@@ -1,0 +1,92 @@
+[
+ {
+  "type": "continents",
+  "real": {
+   "land": 0.468,
+   "settlements": 50,
+   "ring8": 6,
+   "starfish": 17
+  },
+  "wiki_gen": {
+   "land": 0.465,
+   "settlements": 58.3,
+   "ring8": 5.47,
+   "starfish": 19
+  }
+ },
+ {
+  "type": "waterworld",
+  "real": {
+   "land": 0.151,
+   "settlements": 23,
+   "ring8": 5.62,
+   "starfish": 29
+  },
+  "wiki_gen": {
+   "land": 0.15,
+   "settlements": 24,
+   "ring8": 5.27,
+   "starfish": 30
+  }
+ },
+ {
+  "type": "archipelago",
+  "real": {
+   "land": 0.399,
+   "settlements": 59,
+   "ring8": 5.25,
+   "starfish": 21
+  },
+  "wiki_gen": {
+   "land": 0.396,
+   "settlements": 57.7,
+   "ring8": 5.36,
+   "starfish": 21
+  }
+ },
+ {
+  "type": "lakes",
+  "real": {
+   "land": 0.733,
+   "settlements": 65,
+   "ring8": 5.75,
+   "starfish": 11
+  },
+  "wiki_gen": {
+   "land": 0.73,
+   "settlements": 59.9,
+   "ring8": 5.47,
+   "starfish": 9
+  }
+ },
+ {
+  "type": "pangea",
+  "real": {
+   "land": 0.513,
+   "settlements": 50,
+   "ring8": 5.69,
+   "starfish": 17
+  },
+  "wiki_gen": {
+   "land": 0.51,
+   "settlements": 58.5,
+   "ring8": 5.46,
+   "starfish": 17
+  }
+ },
+ {
+  "type": "drylands",
+  "real": {
+   "land": 0.996,
+   "settlements": 70,
+   "ring8": 5.88,
+   "starfish": 0
+  },
+  "wiki_gen": {
+   "land": 1.0,
+   "settlements": 65.2,
+   "ring8": 5.45,
+   "starfish": 0
+  }
+ }
+]

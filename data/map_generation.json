@@ -1,0 +1,415 @@
+{
+ "_about": "Everything needed to simulate/estimate a freshly generated map. Square grid, Chebyshev distance, coordinates (x,y), index = y*size+x. Tile counts are size*size.",
+ "map_sizes": {
+  "v": {
+   "tiny": 11,
+   "small": 14,
+   "normal": 16,
+   "large": 18,
+   "huge": 20,
+   "massive": 30
+  },
+  "src": "WK",
+  "conf": "high",
+  "note": "Perfection=normal 16x16; Domination: 1 opp tiny, 2 small, 3 normal, 4+ large. Tiny supports <=9 players, others <=16."
+ },
+ "map_types": {
+  "implemented_in_PE": [
+   "lakes",
+   "drylands",
+   "waterworld"
+  ],
+  "named_in_WK": [
+   "drylands",
+   "lakes",
+   "continents",
+   "pangea",
+   "archipelago",
+   "water_world"
+  ],
+  "note": "PE implements only 3 of the 6 wiki types; continents/pangea/archipelago pipelines are UNKNOWN (gap G1)."
+ },
+ "capital_placement": {
+  "sector_grid": {
+   "v": "ceil(sqrt(players)) per side  ->  1-4 players: 2x2 (4 domains), 5-9: 3x3 (9), 10-16: 4x4 (16)",
+   "src": "PE+WK",
+   "conf": "high",
+   "note": "PE formula and wiki table agree exactly."
+  },
+  "sector_assignment": {
+   "v": "players are assigned to a uniformly random permutation of the sector cells (extra sectors stay empty)",
+   "src": "PE",
+   "conf": "med"
+  },
+  "base_span": {
+   "v": "size // grid ; leftover = size - base_span*grid is distributed as origin offsets: origin(c)=c*base_span + min(leftover, max(1, min(leftover,c)-1))",
+   "src": "PE",
+   "conf": "med",
+   "note": "Wiki: 11x11 -> 5x5 domains, 14x14 -> 7x7 (both agree)"
+  },
+  "eligible_cells": {
+   "v": "inner margin = 2 if base_span>4 else 1; x,y in [max(2,origin+margin), min(size-2, origin+span-margin)) ; wiki: capitals never within 2 tiles of a domain border",
+   "src": "PE+WK",
+   "conf": "med"
+  },
+  "cell_weight": {
+   "v": "weight = max over ALL sector centres of max(1, base_span//2 - chebyshev(cell, centre))^3  (cubic pull towards a sector centre)",
+   "src": "PE",
+   "conf": "med",
+   "note": "Wiki only says 'random within domain'. Cubic weighting is PE's reading of the reference generator."
+  },
+  "capital_guarantees": {
+   "v": "capital tile = City + Road. The 4 orthogonal neighbours of every capital are forced to Land.",
+   "src": "PE",
+   "conf": "med"
+  }
+ },
+ "villages": {
+  "spacing": {
+   "v": "a village/suburb must be >2 (Chebyshev) from every city/village/capital, i.e. >=3 apart; never on map edge; <=1 per 3x3 area",
+   "src": "PE+WK",
+   "conf": "high"
+  },
+  "suburbs": {
+   "v": {
+    "per_capital_min": 1,
+    "per_capital_max": 2,
+    "radius": 4,
+    "map_types": [
+     "lakes (PE) ; wiki: all except drylands & water world"
+    ]
+   },
+   "src": "PE+WK",
+   "conf": "med",
+   "note": "Suburbs are villages placed close to a capital: PE draws candidates in the 9x9 square around it. Wiki says 'all map types except Drylands and Water World' (so also continents etc.)"
+  },
+  "grid_slots": {
+   "v": "(size // 3)^2  (integer division first)",
+   "src": "PE",
+   "conf": "med"
+  },
+  "pre_terrain_count": {
+   "v": "floor((grid_slots - capitals - suburbs) * density) ; density lakes=0.30, waterworld=0.10, drylands=0.0",
+   "src": "PE+WK",
+   "conf": "high",
+   "note": "Wiki: ~30% of theoretical max placed before terrain (10% water world, 0% drylands)."
+  },
+  "post_terrain_target": {
+   "v": "PE: tries grid_slots - capitals - pre_terrain villages, placing on LAND cells with x,y in [2,size-3] and >2 from every city; stops when no candidate. WIKI: 'about 60% after terrain' (80% drylands).",
+   "src": "PE vs WK",
+   "conf": "low",
+   "cid": "C9",
+   "note": "Real post-terrain village count is therefore uncertain. Empirically count villages in real games to fix this."
+  }
+ },
+ "terrain": {
+  "lakes": {
+   "land_locked": "capitals, suburbs, pre-terrain villages and the 4 neighbours of each capital are forced land",
+   "field": "uniform random noise, locked-land cells = 1.0, outside the map counts as 1.0 (dry edges), 2 passes of 3x3 mean smoothing",
+   "water_fraction": {
+    "v": "water tiles = randint(ceil(0.25*N), floor(0.28*N)) lowest-field unlocked cells",
+    "src": "PE",
+    "conf": "low",
+    "note": "0.25/0.28 are PE's tuned constants ('kLakesMinWaterFraction' etc.), not wiki facts."
+   }
+  },
+  "waterworld": {
+   "water_fraction": {
+    "v": 0.85,
+    "src": "PE",
+    "conf": "low"
+   },
+   "smoothing_passes": 2,
+   "outside_noise_value": 0.5,
+   "note": "Corners are NOT forced to land in water world (PE)."
+  },
+  "drylands": {
+   "water": "none, except 2 fish water tiles beside Kickoo/Aquarion capitals",
+   "src": "PE+WK",
+   "conf": "high"
+  },
+  "shallow_vs_ocean": {
+   "v": "a water tile edge-adjacent (4-neighbour) to land/forest/mountain is 'shallow Water'; every other water tile is deep 'Ocean'. Diagonal-only contact = ocean.",
+   "src": "PE+WK",
+   "conf": "high"
+  },
+  "corners": {
+   "v": "In non-waterworld maps the four corner tiles are forced Land with no resource/settlement; they are the 4 LIGHTHOUSE tiles.",
+   "src": "PE",
+   "conf": "med"
+  }
+ },
+ "biome_assignment": {
+  "method": {
+   "v": "each capital claims land by alternating 4-directional border growth in a freshly shuffled player order each round; each claim picks a uniformly random tile among the claimant's whole current frontier. Disconnected land goes to the nearest capital by Chebyshev distance.",
+   "src": "PE",
+   "conf": "med",
+   "note": "Wiki: 'neighbouring tribes can influence capital terrain on 121-tile maps'."
+  },
+  "base_shares": {
+   "v": {
+    "mountain": 0.14,
+    "forest": 0.38,
+    "field": 0.48
+   },
+   "src": "WK+PE",
+   "conf": "high",
+   "note": "Enforced as exact shares since update 2.0.58 per wiki (PE draws i.i.d., so counts are only approximate)."
+  },
+  "modifier_rule": {
+   "v": "mountain = 0.14*mod_m ; forest_before = 0.38 + (0.14-mountain)*(0.38/0.86) ; forest = min(forest_before*mod_f, 1-mountain) ; field = remainder",
+   "src": "PE+WK",
+   "conf": "high",
+   "note": "Wiki: mountains applied first (affect forest+field), forest next (affects only field)."
+  },
+  "settlement_tiles_keep_land": true
+ },
+ "resources": {
+  "area": {
+   "v": "resources appear only within Chebyshev distance 2 of ANY city/village/capital; 'inner' = distance 1 (the 8 tiles around it)",
+   "src": "PE+WK",
+   "conf": "high"
+  },
+  "rates": {
+   "inner": {
+    "fruit_on_field": 0.18,
+    "crop_on_field": 0.18,
+    "empty_field": 0.12,
+    "animal_in_forest": 0.19,
+    "empty_forest": 0.19,
+    "metal_in_mountain": 0.11,
+    "empty_mountain": 0.03
+   },
+   "outer": {
+    "fruit_on_field": 0.06,
+    "crop_on_field": 0.06,
+    "empty_field": 0.36,
+    "animal_in_forest": 0.06,
+    "empty_forest": 0.32,
+    "metal_in_mountain": 0.03,
+    "empty_mountain": 0.11
+   },
+   "src": "WK+PE",
+   "conf": "med",
+   "cid": "C23",
+   "note": "NUMBERS agree between wiki and PE, INTERPRETATION does not. PE reads them as P(resource | terrain), e.g. P(fruit|field,inner)=0.18. The wiki rows sum to the terrain total (18+18+12=48), i.e. they are shares of ALL tiles, which implies P(fruit|field,inner)=0.375. Expected resources in the 8-tile inner ring: PE ~2.1, wiki reading ~5.3. Settle with C23 test before trusting either. Multiply by tribe modifiers (fruit, crops, animals, metal)."
+  },
+  "fish": {
+   "shallow": {
+    "v": "0.50 * tribe_fish_mod, only inside the resource area",
+    "src": "WK+PE",
+    "conf": "high"
+   },
+   "ocean": {
+    "v": "0.10 * tribe_fish_mod inside the resource area",
+    "src": "PE",
+    "conf": "low",
+    "note": "PE: 'public docs do not define a numeric ocean rate' - 0.10 is a tuned guess. Wiki says fish can appear in ocean inside borders."
+   },
+   "water_tile_tribe": "water has no tribe; PE uses the nearest generated land biome's tribe for the fish modifier"
+  },
+  "excluded": "corner tiles and tiles that hold a settlement get no resource",
+  "visibility_gates": {
+   "v": {
+    "crop": "Organization (or Farming)",
+    "metal": "Climbing",
+    "starfish": "Fishing (WK) | Sailing (PE docs)"
+   },
+   "src": "WK",
+   "conf": "med",
+   "cid": "C8"
+  },
+  "capital_guarantee": {
+   "PE_implements": {
+    "Bardur": "2 animals in forest within ring 1",
+    "Imperius": "2 fruit on land",
+    "Kickoo": "2 fish on shallow water",
+    "Zebasi": "1 crop"
+   },
+   "WK_says": "EVERY capital has >=2 identical resources within its ring: Xin-xi 2 metal, Oumaji 2 fruit, Hoodrick 2 animals; Bardur/Imperius/Kickoo/Zebasi/Elyrion/Cymanti tied to their start tech; all others 2 of a random tier-1 resource (fish, animal or fruit). Missing ones are force-spawned by replacing tiles.",
+   "cid": "C10",
+   "conf": "med",
+   "use_for_fog": "STRONG PRIOR: the 3x3 ring around an unseen enemy capital contains >=2 of the same resource; for most tribes the type is known."
+  }
+ },
+ "tribe_modifiers": {
+  "_note": "Missing key = 1.0. fish/animals/fruit/crops/metal multiply the resource rates; forest/mountain feed biome_assignment.modifier_rule.",
+  "Kickoo": {
+   "v": {
+    "fish": 1.5,
+    "mountain": 0.5
+   },
+   "src": "PE+WK",
+   "conf": "high",
+   "note": "WK also lists 2.0x water, but water mods are NOT applied by the game (WK)."
+  },
+  "Aquarion": {
+   "v": {
+    "forest": 0.5
+   },
+   "src": "PE+WK",
+   "conf": "high",
+   "note": "WK: 1.5x water exists in code but has no effect."
+  },
+  "Bardur": {
+   "v": {
+    "forest": 0.8,
+    "crops": 0.0
+   },
+   "src": "PE",
+   "conf": "low",
+   "cid": "C11",
+   "note": "WK instead says '1.5x fruit, 0x crop'. Unresolved."
+  },
+  "XinXi": {
+   "v": {
+    "mountain": 1.5,
+    "metal": 1.5
+   },
+   "src": "PE+WK",
+   "conf": "high"
+  },
+  "AiMo": {
+   "v": {
+    "mountain": 1.5,
+    "crops": 0.1
+   },
+   "src": "PE+WK",
+   "conf": "high"
+  },
+  "Oumaji": {
+   "v": {
+    "forest": 0.2,
+    "mountain": 0.5,
+    "animals": 0.2
+   },
+   "src": "PE+WK",
+   "conf": "high",
+   "note": "WK also 0.5x water (not applied)."
+  },
+  "Vengir": {
+   "v": {
+    "metal": 2.0,
+    "animals": 0.1,
+    "fruit": 0.1,
+    "fish": 0.1
+   },
+   "src": "PE+WK",
+   "conf": "high"
+  },
+  "Imperius": {
+   "v": {
+    "fruit": 2.0,
+    "animals": 0.5
+   },
+   "src": "PE+WK",
+   "conf": "high"
+  },
+  "Hoodrick": {
+   "v": {
+    "forest": 1.5,
+    "mountain": 0.5
+   },
+   "src": "PE+WK",
+   "conf": "high"
+  },
+  "Zebasi": {
+   "v": {
+    "forest": 0.5,
+    "mountain": 0.5,
+    "fruit": 0.5
+   },
+   "src": "PE+WK",
+   "conf": "high"
+  },
+  "Quetzali": {
+   "v": {
+    "fruit": 2.0,
+    "crops": 0.1
+   },
+   "src": "PE+WK",
+   "conf": "high"
+  },
+  "Yadakk": {
+   "v": {
+    "forest": 0.5,
+    "mountain": 0.5,
+    "fruit": 1.5
+   },
+   "src": "PE+WK",
+   "conf": "high"
+  },
+  "Luxidoor": {
+   "v": {},
+   "src": "PE+WK",
+   "conf": "med",
+   "note": "WK table: base rate. (Luxidoor page: '++fruit, -game' - unquantified, ignored.)"
+  },
+  "Elyrion": {
+   "v": {
+    "mountain": 0.5,
+    "crops": 1.5
+   },
+   "src": "WK",
+   "conf": "low",
+   "note": "PE has NO modifiers for Elyrion."
+  },
+  "Polaris": {
+   "v": {},
+   "src": "WK",
+   "conf": "low",
+   "note": "WK: no own rates; land converts to Polaris terrain; mirror/mixed uses Imperius land."
+  },
+  "Cymanti": {
+   "v": {
+    "mountain": 1.2,
+    "crops": 0.0,
+    "spores": "replaces crops (rate unknown)"
+   },
+   "src": "WK",
+   "conf": "low",
+   "note": "PE has no modifiers for Cymanti."
+  }
+ },
+ "ruins": {
+  "count_by_tiles": {
+   "v": {
+    "121": 4,
+    "196": 5,
+    "256": 7,
+    "324": 9,
+    "400": 11,
+    "900": 23
+   },
+   "src": "PE",
+   "conf": "med",
+   "note": "Formula for other sizes: round(tiles*23/900). Wiki page gave no counts."
+  },
+  "placement": {
+   "v": "random non-corner tile with no settlement; PE requires no settlement within Chebyshev 2",
+   "src": "PE",
+   "conf": "med"
+  },
+  "wiki_rule": "WK: cannot spawn on shallow water, nor next to a village, city or another ruin."
+ },
+ "starfish": {
+  "count": {
+   "v": "floor(water_tiles / 25)",
+   "src": "PE",
+   "conf": "med"
+  },
+  "placement": "non-corner water tile with no resource and no settlement in its 3x3",
+  "reward_stars": {
+   "v": 8,
+   "src": "PE",
+   "conf": "med",
+   "note": "collected when a unit enters the tile"
+  },
+  "wiki_flag": "WK marks 'no adjacent starfish' as possibly incorrect"
+ },
+ "known_version_notes": [
+  "2.0.58 (Balance Pass 2): terrain percentages followed as exactly as possible.",
+  "Water rules pre-date Path of the Ocean update and may be outdated (WK).",
+  "Kickoo/Aquarion 'continents' 40%/30% water replacement is bugged and does nothing (WK)."
+ ]
+}

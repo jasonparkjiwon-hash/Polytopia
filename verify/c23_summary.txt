@@ -1,0 +1,17 @@
+tribe                    PE              WIKI          POLYFISH   (mean full ring / mean visible on turn 1)
+XinXi           2.64 / 2.17       5.37 / 4.42       2.61 / 2.16
+Imperius        3.99 / 3.90       5.19 / 4.55       3.98 / 3.90
+Bardur          3.97 / 3.88       4.60 / 3.97       3.96 / 3.87
+Oumaji          2.94 / 2.01       5.23 / 3.07       2.93 / 2.02
+Kickoo          3.88 / 3.31       5.51 / 4.06       3.82 / 3.22
+Hoodrick        2.48 / 2.10       4.75 / 3.75       3.84 / 3.47
+Luxidoor        2.63 / 2.04       5.11 / 3.44       2.60 / 2.02
+Vengir          0.88 / 0.38       3.22 / 2.19       0.88 / 0.38
+Zebasi          3.80 / 3.76       4.61 / 4.29       3.80 / 3.75
+AiMo            2.14 / 1.97       4.43 / 3.38       2.15 / 1.97
+Quetzali        2.67 / 2.53       5.13 / 4.39       3.74 / 3.60
+Yadakk          3.26 / 2.47       5.97 / 4.08       4.23 / 3.43
+Elyrion         2.95 / 2.11       5.51 / 3.51       4.50 / 3.66
+Aquarion        2.80 / 2.02       5.31 / 3.24       3.77 / 2.99
+Cymanti         2.60 / 2.50       5.14 / 4.39       4.14 / 4.03
+if PE is true: median 8 capitals (90th pct 23) to decide from full counts; correct verdict 91%

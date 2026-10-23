@@ -1,0 +1,101 @@
+{
+ "per_game": [
+  {
+   "source": "saved_state.json",
+   "kind": "Polyfish JSON (current map, turn 11)",
+   "version": 115,
+   "size": 14,
+   "map_type": "Lakes",
+   "land_fraction": 0.75,
+   "terrain_counts": {
+    "Field": 77,
+    "Forest": 44,
+    "Water": 34,
+    "Mountain": 26,
+    "Ocean": 15
+   },
+   "capitals": [
+    {
+     "player": 2,
+     "tribe": "AiMo",
+     "ring8_resources": {
+      "Crop": 1,
+      "Fish": 1,
+      "Fruit": 1
+     },
+     "ring8_total": 3,
+     "ring24_total": 8,
+     "has_2_identical": false,
+     "ring8_terrain": {
+      "Field": 6,
+      "Forest": 1,
+      "Water": 1
+     }
+    },
+    {
+     "player": 1,
+     "tribe": "Cymanti",
+     "ring8_resources": {
+      "Game": 2,
+      "Spores": 2,
+      "Metal": 3,
+      "Fruit": 1
+     },
+     "ring8_total": 8,
+     "ring24_total": 13,
+     "has_2_identical": true,
+     "ring8_terrain": {
+      "Forest": 2,
+      "Field": 3,
+      "Mountain": 3
+     }
+    }
+   ],
+   "villages_and_cities": 9,
+   "non_capital_settlements": 7,
+   "village_grid_slots": 16,
+   "ruins": 5,
+   "ruins_expected_table": 5,
+   "starfish": 3,
+   "starfish_expected_water_div_25": 1,
+   "lighthouses": 4,
+   "fish_rate_shallow_near_settlement": 0.321,
+   "P(fruit|Field,inner)": 0.31,
+   "share(fruit,inner_all_land)": 0.153,
+   "P(crop|Field,inner)": 0.069,
+   "share(crop,inner_all_land)": 0.034,
+   "P(animal|Forest,inner)": 0.278,
+   "share(animal,inner_all_land)": 0.085,
+   "P(metal|Mountain,inner)": 0.75,
+   "share(metal,inner_all_land)": 0.153,
+   "explored_tiles_per_player": {
+    "1": 115,
+    "2": 112
+   },
+   "players": [
+    {
+     "id": 1,
+     "tribe": "Cymanti",
+     "stars": 17,
+     "score": 2395
+    },
+    {
+     "id": 2,
+     "tribe": "AiMo",
+     "stars": 11,
+     "score": 2865
+    }
+   ]
+  }
+ ],
+ "pooled": {
+  "games": 1,
+  "capitals": 2,
+  "ring8_total_mean": 5.5,
+  "share_with_2_identical": 0.5,
+  "verdict_C23": "wiki-shares reading (~5)",
+  "land_fraction_by_map_type": {
+   "Lakes": 0.75
+  }
+ }
+}

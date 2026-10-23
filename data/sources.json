@@ -1,0 +1,42 @@
+{
+ "PE": {
+  "name": "PolyEnv engine source (FryOne2137, MIT, C++, Jan-Feb 2026)",
+  "kind": "code",
+  "reliability": "med-high",
+  "note": "A fan RE-IMPLEMENTATION written against the wiki. Good for exact constants and edge cases, but it is not the game's own code: it contains tuned values, stubs and deliberate deviations."
+ },
+ "WK": {
+  "name": "Polytopia fandom wiki (pages: Map Generation, Technology, Combat, Score, Tribes, tribe pages, Ruins, Singleplayer)",
+  "kind": "community docs",
+  "reliability": "med",
+  "note": "Partly Discord-sourced; individual pages disagree with each other (see C1/C2). Map Generation page says domain behaviour verified in v2.0.49 and terrain % enforced since 2.0.58."
+ },
+ "SC": {
+  "name": "Polytopia fandom wiki - Score page (incl. starting-score table)",
+  "kind": "community docs",
+  "reliability": "med-high",
+  "note": "Numbers are checkable by arithmetic (see validate_dataset.py), which raises trust."
+ },
+ "DEV": {
+  "name": "Polytopia staff (Zoythrus) Steam comment on difficulty, ~2019",
+  "kind": "developer statement",
+  "reliability": "high but old"
+ },
+ "DER": {
+  "name": "Derived here by arithmetic from other facts",
+  "kind": "derived",
+  "reliability": "see conf"
+ },
+ "GA": {
+  "name": "GAIGResearch/Tribes (Java, 2019-2021)",
+  "kind": "code",
+  "reliability": "old ruleset",
+  "note": "README only retrieved; numeric tables (terrainProbs.json) NOT retrieved. Do not use for current numbers."
+ },
+ "OLD": {
+  "name": "pocketgamer 2018 article; community python generator; namu.moe mirror",
+  "kind": "old/low",
+  "reliability": "low",
+  "note": "Pre-Moonrise or unverifiable. Used only as tie-breakers, never as primary."
+ }
+}

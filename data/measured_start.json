@@ -1,0 +1,479 @@
+{
+ "AiMo": {
+  "n": 20,
+  "stars": {
+   "5": 20
+  },
+  "score": {
+   "430": 20
+  },
+  "unit": {
+   "MindBender": 20
+  },
+  "capital_level": {
+   "1": 20
+  },
+  "human": {
+   "5/430": 2
+  },
+  "after_match_start": {
+   "techs": [
+    "Basic",
+    "Philosophy"
+   ],
+   "stars": 5,
+   "score_mode": 730,
+   "all": {
+    "Basic,Philosophy | 5 | 730": 21
+   }
+  }
+ },
+ "Aquarion": {
+  "n": 22,
+  "stars": {
+   "5": 22
+  },
+  "score": {
+   "415": 22
+  },
+  "unit": {
+   "null": 22
+  },
+  "capital_level": {
+   "1": 22
+  },
+  "human": {
+   "5/415": 3
+  },
+  "after_match_start": {
+   "techs": [
+    "Basic",
+    "45"
+   ],
+   "stars": 5,
+   "score_mode": 415,
+   "all": {
+    "Basic,45 | 5 | 415": 23
+   }
+  }
+ },
+ "Bardur": {
+  "n": 21,
+  "stars": {
+   "5": 21
+  },
+  "score": {
+   "415": 20,
+   "410": 1
+  },
+  "unit": {
+   "Warrior": 21
+  },
+  "capital_level": {
+   "1": 21
+  },
+  "human": {
+   "5/415": 1
+  },
+  "after_match_start": {
+   "techs": [
+    "Basic",
+    "Hunting"
+   ],
+   "stars": 5,
+   "score_mode": 515,
+   "all": {
+    "Basic,Hunting | 5 | 515": 21,
+    "Basic,Hunting | 5 | 510": 1
+   }
+  }
+ },
+ "Cymanti": {
+  "n": 21,
+  "stars": {
+   "5": 21
+  },
+  "score": {
+   "430": 21
+  },
+  "unit": {
+   "Shaman": 21
+  },
+  "capital_level": {
+   "1": 21
+  },
+  "human": {
+   "5/430": 1
+  },
+  "after_match_start": {
+   "techs": [
+    "Basic",
+    "Farming"
+   ],
+   "stars": 5,
+   "score_mode": 630,
+   "all": {
+    "Basic,Farming | 5 | 630": 22
+   }
+  }
+ },
+ "Elyrion": {
+  "n": 20,
+  "stars": {
+   "5": 20
+  },
+  "score": {
+   "415": 20
+  },
+  "unit": {
+   "Warrior": 20
+  },
+  "capital_level": {
+   "1": 20
+  },
+  "human": {
+   "5/415": 1
+  },
+  "after_match_start": {
+   "techs": [
+    "Basic",
+    "ForestMagic"
+   ],
+   "stars": 5,
+   "score_mode": 515,
+   "all": {
+    "Basic,ForestMagic | 5 | 515": 21
+   }
+  }
+ },
+ "Hoodrick": {
+  "n": 18,
+  "stars": {
+   "7": 18
+  },
+  "score": {
+   "420": 17,
+   "415": 1
+  },
+  "unit": {
+   "Archer": 18
+  },
+  "capital_level": {
+   "1": 18
+  },
+  "human": {
+   "7/420": 1
+  },
+  "after_match_start": {
+   "techs": [
+    "Basic",
+    "Archery"
+   ],
+   "stars": 7,
+   "score_mode": 620,
+   "all": {
+    "Basic,Archery | 7 | 620": 18,
+    "Basic,Archery | 7 | 615": 1
+   }
+  }
+ },
+ "Imperius": {
+  "n": 22,
+  "stars": {
+   "5": 22
+  },
+  "score": {
+   "415": 21,
+   "410": 1
+  },
+  "unit": {
+   "Warrior": 22
+  },
+  "capital_level": {
+   "1": 22
+  },
+  "human": {
+   "5/415": 5,
+   "5/410": 1
+  },
+  "after_match_start": {
+   "techs": [
+    "Basic",
+    "Organization"
+   ],
+   "stars": 5,
+   "score_mode": 515,
+   "all": {
+    "Basic,Organization | 5 | 515": 22,
+    "Basic,Organization | 5 | 510": 1
+   }
+  }
+ },
+ "Kickoo": {
+  "n": 21,
+  "stars": {
+   "5": 21
+  },
+  "score": {
+   "415": 21
+  },
+  "unit": {
+   "Warrior": 21
+  },
+  "capital_level": {
+   "1": 21
+  },
+  "human": {
+   "5/415": 2
+  },
+  "after_match_start": {
+   "techs": [
+    "Basic",
+    "Fishing"
+   ],
+   "stars": 5,
+   "score_mode": 515,
+   "all": {
+    "Basic,Fishing | 5 | 515": 22
+   }
+  }
+ },
+ "Luxidoor": {
+  "n": 18,
+  "stars": {
+   "2": 18
+  },
+  "score": {
+   "515": 18
+  },
+  "unit": {
+   "Warrior": 18
+  },
+  "capital_level": {
+   "3": 18
+  },
+  "human": {
+   "2/515": 1
+  },
+  "after_match_start": {
+   "techs": [
+    "Basic"
+   ],
+   "stars": 2,
+   "score_mode": 515,
+   "all": {
+    "Basic | 2 | 515": 19
+   }
+  }
+ },
+ "Oumaji": {
+  "n": 20,
+  "stars": {
+   "6": 20
+  },
+  "score": {
+   "420": 20
+  },
+  "unit": {
+   "Rider": 20
+  },
+  "capital_level": {
+   "1": 20
+  },
+  "human": {
+   "6/420": 2
+  },
+  "after_match_start": {
+   "techs": [
+    "Basic",
+    "Riding"
+   ],
+   "stars": 6,
+   "score_mode": 520,
+   "all": {
+    "Basic,Riding | 6 | 520": 21
+   }
+  }
+ },
+ "Polaris": {
+  "n": 20,
+  "stars": {
+   "5": 20
+  },
+  "score": {
+   "430": 20
+  },
+  "unit": {
+   "Mooni": 20
+  },
+  "capital_level": {
+   "1": 20
+  },
+  "human": {
+   "5/430": 1
+  },
+  "after_match_start": {
+   "techs": [
+    "Basic",
+    "Frostwork"
+   ],
+   "stars": 5,
+   "score_mode": 530,
+   "all": {
+    "Basic,Frostwork | 5 | 530": 21
+   }
+  }
+ },
+ "Quetzali": {
+  "n": 20,
+  "stars": {
+   "7": 20
+  },
+  "score": {
+   "420": 19,
+   "415": 1
+  },
+  "unit": {
+   "Defender": 20
+  },
+  "capital_level": {
+   "1": 20
+  },
+  "human": {
+   "7/420": 1
+  },
+  "after_match_start": {
+   "techs": [
+    "Basic",
+    "Strategy"
+   ],
+   "stars": 7,
+   "score_mode": 620,
+   "all": {
+    "Basic,Strategy | 7 | 620": 20,
+    "Basic,Strategy | 7 | 615": 1
+   }
+  }
+ },
+ "Vengir": {
+  "n": 19,
+  "stars": {
+   "5": 19
+  },
+  "score": {
+   "430": 19
+  },
+  "unit": {
+   "Swordsman": 19
+  },
+  "capital_level": {
+   "1": 19
+  },
+  "human": {
+   "5/430": 2
+  },
+  "after_match_start": {
+   "techs": [
+    "Basic",
+    "Smithery"
+   ],
+   "stars": 5,
+   "score_mode": 730,
+   "all": {
+    "Basic,Smithery | 5 | 730": 20
+   }
+  }
+ },
+ "XinXi": {
+  "n": 21,
+  "stars": {
+   "7": 21
+  },
+  "score": {
+   "415": 21
+  },
+  "unit": {
+   "Warrior": 21
+  },
+  "capital_level": {
+   "1": 21
+  },
+  "human": {
+   "7/415": 1
+  },
+  "after_match_start": {
+   "techs": [
+    "Basic",
+    "Climbing"
+   ],
+   "stars": 7,
+   "score_mode": 515,
+   "all": {
+    "Basic,Climbing | 7 | 515": 22
+   }
+  }
+ },
+ "Yadakk": {
+  "n": 18,
+  "stars": {
+   "7": 18
+  },
+  "score": {
+   "415": 16,
+   "410": 2
+  },
+  "unit": {
+   "Warrior": 18
+  },
+  "capital_level": {
+   "1": 18
+  },
+  "human": {
+   "7/415": 1
+  },
+  "after_match_start": {
+   "techs": [
+    "Basic",
+    "Roads"
+   ],
+   "stars": 7,
+   "score_mode": 615,
+   "all": {
+    "Basic,Roads | 7 | 615": 17,
+    "Basic,Roads | 7 | 610": 2
+   }
+  }
+ },
+ "Zebasi": {
+  "n": 23,
+  "stars": {
+   "5": 23
+  },
+  "score": {
+   "415": 21,
+   "410": 2
+  },
+  "unit": {
+   "Warrior": 23
+  },
+  "capital_level": {
+   "1": 23
+  },
+  "human": {
+   "5/415": 1
+  },
+  "after_match_start": {
+   "techs": [
+    "Basic",
+    "Farming"
+   ],
+   "stars": 5,
+   "score_mode": 615,
+   "all": {
+    "Basic,Farming | 5 | 615": 22,
+    "Basic,Farming | 5 | 610": 2
+   }
+  }
+ },
+ "_about": "Per tribe, from 28 saves (324+16 players). 'score'/'unit'/'capital_level' are from the turn-0 snapshot; 'after_match_start' is the save's current state after the StartMatch action, which has grants starting techs and the start score."
+}

@@ -1,0 +1,271 @@
+{
+ "stars": {
+  "income_per_turn": {
+   "v": "sum over own cities: (level + base + 1 if capital + 1 if workshop + parks + min(0,population)) + market income; besieged city = 0; infiltrated city loses only its normal income once",
+   "src": "PE",
+   "conf": "high"
+  },
+  "turn_start": "income is applied at the START of your turn (not on turn 0)",
+  "siege": "an enemy unit standing on the city centre tile"
+ },
+ "city": {
+  "level_up": {
+   "v": "population >= level+1 ; then population -= level+1 ; level+=1 ; reward choice is mandatory",
+   "src": "PE",
+   "conf": "high",
+   "note": "WK Score page consistent: 50 pts per level."
+  },
+  "unit_capacity": {
+   "v": "level + 1 units supported",
+   "src": "PE",
+   "conf": "high"
+  },
+  "rewards": {
+   "2": [
+    "Workshop (+1 star/turn)",
+    "Explorer"
+   ],
+   "3": [
+    "City Wall",
+    "Resources (+5 stars now)"
+   ],
+   "4": [
+    "Population Growth (+3 pop)",
+    "Border Growth (claim radius 2)"
+   ],
+   "5+": [
+    "Park (+1 star/turn, +250 score)",
+    "Super Unit (Giant)"
+   ]
+  },
+  "territory": "capital/city claims radius 1 (3x3) on founding; Border Growth claims free tiles to radius 2",
+  "capture": "unit must START the turn on the city tile; consumes the unit's turn; supported units lose their origin city",
+  "village_to_city": "unit starting turn on village; consumes turn; becomes level-1 city (pop 0)",
+  "src": "PE",
+  "conf": "high"
+ },
+ "tile_actions": {
+  "hunt": {
+   "cost": 2,
+   "tech": "Hunting",
+   "effect": "+1 pop, removes animal"
+  },
+  "harvest_fruit": {
+   "cost": 2,
+   "tech": "Organization",
+   "effect": "+1 pop, removes fruit"
+  },
+  "fish": {
+   "cost": 2,
+   "tech": "Fishing",
+   "effect": "+1 pop, removes fish"
+  },
+  "clear_forest": {
+   "cost": 0,
+   "tech": "Forestry",
+   "effect": "forest->field, +1 star (PE); wiki Forestry page says +2 stars, undated - C19"
+  },
+  "burn_forest": {
+   "cost": 3,
+   "tech": "Construction",
+   "effect": "forest->field with crop",
+   "src": "2025 balance pass dev post (PE had 5, stale)",
+   "cost_src": "GAME-UI (Jason's v123 info cards, 2026-10-23) (3, as in the 2025 patch notes; PolyEnv's 5 is stale)"
+  },
+  "grow_forest": {
+   "cost": 5,
+   "tech": "Spiritualism",
+   "effect": "empty field->forest"
+  },
+  "road": {
+   "cost": 3,
+   "tech": "Roads",
+   "effect": "road on land/forest, own or neutral territory; wiki Roads page says 2, undated - C19",
+   "cost_src": "GAME-UI (Jason's v123 info cards, 2026-10-23) (3, so PolyEnv is right; the undated wiki's 2 is wrong)"
+  },
+  "bridge": {
+   "cost": 5,
+   "tech": "Roads",
+   "effect": "bridge on shallow water between two land tiles (N-S or E-W)"
+  },
+  "destroy": {
+   "cost": 0,
+   "tech": "Chivalry (Construction for bridges)",
+   "effect": "remove building/resource; roads not destroyable"
+  },
+  "disband_unit": {
+   "tech": "Free Spirit",
+   "effect": "refund floor(cost/2) stars; Giant/Juggernaut 5"
+  },
+  "all actions require own territory (except road: neutral ok)": true,
+  "src": "PE",
+  "conf": "med"
+ },
+ "buildings": {
+  "Farm": {
+   "cost": 5,
+   "tech": "Farming",
+   "on": "Field with Crops",
+   "pop": 2,
+   "ui_effect": "Farming: +2 pop, on Crop",
+   "cost_check": "game 5 vs dataset 5"
+  },
+  "Mine": {
+   "cost": 5,
+   "tech": "Mining",
+   "on": "Mountain with Metal",
+   "pop": 2,
+   "note": "PE header comment says 'Mine = 1' but code sets 2 (code trusted)",
+   "ui_effect": "Mining: +2 pop, on Metal",
+   "cost_check": "game 5 vs dataset 5"
+  },
+  "LumberHut": {
+   "cost": 3,
+   "tech": "Forestry",
+   "on": "Forest",
+   "pop": 1,
+   "ui_effect": "Forestry: +1 pop",
+   "cost_check": "game 3 vs dataset 3"
+  },
+  "Port": {
+   "cost": 7,
+   "tech": "Fishing",
+   "on": "Shallow water",
+   "pop": 1,
+   "ui_effect": "Fishing: +1 pop; trade routes through Ocean/Water/Wetland to other Ports within 5 tiles; units moving here become boats",
+   "cost_check": "game 7 vs dataset 7"
+  },
+  "Forge": {
+   "cost": 5,
+   "tech": "Smithery",
+   "on": "Field",
+   "pop": "+2 per adjacent own Mine",
+   "limit": "1 per city",
+   "ui_effect": "Smithery: +2 pop per nearby Mine; one per city",
+   "cost_check": "game 5 vs dataset 5"
+  },
+  "Sawmill": {
+   "cost": 5,
+   "tech": "Mathematics",
+   "on": "Field",
+   "pop": "+1 per adjacent own Lumber Hut",
+   "limit": "1 per city"
+  },
+  "Windmill": {
+   "cost": 5,
+   "tech": "Construction",
+   "on": "Field",
+   "pop": "+1 per adjacent own Farm",
+   "limit": "1 per city",
+   "ui_effect": "Construction: +1 pop per nearby Farm/Aqua Farm; one per city",
+   "cost_check": "game 5 vs dataset 5"
+  },
+  "Market": {
+   "cost": 5,
+   "tech": "Trade",
+   "on": "Field adjacent to own Forge/Sawmill/Windmill",
+   "income": "stars/turn = sum of adjacent booster levels (cap 8)",
+   "ui_effect": "Trade: +1 star per turn for each nearby Windmill, Forge, Sawmill; one per city",
+   "cost_check": "game 5 vs dataset 5"
+  },
+  "booster_level": "Forge = adjacent own Mines, Sawmill = adjacent Lumber Huts, Windmill = adjacent Farms (0..8)",
+  "not_modelled_in_PE": [
+   "Temples (all kinds)",
+   "Outpost",
+   "Embassy",
+   "Ice Bank",
+   "Atoll",
+   "Aqua Farm",
+   "Clathrus",
+   "Sanctuary",
+   "Guard Tower"
+  ],
+  "src": "PE",
+  "conf": "med-high",
+  "Embassy": {
+   "cost": 5,
+   "cost_src": "GAME-UI (Jason's v123 info cards, 2026-10-23)",
+   "ui_effect": "Diplomacy: income for both sides while not at war, doubled with a peace treaty",
+   "cost_check": "game 5 vs dataset 5"
+  },
+  "Temple": {
+   "cost": 20,
+   "cost_src": "GAME-UI (Jason's v123 info cards, 2026-10-23)",
+   "ui_effect": "Free Spirit: +1 pop, 100 score, +100 score every 2 turns",
+   "cost_check": "game 20 vs dataset 20"
+  },
+  "ForestTemple": {
+   "cost": 15,
+   "cost_src": "GAME-UI (Jason's v123 info cards, 2026-10-23)",
+   "ui_effect": "Spiritualism: same as temple",
+   "cost_check": "game 15 vs dataset 15"
+  },
+  "MountainTemple": {
+   "cost": 20,
+   "cost_src": "GAME-UI (Jason's v123 info cards, 2026-10-23)",
+   "ui_effect": "Meditation: +1 pop, 100 score, +100 every 2 turns",
+   "cost_check": "game 20 vs dataset 20"
+  },
+  "WaterTemple": {
+   "cost": 20,
+   "cost_src": "GAME-UI (Jason's v123 info cards, 2026-10-23)",
+   "ui_effect": "Aquatism: same as temple",
+   "cost_check": "game 20 vs dataset 20"
+  },
+  "Crater": {
+   "cost": 5,
+   "cost_src": "GAME-UI (Jason's v123 info cards, 2026-10-23)",
+   "ui_effect": "Solaris (Heatwork): +1 pop; trade routes through Lava to other Craters within 5 tiles",
+   "cost_check": "game 5 vs dataset 5"
+  },
+  "Turbine": {
+   "cost": 5,
+   "cost_src": "GAME-UI (Jason's v123 info cards, 2026-10-23)",
+   "ui_effect": "Solaris (Geothermics): +2 pop, must be on a Volcano tile",
+   "cost_check": "game 5 vs dataset 5"
+  }
+ },
+ "monuments": {
+  "AltarOfPeace": "5 consecutive turns with no attack + Meditation",
+  "EmperorsTomb": ">=100 stars + Trade",
+  "EyeOfGod": "discover all 4 lighthouses",
+  "GateOfPower": "10 kills",
+  "GrandBazaar": "5 non-capital cities connected to capital",
+  "ParkOfFortune": "a city reaches level 5",
+  "TowerOfWisdom": "own all techs",
+  "build": "cost 0, +3 pop, +400 score, one of each per player",
+  "src": "PE",
+  "conf": "med"
+ },
+ "score": {
+  "per_explored_tile": 5,
+  "per_territory_tile": 20,
+  "per_unit_cost_star": 5,
+  "per_super_unit": 50,
+  "per_tech_tier": 100,
+  "per_park": 250,
+  "per_monument": 400,
+  "city": "100 + 50 per level above 1 + 5 per current population",
+  "embarked_unit_counts_as_land_unit": true,
+  "src": "PE+SC",
+  "conf": "high",
+  "pe_caveat": "PE ScoreSystem.startingScore() is stubbed to 0 (commented-out table disagrees with Tribe.cpp). Use tribes.json for starting scores."
+ },
+ "ruins": {
+  "action": "unit must START its turn on the ruin; uses the unit's turn; ruin disappears",
+  "PE_reward_pool": "uniform pick from the AVAILABLE pool: Stars(+10), Tech (random obtainable), Population(+3 to capital, if capital owned), Explorer (if hidden tile in 5x5), VeteranUnit (Swordsman 20HP vet, or Rammer 15HP on water)",
+  "WK_reward_names": [
+   "Resources: 10 stars",
+   "Scrolls of Wisdom: random researchable tech",
+   "Population: +3 to capital",
+   "Explorer (5x5 fog condition, not on mountains)",
+   "New Friends: Veteran Swordsman (land)",
+   "Rammer: Veteran Rammer carrying a Warrior (water)",
+   "Lost City: Aquarion, ocean, level-3 walled city"
+  ],
+  "cid": "C14",
+  "conf": "medium",
+  "src": "PE vs WK",
+  "note": "Wiki Ruin page (fetched 2026-10-23): uniform among eligible rewards, matching the PolyEnv pool. Real frequencies still untested (G4). The old 'Battleship/Super Unit' names are pre-2.0.58."
+ }
+}

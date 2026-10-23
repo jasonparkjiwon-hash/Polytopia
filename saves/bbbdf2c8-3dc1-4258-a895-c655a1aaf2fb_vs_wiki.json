@@ -1,0 +1,406 @@
+{
+ "map": {
+  "size": 30,
+  "settlements": 70,
+  "capitals": 16,
+  "land": 0.996
+ },
+ "terrain_by_biome": [
+  [
+   "AiMo",
+   43,
+   {
+    "Field": 0.442,
+    "Forest": 0.372,
+    "Mountain": 0.186
+   },
+   {
+    "Mountain": 0.21,
+    "Forest": 0.349,
+    "Field": 0.441
+   }
+  ],
+  [
+   "Aquarion",
+   119,
+   {
+    "Field": 0.563,
+    "Forest": 0.244,
+    "Mountain": 0.193
+   },
+   {
+    "Mountain": 0.14,
+    "Forest": 0.244,
+    "Field": 0.616
+   }
+  ],
+  [
+   "Bardur",
+   109,
+   {
+    "Field": 0.486,
+    "Forest": 0.339,
+    "Mountain": 0.174
+   },
+   {
+    "Mountain": 0.14,
+    "Forest": 0.38,
+    "Field": 0.48
+   }
+  ],
+  [
+   "Cymanti",
+   48,
+   {
+    "Field": 0.5,
+    "Forest": 0.333,
+    "Mountain": 0.167
+   },
+   {
+    "Mountain": 0.168,
+    "Forest": 0.368,
+    "Field": 0.464
+   }
+  ],
+  [
+   "Elyrion",
+   55,
+   {
+    "Field": 0.527,
+    "Forest": 0.4,
+    "Mountain": 0.073
+   },
+   {
+    "Mountain": 0.07,
+    "Forest": 0.411,
+    "Field": 0.519
+   }
+  ],
+  [
+   "Hoodrick",
+   51,
+   {
+    "Field": 0.451,
+    "Forest": 0.471,
+    "Mountain": 0.078
+   },
+   {
+    "Mountain": 0.07,
+    "Forest": 0.505,
+    "Field": 0.425
+   }
+  ],
+  [
+   "Imperius",
+   51,
+   {
+    "Field": 0.49,
+    "Forest": 0.373,
+    "Mountain": 0.137
+   },
+   {
+    "Mountain": 0.14,
+    "Forest": 0.38,
+    "Field": 0.48
+   }
+  ],
+  [
+   "Oumaji",
+   46,
+   {
+    "Field": 0.761,
+    "Forest": 0.109,
+    "Mountain": 0.13
+   },
+   {
+    "Mountain": 0.07,
+    "Forest": 0.127,
+    "Field": 0.803
+   }
+  ],
+  [
+   "Polaris",
+   16,
+   {
+    "Field": 0.5,
+    "Forest": 0.375,
+    "Mountain": 0.125
+   },
+   null
+  ],
+  [
+   "Quetzali",
+   131,
+   {
+    "Field": 0.489,
+    "Forest": 0.366,
+    "Mountain": 0.145
+   },
+   {
+    "Mountain": 0.14,
+    "Forest": 0.38,
+    "Field": 0.48
+   }
+  ],
+  [
+   "XinXi",
+   62,
+   {
+    "Field": 0.419,
+    "Forest": 0.371,
+    "Mountain": 0.21
+   },
+   {
+    "Mountain": 0.21,
+    "Forest": 0.349,
+    "Field": 0.441
+   }
+  ],
+  [
+   "Zebasi",
+   68,
+   {
+    "Field": 0.632,
+    "Forest": 0.265,
+    "Mountain": 0.103
+   },
+   {
+    "Mountain": 0.07,
+    "Forest": 0.264,
+    "Field": 0.666
+   }
+  ]
+ ],
+ "pooled_rates": {
+  "inner Fruit|Field": [
+   97,
+   215,
+   0.451
+  ],
+  "inner Crop|Field": [
+   53,
+   215,
+   0.247
+  ],
+  "inner Spores|Field": [
+   1,
+   215,
+   0.005
+  ],
+  "inner Game|Forest": [
+   83,
+   159,
+   0.522
+  ],
+  "inner Metal|Mountain": [
+   50,
+   58,
+   0.862
+  ],
+  "outer Fruit|Field": [
+   23,
+   141,
+   0.163
+  ],
+  "outer Crop|Field": [
+   7,
+   141,
+   0.05
+  ],
+  "outer Spores|Field": [
+   3,
+   141,
+   0.021
+  ],
+  "outer Game|Forest": [
+   10,
+   72,
+   0.139
+  ],
+  "outer Metal|Mountain": [
+   11,
+   40,
+   0.275
+  ],
+  "beyond_2 Fruit|Field": [
+   0,
+   10,
+   0.0
+  ],
+  "beyond_2 Crop|Field": [
+   0,
+   10,
+   0.0
+  ],
+  "beyond_2 Spores|Field": [
+   0,
+   10,
+   0.0
+  ],
+  "beyond_2 Game|Forest": [
+   0,
+   5,
+   0.0
+  ],
+  "beyond_2 Metal|Mountain": [
+   0,
+   2,
+   0.0
+  ]
+ },
+ "rates_vs_readings": [
+  {
+   "cell": "inner Fruit|Field",
+   "n": 215,
+   "real": 0.451,
+   "wiki_reading": 0.471,
+   "z_vs_wiki": -0.6,
+   "PE_reading": 0.226,
+   "z_vs_PE": 7.9
+  },
+  {
+   "cell": "inner Crop|Field",
+   "n": 215,
+   "real": 0.247,
+   "wiki_reading": 0.274,
+   "z_vs_wiki": -0.9,
+   "PE_reading": 0.132,
+   "z_vs_PE": 5.0
+  },
+  {
+   "cell": "inner Spores|Field",
+   "n": 215,
+   "real": 0.005,
+   "wiki_reading": 0.375,
+   "z_vs_wiki": -11.2,
+   "PE_reading": 0.18,
+   "z_vs_PE": -6.7
+  },
+  {
+   "cell": "inner Game|Forest",
+   "n": 159,
+   "real": 0.522,
+   "wiki_reading": 0.47,
+   "z_vs_wiki": 1.3,
+   "PE_reading": 0.178,
+   "z_vs_PE": 11.3
+  },
+  {
+   "cell": "inner Metal|Mountain",
+   "n": 58,
+   "real": 0.862,
+   "wiki_reading": 0.805,
+   "z_vs_wiki": 1.1,
+   "PE_reading": 0.115,
+   "z_vs_PE": 17.8
+  },
+  {
+   "cell": "outer Fruit|Field",
+   "n": 141,
+   "real": 0.163,
+   "wiki_reading": 0.147,
+   "z_vs_wiki": 0.5,
+   "PE_reading": 0.071,
+   "z_vs_PE": 4.3
+  },
+  {
+   "cell": "outer Crop|Field",
+   "n": 141,
+   "real": 0.05,
+   "wiki_reading": 0.085,
+   "z_vs_wiki": -1.5,
+   "PE_reading": 0.041,
+   "z_vs_PE": 0.5
+  },
+  {
+   "cell": "outer Spores|Field",
+   "n": 141,
+   "real": 0.021,
+   "wiki_reading": 0.125,
+   "z_vs_wiki": -3.7,
+   "PE_reading": 0.06,
+   "z_vs_PE": -1.9
+  },
+  {
+   "cell": "outer Game|Forest",
+   "n": 72,
+   "real": 0.139,
+   "wiki_reading": 0.148,
+   "z_vs_wiki": -0.2,
+   "PE_reading": 0.056,
+   "z_vs_PE": 3.1
+  },
+  {
+   "cell": "outer Metal|Mountain",
+   "n": 40,
+   "real": 0.275,
+   "wiki_reading": 0.233,
+   "z_vs_wiki": 0.6,
+   "PE_reading": 0.033,
+   "z_vs_PE": 8.6
+  },
+  {
+   "cell": "beyond_2 Fruit|Field",
+   "n": 10,
+   "real": 0.0,
+   "wiki_reading": 0.0,
+   "z_vs_wiki": 0.0,
+   "PE_reading": 0.0,
+   "z_vs_PE": 0.0
+  },
+  {
+   "cell": "beyond_2 Crop|Field",
+   "n": 10,
+   "real": 0.0,
+   "wiki_reading": 0.0,
+   "z_vs_wiki": 0.0,
+   "PE_reading": 0.0,
+   "z_vs_PE": 0.0
+  },
+  {
+   "cell": "beyond_2 Spores|Field",
+   "n": 10,
+   "real": 0.0,
+   "wiki_reading": 0.0,
+   "z_vs_wiki": 0.0,
+   "PE_reading": 0.0,
+   "z_vs_PE": 0.0
+  },
+  {
+   "cell": "beyond_2 Game|Forest",
+   "n": 5,
+   "real": 0.0,
+   "wiki_reading": 0.0,
+   "z_vs_wiki": 0.0,
+   "PE_reading": 0.0,
+   "z_vs_PE": 0.0
+  },
+  {
+   "cell": "beyond_2 Metal|Mountain",
+   "n": 2,
+   "real": 0.0,
+   "wiki_reading": 0.0,
+   "z_vs_wiki": 0.0,
+   "PE_reading": 0.0,
+   "z_vs_PE": 0.0
+  }
+ ],
+ "water_tiles": {
+  "144": [
+   "Water",
+   "Fish"
+  ],
+  "176": [
+   "Water",
+   "Fish"
+  ],
+  "318": [
+   "Water",
+   "Fish"
+  ],
+  "319": [
+   "Water",
+   "Fish"
+  ]
+ }
+}

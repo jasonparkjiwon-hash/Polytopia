@@ -1,0 +1,374 @@
+{
+ "K": 15,
+ "by_type_size": {
+  "drylands/16": {
+   "real_settlements": [
+    16
+   ],
+   "real_land": 0.992,
+   "measured": {
+    "settlements": 16.7,
+    "land": 0.99
+   },
+   "wiki": {
+    "settlements": 17.6,
+    "land": 0.998
+   }
+  },
+  "drylands/30": {
+   "real_settlements": [
+    70,
+    61,
+    70
+   ],
+   "real_land": 0.994,
+   "measured": {
+    "settlements": 65.2,
+    "land": 0.993
+   },
+   "wiki": {
+    "settlements": 66,
+    "land": 0.997
+   }
+  },
+  "archipelago/16": {
+   "real_settlements": [
+    15
+   ],
+   "real_land": 0.387,
+   "measured": {
+    "settlements": 14.3,
+    "land": 0.398
+   },
+   "wiki": {
+    "settlements": 14.5,
+    "land": 0.395
+   }
+  },
+  "archipelago/30": {
+   "real_settlements": [
+    59,
+    60,
+    62
+   ],
+   "real_land": 0.404,
+   "measured": {
+    "settlements": 57.8,
+    "land": 0.4
+   },
+   "wiki": {
+    "settlements": 58.1,
+    "land": 0.396
+   }
+  },
+  "lakes/14": {
+   "real_settlements": [
+    12
+   ],
+   "real_land": 0.75,
+   "measured": {
+    "settlements": 10,
+    "land": 0.75
+   },
+   "wiki": {
+    "settlements": 11.3,
+    "land": 0.733
+   }
+  },
+  "lakes/16": {
+   "real_settlements": [
+    16
+   ],
+   "real_land": 0.777,
+   "measured": {
+    "settlements": 15.6,
+    "land": 0.746
+   },
+   "wiki": {
+    "settlements": 15,
+    "land": 0.733
+   }
+  },
+  "lakes/18": {
+   "real_settlements": [
+    21
+   ],
+   "real_land": 0.735,
+   "measured": {
+    "settlements": 20.9,
+    "land": 0.747
+   },
+   "wiki": {
+    "settlements": 20.5,
+    "land": 0.729
+   }
+  },
+  "lakes/20": {
+   "real_settlements": [
+    28
+   ],
+   "real_land": 0.748,
+   "measured": {
+    "settlements": 22.9,
+    "land": 0.748
+   },
+   "wiki": {
+    "settlements": 22,
+    "land": 0.731
+   }
+  },
+  "lakes/30": {
+   "real_settlements": [
+    62,
+    65,
+    63
+   ],
+   "real_land": 0.742,
+   "measured": {
+    "settlements": 62.9,
+    "land": 0.748
+   },
+   "wiki": {
+    "settlements": 59.9,
+    "land": 0.73
+   }
+  },
+  "continents/16": {
+   "real_settlements": [
+    14
+   ],
+   "real_land": 0.633,
+   "measured": {
+    "settlements": 13,
+    "land": 0.562
+   },
+   "wiki": {
+    "settlements": 14.6,
+    "land": 0.468
+   }
+  },
+  "continents/30": {
+   "real_settlements": [
+    50,
+    54,
+    52
+   ],
+   "real_land": 0.54,
+   "measured": {
+    "settlements": 52,
+    "land": 0.563
+   },
+   "wiki": {
+    "settlements": 59,
+    "land": 0.465
+   }
+  },
+  "waterworld/16": {
+   "real_settlements": [
+    7
+   ],
+   "real_land": 0.152,
+   "measured": {
+    "settlements": 6,
+    "land": 0.152
+   },
+   "wiki": {
+    "settlements": 6,
+    "land": 0.15
+   }
+  },
+  "waterworld/30": {
+   "real_settlements": [
+    23,
+    23,
+    25
+   ],
+   "real_land": 0.153,
+   "measured": {
+    "settlements": 24,
+    "land": 0.153
+   },
+   "wiki": {
+    "settlements": 24,
+    "land": 0.15
+   }
+  },
+  "pangea/16": {
+   "real_settlements": [
+    12
+   ],
+   "real_land": 0.5,
+   "measured": {
+    "settlements": 12,
+    "land": 0.508
+   },
+   "wiki": {
+    "settlements": 14.5,
+    "land": 0.508
+   }
+  },
+  "pangea/30": {
+   "real_settlements": [
+    50,
+    49,
+    46
+   ],
+   "real_land": 0.511,
+   "measured": {
+    "settlements": 48,
+    "land": 0.508
+   },
+   "wiki": {
+    "settlements": 58.4,
+    "land": 0.51
+   }
+  }
+ },
+ "ring_by_tribe": {
+  "AiMo": {
+   "real": 5.3,
+   "measured": 5.24,
+   "wiki": 4.63
+  },
+  "Aquarion": {
+   "real": 5.55,
+   "measured": 5.55,
+   "wiki": 5.94
+  },
+  "Bardur": {
+   "real": 5.57,
+   "measured": 5.65,
+   "wiki": 5.17
+  },
+  "Cymanti": {
+   "real": 5.81,
+   "measured": 5.81,
+   "wiki": 5.45
+  },
+  "Elyrion": {
+   "real": 6.3,
+   "measured": 6.38,
+   "wiki": 6.47
+  },
+  "Hoodrick": {
+   "real": 5.78,
+   "measured": 5.95,
+   "wiki": 5.34
+  },
+  "Imperius": {
+   "real": 5.82,
+   "measured": 5.82,
+   "wiki": 5.34
+  },
+  "Kickoo": {
+   "real": 6.1,
+   "measured": 6.09,
+   "wiki": 6.43
+  },
+  "Luxidoor": {
+   "real": 8.0,
+   "measured": 8,
+   "wiki": 5.56
+  },
+  "Oumaji": {
+   "real": 5.45,
+   "measured": 5.68,
+   "wiki": 5.45
+  },
+  "Polaris": {
+   "real": 5.95,
+   "measured": 5.85,
+   "wiki": 5.35
+  },
+  "Quetzali": {
+   "real": 6.45,
+   "measured": 6.45,
+   "wiki": 5.32
+  },
+  "Vengir": {
+   "real": 3.42,
+   "measured": 3.45,
+   "wiki": 2.81
+  },
+  "XinXi": {
+   "real": 5.67,
+   "measured": 5.78,
+   "wiki": 6.23
+  },
+  "Yadakk": {
+   "real": 6.11,
+   "measured": 5.86,
+   "wiki": 6.53
+  },
+  "Zebasi": {
+   "real": 5.52,
+   "measured": 5.56,
+   "wiki": 4.84
+  }
+ },
+ "rates": {
+  "field": {
+   "real": {
+    "crop": 0.3,
+    "fruit": 0.428,
+    "none": 0.273
+   },
+   "measured": {
+    "crop": 0.306,
+    "fruit": 0.412,
+    "none": 0.282
+   },
+   "wiki": {
+    "crop": 0.326,
+    "fruit": 0.403,
+    "none": 0.27
+   }
+  },
+  "forest": {
+   "real": {
+    "animal": 0.438,
+    "crop": 0.016,
+    "none": 0.546
+   },
+   "measured": {
+    "animal": 0.435,
+    "crop": 0.011,
+    "none": 0.554
+   },
+   "wiki": {
+    "animal": 0.443,
+    "none": 0.557
+   }
+  },
+  "mountain": {
+   "real": {
+    "metal": 0.839,
+    "none": 0.161
+   },
+   "measured": {
+    "metal": 0.822,
+    "none": 0.178
+   },
+   "wiki": {
+    "metal": 0.828,
+    "none": 0.172
+   }
+  },
+  "water": {
+   "real": {
+    "aquacrop": 0.226,
+    "fish": 0.41,
+    "none": 0.364
+   },
+   "measured": {
+    "aquacrop": 0.228,
+    "fish": 0.416,
+    "none": 0.356
+   },
+   "wiki": {
+    "fish": 0.356,
+    "none": 0.644
+   }
+  }
+ }
+}

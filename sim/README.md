@@ -1,0 +1,11 @@
+# sim/: the Polyfish engine, built offline
+
+- `pfcore/` contains the Polyfish engine modules copied from HenBOMB/Polyfish `polyfish-rs/src` (Apache-2.0, commit of 2026-09-02).
+  - Left out: `ai/`, `bin/`, `main.rs`, `training_api.rs`, `recorder.rs` and `replay/`.
+  - One change: the Sanctuary spawn in `actions/mod.rs` uses DotNetRandom instead of StdRng.
+- `vendor/` holds 25 dependency crates, copied from their GitHub release tags (`vendor_list.txt`).
+  - Offline only: a `.cargo/config.toml` made `vendor/` stand in for crates.io (not in the repo; online `cargo build` fetches crates normally).
+  - The `serde_derive` manifest is de-workspaced (inherited dependency versions written in).
+- Build: `cd pfcore && cargo build --release --offline`.
+- Generate maps: `target/release/genmaps <out> <n> <map_type 1-6> <size 0-5> <seed0> <tribe ids> [players]`.
+  - Then analyse them with `../verify/analyze_map.py`.

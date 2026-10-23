@@ -1,0 +1,1107 @@
+{
+ "source": "PolyEnv data/Units.json",
+ "defaults": {
+  "maxHealth": 10,
+  "attack": 1.0,
+  "defense": 1.0,
+  "movePoints": 1,
+  "range": 1,
+  "cost": 0,
+  "visionRange": 1,
+  "requiredTechToSpawn": null,
+  "skills": [],
+  "veteranEligible": true
+ },
+ "units": {
+  "Warrior": {
+   "maxHealth": 10,
+   "attack": 2.0,
+   "defense": 2.0,
+   "movePoints": 1,
+   "range": 1,
+   "cost": 2,
+   "visionRange": 1,
+   "requiredTechToSpawn": null,
+   "skills": [
+    "Dash",
+    "Fortify"
+   ],
+   "veteranEligible": true
+  },
+  "Archer": {
+   "maxHealth": 10,
+   "attack": 2.0,
+   "defense": 1.0,
+   "movePoints": 1,
+   "range": 2,
+   "cost": 3,
+   "visionRange": 1,
+   "requiredTechToSpawn": "Archery",
+   "skills": [
+    "Dash",
+    "Fortify"
+   ],
+   "veteranEligible": true,
+   "verified": [
+    "GAME-UI (Jason's v123 info cards, 2026-10-23)"
+   ]
+  },
+  "Defender": {
+   "maxHealth": 15,
+   "attack": 1.0,
+   "defense": 3.0,
+   "movePoints": 1,
+   "range": 1,
+   "cost": 3,
+   "visionRange": 1,
+   "requiredTechToSpawn": "Strategy",
+   "skills": [
+    "Fortify"
+   ],
+   "veteranEligible": true,
+   "verified": [
+    "GAME-UI (Jason's v123 info cards, 2026-10-23)"
+   ]
+  },
+  "Rider": {
+   "maxHealth": 10,
+   "attack": 2.0,
+   "defense": 1.0,
+   "movePoints": 2,
+   "range": 1,
+   "cost": 3,
+   "visionRange": 1,
+   "requiredTechToSpawn": "Riding",
+   "skills": [
+    "Dash",
+    "Escape",
+    "Fortify"
+   ],
+   "veteranEligible": true,
+   "verified": [
+    "GAME-UI (Jason's v123 info cards, 2026-10-23)"
+   ]
+  },
+  "Cloak": {
+   "maxHealth": 5,
+   "attack": {
+    "v": 2.0,
+    "src": "GAME-UI (Jason's v123 info cards, 2026-10-23)",
+    "conf": "L3"
+   },
+   "defense": 0.5,
+   "movePoints": 2,
+   "range": 1,
+   "cost": 8,
+   "visionRange": 2,
+   "requiredTechToSpawn": "Diplomacy",
+   "skills": [
+    "Hide",
+    "Creep",
+    "Infiltrate",
+    "Dash",
+    "Stiff",
+    "Scout",
+    "StaticSkill"
+   ],
+   "veteranEligible": false,
+   "verified": [
+    "GAME-UI (Jason's v123 info cards, 2026-10-23)"
+   ]
+  },
+  "MindBender": {
+   "maxHealth": 10,
+   "attack": 0.0,
+   "defense": 1.0,
+   "movePoints": 1,
+   "range": 1,
+   "cost": 5,
+   "visionRange": 1,
+   "requiredTechToSpawn": "Philosophy",
+   "skills": [
+    "Heal",
+    "Convert",
+    "Stiff"
+   ],
+   "veteranEligible": true,
+   "verified": [
+    "GAME-UI (Jason's v123 info cards, 2026-10-23)"
+   ]
+  },
+  "Swordsman": {
+   "maxHealth": 15,
+   "attack": 3.0,
+   "defense": 3.0,
+   "movePoints": 1,
+   "range": 1,
+   "cost": 5,
+   "visionRange": 1,
+   "requiredTechToSpawn": "Smithery",
+   "skills": [
+    "Dash"
+   ],
+   "veteranEligible": true,
+   "verified": [
+    "GAME-UI (Jason's v123 info cards, 2026-10-23)"
+   ]
+  },
+  "Catapult": {
+   "maxHealth": 10,
+   "attack": 4.0,
+   "defense": 0.0,
+   "movePoints": 1,
+   "range": 3,
+   "cost": 8,
+   "visionRange": 1,
+   "requiredTechToSpawn": "Mathematics",
+   "skills": [
+    "Stiff"
+   ],
+   "veteranEligible": true,
+   "verified": [
+    "GAME-UI (Jason's v123 info cards, 2026-10-23)"
+   ]
+  },
+  "Knight": {
+   "maxHealth": 10,
+   "attack": 3.5,
+   "defense": 1.0,
+   "movePoints": 3,
+   "range": 1,
+   "cost": 8,
+   "visionRange": 1,
+   "requiredTechToSpawn": "Chivalry",
+   "skills": [
+    "Dash",
+    "Persist",
+    "Fortify"
+   ],
+   "veteranEligible": true,
+   "verified": [
+    "GAME-UI (Jason's v123 info cards, 2026-10-23)"
+   ]
+  },
+  "Dagger": {
+   "maxHealth": 10,
+   "attack": 2.0,
+   "defense": 2.0,
+   "movePoints": 1,
+   "range": 1,
+   "cost": 0,
+   "visionRange": 1,
+   "requiredTechToSpawn": null,
+   "skills": [
+    "Dash",
+    "Surprise",
+    "Independent",
+    "StaticSkill"
+   ],
+   "veteranEligible": false
+  },
+  "Giant": {
+   "maxHealth": 40,
+   "attack": 5.0,
+   "defense": 4.0,
+   "movePoints": 1,
+   "range": 1,
+   "cost": 0,
+   "visionRange": 1,
+   "requiredTechToSpawn": null,
+   "skills": [
+    "StaticSkill"
+   ],
+   "veteranEligible": false
+  },
+  "GiantSuper": {
+   "maxHealth": 40,
+   "attack": 5.0,
+   "defense": 4.0,
+   "movePoints": 1,
+   "range": 1,
+   "cost": 0,
+   "visionRange": 1,
+   "requiredTechToSpawn": null,
+   "skills": [
+    "StaticSkill"
+   ],
+   "veteranEligible": false
+  },
+  "Bunny": {
+   "maxHealth": 20,
+   "attack": 5.0,
+   "defense": 1.0,
+   "movePoints": 1,
+   "range": 1,
+   "cost": 0,
+   "visionRange": 1,
+   "requiredTechToSpawn": null,
+   "skills": [
+    "Independent"
+   ],
+   "veteranEligible": false
+  },
+  "Bunta": {
+   "maxHealth": 20,
+   "attack": 5.0,
+   "defense": 1.0,
+   "movePoints": 1,
+   "range": 1,
+   "cost": 0,
+   "visionRange": 1,
+   "requiredTechToSpawn": null,
+   "skills": [
+    "Independent"
+   ],
+   "veteranEligible": false
+  },
+  "Raft": {
+   "maxHealth": 0,
+   "attack": 0.0,
+   "defense": 1.0,
+   "movePoints": 2,
+   "range": 1,
+   "cost": 0,
+   "visionRange": 1,
+   "requiredTechToSpawn": "Fishing",
+   "skills": [
+    "WaterOnly",
+    "Carry",
+    "StaticSkill",
+    "Stiff"
+   ],
+   "veteranEligible": false
+  },
+  "Scout": {
+   "maxHealth": {
+    "v": 10,
+    "src": "GAME-UI (Jason's v123 info cards, 2026-10-23)",
+    "conf": "L3",
+    "note": "The info card shows 10/10; in play a boat probably carries the HP of the unit inside it (check with a played save)"
+   },
+   "attack": 2.0,
+   "defense": 1.0,
+   "movePoints": 3,
+   "range": 2,
+   "cost": 5,
+   "visionRange": 2,
+   "requiredTechToSpawn": "Sailing",
+   "skills": [
+    "WaterOnly",
+    "Dash",
+    "Carry",
+    "Scout",
+    "StaticSkill"
+   ],
+   "veteranEligible": false,
+   "verified": [
+    "GAME-UI (Jason's v123 info cards, 2026-10-23)"
+   ]
+  },
+  "Rammer": {
+   "maxHealth": {
+    "v": 10,
+    "src": "GAME-UI (Jason's v123 info cards, 2026-10-23)",
+    "conf": "L3",
+    "note": "The info card shows 10/10; in play a boat probably carries the HP of the unit inside it (check with a played save)"
+   },
+   "attack": 3.0,
+   "defense": 3.0,
+   "movePoints": 3,
+   "range": 1,
+   "cost": 5,
+   "visionRange": 1,
+   "requiredTechToSpawn": "Ramming",
+   "skills": [
+    "WaterOnly",
+    "Dash",
+    "Carry",
+    "StaticSkill"
+   ],
+   "veteranEligible": false,
+   "verified": [
+    "GAME-UI (Jason's v123 info cards, 2026-10-23)"
+   ]
+  },
+  "Bomber": {
+   "maxHealth": {
+    "v": 10,
+    "src": "GAME-UI (Jason's v123 info cards, 2026-10-23)",
+    "conf": "L3",
+    "note": "The info card shows 10/10; in play a boat probably carries the HP of the unit inside it (check with a played save)"
+   },
+   "attack": 3.0,
+   "defense": 2.0,
+   "movePoints": 2,
+   "range": 3,
+   "cost": 15,
+   "visionRange": 1,
+   "requiredTechToSpawn": "Navigation",
+   "skills": [
+    "WaterOnly",
+    "Carry",
+    "Splash",
+    "Stiff",
+    "StaticSkill"
+   ],
+   "veteranEligible": false,
+   "verified": [
+    "GAME-UI (Jason's v123 info cards, 2026-10-23)"
+   ]
+  },
+  "Dinghy": {
+   "maxHealth": 5,
+   "attack": 0.0,
+   "defense": 0.5,
+   "movePoints": 2,
+   "range": 1,
+   "cost": 0,
+   "visionRange": 1,
+   "requiredTechToSpawn": null,
+   "skills": [
+    "WaterOnly",
+    "Carry",
+    "Hide",
+    "Infiltrate",
+    "Dash",
+    "Scout",
+    "StaticSkill",
+    "Stiff"
+   ],
+   "veteranEligible": false
+  },
+  "Pirate": {
+   "maxHealth": 10,
+   "attack": 2.0,
+   "defense": 2.0,
+   "movePoints": 1,
+   "range": 1,
+   "cost": 0,
+   "visionRange": 1,
+   "requiredTechToSpawn": null,
+   "skills": [
+    "WaterOnly",
+    "Carry",
+    "Dash",
+    "Surprise",
+    "Independent",
+    "StaticSkill"
+   ],
+   "veteranEligible": false
+  },
+  "Juggernaut": {
+   "maxHealth": 40,
+   "attack": 4.0,
+   "defense": 4.0,
+   "movePoints": 2,
+   "range": 1,
+   "cost": 0,
+   "visionRange": 1,
+   "requiredTechToSpawn": null,
+   "skills": [
+    "WaterOnly",
+    "Carry",
+    "Stiff",
+    "Stomp",
+    "StaticSkill"
+   ],
+   "veteranEligible": false
+  },
+  "Mermaid": {
+   "maxHealth": 10,
+   "attack": 2.0,
+   "defense": 2.0,
+   "movePoints": 1,
+   "range": 1,
+   "cost": 2,
+   "visionRange": 1,
+   "requiredTechToSpawn": null,
+   "skills": [
+    "Dash",
+    "Fortify",
+    "Amphibious"
+   ],
+   "veteranEligible": true
+  },
+  "AquaticAmphibian": {
+   "maxHealth": 10,
+   "attack": 2.0,
+   "defense": 1.0,
+   "movePoints": 2,
+   "range": 1,
+   "cost": 3,
+   "visionRange": 1,
+   "requiredTechToSpawn": "Riding",
+   "skills": [
+    "Amphibious",
+    "Dash",
+    "Escape",
+    "Fortify"
+   ],
+   "veteranEligible": true
+  },
+  "MermaidArcher": {
+   "maxHealth": 10,
+   "attack": 2.0,
+   "defense": 1.0,
+   "movePoints": 1,
+   "range": 2,
+   "cost": 3,
+   "visionRange": 1,
+   "requiredTechToSpawn": "Archery",
+   "skills": [
+    "Dash",
+    "Fortify",
+    "Amphibious"
+   ],
+   "veteranEligible": true
+  },
+  "MermaidDefender": {
+   "maxHealth": 15,
+   "attack": 1.0,
+   "defense": 3.0,
+   "movePoints": 1,
+   "range": 1,
+   "cost": 3,
+   "visionRange": 1,
+   "requiredTechToSpawn": "Strategy",
+   "skills": [
+    "Fortify",
+    "Amphibious"
+   ],
+   "veteranEligible": true
+  },
+  "Swordsmaid": {
+   "maxHealth": 15,
+   "attack": 3.0,
+   "defense": 3.0,
+   "movePoints": 1,
+   "range": 1,
+   "cost": 5,
+   "visionRange": 1,
+   "requiredTechToSpawn": null,
+   "skills": [
+    "Dash",
+    "Amphibious"
+   ],
+   "veteranEligible": true
+  },
+  "Scuba": {
+   "maxHealth": 5,
+   "attack": 0.0,
+   "defense": 0.5,
+   "movePoints": 2,
+   "range": 1,
+   "cost": 8,
+   "visionRange": 2,
+   "requiredTechToSpawn": "Diplomacy",
+   "skills": [
+    "Hide",
+    "Creep",
+    "Infiltrate",
+    "Dash",
+    "Scout",
+    "Stiff",
+    "StaticSkill",
+    "Amphibious"
+   ],
+   "veteranEligible": false
+  },
+  "Siren": {
+   "maxHealth": 10,
+   "attack": 0.0,
+   "defense": 1.0,
+   "movePoints": 1,
+   "range": 1,
+   "cost": 8,
+   "visionRange": 1,
+   "requiredTechToSpawn": "Philosophy",
+   "skills": [
+    "Heal",
+    "Convert",
+    "Amphibious",
+    "Stiff"
+   ],
+   "veteranEligible": true
+  },
+  "Shark": {
+   "maxHealth": 10,
+   "attack": 3.5,
+   "defense": 2.0,
+   "movePoints": 3,
+   "range": 1,
+   "cost": 8,
+   "visionRange": 1,
+   "requiredTechToSpawn": null,
+   "skills": [
+    "Dash",
+    "Surprise",
+    "WaterOnly"
+   ],
+   "veteranEligible": true
+  },
+  "YellyBelly": {
+   "maxHealth": 20,
+   "attack": 0.0,
+   "defense": 2.0,
+   "movePoints": 2,
+   "range": 1,
+   "cost": 8,
+   "visionRange": 1,
+   "requiredTechToSpawn": "Navigation",
+   "skills": [
+    "Tentacles",
+    "WaterOnly",
+    "Stiff",
+    "StaticSkill"
+   ],
+   "veteranEligible": true
+  },
+  "Puffer": {
+   "maxHealth": 10,
+   "attack": 4.0,
+   "defense": 0.0,
+   "movePoints": 2,
+   "range": 3,
+   "cost": 8,
+   "visionRange": 1,
+   "requiredTechToSpawn": "Mathematics",
+   "skills": [
+    "Drench",
+    "WaterOnly",
+    "Stiff"
+   ],
+   "veteranEligible": true
+  },
+  "TridentionAq": {
+   "maxHealth": 10,
+   "attack": 2.5,
+   "defense": 1.0,
+   "movePoints": 2,
+   "range": 2,
+   "cost": 8,
+   "visionRange": 1,
+   "requiredTechToSpawn": "Chivalry",
+   "skills": [
+    "Dash",
+    "Persist",
+    "Amphibious"
+   ],
+   "veteranEligible": true
+  },
+  "CrabAq": {
+   "maxHealth": 40,
+   "attack": 4.0,
+   "defense": 5.0,
+   "movePoints": 2,
+   "range": 1,
+   "cost": 0,
+   "visionRange": 1,
+   "requiredTechToSpawn": null,
+   "skills": [
+    "Amphibious",
+    "Escape",
+    "AutoFlood",
+    "StaticSkill"
+   ],
+   "veteranEligible": false
+  },
+  "Polytaur": {
+   "maxHealth": 15,
+   "attack": 3.0,
+   "defense": 1.0,
+   "movePoints": 1,
+   "range": 1,
+   "cost": 3,
+   "visionRange": 1,
+   "requiredTechToSpawn": null,
+   "skills": [
+    "Dash",
+    "Fortify",
+    "Independent",
+    "StaticSkill"
+   ],
+   "veteranEligible": false
+  },
+  "DragonEgg": {
+   "maxHealth": 10,
+   "attack": 0.0,
+   "defense": 2.0,
+   "movePoints": 1,
+   "range": 1,
+   "cost": 0,
+   "visionRange": 1,
+   "requiredTechToSpawn": null,
+   "skills": [
+    "Grow",
+    "Fortify",
+    "Stiff",
+    "StaticSkill"
+   ],
+   "veteranEligible": false
+  },
+  "BabyDragon": {
+   "maxHealth": 15,
+   "attack": 3.0,
+   "defense": 3.0,
+   "movePoints": 2,
+   "range": 1,
+   "cost": 0,
+   "visionRange": 2,
+   "requiredTechToSpawn": null,
+   "skills": [
+    "Air",
+    "Grow",
+    "Dash",
+    "Escape",
+    "Scout",
+    "StaticSkill"
+   ],
+   "veteranEligible": false
+  },
+  "FireDragon": {
+   "maxHealth": 20,
+   "attack": 4.0,
+   "defense": 3.0,
+   "movePoints": 3,
+   "range": 2,
+   "cost": 0,
+   "visionRange": 2,
+   "requiredTechToSpawn": null,
+   "skills": [
+    "Air",
+    "Dash",
+    "Splash",
+    "Scout",
+    "StaticSkill"
+   ],
+   "veteranEligible": false
+  },
+  "IceArcher": {
+   "maxHealth": 10,
+   "attack": 1.0,
+   "defense": 1.0,
+   "movePoints": 1,
+   "range": 2,
+   "cost": 3,
+   "visionRange": 1,
+   "requiredTechToSpawn": "Archery",
+   "skills": [
+    "Dash",
+    "Freeze",
+    "Fortify",
+    "Stiff"
+   ],
+   "veteranEligible": true
+  },
+  "BattleSled": {
+   "maxHealth": 15,
+   "attack": 3.0,
+   "defense": 2.0,
+   "movePoints": 2,
+   "range": 1,
+   "cost": 5,
+   "visionRange": 1,
+   "requiredTechToSpawn": null,
+   "skills": [
+    "Dash",
+    "Escape",
+    "Skate"
+   ],
+   "veteranEligible": true
+  },
+  "Mooni": {
+   "maxHealth": 10,
+   "attack": 0.0,
+   "defense": 2.0,
+   "movePoints": 1,
+   "range": 1,
+   "cost": 5,
+   "visionRange": 1,
+   "requiredTechToSpawn": null,
+   "skills": [
+    "Skate",
+    "AutoFreeze",
+    "Stiff"
+   ],
+   "veteranEligible": true
+  },
+  "IceFortress": {
+   "maxHealth": 20,
+   "attack": 4.0,
+   "defense": 3.0,
+   "movePoints": 1,
+   "range": 2,
+   "cost": 15,
+   "visionRange": 2,
+   "requiredTechToSpawn": null,
+   "skills": [
+    "Skate",
+    "Scout",
+    "Escape",
+    "StaticSkill"
+   ],
+   "veteranEligible": false
+  },
+  "Gaami": {
+   "maxHealth": 30,
+   "attack": 4.0,
+   "defense": 3.0,
+   "movePoints": 1,
+   "range": 1,
+   "cost": 0,
+   "visionRange": 1,
+   "requiredTechToSpawn": null,
+   "skills": [
+    "AutoFreeze",
+    "FreezeArea",
+    "StaticSkill"
+   ],
+   "veteranEligible": false
+  },
+  "Hexapod": {
+   "maxHealth": 5,
+   "attack": 3.0,
+   "defense": 1.0,
+   "movePoints": 2,
+   "range": 1,
+   "cost": 3,
+   "visionRange": 1,
+   "requiredTechToSpawn": "Riding",
+   "skills": [
+    "Dash",
+    "Escape",
+    "Creep",
+    "Sneak"
+   ],
+   "veteranEligible": true
+  },
+  "Kiton": {
+   "maxHealth": 15,
+   "attack": 1.0,
+   "defense": 3.0,
+   "movePoints": 1,
+   "range": 1,
+   "cost": 3,
+   "visionRange": 1,
+   "requiredTechToSpawn": "Strategy",
+   "skills": [
+    "Poison",
+    "Creep"
+   ],
+   "veteranEligible": true
+  },
+  "Phychi": {
+   "maxHealth": 5,
+   "attack": 0.7,
+   "defense": 1.0,
+   "movePoints": 2,
+   "range": 2,
+   "cost": 3,
+   "visionRange": 1,
+   "requiredTechToSpawn": "Archery",
+   "skills": [
+    "Air",
+    "Dash",
+    "Poison",
+    "Surprise",
+    "DoubleAttack"
+   ],
+   "veteranEligible": true
+  },
+  "Shaman": {
+   "maxHealth": 10,
+   "attack": 1.0,
+   "defense": 1.0,
+   "movePoints": 1,
+   "range": 1,
+   "cost": 5,
+   "visionRange": 1,
+   "requiredTechToSpawn": "Philosophy",
+   "skills": [
+    "Convert",
+    "Swarm"
+   ],
+   "veteranEligible": true
+  },
+  "Raychi": {
+   "maxHealth": 10,
+   "attack": 3.0,
+   "defense": 2.0,
+   "movePoints": 3,
+   "range": 1,
+   "cost": 5,
+   "visionRange": 1,
+   "requiredTechToSpawn": "Sailing",
+   "skills": [
+    "WaterOnly",
+    "Dash"
+   ],
+   "veteranEligible": true
+  },
+  "Exida": {
+   "maxHealth": 10,
+   "attack": 3.0,
+   "defense": 1.0,
+   "movePoints": 2,
+   "range": 3,
+   "cost": 8,
+   "visionRange": 1,
+   "requiredTechToSpawn": "Mathematics",
+   "skills": [
+    "Poison",
+    "Splash",
+    "Creep"
+   ],
+   "veteranEligible": true
+  },
+  "Doomux": {
+   "maxHealth": 20,
+   "attack": 3.5,
+   "defense": 2.0,
+   "movePoints": 3,
+   "range": 1,
+   "cost": 10,
+   "visionRange": 1,
+   "requiredTechToSpawn": "Chivalry",
+   "skills": [
+    "Dash",
+    "Creep",
+    "Explode",
+    "StaticSkill"
+   ],
+   "veteranEligible": false
+  },
+  "MothC": {
+   "maxHealth": 10,
+   "attack": 0.0,
+   "defense": 0.1,
+   "movePoints": 2,
+   "range": 1,
+   "cost": 5,
+   "visionRange": 1,
+   "requiredTechToSpawn": "Diplomacy",
+   "skills": [
+    "Air",
+    "Dash",
+    "Sneak",
+    "Infiltrate",
+    "Poison",
+    "StaticSkill",
+    "Stiff"
+   ],
+   "veteranEligible": false
+  },
+  "LarvaC": {
+   "maxHealth": 10,
+   "attack": 2.0,
+   "defense": 2.0,
+   "movePoints": 1,
+   "range": 1,
+   "cost": 0,
+   "visionRange": 1,
+   "requiredTechToSpawn": null,
+   "skills": [
+    "Dash",
+    "Creep",
+    "Surprise",
+    "Independent",
+    "StaticSkill",
+    "Grow"
+   ],
+   "veteranEligible": false
+  },
+  "InsectEgg": {
+   "maxHealth": 10,
+   "attack": 2.0,
+   "defense": 3.0,
+   "movePoints": 0,
+   "range": 1,
+   "cost": 0,
+   "visionRange": 1,
+   "requiredTechToSpawn": null,
+   "skills": [
+    "Grow",
+    "Stiff",
+    "Explode",
+    "StaticSkill"
+   ],
+   "veteranEligible": false
+  },
+  "Boomchi": {
+   "maxHealth": 10,
+   "attack": 3.0,
+   "defense": 3.0,
+   "movePoints": 1,
+   "range": 1,
+   "cost": 5,
+   "visionRange": 1,
+   "requiredTechToSpawn": null,
+   "skills": [
+    "Dash",
+    "Explode",
+    "Stiff"
+   ],
+   "veteranEligible": true
+  },
+  "LivingIsland": {
+   "maxHealth": 20,
+   "attack": 4.0,
+   "defense": 4.0,
+   "movePoints": 2,
+   "range": 1,
+   "cost": 20,
+   "visionRange": 1,
+   "requiredTechToSpawn": "Navigation",
+   "skills": [
+    "WaterOnly",
+    "Stomp",
+    "Algae",
+    "StaticSkill",
+    "Poison"
+   ],
+   "veteranEligible": false
+  },
+  "SteamWagon": {
+   "maxHealth": {
+    "v": 15,
+    "src": "GAME-UI (Jason's v123 info cards, 2026-10-23)"
+   },
+   "attack": {
+    "v": 3,
+    "src": "GAME-UI (Jason's v123 info cards, 2026-10-23)"
+   },
+   "defense": {
+    "v": 2,
+    "src": "GAME-UI (Jason's v123 info cards, 2026-10-23)"
+   },
+   "movePoints": {
+    "v": 3,
+    "src": "GAME-UI (Jason's v123 info cards, 2026-10-23)"
+   },
+   "range": {
+    "v": 1,
+    "src": "GAME-UI (Jason's v123 info cards, 2026-10-23)"
+   },
+   "cost": {
+    "v": 5,
+    "src": "GAME-UI (Jason's v123 info cards, 2026-10-23)"
+   },
+   "skills": {
+    "v": [
+     "Dash",
+     "Escape",
+     "Roll"
+    ],
+    "src": "GAME-UI (Jason's v123 info cards, 2026-10-23)"
+   },
+   "tribe": "Solaris"
+  },
+  "SteamFortress": {
+   "maxHealth": {
+    "v": 20,
+    "src": "GAME-UI (Jason's v123 info cards, 2026-10-23)"
+   },
+   "attack": {
+    "v": 4,
+    "src": "GAME-UI (Jason's v123 info cards, 2026-10-23)"
+   },
+   "defense": {
+    "v": 3,
+    "src": "GAME-UI (Jason's v123 info cards, 2026-10-23)"
+   },
+   "movePoints": {
+    "v": 2,
+    "src": "GAME-UI (Jason's v123 info cards, 2026-10-23)"
+   },
+   "range": {
+    "v": 2,
+    "src": "GAME-UI (Jason's v123 info cards, 2026-10-23)"
+   },
+   "cost": {
+    "v": 15,
+    "src": "GAME-UI (Jason's v123 info cards, 2026-10-23)"
+   },
+   "skills": {
+    "v": [
+     "Roll",
+     "Scout",
+     "Escape",
+     "Static"
+    ],
+    "src": "GAME-UI (Jason's v123 info cards, 2026-10-23)"
+   },
+   "tribe": "Solaris"
+  },
+  "Pyro": {
+   "maxHealth": {
+    "v": 10,
+    "src": "GAME-UI (Jason's v123 info cards, 2026-10-23)"
+   },
+   "attack": {
+    "v": 0,
+    "src": "GAME-UI (Jason's v123 info cards, 2026-10-23)"
+   },
+   "defense": {
+    "v": 1,
+    "src": "GAME-UI (Jason's v123 info cards, 2026-10-23)"
+   },
+   "movePoints": {
+    "v": 2,
+    "src": "GAME-UI (Jason's v123 info cards, 2026-10-23)"
+   },
+   "range": {
+    "v": 1,
+    "src": "GAME-UI (Jason's v123 info cards, 2026-10-23)"
+   },
+   "cost": {
+    "v": 5,
+    "src": "GAME-UI (Jason's v123 info cards, 2026-10-23)"
+   },
+   "skills": {
+    "v": [
+     "Roll",
+     "Auto_Burn",
+     "Stiff"
+    ],
+    "src": "GAME-UI (Jason's v123 info cards, 2026-10-23)"
+   },
+   "tribe": "Solaris"
+  },
+  "AshArcher": {
+   "maxHealth": {
+    "v": 10,
+    "src": "GAME-UI (Jason's v123 info cards, 2026-10-23)"
+   },
+   "attack": {
+    "v": 1,
+    "src": "GAME-UI (Jason's v123 info cards, 2026-10-23)"
+   },
+   "defense": {
+    "v": 1,
+    "src": "GAME-UI (Jason's v123 info cards, 2026-10-23)"
+   },
+   "movePoints": {
+    "v": 1,
+    "src": "GAME-UI (Jason's v123 info cards, 2026-10-23)"
+   },
+   "range": {
+    "v": 2,
+    "src": "GAME-UI (Jason's v123 info cards, 2026-10-23)"
+   },
+   "cost": {
+    "v": 3,
+    "src": "GAME-UI (Jason's v123 info cards, 2026-10-23)"
+   },
+   "skills": {
+    "v": [
+     "Dash",
+     "Burn",
+     "Fortify",
+     "Stiff"
+    ],
+    "src": "GAME-UI (Jason's v123 info cards, 2026-10-23)"
+   },
+   "tribe": "Solaris"
+  }
+ }
+}
