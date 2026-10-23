@@ -475,6 +475,12 @@
    "rule": "Breaking a peace disbands the breaker's units inside the ex-ally's borders, with no refund; the breaker cannot attack that turn. Peace forbids attacks both ways and lets units pass through each other's territory and use their roads. Bots accept peace only at a 'Great' opinion.",
    "level": "L0 (untested)",
    "evidence": "Jason's pasted summary, 2026-10-23, undated source. The one broken peace in the saves had no units inside the other's borders, so nothing to test yet. Not in the engine."
+  },
+  {
+   "id": "C27",
+   "rule": "Navigation's prerequisite is Sailing, not Ramming (Polyfish v115 is wrong here for v123); backwards research also allows it with neither.",
+   "level": "L3",
+   "evidence": "33 games' action logs: Navigation researched 24 times with Sailing but no Ramming, 10 times with both, 2 times with neither (backwards research, GAME-UI rule)."
   }
  ]
 }

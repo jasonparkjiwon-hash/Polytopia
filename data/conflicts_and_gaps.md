@@ -254,3 +254,4 @@ Jason (Imperius) vs 15 Hard bots on a 30x30 map, exported every turn from 1 to 1
   - 29 is Break Peace (n=1).
   - Test items: units disbanded inside the ex-ally's borders when peace is broken; no attacks between tribes at peace. Neither is in the engine yet.
   - About 15 player-turns still 1 star short.
+- **C27 settled (L3):** Navigation needs Sailing, not Ramming. 24 of 36 research actions had Sailing without Ramming; 2 had neither (backwards research).
