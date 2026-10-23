@@ -797,13 +797,6 @@
    "evidence": "Star check (engine/economy.py TIER): each was the only unknown on a one-turn row; Polarism: af181c8f p6 t10->12, residual -10 at 2 cities (801 -> 802)."
   },
   {
-   "id": "IDLE-AUTO-RECOVER",
-   "rule": "When the human player (save AutoPlay 0) ends a turn, each of their wounded units that neither moved nor attacked that turn heals as if it had Recovered (+4 in own territory, +2 elsewhere), with no logged action. AI players' idle units do not heal.",
-   "level": "L3 (n=1 checkable case; bots: the same rule applied to AI players adds 57 misses, so it is human-only or tied to something else the human turn has)",
-   "game_version": "v123 (saves)",
-   "evidence": "engine RULES idle_auto_recover; af181c8f t15 (Jason's Rider id260, idle on turn 15, 6 -> 10 HP); replay A/B 19 -> 18 unit misses, stars hold"
-  },
-  {
    "id": "PUSH-NEVER-MOVED",
    "rule": "Push direction for a unit with no move: (a) if it was attacked, toward the attacker (as if it had stepped away from it); (b) otherwise toward the map centre, rounded to the nearest of the 8 directions like a multi-tile move ((-1,+13) pushes on (0,+1)). Then Polyfish's fallback order (PUSH-DIRECTION).",
    "level": "L3 (replay A/B, 3 fits vs 1 counter-case)",
@@ -865,6 +858,13 @@
    "level": "L3 (130/130 move-then-break uses in the saves are Dash units; Jason in game)",
    "game_version": "v123 (measured in game)",
    "evidence": "Jason's in-game text 2026-10-23 (see ACTION-18-BREAK-ICE). Saves, all per-turn intervals (engine/replay.py LOG, 2026-10-23): 130 break-ice actions came right after the same unit moved that turn; 128 were Dash units (v123 cards, else data/units.json: Warrior, Rider, Raychi, Tridention, Rammer...), 2 were a Raft, which has no Dash on any source. The Raft may borrow its passenger's Dash, or breaking ice may not need Dash: test item. Engine: RULES break_ice_after_move_needs_dash only counts violations (legality check for the forward model), no state change. | Wiki (fandom Unit page, search snippet, undated): Break Ice is available to all units except those with Freeze Area (Mooni, Gaami) and needs at least one adjacent ice tile; it says nothing about Dash. That fits the 2 Raft cases better than 'Dash only': conflict, test item. | Re-test 2026-10-23 after Jason's note (upgrading a Raft to a Scoutship gives it Dash and 2-tile vision, which is how those boats broke ice after moving): with a per-turn 'moved this turn' mark (last_from now persists across turns for push direction, which had made a turn-11 move look like a turn-12 one) and the upstream boat fixes, all 130 move-then-break uses are Dash units, 0 exceptions. The earlier 2 'Raft' cases were engine bookkeeping, not a rule break."
+  },
+  {
+   "id": "IDLE-AUTO-RECOVER",
+   "rule": "An idle unit (no move, no attack that turn) heals at its owner's End Turn as if it had Recovered: +4 in friendly territory, +2 in neutral or enemy territory, never past max HP. Poisoned units don't heal. In the replay only the human player's (AutoPlay 0) idle units heal; AI idle units don't in any save.",
+   "level": "L3 (Jason in game, 23 Oct 2026 + 1 save case af181c8f t15; applying it to AI players adds 57 replay misses, so the engine keeps it human-only)",
+   "game_version": "v123 (saves + Jason in game)",
+   "evidence": "engine RULES idle_auto_recover; Jason's in-game answer 23 Oct 2026; af181c8f t15 (Rider id260 6 -> 10)"
   }
  ]
 }
