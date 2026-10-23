@@ -32,6 +32,11 @@ python3 -I tools/trace.py <game> <turnA> <turnB> x,y ...
   (HasWaterRoute lost, ConnectedPlayerCapital 5 -> 0), so 3 p5 cities fell to -1 population before p5's turn
   (NEG_POP would take 3). The engine has no trade-route model; 1 star still unexplained. Left as is.
 - Polarism (id 32) tier 3 → 802. Kept (ledger TRIBE-TECH-TIERS). Oceantology (id 49, 6e1bf8e0 p16 t11-15) left unpriced.
+- `MEET_SCORE_AT_FIRSTMEET`: in 2+ turn gaps, interpolate the met tribe's score to Diplomacy FirstMeet → 803, but it
+  only reshuffles misses (fixes bot-war rows, breaks 2 Cliff t2->4 rows and af t16->18); offsets -1/-0.5/+0.5/+1 give
+  805/801/805/802. Reverted (noise, and it regresses the Cliff baseline).
+- af181c8f t10->12: p9 +3 is a tribe destroyed mid-gap (no turns, stars irrelevant); p13 -2 is meet-score timing
+  (p11's score crossed 3000 between the saves, and there is no t11 save).
 
 ## Ruled out
 
