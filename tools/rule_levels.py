@@ -69,6 +69,7 @@ MAP = {   # rule name -> ledger id
     "replay.RULES.stiff_boat_lands": "JUGGERNAUT-KILL-MOVE",
     "replay.RULES.stomp_on_kill_move": "JUGGERNAUT-KILL-MOVE",
     "replay.RULES.push_dir_persists": "PUSH-DIRECTION",
+    "replay.RULES.polaris_capture_freezes": "POLARIS-CAPTURE-FREEZE",
     "replay.RULES.push_dir_round": "PUSH-DIRECTION",
     # economy.py ECON_RULES switches
     "economy.ECON_RULES.embassy_income": "ECON-EMBASSY",
