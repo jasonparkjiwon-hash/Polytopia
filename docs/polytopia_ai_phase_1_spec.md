@@ -71,10 +71,9 @@ Phase 1 is done only when **all six** gates pass. No advisor work starts before 
   - Also settled: the Crazy bot bonus (3 a turn) and action 38 (the Shaman's Swarm, a movement boost).
   - Also settled: action 18 is Break Ice, which explains the ice that seemed to melt.
   - Open: C20 (retaliation vs fog; the saves can't separate the readings, so it needs an in-game test) and C29b (Static skill).
-- [ ] **Gate B. The map model is decided.** C23 (capital resources), C10 (capital guarantees) and C9 (villages) are each decided by their pre-registered test on real data, with a Bayes factor above 10. *Now (23 Oct): nearly done.*
-  - C23 and C10 are decided (L3).
-  - C9 is decided for Drylands, Lakes, Continents, Archipelago and Pangea: Bayes factor 10^4.0 over the wiki on 9 held-out saves (`verify/c9_test.md`).
-  - Still needs one held-out Waterworld save.
+- [x] **Gate B. The map model is decided.** C23 (capital resources), C10 (capital guarantees) and C9 (villages) are each decided by their pre-registered test on real data, with a Bayes factor above 10. *Passed (23 Oct):*
+  - *C23 and C10 decided (L3).*
+  - *C9 decided for all six map types: on 10 held-out saves, the measured village shares beat the wiki's flat 60% by a Bayes factor of 10^15.6 (`verify/c9_test.md`).*
 - [x] **Gate C. Real data in a fixed format.** You're on iPhone with no save files, so this gate needs **at least 15 capitals** logged on the test sheet. Each row records the tribe, your starting tech and the fruit, animals and fish you can see on turn 1 (plus crops and metal if your tech shows them). If the verdict is still open after 15, we continue to 25. *Passed: iPhone saves turned out to be exportable. 33 games are decoded, over 300 capitals.*
 - [x] **Gate D. Fog is measured, not assumed.** The first reveal (C21), whether old sightings go stale (G3) and city vision (G9) are measured at level L3. *Passed:*
   - *C21: 5×5 reveal, every save.*

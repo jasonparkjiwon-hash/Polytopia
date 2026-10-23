@@ -279,3 +279,4 @@ Jason (Imperius) vs 15 Hard bots on a 30x30 map, exported every turn from 1 to 1
   - 91/92 uses had ice next to the unit.
   - With the rule, ice-vs-water mismatches drop from 148 to 0. The open "ice melting" item was this.
   - Still open: 12 tiles where the save has ice the engine didn't freeze.
+- **C9 decided for all six map types (L2).** Waterworld held-out save: 24/100, and the table says 0.24. Over 10 held-out saves the table beats the wiki by 10^15.6. Gate B passes.

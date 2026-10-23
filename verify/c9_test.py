@@ -26,7 +26,7 @@ def in_table(mt, n, land, water, starfish):
 
 # Amendment (23 Oct, before scoring the Drylands save): saves known to have arrived after the table was built.
 # Drylands maps are nearly all land, so a new one can share size, water and starfish with a table row.
-KNOWN_NEW = {"af181c8f", "09a5bf1e", "6eccceef", "d71a6b1d"}
+KNOWN_NEW = {"af181c8f", "09a5bf1e", "6eccceef", "d71a6b1d", "c4a3fc8b"}
 held = []
 for f in sorted(glob.glob(os.path.join(sys.argv[2], "????????-????-????-????-????????????.json"))):
     d = json.load(open(f))
