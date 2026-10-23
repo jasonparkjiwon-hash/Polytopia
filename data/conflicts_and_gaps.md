@@ -292,3 +292,4 @@ Jason (Imperius) vs 15 Hard bots on a 30x30 map, exported every turn from 1 to 1
   - Elyrion ruin rewards.
   - Units disbanded when peace breaks.
 - ECON-BOT-BONUS: bonus is also not paid while the capital is besieged (enemy unit on it). A/B: stars exact 754->762/819, units unchanged.
+- AQUARION-TECHS (Jason screenshots, 2026-10-23, 1 city, turn 0): Waterways costs 6 (tier 2; unlocks Flood, Bubbled), Aquaculture costs 6 (tier 2; Atoll 5 stars, Aqua Farm 5 stars), Tridention 8 stars, Mermaid Archer 3 stars (atk 2 def 1 mov 1 range 2, Dash+Fortify), Tridention (hp10 atk2.5 def1 mov2 range2, Dash+Persist). Marine Life, Spearing, Free Diving exist in the tree. Which save ids 39/46/47 are which is NOT settled: only tiers are known (47 tier 1; 39, 46 tier 2). Ids not named.
