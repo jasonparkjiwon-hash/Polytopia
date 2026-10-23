@@ -15,7 +15,7 @@ LAND_UNITS = {"Warrior", "Rider", "Archer", "Defender", "MindBender", "Swordsman
               "Polytaur", "Mooni", "IceArcher", "BattleSled", "IceFortress", "Gaami", "Hexapod", "Kiton", "Shaman", "Exida", "Doomux",
               "Centipede", "Segment", "Larva", "SteamWagon", "SteamFortress", "Pyro", "AshArcher"}   # Aquarion units are amphibious/water: never embark
 WATER_UNITS = {"Shark", "Raychi", "Puffer", "Jelly", "Crab"}   # MEASURED: seen only on water, flooded tiles or cities (Mermaid walks on land)
-RULES = {"retaliation_uses_bonus": True, "melee_moves_in_on_kill": True, "t18_disband": False, "t18_break_ice": True, "t24_explode": True, "t38_swarm": True, "t38_attack_boost": False, "mooni_freezes_units": True, "retaliation_needs_sight": True, "frozen_no_retaliation": True, "freeze_on_hit": True, "hidden_attacker_no_retaliation": True,
+RULES = {"retaliation_uses_bonus": True, "melee_moves_in_on_kill": True, "t18_disband": False, "t18_break_ice": True, "t24_explode": True, "t38_swarm": True, "t38_attack_boost": False, "mooni_freezes_units": True, "retaliation_needs_sight": True, "frozen_no_retaliation": True, "freeze_on_hit": True, "tribe_super_unit": True, "bridge_is_land": True, "stomp": True, "hidden_attacker_no_retaliation": True,
          "algae_is_land": True, "flood_keeps_form": True, "resync_terrain": True, "kill_move_lands": True, "push_polyfish": True, "push_needs_climbing": True, "ruin_unit": True, "mooni_freeze": True, "water_units_stay": True, "shaman_convert": True, "shaman_damage": True,
          "poison": True, "attack_splash": True, "poison_recover_cures": True,
          "mooni_freezes": ("Water", "Ocean"), "freezers": ("Mooni", "Gaami"), "giant_juggernaut": True,
@@ -169,6 +169,7 @@ def rekey(st, u, uid):
     return u
 
 def is_water(st, x, y):
+    if RULES["bridge_is_land"] and (x, y) in st.bridge: return False   # MEASURED af181c8f t22-23: land units cross a bridge on foot
     return st.terrain.get((x, y)) in ("Water", "Ocean") and not (RULES["algae_is_land"] and st.flood.get((x, y)) == 4)
 
 def enter(st, u, x0, y0, x1, y1):
@@ -178,6 +179,9 @@ def enter(st, u, x0, y0, x1, y1):
     if RULES["algae_is_land"]:                     # MEASURED (e15f392c): land units stand on Cymanti algae (flood value 4) unboarded
         if st.flood.get((x1, y1)) == 4: ter = "Field"
         if st.flood.get((x0, y0)) == 4: ter0 = "Field"
+    if RULES["bridge_is_land"] and u.type not in BOATS:  # a bridge carries land units; boats still pass under it as water
+        if (x1, y1) in st.bridge: ter = "Field"
+        if (x0, y0) in st.bridge: ter0 = "Field"
     if RULES["algae_keeps_boats"] and st.flood.get((x1, y1)) == 4 and u.type in BOATS:
         pass                                     # MEASURED (af181c8f t22, t25): a boat moving onto Cymanti algae stays a boat, passenger aboard
     elif RULES["flood_keeps_form"] and st.flood.get((x1, y1)) == 1 and ter not in water and (x1, y1) not in st.city:
@@ -201,9 +205,20 @@ def enter(st, u, x0, y0, x1, y1):
 PREV = [None]
 POISON = 1   # UnitEffect enum
 FROZEN, SWIFT = 0, 6
+SUPER_UNIT = {"Polaris": "Gaami", "Aquarion": "Crab", "Elyrion": "DragonEgg", "Cymanti": "Centipede"}
 
 def add_effect(u, e):
     if e not in u.effects: u.effects = list(u.effects) + [e]
+
+def stomp(st, u, old):
+    """Polyfish move_unit Stomp: after moving, every adjacent enemy takes half the normal attack damage, floored (MEASURED af181c8f t25:
+    an Ai-Mo Juggernaut landing next to three wounded Oumaji units killed them with no logged attack)."""
+    sa = STATS[old]
+    for d in [e for e in st.units.values() if e.owner != u.owner and dist((e.x, e.y), (u.x, u.y)) == 1 and st.at.get((e.x, e.y)) == e.id]:
+        af = sa["atk"] * u.hp / u.max_hp; df = stat(d)["def"] * d.hp / d.max_hp * defence_bonus(st, d); tot = af + df
+        d.hp -= math.floor(rnd(af / tot * sa["atk"] * 4.5) / 2) if tot > 0 else 0
+        if d.hp <= 0: remove(st, d)
+        LOG["stomp"] += 1
 
 def mooni_freeze(st, x, y, owner=None):
     """MEASURED (e15f392c, 4/4 cases): right after a Mooni moves or captures, the water around it is ice, so land units walk on it.
@@ -237,7 +252,9 @@ def apply(st, a, turn):
     if t == 6:                                   # Move
         _, x0, y0, x1, y1, uid = v
         u = locate(st, uid, x0, y0, pl)
+        old = u.type                             # Stomp uses the type before the move (a Juggernaut that lands as a Giant still stomps)
         enter(st, u, x0, y0, x1, y1); u.last_from = (x0, y0); explore(st, u.owner, x1, y1)
+        if RULES["stomp"] and "stomp" in STATS.get(old, {}).get("skills", ()): stomp(st, u, old)
         if u.type in RULES["freezers"]: mooni_freeze(st, x1, y1, u.owner)
     elif t == 2:                                 # Attack
         _, uid, ox, oy, tx, ty = v
@@ -300,6 +317,7 @@ def apply(st, a, turn):
         _, imp, x, y = v
         if imp == 30: spawn(st, pl, "Polytaur", x, y); LOG["enchant animal"] += 1
         if imp == 8: st.port.add((x, y))
+        if imp == 48: st.bridge.add((x, y))
     elif t == 7 and RULES.get("territory", True):  # Capture: the city's tile and the 8 around it become the captor's (unowned or owned by the old owner)
         _, uid, x, y = v; old = st.city.get((x, y))
         for dy in (-1, 0, 1):
@@ -325,8 +343,9 @@ def apply(st, a, turn):
                 for dx in range(-2, 3):
                     q = (x + dx, y + dy)
                     if q in st.terrain and st.owner.get(q) in (0, None): st.owner[q] = pl
-        if rw == 6:                              # Super unit (Giant), forced spawn
-            spawn(st, pl, "Giant", x, y)
+        if rw == 6:                              # Super unit, forced spawn: the tribe's own (Polyfish get_super_unit; Polaris Gaami MEASURED af181c8f t24)
+            tribe = st.players[pl].tribe if pl in st.players else None
+            spawn(st, pl, SUPER_UNIT.get(tribe, "Giant") if RULES["tribe_super_unit"] else "Giant", x, y)
     elif t == 14 and RULES["ruin_unit"]:         # Examine ruins: the reward isn't logged; a unit reward (veteran Swordsman seen twice)
         _, x, y = v                              # spawns on the ruin tile and pushes the explorer. Read it back from the checkpoints.
         hit = [r for r in RUIN.get((pl, x, y), ()) if r[0] == turn]
@@ -416,11 +435,12 @@ def run(final, checkpoints):
                 for yy, row in enumerate(cd["currentTiles"]):
                     for xx, tt in enumerate(row): st.owner[(xx, yy)] = tt["Owner"]
             if RULES["resync_terrain"]:                  # ice (Mooni freeze, melts again), Aquarion flood and Cymanti algae change outside the log
-                st.flood = {}; st.fungi = {}; st.port = set()
+                st.flood = {}; st.fungi = {}; st.port = set(); st.bridge = set()
                 for yy, row in enumerate(cd["currentTiles"]):
                     for xx, tt in enumerate(row):
                         if tt.get("ImprovementExists") and tt["ImprovementType"] == 37: st.fungi[(xx, yy)] = tt["Owner"]
                         if tt.get("ImprovementExists") and tt["ImprovementType"] == 8: st.port.add((xx, yy))
+                        if tt.get("ImprovementExists") and tt["ImprovementType"] == 48: st.bridge.add((xx, yy))
                         st.terrain[(xx, yy)] = TERRAIN.get(tt["Terrain"], tt["Terrain"])
                         if tt.get("FloodedFlag"): st.flood[(xx, yy)] = tt.get("FloodedValue", 1)
         if a["type"] == 15 and bytes.fromhex(a["raw"])[0] == 255: turn += 1

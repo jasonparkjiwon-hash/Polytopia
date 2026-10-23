@@ -627,6 +627,27 @@
    "level": "L3",
    "game_version": "v123 (measured in game)",
    "evidence": "09a5bf1e t7: a Battle Sled attacked a Frozen Warrior and took no return damage. The rule gives +5 exact units over all per-turn saves (4688 -> 4693); Cliff & Gods becomes 100% exact. Freeze-on-hit is score-neutral and follows the Freeze skill."
+  },
+  {
+   "id": "SUPER-UNIT-BY-TRIBE",
+   "rule": "The Super Unit city reward spawns the tribe's own super unit: Polaris Gaami, Aquarion Crab, Elyrion Dragon Egg, Cymanti Centipede, everyone else Giant.",
+   "level": "L3 (Polaris, Giant tribes); L1 (Aquarion, Elyrion, Cymanti from Polyfish)",
+   "game_version": "v123 (measured in game) + v115 (Polyfish)",
+   "evidence": "Saves: Polaris got a Gaami (af181c8f t24); 11 other rewards gave Giants. Polyfish get_super_unit for the rest. +2 exact units."
+  },
+  {
+   "id": "BRIDGE-LAND",
+   "rule": "Land units cross a bridge on foot (no boarding); boats still treat it as water.",
+   "level": "L3",
+   "game_version": "v123 (measured in game)",
+   "evidence": "af181c8f t22-24: a Battle Sled and a Defender stood on a bridge tile unboarded. +2 exact units."
+  },
+  {
+   "id": "STOMP",
+   "rule": "After a Stomp unit (Juggernaut, Living Island) moves, every adjacent enemy takes half the normal attack damage, floored, using the type before the move (a Juggernaut that lands as a Giant still stomps).",
+   "level": "L3",
+   "game_version": "v123 (measured in game) + v115 (Polyfish)",
+   "evidence": "af181c8f t25: an Ai-Mo Juggernaut landing next to three wounded Oumaji units killed them with no logged attack. Polyfish move_unit. +2 exact units, 6 fewer wrongly alive."
   }
  ]
 }
