@@ -131,7 +131,20 @@ PEACE, WAR = 1, 3           # RelationState values (0 = neutral)
 BONUS_NEEDS_CAPITAL = True
 BONUS_NEEDS_FREE_CAPITAL = True   # A/B 2026-10-23: a besieged capital also loses the bot bonus
 NEG_POP = True
+ROUND_START_PAID = True     # A/B 2026-10-23: a save taken right after the round-end EndTurn (player 255) already holds the next player's income
 PAID_AT_TURN_START = False  # MEASURED: a save taken right at a turn start does not hold that turn's income yet; a mid-turn save does (596 vs 562 exact)
+
+def _round_end(x): return x["type"] == 15 and x["raw"][:2] == "ff"
+
+def _next_actor(acts, n):
+    """The player who acts first after the round end at acts[n-1]: read ahead in the log, else from the previous round's opener."""
+    for x in acts[n:]:
+        if x["raw"][:2] != "ff": return bytes.fromhex(x["raw"])[0]
+    for j in range(n - 2, 0, -1):
+        if _round_end(acts[j]):
+            for x in acts[j + 1:]:
+                if x["raw"][:2] != "ff": return bytes.fromhex(x["raw"])[0]
+    return None
 
 def check(a, b, acts, model="levels", siege=True):
     """One row per player: stars before/after, income, known spending, unknown-price actions, residual (after - predicted)."""
@@ -143,6 +156,7 @@ def check(a, b, acts, model="levels", siege=True):
     st = State(a, "current") if siege else None; R.PREV[0] = None; turn = a["currentTurn"]
     n0 = len(a["actions"])
     prev_end = PAID_AT_TURN_START is False and n0 > 0 and acts[n0 - 1]["type"] == 15   # see PAID_AT_TURN_START
+    if ROUND_START_PAID and n0 > 0 and _round_end(acts[n0 - 1]): prev_end = False   # already paid in save a
     for i in range(len(a["actions"]), len(b["actions"])):
         x = acts[i]; pl = bytes.fromhex(x["raw"])[0]
         if pl in rows and prev_end and pl != 255:       # the first action of a player's turn: income arrives first
@@ -158,6 +172,12 @@ def check(a, b, acts, model="levels", siege=True):
         if c is None: rows[pl]["unknown"][(x["name"], x["raw"][2:6])] += 1
         else: rows[pl]["spent"] += c
         book(bk, x)
+    n1 = len(b["actions"])
+    if ROUND_START_PAID and _round_end(acts[n1 - 1]):   # ... and save b holds the income of the player who opens the next round
+        nxt = _next_actor(acts, n1)
+        if nxt in rows:
+            occ = {q: st.units[i].owner for q, i in st.at.items() if i in st.units} if st else None
+            rows[nxt]["income"] += bk.income(nxt, model, occ); rows[nxt]["turns"] += 1
     pa = {p["PlayerId"]: p for p in a["currentPlayers"]}; pb = {p["PlayerId"]: p for p in b["currentPlayers"]}
     for pl, r in rows.items():                          # tribes met between the saves (the log has no meet event)
         if pl not in pb: continue
