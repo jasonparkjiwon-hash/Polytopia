@@ -37,6 +37,8 @@ Save units near a tile: a 15-line scratch script (`near.py`: tile, id, tribe, ty
   af181c8f t19/t24 pushes). Alone: toward 4721/4736, round 4722/4738. Counter-case for rounding: 6e1bf8e0
   action 1062 trainee now lands on (3,8), save (2,10) (new miss, id -432 at t11). af181c8f id169 still open.
   Facing ('Flipped' in the save) doesn't explain the vertical part of pushes.
+- `push_port_first_only` (port only as first-choice push direction; Zebasi 257 at 1372) → 4725/4733 → 4725/4732.
+- `ruin_boat_passenger` (water ruin: Rammership + veteran Warrior, promotion on the passenger record) → 4726/4732.
 
 ## Ruled out
 

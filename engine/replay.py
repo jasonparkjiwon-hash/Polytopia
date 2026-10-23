@@ -69,6 +69,8 @@ RULES = {   # one switch per line; A/B each in tools/miss.py before keeping a ch
     'move_blocked_by_hidden': True,
     'push_centre_round': True,
     'push_toward_attacker': True,
+    'push_port_first_only': True,
+    'ruin_boat_passenger': True,
     'push_dir_persists': True,
     'push_dir_round': True,
     'peace_break_disbands': True,       # UNVERIFIED (L0): no save has a broken peace with units inside the ex-ally's borders
@@ -169,10 +171,10 @@ def push_target(st, u, actor):
         da = (x + a[0] - cx) ** 2 + (y + a[1] - cy) ** 2; db = (x + b[0] - cx) ** 2 + (y + b[1] - cy) ** 2
         if db < da or (db == da and abs(x + b[0] - y - b[1]) < abs(x + a[0] - y - a[1])): order += [b, a]
         else: order += [a, b]
-    for dx, dy in order:
+    for n, (dx, dy) in enumerate(order):
         q = (x + dx, y + dy)
         if q not in st.terrain or q in st.at: continue
-        if u.type in LAND_UNITS and is_water(st, *q) and not (RULES["push_onto_port"] and q in st.port and st.owner.get(q) == u.owner): continue   # MEASURED (af181c8f t15, t21): its own port takes it, and it boards
+        if u.type in LAND_UNITS and is_water(st, *q) and not (RULES["push_onto_port"] and q in st.port and st.owner.get(q) == u.owner and (n == 0 or not RULES["push_port_first_only"])): continue   # MEASURED (af181c8f t15, t21): its own port takes it, and it boards
         if u.type not in LAND_UNITS and u.type in BOATS and not is_water(st, *q): continue
         if RULES["push_needs_climbing"] and st.terrain.get(q) == "Mountain" and "Climbing" not in st.players[u.owner].techs and "fly" not in stat(u)["skills"]:
             continue                             # Polyfish is_steppable_for_push; MEASURED 09a5bf1e t6 (Cymanti, no Climbing)
@@ -196,7 +198,7 @@ def spawn(st, owner, name, x, y):
     st.units[u.id] = u; st.at[(x, y)] = u.id; explore(st, owner, x, y)
     return u
 
-RUIN = {}     # (owner, x, y) -> [(created turn, unit type, promotion)]: units a checkpoint shows standing where a ruin was examined
+RUIN = {}     # (owner, x, y) -> [(created turn, unit type, promotion, passenger type)]: units a checkpoint shows standing where a ruin was examined
 ORACLE = {}   # unit id -> (owner, type, promotion) from any saved checkpoint, for units spawned by events the log doesn't spell out
 RUIN_SEEN = {}   # (owner, x, y) -> turn: ruins examined with no checkpoint showing the reward (it may be a unit that died before the next save)
 
@@ -464,8 +466,9 @@ def apply(st, a, turn):
         _, x, y = v                              # spawns on the ruin tile and pushes the explorer. Read it back from the checkpoints.
         hit = [r for r in RUIN.get((pl, x, y), ()) if r[0] == turn]
         if hit:
-            _, name, promo = hit[0]; u = spawn(st, pl, name, x, y)
-            if promo: u.promotion = promo; u.max_hp = max_hp(u); u.hp = u.max_hp
+            _, name, promo, pas = hit[0]; u = spawn(st, pl, name, x, y)
+            if pas: u.passenger = pas            # MEASURED 6e1bf8e0 t14: a water ruin gave a Rammership carrying a veteran Warrior (15 HP)
+            if promo or pas: u.promotion = promo; u.max_hp = max_hp(u); u.hp = u.max_hp
             LOG["ruin unit"] += 1
         else: LOG["ruin (no unit)"] += 1; RUIN_SEEN[(pl, x, y)] = turn
     elif t == 18 and RULES["t18_break_ice"]:     # Break Ice (Jason's in-game text; 91/92 uses had ice next to the unit): the ice around
@@ -552,9 +555,10 @@ def compare(st, d):
 def add_ruin_oracle(d):
     for row in d["currentTiles"]:
         for t in row:
-            u = t.get("Unit")
+            u = t.get("Unit"); p = t.get("PassengerUnit") if RULES["ruin_boat_passenger"] else None
             if u and u["CreatedTurn"] == d["currentTurn"] - 1:   # still on its spawn tile: units can't move the turn they appear
-                RUIN.setdefault((u["Owner"], u["cx"], u["cy"]), set()).add((u["CreatedTurn"], UNIT.get(u["UnitType"], u["UnitType"]), u["PromotionLevel"]))
+                RUIN.setdefault((u["Owner"], u["cx"], u["cy"]), set()).add((u["CreatedTurn"], UNIT.get(u["UnitType"], u["UnitType"]),
+                    p["PromotionLevel"] if p else u["PromotionLevel"], UNIT.get(p["UnitType"], p["UnitType"]) if p else None))
 
 def run(final, checkpoints):
     D = json.load(open(final)); st = State(D, "initial"); acts = D["actions"]

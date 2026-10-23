@@ -196,13 +196,13 @@
   "replay.DASH": {
    "ledger": "ACTION-18-AFTER-MOVE",
    "level": "L3 for Dash units (128 uses); L0 for 'a unit without Dash cannot' (2 Raft exceptions)",
-   "source": "engine/replay.py:277",
+   "source": "engine/replay.py:279",
    "unverified": false
   },
   "replay.DIRS": {
    "ledger": "PUSH-DIRECTION",
    "level": "L3 (Polyfish + 9 of 11 saved pushes land on the saved tile with the two refinements; replay A/B 44 -> 42 unit misses, stars hold)",
-   "source": "engine/replay.py:144",
+   "source": "engine/replay.py:146",
    "unverified": false
   },
   "replay.FMT": {
@@ -214,13 +214,13 @@
   "replay.FROZEN": {
    "ledger": "ENUM-IDS",
    "level": "L3",
-   "source": "engine/replay.py:273",
+   "source": "engine/replay.py:275",
    "unverified": false
   },
   "replay.INVISIBLE": {
    "ledger": "ENUM-IDS",
    "level": "L3",
-   "source": "engine/replay.py:273",
+   "source": "engine/replay.py:275",
    "unverified": false
   },
   "replay.LAND_UNITS": {
@@ -232,7 +232,7 @@
   "replay.POISON": {
    "ledger": "ENUM-IDS",
    "level": "L3",
-   "source": "engine/replay.py:272",
+   "source": "engine/replay.py:274",
    "unverified": false
   },
   "replay.RULES.algae_is_land": {
@@ -256,13 +256,13 @@
   "replay.RULES.boat_new_id": {
    "ledger": "BOAT-IDS",
    "level": "L3",
-   "source": "engine/replay.py:258",
+   "source": "engine/replay.py:260",
    "unverified": false
   },
   "replay.RULES.break_ice_after_move_needs_dash": {
    "ledger": "ACTION-18-AFTER-MOVE",
    "level": "L3 for Dash units (128 uses); L0 for 'a unit without Dash cannot' (2 Raft exceptions)",
-   "source": "engine/replay.py:75",
+   "source": "engine/replay.py:77",
    "unverified": true
   },
   "replay.RULES.bridge_is_land": {
@@ -280,7 +280,7 @@
   "replay.RULES.explode_poison_halves": {
    "ledger": "EXPLODE-POISON-DEFENCE",
    "level": "L3 (2/2 targets in one explosion land on the saved HP; replay A/B 13 -> 12 unit misses, stars hold)",
-   "source": "engine/replay.py:78",
+   "source": "engine/replay.py:80",
    "unverified": false
   },
   "replay.RULES.explode_round": {
@@ -334,7 +334,7 @@
   "replay.RULES.idle_auto_recover": {
    "ledger": "IDLE-AUTO-RECOVER",
    "level": "L3 (n=1 checkable case; bots: the same rule applied to AI players adds 57 misses, so it is human-only or tied to something else the human turn has)",
-   "source": "engine/replay.py:77",
+   "source": "engine/replay.py:79",
    "unverified": false
   },
   "replay.RULES.kill_move_lands": {
@@ -388,7 +388,7 @@
   "replay.RULES.peace_break_disbands": {
    "ledger": "DIPLO-BREAK-DISBAND",
    "level": "L0 (untested)",
-   "source": "engine/replay.py:74",
+   "source": "engine/replay.py:76",
    "unverified": true
   },
   "replay.RULES.peace_spares_area_damage": {
@@ -412,7 +412,7 @@
   "replay.RULES.polaris_capture_freezes": {
    "ledger": "POLARIS-CAPTURE-FREEZE",
    "level": "L3 (n=1 replay case; supporting count: 12 of 16 water tiles newly in Polaris territory across saves were ice at the next save)",
-   "source": "engine/replay.py:76",
+   "source": "engine/replay.py:78",
    "unverified": false
   },
   "replay.RULES.port_boards": {
@@ -436,13 +436,13 @@
   "replay.RULES.push_dir_persists": {
    "ledger": "PUSH-DIRECTION",
    "level": "L3 (Polyfish + 9 of 11 saved pushes land on the saved tile with the two refinements; replay A/B 44 -> 42 unit misses, stars hold)",
-   "source": "engine/replay.py:72",
+   "source": "engine/replay.py:74",
    "unverified": false
   },
   "replay.RULES.push_dir_round": {
    "ledger": "PUSH-DIRECTION",
    "level": "L3 (Polyfish + 9 of 11 saved pushes land on the saved tile with the two refinements; replay A/B 44 -> 42 unit misses, stars hold)",
-   "source": "engine/replay.py:73",
+   "source": "engine/replay.py:75",
    "unverified": false
   },
   "replay.RULES.push_needs_climbing": {
@@ -463,6 +463,12 @@
    "source": "engine/replay.py:48",
    "unverified": false
   },
+  "replay.RULES.push_port_first_only": {
+   "ledger": "PUSH-PORT-FIRST",
+   "level": "L3 (5 pushes) + replay A/B",
+   "source": "engine/replay.py:72",
+   "unverified": false
+  },
   "replay.RULES.push_toward_attacker": {
    "ledger": "PUSH-NEVER-MOVED",
    "level": "L3 (replay A/B, 3 fits vs 1 counter-case)",
@@ -472,7 +478,7 @@
   "replay.RULES.recover_lost_defender": {
    "ledger": "ENGINE-RESYNC",
    "level": "tool",
-   "source": "engine/replay.py:352",
+   "source": "engine/replay.py:354",
    "unverified": false
   },
   "replay.RULES.resync_terrain": {
@@ -484,7 +490,7 @@
   "replay.RULES.resync_territory": {
    "ledger": "ENGINE-RESYNC",
    "level": "tool",
-   "source": "engine/replay.py:570",
+   "source": "engine/replay.py:574",
    "unverified": false
   },
   "replay.RULES.retaliation_needs_sight": {
@@ -497,6 +503,12 @@
    "ledger": "C6",
    "level": "L2 (replay A/B)",
    "source": "engine/replay.py:19",
+   "unverified": false
+  },
+  "replay.RULES.ruin_boat_passenger": {
+   "ledger": "RUIN-BOAT-PASSENGER",
+   "level": "L3 (n=1) + replay A/B",
+   "source": "engine/replay.py:73",
    "unverified": false
   },
   "replay.RULES.ruin_unit": {
@@ -604,7 +616,7 @@
   "replay.RULES.territory": {
    "ledger": "CAPTURE-TERRITORY",
    "level": "L2 (replay A/B)",
-   "source": "engine/replay.py:429",
+   "source": "engine/replay.py:431",
    "unverified": false
   },
   "replay.RULES.tribe_super_unit": {
@@ -622,13 +634,13 @@
   "replay.SUPER_UNIT": {
    "ledger": "SUPER-UNIT-BY-TRIBE",
    "level": "L3 (Polaris, Giant tribes); L1 (Aquarion, Elyrion, Cymanti from Polyfish)",
-   "source": "engine/replay.py:278",
+   "source": "engine/replay.py:280",
    "unverified": false
   },
   "replay.SWIFT": {
    "ledger": "ENUM-IDS",
    "level": "L3",
-   "source": "engine/replay.py:273",
+   "source": "engine/replay.py:275",
    "unverified": false
   },
   "replay.WATER_UNITS": {
@@ -640,169 +652,169 @@
   "replay.action.1": {
    "ledger": "ACTION-TYPES-V123",
    "level": "L1",
-   "source": "engine/replay.py:410",
+   "source": "engine/replay.py:412",
    "unverified": false
   },
   "replay.action.11": {
    "ledger": "CITY-REWARDS",
    "level": "L3",
-   "source": "engine/replay.py:452",
+   "source": "engine/replay.py:454",
    "unverified": false
   },
   "replay.action.13": {
    "ledger": "PROMOTE-HP",
    "level": "L3",
-   "source": "engine/replay.py:403",
+   "source": "engine/replay.py:405",
    "unverified": false
   },
   "replay.action.14": {
    "ledger": "RUIN-UNIT-SPAWN",
    "level": "L3",
-   "source": "engine/replay.py:463",
+   "source": "engine/replay.py:465",
    "unverified": false
   },
   "replay.action.15": {
    "ledger": "FROZEN-NO-RETALIATION",
    "level": "L3",
-   "source": "engine/replay.py:321",
+   "source": "engine/replay.py:323",
    "unverified": false
   },
   "replay.action.16": {
    "ledger": "BOAT-IDS",
    "level": "L3",
-   "source": "engine/replay.py:397",
+   "source": "engine/replay.py:399",
    "unverified": false
   },
   "replay.action.17": {
    "ledger": "ACTION-17-FREEZE-AREA",
    "level": "L1 (n=1, Polyfish + one Polaris use at its Gaami's tile)",
-   "source": "engine/replay.py:420",
+   "source": "engine/replay.py:422",
    "unverified": false
   },
   "replay.action.18": {
    "ledger": "ACTION-18-BREAK-ICE",
    "level": "L3",
-   "source": "engine/replay.py:471",
+   "source": "engine/replay.py:474",
    "unverified": false
   },
   "replay.action.2": {
    "ledger": "COMBAT-FORMULA",
    "level": "L2 (replay: 63/66 exact at turn 5)",
-   "source": "engine/replay.py:348",
+   "source": "engine/replay.py:350",
    "unverified": false
   },
   "replay.action.24": {
    "ledger": "EXPLODE-DAMAGE",
    "level": "L3",
-   "source": "engine/replay.py:492",
+   "source": "engine/replay.py:495",
    "unverified": false
   },
   "replay.action.28": {
    "ledger": "DIPLO-PEACE",
    "level": "L3 (27/28); L3 n=1 (29)",
-   "source": "engine/replay.py:422",
+   "source": "engine/replay.py:424",
    "unverified": false
   },
   "replay.action.29": {
    "ledger": "DIPLO-PEACE",
    "level": "L3 (27/28); L3 n=1 (29)",
-   "source": "engine/replay.py:425",
+   "source": "engine/replay.py:427",
    "unverified": false
   },
   "replay.action.3": {
    "ledger": "HEAL-TERRITORY",
    "level": "L2",
-   "source": "engine/replay.py:406",
+   "source": "engine/replay.py:408",
    "unverified": false
   },
   "replay.action.38": {
    "ledger": "ACTION-TYPES-V123",
    "level": "L1",
-   "source": "engine/replay.py:485",
+   "source": "engine/replay.py:488",
    "unverified": false
   },
   "replay.action.4": {
    "ledger": "ACTION-4-HEAL",
    "level": "L3 (n=1)",
-   "source": "engine/replay.py:415",
+   "source": "engine/replay.py:417",
    "unverified": false
   },
   "replay.action.5": {
    "ledger": "SAVE-UNIT-IDS",
    "level": "L3 (format)",
-   "source": "engine/replay.py:394",
+   "source": "engine/replay.py:396",
    "unverified": false
   },
   "replay.action.6": {
    "ledger": "SAVE-FORMAT",
    "level": "L3",
-   "source": "engine/replay.py:337",
+   "source": "engine/replay.py:339",
    "unverified": false
   },
   "replay.action.7": {
    "ledger": "CAPTURE-TERRITORY",
    "level": "L2 (replay A/B)",
-   "source": "engine/replay.py:429",
+   "source": "engine/replay.py:431",
    "unverified": false
   },
   "replay.action.8": {
    "ledger": "TECH-TREE",
    "level": "L3",
-   "source": "engine/replay.py:449",
+   "source": "engine/replay.py:451",
    "unverified": false
   },
   "replay.defence_bonus": {
    "ledger": "DEF-BONUS",
    "level": "L2 (replay A/B)",
-   "source": "engine/replay.py:87",
+   "source": "engine/replay.py:89",
    "unverified": false
   },
   "replay.enter": {
    "ledger": "BOAT-IDS",
    "level": "L3",
-   "source": "engine/replay.py:241",
+   "source": "engine/replay.py:243",
    "unverified": false
   },
   "replay.fight": {
    "ledger": "COMBAT-FORMULA",
    "level": "L2 (replay: 63/66 exact at turn 5)",
-   "source": "engine/replay.py:116",
+   "source": "engine/replay.py:118",
    "unverified": false
   },
   "replay.fight.range": {
    "ledger": "RET-RANGE",
    "level": "L2 (replay A/B)",
-   "source": "engine/replay.py:116",
+   "source": "engine/replay.py:118",
    "unverified": false
   },
   "replay.fight.retaliation": {
    "ledger": "C6",
    "level": "L2 (replay A/B)",
-   "source": "engine/replay.py:116",
+   "source": "engine/replay.py:118",
    "unverified": false
   },
   "replay.mooni_freeze": {
    "ledger": "MOONI-FREEZE",
    "level": "L3 (4/4 Warrior-on-ice cases in e15f392c) + Polyfish AutoFreeze",
-   "source": "engine/replay.py:299",
+   "source": "engine/replay.py:301",
    "unverified": false
   },
   "replay.push_target": {
    "ledger": "PUSH-DIRECTION",
    "level": "L3 (Polyfish + 9 of 11 saved pushes land on the saved tile with the two refinements; replay A/B 44 -> 42 unit misses, stars hold)",
-   "source": "engine/replay.py:147",
+   "source": "engine/replay.py:149",
    "unverified": false
   },
   "replay.sees": {
    "ledger": "C20",
    "level": "L3",
-   "source": "engine/replay.py:106",
+   "source": "engine/replay.py:108",
    "unverified": false
   },
   "replay.stomp": {
    "ledger": "STOMP",
    "level": "L3",
-   "source": "engine/replay.py:288",
+   "source": "engine/replay.py:290",
    "unverified": false
   }
  }

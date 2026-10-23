@@ -837,6 +837,20 @@
    "level": "L3 (2/2 targets in one explosion land on the saved HP; replay A/B 13 -> 12 unit misses, stars hold)",
    "game_version": "v123 (saves)",
    "evidence": "engine RULES explode_poison_halves; af181c8f t15 (Boomchi id313 at 25,15; save t15 UnitEffects [1] on both targets)"
+  },
+  {
+   "id": "PUSH-PORT-FIRST",
+   "rule": "A pushed land unit boards onto its own port only when the port is its first-choice push direction; as a fallback the port is skipped like other water.",
+   "level": "L3 (5 pushes) + replay A/B",
+   "game_version": "v123 (measured in game)",
+   "evidence": "Engine pushes onto an own port: 6e1bf8e0 t6 (Defender, first choice), af181c8f t9 x2 and t10 (first choice) all land on the port in the saves; 6e1bf8e0 t11 action 1372, Zebasi Warrior 257 in (21,5): first choice (20,6) blocked, fallbacks port (21,6) and (20,5); it was on (20,5) (moves from there at 1548). Engine RULES push_port_first_only; miss.py units 4725/4733 -> 4725/4732."
+  },
+  {
+   "id": "RUIN-BOAT-PASSENGER",
+   "rule": "A water ruin's unit reward is a boat with a passenger; the veteran level is on the passenger record (the boat record shows 0), so a Rammership with a veteran Warrior has 15 HP.",
+   "level": "L3 (n=1) + replay A/B",
+   "game_version": "v123 (measured in game)",
+   "evidence": "6e1bf8e0 t14 action 2035: Bardur examined ruin (18,21) (ocean); t15 save: Rammership 431 (15 HP, created 14) carrying Warrior 432 at promotion 1. Engine RULES ruin_boat_passenger; miss.py units 4725/4732 -> 4726/4732."
   }
  ]
 }

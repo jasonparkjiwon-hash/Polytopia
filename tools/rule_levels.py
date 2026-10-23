@@ -69,6 +69,8 @@ MAP = {   # rule name -> ledger id
     "replay.RULES.stiff_boat_lands": "JUGGERNAUT-KILL-MOVE",
     "replay.RULES.stomp_on_kill_move": "JUGGERNAUT-KILL-MOVE",
     "replay.RULES.move_blocked_by_hidden": "MOVE-BLOCKED-HIDDEN",
+    "replay.RULES.ruin_boat_passenger": "RUIN-BOAT-PASSENGER",
+    "replay.RULES.push_port_first_only": "PUSH-PORT-FIRST",
     "replay.RULES.push_toward_attacker": "PUSH-NEVER-MOVED",
     "replay.RULES.push_centre_round": "PUSH-NEVER-MOVED",
     "replay.RULES.push_dir_persists": "PUSH-DIRECTION",
