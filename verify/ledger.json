@@ -335,13 +335,6 @@
    "game_version": "v123 (measured in game)"
   },
   {
-   "id": "UNIT-ID-53",
-   "rule": "Unit type id 53 = Shark (inferred: the best replay fit, 96 exact HP at turn 15 vs 90 for other 10-HP Aquarion units; 32 trained by Aquarion bots).",
-   "level": "L1",
-   "evidence": "engine replay 6e1bf8e0",
-   "game_version": "v123 (measured in game)"
-  },
-  {
    "id": "UNIT-ID-48",
    "rule": "Unit type id 48 = Swordsmaid (Aquarion's Swordsman: 15hp 3/3, Dash).",
    "level": "L3",
@@ -496,13 +489,6 @@
    "game_version": "v123 (measured in game)"
   },
   {
-   "id": "ECON-PRICES-V123",
-   "rule": "Prices implied by the star check: Enchant Animal 3 (5/5); harvesting Starfish GIVES 8 stars (18/22); Aqua Farm 5 (n=1 in the saves, confirmed 5 by Jason in game, 2026-10-23); Aquarion structure 51 5 (n=2); tribe techs Ice Fishing and Sledding tier 2, Polar Warfare and Spearing tier 3 (same tier*cities+4 formula). Build ids: 7 Fishing, 9 Hunting, 15 Harvest Fruit, 46 Starfish, 49 Aqua Farm.",
-   "level": "L3 (n noted)",
-   "evidence": "engine/economy.py star check over the per-turn saves (Ankiian, Misty Fields, Oasis Struggle): tile changes in the saves (fish/game/fruit/starfish removed, aquacrop kept) identify the build ids.",
-   "game_version": "v123 (measured in game)"
-  },
-  {
    "id": "ECON-RUIN-STARS",
    "rule": "A ruin gives either no stars or exactly 10 (27 and 10 of 37 ruin turns). The log doesn't say which; the check reads it back from the next save.",
    "level": "L3",
@@ -517,31 +503,10 @@
    "game_version": "v123 (measured in game)"
   },
   {
-   "id": "ECON-EMBASSY",
-   "rule": "An Embassy costs 5 stars, plus 2 for each embassy the tribe already has (5, 7, 9, ...), and gives both the builder and the host 2 stars a turn while not at war, 4 with a peace treaty. Modelled as Build structure 70 in a foreign capital.",
-   "level": "L1 (in-game text + Jason's 5-star cost, same as the v123 card); not yet seen in a save",
-   "evidence": "Jason's screenshot 2026-10-23 ('It will give you both 2 stars per turn, when you have a peace treaty the income is doubled') and his note that it costs 5 (first reported as 4, then corrected). No save has a Build 70 yet, so untested. | Price step +2 per embassy: Jason in game, 2026-10-23.",
-   "game_version": "v123 (measured in game)"
-  },
-  {
-   "id": "ECON-MARKET-CLATHRUS",
-   "rule": "Market (5) +1 star a turn per adjacent Windmill, Forge or Sawmill; Clathrus (5) +1 per adjacent Fungi; one of each per city.",
-   "level": "L3 (UI card); Polyfish's Algae for Clathrus overruled by the tie-break (the real game beats Polyfish)",
-   "evidence": "v123 info cards (Jason's screenshots 2026-10-23). Polyfish counts Algae for Clathrus; the card says Fungi, so the engine follows the card. Test item. Only one Market in the saves (no change to the exact count).",
-   "game_version": "v123 (measured in game)"
-  },
-  {
    "id": "DIPLO-PEACE",
    "rule": "Action 27 = Offer Peace (player, target capital x,y, target id); action 28 = the reply (replier, offerer, 1 accept / 0 decline); action 29 = Break Peace (player, ex-ally capital x,y, ex-ally id). Offering peace needs the Strategy tech. RelationState 0 neutral, 1 peace, 3 on the side that broke a peace.",
    "level": "L3 (27/28); L3 n=1 (29)",
    "evidence": "All 37 uses of 27 by tribes owning Strategy; reply 1 -> peace in the next save 5/5, reply 0 -> no peace 16/18. The only peace broken in any save (af181c8f t21, Luxidoor and Quetzali) coincides with the only action 29, by Luxidoor at Quetzali's capital. Strategy requirement also in Jason's pasted summary 2026-10-23.",
-   "game_version": "v123 (measured in game)"
-  },
-  {
-   "id": "DIPLO-BREAK-DISBAND",
-   "rule": "Breaking a peace disbands the breaker's units inside the ex-ally's borders, with no refund; the breaker cannot attack that turn. Peace forbids attacks both ways and lets units pass through each other's territory and use their roads. Bots accept peace only at a 'Great' opinion.",
-   "level": "L0 (untested)",
-   "evidence": "Jason's pasted summary, 2026-10-23, undated source. The one broken peace in the saves had no units inside the other's borders, so nothing to test yet. Not in the engine.",
    "game_version": "v123 (measured in game)"
   },
   {
@@ -692,13 +657,6 @@
    "evidence": "7 of 7 cleanly measurable explosion targets in af181c8f match exactly; flat 2 (Polyfish), a third, or ignoring the exploder's HP match 0-3 of 7. One explosion (t25) hits 1 less on all three targets; likely the exploder was already hurt in a way the log doesn't show."
   },
   {
-   "id": "AQUARION-TECH-TIERS",
-   "rule": "Aquarion tech ids 47 (tier 1), 39 and 46 (tier 2) cost tier x cities + 4 like every other tech.",
-   "level": "L3 (tiers only; names unknown)",
-   "game_version": "v123 (measured in saves)",
-   "evidence": "Star check 2026-10-23: with these tiers 8 single-turn star rows in 1bf60251, e15f392c and 09a5bf1e go exact (762 -> 770); the residual was exactly the price (-5 at 1 city for 47, -6/-8 for 39/46). Names still wanted from Jason."
-  },
-  {
    "id": "ROUND-START-INCOME",
    "rule": "A save taken right after the round-end EndTurn (player 255) already includes the income of the player who opens the next round; a save right after an ordinary player's EndTurn does not include the next player's income.",
    "level": "L3",
@@ -739,6 +697,97 @@
    "level": "L3 (n=1, fitted) + replay A/B",
    "game_version": "v123 (measured in game)",
    "evidence": "6e1bf8e0 t11-12: Moth 213 (10/10) attacked poisoned XinXi Warrior 39 in a city (action 1494), then survived a full-HP Swordsman's hit on a mountain (1626; the Swordsman did not move in and took no return damage) and exploded on (9,3) at 1674, taking exactly 1 HP from each adjacent full-HP Swordsman (237, 344: save t15). The explosion only fits if the Moth kept 3-9 HP, which needs no retaliation at 1494 and defence >= 1.6. Engine stats.py Moth; miss.py units 4715/4745 -> 4717/4745."
+  },
+  {
+   "id": "CITY-REWARDS",
+   "rule": "City reward ids (CityRewardType): 1 City Wall (defence bonus 4 for Fortify units in the city), 2 Park and 3 Workshop (+1 star a turn each), 4 Explorer, 5 Border Growth (territory radius 2), 6 Super Unit (forced spawn of the tribe's super unit), 7 Resources (+5 stars at once), 8 Pop Growth.",
+   "level": "L3",
+   "game_version": "v123 (measured in game)",
+   "evidence": "Enum ids: verify/game_enums.json (Polyfish, ENUM-IDS L3). Star check (engine/economy.py), single reward, one turn, no ruin: reward 1 22/23 exact, 3 51/52, 4 26/27, 5 10/11, 6 5/5, 7 13/13 (star-tail notes, 2026-10-23). Walls and Border Growth also feed the unit replay (DEF-BONUS, CAPTURE-TERRITORY)."
+  },
+  {
+   "id": "CAPTURE-TERRITORY",
+   "rule": "Capturing a village or city makes its tile and the 8 around it the captor's (tiles unowned or owned by the old owner); Border Growth extends it to radius 2 (unowned tiles only).",
+   "level": "L2 (replay A/B)",
+   "game_version": "v123 (measured in game)",
+   "evidence": "Engine replay: turning the territory tracking off loses 2 exact units (4709 -> 4707, via Recover's +4 in own territory); turning off the re-read of borders at each checkpoint (resync_territory) changes nothing, so the tracking alone reproduces every checkpoint's borders as far as healing can tell (2026-10-23)."
+  },
+  {
+   "id": "PROMOTE-HP",
+   "rule": "Promote (action 13): the unit becomes a veteran, +5 max HP and full heal.",
+   "level": "L3",
+   "game_version": "v123 (measured in game)",
+   "evidence": "Saves: every promoted 10-HP Shark at full health has 15 HP (10 records; 11 promoted, max 150 in the save's tenths), veteran ruin Swordsman 20 max HP (af181c8f t16); unit replay exact through all promotions."
+  },
+  {
+   "id": "WATER-UNITS",
+   "rule": "Aquarion water units (Shark, Raychi, Puffer, Jelly, Crab) stay on water, flooded tiles or cities: after a melee kill on dry land they do not move in. The Mermaid walks on land.",
+   "level": "L2 (replay A/B)",
+   "game_version": "v123 (measured in game)",
+   "evidence": "Saves: these types are seen only on water, flooded tiles or cities. Replay A/B 2026-10-23: turning water_units_stay off drops exact units 4709/4753 -> 4704/4766."
+  },
+  {
+   "id": "ENGINE-RESYNC",
+   "rule": "Replay bookkeeping, not a game rule: terrain changes outside the log (ice, flood, algae) and borders are re-read from each checkpoint; a defender missing from the engine's state can be recovered from the checkpoint (off).",
+   "level": "tool",
+   "game_version": "engine",
+   "evidence": "engine/replay.py run(): resync_terrain, resync_territory, recover_lost_defender. These only stop old errors from carrying over; they are not under test."
+  },
+  {
+   "id": "ACTION-18-AFTER-MOVE",
+   "rule": "Break Ice (action 18) uses the unit's action, so only a Dash unit can move and then break ice in the same turn.",
+   "level": "L3 for Dash units (128 uses); L0 for 'a unit without Dash cannot' (2 Raft exceptions)",
+   "game_version": "v123 (measured in game)",
+   "evidence": "Jason's in-game text 2026-10-23 (see ACTION-18-BREAK-ICE). Saves, all per-turn intervals (engine/replay.py LOG, 2026-10-23): 130 break-ice actions came right after the same unit moved that turn; 128 were Dash units (v123 cards, else data/units.json: Warrior, Rider, Raychi, Tridention, Rammer...), 2 were a Raft, which has no Dash on any source. The Raft may borrow its passenger's Dash, or breaking ice may not need Dash: test item. Engine: RULES break_ice_after_move_needs_dash only counts violations (legality check for the forward model), no state change."
+  },
+  {
+   "id": "DIPLO-BREAK-DISBAND",
+   "rule": "Breaking a peace disbands the breaker's units inside the ex-ally's borders, with no refund; the breaker cannot attack that turn. Peace forbids attacks both ways and lets units pass through each other's territory and use their roads. Bots accept peace only at a 'Great' opinion.",
+   "level": "L0 (untested)",
+   "game_version": "v123 (measured in game)",
+   "evidence": "Jason's pasted summary, 2026-10-23, undated source. The one broken peace in the saves had no units inside the other's borders, so nothing to test yet. Not in the engine. | 2026-10-23: now in the engine as RULES peace_break_disbands (on, best guess; labelled unverified in data/rule_levels.json). On or off changes no replay score (no disband happens in any save). Polyfish v115 BreakPeaceMove only resets the relation (no disband) and notes that breaking should end the breaker's turn: a second source on the turn end, none on the disband."
+  },
+  {
+   "id": "ECON-EMBASSY",
+   "rule": "An Embassy costs 5 stars, plus 2 for each embassy the tribe already has (5, 7, 9, ...), and gives both the builder and the host 2 stars a turn while not at war, 4 with a peace treaty. Modelled as Build structure 70 in a foreign capital.",
+   "level": "L1 (in-game text + Jason's 5-star cost, same as the v123 card); not yet seen in a save",
+   "game_version": "v123 (measured in game)",
+   "evidence": "Jason's screenshot 2026-10-23 ('It will give you both 2 stars per turn, when you have a peace treaty the income is doubled') and his note that it costs 5 (first reported as 4, then corrected). No save has a Build 70 yet, so untested. | Price step +2 per embassy: Jason in game, 2026-10-23. | 2026-10-23: engine switch ECON_RULES embassy_income (on); off drops stars exact 780 -> 778 (embassies via action 30, see EMBASSY-ACTION). Polyfish v115 EstablishEmbassyMove: flat 5 stars, sets embassy_level 1, no income modelled, one embassy per relation; it has no +2 price step."
+  },
+  {
+   "id": "ECON-MARKET-CLATHRUS",
+   "rule": "Market (5) +1 star a turn per adjacent Windmill, Forge or Sawmill; Clathrus (5) +1 per adjacent Fungi; one of each per city.",
+   "level": "L3 (UI card); Polyfish's Algae for Clathrus overruled by the tie-break (the real game beats Polyfish)",
+   "game_version": "v123 (measured in game)",
+   "evidence": "v123 info cards (Jason's screenshots 2026-10-23). Polyfish counts Algae for Clathrus; the card says Fungi, so the engine follows the card. Test item. Only one Market in the saves (no change to the exact count). | 2026-10-23: engine switches ECON_RULES market_income, clathrus_income (on); off changes no score. Polyfish get_city_production counts only Markets/Clathrus inside the city's territory, Clathrus per adjacent Algae tile in own territory; the engine counts adjacent structures of any owner (untested detail)."
+  },
+  {
+   "id": "ECON-PRICES-V123",
+   "rule": "Prices implied by the star check: Enchant Animal 3 (5/5); harvesting Starfish GIVES 8 stars (18/22); Aqua Farm 5 (n=1 in the saves, confirmed 5 by Jason in game, 2026-10-23); Aquarion structure 51 5 (n=2); tribe techs Ice Fishing and Sledding tier 2, Polar Warfare and Spearing tier 3 (same tier*cities+4 formula). Build ids: 7 Fishing, 9 Hunting, 15 Harvest Fruit, 46 Starfish, 49 Aqua Farm.",
+   "level": "L3 (n noted)",
+   "game_version": "v123 (measured in game)",
+   "evidence": "engine/economy.py star check over the per-turn saves (Ankiian, Misty Fields, Oasis Struggle): tile changes in the saves (fish/game/fruit/starfish removed, aquacrop kept) identify the build ids. | 2026-10-23: structure 51's price is ECON_RULES aquarion51_price = 5; A/B: 4 drops stars exact 770 -> 766, so the save does test it (thin)."
+  },
+  {
+   "id": "AQUARION-TECH-TIERS",
+   "rule": "Aquarion tech ids 47 (tier 1), 39 and 46 (tier 2) cost tier x cities + 4 like every other tech.",
+   "level": "L3 (tiers only; names unknown)",
+   "game_version": "v123 (measured in saves)",
+   "evidence": "Star check 2026-10-23: with these tiers 8 single-turn star rows in 1bf60251, e15f392c and 09a5bf1e go exact (762 -> 770); the residual was exactly the price (-5 at 1 city for 47, -6/-8 for 39/46). Names still wanted from Jason. | Names (L0, one source): Polyfish polyfish-rs/src/types.rs (commit a9f90ab, Sep 2026) lists the game's TechnologyType ids it doesn't model as comments: 39 Aquaculture, 46 MarineLife, 47 AquaFishing (also 40 FishingSimple, 43 Pascetism, 45 AquaBase, 33 Oceanology, 50 Mysticism). Consistent with the saves: 39, 46, 47 are researched only by Aquarion (3, 3, 5 times). Jason's card: Aquaculture costs 6 at 1 city = tier 2, matching 39's measured tier. 47 'AquaFishing' is tier 1, so it is likely the Aquarion replacement for Fishing; its in-game display name is not confirmed (Jason lists Waterways, Aquaculture, Marine Life, Spearing, Free Diving). Polyfish's older JS UI (src/public/js/types.js) maps 39 to Ramming: stale, the Rust enum has Ramming = 44."
+  },
+  {
+   "id": "UNIT-ID-53",
+   "rule": "Unit type id 53 = Shark (inferred: the best replay fit, 96 exact HP at turn 15 vs 90 for other 10-HP Aquarion units; 32 trained by Aquarion bots).",
+   "level": "L1",
+   "game_version": "v123 (measured in game)",
+   "evidence": "engine replay 6e1bf8e0 | 2026-10-23 second source: Polyfish polyfish-rs/src/types.rs lists the UnitType ids it doesn't model as unnumbered comments between Juggernaut = 45 and Boomchi = 56, exactly ten names, so in order 46 MermaidWarrior, 47 MermaidArcher, 48 MermaidSwordsman, 49 MermaidDefender, 50 MermaidCloak, 51 MermaidDagger, 52 Jelly, 53 Shark, 54 Siren, 55 Aquapult. That puts Shark at 53 (agrees with the replay fit), and agrees with the measured 46 = Mermaid (start unit) and 48 = Swordsmaid. Polyfish (Sep 2026) + replay = L1."
+  },
+  {
+   "id": "AQUARION-UNIT-IDS",
+   "rule": "Aquarion UnitType ids 46-55 (Polyfish's internal names, in order): 46 MermaidWarrior (= Mermaid), 47 MermaidArcher, 48 MermaidSwordsman (= Swordsmaid), 49 MermaidDefender, 50 MermaidCloak, 51 MermaidDagger, 52 Jelly, 53 Shark, 54 Siren, 55 Aquapult.",
+   "level": "L0 (47, 49-52, 54, 55: one source, positional); L3 for 46 and 48; L1 for 53",
+   "game_version": "v123 (ids); names from Polyfish v115+",
+   "evidence": "Polyfish polyfish-rs/src/types.rs (commit a9f90ab, Sep 2026): unnumbered comments between Juggernaut = 45 and Boomchi = 56, ten names for ten ids. Saves (all, 2026-10-23): only 46 (187 records), 48 (51) and 53 (75) appear, all Aquarion; 46 and 48 are measured (AQUARION-UNIT, UNIT-ID-48), 53 inferred (UNIT-ID-53). Not added to engine/state.py: no save holds the other ids, so nothing tests them."
   }
  ]
 }

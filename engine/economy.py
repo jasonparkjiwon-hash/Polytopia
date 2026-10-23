@@ -37,6 +37,14 @@ EMBASSY_COST = 4            # SPLIT: Jason and the v123 card say 5; both embassi
 EMBASSY_STEP = 2            # each further embassy the same tribe builds costs 2 more (Jason, 2026-10-23). Built as Build structure 70 (not action 27: that one is free and repeats)
 EMBASSY_INCOME = 2          # in-game text: "It will give you both 2 stars per turn, when you have a peace treaty the income is doubled"                       # CityReward Resources: +5 stars now
 REWARD_INCOME = {3: 1, 2: 1}                # Workshop, Park: +1 star per turn
+# Switches for income rules, mostly untested by any save: best guess on, labelled unverified in data/rule_levels.json (tools/rule_levels.py) so a
+# simulation can flag moves that depend on them.
+ECON_RULES = {
+    'embassy_income': True,      # ECON-EMBASSY, EMBASSY-ACTION: tested by 2 embassies (off: 780 -> 778); the +2 price step is not
+    'market_income': True,       # ECON-MARKET-CLATHRUS: v123 card + Polyfish agree; one Market in the saves, never next to a Windmill/Forge/Sawmill
+    'clathrus_income': True,     # ECON-MARKET-CLATHRUS: v123 card says adjacent Fungi, Polyfish says adjacent Algae; no Clathrus in any save
+    'aquarion51_price': 5,       # ECON-PRICES-V123: Aquarion structure 51, implied by the star check (n=2); name unknown
+}
 
 def meet_stars(score):
     """Stars for meeting a tribe, from the MET tribe's score (Polyfish get_star_exchange, v >= 83): 1 + 2*min(ceil(score/1000), 5).
@@ -76,12 +84,12 @@ class Books:
         if BONUS_NEEDS_CAPITAL and not any(self.capital.get(q) == pl and c["owner"] == pl for q, c in (cs if BONUS_NEEDS_FREE_CAPITAL else self.city.items())): bonus = 0
         tot = bonus if any(c["owner"] == pl for c in self.city.values()) else 0
         for e in self.embassies:                        # both the builder and the host earn from an embassy, unless at war
-            if pl in e:
+            if pl in e and ECON_RULES["embassy_income"]:
                 rel = self.relation.get((e[0], e[1]), self.relation.get((e[1], e[0]), 0))
                 if pl == e[0] and not EMBASSY_BUILDER_PAID and rel != PEACE: continue
                 if rel != WAR: tot += EMBASSY_INCOME * (2 if rel == PEACE else 1)
         for (x, y), (imp, owner) in self.structure.items():   # in-game cards: Market +1 per adjacent Windmill/Forge/Sawmill,
-            if owner != pl or imp not in ADJ_INCOME: continue  # Clathrus +1 per adjacent Fungi (Polyfish says Algae; the v123 card says Fungi)
+            if owner != pl or imp not in ADJ_INCOME or not ECON_RULES[{50: "market_income", 41: "clathrus_income"}[imp]]: continue  # Clathrus +1 per adjacent Fungi (Polyfish says Algae; the v123 card says Fungi)
             tot += sum(1 for dx in (-1, 0, 1) for dy in (-1, 0, 1) if (dx or dy) and self.structure.get((x + dx, y + dy), (None,))[0] in ADJ_INCOME[imp])   # MEASURED: bot bonus = DifficultyHandicap - 1 stars a turn (Easy 1, Hard 2)
         for q, c in cs:
             tot += c["Level"] + (1 if self.capital.get(q) == pl else 0)
@@ -97,6 +105,7 @@ def spend(b, pl, a):
     if t == 1:
         imp = struct.unpack("<BHII", r)[1]
         if imp == 70: return EMBASSY_COST + EMBASSY_STEP * sum(1 for e in b.embassies if e[0] == pl)
+        if imp == 51: return ECON_RULES["aquarion51_price"]
         return BUILD.get(imp, (None, None))[1]
     if t == 16:
         ut = UNIT.get(struct.unpack("<BHII", r)[1]); return UPGRADE_COST.get(ut)

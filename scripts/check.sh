@@ -3,6 +3,8 @@
 # Baseline (README.md): Ankiian 27,33,39,43,51,59,66 exact; bot war 66/66, 90/92, 111/122; Misty Fields see README.; stars see README
 set -e
 D=$(cd "$(dirname "$0")/.." && pwd); cd "$D/engine"
+echo "== Rule labels (every engine rule has a ledger id: tools/rule_levels.py)"
+python3 -I ../tools/rule_levels.py --check
 A=../saves/1bf60251-4e7a-4d43-9043-ffc90bf46c31
 B=../saves/6e1bf8e0-1271-4f48-95c0-0fef5e449a63
 echo "== Ankiian, turn by turn"

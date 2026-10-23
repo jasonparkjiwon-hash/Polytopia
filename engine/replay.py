@@ -66,6 +66,8 @@ RULES = {   # one switch per line; A/B each in tools/miss.py before keeping a ch
     'kill_move_needs_climbing': True,
     'push_dir_persists': True,
     'push_dir_round': True,
+    'peace_break_disbands': True,       # UNVERIFIED (L0): no save has a broken peace with units inside the ex-ally's borders
+    'break_ice_after_move_needs_dash': True,   # UNVERIFIED legality check (L0 in-game text): only counts violations in LOG
 }
 LOG = collections.Counter(); EVENTS = []
 
@@ -259,6 +261,10 @@ def enter(st, u, x0, y0, x1, y1):
 PREV = [None]
 POISON = 1   # UnitEffect enum
 FROZEN, SWIFT = 0, 6
+_sk = {k: " ".join(v.get("skills") or ()).lower() for k, v in json.load(open(os.path.join(HERE, "..", "data", "units.json")))["units"].items()}
+_sk.update({k: str(v.get("skills", "")).lower() for k, v in json.load(open(os.path.join(HERE, "..", "data", "measured_ui.json")))["units"].items()})   # v123 cards win
+_sk.update({"Rammership": _sk.get("Rammer", ""), "Scoutship": _sk.get("Scout", "")})
+DASH = {k for k, v in _sk.items() if "dash" in v}   # legality checks only (break_ice_after_move_needs_dash)
 SUPER_UNIT = {"Polaris": "Gaami", "Aquarion": "Crab", "Elyrion": "DragonEgg", "Cymanti": "Centipede"}
 
 def add_effect(u, e):
@@ -392,6 +398,8 @@ def apply(st, a, turn):
         if flag == 1: st.peace.add(frozenset((p1, p2)))
     elif t == 29:                                # break peace
         _, x, y, other = v; st.peace.discard(frozenset((pl, other)))
+        if RULES["peace_break_disbands"]:        # Jason's pasted summary (L0): the breaker's units inside the ex-ally's borders are disbanded
+            for u in [u for u in st.units.values() if u.owner == pl and st.owner.get((u.x, u.y)) == other]: remove(st, u); LOG["peace-break disband"] += 1
     elif t == 7 and RULES.get("territory", True):  # Capture: the city's tile and the 8 around it become the captor's (unowned or owned by the old owner)
         _, uid, x, y = v; old = st.city.get((x, y))
         for dy in (-1, 0, 1):
@@ -430,6 +438,10 @@ def apply(st, a, turn):
         else: LOG["ruin (no unit)"] += 1; RUIN_SEEN[(pl, x, y)] = turn
     elif t == 18 and RULES["t18_break_ice"]:     # Break Ice (Jason's in-game text; 91/92 uses had ice next to the unit): the ice around
         _, x, y = v                              # the acting unit turns back to water or ocean, except under a unit
+        u = unit_at(st, x, y)                    # Jason's in-game text: breaking ice uses the unit's action, so only a Dash unit can move first
+        if RULES["break_ice_after_move_needs_dash"] and u is not None and getattr(u, "last_from", None) is not None and u.type not in DASH:
+            LOG["moved, then broke ice, no Dash"] += 1; LOG["no-dash ice breaker " + u.type] += 1
+        elif u is not None and getattr(u, "last_from", None) is not None: LOG["moved, then broke ice (Dash)"] += 1
         for dy in (-1, 0, 1):
             for dx in (-1, 0, 1):
                 q = (x + dx, y + dy)
