@@ -15,8 +15,8 @@ LAND_UNITS = {"Warrior", "Rider", "Archer", "Defender", "MindBender", "Swordsman
               "Polytaur", "Mooni", "IceArcher", "BattleSled", "IceFortress", "Gaami", "Hexapod", "Kiton", "Shaman", "Exida", "Doomux",
               "Centipede", "Segment", "Larva", "SteamWagon", "SteamFortress", "Pyro", "AshArcher"}   # Aquarion units are amphibious/water: never embark
 WATER_UNITS = {"Shark", "Raychi", "Puffer", "Jelly", "Crab"}   # MEASURED: seen only on water, flooded tiles or cities (Mermaid walks on land)
-RULES = {"retaliation_uses_bonus": True, "melee_moves_in_on_kill": True, "t18_disband": False, "t18_break_ice": True, "t24_explode": True, "t38_swarm": True, "t38_attack_boost": False, "mooni_freezes_units": True, "retaliation_needs_sight": True, "hidden_attacker_no_retaliation": True,
-         "algae_is_land": True, "flood_keeps_form": True, "resync_terrain": True, "kill_move_lands": True, "push_polyfish": True, "ruin_unit": True, "mooni_freeze": True, "water_units_stay": True, "shaman_convert": True, "shaman_damage": True,
+RULES = {"retaliation_uses_bonus": True, "melee_moves_in_on_kill": True, "t18_disband": False, "t18_break_ice": True, "t24_explode": True, "t38_swarm": True, "t38_attack_boost": False, "mooni_freezes_units": True, "retaliation_needs_sight": True, "frozen_no_retaliation": True, "freeze_on_hit": True, "hidden_attacker_no_retaliation": True,
+         "algae_is_land": True, "flood_keeps_form": True, "resync_terrain": True, "kill_move_lands": True, "push_polyfish": True, "push_needs_climbing": True, "ruin_unit": True, "mooni_freeze": True, "water_units_stay": True, "shaman_convert": True, "shaman_damage": True,
          "poison": True, "attack_splash": True, "poison_recover_cures": True,
          "mooni_freezes": ("Water", "Ocean"), "freezers": ("Mooni", "Gaami"), "giant_juggernaut": True,
          "port_kill_embark": True, "algae_keeps_boats": True,
@@ -68,7 +68,8 @@ def fight(st, a, d):
     d_hp = d.hp - dmg
     unseen = RULES["retaliation_needs_sight"] and not sees(st, d.owner, (a.x, a.y))      # Jason's in-game test: no return fire from fog
     hidden = RULES["hidden_attacker_no_retaliation"] and "hide" in sa["skills"]        # Jason: a Cloak never takes retaliation
-    if d_hp > 0 and not unseen and not hidden and "stiff" not in sd["skills"] and "surprise" not in sa["skills"] and dist((a.x, a.y), (d.x, d.y)) <= sd.get("range", 1):
+    frozen = RULES["frozen_no_retaliation"] and FROZEN in d.effects                   # MEASURED 09a5bf1e t7: a Frozen Warrior did not hit back
+    if d_hp > 0 and not unseen and not hidden and not frozen and "stiff" not in sd["skills"] and "surprise" not in sa["skills"] and dist((a.x, a.y), (d.x, d.y)) <= sd.get("range", 1):
         dfr = df if RULES["retaliation_uses_bonus"] else dfn * d.hp / d.max_hp
         ret = rnd(dfr / tot * dfn * 4.5) if tot > 0 else 0
     return dmg, ret, bonus
@@ -112,6 +113,8 @@ def push_target(st, u, actor):
         if q not in st.terrain or q in st.at: continue
         if u.type in LAND_UNITS and is_water(st, *q) and not (RULES["push_onto_port"] and q in st.port and st.owner.get(q) == u.owner): continue   # MEASURED (af181c8f t15, t21): its own port takes it, and it boards
         if u.type not in LAND_UNITS and u.type in BOATS and not is_water(st, *q): continue
+        if RULES["push_needs_climbing"] and st.terrain.get(q) == "Mountain" and "Climbing" not in st.players[u.owner].techs and "fly" not in stat(u)["skills"]:
+            continue                             # Polyfish is_steppable_for_push; MEASURED 09a5bf1e t6 (Cymanti, no Climbing)
         return q
     return None
 
@@ -220,7 +223,12 @@ def apply(st, a, turn):
     pl = v[0]
     if PREV[0] == 15 and pl != 255:              # a new player's turn: their units' moved/attacked marks reset
         for u in st.units.values():
-            if u.owner == pl: u.last_from = None; u.last_attack = None
+            if u.owner == pl:
+                u.last_from = None; u.last_attack = None
+                u.thaw = FROZEN in u.effects     # frozen before this turn: it sits this turn out, then thaws at its end
+    if t == 15 and RULES["frozen_no_retaliation"]:
+        for u in st.units.values():
+            if u.owner == pl and getattr(u, "thaw", False): u.effects = [e for e in u.effects if e != FROZEN]; u.thaw = False
     PREV[0] = t
     if t == 15 and RULES["poison"]:              # Polyfish process_end_turn_effects: Fungi poisons non-Cymanti units of other owners on it
         for q, owner in st.fungi.items():
@@ -258,6 +266,7 @@ def apply(st, a, turn):
         if RULES["poison"]:                      # Polyfish: a poison attacker poisons its target; a poison defender poisons a contact attacker
             if df.hp > 0 and "poison" in stat(at)["skills"]: add_effect(df, POISON)
             if df.hp > 0 and ret > 0 and "poison" in stat(df)["skills"] and dist((ox, oy), (tx, ty)) <= 1: add_effect(at, POISON)
+        if RULES["freeze_on_hit"] and df.hp > 0 and "freeze" in stat(at)["skills"]: add_effect(df, FROZEN)   # Ice Archer (Freeze skill)
         if df.hp <= 0:
             remove(st, df); at.xp += 1
             if RULES["melee_moves_in_on_kill"] and dist((ox, oy), (tx, ty)) == 1 and "stiff" not in stat(at)["skills"] and stat(at).get("range", 1) == 1:

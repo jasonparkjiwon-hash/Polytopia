@@ -18,7 +18,7 @@ V116 = {
  "Phychi": (5, 0.7, 1, ["poison", "surprise", "double attack"]), "Raychi": (10, 3, 2, []), "Boomchi": (10, 3, 3, ["onlyExplode", "static", "stiff"]),
  "LivingIsland": (20, 4, 4, ["stomp", "static", "poison"]), "Shaman": (10, 1, 1, ["convert", "swarm"]),   # Jason in game: no Static; retaliates with plain damage (no conversion) "Exida": (10, 3, 1, ["poison", "poisonSplash"]),
  "Doomux": (20, 3.5, 2, ["explode", "static"]), "Centipede": (20, 4, 3, ["static"]), "Segment": (10, 2, 2, ["onlyExplode", "static", "stiff"]),
- "InsectEgg": (10, 2, 3, ["onlyExplode", "static", "stiff"]), "Larva": (10, 2, 2, ["surprise", "static"]), "Moth": (10, 2, 0.1, ["poison", "static", "stiff"]),
+ "InsectEgg": (10, 2, 3, ["onlyExplode", "static", "stiff"]), "Mantis": (15, 3, 3, ["creep", "dash"]),   # Polyfish v115 table; MEASURED 09a5bf1e: a veteran Mantis has 20 HP and hits a Defender for 5 "Larva": (10, 2, 2, ["surprise", "static"]), "Moth": (10, 2, 0.1, ["poison", "static", "stiff"]),
 }
 # ranges (not in the calculator): info cards + dataset; default 1
 RANGE = {"Archer": 2, "Catapult": 3, "Bomber": 3, "Scoutship": 2, "IceArcher": 2, "FireDragon": 2, "AshArcher": 2, "SteamFortress": 2, "Pirate": 1}

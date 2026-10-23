@@ -606,6 +606,27 @@
    "level": "L3",
    "game_version": "v123 (measured in game)",
    "evidence": "Jason in game 2026-10-23, agreeing with the v123 info cards. Engine stats: Shaman skills corrected from the calculator's 'static' to convert + swarm; no replay score change."
+  },
+  {
+   "id": "MANTIS-STATS",
+   "rule": "Mantis (Cymanti): 15 HP, attack 3, defence 3, Creep, Dash.",
+   "level": "L1",
+   "game_version": "v115 (Polyfish) + v123 save",
+   "evidence": "Polyfish v115 table; save 09a5bf1e agrees (a veteran Mantis has 20 HP = 15 + 5; its hit on a full Defender does exactly 5)."
+  },
+  {
+   "id": "PUSH-TERRAIN",
+   "rule": "A pushed unit only lands on a tile it could step on: no mountain without Climbing (Polyfish is_steppable_for_push).",
+   "level": "L3",
+   "game_version": "v123 (measured in game)",
+   "evidence": "09a5bf1e t6: a Cymanti Mind Bender pushed by a ruin spawn skipped two mountains (Cymanti had no Climbing) and landed where the save shows it."
+  },
+  {
+   "id": "FROZEN-NO-RETALIATION",
+   "rule": "A Frozen unit does not retaliate. A unit frozen before its turn sits that turn out and thaws at its end. An Ice Archer's hit freezes its target (Freeze skill).",
+   "level": "L3",
+   "game_version": "v123 (measured in game)",
+   "evidence": "09a5bf1e t7: a Battle Sled attacked a Frozen Warrior and took no return damage. The rule gives +5 exact units over all per-turn saves (4688 -> 4693); Cliff & Gods becomes 100% exact. Freeze-on-hit is score-neutral and follows the Freeze skill."
   }
  ]
 }
