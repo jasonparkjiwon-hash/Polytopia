@@ -24,7 +24,7 @@ BUILD = {3: ("Road", 3), 5: ("Farm", 5), 6: ("Windmill", 5), 7: ("Fishing", 2), 
          28: ("ParkOfFortune", 0), 29: ("EyeOfGod", 0),                                   # monuments are free
          30: ("EnchantAnimal", 3), 46: ("Starfish", -8), 49: ("AquaFarm", 5), 51: ("Aquarion51", 5)}
 # MEASURED (implied by the star check on turns where it was the only unknown): Enchant Animal 3 (5/5); harvesting Starfish
-# GIVES 8 stars (18/22); AquaFarm 5 (n=1) and Aquarion structure 51 5 (n=2) are thin.
+# GIVES 8 stars (18/22); AquaFarm 5 (n=1, and 5 on Jason's in-game card); Aquarion structure 51 5 (n=2, thin).
 UPGRADE_COST = {"Scoutship": 5, "Rammership": 5, "Bomber": 15}
 TIER = {k.replace(" ", ""): v["tier"] for k, v in _tree.items()}
 TIER.update({"IceFishing": 2, "Sledding": 2, "PolarWarfare": 3, "Spearing": 3})   # MEASURED: tribe techs priced by the same formula (n=1-2 each)

@@ -221,7 +221,7 @@ Jason (Imperius) vs 15 Hard bots on a 30x30 map, exported every turn from 1 to 1
   - Per-turn replay: 2310 → 2356 exact. Full replay: 2157 → 2252 exact over 24 checkpoints.
   - Boarding at a port (after a kill or a push) needs the tribe's own port: 4/4 boarded at their own port, 0/2 at an enemy port.
   - A/B check: bot war 66, 90, 110 → 66, 90, 111. Misty Fields turns 13-16: 132, 144, 148, 157 → 133, 144, 149, 157, every unit exact. Ankiian unchanged.
-- **Action type 18 (open, test item):** bots only, a tile holding one of their own units, usually right after it moved and next to an enemy. Nothing visible changes and the unit does nothing more that turn.
+- **Action type 18 (open, test item):** bots only, a tile holding one of their own units, usually right after it moved and next to an enemy. Nothing visible changes and the unit does nothing more that turn. It is not a poison cure (0/79 poisoned) and not a promotion (0/79 veteran afterwards).
 - **Flood and algae:** the save's flood flag is the TileEffect enum (1 Flooded, 4 Algae). On Aquarion-flooded land, boats stay boats and walkers stay walkers (a city is plain land). On Cymanti algae, land units walk on water.
 - **Moving in after a kill:** a boat landing after a kill drops its passenger. A land unit doesn't follow a kill into water. Sharks and Raychi (water-only) don't follow onto dry land.
 - **Boat records:** a boat's own record always shows promotion 0. The passenger record keeps veteran status, and the boat's HP is the live value.
@@ -244,7 +244,7 @@ Jason (Imperius) vs 15 Hard bots on a 30x30 map, exported every turn from 1 to 1
 - **Settled:** the tech formula tier × cities + 4 (Literacy ⅔) holds. The old residuals came from meeting stars, not from tech prices.
 - **Open:**
   - Crazy bonus (needs per-turn Crazy saves).
-  - Aqua Farm and structure 51 prices (n ≤ 2).
+  - Structure 51 price (n = 2). Aqua Farm 5 is confirmed in game.
   - Polarism and Oceantology tiers.
   - Market, Clathrus and Embassy income (not modelled; no case seen yet).
   - About 15 player-turns still 1 star short.
