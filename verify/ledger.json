@@ -683,6 +683,20 @@
    "level": "L3",
    "game_version": "v123 (measured in game)",
    "evidence": "af181c8f t25: all three Ai-Mo units next to an exploding Cymanti unit were Poisoned; their damage depended on their defence (Juggernaut 1, others 2-3), against Polyfish's flat 2 (marked unverified there)."
+  },
+  {
+   "id": "PORT-BOARDS",
+   "rule": "A land unit that moves onto its own tribe's port boards, even when the port stands on flooded land; a port that has been frozen over (ice) is walked on foot.",
+   "level": "L3",
+   "game_version": "v123 (measured in game)",
+   "evidence": "af181c8f t18: an Elyrion Warrior stepping onto its own port on Aquarion-flooded land became a Raft; e15f392c t12: a Hoodrick Warrior crossed its own port after a Mooni froze it and stayed on foot. +2 exact units, 2 fewer missing and 2 fewer wrongly alive."
+  },
+  {
+   "id": "EXPLODE-DAMAGE",
+   "rule": "Explosion damage = half the normal attack result (rounded), floored, with the exploder's current HP and the target's defence bonus.",
+   "level": "L3",
+   "game_version": "v123 (measured in game)",
+   "evidence": "7 of 7 cleanly measurable explosion targets in af181c8f match exactly; flat 2 (Polyfish), a third, or ignoring the exploder's HP match 0-3 of 7. One explosion (t25) hits 1 less on all three targets; likely the exploder was already hurt in a way the log doesn't show."
   }
  ]
 }

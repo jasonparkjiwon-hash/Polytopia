@@ -15,7 +15,7 @@ LAND_UNITS = {"Warrior", "Rider", "Archer", "Defender", "MindBender", "Swordsman
               "Polytaur", "Mooni", "IceArcher", "BattleSled", "IceFortress", "Gaami", "Hexapod", "Kiton", "Shaman", "Exida", "Doomux",
               "Centipede", "Segment", "Larva", "SteamWagon", "SteamFortress", "Pyro", "AshArcher"}   # Aquarion units are amphibious/water: never embark
 WATER_UNITS = {"Shark", "Raychi", "Puffer", "Jelly", "Crab"}   # MEASURED: seen only on water, flooded tiles or cities (Mermaid walks on land)
-RULES = {"retaliation_uses_bonus": True, "melee_moves_in_on_kill": True, "t18_disband": False, "t18_break_ice": True, "t24_explode": True, "t38_swarm": True, "t38_attack_boost": False, "mooni_freezes_units": True, "retaliation_needs_sight": True, "frozen_no_retaliation": True, "freeze_on_hit": True, "tribe_super_unit": True, "bridge_is_land": True, "stomp": True, "summon_promotion": True, "peace_spares_area_damage": True, "stiff_moves_in": True, "explode_poison": True, "t4_heal": True, "stomp_poison": True, "t17_freeze_area": True, "explode_round": "round_then_half", "hidden_attacker_no_retaliation": True,
+RULES = {"retaliation_uses_bonus": True, "melee_moves_in_on_kill": True, "t18_disband": False, "t18_break_ice": True, "t24_explode": True, "t38_swarm": True, "t38_attack_boost": False, "mooni_freezes_units": True, "retaliation_needs_sight": True, "frozen_no_retaliation": True, "freeze_on_hit": True, "tribe_super_unit": True, "bridge_is_land": True, "stomp": True, "summon_promotion": True, "peace_spares_area_damage": True, "stiff_moves_in": True, "explode_poison": True, "t4_heal": True, "stomp_poison": True, "port_boards": True, "t17_freeze_area": True, "explode_round": "round_then_half", "explode_round_by_type": {}, "hidden_attacker_no_retaliation": True,
          "algae_is_land": True, "flood_keeps_form": True, "resync_terrain": True, "kill_move_lands": True, "push_polyfish": True, "push_needs_climbing": True, "ruin_unit": True, "mooni_freeze": True, "water_units_stay": True, "shaman_convert": True, "shaman_damage": True,
          "poison": True, "attack_splash": True, "poison_recover_cures": True,
          "mooni_freezes": ("Water", "Ocean"), "freezers": ("Mooni", "Gaami"), "giant_juggernaut": True,
@@ -186,9 +186,9 @@ def enter(st, u, x0, y0, x1, y1):
         if (x0, y0) in st.bridge: ter0 = "Field"
     if RULES["algae_keeps_boats"] and st.flood.get((x1, y1)) == 4 and u.type in BOATS:
         pass                                     # MEASURED (af181c8f t22, t25): a boat moving onto Cymanti algae stays a boat, passenger aboard
-    elif RULES["flood_keeps_form"] and st.flood.get((x1, y1)) == 1 and ter not in water and (x1, y1) not in st.city:
+    elif RULES["flood_keeps_form"] and st.flood.get((x1, y1)) == 1 and ter not in water and (x1, y1) not in st.city and not (RULES["port_boards"] and (x1, y1) in st.port and st.owner.get((x1, y1)) == u.owner and u.type in LAND_UNITS):
         pass                                     # MEASURED: on Aquarion-flooded land a boat stays a boat and a land unit stays on foot (a city is plain land)
-    elif ter in water and ter0 not in water and u.type in LAND_UNITS:
+    elif (ter in water or (RULES["port_boards"] and (x1, y1) in st.port and st.owner.get((x1, y1)) == u.owner and ter != "Ice")) and ter0 not in water and u.type in LAND_UNITS and u.type not in BOATS:
         u.passenger = u.type                         # a land unit stepping into water becomes a Raft; MEASURED (af181c8f): a Giant becomes a Juggernaut
         u.type = "Juggernaut" if RULES["giant_juggernaut"] and u.type == "Giant" else "Raft"
         if RULES.get("boat_new_id", True):            # MEASURED: the boat is a new unit id; the passenger keeps its own id
@@ -399,7 +399,9 @@ def apply(st, a, turn):
                 if hostile(st, d.owner, pl) and dist((d.x, d.y), (x, y)) == 1 and st.at.get((d.x, d.y)) == d.id:
                     af = sa["atk"] * u.hp / u.max_hp; df = stat(d)["def"] * d.hp / d.max_hp * defence_bonus(st, d); tot = af + df
                     raw = af / tot * sa["atk"] * 4.5 if tot > 0 else 0
-                    dmg = math.floor(rnd(raw) / 2) if RULES["explode_round"] == "round_then_half" else (rnd(raw / 2) if RULES["explode_round"] == "half_then_round" else math.floor(raw / 2))
+                    dmg = {"round_then_half": lambda: math.floor(rnd(raw) / 2), "half_then_round": lambda: rnd(raw / 2),
+                           "floor_half": lambda: math.floor(raw / 2), "floor_third": lambda: math.floor(raw / 3)}[
+                              RULES["explode_round_by_type"].get(u.type, RULES["explode_round"])]()
                     d.hp -= dmg
                     if RULES["explode_poison"] and d.hp > 0: add_effect(d, POISON)   # Polyfish explode + af181c8f t25 (every target poisoned)
                     if d.hp <= 0: remove(st, d)
