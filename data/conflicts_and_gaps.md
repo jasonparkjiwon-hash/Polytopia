@@ -246,7 +246,7 @@ Jason (Imperius) vs 15 Hard bots on a 30x30 map, exported every turn from 1 to 1
   - Crazy bonus (needs per-turn Crazy saves).
   - Structure 51 price (n = 2). Aqua Farm 5 is confirmed in game.
   - Polarism and Oceantology tiers.
-  - Embassy (4 stars; 2 a turn to both sides, 4 with peace), Market and Clathrus income are coded from the in-game text but not yet seen in a save.
+  - Embassy (5 stars; 2 a turn to both sides, 4 with peace), Market and Clathrus income are coded from the in-game text but not yet seen in a save.
   - Clathrus counts Fungi (v123 card) vs Algae (Polyfish): test item.
 - **Action 27 is not Establish Embassy.** It is free, repeats on the same capital, and most users lack the Diplomacy tech; it is likely a peace request.
   - About 15 player-turns still 1 star short.

@@ -20,7 +20,7 @@ UNIT_COST.update({"Scoutship": UNIT_COST["Scout"], "Rammership": UNIT_COST["Ramm
 BUILD = {3: ("Road", 3), 5: ("Farm", 5), 6: ("Windmill", 5), 7: ("Fishing", 2), 8: ("Port", 7), 9: ("Hunting", 2), 12: ("LumberHut", 3),
          13: ("Sawmill", 5), 15: ("HarvestFruit", 2), 17: ("Temple", 20), 21: ("Mine", 5), 22: ("Forge", 5), 33: ("Outpost", 5),
          37: ("Fungi", 5), 38: ("Algae", 5), 39: ("Mycelium", 5), 41: ("Clathrus", 5), 48: ("Bridge", 5), 50: ("Market", 5),
-         70: ("Embassy", 4),
+         70: ("Embassy", 5),
          23: ("AltarOfPeace", 0), 24: ("TowerOfWisdom", 0), 25: ("GrandBazaar", 0), 26: ("EmperorsTomb", 0), 27: ("GateOfPower", 0),
          28: ("ParkOfFortune", 0), 29: ("EyeOfGod", 0),                                   # monuments are free
          30: ("EnchantAnimal", 3), 46: ("Starfish", -8), 49: ("AquaFarm", 5), 51: ("Aquarion51", 5)}
@@ -31,7 +31,7 @@ TIER = {k.replace(" ", ""): v["tier"] for k, v in _tree.items()}
 TIER.update({"IceFishing": 2, "Sledding": 2, "PolarWarfare": 3, "Spearing": 3})   # MEASURED: tribe techs priced by the same formula (n=1-2 each)
 REWARD_STARS = {7: 5}
 ADJ_INCOME = {50: {6, 22, 13}, 41: {37}}      # Market: Windmill, Forge, Sawmill; Clathrus: Fungi
-EMBASSY_COST = 4            # Jason's game, 2026-10-23. Built as Build structure 70 (not action 27: that one is free and repeats)
+EMBASSY_COST = 5            # Jason, 2026-10-23 (corrected from 4; matches the v123 card in measured_ui.json). Built as Build structure 70 (not action 27: that one is free and repeats)
 EMBASSY_INCOME = 2          # in-game text: "It will give you both 2 stars per turn, when you have a peace treaty the income is doubled"                       # CityReward Resources: +5 stars now
 REWARD_INCOME = {3: 1, 2: 1}                # Workshop, Park: +1 star per turn
 
