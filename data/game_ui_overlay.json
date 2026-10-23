@@ -43,7 +43,9 @@
      "cost": 5,
      "cost_src": "GAME-UI (Jason's v123 info cards, 2026-10-23)",
      "ui_effect": "Diplomacy: income for both sides while not at war, doubled with a peace treaty",
-     "cost_check": "game 5 vs dataset 5"
+     "cost_check": "game 5 vs dataset 5",
+     "cost_step": 2,
+     "cost_step_src": "Jason in game, 2026-10-23: each further embassy costs 2 more (5, 7, 9, ...)"
     },
     "Temple": {
      "cost": 20,

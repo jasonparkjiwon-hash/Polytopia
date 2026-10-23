@@ -31,7 +31,8 @@ TIER = {k.replace(" ", ""): v["tier"] for k, v in _tree.items()}
 TIER.update({"IceFishing": 2, "Sledding": 2, "PolarWarfare": 3, "Spearing": 3})   # MEASURED: tribe techs priced by the same formula (n=1-2 each)
 REWARD_STARS = {7: 5}
 ADJ_INCOME = {50: {6, 22, 13}, 41: {37}}      # Market: Windmill, Forge, Sawmill; Clathrus: Fungi
-EMBASSY_COST = 5            # Jason, 2026-10-23 (corrected from 4; matches the v123 card in measured_ui.json). Built as Build structure 70 (not action 27: that one is free and repeats)
+EMBASSY_COST = 5            # Jason, 2026-10-23 (corrected from 4; matches the v123 card in measured_ui.json): the first one;
+EMBASSY_STEP = 2            # each further embassy the same tribe builds costs 2 more (Jason, 2026-10-23). Built as Build structure 70 (not action 27: that one is free and repeats)
 EMBASSY_INCOME = 2          # in-game text: "It will give you both 2 stars per turn, when you have a peace treaty the income is doubled"                       # CityReward Resources: +5 stars now
 REWARD_INCOME = {3: 1, 2: 1}                # Workshop, Park: +1 star per turn
 
@@ -91,7 +92,9 @@ def spend(b, pl, a):
     if t == 5:
         ut = UNIT.get(struct.unpack("<BHII", r)[1]); return UNIT_COST.get(ut)
     if t == 1:
-        imp = struct.unpack("<BHII", r)[1]; return BUILD.get(imp, (None, None))[1]
+        imp = struct.unpack("<BHII", r)[1]
+        if imp == 70: return EMBASSY_COST + EMBASSY_STEP * sum(1 for e in b.embassies if e[0] == pl)
+        return BUILD.get(imp, (None, None))[1]
     if t == 16:
         ut = UNIT.get(struct.unpack("<BHII", r)[1]); return UPGRADE_COST.get(ut)
     if t == 8:
