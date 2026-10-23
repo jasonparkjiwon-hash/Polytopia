@@ -10,7 +10,8 @@
 
 ## Working with Jason
 
-- Run anything consequential by him before doing it (pushing, posting, deleting, messaging people).
+- Run anything consequential by him before doing it (posting, deleting, messaging people, force-pushing, rewriting history).
+- **Exception, approved by Jason on 23 Oct 2026:** commit and push finished work straight to `main` without asking, but only after `sh scripts/check.sh` runs without regressing the README baseline. Don't use side branches or pull requests unless he asks for one.
 - He plays on **iPhone** and exports saves as text (device path + base64). There are no PC-only tools on his side.
 - Verify rendered output (notebooks, plots, pages) before handing it over.
 - Keep explanations plain; he's not reading the code line by line.
