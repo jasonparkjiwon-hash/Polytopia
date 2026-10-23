@@ -629,13 +629,6 @@
    "evidence": "af181c8f t25: an Ai-Mo Juggernaut's Stomp left an adjacent Imperius Defender (at peace) at full HP. +3 exact units."
   },
   {
-   "id": "JUGGERNAUT-KILL-MOVE",
-   "rule": "A Juggernaut (Stiff boat) follows a kill onto water, but not onto land; other Stiff units never follow a kill.",
-   "level": "L3",
-   "game_version": "v123 (measured in game)",
-   "evidence": "af181c8f t25: moved into a killed Boomchi's water tile; af181c8f t21: stayed put after killing a land unit. +1 exact position."
-  },
-  {
    "id": "EXPLODE-POISON",
    "rule": "An explosion (Boomchi, Segment, Doomux) poisons the units it hits; damage stays half the normal attack, rounded then halved and floored (beats flat damage, half-then-round and floor-half in the replay).",
    "level": "L3",
@@ -795,6 +788,13 @@
    "level": "L3 (tiers); names: 46 Marine Life L2, 39 Aquaculture and 47 AquaFishing L0",
    "game_version": "v123 (measured in saves)",
    "evidence": "Star check 2026-10-23: with these tiers 8 single-turn star rows in 1bf60251, e15f392c and 09a5bf1e go exact (762 -> 770); the residual was exactly the price (-5 at 1 city for 47, -6/-8 for 39/46). Names still wanted from Jason. | Names (L0, one source): Polyfish polyfish-rs/src/types.rs (commit a9f90ab, Sep 2026) lists the game's TechnologyType ids it doesn't model as comments: 39 Aquaculture, 46 MarineLife, 47 AquaFishing (also 40 FishingSimple, 43 Pascetism, 45 AquaBase, 33 Oceanology, 50 Mysticism). Consistent with the saves: 39, 46, 47 are researched only by Aquarion (3, 3, 5 times). Jason's card: Aquaculture costs 6 at 1 city = tier 2, matching 39's measured tier. 47 'AquaFishing' is tier 1, so it is likely the Aquarion replacement for Fishing; its in-game display name is not confirmed (Jason lists Waterways, Aquaculture, Marine Life, Spearing, Free Diving). Polyfish's older JS UI (src/public/js/types.js) maps 39 to Ramming: stale, the Rust enum has Ramming = 44. | Wiki cross-check 2026-10-23 (search snippets of the fandom Aquarion page and the Steam rework beta notes; the pages themselves are blocked here): Marine Life replaces Sailing and unlocks the Shark; Waterways replaces Roads (any unit can flood a land tile); Free Diving replaces Free Spirit; Aquaculture is tier 2. Saves (last save of every game): all 29 Shark (unit 53) trainings come after the player researched 46, none without it; 47 is researched before 39 and 46 in every Aquarion player (sets seen: 47; 47+39; 47+39+46), so 47 is the tier-1 slot (Fishing's place, prerequisite of the Sailing slot). So 46 = Marine Life is L2 (Polyfish name + wiki 'unlocks Shark' + save order); 39 = Aquaculture and 47 = AquaFishing stay L0 (one source for the name; tiers fit). | Level relabelled 2026-10-23 after the name cross-check."
+  },
+  {
+   "id": "JUGGERNAUT-KILL-MOVE",
+   "rule": "A Juggernaut (Stiff boat) follows a melee kill onto water and onto land, where it lands as its passenger (Giant, old id back) and stomps the enemies next to the tile; not onto a mountain without Climbing (KILL-MOVE-CLIMBING). Other Stiff units never follow a kill.",
+   "level": "L3",
+   "game_version": "v123 (measured in game)",
+   "evidence": "af181c8f t25: moved into a killed Boomchi's water tile. af181c8f t21: stayed put after killing a unit on a mountain (Luxidoor, no Climbing). 6e1bf8e0 t13 action 1729: Zebasi Juggernaut 326 killed Kickoo Warrior 36 on forest (23,5), was Giant 290 on (23,5) afterwards (moves from there at 1921), and Kickoo Defender 295 next to (23,5) lost exactly 5 = floor(10/2) stomp damage. Engine RULES stiff_boat_lands, stomp_on_kill_move; miss.py units 4717/4743 -> 4721/4741."
   }
  ]
 }

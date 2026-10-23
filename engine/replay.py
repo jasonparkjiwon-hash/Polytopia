@@ -64,6 +64,8 @@ RULES = {   # one switch per line; A/B each in tools/miss.py before keeping a ch
     'no_cities_no_units': True,
     'ruin_unseen_swordsman': True,
     'kill_move_needs_climbing': True,
+    'stiff_boat_lands': True,
+    'stomp_on_kill_move': True,
     'push_dir_persists': True,
     'push_dir_round': True,
     'peace_break_disbands': True,       # UNVERIFIED (L0): no save has a broken peace with units inside the ex-ally's borders
@@ -352,16 +354,18 @@ def apply(st, a, turn):
         if RULES["freeze_on_hit"] and df.hp > 0 and "freeze" in stat(at)["skills"]: add_effect(df, FROZEN)   # Ice Archer (Freeze skill)
         if df.hp <= 0:
             remove(st, df); at.xp += 1
-            if RULES["melee_moves_in_on_kill"] and dist((ox, oy), (tx, ty)) == 1 and ("stiff" not in stat(at)["skills"] or (RULES["stiff_moves_in"] and at.type in BOATS and is_water(st, tx, ty))) and stat(at).get("range", 1) == 1:
+            if RULES["melee_moves_in_on_kill"] and dist((ox, oy), (tx, ty)) == 1 and ("stiff" not in stat(at)["skills"] or (RULES["stiff_moves_in"] and at.type in BOATS and (is_water(st, tx, ty) or RULES["stiff_boat_lands"]))) and stat(at).get("range", 1) == 1:
                 if not RULES["kill_move_lands"]: place(st, at, tx, ty)
-                elif RULES["kill_move_needs_climbing"] and st.terrain.get((tx, ty)) == "Mountain" and at.type in LAND_UNITS and "Climbing" not in st.players[at.owner].techs and "fly" not in stat(at)["skills"]:
+                elif RULES["kill_move_needs_climbing"] and st.terrain.get((tx, ty)) == "Mountain" and (at.type in LAND_UNITS or at.type in BOATS) and "Climbing" not in st.players[at.owner].techs and "fly" not in stat(at)["skills"]:
                     pass                                 # MEASURED 6e1bf8e0 t10: a Luxidoor Giant (no Climbing) killed a unit on a mountain and stayed put
                 elif at.type in LAND_UNITS and is_water(st, tx, ty) and not (RULES["port_kill_embark"] and (tx, ty) in st.port and st.owner.get((tx, ty)) == at.owner):
                     pass                                 # a land unit doesn't follow a kill into water, except onto its own port, where it boards (MEASURED: 4/4 own port, 0/2 enemy port)
                 elif RULES["water_units_stay"] and at.type in WATER_UNITS and not (is_water(st, tx, ty) or (tx, ty) in st.flood or (tx, ty) in st.city):
                     pass                                 # MEASURED (e15f392c t9): a Shark doesn't follow a kill onto dry land
                 else:
+                    old_type = at.type
                     enter(st, at, at.x, at.y, tx, ty)    # MEASURED (e15f392c t15): a boat moving in onto land drops its passenger
+                    if RULES["stomp_on_kill_move"] and "stomp" in STATS.get(old_type, {}).get("skills", ()): stomp(st, at, old_type)   # MEASURED 6e1bf8e0 t13
         else:
             at.hp -= ret
             if at.hp <= 0: remove(st, at)

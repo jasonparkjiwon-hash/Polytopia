@@ -66,6 +66,8 @@ MAP = {   # rule name -> ledger id
     "replay.RULES.break_ice_after_move_needs_dash": "ACTION-18-AFTER-MOVE",
     "replay.RULES.ruin_unseen_swordsman": "RUIN-UNIT-UNSEEN",
     "replay.RULES.kill_move_needs_climbing": "KILL-MOVE-CLIMBING",
+    "replay.RULES.stiff_boat_lands": "JUGGERNAUT-KILL-MOVE",
+    "replay.RULES.stomp_on_kill_move": "JUGGERNAUT-KILL-MOVE",
     "replay.RULES.push_dir_persists": "PUSH-DIRECTION",
     "replay.RULES.push_dir_round": "PUSH-DIRECTION",
     # economy.py ECON_RULES switches

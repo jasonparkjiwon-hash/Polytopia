@@ -29,9 +29,15 @@ Save units near a tile: a 15-line scratch script (`near.py`: tile, id, tribe, ty
   (344, 237). Defence 3 scores the same; 0.1 (Polyfish) or with retaliation: no gain. Kept, ledger MOTH-V123.
 - The ruin fix also closed 428, 309, 388, 177, 310 at t15 (they hung off unit 165's fights).
 
+- `stiff_boat_lands` + Climbing check extended to boats + `stomp_on_kill_move` → 4717/4743 → 4721/4741 (223, 326,
+  295). `stiff_boat_lands` alone broke af181c8f t21 (mountain, no Climbing) until the Climbing check covered boats.
+
 ## Ruled out
 
 - Moth dies and leaves an InsectEgg that explodes: a fresh egg's blast deals 2 to a full Swordsman, save says 1.
+
+- Own-port defence bonus 1.5 (would fix Giant 290): 4721/4741 → 4697/4747. Reverted.
+- Juggernaut defence 5 or 6 (for 290): 4719/4741. Reverted.
 
 ## Current theory
 
