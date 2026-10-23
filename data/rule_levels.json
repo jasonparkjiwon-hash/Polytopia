@@ -16,13 +16,13 @@
   "economy.BONUS_NEEDS_CAPITAL": {
    "ledger": "ECON-BOT-BONUS",
    "level": "L3",
-   "source": "engine/economy.py:147",
+   "source": "engine/economy.py:149",
    "unverified": false
   },
   "economy.BONUS_NEEDS_FREE_CAPITAL": {
    "ledger": "ECON-BOT-BONUS",
    "level": "L3",
-   "source": "engine/economy.py:148",
+   "source": "engine/economy.py:150",
    "unverified": false
   },
   "economy.BUILD": {
@@ -70,13 +70,13 @@
   "economy.EMBASSY_ACTION30": {
    "ledger": "EMBASSY-ACTION",
    "level": "L3 (n=2)",
-   "source": "engine/economy.py:152",
+   "source": "engine/economy.py:154",
    "unverified": false
   },
   "economy.EMBASSY_BUILDER_PAID": {
    "ledger": "EMBASSY-ACTION",
    "level": "L3 (n=2)",
-   "source": "engine/economy.py:153",
+   "source": "engine/economy.py:155",
    "unverified": false
   },
   "economy.EMBASSY_COST": {
@@ -97,28 +97,28 @@
    "source": "engine/economy.py:37",
    "unverified": true
   },
-  "economy.END_INCOME_FROM_B": {
-   "ledger": "ROUND-START-INCOME",
+  "economy.LEVEL_FROM_REWARD": {
+   "ledger": "CITY-LEVEL-BY-REWARD",
    "level": "L3",
-   "source": "engine/economy.py:151",
+   "source": "engine/economy.py:153",
    "unverified": false
   },
   "economy.NEG_POP": {
    "ledger": "ECON-INCOME",
    "level": "L3",
-   "source": "engine/economy.py:149",
+   "source": "engine/economy.py:151",
    "unverified": false
   },
   "economy.PAID_AT_TURN_START": {
    "ledger": "ECON-SAVE-TIMING",
    "level": "L3",
-   "source": "engine/economy.py:155",
+   "source": "engine/economy.py:157",
    "unverified": false
   },
   "economy.PEACE": {
    "ledger": "DIPLO-PEACE",
    "level": "L3 (27/28); L3 n=1 (29)",
-   "source": "engine/economy.py:146",
+   "source": "engine/economy.py:148",
    "unverified": false
   },
   "economy.REWARD_INCOME": {
@@ -136,13 +136,13 @@
   "economy.ROUND_START_PAID": {
    "ledger": "ROUND-START-INCOME",
    "level": "L3",
-   "source": "engine/economy.py:150",
+   "source": "engine/economy.py:152",
    "unverified": false
   },
   "economy.RUIN_STARS": {
    "ledger": "ECON-RUIN-STARS",
    "level": "L3",
-   "source": "engine/economy.py:145",
+   "source": "engine/economy.py:147",
    "unverified": false
   },
   "economy.TIER": {
@@ -154,7 +154,7 @@
   "economy.TRACK_PEACE": {
    "ledger": "EMBASSY-ACTION",
    "level": "L3 (n=2)",
-   "source": "engine/economy.py:154",
+   "source": "engine/economy.py:156",
    "unverified": false
   },
   "economy.UNIT_COST": {
@@ -172,7 +172,7 @@
   "economy.WAR": {
    "ledger": "DIPLO-PEACE",
    "level": "L3 (27/28); L3 n=1 (29)",
-   "source": "engine/economy.py:146",
+   "source": "engine/economy.py:148",
    "unverified": false
   },
   "economy.meet_stars": {

@@ -23,7 +23,10 @@ python3 -I tools/trace.py <game> <turnA> <turnB> x,y ...
   a save b ending that way adds it → 770 -> 775 (af181c8f p1 -5/+5 pairs). Kept.
 - `END_INCOME_FROM_B`: that opener income uses save b's cities (the log has CityReward without the level-up) → 778. Kept.
 - `EMBASSY_ACTION30` + `TRACK_PEACE` + `EMBASSY_BUILDER_PAID=False`, cost 4 → 780. Kept (split with Jason's 5, see ledger EMBASSY-ACTION).
-  Grid: cost 4/5/6 x builder paid yes/no: 779/780, 778/778, 779/778. Only 4/no fits both embassies.
+  Grid (before LEVEL_FROM_REWARD): cost 4/5/6 x builder paid yes/no: 779/780, 778/778, 779/778. Only 4/no fits both embassies.
+
+- `LEVEL_FROM_REWARD`: city Level rises with each CityReward, not with action 21 (243/243 vs 0/201) → 780 -> 800. Kept.
+  END_INCOME_FROM_B became redundant (800 either way) and was removed.
 
 ## Ruled out
 

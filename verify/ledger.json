@@ -788,6 +788,13 @@
    "level": "L0 (47, 49-52, 54, 55: one source, positional); L3 for 46 and 48; L1 for 53",
    "game_version": "v123 (ids); names from Polyfish v115+",
    "evidence": "Polyfish polyfish-rs/src/types.rs (commit a9f90ab, Sep 2026): unnumbered comments between Juggernaut = 45 and Boomchi = 56, ten names for ten ids. Saves (all, 2026-10-23): only 46 (187 records), 48 (51) and 53 (75) appear, all Aquarion; 46 and 48 are measured (AQUARION-UNIT, UNIT-ID-48), 53 inferred (UNIT-ID-53). Not added to engine/state.py: no save holds the other ids, so nothing tests them."
+  },
+  {
+   "id": "CITY-LEVEL-BY-REWARD",
+   "rule": "A city's Level rises by one for each CityReward action (action 11) on it; action 21 (named CityLevelUp in verify/state_v123.py) never changes the Level, so its meaning is still open (it is mostly on the player's own city, 72 of 323 on a tile that is no city in either save).",
+   "level": "L3",
+   "game_version": "v123 (measured in saves)",
+   "evidence": "All consecutive save pairs 2026-10-23: Level change = number of CityRewards in 243/243 cities; 201 cities with only action 21 kept their Level. Star check with levels from rewards: 780 -> 800."
   }
  ]
 }

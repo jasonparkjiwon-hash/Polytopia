@@ -129,7 +129,9 @@ def book(b, a):
         b.techs.setdefault(pl, set()).add(TECH.get(struct.unpack("<BH", r)[1]))
     elif t == 11:
         _, x, y, rw = struct.unpack("<BIIH", r)
-        if (x, y) in b.city: b.city[(x, y)]["CityRewards"] = b.city[(x, y)]["CityRewards"] + [rw]
+        if (x, y) in b.city:
+            b.city[(x, y)]["CityRewards"] = b.city[(x, y)]["CityRewards"] + [rw]
+            if LEVEL_FROM_REWARD: b.city[(x, y)]["Level"] += 1
     elif t == 1:
         _, imp, x, y = struct.unpack("<BHII", r)
         b.structure[(x, y)] = (imp, pl)
@@ -138,7 +140,7 @@ def book(b, a):
         b.relation[(r[0], r[1])] = b.relation[(r[1], r[0])] = PEACE
     elif t == 30 and EMBASSY_ACTION30:
         b.embassies.add((pl, struct.unpack("<BIIB", r)[3]))
-    elif t == 21:
+    elif t == 21 and not LEVEL_FROM_REWARD:
         _, x, y = struct.unpack("<BII", r)
         if (x, y) in b.city: b.city[(x, y)]["Level"] += 1
 
@@ -148,7 +150,7 @@ BONUS_NEEDS_CAPITAL = True
 BONUS_NEEDS_FREE_CAPITAL = True   # A/B 2026-10-23: a besieged capital also loses the bot bonus
 NEG_POP = True
 ROUND_START_PAID = True     # A/B 2026-10-23: a save taken right after the round-end EndTurn (player 255) already holds the next player's income
-END_INCOME_FROM_B = True    # A/B 775 -> 778: the round opener's income held in save b uses b's cities
+LEVEL_FROM_REWARD = True    # MEASURED: a city's level rises by its number of CityReward actions (243/243); action 21 never changes it (201/201)
 EMBASSY_ACTION30 = True    # MEASURED: action 30 (player, host capital x,y, host id) builds an embassy: the host's Diplomacy entry gets EmbassyLevel 1 (6e1bf8e0)
 EMBASSY_BUILDER_PAID = False # MEASURED n=2: the host earns 2 (4 at peace) from its next turn; the builder earned nothing while neutral (09a5bf1e) and 4 at peace (6e1bf8e0)
 TRACK_PEACE = True          # an accepted peace (action 28 reply 1) counts from then on for embassy income (A/B 779 -> 780)
@@ -197,8 +199,7 @@ def check(a, b, acts, model="levels", siege=True):
         nxt = _next_actor(acts, n1)
         if nxt in rows:
             occ = {q: st.units[i].owner for q, i in st.at.items() if i in st.units} if st else None
-            bb = Books(b); bb.embassies = bk.embassies       # save b's own cities: the log misses level-ups that come with a city reward
-            rows[nxt]["income"] += (bb if END_INCOME_FROM_B else bk).income(nxt, model, occ); rows[nxt]["turns"] += 1
+            rows[nxt]["income"] += bk.income(nxt, model, occ); rows[nxt]["turns"] += 1
     pa = {p["PlayerId"]: p for p in a["currentPlayers"]}; pb = {p["PlayerId"]: p for p in b["currentPlayers"]}
     for pl, r in rows.items():                          # tribes met between the saves (the log has no meet event)
         if pl not in pb: continue

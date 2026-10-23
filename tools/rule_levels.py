@@ -102,7 +102,7 @@ MAP = {   # rule name -> ledger id
     "economy.NEG_POP": "ECON-INCOME",
     "economy.PAID_AT_TURN_START": "ECON-SAVE-TIMING",
     "economy.ROUND_START_PAID": "ROUND-START-INCOME",
-    "economy.END_INCOME_FROM_B": "ROUND-START-INCOME",
+    "economy.LEVEL_FROM_REWARD": "CITY-LEVEL-BY-REWARD",
     "economy.EMBASSY_ACTION30": "EMBASSY-ACTION",
     "economy.EMBASSY_BUILDER_PAID": "EMBASSY-ACTION",
     "economy.TRACK_PEACE": "EMBASSY-ACTION",
