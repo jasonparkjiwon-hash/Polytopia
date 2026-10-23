@@ -51,3 +51,5 @@ Add to it when a hunt turns up a gotcha worth remembering.
 - **Healing:** +4 in own territory, +2 elsewhere. Territory is re-synced at checkpoints.
 - **Fog:** explored tiles show enemies live. Only unexplored clouds hide them.
 
+- **Saves can be mid-turn:** Jason exports during his own turn, sometimes after acting (af181c8f t14 holds his Attack and Train but not his EndTurn). The unit `Moved`/`Attacked` flags in the save tell which of his units already acted (`saved_acted` in `state.py`).
+- **Push direction is hidden state:** the game keeps a unit's last move direction across turns (not in the save); a replay starting at a checkpoint reads it back from the log (`prime_last_moves`). Units trained that turn have no logged move and their push direction isn't predictable yet.

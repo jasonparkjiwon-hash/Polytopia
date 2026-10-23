@@ -308,3 +308,4 @@ Jason (Imperius) vs 15 Hard bots on a 30x30 map, exported every turn from 1 to 1
 - Bot war 6e1bf8e0 t13: Juggernaut kill move-in onto land (lands as Giant, stomps) replaces the old 'not onto land' reading of JUGGERNAUT-KILL-MOVE; the af181c8f t21 case was a mountain without Climbing.
 - POLARIS-CAPTURE-FREEZE (new, L3 n=1): a Polaris city capture freezes the water around the city. Open: does border growth (city level-up) freeze new Polaris water too? 4 of 16 newly Polaris water tiles stayed water; not checked which.
 - 2026-10-23 ECON-MARKET-CLATHRUS: Market pays the adjacent Windmill/Sawmill/Forge levels, not +1 each (af181c8f p14 t25, n=1; MARKET_BY_LEVEL).
+- IDLE-AUTO-RECOVER (new, L3 n=1): a human player's idle wounded units heal at End Turn. In-game test for Jason: leave a wounded unit idle in own territory for one turn and check it gains 4 HP; also whether a unit that only moved (no attack) heals.

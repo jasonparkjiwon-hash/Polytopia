@@ -816,6 +816,13 @@
    "level": "L3 (n=1-2 each)",
    "game_version": "v123 (measured in saves)",
    "evidence": "Star check (engine/economy.py TIER): each was the only unknown on a one-turn row; Polarism: af181c8f p6 t10->12, residual -10 at 2 cities (801 -> 802)."
+  },
+  {
+   "id": "IDLE-AUTO-RECOVER",
+   "rule": "When the human player (save AutoPlay 0) ends a turn, each of their wounded units that neither moved nor attacked that turn heals as if it had Recovered (+4 in own territory, +2 elsewhere), with no logged action. AI players' idle units do not heal.",
+   "level": "L3 (n=1 checkable case; bots: the same rule applied to AI players adds 57 misses, so it is human-only or tied to something else the human turn has)",
+   "game_version": "v123 (saves)",
+   "evidence": "engine RULES idle_auto_recover; af181c8f t15 (Jason's Rider id260, idle on turn 15, 6 -> 10 HP); replay A/B 19 -> 18 unit misses, stars hold"
   }
  ]
 }

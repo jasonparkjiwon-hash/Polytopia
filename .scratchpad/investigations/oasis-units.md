@@ -30,6 +30,11 @@ spawn) with the unit's last move, the 8 neighbours and where the next save shows
 - `polaris_capture_freezes`: a Polaris city capture freezes water around the city
   (af18 t13, Battle Sled takes 9,16; Warrior id105 walks onto 9,15 on foot) → misses 28 → 27. Kept.
   Ledger POLARIS-CAPTURE-FREEZE.
+- (botwar's Juggernaut kill-move-in fix cleared the t25 trio.)
+- `idle_auto_recover`: the human player's idle wounded units heal at his End Turn (t15 Rider
+  id260, 6 -> 10). For all players it adds 57 misses, so human only (AutoPlay 0). Needs the
+  save's Moved/Attacked flags because Jason's t14 save is mid-turn. Misses 19 -> 18. Kept.
+  Ledger IDLE-AUTO-RECOVER; in-game test request in the gaps file.
 
 ## Push cases (all saves)
 
@@ -63,6 +68,6 @@ spawn) with the unit's last move, the 8 neighbours and where the next save shows
 ## Next step
 
 - t15 Raychi id94 ruin push (its last logged move ended on 13,7, but it stood on 14,7);
-  t15 HP misses (Rider id260 10 vs 6, Warrior id219 1 vs 2, Defender id194 should be dead);
+  t15 Warrior id219 (save 1, engine 2) and Defender id194 (should be dead);
   t25 Juggernaut id664 + Warrior id723 + Scoutship id721, each 1 HP high in the save
   (off by one: rounding or a heal?).

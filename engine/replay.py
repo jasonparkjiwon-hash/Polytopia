@@ -72,6 +72,7 @@ RULES = {   # one switch per line; A/B each in tools/miss.py before keeping a ch
     'peace_break_disbands': True,       # UNVERIFIED (L0): no save has a broken peace with units inside the ex-ally's borders
     'break_ice_after_move_needs_dash': True,   # UNVERIFIED legality check (L0 in-game text): only counts violations in LOG
     'polaris_capture_freezes': True,
+    'idle_auto_recover': True,
 }
 LOG = collections.Counter(); EVENTS = []
 
@@ -311,17 +312,26 @@ def apply(st, a, turn):
             if u.owner == pl:
                 if not RULES["push_dir_persists"]: u.last_from = None; u.last_attack = None
                 u.thaw = FROZEN in u.effects     # frozen before this turn: it sits this turn out, then thaws at its end
+                u.acted = False
     if t == 15 and RULES["frozen_no_retaliation"]:
         for u in st.units.values():
             if u.owner == pl and getattr(u, "thaw", False): u.effects = [e for e in u.effects if e != FROZEN]; u.thaw = False
+    if PREV[0] is None:                          # a replay starting at a checkpoint starts at a turn's beginning
+        for u in st.units.values():
+            if u.owner == pl: u.acted = getattr(u, "saved_acted", False)
+    if t == 15 and pl != 255 and RULES["idle_auto_recover"] and st.players.get(pl) and st.players[pl].human:   # MEASURED af181c8f t15: Jason ended a turn with no actions and his
+        for u in st.units.values():                             # wounded Rider (attacked the turn before) was +4 by the next save
+            if u.owner == pl and not getattr(u, "acted", True) and u.hp < u.max_hp and POISON not in u.effects:
+                u.hp = min(u.max_hp, u.hp + (4 if st.owner.get((u.x, u.y)) == u.owner else 2)); LOG["idle recover"] += 1
     PREV[0] = t
+    if t in (3, 4, 13, 16, 18, 24, 38) and len(v) >= 3 and unit_at(st, v[1], v[2]) is not None: unit_at(st, v[1], v[2]).acted = True
     if t == 15 and RULES["poison"]:              # Polyfish process_end_turn_effects: Fungi poisons non-Cymanti units of other owners on it
         for q, owner in st.fungi.items():
             u = unit_at(st, *q)
             if u and u.owner != owner and st.players.get(u.owner) and st.players[u.owner].tribe != "Cymanti": add_effect(u, POISON)
     if t == 6:                                   # Move
         _, x0, y0, x1, y1, uid = v
-        u = locate(st, uid, x0, y0, pl)
+        u = locate(st, uid, x0, y0, pl); u.acted = True
         e = unit_at(st, x1, y1)
         if RULES["move_blocked_by_hidden"] and e is not None and e.owner != pl and e is not u:   # MEASURED 6e1bf8e0 t11: a move onto a
             e.effects = [f for f in e.effects if f != INVISIBLE]; LOG["move blocked by hidden unit"] += 1   # hidden Cloak stops; the mover
@@ -332,7 +342,7 @@ def apply(st, a, turn):
         if u.type in RULES["freezers"]: mooni_freeze(st, x1, y1, u.owner)
     elif t == 2:                                 # Attack
         _, uid, ox, oy, tx, ty = v
-        at = locate(st, uid, ox, oy, pl)
+        at = locate(st, uid, ox, oy, pl); at.acted = True
         df = unit_at(st, tx, ty)
         if df is None and RULES.get("recover_lost_defender", False):
             near = [u for u in st.units.values() if u.owner != pl and dist((u.x, u.y), (tx, ty)) <= 3 and st.at.get((u.x, u.y)) == u.id]

@@ -21,7 +21,7 @@ class Unit:
 
 @dataclass
 class Player:
-    id: int; tribe: str; techs: set; stars: int = 0
+    id: int; tribe: str; techs: set; stars: int = 0; human: bool = False
 
 class State:
     def __init__(self, d, which="initial"):
@@ -48,7 +48,7 @@ class State:
             techs = {TECH.get(t, t) for t in p["AvailableTech"]}
             if which == "initial":       # start techs are granted by StartMatch (measured_start.json)
                 techs |= set(START.get(tr, {}).get("after_match_start", {}).get("techs", []))
-            self.players[p["PlayerId"]] = Player(p["PlayerId"], tr, techs, p["Currency"])
+            self.players[p["PlayerId"]] = Player(p["PlayerId"], tr, techs, p["Currency"], p.get("AutoPlay", 1) == 0)
         self.peace = {frozenset((p["PlayerId"], r["PlayerId"])) for p in players for r in p.get("Diplomacy", []) if r["RelationState"] == 1}
         self.max_unit_id = max(self.units) if self.units else 0
 
@@ -60,6 +60,7 @@ class State:
             un.passenger = UNIT.get(passenger["UnitType"], str(passenger["UnitType"])); un.passenger_id = passenger["Id"]
             un.promotion = passenger["PromotionLevel"]   # MEASURED: the boat record's level is always 0; the passenger keeps veteran status (HP is the boat's)
         un.max_hp = max_hp(un); un.effects = effects or []
+        un.saved_acted = bool(u.get("Moved") or u.get("Attacked"))   # flags as of the save, for a replay starting mid-turn
         self.units[un.id] = un; self.at[(un.x, un.y)] = un.id
 
 def max_hp(u):
