@@ -7,7 +7,8 @@ def code(s): return {"cell_type": "code", "metadata": {}, "execution_count": Non
 def wf(path, src): return code(f"%%writefile {path}\n" + open(src).read())
 
 data_files = {"verify/game_enums.json": "verify/game_enums.json", "data/measured_start.json": "data/measured_start.json",
-              "data/measured_ui.json": "data/measured_ui.json", "data/measured_mapgen.json": "data/measured_mapgen.json"}
+              "data/measured_ui.json": "data/measured_ui.json", "data/measured_mapgen.json": "data/measured_mapgen.json",
+              "data/units.json": "data/units.json", "data/tech_tree.json": "data/tech_tree.json"}
 saves = {"saves/botwar_t5.state": "saves/6e1bf8e0-1271-4f48-95c0-0fef5e449a63_t5.state",
          "saves/botwar_t11.state": "saves/6e1bf8e0-1271-4f48-95c0-0fef5e449a63_t11.state",
          "saves/botwar_t15.state": "saves/6e1bf8e0-1271-4f48-95c0-0fef5e449a63_t15.state",
@@ -46,6 +47,7 @@ md("### Engine: unit stats, game state, replay (`engine/`)"),
 wf("engine/stats.py", os.path.join(R, "engine/stats.py")),
 wf("engine/state.py", os.path.join(R, "engine/state.py")),
 wf("engine/replay.py", os.path.join(R, "engine/replay.py")),
+wf("engine/economy.py", os.path.join(R, "engine/economy.py")),
 md("### Map generator (`sim/wiki_mapgen.py`)"),
 wf("sim/wiki_mapgen.py", os.path.join(R, "sim/wiki_mapgen.py")),
 md("### Data tables and sample saves (compressed)"),
@@ -124,6 +126,16 @@ st2, reps2 = RP.run(GAMES["ankiian_t7"], [GAMES[f"ankiian_t{t}"] for t in range(
 for path, n, res, bad in reps2:
     tot = sum(v for k, v in res.items() if k in ("HP exact", "HP differs"))
     print(f"turn {os.path.basename(path).split('_t')[-1][:-5]:>2}: exact HP {res.get('HP exact', 0)}/{tot}  | {dict(res)}" + (f"  <- {bad}" if bad else ""))
+"""),
+md("### Stars check: Ankiian turn by turn\nFor every player between two saves: stars before + income − spending (units, buildings, techs, upgrades) + rewards (city Resources, meeting a tribe, ruins read back from the next save) must equal the stars in the next save."),
+code("""
+import economy as EC; importlib.reload(EC)
+ds = [json.load(open(GAMES[f"ankiian_t{t}"])) for t in range(1, 8)]
+for a, b in zip(ds, ds[1:]):
+    rows = {pl: r for pl, r in EC.check(a, b, ds[-1]["actions"]).items() if r["residual"] is not None and EC.Books(a).cities(pl)}
+    ok = sum(1 for r in rows.values() if r["residual"] == 0 and not r["unknown"])
+    off = sorted(r["residual"] for r in rows.values() if r["residual"])
+    print(f"turn {a['currentTurn']} -> {b['currentTurn']}: stars exact for {ok}/{len(rows)} players" + (f"  (off by {off})" if off else ""))
 """),
 md("### Rule A/B tests\nFlip one rule and rerun. The version that reproduces more of the saved HP is the real game rule. This is how the counter-attack question was settled."),
 code("""

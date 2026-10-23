@@ -409,6 +409,48 @@
    "rule": "Shaman (Cymanti, v123) attacks like a Mind Bender converts: the target changes owner, and (one sample) the Shaman also deals its normal damage and takes no retaliation.",
    "level": "L3 (n=1)",
    "evidence": "e15f392c turn 9: Shaman 14 vs Scoutship 161, which ends up Cymanti with 6 HP; engine RULES shaman_convert, shaman_damage"
+  },
+  {
+   "id": "ECON-INCOME",
+   "rule": "Income per turn = sum over own cities of (level + 1 if it is the tribe's own capital + 1 per Workshop or Park + min(0, population)), paid at the start of the player's turn.",
+   "level": "L3",
+   "evidence": "engine/economy.py star check over the per-turn saves (Ankiian, Misty Fields, Oasis Struggle): the human player's stars are exact on 40 of 45 turns; the Production field in the save is not the income (1/618 exact)."
+  },
+  {
+   "id": "ECON-BOT-BONUS",
+   "rule": "Bots get DifficultyHandicap - 1 extra stars a turn (save field: 1 for the human and Easy bots, 2 Hard, 4 Crazy), only while they hold their own capital.",
+   "level": "L3 (Easy, Hard); L1 (Crazy)",
+   "evidence": "engine/economy.py star check over the per-turn saves (Ankiian, Misty Fields, Oasis Struggle): Hard bots were +1 a turn before the rule; 658 vs 644 exact with and without the capital condition. Crazy (bot war) only has saves 4-6 turns apart."
+  },
+  {
+   "id": "ECON-SIEGE",
+   "rule": "A city with an enemy unit on its centre tile produces no stars (Polyfish get_city_production).",
+   "level": "L3",
+   "evidence": "engine/economy.py star check over the per-turn saves (Ankiian, Misty Fields, Oasis Struggle): 564 -> 594 exact player-turns."
+  },
+  {
+   "id": "ECON-MEET",
+   "rule": "Meeting a tribe gives 1 + 2*min(ceil(score/1000), 5) stars, from the MET tribe's score when met (Polyfish get_star_exchange). The log has no meet event; it is read from the Encountered lists.",
+   "level": "L3",
+   "evidence": "engine/economy.py star check over the per-turn saves (Ankiian, Misty Fields, Oasis Struggle): 129/141 one-turn meetings exact using the met tribe's score before its own turn if it plays later in the round."
+  },
+  {
+   "id": "ECON-PRICES-V123",
+   "rule": "Prices implied by the star check: Enchant Animal 3 (5/5); harvesting Starfish GIVES 8 stars (18/22); Aqua Farm 5 (n=1); Aquarion structure 51 5 (n=2); tribe techs Ice Fishing and Sledding tier 2, Polar Warfare and Spearing tier 3 (same tier*cities+4 formula). Build ids: 7 Fishing, 9 Hunting, 15 Harvest Fruit, 46 Starfish, 49 Aqua Farm.",
+   "level": "L3 (n noted)",
+   "evidence": "engine/economy.py star check over the per-turn saves (Ankiian, Misty Fields, Oasis Struggle): tile changes in the saves (fish/game/fruit/starfish removed, aquacrop kept) identify the build ids."
+  },
+  {
+   "id": "ECON-RUIN-STARS",
+   "rule": "A ruin gives either no stars or exactly 10 (27 and 10 of 37 ruin turns). The log doesn't say which; the check reads it back from the next save.",
+   "level": "L3",
+   "evidence": "engine/economy.py star check over the per-turn saves (Ankiian, Misty Fields, Oasis Struggle): residuals on ruin turns: 0 x27, +10 x10."
+  },
+  {
+   "id": "ECON-SAVE-TIMING",
+   "rule": "A save taken right at a player's turn start does not hold that turn's income yet; a save taken mid-turn does.",
+   "level": "L3",
+   "evidence": "engine/economy.py star check over the per-turn saves (Ankiian, Misty Fields, Oasis Struggle): 596 vs 562 exact player-turns."
   }
  ]
 }

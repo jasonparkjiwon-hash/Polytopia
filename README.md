@@ -8,7 +8,7 @@ A long-term build of an AI "wartime general" for The Battle of Polytopia. Claude
 
 | Folder | What it is |
 |---|---|
-| `engine/` | Replay engine: a Python copy of the game rules that replays a real save's action log and checks every unit's HP and position against the game's own end state. `replay.py` (rules and replay), `state.py` (game state from a save), `stats.py` (unit stats). |
+| `engine/` | Replay engine: a Python copy of the game rules that replays a real save's action log and checks every unit's HP and position against the game's own end state. `replay.py` (rules and replay), `economy.py` (stars and income check), `state.py` (game state from a save), `stats.py` (unit stats). |
 | `verify/` | Save decoder for game v123 (`state_v123.py`), save ingest (`ingest_saves.py`), the evidence **ledger** (`ledger.json`: every rule with its source and evidence level), and the Polyfish cross-check plus map analysis tools. `state2json/` and `statedebug/` are Go tools (binaries not committed; `go build` them). |
 | `data/` | Rules dataset (units, tech tree, combat, economy, map generation, fog, tribes), measured tables from real saves (`measured_*.json`), and `conflicts_and_gaps.md` (every open conflict C1–C29 and gap G1–G12). |
 | `saves/` | **Local only, not committed** (gitignored); `scripts/check.sh` needs it. Real iPhone `.state` saves from 32 games (plus per-turn copies), their decoded JSON and `index.json`. Includes the bot war (`6e1bf8e0…` at turns 5/11/15), Ankiian turn by turn (`1bf60251…_t1`–`_t7`) and The Misty Fields turn by turn (`e15f392c…_t1`–`_t16`). `public_game_links.tsv` is Polyfish's list of ~11.7k public share links. |
@@ -31,6 +31,7 @@ Expected from `check.sh` (the current baseline):
 - Bot war: turn 5 66/66, turn 11 90/92, turn 15 111/122.
 - Misty Fields turn by turn (turns 1-16): exact through turn 12 (24, 29, 34, 37, 48, 69, 80, 94, 100, 103, 119, 123); then 133, 144, 149, 157: every unit exact.
 - Oasis Struggle turn by turn (`af181c8f…_t1`–`_t26`, no t11/t17): see `data/conflicts_and_gaps.md` (full replay 2252 exact over 24 checkpoints).
+- Stars (`engine/economy.py`, last block of `check.sh`): Ankiian 94/96, bot war 11/32 (saves 4-6 turns apart), Misty Fields 234/240 player-turns exact.
 
 Replay one game by hand:
 

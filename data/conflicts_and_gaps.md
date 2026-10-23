@@ -235,3 +235,16 @@ Jason (Imperius) vs 15 Hard bots on a 30x30 map, exported every turn from 1 to 1
 - **Result:**
   - Misty Fields is exact through turn 12, with 157 exact at turn 16 and no HP mismatch at any checkpoint.
   - Bot war: 66/66, 90/92, 110/122 (was 85/92, 106/118).
+
+## Economy (stars) check, 23 Oct 2026
+
+- `engine/economy.py` checks every player's stars between two saves: stars + income − spending + rewards.
+- **Result:** 657/691 player-turns exact on the per-turn games (Ankiian 94/96, Misty Fields 234/240, Oasis Struggle 329/355). The bot war, with saves 4–6 turns apart, is 11/32.
+- **New rules:** bot bonus (handicap − 1 a turn, needs own capital); siege; meeting stars; negative population; starfish +8; ruin stars read back from the next save; save timing (see the ledger, ECON-*).
+- **Settled:** the tech formula tier × cities + 4 (Literacy ⅔) holds. The old residuals came from meeting stars, not from tech prices.
+- **Open:**
+  - Crazy bonus (needs per-turn Crazy saves).
+  - Aqua Farm and structure 51 prices (n ≤ 2).
+  - Polarism and Oceantology tiers.
+  - Market, Clathrus and Embassy income (not modelled; no case seen yet).
+  - About 15 player-turns still 1 star short.
