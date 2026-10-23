@@ -13,3 +13,6 @@ sim/gitsrc/
 verify/state2json/state2json
 verify/statedebug/statedebug
 *.decomp
+
+# Real game saves and their decoded JSON stay local (not committed)
+saves/
