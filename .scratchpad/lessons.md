@@ -40,8 +40,10 @@ Add to it when a hunt turns up a gotcha worth remembering.
   - Boarding gives the boat a new id; the passenger gets its old id back on landing.
   - An upgrade gives a new id.
 - **Forced spawns:** the Giant reward, Enchant and ruin units (spawned on the ruin tile) push the occupant to a neighbour.
-  - Polyfish's push rule fits: same direction as its last move (opposite for an enemy), otherwise toward the map centre.
-  - The log doesn't record ruin rewards; the replay reads a ruin unit from the next save.
+  - Direction: the unit's facing, stored in the save (UnitDirection byte 2), which follows its last move. A unit with no move goes toward its attacker if it was attacked, otherwise toward the map centre (nearest of 8 by angle; new units face that way).
+  - Blocked: try counter-clockwise first, then clockwise, widening. In the engine's grid order that's the *next* entry (the screen is mirrored). No open tile removes the unit.
+  - Boarding an own port counts only as the first choice.
+  - The log doesn't record ruin rewards; the replay reads a ruin unit from the next save. An unseen ruin unit is a veteran Swordsman.
 - **Boats:** the boat record always shows promotion 0. The passenger record keeps the veteran level.
 - **Terrain changes outside the log:**
   - Mooni and Gaami freeze the water (and ocean) around them after moving or capturing, and freeze adjacent enemy units. Ice goes back to water only through Break Ice (action 18).
@@ -52,4 +54,20 @@ Add to it when a hunt turns up a gotcha worth remembering.
 - **Fog:** explored tiles show enemies live. Only unexplored clouds hide them.
 
 - **Saves can be mid-turn:** Jason exports during his own turn, sometimes after acting (af181c8f t14 holds his Attack and Train but not his EndTurn). The unit `Moved`/`Attacked` flags in the save tell which of his units already acted (`saved_acted` in `state.py`).
-- **Push direction is hidden state:** the game keeps a unit's last move direction across turns (not in the save); a replay starting at a checkpoint reads it back from the log (`prime_last_moves`). Units trained that turn have no logged move and their push direction isn't predictable yet.
+- **Idle healing:** the human player's idle units (no move, no attack) heal at End Turn like Recover (not when poisoned). AI idle units don't in any save; turning it on for them adds 57 misses.
+- **Polaris capture** freezes the water around the captured city at once (radius 1, not under units).
+- **Moving onto a hidden Cloak** doesn't happen: the mover stays and the Cloak is revealed.
+- **Giant/Juggernaut:** a Giant boarding its port becomes a Juggernaut and stomps; a Juggernaut follows a kill onto land (as a Giant, stomping), but not onto a mountain without Climbing.
+- **`engine/stats.py`:** an inline `#` comment once swallowed the Exida, Larva and Moth rows. Check new rows actually load.
+
+## Economy gotchas
+
+- Tech price = tier × cities + 4, tribe techs included.
+- City level rises with each CityReward in the log, not with action 21.
+- A save taken right after the round-end EndTurn (player 255) already holds the round opener's income.
+- A besieged capital loses the bot star bonus.
+
+## Tools worth knowing
+
+- `tools/unit_hist.py <game> <turnA> id id ...`: every action touching those units between two saves, with attack numbers.
+- `tools/rule_levels.py --check` (run by `check.sh`) fails if an engine rule has no ledger id. Add new switches to its MAP.
