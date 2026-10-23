@@ -809,6 +809,13 @@
    "level": "L3 (Market by level n=1; card); Clathrus untested",
    "game_version": "v123 (measured in game)",
    "evidence": "v123 info cards (Jason's screenshots 2026-10-23). Polyfish counts Algae for Clathrus; the card says Fungi, so the engine follows the card. Test item. Only one Market in the saves (no change to the exact count). | 2026-10-23: engine switches ECON_RULES market_income, clathrus_income (on); off changes no score. Polyfish get_city_production counts only Markets/Clathrus inside the city's territory, Clathrus per adjacent Algae tile in own territory; the engine counts adjacent structures of any owner (untested detail). | 2026-10-23 star check: af181c8f p14 t25->26, the only Market income in any save: Market next to a Windmill with 3 Farms paid +3, not +1 (MARKET_BY_LEVEL, 800 -> 801; n=1). The card's '+1 per adjacent' reads as +1 per level."
+  },
+  {
+   "id": "TRIBE-TECH-TIERS",
+   "rule": "Tribe techs cost tier x cities + 4 like the base tree: Ice Fishing 2, Sledding 2, Polar Warfare 3, Spearing 3, Polarism 3. Oceantology (id 49) not yet priced (one 4-turn row, residual -8 at 1 city fits no tier).",
+   "level": "L3 (n=1-2 each)",
+   "game_version": "v123 (measured in saves)",
+   "evidence": "Star check (engine/economy.py TIER): each was the only unknown on a one-turn row; Polarism: af181c8f p6 t10->12, residual -10 at 2 cities (801 -> 802)."
   }
  ]
 }

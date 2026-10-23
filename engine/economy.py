@@ -28,7 +28,7 @@ BUILD = {3: ("Road", 3), 5: ("Farm", 5), 6: ("Windmill", 5), 7: ("Fishing", 2), 
 # GIVES 8 stars (18/22); AquaFarm 5 (n=1, and 5 on Jason's in-game card); Aquarion structure 51 5 (n=2, thin).
 UPGRADE_COST = {"Scoutship": 5, "Rammership": 5, "Bomber": 15}
 TIER = {k.replace(" ", ""): v["tier"] for k, v in _tree.items()}
-TIER.update({"IceFishing": 2, "Sledding": 2, "PolarWarfare": 3, "Spearing": 3})   # MEASURED: tribe techs priced by the same formula (n=1-2 each)
+TIER.update({"IceFishing": 2, "Sledding": 2, "PolarWarfare": 3, "Spearing": 3, "Polarism": 3})   # MEASURED: tribe techs priced by the same formula (n=1-2 each; Polarism n=1, af181c8f p6 t11)
 AQUARION_TIERS = True      # Aquarion techs the TECH table doesn't name yet, keyed by save id: only the tier is known
 if AQUARION_TIERS: TIER.update({47: 1, 39: 2, 46: 2})   # MEASURED: the star check prices them as tier x cities + 4 (backlog item 1)
 REWARD_STARS = {7: 5}

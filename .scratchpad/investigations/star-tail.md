@@ -31,6 +31,7 @@ python3 -I tools/trace.py <game> <turnA> <turnB> x,y ...
 - e15f392c t11->12 p5 -4: explained in part. p4 founded a city at (26,19); its border cut p5's water route
   (HasWaterRoute lost, ConnectedPlayerCapital 5 -> 0), so 3 p5 cities fell to -1 population before p5's turn
   (NEG_POP would take 3). The engine has no trade-route model; 1 star still unexplained. Left as is.
+- Polarism (id 32) tier 3 → 802. Kept (ledger TRIBE-TECH-TIERS). Oceantology (id 49, 6e1bf8e0 p16 t11-15) left unpriced.
 
 ## Ruled out
 
