@@ -6,6 +6,26 @@ Set it when you pick an item up so two people don't do the same work.
 Score now: 4709/4753 units (99.1%) and 762/819 star player-turns exact
 (`python3 -I tools/miss.py`).
 
+## 0. Polish program (Jason, 23 Oct): deterministic parts exact
+
+Goal: every deterministic rule (combat, movement, income, tech cost) matches every
+save; random parts (ruins, bot choices) become measured distributions; every rule
+the engine uses has a ledger id and level. Four parallel Claude sessions, one
+investigation file each in `investigations/`:
+
+| Stream | File | Owns (edit freely) |
+|---|---|---|
+| polish-oasis | `investigations/oasis-units.md` | Oasis unit misses; combat/move code in `engine/replay.py` |
+| polish-botwar | `investigations/botwar-units.md` | Bot war unit misses; same file, so rebase often |
+| polish-stars | `investigations/star-tail.md` | `engine/economy.py`; items 1 and 3 below |
+| polish-rules | `investigations/flagged-rules.md` | New `RULES` switches for unseen rules, rule labelling, "Not yet in any save", item 4 |
+
+Shared-file rules: small commits; `git pull --rebase origin main` before every
+push, then re-run `tools/miss.py` and `check.sh` on the rebased tree; the A/B gate
+is the combined total. Ledger edits only through `tools/ledger.py` (on a rebase
+conflict in the ledger, take upstream and re-run your ledger command). Don't edit
+`CLAUDE.md`.
+
 ## 1. Aquarion research (star misses)
 
 _Owner: unassigned_

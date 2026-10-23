@@ -19,8 +19,15 @@ _Last updated 2026-10-23._
 |---|---|
 | Jason | — |
 | Minjae | — |
+| Claude (orchestrator) | Polish program (backlog "Polish"): runs the four sessions below and merges their results |
+| Claude: polish-oasis | Unit misses, Oasis Struggle (`af181c8f`) |
+| Claude: polish-botwar | Unit misses, bot war (`6e1bf8e0`) |
+| Claude: polish-stars | Star tail (`engine/economy.py`) |
+| Claude: polish-rules | Unverified rules as flagged switches, rule labelling, wiki cross-check |
 
 ## Waiting on Jason
+
+- One Aquarion tech researched per turn in a fresh game, with the save exported (names ids 39, 46, 47).
 
 - Waterworld and other new saves as he plays.
 - The Aquarion wiki page or tech list (backlog item 1).
