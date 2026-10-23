@@ -18,11 +18,13 @@
 
 ## Who you're working with
 
-Two people work on this repo. `CLAUDE.local.md` (not committed) says which one
-this checkout belongs to. If it's missing, ask.
+Two people work on this repo. Minjae's checkout has a `CLAUDE.local.md` (not
+committed) saying so. **If that file is missing, you're working with Jason.**
 
 - **Jason** owns the repo (`jasonparkjiwon-hash/Polytopia`) and makes the project calls.
   - Approved 23 Oct 2026: commit and push finished work straight to `main` without asking, but only after `sh scripts/check.sh` runs without regressing the README baseline.
+  - Changes only to `.scratchpad/` (notes, investigation progress) can be pushed to `main` without running `check.sh`.
+  - He uses **Claude Code on his iPhone**, so his sessions run in the cloud on a fresh copy of the repo. Anything not committed and pushed is gone when the session ends, so push scratchpad updates before the chat ends.
   - He plays on **iPhone** and exports saves as text (device path + base64). There are no PC-only tools on his side.
 - **Minjae** contributes from a fork (`miinjaekim/Polytopia`, remote `upstream` is Jason's repo).
   - Run `git pull upstream main` before starting a task.

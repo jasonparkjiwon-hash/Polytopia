@@ -16,7 +16,7 @@ _Last updated 2026-10-23._
 | Person | Working on |
 |---|---|
 | Jason | — |
-| Minjae | Trying out this scratchpad layout on the `scratchpad-restructure` branch of the fork |
+| Minjae | Proposed this scratchpad layout; waiting for `saves/` to try it on real tasks |
 
 ## Waiting on Jason
 

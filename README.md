@@ -8,6 +8,7 @@ A long-term build of an AI "wartime general" for The Battle of Polytopia. Claude
 
 | Folder | What it is |
 |---|---|
+| `.scratchpad/` | Working notes for Claude Code sessions: current status, open work with owners, engine lessons, and one file per open mismatch hunt. Start with `.scratchpad/README.md`. |
 | `engine/` | Replay engine: a Python copy of the game rules that replays a real save's action log and checks every unit's HP and position against the game's own end state. `replay.py` (rules and replay), `economy.py` (stars and income check), `state.py` (game state from a save), `stats.py` (unit stats). |
 | `verify/` | Save decoder for game v123 (`state_v123.py`), save ingest (`ingest_saves.py`), the evidence **ledger** (`ledger.json`: every rule with its source and evidence level), and the Polyfish cross-check plus map analysis tools. `state2json/` and `statedebug/` are Go tools (binaries not committed; `go build` them). |
 | `data/` | Rules dataset (units, tech tree, combat, economy, map generation, fog, tribes), measured tables from real saves (`measured_*.json`), and `conflicts_and_gaps.md` (every open conflict C1–C29 and gap G1–G12). |

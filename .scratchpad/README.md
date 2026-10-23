@@ -21,8 +21,11 @@ chat gets more expensive with every turn. To keep chats short:
 
 1. Start a fresh chat for each task. Read `status.md` and the task's backlog item.
 2. During a long task, especially a mismatch hunt, write progress into the
-   investigation file before the chat gets heavy. Then the person clears the
-   chat and continues in a new one with "continue investigations/<file>".
+   investigation file before the chat gets heavy. Then the person starts a new
+   chat and continues with "continue investigations/<file>".
+   **In a cloud session (Claude Code on a phone or the web), commit and push
+   the file first.** A new cloud chat starts from a fresh copy of the repo, so
+   anything unpushed is lost.
 3. Finish by closing the item (below), running `sh scripts/check.sh`, and
    committing. Then start the next task in a new chat.
 
