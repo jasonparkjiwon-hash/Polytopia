@@ -265,3 +265,7 @@ Jason (Imperius) vs 15 Hard bots on a 30x30 map, exported every turn from 1 to 1
   - Crazy bot bonus confirmed at 3 a turn (L3): 83/90 bot player-turns exact, against 0/90 with 2 or 4.
   - Combat replay turn by turn: 419/422 exact.
   - Stars: 85/96 player-turns exact.
+- **Settled from Jason's play, 23 Oct:**
+  - Action 38 is the Shaman's Swarm: neighbours get extra movement (Swift), not +0.5 attack.
+  - A Mooni freezes adjacent enemy units when it moves (3 of 4 frozen units in the saves stand next to an enemy Mooni).
+  - Both are in the engine. Neither changes the HP or position scores.

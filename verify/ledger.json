@@ -350,7 +350,7 @@
   },
   {
    "id": "ACTION-TYPES-V123",
-   "rule": "Action meanings inferred from context: 27 = a free, repeatable diplomacy action aimed at a foreign capital (player, capital x,y, owner id), NOT Establish Embassy (charging an embassy price breaks 14 exact player-turns; the same pair repeats on several turns): it is OFFER PEACE (see DIPLO-PEACE); 30 = embassy/peace follow-up on the same capital; 28 = diplomacy reply at turn start (player, other player, flag); 38 = Shaman ability: the save shows the Swift effect (UnitEffect 6) on Cymanti units, which matches Polyfish's v115 note that Boost became Swarm (movement only). The engine's +0.5 attack for 38 changes nothing in any replay, so attack-or-movement is still a test item; 24 = Explode (Cymanti Boomchi); Build type 30 = Enchant Animal (Elyrion, spawns a Polytaur). Type 18 is NOT Disband (36 more in e15f392c), NOT a poison cure (0/79 units poisoned), NOT a promotion (0/79 veteran afterwards; Promote is 13); still unknown. Profile over 79 uses in 33 games: bots only (never the human player), only in the three 16-player games; payload = player + tile; the tile always holds the actor's own unit (Warrior 60, Rider 6, others); 59/79 right after that unit moved; enemy unit within 2 tiles in 70/79; no change to the unit (HP, position, effects, flags) or the tile; the unit takes no further action that turn. 14 = Examine Ruins.",
+   "rule": "Action meanings inferred from context: 27 = a free, repeatable diplomacy action aimed at a foreign capital (player, capital x,y, owner id), NOT Establish Embassy (charging an embassy price breaks 14 exact player-turns; the same pair repeats on several turns): it is OFFER PEACE (see DIPLO-PEACE); 30 = embassy/peace follow-up on the same capital; 28 = diplomacy reply at turn start (player, other player, flag); 38 = Shaman Swarm: adjacent friendly units get extra movement (Swift, UnitEffect 6), no attack bonus (Jason in game 2026-10-23, the save's Swift effect, and Polyfish's v115 note agree; the old +0.5 attack reading changes nothing in any replay and is off); 24 = Explode (Cymanti Boomchi); Build type 30 = Enchant Animal (Elyrion, spawns a Polytaur). Type 18 is NOT Disband (36 more in e15f392c), NOT a poison cure (0/79 units poisoned), NOT a promotion (0/79 veteran afterwards; Promote is 13); still unknown. Profile over 79 uses in 33 games: bots only (never the human player), only in the three 16-player games; payload = player + tile; the tile always holds the actor's own unit (Warrior 60, Rider 6, others); 59/79 right after that unit moved; enemy unit within 2 tiles in 70/79; no change to the unit (HP, position, effects, flags) or the tile; the unit takes no further action that turn. 14 = Examine Ruins.",
    "level": "L1",
    "evidence": "engine replay 6e1bf8e0, e15f392c",
    "game_version": "v123 (measured in game)"
@@ -564,6 +564,13 @@
    "level": "L3",
    "evidence": "Jason in game, 2026-10-23. Saves agree: around every non-capital city (all per-turn saves), all 8904 ring-1 tiles are explored by the owner, while 1885 of 16504 ring-2 tiles are not, so cities don't reveal 5x5.",
    "game_version": "v123 (measured in game)"
+  },
+  {
+   "id": "MOONI-FREEZE-UNITS",
+   "rule": "When a Mooni moves (or captures), adjacent enemy units become Frozen (UnitEffect 0), as well as the water around it.",
+   "level": "L3",
+   "game_version": "v123 (measured in game)",
+   "evidence": "Jason in game 2026-10-23; Polyfish freeze_area applies Frozen to adjacent enemies; saves: 3 of the 4 frozen units ever seen stand next to an enemy Mooni (saves are taken after most freezes wear off). Engine RULES mooni_freezes_units; no change to HP or position scores."
   }
  ]
 }

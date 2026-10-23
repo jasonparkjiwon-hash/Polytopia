@@ -15,7 +15,7 @@ LAND_UNITS = {"Warrior", "Rider", "Archer", "Defender", "MindBender", "Swordsman
               "Polytaur", "Mooni", "IceArcher", "BattleSled", "IceFortress", "Gaami", "Hexapod", "Kiton", "Shaman", "Exida", "Doomux",
               "Centipede", "Segment", "Larva", "SteamWagon", "SteamFortress", "Pyro", "AshArcher"}   # Aquarion units are amphibious/water: never embark
 WATER_UNITS = {"Shark", "Raychi", "Puffer", "Jelly", "Crab"}   # MEASURED: seen only on water, flooded tiles or cities (Mermaid walks on land)
-RULES = {"retaliation_uses_bonus": True, "melee_moves_in_on_kill": True, "t18_disband": False, "t24_explode": True, "t38_boost": True,
+RULES = {"retaliation_uses_bonus": True, "melee_moves_in_on_kill": True, "t18_disband": False, "t24_explode": True, "t38_swarm": True, "t38_attack_boost": False, "mooni_freezes_units": True,
          "algae_is_land": True, "flood_keeps_form": True, "resync_terrain": True, "kill_move_lands": True, "push_polyfish": True, "ruin_unit": True, "mooni_freeze": True, "water_units_stay": True, "shaman_convert": True, "shaman_damage": True,
          "poison": True, "attack_splash": True, "poison_recover_cures": True,
          "mooni_freezes": ("Water", "Ocean"), "freezers": ("Mooni",), "giant_juggernaut": True,
@@ -179,11 +179,12 @@ def enter(st, u, x0, y0, x1, y1):
 
 PREV = [None]
 POISON = 1   # UnitEffect enum
+FROZEN, SWIFT = 0, 6
 
 def add_effect(u, e):
     if e not in u.effects: u.effects = list(u.effects) + [e]
 
-def mooni_freeze(st, x, y):
+def mooni_freeze(st, x, y, owner=None):
     """MEASURED (e15f392c, 4/4 cases): right after a Mooni moves or captures, the water around it is ice, so land units walk on it.
     MEASURED (af181c8f): ocean freezes too (45 of 70 new ice tiles were ocean; 61 of the 70 were next to a Mooni or Gaami)."""
     if not RULES["mooni_freeze"]: return
@@ -191,6 +192,8 @@ def mooni_freeze(st, x, y):
         for dx in (-1, 0, 1):
             q = (x + dx, y + dy)
             if st.terrain.get(q) in RULES["mooni_freezes"] and q not in st.at: st.terrain[q] = "Ice"
+            e = unit_at(st, *q)                  # Jason in game + Polyfish freeze_area: adjacent enemy units are Frozen (saves: 3 of 4 frozen units sit next to an enemy Mooni)
+            if RULES["mooni_freezes_units"] and e is not None and owner is not None and e.owner != owner and q != (x, y): add_effect(e, FROZEN)
 
 def apply(st, a, turn):
     t = a["type"]; b = bytes.fromhex(a["raw"]); f = FMT.get(t)
@@ -208,7 +211,7 @@ def apply(st, a, turn):
         _, x0, y0, x1, y1, uid = v
         u = locate(st, uid, x0, y0, pl)
         enter(st, u, x0, y0, x1, y1); u.last_from = (x0, y0)
-        if u.type in RULES["freezers"]: mooni_freeze(st, x1, y1)
+        if u.type in RULES["freezers"]: mooni_freeze(st, x1, y1, u.owner)
     elif t == 2:                                 # Attack
         _, uid, ox, oy, tx, ty = v
         at = locate(st, uid, ox, oy, pl)
@@ -280,7 +283,7 @@ def apply(st, a, turn):
             for u in [u for u in st.units.values() if u.owner == old]: remove(st, u)          # and its remaining units were gone by the next save
             LOG["tribe destroyed"] += 1
         cu = st.units.get(uid)
-        if cu is not None and cu.type in RULES["freezers"]: mooni_freeze(st, x, y)
+        if cu is not None and cu.type in RULES["freezers"]: mooni_freeze(st, x, y, pl)
     elif t == 7:                                 # Capture village/city
         _, uid, x, y = v; st.city[(x, y)] = pl
     elif t == 8:                                 # Research
@@ -307,11 +310,13 @@ def apply(st, a, turn):
     elif t == 18 and RULES["t18_disband"]:       # Disband (inferred)
         _, x, y = v; u = unit_at(st, x, y)
         if u and u.owner == pl: remove(st, u); LOG["disband"] += 1
-    elif t == 38 and RULES["t38_boost"]:         # Boost (Shaman): adjacent friendly units +0.5 attack until they attack
-        _, x, y = v
+    elif t == 38 and RULES["t38_swarm"]:         # Swarm (Shaman): adjacent friendly units get extra movement (Swift), no attack bonus
+        _, x, y = v                              # Jason in game; the save shows Swift (UnitEffect 6); Polyfish v115 notes: Boost became Swarm
         for u in list(st.units.values()):
-            if u.owner == pl and dist((u.x, u.y), (x, y)) == 1: u.boosted = True
-        LOG["boost"] += 1
+            if u.owner == pl and dist((u.x, u.y), (x, y)) == 1:
+                add_effect(u, SWIFT)
+                if RULES["t38_attack_boost"]: u.boosted = True   # the old +0.5 attack reading, kept as a switch for A/B
+        LOG["swarm"] += 1
     elif t == 24 and RULES["t24_explode"]:       # Explode: the unit dies; adjacent enemies take half damage (floored)
         _, x, y = v; u = unit_at(st, x, y)
         if u and u.owner == pl:
