@@ -269,3 +269,4 @@ Jason (Imperius) vs 15 Hard bots on a 30x30 map, exported every turn from 1 to 1
   - Action 38 is the Shaman's Swarm: neighbours get extra movement (Swift), not +0.5 attack.
   - A Mooni freezes adjacent enemy units when it moves (3 of 4 frozen units in the saves stand next to an enemy Mooni).
   - Both are in the engine. Neither changes the HP or position scores.
+- **C9 extended (L2):** Drylands (67/100, table 0.668) and Pangea (48/100, table 0.48) held-out saves match exactly. 9 held-out saves: the table beats the wiki by 10^4.0. Only Waterworld is still untested out of sample.

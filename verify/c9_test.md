@@ -27,3 +27,9 @@ Each save is Binomial(slots, p). The Bayes factor for model A over model B is th
 - A model with no held-out save of a map type can't be tested on that type. The result lists the map types that were covered.
 
 The script is `verify/c9_test.py`.
+
+## Amendment, 23 Oct 2026
+
+This was written after seeing that the new Drylands save (6eccceef) had been dropped. Its settlement count (67) had already been printed while its map type was checked. The amendment only decides which saves count as new; it uses no settlement counts.
+
+The matching rule under Data can mistake a new save for one of the 27. Drylands maps are almost all land, so two of them can share size, land share, water tiles and starfish. Saves that are known to have arrived after the table was built (af181c8f, 09a5bf1e, 6eccceef, d71a6b1d) now always count as held out. Nothing else changes.

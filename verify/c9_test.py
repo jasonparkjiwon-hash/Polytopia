@@ -24,12 +24,15 @@ def in_table(mt, n, land, water, starfish):
     return any(r["size"] == n and abs(r["land"] - land) < 1e-9 and r["water"] == water and r["starfish"] == starfish
                for r in M.get(mt, {}).get("rows", []))
 
+# Amendment (23 Oct, before scoring the Drylands save): saves known to have arrived after the table was built.
+# Drylands maps are nearly all land, so a new one can share size, water and starfish with a table row.
+KNOWN_NEW = {"af181c8f", "09a5bf1e", "6eccceef", "d71a6b1d"}
 held = []
 for f in sorted(glob.glob(os.path.join(sys.argv[2], "????????-????-????-????-????????????.json"))):
     d = json.load(open(f))
     if "initialTiles" not in d: continue
     mt, n, land, water, starfish, slots, settle = describe(d)
-    if mt in M and not in_table(mt, n, land, water, starfish):
+    if mt in M and (os.path.basename(f)[:8] in KNOWN_NEW or not in_table(mt, n, land, water, starfish)):
         held.append((os.path.basename(f)[:8], mt, n, slots, settle))
 
 ll = {m: 0.0 for m in P}
