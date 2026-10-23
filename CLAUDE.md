@@ -34,7 +34,7 @@
   - The trailer is 3 zero bytes, the hash and a u16 action count.
 - **Player records:** the post-v114 layout plus one trailing tribe byte. Task types 1, 5 and 9 carry 6 bytes; the others 2.
 - **Action sizes** (bytes after the u16 type) are in `ACTION_SIZES` in `verify/state_v123.py`.
-- **Known action types:** 27 Offer Peace (needs Strategy); 28 peace reply (1 accept, 0 decline); 29 Break Peace (n=1); 38 Shaman Swarm (neighbours get extra movement, no attack bonus); 24 Boomchi Explode. Build type 30 is Enchant Animal. Type 18 is unknown and is not Disband.
+- **Known action types:** 27 Offer Peace (needs Strategy); 28 peace reply (1 accept, 0 decline); 29 Break Peace (n=1); 38 Shaman Swarm (neighbours get extra movement, no attack bonus); 24 Boomchi Explode. Build type 30 is Enchant Animal. Type 18 is Break Ice (the ice around the acting unit becomes water again).
 - **Start techs** appear only after StartMatch (see `data/measured_start.json`).
 
 ## Combat (confirmed by replay)
@@ -63,7 +63,7 @@
   - The log doesn't record ruin rewards; the replay reads a ruin unit from the next save.
 - **Boats:** the boat record always shows promotion 0. The passenger record keeps the veteran level.
 - **Terrain changes outside the log:**
-  - Mooni freezes the water (and ocean) around it after moving or capturing, and freezes adjacent enemy units; ice melts later.
+  - Mooni freezes the water (and ocean) around it after moving or capturing, and freezes adjacent enemy units. Ice goes back to water only through Break Ice (action 18).
   - Aquarion flood (flag value 1): boats stay boats and walkers stay walkers.
   - Cymanti algae (value 4): walkable water.
   - Terrain is re-synced at checkpoints.
@@ -75,8 +75,6 @@
 1. **Economy replay:** `engine/economy.py`, 95% of player-turns exact on the per-turn games. Crazy bonus settled (3 a turn). Open: structure 51, and Embassy, Market and Clathrus income (coded, not yet seen in a save).
 2. **Coverage report:** which rules each replay exercises.
 3. **Remaining replay mismatches** (bot war turn 15: 12 HP; Misty Fields: a few leftover units):
-   - Action type 18.
-   - Ice melting.
    - Ruin reward weights.
 4. **Waiting on Jason:** per-turn saves of a fight-heavy Crazy game; Round 2 items 26–34 on the test sheet (`docs/polytopia_open_questions_to_fill_in_while_playing.md`).
 

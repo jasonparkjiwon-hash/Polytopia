@@ -28,7 +28,7 @@ class State:
         tiles = d["initialTiles"] if which == "initial" else d["currentTiles"]
         players = d["initialPlayers"] if which == "initial" else d["currentPlayers"]
         self.H = len(tiles); self.W = len(tiles[0]); self.tiles = tiles
-        self.terrain = {}; self.owner = {}; self.city = {}; self.wall = set(); self.units = {}; self.at = {}; self.flood = {}; self.fungi = {}; self.port = set()
+        self.terrain = {}; self.owner = {}; self.city = {}; self.wall = set(); self.units = {}; self.at = {}; self.flood = {}; self.fungi = {}; self.port = set(); self.ice_from = {}
         for y, row in enumerate(tiles):
             for x, t in enumerate(row):
                 self.terrain[(x, y)] = TERRAIN.get(t["Terrain"], t["Terrain"]); self.owner[(x, y)] = t["Owner"]

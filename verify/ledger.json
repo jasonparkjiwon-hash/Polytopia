@@ -350,7 +350,7 @@
   },
   {
    "id": "ACTION-TYPES-V123",
-   "rule": "Action meanings inferred from context: 27 = a free, repeatable diplomacy action aimed at a foreign capital (player, capital x,y, owner id), NOT Establish Embassy (charging an embassy price breaks 14 exact player-turns; the same pair repeats on several turns): it is OFFER PEACE (see DIPLO-PEACE); 30 = embassy/peace follow-up on the same capital; 28 = diplomacy reply at turn start (player, other player, flag); 38 = Shaman Swarm: adjacent friendly units get extra movement (Swift, UnitEffect 6), no attack bonus (Jason in game 2026-10-23, the save's Swift effect, and Polyfish's v115 note agree; the old +0.5 attack reading changes nothing in any replay and is off); 24 = Explode (Cymanti Boomchi); Build type 30 = Enchant Animal (Elyrion, spawns a Polytaur). Type 18 is NOT Disband (36 more in e15f392c), NOT a poison cure (0/79 units poisoned), NOT a promotion (0/79 veteran afterwards; Promote is 13); still unknown. Profile over 79 uses in 33 games: bots only (never the human player), only in the three 16-player games; payload = player + tile; the tile always holds the actor's own unit (Warrior 60, Rider 6, others); 59/79 right after that unit moved; enemy unit within 2 tiles in 70/79; no change to the unit (HP, position, effects, flags) or the tile; the unit takes no further action that turn. 14 = Examine Ruins.",
+   "rule": "Action meanings inferred from context: 27 = a free, repeatable diplomacy action aimed at a foreign capital (player, capital x,y, owner id), NOT Establish Embassy (charging an embassy price breaks 14 exact player-turns; the same pair repeats on several turns): it is OFFER PEACE (see DIPLO-PEACE); 30 = embassy/peace follow-up on the same capital; 28 = diplomacy reply at turn start (player, other player, flag); 38 = Shaman Swarm: adjacent friendly units get extra movement (Swift, UnitEffect 6), no attack bonus (Jason in game 2026-10-23, the save's Swift effect, and Polyfish's v115 note agree; the old +0.5 attack reading changes nothing in any replay and is off); 24 = Explode (Cymanti Boomchi); Build type 30 = Enchant Animal (Elyrion, spawns a Polytaur). Type 18 = BREAK ICE (see ACTION-18-BREAK-ICE): payload player + the acting unit's tile. Profile over 79 uses in 33 games: bots only (never the human player), only in the three 16-player games; payload = player + tile; the tile always holds the actor's own unit (Warrior 60, Rider 6, others); 59/79 right after that unit moved; enemy unit within 2 tiles in 70/79; no change to the unit (HP, position, effects, flags) or the tile; the unit takes no further action that turn. 14 = Examine Ruins.",
    "level": "L1",
    "evidence": "engine replay 6e1bf8e0, e15f392c",
    "game_version": "v123 (measured in game)"
@@ -578,6 +578,13 @@
    "level": "L1 split (wiki; Jason quoting the wiki) vs Polyfish + PolyEnv; untestable in the saves so far",
    "game_version": "undated wiki vs v115 (Polyfish)",
    "evidence": "verify/c20_test.py: over 1198 attacks replayed turn by turn (5 games), no attack came from a tile the defender's tribe had not explored while the defender was in range to retaliate, so both readings give the same 4679 exact units. A melee attacker is always seen (adjacent); a ranged attacker from fog is normally out of the defender's range anyway. Only a hidden Cloak/Dagger or a long-range defender (Archer, Catapult) shot at from fog can separate them; 2 Cloaks/Daggers were trained in 34 games. Test item: attack an enemy Archer with a hidden Cloak, or shoot an enemy Archer from a tile 2 away that its tribe hasn't explored, and note whether it shoots back."
+  },
+  {
+   "id": "ACTION-18-BREAK-ICE",
+   "rule": "Action 18 = Break Ice (player, acting unit's tile). The ice around the unit turns back to water or ocean, except tiles with a unit on them. It uses the unit's action; a Dash unit can move onto ice and break it the same turn. This is what looked like ice melting: no natural melting is needed.",
+   "level": "L3",
+   "game_version": "v123 (measured in game)",
+   "evidence": "Jason's in-game text 2026-10-23. Saves: 91 of 92 uses had ice in the unit's 3x3 (vs 7% of ordinary moves ending next to ice). With the rule, ice the engine kept but the save shows as water drops from 148 tiles to 0 over all per-turn intervals (verify/break_ice_test.py); unit scores unchanged. Users are bots only (Luxidoor and Zebasi most, next to Polaris ice)."
   }
  ]
 }

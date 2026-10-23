@@ -69,7 +69,8 @@ Phase 1 is done only when **all six** gates pass. No advisor work starts before 
 - [ ] **Gate A. Core rules are trusted.** Every rule that changes the result of a move reaches at least level L1 (below), with at least one source dated 2025 or later, and no open conflict among them. That covers units, combat, movement, tech costs and prerequisites, income and growth, and tile actions. *Now (23 Oct): nearly done.*
   - Settled: road cost 3, C27 Navigation needs Sailing, income rules and diplomacy actions.
   - Also settled: the Crazy bot bonus (3 a turn) and action 38 (the Shaman's Swarm, a movement boost).
-  - Open: C20 (retaliation vs fog), action 18, ice melting, and C29b (Static skill).
+  - Also settled: action 18 is Break Ice, which explains the ice that seemed to melt.
+  - Open: C20 (retaliation vs fog; the saves can't separate the readings, so it needs an in-game test) and C29b (Static skill).
 - [ ] **Gate B. The map model is decided.** C23 (capital resources), C10 (capital guarantees) and C9 (villages) are each decided by their pre-registered test on real data, with a Bayes factor above 10. *Now (23 Oct): nearly done.*
   - C23 and C10 are decided (L3).
   - C9 is decided for Drylands, Lakes, Continents, Archipelago and Pangea: Bayes factor 10^4.0 over the wiki on 9 held-out saves (`verify/c9_test.md`).

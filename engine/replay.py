@@ -15,7 +15,7 @@ LAND_UNITS = {"Warrior", "Rider", "Archer", "Defender", "MindBender", "Swordsman
               "Polytaur", "Mooni", "IceArcher", "BattleSled", "IceFortress", "Gaami", "Hexapod", "Kiton", "Shaman", "Exida", "Doomux",
               "Centipede", "Segment", "Larva", "SteamWagon", "SteamFortress", "Pyro", "AshArcher"}   # Aquarion units are amphibious/water: never embark
 WATER_UNITS = {"Shark", "Raychi", "Puffer", "Jelly", "Crab"}   # MEASURED: seen only on water, flooded tiles or cities (Mermaid walks on land)
-RULES = {"retaliation_uses_bonus": True, "melee_moves_in_on_kill": True, "t18_disband": False, "t24_explode": True, "t38_swarm": True, "t38_attack_boost": False, "mooni_freezes_units": True,
+RULES = {"retaliation_uses_bonus": True, "melee_moves_in_on_kill": True, "t18_disband": False, "t18_break_ice": True, "t24_explode": True, "t38_swarm": True, "t38_attack_boost": False, "mooni_freezes_units": True,
          "algae_is_land": True, "flood_keeps_form": True, "resync_terrain": True, "kill_move_lands": True, "push_polyfish": True, "ruin_unit": True, "mooni_freeze": True, "water_units_stay": True, "shaman_convert": True, "shaman_damage": True,
          "poison": True, "attack_splash": True, "poison_recover_cures": True,
          "mooni_freezes": ("Water", "Ocean"), "freezers": ("Mooni",), "giant_juggernaut": True,
@@ -191,7 +191,8 @@ def mooni_freeze(st, x, y, owner=None):
     for dy in (-1, 0, 1):
         for dx in (-1, 0, 1):
             q = (x + dx, y + dy)
-            if st.terrain.get(q) in RULES["mooni_freezes"] and q not in st.at: st.terrain[q] = "Ice"
+            if st.terrain.get(q) in RULES["mooni_freezes"] and q not in st.at:
+                st.ice_from[q] = st.terrain[q]; st.terrain[q] = "Ice"
             e = unit_at(st, *q)                  # Jason in game + Polyfish freeze_area: adjacent enemy units are Frozen (saves: 3 of 4 frozen units sit next to an enemy Mooni)
             if RULES["mooni_freezes_units"] and e is not None and owner is not None and e.owner != owner and q != (x, y): add_effect(e, FROZEN)
 
@@ -307,6 +308,13 @@ def apply(st, a, turn):
             if promo: u.promotion = promo; u.max_hp = max_hp(u); u.hp = u.max_hp
             LOG["ruin unit"] += 1
         else: LOG["ruin (no unit)"] += 1
+    elif t == 18 and RULES["t18_break_ice"]:     # Break Ice (Jason's in-game text; 91/92 uses had ice next to the unit): the ice around
+        _, x, y = v                              # the acting unit turns back to water or ocean, except under a unit
+        for dy in (-1, 0, 1):
+            for dx in (-1, 0, 1):
+                q = (x + dx, y + dy)
+                if st.terrain.get(q) == "Ice" and q not in st.at:
+                    st.terrain[q] = getattr(st, "ice_from", {}).get(q, "Water"); LOG["ice broken"] += 1
     elif t == 18 and RULES["t18_disband"]:       # Disband (inferred)
         _, x, y = v; u = unit_at(st, x, y)
         if u and u.owner == pl: remove(st, u); LOG["disband"] += 1

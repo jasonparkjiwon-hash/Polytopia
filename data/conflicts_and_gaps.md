@@ -275,3 +275,7 @@ Jason (Imperius) vs 15 Hard bots on a 30x30 map, exported every turn from 1 to 1
   - A melee attacker is always seen. A ranged attacker in fog is usually out of the defender's range anyway.
   - Still a split: the wiki says no retaliation; Polyfish and PolyEnv say yes.
   - Test item: an enemy Archer attacked by a hidden Cloak, or shot at from 2 tiles away out of its sight.
+- **Action 18 is Break Ice (L3).**
+  - 91/92 uses had ice next to the unit.
+  - With the rule, ice-vs-water mismatches drop from 148 to 0. The open "ice melting" item was this.
+  - Still open: 12 tiles where the save has ice the engine didn't freeze.
