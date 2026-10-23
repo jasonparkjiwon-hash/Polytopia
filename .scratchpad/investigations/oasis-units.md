@@ -19,7 +19,7 @@ misses left), stars 802/819.
 | `idle_auto_recover` (human only; `saved_acted` in state.py) | t15 Rider id260 healed with no action | IDLE-AUTO-RECOVER |
 | `explode_poison_halves` | t15 Warrior id219, Defender id194: poisoned targets of a Boomchi | EXPLODE-POISON-DEFENCE |
 | `push_saved_facing` (UnitDirection byte 2) | t15 Raychi id94 | SAVE-UNIT-FACING |
-| `push_cw_first` | t10 Warrior id169 | PUSH-TIEBREAK |
+| `push_ccw_first` (+ `push_no_room_removes`), confirmed by Jason | t10 Warrior id169 | PUSH-TIEBREAK |
 
 The botwar stream's fixes (ruin Swordsman, kill move-in rules, no-move push toward attacker,
 Juggernaut follows a kill) cleared the other Oasis misses (t10 HP, t19, t24, t25 trio).
@@ -33,8 +33,8 @@ Juggernaut follows a kill) cleared the other Oasis misses (t10 HP, t19, t24, t25
 
 ## Open (weak evidence; in-game tests would settle them)
 
-- IDLE-AUTO-RECOVER rests on one case. Test: leave a wounded unit idle for a turn; also
-  check a unit that only moved.
-- PUSH-TIEBREAK rests on one deciding push.
+- IDLE-AUTO-RECOVER: confirmed by Jason (+4 friendly, +2 elsewhere, capped, not poisoned). Open:
+  why AI idle units never heal in the saves; whether allied territory counts as friendly.
+- PUSH-TIEBREAK: confirmed by Jason (counter-clockwise first; no room removes the unit).
 - POLARIS-CAPTURE-FREEZE: does Polaris border growth freeze water too?
 - What sets a new unit's facing (UnitDirection) before it first moves.

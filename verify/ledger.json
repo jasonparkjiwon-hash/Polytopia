@@ -839,13 +839,6 @@
    "evidence": "engine RULES push_saved_facing; verify/state_v123.py UnitDirection; af181c8f t15 (ruin push of Raychi id94 lands east as its facing says)"
   },
   {
-   "id": "PUSH-TIEBREAK",
-   "rule": "When a push's first-choice tile is blocked, the two tiles one step to either side are tried clockwise side first (the next direction in N, NE, E, SE, S, SW, W, NW, grid y pointing down), then the other side, then two steps either side, and so on. Polyfish instead tries the side nearer the map centre first.",
-   "level": "L3 (n=1: the only push across all saves where the two rules disagree; Polyfish's nearer-the-centre tie-break gets it wrong)",
-   "game_version": "v123 (saves)",
-   "evidence": "engine RULES push_cw_first; af181c8f t10 (CityReward Giant at 2,17 pushes Warrior id169: the south tile holds the attacking Mermaid, the save has it SW at 1,18, nearer-centre says SE at 3,18)"
-  },
-  {
    "id": "DIPLO-BREAK-DISBAND",
    "rule": "Breaking a peace disbands the breaker's units inside the ex-ally's borders, with no refund; the breaker cannot attack that turn. Peace forbids attacks both ways and lets units pass through each other's territory and use their roads. Bots accept peace only at a 'Great' opinion.",
    "level": "L3 for the disband (Jason in game, 2026-10-23); L0 for the rest (cannot attack that turn, units frozen)",
@@ -865,6 +858,13 @@
    "level": "L3 (Jason in game, 23 Oct 2026 + 1 save case af181c8f t15; applying it to AI players adds 57 replay misses, so the engine keeps it human-only)",
    "game_version": "v123 (saves + Jason in game)",
    "evidence": "engine RULES idle_auto_recover; Jason's in-game answer 23 Oct 2026; af181c8f t15 (Rider id260 6 -> 10)"
+  },
+  {
+   "id": "PUSH-TIEBREAK",
+   "rule": "When a push's first-choice tile is blocked, the game tries one step counter-clockwise, then one step clockwise, then two steps each way, alternating outward. If no tile is open, the pushed unit is removed. In the engine's grid order (N, NE, E, SE, S, SW, W, NW, y pointing down), the game's counter-clockwise side is the next entry in that list: the screen view is mirrored relative to the grid. Polyfish's nearer-the-centre tie-break is wrong.",
+   "level": "L3 (Jason in game, 23 Oct 2026 + the one deciding save push, af181c8f t10; no save has a push with no open tile)",
+   "game_version": "v123 (saves + Jason in game)",
+   "evidence": "engine RULES push_ccw_first, push_no_room_removes; Jason's in-game answer 23 Oct 2026; af181c8f t10 (south blocked, Warrior id169 went SW, not SE)"
   }
  ]
 }
