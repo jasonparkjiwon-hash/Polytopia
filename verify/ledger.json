@@ -377,13 +377,6 @@
    "game_version": "v123 (measured in game)"
   },
   {
-   "id": "PUSH-DIRECTION",
-   "rule": "Forced-spawn pushes follow Polyfish's rule (functions.rs calculate_pushable_position): the occupant keeps going in the direction of its last move this turn (or toward its last ranged attack target); an enemy of the acting player is pushed the opposite way; a unit that has not moved goes toward the map centre (straight south from the exact centre). A blocked or unsuitable tile is skipped for the next direction either side, the one nearer the centre first.",
-   "level": "L2 (Polyfish + 2/2 ruin pushes in e15f392c land on the saved tile + replay A/B: Ankiian turn 3 becomes exact, bot war turn 15 +2)",
-   "evidence": "engine RULES push_polyfish; e15f392c turns 4 and 13",
-   "game_version": "v115 (Polyfish)"
-  },
-  {
    "id": "RUIN-UNIT-SPAWN",
    "rule": "A unit reward from a ruin appears on the ruin tile itself; the unit that examined the ruin is pushed to a neighbour (push rule above). The reward is not in the action log, so the replay reads it from the next checkpoint (a unit created that turn standing on the ruin tile).",
    "level": "L3",
@@ -725,6 +718,13 @@
    "level": "L3 (n=1, inferred) + replay A/B",
    "game_version": "v123 (measured in game)",
    "evidence": "6e1bf8e0 t7-10: XinXi examined ruin (0,6) (action 777); unit 165 first moved off (0,6) and died before t11. As a Warrior the fights don't fit; as a veteran Swordsman it kills Vengir Swordsman 15 at action 936 and leaves Luxidoor Giant 231 at exactly 33 HP (save). Engine RULES ruin_unseen_swordsman; miss.py units 4709/4754 -> 4715/4745 with KILL-MOVE-CLIMBING."
+  },
+  {
+   "id": "PUSH-DIRECTION",
+   "rule": "Forced-spawn pushes follow Polyfish's rule (functions.rs calculate_pushable_position) with two measured refinements: (1) the last-move direction is the unit's last move ever, not only this turn (af181c8f t4: a Warrior that walked north the turn before was pushed north, not toward the centre); (2) a multi-tile move's direction rounds to the nearest of the 8 directions, ties toward the axis ((-2,-1) pushes on (-1,0): 6e1bf8e0 t11, e15f392c t13). An enemy of the acting player is pushed the opposite way; a unit that never moved goes toward the map centre. A blocked or unsuitable tile is skipped for the next direction either side, nearer the centre first. Open: a Warrior trained in its city and never moved was pushed AWAY from the centre (af181c8f t10).",
+   "level": "L3 (Polyfish + 9 of 11 saved pushes land on the saved tile with the two refinements; replay A/B 44 -> 42 unit misses, stars hold)",
+   "game_version": "v123 (saves) / v115 (Polyfish)",
+   "evidence": "engine RULES push_polyfish, push_dir_persists, push_dir_round; saves e15f392c t4/t13, af181c8f t4/t24, 6e1bf8e0 t5/t11, 09a5bf1e t6, 1bf60251 t2"
   }
  ]
 }

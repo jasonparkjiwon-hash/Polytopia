@@ -296,3 +296,4 @@ Jason (Imperius) vs 15 Hard bots on a 30x30 map, exported every turn from 1 to 1
 - 2026-10-23 AQUARION-TECH-TIERS: Aquarion tech ids 47 (tier 1), 39 and 46 (tier 2) priced by the star check (engine/economy.py AQUARION_TIERS); names still unknown.
 - 2026-10-23 ROUND-START-INCOME: saves ending with the round-end EndTurn hold the round opener's income (refines PAID_AT_TURN_START, which held for ordinary EndTurns).
 - Bot war 6e1bf8e0 t5-11 unit misses closed (polish-botwar): unseen ruin reward = veteran Swordsman (RUIN-UNIT-UNSEEN), no kill move-in onto a mountain without Climbing (KILL-MOVE-CLIMBING). Both n=1.
+- PUSH-DIRECTION: open case af181c8f t10 (CityReward Giant at 2,17): the pushed Warrior was trained there and never moved, Polyfish's toward-centre rule says (3,16), the save has (1,18), the opposite way. Test item, not settled.

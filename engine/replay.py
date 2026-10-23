@@ -64,6 +64,8 @@ RULES = {   # one switch per line; A/B each in tools/miss.py before keeping a ch
     'no_cities_no_units': True,
     'ruin_unseen_swordsman': True,
     'kill_move_needs_climbing': True,
+    'push_dir_persists': True,
+    'push_dir_round': True,
 }
 LOG = collections.Counter(); EVENTS = []
 
@@ -139,7 +141,10 @@ def push_target(st, u, actor):
     x, y = u.x, u.y; cx, cy = st.W // 2, st.H // 2
     atk, frm = getattr(u, "last_attack", None), getattr(u, "last_from", None)
     if atk is not None and stat(u).get("range", 1) > 1: d = (sgn(atk[0] - x), sgn(atk[1] - y))
-    elif frm is not None and frm != (x, y): d = (sgn(x - frm[0]), sgn(y - frm[1]))
+    elif frm is not None and frm != (x, y):
+        vx, vy = x - frm[0], y - frm[1]; m = max(abs(vx), abs(vy))
+        if RULES["push_dir_round"]: d = (sgn(vx) * (2 * abs(vx) > m), sgn(vy) * (2 * abs(vy) > m))   # MEASURED (6e1bf8e0 t11, e15f392c t13): a 2-tile move (-2,-1) pushes on (-1,0)
+        else: d = (sgn(vx), sgn(vy))
     else: d = None
     if d is not None and u.owner != actor: d = (-d[0], -d[1])
     if d is None or d == (0, 0):
@@ -294,7 +299,7 @@ def apply(st, a, turn):
     if PREV[0] == 15 and pl != 255:              # a new player's turn: their units' moved/attacked marks reset
         for u in st.units.values():
             if u.owner == pl:
-                u.last_from = None; u.last_attack = None
+                if not RULES["push_dir_persists"]: u.last_from = None; u.last_attack = None
                 u.thaw = FROZEN in u.effects     # frozen before this turn: it sits this turn out, then thaws at its end
     if t == 15 and RULES["frozen_no_retaliation"]:
         for u in st.units.values():
@@ -457,6 +462,18 @@ def apply(st, a, turn):
             remove(st, u); LOG["explode"] += 1
     else:
         LOG[f"unhandled type {t}"] += 1
+
+def prime_last_moves(st, acts, upto):
+    """push_dir_persists: a unit's last move direction carries over turns (MEASURED af181c8f t4: a ruin Swordsman pushed a Warrior
+    on in the direction it had walked the turn before). A replay that starts at a checkpoint reads it back from the action log."""
+    if not RULES["push_dir_persists"]: return
+    last = {}
+    for a in acts[:upto]:
+        if a["type"] == 6:
+            _, x0, y0, x1, y1, uid = struct.unpack(FMT[6], bytes.fromhex(a["raw"])); last[uid] = ((x0, y0), (x1, y1))
+    for u in st.units.values():
+        m = last.get(u.id)
+        if m and m[1] == (u.x, u.y): u.last_from = m[0]
 
 def snapshot_units(d):
     out = {}

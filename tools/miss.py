@@ -19,7 +19,7 @@ for gid, fs in sorted(games.items()):
         for i, v in R.snapshot_units(d).items(): R.ORACLE.setdefault(i, (v[0], v[1], v[5]))
     u = collections.Counter(); s = collections.Counter()
     for a, b in zip(ds, ds[1:]):
-        st = State(a, "current"); R.PREV[0] = None; turn = a["currentTurn"]
+        st = State(a, "current"); R.PREV[0] = None; turn = a["currentTurn"]; R.prime_last_moves(st, acts, len(a["actions"]))
         for i in range(len(a["actions"]), len(b["actions"])):
             x = acts[i]
             if x["type"] == 15 and bytes.fromhex(x["raw"])[0] == 255: turn += 1
