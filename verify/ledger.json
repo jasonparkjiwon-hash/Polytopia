@@ -648,6 +648,41 @@
    "level": "L3",
    "game_version": "v123 (measured in game) + v115 (Polyfish)",
    "evidence": "af181c8f t25: an Ai-Mo Juggernaut landing next to three wounded Oumaji units killed them with no logged attack. Polyfish move_unit. +2 exact units, 6 fewer wrongly alive."
+  },
+  {
+   "id": "ACTION-4-HEAL",
+   "rule": "Action 4 = Heal Others (player, healer's tile): friendly units next to it gain 4 HP, capped at max.",
+   "level": "L3 (n=1)",
+   "game_version": "v123 (measured in game)",
+   "evidence": "af181c8f t7: Ai-Mo used action 4 at (25,18); its adjacent Warrior went from 7 to 10 (max) with no Recover logged. +1 exact unit. Only use in 34 games."
+  },
+  {
+   "id": "ACTION-17-FREEZE-AREA",
+   "rule": "Action 17 = Freeze Area (player, unit's tile): the water around turns to ice and adjacent enemy units are frozen (Polyfish freeze_area).",
+   "level": "L1 (n=1, Polyfish + one Polaris use at its Gaami's tile)",
+   "game_version": "v115 (Polyfish) + v123 save",
+   "evidence": "af181c8f t24: Polaris used action 17 at (6,12), where its Gaami stood, right after an attack. Score-neutral."
+  },
+  {
+   "id": "PEACE-AREA-DAMAGE",
+   "rule": "Area damage (Stomp, Bomber splash, Explode) only hits tribes not at peace with the attacker (Polyfish get_true_enemy_at). Peace state follows actions 28 (accept) and 29 (break).",
+   "level": "L3",
+   "game_version": "v123 (measured in game)",
+   "evidence": "af181c8f t25: an Ai-Mo Juggernaut's Stomp left an adjacent Imperius Defender (at peace) at full HP. +3 exact units."
+  },
+  {
+   "id": "JUGGERNAUT-KILL-MOVE",
+   "rule": "A Juggernaut (Stiff boat) follows a kill onto water, but not onto land; other Stiff units never follow a kill.",
+   "level": "L3",
+   "game_version": "v123 (measured in game)",
+   "evidence": "af181c8f t25: moved into a killed Boomchi's water tile; af181c8f t21: stayed put after killing a land unit. +1 exact position."
+  },
+  {
+   "id": "EXPLODE-POISON",
+   "rule": "An explosion (Boomchi, Segment, Doomux) poisons the units it hits; damage stays half the normal attack, rounded then halved and floored (beats flat damage, half-then-round and floor-half in the replay).",
+   "level": "L3",
+   "game_version": "v123 (measured in game)",
+   "evidence": "af181c8f t25: all three Ai-Mo units next to an exploding Cymanti unit were Poisoned; their damage depended on their defence (Juggernaut 1, others 2-3), against Polyfish's flat 2 (marked unverified there)."
   }
  ]
 }
