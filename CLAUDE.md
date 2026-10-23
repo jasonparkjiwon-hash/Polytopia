@@ -39,6 +39,7 @@ For both:
 - Run anything consequential by the person first (posting, deleting, messaging people, force-pushing, rewriting history).
 - Verify rendered output (notebooks, plots, pages) before handing it over.
 - Keep explanations plain; neither reads the code line by line.
+- Check with Jason before editing `CLAUDE.md`. Show him the change and wait for his OK.
 
 ## Evidence rules
 
