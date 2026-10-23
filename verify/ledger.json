@@ -304,7 +304,7 @@
   },
   {
    "id": "ACTION-TYPES-V123",
-   "rule": "Action meanings inferred from context: 27 = a free, repeatable diplomacy action aimed at a foreign capital (player, capital x,y, owner id), NOT Establish Embassy: charging an embassy price (tested at 4) breaks 14 exact player-turns, the same pair repeats on several turns (Oumaji -> Cymanti t18, 19, 20, 22), and most actors lack the Diplomacy tech; likely a peace request, with 28 the reply; 30 = embassy/peace follow-up on the same capital; 28 = diplomacy reply at turn start (player, other player, flag); 38 = Shaman ability: the save shows the Swift effect (UnitEffect 6) on Cymanti units, which matches Polyfish's v115 note that Boost became Swarm (movement only). The engine's +0.5 attack for 38 changes nothing in any replay, so attack-or-movement is still a test item; 24 = Explode (Cymanti Boomchi); Build type 30 = Enchant Animal (Elyrion, spawns a Polytaur). Type 18 is NOT Disband (36 more in e15f392c), NOT a poison cure (0/79 units poisoned), NOT a promotion (0/79 veteran afterwards; Promote is 13); still unknown. Profile over 79 uses in 33 games: bots only (never the human player), only in the three 16-player games; payload = player + tile; the tile always holds the actor's own unit (Warrior 60, Rider 6, others); 59/79 right after that unit moved; enemy unit within 2 tiles in 70/79; no change to the unit (HP, position, effects, flags) or the tile; the unit takes no further action that turn. 14 = Examine Ruins.",
+   "rule": "Action meanings inferred from context: 27 = a free, repeatable diplomacy action aimed at a foreign capital (player, capital x,y, owner id), NOT Establish Embassy (charging an embassy price breaks 14 exact player-turns; the same pair repeats on several turns): it is OFFER PEACE (see DIPLO-PEACE); 30 = embassy/peace follow-up on the same capital; 28 = diplomacy reply at turn start (player, other player, flag); 38 = Shaman ability: the save shows the Swift effect (UnitEffect 6) on Cymanti units, which matches Polyfish's v115 note that Boost became Swarm (movement only). The engine's +0.5 attack for 38 changes nothing in any replay, so attack-or-movement is still a test item; 24 = Explode (Cymanti Boomchi); Build type 30 = Enchant Animal (Elyrion, spawns a Polytaur). Type 18 is NOT Disband (36 more in e15f392c), NOT a poison cure (0/79 units poisoned), NOT a promotion (0/79 veteran afterwards; Promote is 13); still unknown. Profile over 79 uses in 33 games: bots only (never the human player), only in the three 16-player games; payload = player + tile; the tile always holds the actor's own unit (Warrior 60, Rider 6, others); 59/79 right after that unit moved; enemy unit within 2 tiles in 70/79; no change to the unit (HP, position, effects, flags) or the tile; the unit takes no further action that turn. 14 = Examine Ruins.",
    "level": "L1",
    "evidence": "engine replay 6e1bf8e0, e15f392c"
   },
@@ -463,6 +463,18 @@
    "rule": "Market (5) +1 star a turn per adjacent Windmill, Forge or Sawmill; Clathrus (5) +1 per adjacent Fungi; one of each per city.",
    "level": "L3 (UI); Clathrus split",
    "evidence": "v123 info cards (Jason's screenshots 2026-10-23). Polyfish counts Algae for Clathrus; the card says Fungi, so the engine follows the card. Test item. Only one Market in the saves (no change to the exact count)."
+  },
+  {
+   "id": "DIPLO-PEACE",
+   "rule": "Action 27 = Offer Peace (player, target capital x,y, target id); action 28 = the reply (replier, offerer, 1 accept / 0 decline); action 29 = Break Peace (player, ex-ally capital x,y, ex-ally id). Offering peace needs the Strategy tech. RelationState 0 neutral, 1 peace, 3 on the side that broke a peace.",
+   "level": "L3 (27/28); L3 n=1 (29)",
+   "evidence": "All 37 uses of 27 by tribes owning Strategy; reply 1 -> peace in the next save 5/5, reply 0 -> no peace 16/18. The only peace broken in any save (af181c8f t21, Luxidoor and Quetzali) coincides with the only action 29, by Luxidoor at Quetzali's capital. Strategy requirement also in Jason's pasted summary 2026-10-23."
+  },
+  {
+   "id": "DIPLO-BREAK-DISBAND",
+   "rule": "Breaking a peace disbands the breaker's units inside the ex-ally's borders, with no refund; the breaker cannot attack that turn. Peace forbids attacks both ways and lets units pass through each other's territory and use their roads. Bots accept peace only at a 'Great' opinion.",
+   "level": "L0 (untested)",
+   "evidence": "Jason's pasted summary, 2026-10-23, undated source. The one broken peace in the saves had no units inside the other's borders, so nothing to test yet. Not in the engine."
   }
  ]
 }

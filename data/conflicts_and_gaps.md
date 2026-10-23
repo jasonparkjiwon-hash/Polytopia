@@ -248,5 +248,9 @@ Jason (Imperius) vs 15 Hard bots on a 30x30 map, exported every turn from 1 to 1
   - Polarism and Oceantology tiers.
   - Embassy (5 stars; 2 a turn to both sides, 4 with peace), Market and Clathrus income are coded from the in-game text but not yet seen in a save.
   - Clathrus counts Fungi (v123 card) vs Algae (Polyfish): test item.
-- **Action 27 is not Establish Embassy.** It is free, repeats on the same capital, and most users lack the Diplomacy tech; it is likely a peace request.
+- **Diplomacy actions:**
+  - 27 is Offer Peace: all 37 actors had Strategy.
+  - 28 is the reply: 1 led to peace 5/5 times; 0 did not 16/18 times.
+  - 29 is Break Peace (n=1).
+  - Test items: units disbanded inside the ex-ally's borders when peace is broken; no attacks between tribes at peace. Neither is in the engine yet.
   - About 15 player-turns still 1 star short.

@@ -33,7 +33,7 @@
   - The trailer is 3 zero bytes, the hash and a u16 action count.
 - **Player records:** the post-v114 layout plus one trailing tribe byte. Task types 1, 5 and 9 carry 6 bytes; the others 2.
 - **Action sizes** (bytes after the u16 type) are in `ACTION_SIZES` in `verify/state_v123.py`.
-- **Known action types:** 27 a free diplomacy action at a foreign capital (not the embassy; likely a peace request); 28 diplomacy reply; 38 Shaman Boost; 24 Boomchi Explode. Build type 30 is Enchant Animal. Type 18 is unknown and is not Disband.
+- **Known action types:** 27 Offer Peace (needs Strategy); 28 peace reply (1 accept, 0 decline); 29 Break Peace (n=1); 38 Shaman Boost; 24 Boomchi Explode. Build type 30 is Enchant Animal. Type 18 is unknown and is not Disband.
 - **Start techs** appear only after StartMatch (see `data/measured_start.json`).
 
 ## Combat (confirmed by replay)
