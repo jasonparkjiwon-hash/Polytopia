@@ -70,7 +70,8 @@ Phase 1 is done only when **all six** gates pass. No advisor work starts before 
   - Settled: road cost 3, C27 Navigation needs Sailing, income rules and diplomacy actions.
   - Also settled: the Crazy bot bonus (3 a turn) and action 38 (the Shaman's Swarm, a movement boost).
   - Also settled: action 18 is Break Ice, which explains the ice that seemed to melt.
-  - Open: C20 (retaliation vs fog; the saves can't separate the readings, so it needs an in-game test) and C29b (Static skill).
+  - Also settled: C20, no retaliation from fog (Jason's in-game test); Cloak, Dagger and Gaami rules.
+  - Open: C29b (do the Mooni and Shaman have the Static skill?).
 - [x] **Gate B. The map model is decided.** C23 (capital resources), C10 (capital guarantees) and C9 (villages) are each decided by their pre-registered test on real data, with a Bayes factor above 10. *Passed (23 Oct):*
   - *C23 and C10 decided (L3).*
   - *C9 decided for all six map types: on 10 held-out saves, the measured village shares beat the wiki's flat 60% by a Bayes factor of 10^15.6 (`verify/c9_test.md`).*

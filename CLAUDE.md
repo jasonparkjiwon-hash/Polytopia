@@ -42,7 +42,12 @@
 - aF = atk·hp/max; dF = def·hp/max·bonus.
 - dmg = round_half_up(aF/(aF+dF)·atk·4.5).
 - ret = round_half_up(dF/(aF+dF)·def·4.5). Retaliation counts the bonus.
-- No retaliation if the attacker is out of the defender's range, or with Stiff or Surprise.
+- No retaliation if:
+  - the attacker is out of the defender's range;
+  - the defender's tribe can't see the attacker's tile (unexplored and out of current vision);
+  - the attacker is a hidden Cloak;
+  - Stiff (the defender) or Surprise (the attacker) applies.
+- A Dagger still retaliates when attacked.
 - A melee attacker moves in after a kill.
 - **Defence bonus:**
   - 1.5 in its own city (Fortify units); 4 with walls.
@@ -63,7 +68,7 @@
   - The log doesn't record ruin rewards; the replay reads a ruin unit from the next save.
 - **Boats:** the boat record always shows promotion 0. The passenger record keeps the veteran level.
 - **Terrain changes outside the log:**
-  - Mooni freezes the water (and ocean) around it after moving or capturing, and freezes adjacent enemy units. Ice goes back to water only through Break Ice (action 18).
+  - Mooni and Gaami freeze the water (and ocean) around them after moving or capturing, and freeze adjacent enemy units. Ice goes back to water only through Break Ice (action 18).
   - Aquarion flood (flag value 1): boats stay boats and walkers stay walkers.
   - Cymanti algae (value 4): walkable water.
   - Terrain is re-synced at checkpoints.

@@ -15,10 +15,10 @@ LAND_UNITS = {"Warrior", "Rider", "Archer", "Defender", "MindBender", "Swordsman
               "Polytaur", "Mooni", "IceArcher", "BattleSled", "IceFortress", "Gaami", "Hexapod", "Kiton", "Shaman", "Exida", "Doomux",
               "Centipede", "Segment", "Larva", "SteamWagon", "SteamFortress", "Pyro", "AshArcher"}   # Aquarion units are amphibious/water: never embark
 WATER_UNITS = {"Shark", "Raychi", "Puffer", "Jelly", "Crab"}   # MEASURED: seen only on water, flooded tiles or cities (Mermaid walks on land)
-RULES = {"retaliation_uses_bonus": True, "melee_moves_in_on_kill": True, "t18_disband": False, "t18_break_ice": True, "t24_explode": True, "t38_swarm": True, "t38_attack_boost": False, "mooni_freezes_units": True,
+RULES = {"retaliation_uses_bonus": True, "melee_moves_in_on_kill": True, "t18_disband": False, "t18_break_ice": True, "t24_explode": True, "t38_swarm": True, "t38_attack_boost": False, "mooni_freezes_units": True, "retaliation_needs_sight": True, "hidden_attacker_no_retaliation": True,
          "algae_is_land": True, "flood_keeps_form": True, "resync_terrain": True, "kill_move_lands": True, "push_polyfish": True, "ruin_unit": True, "mooni_freeze": True, "water_units_stay": True, "shaman_convert": True, "shaman_damage": True,
          "poison": True, "attack_splash": True, "poison_recover_cures": True,
-         "mooni_freezes": ("Water", "Ocean"), "freezers": ("Mooni",), "giant_juggernaut": True,
+         "mooni_freezes": ("Water", "Ocean"), "freezers": ("Mooni", "Gaami"), "giant_juggernaut": True,
          "port_kill_embark": True, "algae_keeps_boats": True,
          "push_onto_port": True, "no_cities_no_units": True}
 LOG = collections.Counter(); EVENTS = []
@@ -41,6 +41,22 @@ def defence_bonus(st, u):
 
 def rnd(x): return math.floor(x + 0.5 + 1e-9)
 
+def explore(st, owner, x, y, r=1):
+    """Tiles a tribe has explored grow as its units move or appear (vision radius 1; the save's explored set is the start)."""
+    s = st.explored.setdefault(owner, set())
+    for dy in range(-r, r + 1):
+        for dx in range(-r, r + 1): s.add((x + dx, y + dy))
+
+def sees(st, owner, q):
+    """Explored tiles show enemies live (G3), so a tribe sees an attacker unless it stands on a tile the tribe never explored.
+    What its units and cities see right now also counts: radius 1, or 2 for a Scout-skill unit or a unit on a mountain."""
+    if not st.explored or q in st.explored.get(owner, ()): return True
+    for u in st.units.values():
+        if u.owner == owner:
+            r = 2 if ("scout" in stat(u)["skills"] or st.terrain.get((u.x, u.y)) == "Mountain") else 1
+            if dist((u.x, u.y), q) <= r: return True
+    return any(o == owner and dist(c, q) <= 1 for c, o in st.city.items())
+
 def fight(st, a, d):
     sa, sd = stat(a), stat(d)
     atk, dfn = sa["atk"] + (0.5 if getattr(a, "boosted", False) else 0), sd["def"]
@@ -50,7 +66,9 @@ def fight(st, a, d):
     dmg = rnd(af / tot * atk * 4.5) if tot > 0 else 0
     ret = 0
     d_hp = d.hp - dmg
-    if d_hp > 0 and "stiff" not in sd["skills"] and "surprise" not in sa["skills"] and dist((a.x, a.y), (d.x, d.y)) <= sd.get("range", 1):
+    unseen = RULES["retaliation_needs_sight"] and not sees(st, d.owner, (a.x, a.y))      # Jason's in-game test: no return fire from fog
+    hidden = RULES["hidden_attacker_no_retaliation"] and "hide" in sa["skills"]        # Jason: a Cloak never takes retaliation
+    if d_hp > 0 and not unseen and not hidden and "stiff" not in sd["skills"] and "surprise" not in sa["skills"] and dist((a.x, a.y), (d.x, d.y)) <= sd.get("range", 1):
         dfr = df if RULES["retaliation_uses_bonus"] else dfn * d.hp / d.max_hp
         ret = rnd(dfr / tot * dfn * 4.5) if tot > 0 else 0
     return dmg, ret, bonus
@@ -111,7 +129,7 @@ def spawn(st, owner, name, x, y):
             q = (land or free or [None])[0]
         if q is not None: enter(st, old, x, y, *q); EVENTS.append(("push", old.id, (x, y), q))
         else: st.at.pop((x, y), None)
-    st.units[u.id] = u; st.at[(x, y)] = u.id
+    st.units[u.id] = u; st.at[(x, y)] = u.id; explore(st, owner, x, y)
     return u
 
 RUIN = {}     # (owner, x, y) -> [(created turn, unit type, promotion)]: units a checkpoint shows standing where a ruin was examined
@@ -211,7 +229,7 @@ def apply(st, a, turn):
     if t == 6:                                   # Move
         _, x0, y0, x1, y1, uid = v
         u = locate(st, uid, x0, y0, pl)
-        enter(st, u, x0, y0, x1, y1); u.last_from = (x0, y0)
+        enter(st, u, x0, y0, x1, y1); u.last_from = (x0, y0); explore(st, u.owner, x1, y1)
         if u.type in RULES["freezers"]: mooni_freeze(st, x1, y1, u.owner)
     elif t == 2:                                 # Attack
         _, uid, ox, oy, tx, ty = v

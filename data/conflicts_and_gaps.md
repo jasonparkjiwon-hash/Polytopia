@@ -280,3 +280,9 @@ Jason (Imperius) vs 15 Hard bots on a 30x30 map, exported every turn from 1 to 1
   - With the rule, ice-vs-water mismatches drop from 148 to 0. The open "ice melting" item was this.
   - Still open: 12 tiles where the save has ice the engine didn't freeze.
 - **C9 decided for all six map types (L2).** Waterworld held-out save: 24/100, and the table says 0.24. Over 10 held-out saves the table beats the wiki by 10^15.6. Gate B passes.
+- **C20 settled (L3), from Jason's in-game test:**
+  - An Archer or Catapult shot from a tile it can't see doesn't shoot back.
+  - A Cloak never takes or gives retaliation.
+  - A Dagger takes none when it attacks but retaliates when attacked.
+  - The Gaami freezes like the Mooni.
+  - In the engine, sight counts explored tiles plus current vision. With explored tiles alone it wrongly blocked 4 real retaliations.

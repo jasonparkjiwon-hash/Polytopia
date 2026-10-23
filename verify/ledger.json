@@ -574,10 +574,10 @@
   },
   {
    "id": "C20",
-   "rule": "No retaliation when the defender cannot see the attacker (wiki). Polyfish and PolyEnv have no such check.",
-   "level": "L1 split (wiki; Jason quoting the wiki) vs Polyfish + PolyEnv; untestable in the saves so far",
-   "game_version": "undated wiki vs v115 (Polyfish)",
-   "evidence": "verify/c20_test.py: over 1198 attacks replayed turn by turn (5 games), no attack came from a tile the defender's tribe had not explored while the defender was in range to retaliate, so both readings give the same 4679 exact units. A melee attacker is always seen (adjacent); a ranged attacker from fog is normally out of the defender's range anyway. Only a hidden Cloak/Dagger or a long-range defender (Archer, Catapult) shot at from fog can separate them; 2 Cloaks/Daggers were trained in 34 games. Test item: attack an enemy Archer with a hidden Cloak, or shoot an enemy Archer from a tile 2 away that its tribe hasn't explored, and note whether it shoots back."
+   "rule": "No retaliation when the defender's tribe cannot see the attacker: an Archer or Catapult shot from a tile it can't see does not shoot back. Seeing = the tile is explored (explored tiles show enemies live), or within current vision (radius 1; 2 for Scout units or units on mountains).",
+   "level": "L3",
+   "game_version": "v123 (measured in game)",
+   "evidence": "Jason's in-game test 2026-10-23 (Archer/Catapult shot from an unseen tile: no retaliation), agreeing with the wiki; Polyfish and PolyEnv lack the check. Engine RULES retaliation_needs_sight; with current vision counted it changes no replay score (all per-turn saves, verify/c20_test.py), while explored tiles alone wrongly blocked 4 real retaliations."
   },
   {
    "id": "ACTION-18-BREAK-ICE",
@@ -585,6 +585,20 @@
    "level": "L3",
    "game_version": "v123 (measured in game)",
    "evidence": "Jason's in-game text 2026-10-23. Saves: 91 of 92 uses had ice in the unit's 3x3 (vs 7% of ordinary moves ending next to ice). With the rule, ice the engine kept but the save shows as water drops from 148 tiles to 0 over all per-turn intervals (verify/break_ice_test.py); unit scores unchanged. Users are bots only (Luxidoor and Zebasi most, next to Polaris ice)."
+  },
+  {
+   "id": "CLOAK-DAGGER-RETALIATION",
+   "rule": "A Cloak (Hide) never takes retaliation and never retaliates (Stiff). A Dagger (Surprise) takes no retaliation when it attacks, but does retaliate when attacked.",
+   "level": "L3",
+   "game_version": "v123 (measured in game)",
+   "evidence": "Jason in game 2026-10-23. Engine: hidden_attacker_no_retaliation (new), Stiff and Surprise skills (existing). Only 2 Cloaks/Daggers trained in the saves, so no replay effect."
+  },
+  {
+   "id": "GAAMI-FREEZE",
+   "rule": "The Gaami (Polaris super unit) auto-freezes like the Mooni: the water and ocean around it turn to ice, and adjacent enemy units are frozen, after it moves.",
+   "level": "L3",
+   "game_version": "v123 (measured in game)",
+   "evidence": "Jason in game 2026-10-23; saves: 2 of the 70 new-ice tiles in af181c8f sat next to a Gaami. Engine RULES freezers = (Mooni, Gaami); no replay score change."
   }
  ]
 }

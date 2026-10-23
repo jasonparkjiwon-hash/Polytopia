@@ -28,10 +28,11 @@ class State:
         tiles = d["initialTiles"] if which == "initial" else d["currentTiles"]
         players = d["initialPlayers"] if which == "initial" else d["currentPlayers"]
         self.H = len(tiles); self.W = len(tiles[0]); self.tiles = tiles
-        self.terrain = {}; self.owner = {}; self.city = {}; self.wall = set(); self.units = {}; self.at = {}; self.flood = {}; self.fungi = {}; self.port = set(); self.ice_from = {}
+        self.terrain = {}; self.owner = {}; self.city = {}; self.wall = set(); self.units = {}; self.at = {}; self.flood = {}; self.fungi = {}; self.port = set(); self.ice_from = {}; self.explored = {}
         for y, row in enumerate(tiles):
             for x, t in enumerate(row):
                 self.terrain[(x, y)] = TERRAIN.get(t["Terrain"], t["Terrain"]); self.owner[(x, y)] = t["Owner"]
+                for p in t.get("PlayerVisibility", ()): self.explored.setdefault(p, set()).add((x, y))
                 if t.get("FloodedFlag"): self.flood[(x, y)] = t.get("FloodedValue", 1)   # 1 = Aquarion flood (land), 4 = Cymanti algae (water)
                 if t.get("ImprovementExists") and t["ImprovementType"] == 37: self.fungi[(x, y)] = t["Owner"]   # Cymanti Fungi (poisons)
                 if t.get("ImprovementExists") and t["ImprovementType"] == 8: self.port.add((x, y))
