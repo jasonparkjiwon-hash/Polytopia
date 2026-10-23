@@ -3,7 +3,8 @@
   "income_per_turn": {
    "v": "sum over own cities: (level + base + 1 if capital + 1 if workshop + parks + min(0,population)) + market income; besieged city = 0; infiltrated city loses only its normal income once",
    "src": "PE",
-   "conf": "high"
+   "conf": "high",
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "turn_start": "income is applied at the START of your turn (not on turn 0)",
   "siege": "an enemy unit standing on the city centre tile"
@@ -13,12 +14,14 @@
    "v": "population >= level+1 ; then population -= level+1 ; level+=1 ; reward choice is mandatory",
    "src": "PE",
    "conf": "high",
-   "note": "WK Score page consistent: 50 pts per level."
+   "note": "WK Score page consistent: 50 pts per level.",
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "unit_capacity": {
    "v": "level + 1 units supported",
    "src": "PE",
-   "conf": "high"
+   "conf": "high",
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "rewards": {
    "2": [
@@ -42,7 +45,8 @@
   "capture": "unit must START the turn on the city tile; consumes the unit's turn; supported units lose their origin city",
   "village_to_city": "unit starting turn on village; consumes turn; becomes level-1 city (pop 0)",
   "src": "PE",
-  "conf": "high"
+  "conf": "high",
+  "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
  },
  "tile_actions": {
   "hunt": {
@@ -70,7 +74,8 @@
    "tech": "Construction",
    "effect": "forest->field with crop",
    "src": "2025 balance pass dev post (PE had 5, stale)",
-   "cost_src": "GAME-UI (Jason's v123 info cards, 2026-10-23) (3, as in the 2025 patch notes; PolyEnv's 5 is stale)"
+   "cost_src": "GAME-UI (Jason's v123 info cards, 2026-10-23) (3, as in the 2025 patch notes; PolyEnv's 5 is stale)",
+   "game_version": "v123 (measured in game)"
   },
   "grow_forest": {
    "cost": 5,
@@ -81,7 +86,8 @@
    "cost": 3,
    "tech": "Roads",
    "effect": "road on land/forest, own or neutral territory; wiki Roads page says 2, undated - C19",
-   "cost_src": "GAME-UI (Jason's v123 info cards, 2026-10-23) (3, so PolyEnv is right; the undated wiki's 2 is wrong)"
+   "cost_src": "GAME-UI (Jason's v123 info cards, 2026-10-23) (3, so PolyEnv is right; the undated wiki's 2 is wrong)",
+   "game_version": "v123 (measured in game)"
   },
   "bridge": {
    "cost": 5,
@@ -99,7 +105,8 @@
   },
   "all actions require own territory (except road: neutral ok)": true,
   "src": "PE",
-  "conf": "med"
+  "conf": "med",
+  "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
  },
  "buildings": {
   "Farm": {
@@ -186,44 +193,52 @@
    "cost": 5,
    "cost_src": "GAME-UI (Jason's v123 info cards, 2026-10-23)",
    "ui_effect": "Diplomacy: income for both sides while not at war, doubled with a peace treaty",
-   "cost_check": "game 5 vs dataset 5"
+   "cost_check": "game 5 vs dataset 5",
+   "game_version": "v123 (measured in game)"
   },
   "Temple": {
    "cost": 20,
    "cost_src": "GAME-UI (Jason's v123 info cards, 2026-10-23)",
    "ui_effect": "Free Spirit: +1 pop, 100 score, +100 score every 2 turns",
-   "cost_check": "game 20 vs dataset 20"
+   "cost_check": "game 20 vs dataset 20",
+   "game_version": "v123 (measured in game)"
   },
   "ForestTemple": {
    "cost": 15,
    "cost_src": "GAME-UI (Jason's v123 info cards, 2026-10-23)",
    "ui_effect": "Spiritualism: same as temple",
-   "cost_check": "game 15 vs dataset 15"
+   "cost_check": "game 15 vs dataset 15",
+   "game_version": "v123 (measured in game)"
   },
   "MountainTemple": {
    "cost": 20,
    "cost_src": "GAME-UI (Jason's v123 info cards, 2026-10-23)",
    "ui_effect": "Meditation: +1 pop, 100 score, +100 every 2 turns",
-   "cost_check": "game 20 vs dataset 20"
+   "cost_check": "game 20 vs dataset 20",
+   "game_version": "v123 (measured in game)"
   },
   "WaterTemple": {
    "cost": 20,
    "cost_src": "GAME-UI (Jason's v123 info cards, 2026-10-23)",
    "ui_effect": "Aquatism: same as temple",
-   "cost_check": "game 20 vs dataset 20"
+   "cost_check": "game 20 vs dataset 20",
+   "game_version": "v123 (measured in game)"
   },
   "Crater": {
    "cost": 5,
    "cost_src": "GAME-UI (Jason's v123 info cards, 2026-10-23)",
    "ui_effect": "Solaris (Heatwork): +1 pop; trade routes through Lava to other Craters within 5 tiles",
-   "cost_check": "game 5 vs dataset 5"
+   "cost_check": "game 5 vs dataset 5",
+   "game_version": "v123 (measured in game)"
   },
   "Turbine": {
    "cost": 5,
    "cost_src": "GAME-UI (Jason's v123 info cards, 2026-10-23)",
    "ui_effect": "Solaris (Geothermics): +2 pop, must be on a Volcano tile",
-   "cost_check": "game 5 vs dataset 5"
-  }
+   "cost_check": "game 5 vs dataset 5",
+   "game_version": "v123 (measured in game)"
+  },
+  "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
  },
  "monuments": {
   "AltarOfPeace": "5 consecutive turns with no attack + Meditation",
@@ -235,7 +250,8 @@
   "TowerOfWisdom": "own all techs",
   "build": "cost 0, +3 pop, +400 score, one of each per player",
   "src": "PE",
-  "conf": "med"
+  "conf": "med",
+  "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
  },
  "score": {
   "per_explored_tile": 5,
@@ -249,7 +265,8 @@
   "embarked_unit_counts_as_land_unit": true,
   "src": "PE+SC",
   "conf": "high",
-  "pe_caveat": "PE ScoreSystem.startingScore() is stubbed to 0 (commented-out table disagrees with Tribe.cpp). Use tribes.json for starting scores."
+  "pe_caveat": "PE ScoreSystem.startingScore() is stubbed to 0 (commented-out table disagrees with Tribe.cpp). Use tribes.json for starting scores.",
+  "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
  },
  "ruins": {
   "action": "unit must START its turn on the ruin; uses the unit's turn; ruin disappears",
@@ -266,6 +283,7 @@
   "cid": "C14",
   "conf": "medium",
   "src": "PE vs WK",
-  "note": "Wiki Ruin page (fetched 2026-10-23): uniform among eligible rewards, matching the PolyEnv pool. Real frequencies still untested (G4). The old 'Battleship/Super Unit' names are pre-2.0.58."
+  "note": "Wiki Ruin page (fetched 2026-10-23): uniform among eligible rewards, matching the PolyEnv pool. Real frequencies still untested (G4). The old 'Battleship/Super Unit' names are pre-2.0.58.",
+  "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
  }
 }

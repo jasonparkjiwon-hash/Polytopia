@@ -10,20 +10,23 @@
   "conf": "med",
   "src": "WK+PE",
   "rounding": "PE: std::llround = round half away from zero; WK unspecified",
-  "note": "Attacker's defense and defender's attack are not used in the main hit. Verified against PE CombatSystem.cpp."
+  "note": "Attacker's defense and defender's attack are not used in the main hit. Verified against PE CombatSystem.cpp.",
+  "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
  },
  "retaliation_rules": {
   "none_if_target_dies": true,
   "only_if_attacker_within_defender_range": {
    "v": "chebyshev(defender, attacker) <= defender.range",
    "src": "PE",
-   "conf": "med"
+   "conf": "med",
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "blocked_by": [
    "attacker has Surprise",
    "defender has Stiff"
   ],
-  "src": "PE"
+  "src": "PE",
+  "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
  },
  "defence_bonus": {
   "none": 1.0,
@@ -36,18 +39,21 @@
   "poisoned_WK": "defence reduced by 30%, bonuses blocked",
   "cid": "C7",
   "src": "PE+WK",
-  "conf": "med"
+  "conf": "med",
+  "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
  },
  "healing": {
   "idle_recovery": {
    "v": "a unit that neither moved nor attacked heals 2 HP, or 4 HP on tiles of its own city territory",
    "src": "PE+WK",
-   "conf": "high"
+   "conf": "high",
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "heal_skill": {
    "v": "Heal action (Mind Bender, Siren): +4 HP to every adjacent friendly; consumes the action; no-op if nobody is hurt",
    "src": "PE+WK",
-   "conf": "high"
+   "conf": "high",
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "poison_halves_healing_WK": "WK only; not seen in PE heal()"
  },
@@ -55,7 +61,8 @@
   "v": "3 kills -> veteran: +5 max HP and full heal; not for StaticSkill units (Giants, boats, special units)",
   "src": "PE",
   "conf": "high",
-  "note": "Also granted by ruin 'veteran unit' reward; Warrior vet = 15 HP."
+  "note": "Also granted by ruin 'veteran unit' reward; Warrior vet = 15 HP.",
+  "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
  },
  "attack_flow": {
   "after_moving": "only units with Dash may attack after moving; Escape lets a unit move after attacking; Persist lets it attack again after a kill",
@@ -65,12 +72,14 @@
   "convert": "Convert replaces damage: target changes owner, keeps HP/vet, can't act next turn; Bunny/Bunta unconvertible; counts as an attack",
   "infiltrate": "Cloak/Dinghy/Scuba adjacent to enemy city: steals that city's next income, deals base-attack damage to unit inside, spawns Daggers/Pirates = city level (cap 5); infiltrator is consumed",
   "src": "PE",
-  "conf": "med"
+  "conf": "med",
+  "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
  },
  "zone_of_control": {
   "v": "entering a tile adjacent (8-neighbour) to a visible enemy unit forces a stop; Creep ignores ZoC; Hide units don't project it",
   "src": "PE",
-  "conf": "med"
+  "conf": "med",
+  "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
  },
  "movement": {
   "grid": "8-neighbour square grid",
@@ -82,7 +91,8 @@
   "water_units_on_land": "may enter coastal land only, then must stop",
   "cid": "C8",
   "src": "PE",
-  "conf": "med"
+  "conf": "med",
+  "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
  },
  "skills_read_from_code": [
   "Dash",

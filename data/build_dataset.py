@@ -12,7 +12,40 @@ import json, os, math
 
 OUT = os.path.dirname(os.path.abspath(__file__))
 
+_OVERLAY = json.load(open(os.path.join(OUT, "game_ui_overlay.json"), encoding="utf-8"))["files"]
+
+def _merge(base, over):
+    """Deep-merge a game_ui_overlay.json entry into generated data ('__deleted__' removes a key)."""
+    if not (isinstance(base, dict) and isinstance(over, dict)): return over
+    out = dict(base)
+    for k, v in over.items():
+        if v == "__deleted__": out.pop(k, None)
+        else: out[k] = _merge(base.get(k), v) if k in base else v
+    return out
+
+def game_version(src):
+    """Game version a fact applies to, from its source tag(s); the newest dated source wins (gate E)."""
+    s = str(src)
+    if "GAME-UI" in s or "save" in s.lower(): return "v123 (measured in game)"
+    if "2025" in s: return "2025 patch notes"
+    if "PE" in s: return "PolyEnv, Jan-Feb 2026 (game version not stated)"
+    if "GA" in s: return "Tribes/GAIG, 2019-2021"
+    if "DEV" in s: return "staff statement, ~2019"
+    if s.startswith("DER"): return "derived"
+    return "undated"
+
+def _stamp(o):
+    if isinstance(o, dict):
+        if ("src" in o or "cost_src" in o) and "game_version" not in o:
+            o["game_version"] = game_version(o.get("cost_src") if "GAME-UI" in str(o.get("cost_src")) else o.get("src", o.get("cost_src")))
+        for v in o.values(): _stamp(v)
+    elif isinstance(o, list):
+        for v in o: _stamp(v)
+    return o
+
 def dump(name, obj):
+    obj = _merge(obj, _OVERLAY.get(name, {}))       # facts read in the real game win over the transcribed sources
+    if name != "sources.json": obj = _stamp(obj)
     with open(os.path.join(OUT, name), "w", encoding="utf-8") as f:
         json.dump(obj, f, indent=1, ensure_ascii=False)
     print("wrote", name)
@@ -468,3 +501,15 @@ dump("fog_vision.json", fog_vision)
 dump("combat.json", combat)
 dump("economy.json", economy)
 dump("modes_bots.json", modes_bots)
+
+# units.json comes from PolyEnv's Units.json (not generated here); stamp each unit's game version in place.
+_ui_units = json.load(open(os.path.join(OUT, "measured_ui.json"), encoding="utf-8"))["units"]
+_UI_ALIAS = {"Scout": "Scout", "Rammer": "Rammer", "Amphibian": "AquaticAmphibian", "Tridention": "TridentionAq", "Jelly": "YellyBelly"}
+_ui_names = {_UI_ALIAS.get(k, k) for k in _ui_units}
+_units = json.load(open(os.path.join(OUT, "units.json"), encoding="utf-8"))
+for _n, _u in _units["units"].items():
+    _card = _n in _ui_names or any(isinstance(v, dict) and "GAME-UI" in str(v.get("src")) for v in _u.values())
+    _u["game_version"] = "v123 (in-game info card)" if _card else "PolyEnv, Jan-Feb 2026 (game version not stated)"
+with open(os.path.join(OUT, "units.json"), "w", encoding="utf-8") as f:
+    json.dump(_units, f, indent=1, ensure_ascii=False)
+print("stamped units.json")

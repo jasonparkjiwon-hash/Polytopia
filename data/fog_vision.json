@@ -3,36 +3,42 @@
  "geometry": {
   "v": "square (Chebyshev) disk of radius r around the unit: all tiles with max(|dx|,|dy|)<=r",
   "src": "PE",
-  "conf": "med"
+  "conf": "med",
+  "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
  },
  "unit_vision": {
   "v": "r = unit.visionRange (1 for most; 2 for Scout skill units: Cloak, Scuba, Scout boat, BabyDragon, FireDragon, IceFortress, Dinghy... ) ; a unit standing on a MOUNTAIN gets max(r,2)",
   "src": "PE+WK",
   "conf": "high",
-  "note": "WK Combat page: 'Mountains give a two-tile sight radius; Scout units see two tiles in every direction.'"
+  "note": "WK Combat page: 'Mountains give a two-tile sight radius; Scout units see two tiles in every direction.'",
+  "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
  },
  "persistence": {
   "v": "reveal is permanent for the game (a per-player bit is set and never cleared).",
   "src": "PE",
   "conf": "low",
-  "note": "PE only ADDS visibility. Whether the real game shows STALE or LIVE info for previously-seen-but-out-of-vision tiles is UNKNOWN (G3) - matters a lot for belief tracking."
+  "note": "PE only ADDS visibility. Whether the real game shows STALE or LIVE info for previously-seen-but-out-of-vision tiles is UNKNOWN (G3) - matters a lot for belief tracking.",
+  "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
  },
  "movement_reveal": {
   "v": "reveals along the whole traversed path (using the best vision seen during the move), plus final tile; mountain destination -> radius 2",
   "src": "PE",
-  "conf": "med"
+  "conf": "med",
+  "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
  },
  "must_end_on_visible_tile": {
   "v": "a unit may only END its move on a tile that is revealed to its player",
   "src": "PE",
-  "conf": "med"
+  "conf": "med",
+  "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
  },
  "initial_reveal": {
   "real_game_5x5": {
    "v": "start score arithmetic needs 25 explored tiles (5x5 around capital); SC: capital near a corner scores 5 less because the corner tile isn't revealed",
    "src": "DER+SC",
    "conf": "med",
-   "cid": "C21"
+   "cid": "C21",
+   "game_version": "derived"
   },
   "PE": "territory radius-1 (3x3) tiles revealed + the start unit's radius-1 vision; corners are skipped on Initial reveal"
  },
@@ -42,7 +48,8 @@
    "v": "15 steps. Each step: BFS (8-neighbour) dist<=4 over tiles the owner may enter (mountain needs Climbing, shallow water Sailing, ocean Navigation); score tile = 183 - 10*fog_tiles_cleared (plus-shape of 5 tiles, capped at 4) minus 33 if it clears a lighthouse; propagate +100 per BFS layer (3 layers); step to the best adjacent tile, -tie random, +5 penalty for stepping straight back; reveal a plus (centre+4 orthogonal) at every step",
    "src": "PE",
    "conf": "med",
-   "note": "A mirror site says 'up to 20 moves' (OLD, low). PE's 15 and wiki-derived scoring constants agree with each other."
+   "note": "A mirror site says 'up to 20 moves' (OLD, low). PE's 15 and wiki-derived scoring constants agree with each other.",
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "tie_break_rng": "seeded from turn, player, start position",
   "reveals_ruin_area": "ruin 'Explorer' reward only offered if some tile of the 5x5 around the ruin is still hidden"
@@ -52,7 +59,8 @@
   "reward": {
    "v": "first time a player reveals a corner: +1 population in capital (else best city)",
    "src": "PE",
-   "conf": "med"
+   "conf": "med",
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "monument": "Eye of God after discovering all 4",
   "fog_use": "Corner tiles are KNOWN: land, no resource, no settlement (non-waterworld). Don't spend belief mass there."
@@ -66,7 +74,8 @@
   "src": "WK",
   "conf": "med",
   "cid": "C8",
-  "note": "Before the tech, those resources are not displayed. So 'no crop seen' without Organization carries NO information."
+  "note": "Before the tech, those resources are not displayed. So 'no crop seen' without Organization carries NO information.",
+  "game_version": "undated"
  },
  "enemy_visibility": {
   "units_cities": "visible only while inside current vision (playerIsCurrentlyVisibleTo checks live tiles)",
@@ -75,7 +84,8 @@
    "v": "defender cannot retaliate if it cannot see the attacker (WK). PE ignores this.",
    "src": "WK",
    "conf": "low",
-   "cid": "C20"
+   "cid": "C20",
+   "game_version": "undated"
   }
  },
  "meeting_reward": {
@@ -83,7 +93,8 @@
   "src": "PE",
   "conf": "low",
   "cid": "C18",
-  "note": "resolved at start of your turn and at end of an opponent's turn from live vision; non-Initial reveals trigger it immediately. Real values not verified."
+  "note": "resolved at start of your turn and at end of an opponent's turn from live vision; non-Initial reveals trigger it immediately. Real values not verified.",
+  "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
  },
  "player_visibility_state": "PE stores a 16-bit mask per tile (bit i = player i has seen it).",
  "inference_hooks": [

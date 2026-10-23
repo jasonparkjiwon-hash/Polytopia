@@ -61,7 +61,7 @@ Xin-xi 1.5× mountain, 1.5× metal · Imperius 0.5× animal, 2× fruit · Bardur
 | G6 | Skill semantics | **Mostly filled** from WK Unit Skills: Carry, Convert, Dash, Escape, Fortify, Heal (adjacent, up to 4), Persist, Scout (5×5 vs 3×3 reveal), Auto Freeze, Boost, Creep, Eat, Explode, Fly, Freeze, Freeze Area, Grow, Navigate, Poison, Skate, Sneak-type (ignore enemy ZoC), Splash-type, no-retaliation (Phychi), Independent-type (no pop slot). Not covered: Tentacles, Drench, Swarm, Static, Stiff, Stomp, Surprise, Autoflood. PE source still unread. |
 | G7 | Special-tribe trees | **Partly filled**: Cymanti full replacement table; Aquarion table (Fishing/Aquaculture/Marine Life/Navigation/Riding/Waterways/Spearing/Mathematics); Elyrion (Forest Magic replaces Hunting, Forestry → Sanctuary, Water Magic). Polaris tree is an image only. Unit stats still missing. |
 | G8 | Extra buildings | **Partly filled** (WK Buildings, some rows pre-ocean-update): Customs House 5 (2★/turn per adjacent port), Sawmill/Windmill/Forge, Library, temples (Temple 20, Forest 15, Mountain 20, Water 20, Ice 20), Sanctuary 5, Ice Bank 20 (3★/turn per 20 frozen tiles), Outpost 5, Algae 5, Clathrus 5, Fungi 5, Mycelium 5. Embassy: only "cheaper, scales with count" (BP25). Port listed as 10 under Sailing is the old pre-ocean value. |
-| G9 | City vision radius | Open (part of fog pages). |
+| G9 | City vision radius | **Settled (L3):** 3x3. Jason in game; saves agree (ring 1 always explored, ring 2 not). |
 | G10 | GAIG terrainProbs.json | Not retried; low value now that WK gives the full modifier table. |
 | G11 | Fog of War, Bots, Resources, Starfish, Whale, Vision, AI pages | **Still blocked** on fandom (client error, also via api.php). Wayback is blocked from here. You can open them on your phone and paste text, or I can try another mirror. |
 | G12 | **New: Solaris** | BP25 mentions "Solaris Crater" and "Solaris Lava Bank": a newer special tribe not in any dataset. Unknown. |
@@ -255,3 +255,10 @@ Jason (Imperius) vs 15 Hard bots on a 30x30 map, exported every turn from 1 to 1
   - Test items: units disbanded inside the ex-ally's borders when peace is broken; no attacks between tribes at peace. Neither is in the engine yet.
   - About 15 player-turns still 1 star short.
 - **C27 settled (L3):** Navigation needs Sailing, not Ramming. 24 of 36 research actions had Sailing without Ramming; 2 had neither (backwards research).
+- **C9 decided for lakes, continents and archipelago (L2):** the pre-registered held-out test (`verify/c9_test.md`) uses the per-map-type shares. They beat PolyEnv by 10^530 and the wiki's 60% by 10^2.3 on 6 new saves. Drylands, pangea and waterworld still need a held-out save each.
+- **Gate E, 23 Oct 2026:**
+  - The dataset rebuilds from `build_dataset.py`. Hand-entered game facts now live in `data/game_ui_overlay.json` instead of edits to the generated JSON, and a rebuild reproduces every committed file.
+  - `validate_dataset.py` passes, including a new check that every sourced fact carries a game_version stamp (141 facts and 58 units).
+  - The Polyfish cross-check gives 290 agree and 36 disagree, all 36 explained (`verify/crosscheck_explained.json`).
+  - Every ledger rule has a game_version.
+  - New test item C29b: Polyfish gives Mooni and Shaman the Static skill, but our cards don't list it.

@@ -28,7 +28,10 @@ ok([cost(1, 1), cost(2, 1), cost(3, 1)] == [5, 6, 7] and [cost(1, 1, True), cost
 
 # ---- 2. units -------------------------------------------------------------
 U = units["units"]
-need = {u["requiredTechToSpawn"] for u in U.values() if u["requiredTechToSpawn"]}
+for _u in U.values():                       # v123 card values are stored as {"v": value, "src": ...}
+    for _k, _v in list(_u.items()):
+        if isinstance(_v, dict) and "v" in _v: _u[_k] = _v["v"]
+need = {u.get("requiredTechToSpawn") for u in U.values() if u.get("requiredTechToSpawn")}   # v123 card-only units have no PolyEnv tech field
 ok(all(n in T for n in need), "unit tech requirements exist in tech tree  " + str(sorted(need - set(T))))
 # every land unit that is city-trainable
 train = ["Warrior","Archer","Defender","Rider","MindBender","Swordsman","Catapult","Cloak","Knight"]
@@ -103,4 +106,17 @@ ok(abs(sum(rates["inner"][k] for k in ("metal_in_mountain","empty_mountain")) - 
 print("\n=> Read literally, the wiki resource table is a table of SHARES OF ALL TILES (rows sum to 48/38/14).")
 print("   PE reads the fruit/crop/animal/metal numbers as P(resource | already-chosen terrain) - e.g. P(fruit|field,inner)=0.18")
 print("   while the wiki shares imply P(fruit|field,inner)=0.18/0.48=0.375. See conflict C23.")
+
+# ---- gate E: every sourced fact carries a game-version stamp ------------------
+def _facts(o):
+    if isinstance(o, dict):
+        if "src" in o or "cost_src" in o: yield o
+        for v in o.values(): yield from _facts(v)
+    elif isinstance(o, list):
+        for v in o: yield from _facts(v)
+_all = [f for n in ("tech_tree.json", "tribes.json", "map_generation.json", "fog_vision.json", "combat.json", "economy.json", "modes_bots.json") for f in _facts(L(n))]
+ok(all("game_version" in f for f in _all), f"every sourced fact ({len(_all)}) has a game_version stamp")
+import collections as _c
+print("INFO  facts by game version:", dict(_c.Counter(f["game_version"] for f in _all).most_common()))
+
 sys.exit(1 if hard_fail else 0)

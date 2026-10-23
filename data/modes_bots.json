@@ -5,7 +5,8 @@
   "Glory": "multiplayer; first to 10,000 points and hold the lead one turn",
   "Might": "multiplayer; capture enemy capitals",
   "src": "WK",
-  "conf": "med"
+  "conf": "med",
+  "game_version": "undated"
  },
  "bot_difficulty": {
   "capital_income_per_turn": {
@@ -17,7 +18,8 @@
    },
    "src": "DEV+WK",
    "conf": "medium-high",
-   "note": "TOTAL starting capital income, not a bonus on top: wiki Game Modes says 'Normal 2 (same as humans)'. So Easy bots earn LESS than a human (C24)."
+   "note": "TOTAL starting capital income, not a bonus on top: wiki Game Modes says 'Normal 2 (same as humans)'. So Easy bots earn LESS than a human (C24).",
+   "game_version": "staff statement, ~2019"
   },
   "aggression": "higher ratings on higher difficulty (no numbers)",
   "vision_cheating": "NOT stated anywhere found (G5)",

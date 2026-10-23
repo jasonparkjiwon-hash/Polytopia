@@ -1,0 +1,118 @@
+{
+ "_about": "Facts read in the real game (v123 info cards and in-game tests) that build_dataset.py merges over its generated files. Dicts are deep-merged; '__deleted__' removes a key. Edit this file, not the generated JSON.",
+ "files": {
+  "economy.json": {
+   "tile_actions": {
+    "burn_forest": {
+     "cost_src": "GAME-UI (Jason's v123 info cards, 2026-10-23) (3, as in the 2025 patch notes; PolyEnv's 5 is stale)"
+    },
+    "road": {
+     "cost_src": "GAME-UI (Jason's v123 info cards, 2026-10-23) (3, so PolyEnv is right; the undated wiki's 2 is wrong)"
+    }
+   },
+   "buildings": {
+    "Farm": {
+     "ui_effect": "Farming: +2 pop, on Crop",
+     "cost_check": "game 5 vs dataset 5"
+    },
+    "Mine": {
+     "ui_effect": "Mining: +2 pop, on Metal",
+     "cost_check": "game 5 vs dataset 5"
+    },
+    "LumberHut": {
+     "ui_effect": "Forestry: +1 pop",
+     "cost_check": "game 3 vs dataset 3"
+    },
+    "Port": {
+     "ui_effect": "Fishing: +1 pop; trade routes through Ocean/Water/Wetland to other Ports within 5 tiles; units moving here become boats",
+     "cost_check": "game 7 vs dataset 7"
+    },
+    "Forge": {
+     "ui_effect": "Smithery: +2 pop per nearby Mine; one per city",
+     "cost_check": "game 5 vs dataset 5"
+    },
+    "Windmill": {
+     "ui_effect": "Construction: +1 pop per nearby Farm/Aqua Farm; one per city",
+     "cost_check": "game 5 vs dataset 5"
+    },
+    "Market": {
+     "ui_effect": "Trade: +1 star per turn for each nearby Windmill, Forge, Sawmill; one per city",
+     "cost_check": "game 5 vs dataset 5"
+    },
+    "Embassy": {
+     "cost": 5,
+     "cost_src": "GAME-UI (Jason's v123 info cards, 2026-10-23)",
+     "ui_effect": "Diplomacy: income for both sides while not at war, doubled with a peace treaty",
+     "cost_check": "game 5 vs dataset 5"
+    },
+    "Temple": {
+     "cost": 20,
+     "cost_src": "GAME-UI (Jason's v123 info cards, 2026-10-23)",
+     "ui_effect": "Free Spirit: +1 pop, 100 score, +100 score every 2 turns",
+     "cost_check": "game 20 vs dataset 20"
+    },
+    "ForestTemple": {
+     "cost": 15,
+     "cost_src": "GAME-UI (Jason's v123 info cards, 2026-10-23)",
+     "ui_effect": "Spiritualism: same as temple",
+     "cost_check": "game 15 vs dataset 15"
+    },
+    "MountainTemple": {
+     "cost": 20,
+     "cost_src": "GAME-UI (Jason's v123 info cards, 2026-10-23)",
+     "ui_effect": "Meditation: +1 pop, 100 score, +100 every 2 turns",
+     "cost_check": "game 20 vs dataset 20"
+    },
+    "WaterTemple": {
+     "cost": 20,
+     "cost_src": "GAME-UI (Jason's v123 info cards, 2026-10-23)",
+     "ui_effect": "Aquatism: same as temple",
+     "cost_check": "game 20 vs dataset 20"
+    },
+    "Crater": {
+     "cost": 5,
+     "cost_src": "GAME-UI (Jason's v123 info cards, 2026-10-23)",
+     "ui_effect": "Solaris (Heatwork): +1 pop; trade routes through Lava to other Craters within 5 tiles",
+     "cost_check": "game 5 vs dataset 5"
+    },
+    "Turbine": {
+     "cost": 5,
+     "cost_src": "GAME-UI (Jason's v123 info cards, 2026-10-23)",
+     "ui_effect": "Solaris (Geothermics): +2 pop, must be on a Volcano tile",
+     "cost_check": "game 5 vs dataset 5"
+    }
+   },
+   "ruins": {
+    "WK_reward_names": [
+     "Resources: 10 stars",
+     "Scrolls of Wisdom: random researchable tech",
+     "Population: +3 to capital",
+     "Explorer (5x5 fog condition, not on mountains)",
+     "New Friends: Veteran Swordsman (land)",
+     "Rammer: Veteran Rammer carrying a Warrior (water)",
+     "Lost City: Aquarion, ocean, level-3 walled city"
+    ],
+    "conf": "medium",
+    "note": "Wiki Ruin page (fetched 2026-10-23): uniform among eligible rewards, matching the PolyEnv pool. Real frequencies still untested (G4). The old 'Battleship/Super Unit' names are pre-2.0.58."
+   }
+  },
+  "tech_tree.json": {
+   "research_rule_2025": {
+    "v": "Backwards research is allowed: Ai-Mo (owns Philosophy) can buy Meditation without Climbing",
+    "src": "GAME-UI (Jason's v123 info cards, 2026-10-23)",
+    "conf": "L3",
+    "note": "__deleted__"
+   },
+   "cost_formula": {
+    "ui_check": "1 city: 5/6 without Literacy; 4/4/5 for tiers 1/2/3 with Literacy (ceil(base*2/3)), GAME-UI (Jason's v123 info cards, 2026-10-23)"
+   },
+   "special_tribe_trees": {
+    "Solaris": {
+     "v": "Heatwork (start; replaces Fishing) -> Osteophagy -> Magmaism; Heatwork -> Steam Engine -> Explosives; Climbing -> Geothermics (replaces Mining) -> Smithery; Climbing -> Meditation -> Philosophy; Hunting/Riding/Organization branches standard",
+     "start": "Heatwork",
+     "src": "GAME-UI (Jason's v123 info cards, 2026-10-23)"
+    }
+   }
+  }
+ }
+}

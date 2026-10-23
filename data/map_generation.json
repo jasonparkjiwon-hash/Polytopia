@@ -11,7 +11,8 @@
   },
   "src": "WK",
   "conf": "high",
-  "note": "Perfection=normal 16x16; Domination: 1 opp tiny, 2 small, 3 normal, 4+ large. Tiny supports <=9 players, others <=16."
+  "note": "Perfection=normal 16x16; Domination: 1 opp tiny, 2 small, 3 normal, 4+ large. Tiny supports <=9 players, others <=16.",
+  "game_version": "undated"
  },
  "map_types": {
   "implemented_in_PE": [
@@ -34,41 +35,48 @@
    "v": "ceil(sqrt(players)) per side  ->  1-4 players: 2x2 (4 domains), 5-9: 3x3 (9), 10-16: 4x4 (16)",
    "src": "PE+WK",
    "conf": "high",
-   "note": "PE formula and wiki table agree exactly."
+   "note": "PE formula and wiki table agree exactly.",
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "sector_assignment": {
    "v": "players are assigned to a uniformly random permutation of the sector cells (extra sectors stay empty)",
    "src": "PE",
-   "conf": "med"
+   "conf": "med",
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "base_span": {
    "v": "size // grid ; leftover = size - base_span*grid is distributed as origin offsets: origin(c)=c*base_span + min(leftover, max(1, min(leftover,c)-1))",
    "src": "PE",
    "conf": "med",
-   "note": "Wiki: 11x11 -> 5x5 domains, 14x14 -> 7x7 (both agree)"
+   "note": "Wiki: 11x11 -> 5x5 domains, 14x14 -> 7x7 (both agree)",
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "eligible_cells": {
    "v": "inner margin = 2 if base_span>4 else 1; x,y in [max(2,origin+margin), min(size-2, origin+span-margin)) ; wiki: capitals never within 2 tiles of a domain border",
    "src": "PE+WK",
-   "conf": "med"
+   "conf": "med",
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "cell_weight": {
    "v": "weight = max over ALL sector centres of max(1, base_span//2 - chebyshev(cell, centre))^3  (cubic pull towards a sector centre)",
    "src": "PE",
    "conf": "med",
-   "note": "Wiki only says 'random within domain'. Cubic weighting is PE's reading of the reference generator."
+   "note": "Wiki only says 'random within domain'. Cubic weighting is PE's reading of the reference generator.",
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "capital_guarantees": {
    "v": "capital tile = City + Road. The 4 orthogonal neighbours of every capital are forced to Land.",
    "src": "PE",
-   "conf": "med"
+   "conf": "med",
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   }
  },
  "villages": {
   "spacing": {
    "v": "a village/suburb must be >2 (Chebyshev) from every city/village/capital, i.e. >=3 apart; never on map edge; <=1 per 3x3 area",
    "src": "PE+WK",
-   "conf": "high"
+   "conf": "high",
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "suburbs": {
    "v": {
@@ -81,25 +89,29 @@
    },
    "src": "PE+WK",
    "conf": "med",
-   "note": "Suburbs are villages placed close to a capital: PE draws candidates in the 9x9 square around it. Wiki says 'all map types except Drylands and Water World' (so also continents etc.)"
+   "note": "Suburbs are villages placed close to a capital: PE draws candidates in the 9x9 square around it. Wiki says 'all map types except Drylands and Water World' (so also continents etc.)",
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "grid_slots": {
    "v": "(size // 3)^2  (integer division first)",
    "src": "PE",
-   "conf": "med"
+   "conf": "med",
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "pre_terrain_count": {
    "v": "floor((grid_slots - capitals - suburbs) * density) ; density lakes=0.30, waterworld=0.10, drylands=0.0",
    "src": "PE+WK",
    "conf": "high",
-   "note": "Wiki: ~30% of theoretical max placed before terrain (10% water world, 0% drylands)."
+   "note": "Wiki: ~30% of theoretical max placed before terrain (10% water world, 0% drylands).",
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "post_terrain_target": {
    "v": "PE: tries grid_slots - capitals - pre_terrain villages, placing on LAND cells with x,y in [2,size-3] and >2 from every city; stops when no candidate. WIKI: 'about 60% after terrain' (80% drylands).",
    "src": "PE vs WK",
    "conf": "low",
    "cid": "C9",
-   "note": "Real post-terrain village count is therefore uncertain. Empirically count villages in real games to fix this."
+   "note": "Real post-terrain village count is therefore uncertain. Empirically count villages in real games to fix this.",
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   }
  },
  "terrain": {
@@ -110,14 +122,16 @@
     "v": "water tiles = randint(ceil(0.25*N), floor(0.28*N)) lowest-field unlocked cells",
     "src": "PE",
     "conf": "low",
-    "note": "0.25/0.28 are PE's tuned constants ('kLakesMinWaterFraction' etc.), not wiki facts."
+    "note": "0.25/0.28 are PE's tuned constants ('kLakesMinWaterFraction' etc.), not wiki facts.",
+    "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
    }
   },
   "waterworld": {
    "water_fraction": {
     "v": 0.85,
     "src": "PE",
-    "conf": "low"
+    "conf": "low",
+    "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
    },
    "smoothing_passes": 2,
    "outside_noise_value": 0.5,
@@ -126,17 +140,20 @@
   "drylands": {
    "water": "none, except 2 fish water tiles beside Kickoo/Aquarion capitals",
    "src": "PE+WK",
-   "conf": "high"
+   "conf": "high",
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "shallow_vs_ocean": {
    "v": "a water tile edge-adjacent (4-neighbour) to land/forest/mountain is 'shallow Water'; every other water tile is deep 'Ocean'. Diagonal-only contact = ocean.",
    "src": "PE+WK",
-   "conf": "high"
+   "conf": "high",
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "corners": {
    "v": "In non-waterworld maps the four corner tiles are forced Land with no resource/settlement; they are the 4 LIGHTHOUSE tiles.",
    "src": "PE",
-   "conf": "med"
+   "conf": "med",
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   }
  },
  "biome_assignment": {
@@ -144,7 +161,8 @@
    "v": "each capital claims land by alternating 4-directional border growth in a freshly shuffled player order each round; each claim picks a uniformly random tile among the claimant's whole current frontier. Disconnected land goes to the nearest capital by Chebyshev distance.",
    "src": "PE",
    "conf": "med",
-   "note": "Wiki: 'neighbouring tribes can influence capital terrain on 121-tile maps'."
+   "note": "Wiki: 'neighbouring tribes can influence capital terrain on 121-tile maps'.",
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "base_shares": {
    "v": {
@@ -154,13 +172,15 @@
    },
    "src": "WK+PE",
    "conf": "high",
-   "note": "Enforced as exact shares since update 2.0.58 per wiki (PE draws i.i.d., so counts are only approximate)."
+   "note": "Enforced as exact shares since update 2.0.58 per wiki (PE draws i.i.d., so counts are only approximate).",
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "modifier_rule": {
    "v": "mountain = 0.14*mod_m ; forest_before = 0.38 + (0.14-mountain)*(0.38/0.86) ; forest = min(forest_before*mod_f, 1-mountain) ; field = remainder",
    "src": "PE+WK",
    "conf": "high",
-   "note": "Wiki: mountains applied first (affect forest+field), forest next (affects only field)."
+   "note": "Wiki: mountains applied first (affect forest+field), forest next (affects only field).",
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "settlement_tiles_keep_land": true
  },
@@ -168,7 +188,8 @@
   "area": {
    "v": "resources appear only within Chebyshev distance 2 of ANY city/village/capital; 'inner' = distance 1 (the 8 tiles around it)",
    "src": "PE+WK",
-   "conf": "high"
+   "conf": "high",
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "rates": {
    "inner": {
@@ -192,19 +213,22 @@
    "src": "WK+PE",
    "conf": "med",
    "cid": "C23",
-   "note": "NUMBERS agree between wiki and PE, INTERPRETATION does not. PE reads them as P(resource | terrain), e.g. P(fruit|field,inner)=0.18. The wiki rows sum to the terrain total (18+18+12=48), i.e. they are shares of ALL tiles, which implies P(fruit|field,inner)=0.375. Expected resources in the 8-tile inner ring: PE ~2.1, wiki reading ~5.3. Settle with C23 test before trusting either. Multiply by tribe modifiers (fruit, crops, animals, metal)."
+   "note": "NUMBERS agree between wiki and PE, INTERPRETATION does not. PE reads them as P(resource | terrain), e.g. P(fruit|field,inner)=0.18. The wiki rows sum to the terrain total (18+18+12=48), i.e. they are shares of ALL tiles, which implies P(fruit|field,inner)=0.375. Expected resources in the 8-tile inner ring: PE ~2.1, wiki reading ~5.3. Settle with C23 test before trusting either. Multiply by tribe modifiers (fruit, crops, animals, metal).",
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "fish": {
    "shallow": {
     "v": "0.50 * tribe_fish_mod, only inside the resource area",
     "src": "WK+PE",
-    "conf": "high"
+    "conf": "high",
+    "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
    },
    "ocean": {
     "v": "0.10 * tribe_fish_mod inside the resource area",
     "src": "PE",
     "conf": "low",
-    "note": "PE: 'public docs do not define a numeric ocean rate' - 0.10 is a tuned guess. Wiki says fish can appear in ocean inside borders."
+    "note": "PE: 'public docs do not define a numeric ocean rate' - 0.10 is a tuned guess. Wiki says fish can appear in ocean inside borders.",
+    "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
    },
    "water_tile_tribe": "water has no tribe; PE uses the nearest generated land biome's tribe for the fish modifier"
   },
@@ -217,7 +241,8 @@
    },
    "src": "WK",
    "conf": "med",
-   "cid": "C8"
+   "cid": "C8",
+   "game_version": "undated"
   },
   "capital_guarantee": {
    "PE_implements": {
@@ -241,7 +266,8 @@
    },
    "src": "PE+WK",
    "conf": "high",
-   "note": "WK also lists 2.0x water, but water mods are NOT applied by the game (WK)."
+   "note": "WK also lists 2.0x water, but water mods are NOT applied by the game (WK).",
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "Aquarion": {
    "v": {
@@ -249,7 +275,8 @@
    },
    "src": "PE+WK",
    "conf": "high",
-   "note": "WK: 1.5x water exists in code but has no effect."
+   "note": "WK: 1.5x water exists in code but has no effect.",
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "Bardur": {
    "v": {
@@ -259,7 +286,8 @@
    "src": "PE",
    "conf": "low",
    "cid": "C11",
-   "note": "WK instead says '1.5x fruit, 0x crop'. Unresolved."
+   "note": "WK instead says '1.5x fruit, 0x crop'. Unresolved.",
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "XinXi": {
    "v": {
@@ -267,7 +295,8 @@
     "metal": 1.5
    },
    "src": "PE+WK",
-   "conf": "high"
+   "conf": "high",
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "AiMo": {
    "v": {
@@ -275,7 +304,8 @@
     "crops": 0.1
    },
    "src": "PE+WK",
-   "conf": "high"
+   "conf": "high",
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "Oumaji": {
    "v": {
@@ -285,7 +315,8 @@
    },
    "src": "PE+WK",
    "conf": "high",
-   "note": "WK also 0.5x water (not applied)."
+   "note": "WK also 0.5x water (not applied).",
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "Vengir": {
    "v": {
@@ -295,7 +326,8 @@
     "fish": 0.1
    },
    "src": "PE+WK",
-   "conf": "high"
+   "conf": "high",
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "Imperius": {
    "v": {
@@ -303,7 +335,8 @@
     "animals": 0.5
    },
    "src": "PE+WK",
-   "conf": "high"
+   "conf": "high",
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "Hoodrick": {
    "v": {
@@ -311,7 +344,8 @@
     "mountain": 0.5
    },
    "src": "PE+WK",
-   "conf": "high"
+   "conf": "high",
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "Zebasi": {
    "v": {
@@ -320,7 +354,8 @@
     "fruit": 0.5
    },
    "src": "PE+WK",
-   "conf": "high"
+   "conf": "high",
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "Quetzali": {
    "v": {
@@ -328,7 +363,8 @@
     "crops": 0.1
    },
    "src": "PE+WK",
-   "conf": "high"
+   "conf": "high",
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "Yadakk": {
    "v": {
@@ -337,13 +373,15 @@
     "fruit": 1.5
    },
    "src": "PE+WK",
-   "conf": "high"
+   "conf": "high",
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "Luxidoor": {
    "v": {},
    "src": "PE+WK",
    "conf": "med",
-   "note": "WK table: base rate. (Luxidoor page: '++fruit, -game' - unquantified, ignored.)"
+   "note": "WK table: base rate. (Luxidoor page: '++fruit, -game' - unquantified, ignored.)",
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "Elyrion": {
    "v": {
@@ -352,13 +390,15 @@
    },
    "src": "WK",
    "conf": "low",
-   "note": "PE has NO modifiers for Elyrion."
+   "note": "PE has NO modifiers for Elyrion.",
+   "game_version": "undated"
   },
   "Polaris": {
    "v": {},
    "src": "WK",
    "conf": "low",
-   "note": "WK: no own rates; land converts to Polaris terrain; mirror/mixed uses Imperius land."
+   "note": "WK: no own rates; land converts to Polaris terrain; mirror/mixed uses Imperius land.",
+   "game_version": "undated"
   },
   "Cymanti": {
    "v": {
@@ -368,7 +408,8 @@
    },
    "src": "WK",
    "conf": "low",
-   "note": "PE has no modifiers for Cymanti."
+   "note": "PE has no modifiers for Cymanti.",
+   "game_version": "undated"
   }
  },
  "ruins": {
@@ -383,12 +424,14 @@
    },
    "src": "PE",
    "conf": "med",
-   "note": "Formula for other sizes: round(tiles*23/900). Wiki page gave no counts."
+   "note": "Formula for other sizes: round(tiles*23/900). Wiki page gave no counts.",
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "placement": {
    "v": "random non-corner tile with no settlement; PE requires no settlement within Chebyshev 2",
    "src": "PE",
-   "conf": "med"
+   "conf": "med",
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "wiki_rule": "WK: cannot spawn on shallow water, nor next to a village, city or another ruin."
  },
@@ -396,14 +439,16 @@
   "count": {
    "v": "floor(water_tiles / 25)",
    "src": "PE",
-   "conf": "med"
+   "conf": "med",
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "placement": "non-corner water tile with no resource and no settlement in its 3x3",
   "reward_stars": {
    "v": 8,
    "src": "PE",
    "conf": "med",
-   "note": "collected when a unit enters the tile"
+   "note": "collected when a unit enters the tile",
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "wiki_flag": "WK marks 'no adjacent starfish' as possibly incorrect"
  },

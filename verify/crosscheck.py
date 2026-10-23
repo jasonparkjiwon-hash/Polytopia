@@ -13,6 +13,7 @@ ALIAS = {"mindbender": "mindbender", "scout": "scoutship", "rammer": "rammership
          "game": "animal", "hunting": "hunting"}
 rows = []
 def cmp(area, item, fld, a, b):
+    if isinstance(a, dict) and "v" in a: a = a["v"]          # v123 card values are stored as {"v": value, "src": ...}
     if a is None and b is None: return
     try: same = abs(float(a) - float(b)) < 1e-9
     except Exception: same = norm(a) == norm(b)
@@ -50,11 +51,14 @@ for name, a in ours_e["tile_actions"].items():
         rows.append({"area": "tile_action", "item": name, "field": "cost", "ours": a["cost"], "polyfish": "see version_sync.rs", "agree": None})
 
 agree = sum(1 for r in rows if r["agree"] is True); dis = [r for r in rows if r["agree"] is False]
-json.dump({"agree": agree, "disagree": len(dis), "rows": rows}, open(out_json, "w"), indent=1)
+_ex = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "crosscheck_explained.json")))["explained"]
+for r in dis: r["why"] = _ex.get(f"{r['area']}|{r['item']}|{r['field']}")
+unexplained = [r for r in dis if not r["why"]]
+json.dump({"agree": agree, "disagree": len(dis), "unexplained": len(unexplained), "rows": rows}, open(out_json, "w"), indent=1)
 with open(out_md, "w") as f:
     f.write("# Cross-check: our dataset vs Polyfish (game v115)\n\n")
     f.write(f"{agree} fields agree, {len(dis)} disagree or are missing on one side.\n\n## Disagreements\n\n")
-    f.write("| Area | Item | Field | Ours (PE/wiki) | Polyfish v115 |\n|---|---|---|---|---|\n")
-    for r in dis: f.write(f"| {r['area']} | {r['item']} | {r['field']} | {r['ours']} | {r['polyfish']} |\n")
-print(agree, "agree;", len(dis), "disagree")
-for r in dis: print(" ", r["area"], r["item"], r["field"], r["ours"], "|", r["polyfish"])
+    f.write("| Area | Item | Field | Ours (PE/wiki) | Polyfish v115 | Why |\n|---|---|---|---|---|---|\n")
+    for r in dis: f.write(f"| {r['area']} | {r['item']} | {r['field']} | {r['ours']} | {r['polyfish']} | {r['why'] or '**UNEXPLAINED**'} |\n")
+print(agree, "agree;", len(dis), "disagree;", len(unexplained), "unexplained")
+for r in unexplained: print("  UNEXPLAINED", r["area"], r["item"], r["field"], r["ours"], "|", r["polyfish"])

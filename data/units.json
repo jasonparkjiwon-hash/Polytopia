@@ -26,7 +26,8 @@
     "Dash",
     "Fortify"
    ],
-   "veteranEligible": true
+   "veteranEligible": true,
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "Archer": {
    "maxHealth": 10,
@@ -44,7 +45,8 @@
    "veteranEligible": true,
    "verified": [
     "GAME-UI (Jason's v123 info cards, 2026-10-23)"
-   ]
+   ],
+   "game_version": "v123 (in-game info card)"
   },
   "Defender": {
    "maxHealth": 15,
@@ -61,7 +63,8 @@
    "veteranEligible": true,
    "verified": [
     "GAME-UI (Jason's v123 info cards, 2026-10-23)"
-   ]
+   ],
+   "game_version": "v123 (in-game info card)"
   },
   "Rider": {
    "maxHealth": 10,
@@ -80,7 +83,8 @@
    "veteranEligible": true,
    "verified": [
     "GAME-UI (Jason's v123 info cards, 2026-10-23)"
-   ]
+   ],
+   "game_version": "v123 (in-game info card)"
   },
   "Cloak": {
    "maxHealth": 5,
@@ -107,7 +111,8 @@
    "veteranEligible": false,
    "verified": [
     "GAME-UI (Jason's v123 info cards, 2026-10-23)"
-   ]
+   ],
+   "game_version": "v123 (in-game info card)"
   },
   "MindBender": {
    "maxHealth": 10,
@@ -126,7 +131,8 @@
    "veteranEligible": true,
    "verified": [
     "GAME-UI (Jason's v123 info cards, 2026-10-23)"
-   ]
+   ],
+   "game_version": "v123 (in-game info card)"
   },
   "Swordsman": {
    "maxHealth": 15,
@@ -143,7 +149,8 @@
    "veteranEligible": true,
    "verified": [
     "GAME-UI (Jason's v123 info cards, 2026-10-23)"
-   ]
+   ],
+   "game_version": "v123 (in-game info card)"
   },
   "Catapult": {
    "maxHealth": 10,
@@ -160,7 +167,8 @@
    "veteranEligible": true,
    "verified": [
     "GAME-UI (Jason's v123 info cards, 2026-10-23)"
-   ]
+   ],
+   "game_version": "v123 (in-game info card)"
   },
   "Knight": {
    "maxHealth": 10,
@@ -179,7 +187,8 @@
    "veteranEligible": true,
    "verified": [
     "GAME-UI (Jason's v123 info cards, 2026-10-23)"
-   ]
+   ],
+   "game_version": "v123 (in-game info card)"
   },
   "Dagger": {
    "maxHealth": 10,
@@ -196,7 +205,8 @@
     "Independent",
     "StaticSkill"
    ],
-   "veteranEligible": false
+   "veteranEligible": false,
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "Giant": {
    "maxHealth": 40,
@@ -210,7 +220,8 @@
    "skills": [
     "StaticSkill"
    ],
-   "veteranEligible": false
+   "veteranEligible": false,
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "GiantSuper": {
    "maxHealth": 40,
@@ -224,7 +235,8 @@
    "skills": [
     "StaticSkill"
    ],
-   "veteranEligible": false
+   "veteranEligible": false,
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "Bunny": {
    "maxHealth": 20,
@@ -238,7 +250,8 @@
    "skills": [
     "Independent"
    ],
-   "veteranEligible": false
+   "veteranEligible": false,
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "Bunta": {
    "maxHealth": 20,
@@ -252,7 +265,8 @@
    "skills": [
     "Independent"
    ],
-   "veteranEligible": false
+   "veteranEligible": false,
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "Raft": {
    "maxHealth": 0,
@@ -269,7 +283,8 @@
     "StaticSkill",
     "Stiff"
    ],
-   "veteranEligible": false
+   "veteranEligible": false,
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "Scout": {
    "maxHealth": {
@@ -295,7 +310,8 @@
    "veteranEligible": false,
    "verified": [
     "GAME-UI (Jason's v123 info cards, 2026-10-23)"
-   ]
+   ],
+   "game_version": "v123 (in-game info card)"
   },
   "Rammer": {
    "maxHealth": {
@@ -320,7 +336,8 @@
    "veteranEligible": false,
    "verified": [
     "GAME-UI (Jason's v123 info cards, 2026-10-23)"
-   ]
+   ],
+   "game_version": "v123 (in-game info card)"
   },
   "Bomber": {
    "maxHealth": {
@@ -346,7 +363,8 @@
    "veteranEligible": false,
    "verified": [
     "GAME-UI (Jason's v123 info cards, 2026-10-23)"
-   ]
+   ],
+   "game_version": "v123 (in-game info card)"
   },
   "Dinghy": {
    "maxHealth": 5,
@@ -367,7 +385,8 @@
     "StaticSkill",
     "Stiff"
    ],
-   "veteranEligible": false
+   "veteranEligible": false,
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "Pirate": {
    "maxHealth": 10,
@@ -386,7 +405,8 @@
     "Independent",
     "StaticSkill"
    ],
-   "veteranEligible": false
+   "veteranEligible": false,
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "Juggernaut": {
    "maxHealth": 40,
@@ -404,7 +424,8 @@
     "Stomp",
     "StaticSkill"
    ],
-   "veteranEligible": false
+   "veteranEligible": false,
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "Mermaid": {
    "maxHealth": 10,
@@ -420,7 +441,8 @@
     "Fortify",
     "Amphibious"
    ],
-   "veteranEligible": true
+   "veteranEligible": true,
+   "game_version": "v123 (in-game info card)"
   },
   "AquaticAmphibian": {
    "maxHealth": 10,
@@ -437,7 +459,8 @@
     "Escape",
     "Fortify"
    ],
-   "veteranEligible": true
+   "veteranEligible": true,
+   "game_version": "v123 (in-game info card)"
   },
   "MermaidArcher": {
    "maxHealth": 10,
@@ -453,7 +476,8 @@
     "Fortify",
     "Amphibious"
    ],
-   "veteranEligible": true
+   "veteranEligible": true,
+   "game_version": "v123 (in-game info card)"
   },
   "MermaidDefender": {
    "maxHealth": 15,
@@ -468,7 +492,8 @@
     "Fortify",
     "Amphibious"
    ],
-   "veteranEligible": true
+   "veteranEligible": true,
+   "game_version": "v123 (in-game info card)"
   },
   "Swordsmaid": {
    "maxHealth": 15,
@@ -483,7 +508,8 @@
     "Dash",
     "Amphibious"
    ],
-   "veteranEligible": true
+   "veteranEligible": true,
+   "game_version": "v123 (in-game info card)"
   },
   "Scuba": {
    "maxHealth": 5,
@@ -504,7 +530,8 @@
     "StaticSkill",
     "Amphibious"
    ],
-   "veteranEligible": false
+   "veteranEligible": false,
+   "game_version": "v123 (in-game info card)"
   },
   "Siren": {
    "maxHealth": 10,
@@ -521,7 +548,8 @@
     "Amphibious",
     "Stiff"
    ],
-   "veteranEligible": true
+   "veteranEligible": true,
+   "game_version": "v123 (in-game info card)"
   },
   "Shark": {
    "maxHealth": 10,
@@ -537,7 +565,8 @@
     "Surprise",
     "WaterOnly"
    ],
-   "veteranEligible": true
+   "veteranEligible": true,
+   "game_version": "v123 (in-game info card)"
   },
   "YellyBelly": {
    "maxHealth": 20,
@@ -554,7 +583,8 @@
     "Stiff",
     "StaticSkill"
    ],
-   "veteranEligible": true
+   "veteranEligible": true,
+   "game_version": "v123 (in-game info card)"
   },
   "Puffer": {
    "maxHealth": 10,
@@ -570,7 +600,8 @@
     "WaterOnly",
     "Stiff"
    ],
-   "veteranEligible": true
+   "veteranEligible": true,
+   "game_version": "v123 (in-game info card)"
   },
   "TridentionAq": {
    "maxHealth": 10,
@@ -586,7 +617,8 @@
     "Persist",
     "Amphibious"
    ],
-   "veteranEligible": true
+   "veteranEligible": true,
+   "game_version": "v123 (in-game info card)"
   },
   "CrabAq": {
    "maxHealth": 40,
@@ -603,7 +635,8 @@
     "AutoFlood",
     "StaticSkill"
    ],
-   "veteranEligible": false
+   "veteranEligible": false,
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "Polytaur": {
    "maxHealth": 15,
@@ -620,7 +653,8 @@
     "Independent",
     "StaticSkill"
    ],
-   "veteranEligible": false
+   "veteranEligible": false,
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "DragonEgg": {
    "maxHealth": 10,
@@ -637,7 +671,8 @@
     "Stiff",
     "StaticSkill"
    ],
-   "veteranEligible": false
+   "veteranEligible": false,
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "BabyDragon": {
    "maxHealth": 15,
@@ -656,7 +691,8 @@
     "Scout",
     "StaticSkill"
    ],
-   "veteranEligible": false
+   "veteranEligible": false,
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "FireDragon": {
    "maxHealth": 20,
@@ -674,7 +710,8 @@
     "Scout",
     "StaticSkill"
    ],
-   "veteranEligible": false
+   "veteranEligible": false,
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "IceArcher": {
    "maxHealth": 10,
@@ -691,7 +728,8 @@
     "Fortify",
     "Stiff"
    ],
-   "veteranEligible": true
+   "veteranEligible": true,
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "BattleSled": {
    "maxHealth": 15,
@@ -707,7 +745,8 @@
     "Escape",
     "Skate"
    ],
-   "veteranEligible": true
+   "veteranEligible": true,
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "Mooni": {
    "maxHealth": 10,
@@ -723,7 +762,8 @@
     "AutoFreeze",
     "Stiff"
    ],
-   "veteranEligible": true
+   "veteranEligible": true,
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "IceFortress": {
    "maxHealth": 20,
@@ -740,7 +780,8 @@
     "Escape",
     "StaticSkill"
    ],
-   "veteranEligible": false
+   "veteranEligible": false,
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "Gaami": {
    "maxHealth": 30,
@@ -756,7 +797,8 @@
     "FreezeArea",
     "StaticSkill"
    ],
-   "veteranEligible": false
+   "veteranEligible": false,
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "Hexapod": {
    "maxHealth": 5,
@@ -773,7 +815,8 @@
     "Creep",
     "Sneak"
    ],
-   "veteranEligible": true
+   "veteranEligible": true,
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "Kiton": {
    "maxHealth": 15,
@@ -788,7 +831,8 @@
     "Poison",
     "Creep"
    ],
-   "veteranEligible": true
+   "veteranEligible": true,
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "Phychi": {
    "maxHealth": 5,
@@ -806,7 +850,8 @@
     "Surprise",
     "DoubleAttack"
    ],
-   "veteranEligible": true
+   "veteranEligible": true,
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "Shaman": {
    "maxHealth": 10,
@@ -821,7 +866,8 @@
     "Convert",
     "Swarm"
    ],
-   "veteranEligible": true
+   "veteranEligible": true,
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "Raychi": {
    "maxHealth": 10,
@@ -836,7 +882,8 @@
     "WaterOnly",
     "Dash"
    ],
-   "veteranEligible": true
+   "veteranEligible": true,
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "Exida": {
    "maxHealth": 10,
@@ -852,7 +899,8 @@
     "Splash",
     "Creep"
    ],
-   "veteranEligible": true
+   "veteranEligible": true,
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "Doomux": {
    "maxHealth": 20,
@@ -869,7 +917,8 @@
     "Explode",
     "StaticSkill"
    ],
-   "veteranEligible": false
+   "veteranEligible": false,
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "MothC": {
    "maxHealth": 10,
@@ -889,7 +938,8 @@
     "StaticSkill",
     "Stiff"
    ],
-   "veteranEligible": false
+   "veteranEligible": false,
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "LarvaC": {
    "maxHealth": 10,
@@ -908,7 +958,8 @@
     "StaticSkill",
     "Grow"
    ],
-   "veteranEligible": false
+   "veteranEligible": false,
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "InsectEgg": {
    "maxHealth": 10,
@@ -925,7 +976,8 @@
     "Explode",
     "StaticSkill"
    ],
-   "veteranEligible": false
+   "veteranEligible": false,
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "Boomchi": {
    "maxHealth": 10,
@@ -941,7 +993,8 @@
     "Explode",
     "Stiff"
    ],
-   "veteranEligible": true
+   "veteranEligible": true,
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "LivingIsland": {
    "maxHealth": 20,
@@ -959,7 +1012,8 @@
     "StaticSkill",
     "Poison"
    ],
-   "veteranEligible": false
+   "veteranEligible": false,
+   "game_version": "PolyEnv, Jan-Feb 2026 (game version not stated)"
   },
   "SteamWagon": {
    "maxHealth": {
@@ -994,7 +1048,8 @@
     ],
     "src": "GAME-UI (Jason's v123 info cards, 2026-10-23)"
    },
-   "tribe": "Solaris"
+   "tribe": "Solaris",
+   "game_version": "v123 (in-game info card)"
   },
   "SteamFortress": {
    "maxHealth": {
@@ -1030,7 +1085,8 @@
     ],
     "src": "GAME-UI (Jason's v123 info cards, 2026-10-23)"
    },
-   "tribe": "Solaris"
+   "tribe": "Solaris",
+   "game_version": "v123 (in-game info card)"
   },
   "Pyro": {
    "maxHealth": {
@@ -1065,7 +1121,8 @@
     ],
     "src": "GAME-UI (Jason's v123 info cards, 2026-10-23)"
    },
-   "tribe": "Solaris"
+   "tribe": "Solaris",
+   "game_version": "v123 (in-game info card)"
   },
   "AshArcher": {
    "maxHealth": {
@@ -1101,7 +1158,8 @@
     ],
     "src": "GAME-UI (Jason's v123 info cards, 2026-10-23)"
    },
-   "tribe": "Solaris"
+   "tribe": "Solaris",
+   "game_version": "v123 (in-game info card)"
   }
  }
 }
