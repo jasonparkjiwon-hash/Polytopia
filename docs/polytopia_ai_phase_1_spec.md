@@ -64,14 +64,19 @@ As you asked, the advisor stays on hold. Phase 1 now has strict exit gates, a ru
 
 ## Exit gates
 
-Phase 1 is done only when **all six** gates pass. No advisor work starts before then.
+Phase 1 is done only when **all six** gates pass. No advisor work starts before then. **All six passed on 23 Oct 2026.**
 
-- [ ] **Gate A. Core rules are trusted.** Every rule that changes the result of a move reaches at least level L1 (below), with at least one source dated 2025 or later, and no open conflict among them. That covers units, combat, movement, tech costs and prerequisites, income and growth, and tile actions. *Now (23 Oct): nearly done.*
-  - Settled: road cost 3, C27 Navigation needs Sailing, income rules and diplomacy actions.
-  - Also settled: the Crazy bot bonus (3 a turn) and action 38 (the Shaman's Swarm, a movement boost).
-  - Also settled: action 18 is Break Ice, which explains the ice that seemed to melt.
-  - Also settled: C20, no retaliation from fog (Jason's in-game test); Cloak, Dagger and Gaami rules.
-  - Open: C29b (do the Mooni and Shaman have the Static skill?).
+- [x] **Gate A. Core rules are trusted.** Every rule that changes the result of a move reaches at least level L1 (below), with at least one source dated 2025 or later, and no open conflict among them. That covers units, combat, movement, tech costs and prerequisites, income and growth, and tile actions. *Passed (23 Oct).*
+  - *Settled today:*
+    - *Road cost 3.*
+    - *C27: Navigation needs Sailing.*
+    - *Income rules, including the Crazy bot bonus of 3 a turn.*
+    - *Diplomacy actions.*
+    - *Action 38 is Swarm, and action 18 is Break Ice.*
+    - *C20: no retaliation from fog, plus the Cloak, Dagger and Gaami rules (Jason's in-game tests).*
+    - *C29b: no Static on the Mooni or the Shaman.*
+    - *Clathrus counts Fungi, from the card.*
+  - *Outside its scope, kept as test items: Elyrion ruin rewards, and units disbanded when peace breaks.*
 - [x] **Gate B. The map model is decided.** C23 (capital resources), C10 (capital guarantees) and C9 (villages) are each decided by their pre-registered test on real data, with a Bayes factor above 10. *Passed (23 Oct):*
   - *C23 and C10 decided (L3).*
   - *C9 decided for all six map types: on 10 held-out saves, the measured village shares beat the wiki's flat 60% by a Bayes factor of 10^15.6 (`verify/c9_test.md`).*

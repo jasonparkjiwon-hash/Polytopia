@@ -286,3 +286,8 @@ Jason (Imperius) vs 15 Hard bots on a 30x30 map, exported every turn from 1 to 1
   - A Dagger takes none when it attacks but retaliates when attacked.
   - The Gaami freezes like the Mooni.
   - In the engine, sight counts explored tiles plus current vision. With explored tiles alone it wrongly blocked 4 real retaliations.
+- **C29b settled (L3):** neither the Mooni nor the Shaman has Static (Jason; Polyfish is wrong). The Mooni never retaliates (Stiff). The Shaman retaliates with plain damage, and retaliation never converts. The engine's Shaman skills are fixed; scores are unchanged.
+- **Clathrus counts Fungi:** the in-game card wins over Polyfish's Algae (tie-break: real game first).
+- **Gate A passes, 23 Oct.** Two L0 items stay as test items outside its scope (ruins and diplomacy):
+  - Elyrion ruin rewards.
+  - Units disbanded when peace breaks.

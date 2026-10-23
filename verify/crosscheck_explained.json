@@ -34,8 +34,8 @@
   "unit|Boomchi|skills": "C29 (amphibious)",
   "unit|Polytaur|cost": "C29",
   "unit|DragonEgg|attack": "Polyfish stores -1 for 'cannot attack'; same meaning as our 0",
-  "unit|Mooni|skills": "Polyfish adds Static; not on our card. Test item (C29b)",
-  "unit|Shaman|skills": "Polyfish adds Static; not on our card. Test item (C29b)",
+  "unit|Mooni|skills": "C29b settled (L3, Jason in game): no Static; Polyfish v115 is wrong",
+  "unit|Shaman|skills": "C29b settled (L3, Jason in game): no Static; Polyfish v115 is wrong",
   "tech|Navigation|prerequisite": "C27 settled from the saves (L3): Sailing, not Ramming; Polyfish v115 is wrong for v123"
  }
 }

@@ -533,7 +533,7 @@
   {
    "id": "ECON-MARKET-CLATHRUS",
    "rule": "Market (5) +1 star a turn per adjacent Windmill, Forge or Sawmill; Clathrus (5) +1 per adjacent Fungi; one of each per city.",
-   "level": "L3 (UI); Clathrus split",
+   "level": "L3 (UI card); Polyfish's Algae for Clathrus overruled by the tie-break (the real game beats Polyfish)",
    "evidence": "v123 info cards (Jason's screenshots 2026-10-23). Polyfish counts Algae for Clathrus; the card says Fungi, so the engine follows the card. Test item. Only one Market in the saves (no change to the exact count).",
    "game_version": "v123 (measured in game)"
   },
@@ -599,6 +599,13 @@
    "level": "L3",
    "game_version": "v123 (measured in game)",
    "evidence": "Jason in game 2026-10-23; saves: 2 of the 70 new-ice tiles in af181c8f sat next to a Gaami. Engine RULES freezers = (Mooni, Gaami); no replay score change."
+  },
+  {
+   "id": "C29b",
+   "rule": "Neither the Mooni nor the Shaman has the Static skill (Polyfish v115 gives both Static). The Mooni never retaliates (Stiff); the Shaman retaliates with plain damage: retaliation never converts, only the Shaman's own attack does.",
+   "level": "L3",
+   "game_version": "v123 (measured in game)",
+   "evidence": "Jason in game 2026-10-23, agreeing with the v123 info cards. Engine stats: Shaman skills corrected from the calculator's 'static' to convert + swarm; no replay score change."
   }
  ]
 }

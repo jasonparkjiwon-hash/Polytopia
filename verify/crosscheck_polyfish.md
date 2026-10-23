@@ -29,9 +29,9 @@
 | unit | Polytaur | cost | 3 | 2 | C29 |
 | unit | DragonEgg | attack | 0.0 | -1.0 | Polyfish stores -1 for 'cannot attack'; same meaning as our 0 |
 | unit | Mooni | defense | 2.0 | 1.0 | C29 |
-| unit | Mooni | skills | autofreeze,skate,stiff | autofreeze,skate,static,stiff | Polyfish adds Static; not on our card. Test item (C29b) |
+| unit | Mooni | skills | autofreeze,skate,stiff | autofreeze,skate,static,stiff | C29b settled (L3, Jason in game): no Static; Polyfish v115 is wrong |
 | unit | Shaman | cost | 5 | 10 | C29 |
-| unit | Shaman | skills | convert,swarm | convert,static,swarm | Polyfish adds Static; not on our card. Test item (C29b) |
+| unit | Shaman | skills | convert,swarm | convert,static,swarm | C29b settled (L3, Jason in game): no Static; Polyfish v115 is wrong |
 | unit | Exida | movePoints | 2 | 1 | C29 |
 | unit | MothC | (exists) | yes | missing | Polyfish (game v115) has no such unit: v120+ unit (Aquarion rework, Solaris/steam) or a PolyEnv-only entry |
 | unit | LarvaC | (exists) | yes | missing | Polyfish (game v115) has no such unit: v120+ unit (Aquarion rework, Solaris/steam) or a PolyEnv-only entry |

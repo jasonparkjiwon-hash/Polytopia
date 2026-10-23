@@ -1465,7 +1465,7 @@
    "ours": "autofreeze,skate,stiff",
    "polyfish": "autofreeze,skate,static,stiff",
    "agree": false,
-   "why": "Polyfish adds Static; not on our card. Test item (C29b)"
+   "why": "C29b settled (L3, Jason in game): no Static; Polyfish v115 is wrong"
   },
   {
    "area": "unit",
@@ -1795,7 +1795,7 @@
    "ours": "convert,swarm",
    "polyfish": "convert,static,swarm",
    "agree": false,
-   "why": "Polyfish adds Static; not on our card. Test item (C29b)"
+   "why": "C29b settled (L3, Jason in game): no Static; Polyfish v115 is wrong"
   },
   {
    "area": "unit",

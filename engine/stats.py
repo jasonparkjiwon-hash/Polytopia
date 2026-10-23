@@ -16,7 +16,7 @@ V116 = {
  "FireDragon": (20, 4, 3, ["splash", "static"]), "Mooni": (10, 0, 1, ["stiff"]), "IceArcher": (10, 1, 1, ["freeze", "fortify", "stiff"]),
  "BattleSled": (15, 3, 2, []), "IceFortress": (20, 4, 3, ["static"]), "Gaami": (30, 4, 3, ["static"]), "Hexapod": (5, 3, 1, []), "Kiton": (15, 1, 3, ["poison"]),
  "Phychi": (5, 0.7, 1, ["poison", "surprise", "double attack"]), "Raychi": (10, 3, 2, []), "Boomchi": (10, 3, 3, ["onlyExplode", "static", "stiff"]),
- "LivingIsland": (20, 4, 4, ["stomp", "static", "poison"]), "Shaman": (10, 1, 1, ["static"]), "Exida": (10, 3, 1, ["poison", "poisonSplash"]),
+ "LivingIsland": (20, 4, 4, ["stomp", "static", "poison"]), "Shaman": (10, 1, 1, ["convert", "swarm"]),   # Jason in game: no Static; retaliates with plain damage (no conversion) "Exida": (10, 3, 1, ["poison", "poisonSplash"]),
  "Doomux": (20, 3.5, 2, ["explode", "static"]), "Centipede": (20, 4, 3, ["static"]), "Segment": (10, 2, 2, ["onlyExplode", "static", "stiff"]),
  "InsectEgg": (10, 2, 3, ["onlyExplode", "static", "stiff"]), "Larva": (10, 2, 2, ["surprise", "static"]), "Moth": (10, 2, 0.1, ["poison", "static", "stiff"]),
 }
