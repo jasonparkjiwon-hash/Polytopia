@@ -12,7 +12,11 @@ python3 replay.py ${B}_t15.json ${B}_t5.json ${B}_t11.json | grep "after"
 C=../saves/e15f392c-e542-4777-a16f-64a63932d141
 echo "== Misty Fields, turn by turn (Hard, 16 players)"
 python3 replay.py ${C}_t16.json $(for t in $(seq 1 15); do printf "${C}_t$t.json "; done) | grep "after"
+G=$(ls ../saves/09a5bf1e-*_t*.json | sort -t t -k3 -n | tr '\n' ' ')
+echo "== Cliff & Gods, turn by turn (Crazy, 16 players)"
+python3 replay.py $(ls ../saves/09a5bf1e-*_t8.json) $(ls ../saves/09a5bf1e-*_t*.json | grep -v _t8.json | sort -t t -k3 -n) | grep "after"
 echo "== Stars and income (engine/economy.py): player-turns with exact stars"
 python3 economy.py ${A}_t1.json ${A}_t2.json ${A}_t3.json ${A}_t4.json ${A}_t5.json ${A}_t6.json ${A}_t7.json | tail -1
 python3 economy.py ${B}_t5.json ${B}_t11.json ${B}_t15.json | tail -1
 python3 economy.py $(for t in $(seq 1 16); do printf "${C}_t$t.json "; done) | tail -1
+python3 economy.py $G | tail -1

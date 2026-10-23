@@ -31,7 +31,8 @@ Expected from `check.sh` (the current baseline):
 - Bot war: turn 5 66/66, turn 11 90/92, turn 15 111/122.
 - Misty Fields turn by turn (turns 1-16): exact through turn 12 (24, 29, 34, 37, 48, 69, 80, 94, 100, 103, 119, 123); then 133, 144, 149, 157: every unit exact.
 - Oasis Struggle turn by turn (`af181c8f…_t1`–`_t26`, no t11/t17): see `data/conflicts_and_gaps.md` (full replay 2252 exact over 24 checkpoints).
-- Stars (`engine/economy.py`, last block of `check.sh`): Ankiian 94/96, bot war 11/32 (saves 4-6 turns apart), Misty Fields 234/240 player-turns exact.
+- Cliff & Gods turn by turn (`09a5bf1e…_t1`–`_t8`, Crazy, 16 players): 26, 33, 47, 63, 78 exact; 90/92 (turn 7); 105/110 (turn 8).
+- Stars (`engine/economy.py`, last block of `check.sh`): Ankiian 94/96, bot war 11/32 (saves 4-6 turns apart), Misty Fields 234/240, Cliff & Gods 85/96 player-turns exact.
 
 Replay one game by hand:
 

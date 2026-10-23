@@ -243,7 +243,6 @@ Jason (Imperius) vs 15 Hard bots on a 30x30 map, exported every turn from 1 to 1
 - **New rules:** bot bonus (handicap − 1 a turn, needs own capital); siege; meeting stars; negative population; starfish +8; ruin stars read back from the next save; save timing (see the ledger, ECON-*).
 - **Settled:** the tech formula tier × cities + 4 (Literacy ⅔) holds. The old residuals came from meeting stars, not from tech prices.
 - **Open:**
-  - Crazy bonus (needs per-turn Crazy saves).
   - Structure 51 price (n = 2). Aqua Farm 5 is confirmed in game.
   - Polarism and Oceantology tiers.
   - Embassy (5 stars, then +2 for each further one; 2 a turn to both sides, 4 with peace), Market and Clathrus income are coded from the in-game text but not yet seen in a save.
@@ -262,3 +261,7 @@ Jason (Imperius) vs 15 Hard bots on a 30x30 map, exported every turn from 1 to 1
   - The Polyfish cross-check gives 290 agree and 36 disagree, all 36 explained (`verify/crosscheck_explained.json`).
   - Every ledger rule has a game_version.
   - New test item C29b: Polyfish gives Mooni and Shaman the Static skill, but our cards don't list it.
+- **Cliff & Gods (09a5bf1e, Crazy, 16 tribes, turns 1–8):**
+  - Crazy bot bonus confirmed at 3 a turn (L3): 83/90 bot player-turns exact, against 0/90 with 2 or 4.
+  - Combat replay turn by turn: 419/422 exact.
+  - Stars: 85/96 player-turns exact.

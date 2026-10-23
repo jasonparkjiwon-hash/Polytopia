@@ -72,7 +72,7 @@
 
 ## Open work (next up)
 
-1. **Economy replay:** `engine/economy.py`, 95% of player-turns exact on the per-turn games. Open: the Crazy bot bonus, structure 51, and Embassy, Market and Clathrus income (coded, not yet seen in a save).
+1. **Economy replay:** `engine/economy.py`, 95% of player-turns exact on the per-turn games. Crazy bonus settled (3 a turn). Open: structure 51, and Embassy, Market and Clathrus income (coded, not yet seen in a save).
 2. **Coverage report:** which rules each replay exercises.
 3. **Remaining replay mismatches** (bot war turn 15: 12 HP; Misty Fields: a few leftover units):
    - Action type 18.

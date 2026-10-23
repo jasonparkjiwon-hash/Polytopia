@@ -72,7 +72,7 @@
    "id": "C9",
    "rule": "Settlements per map = (size//3)^2 slots times a per-map-type share: drylands 0.668, lakes 0.646, archipelago 0.603, continents 0.52, pangea 0.48, waterworld 0.24 (data/measured_mapgen.json).",
    "level": "L2 (lakes, continents, archipelago: pre-registered held-out test); L3 measured, untested out of sample (drylands, pangea, waterworld)",
-   "evidence": "Massive, 16 players: drylands 70/61/70, lakes 62/65/63, continents 50/54/52, archipelago 59/60/62, pangea 50, waterworld 23. | S1-S27 totals (capitals+villages): Normal 16: Dry 16, Lakes 16, Cont 14, Arch 15, Pangea 12, WW 7 (generator 18.1/15.0/14.6/14.4/14.8/6.0); Lakes 14/18/20: 12/21/28 (gen 11.7/20.3/22.0). Massive Pangea 50/49/46 vs gen 58.5. A land+water linear fit misses Archipelago by +15 and Waterworld by -11, so the count depends on the map-type layout (islands), not just area. | Held-out test (verify/c9_test.md, c9_test.py) on the 6 saves not used to build the table: measured model beats 'fill every slot' (PolyEnv) by 10^530 and the wiki's 60% by 10^2.3.",
+   "evidence": "Massive, 16 players: drylands 70/61/70, lakes 62/65/63, continents 50/54/52, archipelago 59/60/62, pangea 50, waterworld 23. | S1-S27 totals (capitals+villages): Normal 16: Dry 16, Lakes 16, Cont 14, Arch 15, Pangea 12, WW 7 (generator 18.1/15.0/14.6/14.4/14.8/6.0); Lakes 14/18/20: 12/21/28 (gen 11.7/20.3/22.0). Massive Pangea 50/49/46 vs gen 58.5. A land+water linear fit misses Archipelago by +15 and Waterworld by -11, so the count depends on the map-type layout (islands), not just area. | Held-out test (verify/c9_test.md, c9_test.py) on the 6 saves not used to build the table: measured model beats 'fill every slot' (PolyEnv) by 10^530 and the wiki's 60% by 10^2.3. | 7th held-out save (09a5bf1e, archipelago 30: 65/100) keeps the verdict: MS over WK 10^2.3, over PE 10^606.",
    "game_version": "v123 (measured in game)"
   },
   {
@@ -484,8 +484,8 @@
   {
    "id": "ECON-BOT-BONUS",
    "rule": "Bots get DifficultyHandicap - 1 extra stars a turn (save field: 1 for the human and Easy bots, 2 Hard, 4 Crazy), only while they hold their own capital.",
-   "level": "L3 (Easy, Hard); L1 (Crazy)",
-   "evidence": "engine/economy.py star check over the per-turn saves (Ankiian, Misty Fields, Oasis Struggle): Hard bots were +1 a turn before the rule; 658 vs 644 exact with and without the capital condition. Crazy (bot war) only has saves 4-6 turns apart.",
+   "level": "L3",
+   "evidence": "engine/economy.py star check over the per-turn saves (Ankiian, Misty Fields, Oasis Struggle): Hard bots were +1 a turn before the rule; 658 vs 644 exact with and without the capital condition. Crazy (bot war) only has saves 4-6 turns apart. | Crazy confirmed (09a5bf1e Cliff & Gods, saves at turns 1-8, handicap 4): bonus 3 a turn gives 83/90 bot player-turns exact; 2 or 4 gives 0/90.",
    "game_version": "v123 (measured in game)"
   },
   {
