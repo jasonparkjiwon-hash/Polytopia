@@ -3,66 +3,48 @@
 Open work only, highest priority first. Owner is whoever is working on it now.
 Set it when you pick an item up so two people don't do the same work.
 
-Score now: 4709/4753 units (99.1%) and 762/819 star player-turns exact
+Score now: 4728/4728 units (100%) and 802/819 star player-turns exact
 (`python3 -I tools/miss.py`).
 
-## 0. Polish program (Jason, 23 Oct): deterministic parts exact
+The replay work is mostly finished; what's left waits on Jason (see
+`status.md`). The next big step is Phase 2 (advisor mode), once Jason says go.
 
-Goal: every deterministic rule (combat, movement, income, tech cost) matches every
-save; random parts (ruins, bot choices) become measured distributions; every rule
-the engine uses has a ledger id and level. Four parallel Claude sessions, one
-investigation file each in `investigations/`:
+## 1. Aquarion names
 
-| Stream | File | Owns (edit freely) |
-|---|---|---|
-| polish-oasis | `investigations/oasis-units.md` | Oasis unit misses; combat/move code in `engine/replay.py` |
-| polish-botwar | `investigations/botwar-units.md` | Bot war unit misses; same file, so rebase often |
-| polish-stars | `investigations/star-tail.md` | `engine/economy.py`; items 1 and 3 below |
-| polish-rules | `investigations/flagged-rules.md` | New `RULES` switches for unseen rules, rule labelling, "Not yet in any save", item 4 |
+_Owner: unassigned · waiting on test item 40_
 
-Shared-file rules: small commits; `git pull --rebase origin main` before every
-push, then re-run `tools/miss.py` and `check.sh` on the rebased tree; the A/B gate
-is the combined total. Ledger edits only through `tools/ledger.py` (on a rebase
-conflict in the ledger, take upstream and re-run your ledger command). Don't edit
-`CLAUDE.md`.
+- **Techs:** the engine prices 39, 46 and 47 by id (`AQUARION_TIERS` in
+  `engine/economy.py`). Known: 46 is Marine Life (L2). Polyfish's names (L0):
+  39 Aquaculture, 47 AquaFishing. Rename them in the engine only together with
+  `AQUARION_TIERS`, or the prices break.
+- **Units:** 46 Mermaid, 48 Swordsmaid, 53 Shark are measured. Polyfish names the
+  rest (47, 49–52, 54, 55) in the ledger only (`AQUARION-UNIT-IDS`, L0); no save
+  holds them yet.
 
-## 1. Aquarion research (star misses)
+## 2. Star misses left (17)
 
-_Owner: unassigned_
+_Owner: unassigned · details in `investigations/star-tail.md`_
 
-Priced by id since 23 Oct (`AQUARION_TIERS` in `engine/economy.py`: 47 tier 1, 39 and 46
-tier 2; 8 star rows went exact). Still open: the in-game names, to replace the ids. The Aquarion wiki page is blocked from the cloud container
-(proxy 403); Jason can paste it or the tech names.
+- Bot war (13 rows): stars for meeting a tribe, somewhere in a 4–6 turn gap.
+  Needs a game with saves every turn.
+- Bot war p16 (-8): Oceantology's price (waiting on Jason).
+- Misty Fields t11→12 p5 (-4): a trade route cut by another tribe's new city
+  border. Would need a trade-route model; worth it only if more saves show it.
+- Oasis t10→12: p13 (-2) is meet timing with no t11 save; p9 (+3) is a tribe
+  destroyed mid-gap. Ignore both.
 
-## 2. Unit misses left (44)
+## 3. Unverified rules (3)
 
-_Owner: unassigned_
+_Owner: unassigned · waiting on test items 36–38_
 
-- Bot war turn 11-15 (23): mostly 1-5 HP off, and units the engine keeps alive.
-  Saves are 4 turns apart, so the cause is hard to isolate.
-- Oasis Struggle (21): one spot each; trace with `tools/trace.py`. One explosion
-  (Oasis t25, three targets 1 HP less) fits no variant.
+Embassy price (`EMBASSY_STEP`, 4 in the saves vs 5 per the card), Market income
+(one save case), Clathrus income (Fungi per the card, Algae per Polyfish).
+Settle each in the ledger when Jason's test comes back.
 
-Start a file in `investigations/` when you pick this up (see
-`investigations/_template.md`).
+## 4. Small open questions (no save tests them yet)
 
-## 3. Other star misses
-
-_Owner: unassigned_
-
-- Single-turn misses of -1 on a bot that attacked (about 10): probably a kill or
-  capture reward not modelled.
-- Multi-turn gaps (bot war): small errors add up; ignore until the single-turn
-  ones are fixed.
-
-## 4. Aquarion unit ids
-
-_Owner: unassigned_
-
-Only 46 Mermaid, 48 Swordsmaid, 53 Shark are named; the other Aquarion ids are
-still unknown.
-
-## Not yet in any save
-
-Embassy, Market, Clathrus income; structure 51 price; Dash units breaking ice the
-same turn; peace-break disbanding. Nothing to do until a save shows them.
+- Why AI players' idle units never heal in the saves, while the human player's
+  do (`IDLE-AUTO-RECOVER`). Also: does allied territory count as friendly?
+- Does Polaris border growth (not just a capture) freeze water too?
+- A push with no open tile removes the unit (Jason); no save shows one yet.
+- Second embassy price (+2?), part of test item 36.
