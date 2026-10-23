@@ -644,7 +644,7 @@
   },
   {
    "id": "STOMP",
-   "rule": "After a Stomp unit (Juggernaut, Living Island) moves, every adjacent enemy takes half the normal attack damage, floored, using the type before the move (a Juggernaut that lands as a Giant still stomps).",
+   "rule": "After a Stomp unit (Juggernaut, Living Island) moves, every adjacent enemy takes half the normal attack damage, floored, using the type before the move (a Juggernaut that lands as a Giant still stomps). A stomper with Poison (Living Island) also poisons what it hits (Polyfish); MEASURED af181c8f t20: an Imperius Defender hit by a Cymanti stomp then used Recover without healing (poison cured instead), +1 exact unit.",
    "level": "L3",
    "game_version": "v123 (measured in game) + v115 (Polyfish)",
    "evidence": "af181c8f t25: an Ai-Mo Juggernaut landing next to three wounded Oumaji units killed them with no logged attack. Polyfish move_unit. +2 exact units, 6 fewer wrongly alive."

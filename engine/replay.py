@@ -15,7 +15,7 @@ LAND_UNITS = {"Warrior", "Rider", "Archer", "Defender", "MindBender", "Swordsman
               "Polytaur", "Mooni", "IceArcher", "BattleSled", "IceFortress", "Gaami", "Hexapod", "Kiton", "Shaman", "Exida", "Doomux",
               "Centipede", "Segment", "Larva", "SteamWagon", "SteamFortress", "Pyro", "AshArcher"}   # Aquarion units are amphibious/water: never embark
 WATER_UNITS = {"Shark", "Raychi", "Puffer", "Jelly", "Crab"}   # MEASURED: seen only on water, flooded tiles or cities (Mermaid walks on land)
-RULES = {"retaliation_uses_bonus": True, "melee_moves_in_on_kill": True, "t18_disband": False, "t18_break_ice": True, "t24_explode": True, "t38_swarm": True, "t38_attack_boost": False, "mooni_freezes_units": True, "retaliation_needs_sight": True, "frozen_no_retaliation": True, "freeze_on_hit": True, "tribe_super_unit": True, "bridge_is_land": True, "stomp": True, "summon_promotion": True, "peace_spares_area_damage": True, "stiff_moves_in": True, "explode_poison": True, "t4_heal": True, "t17_freeze_area": True, "explode_round": "round_then_half", "hidden_attacker_no_retaliation": True,
+RULES = {"retaliation_uses_bonus": True, "melee_moves_in_on_kill": True, "t18_disband": False, "t18_break_ice": True, "t24_explode": True, "t38_swarm": True, "t38_attack_boost": False, "mooni_freezes_units": True, "retaliation_needs_sight": True, "frozen_no_retaliation": True, "freeze_on_hit": True, "tribe_super_unit": True, "bridge_is_land": True, "stomp": True, "summon_promotion": True, "peace_spares_area_damage": True, "stiff_moves_in": True, "explode_poison": True, "t4_heal": True, "stomp_poison": True, "t17_freeze_area": True, "explode_round": "round_then_half", "hidden_attacker_no_retaliation": True,
          "algae_is_land": True, "flood_keeps_form": True, "resync_terrain": True, "kill_move_lands": True, "push_polyfish": True, "push_needs_climbing": True, "ruin_unit": True, "mooni_freeze": True, "water_units_stay": True, "shaman_convert": True, "shaman_damage": True,
          "poison": True, "attack_splash": True, "poison_recover_cures": True,
          "mooni_freezes": ("Water", "Ocean"), "freezers": ("Mooni", "Gaami"), "giant_juggernaut": True,
@@ -225,6 +225,7 @@ def stomp(st, u, old):
         af = sa["atk"] * u.hp / u.max_hp; df = stat(d)["def"] * d.hp / d.max_hp * defence_bonus(st, d); tot = af + df
         d.hp -= math.floor(rnd(af / tot * sa["atk"] * 4.5) / 2) if tot > 0 else 0
         if d.hp <= 0: remove(st, d)
+        elif RULES["stomp_poison"] and "poison" in sa["skills"]: add_effect(d, POISON)   # Polyfish: a Poison stomper (Living Island) poisons too
         LOG["stomp"] += 1
 
 def mooni_freeze(st, x, y, owner=None):
