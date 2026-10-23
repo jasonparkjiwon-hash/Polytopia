@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Game saves and generated data
+saves/
+*.state
+
+# External engine checkouts and build output
+vendor/
+target/
+
+.DS_Store
