@@ -74,6 +74,7 @@ MAP = {   # rule name -> ledger id
     "replay.RULES.push_dir_persists": "PUSH-DIRECTION",
     "replay.RULES.polaris_capture_freezes": "POLARIS-CAPTURE-FREEZE",
     "replay.RULES.idle_auto_recover": "IDLE-AUTO-RECOVER",
+    "replay.RULES.explode_poison_halves": "EXPLODE-POISON-DEFENCE",
     "replay.RULES.push_dir_round": "PUSH-DIRECTION",
     # economy.py ECON_RULES switches
     "economy.ECON_RULES.embassy_income": "ECON-EMBASSY",

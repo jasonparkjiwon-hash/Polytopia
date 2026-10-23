@@ -35,6 +35,10 @@ spawn) with the unit's last move, the 8 neighbours and where the next save shows
   id260, 6 -> 10). For all players it adds 57 misses, so human only (AutoPlay 0). Needs the
   save's Moved/Attacked flags because Jason's t14 save is mid-turn. Misses 19 -> 18. Kept.
   Ledger IDLE-AUTO-RECOVER; in-game test request in the gaps file.
+- `explode_full_hp` (Boomchi explodes at full strength) → misses 14 → 23. Reverted.
+- `explode_poison_halves`: poison halves the target's defence in an explosion too (t15
+  Warrior id219, Defender id194; the save's UnitEffects showed both poisoned) → 13 → 12. Kept.
+  Ledger EXPLODE-POISON-DEFENCE.
 
 ## Push cases (all saves)
 
@@ -68,6 +72,5 @@ spawn) with the unit's last move, the 8 neighbours and where the next save shows
 ## Next step
 
 - t15 Raychi id94 ruin push (its last logged move ended on 13,7, but it stood on 14,7);
-  t15 Warrior id219 (save 1, engine 2) and Defender id194 (should be dead);
   t25 Juggernaut id664 + Warrior id723 + Scoutship id721, each 1 HP high in the save
   (off by one: rounding or a heal?).

@@ -830,6 +830,13 @@
    "level": "L3",
    "game_version": "v123 (measured in game)",
    "evidence": "engine/economy.py star check over the per-turn saves (Ankiian, Misty Fields, Oasis Struggle): 129/141 one-turn meetings exact using the met tribe's score before its own turn if it plays later in the round. | 2026-10-23: one-turn meetings 180/181 exact (the miss is e15f392c p5 t11, a trade-route loss). In the bot war (gaps of 4-6 turns) every star row without a meeting is exact and the misses are even (one score bracket = 2 stars): the met tribe's score between saves is unknown. Diplomacy FirstMeet gives the meeting turn, but interpolating the score to it only reshuffles misses (tried, reverted)."
+  },
+  {
+   "id": "EXPLODE-POISON-DEFENCE",
+   "rule": "Explode (action 24) damage uses the same defence as an attack: poison halves the target's defence, bonus included. A 7/10 Boomchi exploding next to a poisoned 6/10 Warrior and a poisoned 5/15 Defender took the Warrior to 1 and killed the Defender; without the halving the engine left them at 2 and 1.",
+   "level": "L3 (2/2 targets in one explosion land on the saved HP; replay A/B 13 -> 12 unit misses, stars hold)",
+   "game_version": "v123 (saves)",
+   "evidence": "engine RULES explode_poison_halves; af181c8f t15 (Boomchi id313 at 25,15; save t15 UnitEffects [1] on both targets)"
   }
  ]
 }

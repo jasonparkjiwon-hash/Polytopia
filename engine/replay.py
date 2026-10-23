@@ -75,6 +75,7 @@ RULES = {   # one switch per line; A/B each in tools/miss.py before keeping a ch
     'break_ice_after_move_needs_dash': True,   # UNVERIFIED legality check (L0 in-game text): only counts violations in LOG
     'polaris_capture_freezes': True,
     'idle_auto_recover': True,
+    'explode_poison_halves': True,
 }
 LOG = collections.Counter(); EVENTS = []
 
@@ -494,7 +495,9 @@ def apply(st, a, turn):
             sa = stat(u)
             for d in list(st.units.values()):
                 if hostile(st, d.owner, pl) and dist((d.x, d.y), (x, y)) == 1 and st.at.get((d.x, d.y)) == d.id:
-                    af = sa["atk"] * u.hp / u.max_hp; df = stat(d)["def"] * d.hp / d.max_hp * defence_bonus(st, d); tot = af + df
+                    af = sa["atk"] * u.hp / u.max_hp; df = stat(d)["def"] * d.hp / d.max_hp * defence_bonus(st, d)
+                    if RULES["explode_poison_halves"] and POISON in d.effects: df *= 0.5   # MEASURED af181c8f t15: poisoned targets, as in fight()
+                    tot = af + df
                     raw = af / tot * sa["atk"] * 4.5 if tot > 0 else 0
                     dmg = {"round_then_half": lambda: math.floor(rnd(raw) / 2), "half_then_round": lambda: rnd(raw / 2),
                            "floor_half": lambda: math.floor(raw / 2), "floor_third": lambda: math.floor(raw / 3)}[
