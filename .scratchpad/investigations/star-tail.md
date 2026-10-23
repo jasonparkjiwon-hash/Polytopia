@@ -18,9 +18,16 @@ python3 -I tools/trace.py <game> <turnA> <turnB> x,y ...
 
 ## Tried
 
-- <change or `RULES` switch> → <scores before → after>. Kept / reverted.
+- `AQUARION_TIERS`: price tech ids 47 (tier 1), 39/46 (tier 2) by id (spend() now passes unknown ids through) → 762 -> 770. Kept.
+- `ROUND_START_PAID`: a save right after the round-end EndTurn (player 255) already holds the round opener's income;
+  a save b ending that way adds it → 770 -> 775 (af181c8f p1 -5/+5 pairs). Kept.
+- `END_INCOME_FROM_B`: that opener income uses save b's cities (the log has CityReward without the level-up) → 778. Kept.
+- `EMBASSY_ACTION30` + `TRACK_PEACE` + `EMBASSY_BUILDER_PAID=False`, cost 4 → 780. Kept (split with Jason's 5, see ledger EMBASSY-ACTION).
+  Grid: cost 4/5/6 x builder paid yes/no: 779/780, 778/778, 779/778. Only 4/no fits both embassies.
 
 ## Ruled out
+
+- Cost 5 for the embassy with any builder-income variant: leaves 09a5bf1e p1 and 6e1bf8e0 p12 both off by +-1.
 
 - <idea> — <why>
 

@@ -33,7 +33,7 @@ AQUARION_TIERS = True      # Aquarion techs the TECH table doesn't name yet, key
 if AQUARION_TIERS: TIER.update({47: 1, 39: 2, 46: 2})   # MEASURED: the star check prices them as tier x cities + 4 (backlog item 1)
 REWARD_STARS = {7: 5}
 ADJ_INCOME = {50: {6, 22, 13}, 41: {37}}      # Market: Windmill, Forge, Sawmill; Clathrus: Fungi
-EMBASSY_COST = 5            # Jason, 2026-10-23 (corrected from 4; matches the v123 card in measured_ui.json): the first one;
+EMBASSY_COST = 4            # SPLIT: Jason and the v123 card say 5; both embassies in the saves (09a5bf1e t7, 6e1bf8e0 t13) cost the builder a net 4 (A/B 779 -> 780)
 EMBASSY_STEP = 2            # each further embassy the same tribe builds costs 2 more (Jason, 2026-10-23). Built as Build structure 70 (not action 27: that one is free and repeats)
 EMBASSY_INCOME = 2          # in-game text: "It will give you both 2 stars per turn, when you have a peace treaty the income is doubled"                       # CityReward Resources: +5 stars now
 REWARD_INCOME = {3: 1, 2: 1}                # Workshop, Park: +1 star per turn
@@ -78,6 +78,7 @@ class Books:
         for e in self.embassies:                        # both the builder and the host earn from an embassy, unless at war
             if pl in e:
                 rel = self.relation.get((e[0], e[1]), self.relation.get((e[1], e[0]), 0))
+                if pl == e[0] and not EMBASSY_BUILDER_PAID and rel != PEACE: continue
                 if rel != WAR: tot += EMBASSY_INCOME * (2 if rel == PEACE else 1)
         for (x, y), (imp, owner) in self.structure.items():   # in-game cards: Market +1 per adjacent Windmill/Forge/Sawmill,
             if owner != pl or imp not in ADJ_INCOME: continue  # Clathrus +1 per adjacent Fungi (Polyfish says Algae; the v123 card says Fungi)
@@ -105,6 +106,8 @@ def spend(b, pl, a):
         return tech_cost(tier, len(b.cities(pl)), "Philosophy" in b.techs.get(pl, ()))
     if t == 11:
         rw = struct.unpack("<BIIH", r)[3]; return -REWARD_STARS.get(rw, 0)
+    if t == 30 and EMBASSY_ACTION30:
+        return EMBASSY_COST + EMBASSY_STEP * sum(1 for e in b.embassies if e[0] == pl)
     return 0
 
 def book(b, a):
@@ -122,6 +125,10 @@ def book(b, a):
         _, imp, x, y = struct.unpack("<BHII", r)
         b.structure[(x, y)] = (imp, pl)
         if imp == 70 and (x, y) in b.city: b.embassies.add((pl, b.city[(x, y)]["owner"]))   # an embassy sits in a foreign capital
+    elif t == 28 and TRACK_PEACE and r[2] == 1:          # peace reply (replier, offerer, 1 = accept): peace from now on
+        b.relation[(r[0], r[1])] = b.relation[(r[1], r[0])] = PEACE
+    elif t == 30 and EMBASSY_ACTION30:
+        b.embassies.add((pl, struct.unpack("<BIIB", r)[3]))
     elif t == 21:
         _, x, y = struct.unpack("<BII", r)
         if (x, y) in b.city: b.city[(x, y)]["Level"] += 1
@@ -132,6 +139,10 @@ BONUS_NEEDS_CAPITAL = True
 BONUS_NEEDS_FREE_CAPITAL = True   # A/B 2026-10-23: a besieged capital also loses the bot bonus
 NEG_POP = True
 ROUND_START_PAID = True     # A/B 2026-10-23: a save taken right after the round-end EndTurn (player 255) already holds the next player's income
+END_INCOME_FROM_B = True    # A/B 775 -> 778: the round opener's income held in save b uses b's cities
+EMBASSY_ACTION30 = True    # MEASURED: action 30 (player, host capital x,y, host id) builds an embassy: the host's Diplomacy entry gets EmbassyLevel 1 (6e1bf8e0)
+EMBASSY_BUILDER_PAID = False # MEASURED n=2: the host earns 2 (4 at peace) from its next turn; the builder earned nothing while neutral (09a5bf1e) and 4 at peace (6e1bf8e0)
+TRACK_PEACE = True          # an accepted peace (action 28 reply 1) counts from then on for embassy income (A/B 779 -> 780)
 PAID_AT_TURN_START = False  # MEASURED: a save taken right at a turn start does not hold that turn's income yet; a mid-turn save does (596 vs 562 exact)
 
 def _round_end(x): return x["type"] == 15 and x["raw"][:2] == "ff"
@@ -177,7 +188,8 @@ def check(a, b, acts, model="levels", siege=True):
         nxt = _next_actor(acts, n1)
         if nxt in rows:
             occ = {q: st.units[i].owner for q, i in st.at.items() if i in st.units} if st else None
-            rows[nxt]["income"] += bk.income(nxt, model, occ); rows[nxt]["turns"] += 1
+            bb = Books(b); bb.embassies = bk.embassies       # save b's own cities: the log misses level-ups that come with a city reward
+            rows[nxt]["income"] += (bb if END_INCOME_FROM_B else bk).income(nxt, model, occ); rows[nxt]["turns"] += 1
     pa = {p["PlayerId"]: p for p in a["currentPlayers"]}; pb = {p["PlayerId"]: p for p in b["currentPlayers"]}
     for pl, r in rows.items():                          # tribes met between the saves (the log has no meet event)
         if pl not in pb: continue

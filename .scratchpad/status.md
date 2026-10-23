@@ -27,6 +27,8 @@ _Last updated 2026-10-23._
 
 ## Waiting on Jason
 
+- Embassy price check: note your stars right before building one embassy, right after, and at your next turn start (saves say a net 4, you and the card say 5).
+
 - One Aquarion tech researched per turn in a fresh game, with the save exported (names ids 39, 46, 47).
 
 - Waterworld and other new saves as he plays.

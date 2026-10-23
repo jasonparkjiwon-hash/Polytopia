@@ -725,6 +725,13 @@
    "level": "L3 (Polyfish + 9 of 11 saved pushes land on the saved tile with the two refinements; replay A/B 44 -> 42 unit misses, stars hold)",
    "game_version": "v123 (saves) / v115 (Polyfish)",
    "evidence": "engine RULES push_polyfish, push_dir_persists, push_dir_round; saves e15f392c t4/t13, af181c8f t4/t24, 6e1bf8e0 t5/t11, 09a5bf1e t6, 1bf60251 t2"
+  },
+  {
+   "id": "EMBASSY-ACTION",
+   "rule": "Action 30 (player, host capital x,y, host id) builds an embassy. The builder pays a net 4 stars in both saves; from its next turn the host earns 2 stars a turn (4 with peace); the builder earned nothing while neutral and 4 a turn at peace. An accepted peace (action 28, reply 1) counts from that action on.",
+   "level": "L3 (n=2)",
+   "game_version": "v123 (measured in saves)",
+   "evidence": "6e1bf8e0 t15: host p7's Diplomacy entry for p12 has EmbassyLevel 1, EmbassyBuildTurn 13 after p12's action 30 at 1839. Star check 2026-10-23: 09a5bf1e t7->8 p1 (builder, -4) and p7 (host, +2) go exact; 6e1bf8e0 p12 stays exact (778 -> 780). SPLIT with ECON-EMBASSY (5 stars per Jason and the card): test item."
   }
  ]
 }
