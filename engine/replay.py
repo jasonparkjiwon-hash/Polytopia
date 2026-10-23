@@ -79,6 +79,7 @@ RULES = {   # one switch per line; A/B each in tools/miss.py before keeping a ch
     'idle_auto_recover': True,
     'explode_poison_halves': True,
     'push_saved_facing': True,
+    'push_cw_first': True,
 }
 LOG = collections.Counter(); EVENTS = []
 
@@ -172,6 +173,7 @@ def push_target(st, u, actor):
         a, b = DIRS[(k - i) % 8], DIRS[(k + i) % 8]
         if a == b: order.append(a); continue
         da = (x + a[0] - cx) ** 2 + (y + a[1] - cy) ** 2; db = (x + b[0] - cx) ** 2 + (y + b[1] - cy) ** 2
+        if RULES["push_cw_first"]: order += [b, a]; continue   # MEASURED (af181c8f t10): the clockwise side first, not the one nearer the centre
         if db < da or (db == da and abs(x + b[0] - y - b[1]) < abs(x + a[0] - y - a[1])): order += [b, a]
         else: order += [a, b]
     for n, (dx, dy) in enumerate(order):

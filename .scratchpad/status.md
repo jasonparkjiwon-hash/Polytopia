@@ -20,7 +20,7 @@ _Last updated 2026-10-23._
 | Jason | — |
 | Minjae | — |
 | Claude (orchestrator) | Polish program (backlog "Polish"): runs the four sessions below and merges their results |
-| Claude: polish-oasis | Unit misses, Oasis Struggle (`af181c8f`) |
+| Claude: polish-oasis | Done 23 Oct: Oasis Struggle (`af181c8f`) unit misses 21 -> 0 (`investigations/oasis-units.md`) |
 | Claude: polish-botwar | Unit misses, bot war (`6e1bf8e0`) |
 | Claude: polish-stars | Star tail (`engine/economy.py`) |
 | Claude: polish-rules | Unverified rules as flagged switches, rule labelling, wiki cross-check |

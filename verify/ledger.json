@@ -858,6 +858,13 @@
    "level": "L3 (save field matches the last logged move's direction for about 85% of units with a move, 2 games; replay A/B 6 -> 5 unit misses, stars hold)",
    "game_version": "v123 (saves)",
    "evidence": "engine RULES push_saved_facing; verify/state_v123.py UnitDirection; af181c8f t15 (ruin push of Raychi id94 lands east as its facing says)"
+  },
+  {
+   "id": "PUSH-TIEBREAK",
+   "rule": "When a push's first-choice tile is blocked, the two tiles one step to either side are tried clockwise side first (the next direction in N, NE, E, SE, S, SW, W, NW, grid y pointing down), then the other side, then two steps either side, and so on. Polyfish instead tries the side nearer the map centre first.",
+   "level": "L3 (n=1: the only push across all saves where the two rules disagree; Polyfish's nearer-the-centre tie-break gets it wrong)",
+   "game_version": "v123 (saves)",
+   "evidence": "engine RULES push_cw_first; af181c8f t10 (CityReward Giant at 2,17 pushes Warrior id169: the south tile holds the attacking Mermaid, the save has it SW at 1,18, nearer-centre says SE at 3,18)"
   }
  ]
 }
