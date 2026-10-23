@@ -27,6 +27,11 @@ _Last updated 2026-10-23._
 
 ## Waiting on Jason
 
+- Bot war last 2 unit misses (polish-botwar, `investigations/botwar-units.md`): (1) without Aquatism, move a
+  Giant onto your own port (it becomes a Juggernaut) and let an enemy Warrior attack it there; note the damage
+  (3 = no bonus, 2 = a 1.5 port bonus). (2) If it happens: a save the turn before and after a Giant city
+  reward that lands on a unit trained that same turn (where does the trainee get pushed?).
+
 - Oceantology (Cymanti tech, save id 49): its tier, from the tech card or a game where a one-city Cymanti researches it.
 
 - Embassy price check: note your stars right before building one embassy, right after, and at your next turn start (saves say a net 4, you and the card say 5).
