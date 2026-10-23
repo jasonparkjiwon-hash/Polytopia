@@ -67,6 +67,8 @@ RULES = {   # one switch per line; A/B each in tools/miss.py before keeping a ch
     'stiff_boat_lands': True,
     'stomp_on_kill_move': True,
     'move_blocked_by_hidden': True,
+    'push_centre_round': True,
+    'push_toward_attacker': True,
     'push_dir_persists': True,
     'push_dir_round': True,
     'peace_break_disbands': True,       # UNVERIFIED (L0): no save has a broken peace with units inside the ex-ally's borders
@@ -155,7 +157,9 @@ def push_target(st, u, actor):
     else: d = None
     if d is not None and u.owner != actor: d = (-d[0], -d[1])
     if d is None or d == (0, 0):
-        d = (sgn(cx - x), sgn(cy - y))
+        vx, vy = cx - x, cy - y; m = max(abs(vx), abs(vy), 1)
+        if RULES["push_centre_round"]: d = (sgn(vx) * (2 * abs(vx) > m), sgn(vy) * (2 * abs(vy) > m))   # MEASURED 6e1bf8e0 t14: (-1,+13) pushes on (0,+1)
+        else: d = (sgn(vx), sgn(vy))
         if d == (0, 0): d = (0, 1)
     k = DIRS.index(d); order = [DIRS[k]]
     for i in range(1, 5):
@@ -356,6 +360,7 @@ def apply(st, a, turn):
                 if df.hp <= 0: remove(st, df); return
             df.owner = at.owner; LOG["convert"] += 1; EVENTS.append(("convert", turn, at.type, df.type)); return
         dmg, ret, bonus = fight(st, at, df); at.boosted = False; at.last_attack = (tx, ty)
+        if RULES["push_toward_attacker"]: df.last_from = (2 * tx - ox, 2 * ty - oy)   # MEASURED 6e1bf8e0 t13: a unit hit from (17,1) was later pushed onto (17,1)
         if RULES["attack_splash"] and "splash" in stat(at)["skills"]:   # Polyfish: enemies next to the target take half their own damage, floored
             for e in [u for u in st.units.values() if hostile(st, u.owner, at.owner) and u is not df and dist((u.x, u.y), (tx, ty)) == 1 and st.at.get((u.x, u.y)) == u.id]:
                 sd = math.floor(fight(st, at, e)[0] / 2); e.hp -= sd

@@ -33,6 +33,10 @@ Save units near a tile: a 15-line scratch script (`near.py`: tile, id, tribe, ty
   295). `stiff_boat_lands` alone broke af181c8f t21 (mountain, no Climbing) until the Climbing check covered boats.
 - `move_blocked_by_hidden`: a move onto a hidden enemy (Cloak) doesn't happen → 4721/4741 → 4722/4738
   (251, 272, 234, 215 at Elyrion/Yadakk (27,10)). Kept, ledger MOVE-BLOCKED-HIDDEN.
+- `push_toward_attacker` + `push_centre_round` → 4722/4737 → 4724/4733 (317, 364 and the ghost Swordsman at t15;
+  af181c8f t19/t24 pushes). Alone: toward 4721/4736, round 4722/4738. Counter-case for rounding: 6e1bf8e0
+  action 1062 trainee now lands on (3,8), save (2,10) (new miss, id -432 at t11). af181c8f id169 still open.
+  Facing ('Flipped' in the save) doesn't explain the vertical part of pushes.
 
 ## Ruled out
 

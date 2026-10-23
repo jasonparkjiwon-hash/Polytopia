@@ -823,6 +823,13 @@
    "level": "L3 (n=1 checkable case; bots: the same rule applied to AI players adds 57 misses, so it is human-only or tied to something else the human turn has)",
    "game_version": "v123 (saves)",
    "evidence": "engine RULES idle_auto_recover; af181c8f t15 (Jason's Rider id260, idle on turn 15, 6 -> 10 HP); replay A/B 19 -> 18 unit misses, stars hold"
+  },
+  {
+   "id": "PUSH-NEVER-MOVED",
+   "rule": "Push direction for a unit with no move: (a) if it was attacked, toward the attacker (as if it had stepped away from it); (b) otherwise toward the map centre, rounded to the nearest of the 8 directions like a multi-tile move ((-1,+13) pushes on (0,+1)). Then Polyfish's fallback order (PUSH-DIRECTION).",
+   "level": "L3 (replay A/B, 3 fits vs 1 counter-case)",
+   "game_version": "v123 (measured in game)",
+   "evidence": "6e1bf8e0 t13 action 1849: Oumaji Swordsman 317, trained in (16,2), hit from (17,1) at 1538, pushed onto (17,1) by the Giant reward (toward the centre would be (15,3)). Rounded centre: 6e1bf8e0 t14 Giant 387 pushed (16,2)->(16,3); af181c8f t19 and t24 pushes now land on the saved tiles. Counter-case: 6e1bf8e0 t9 action 1062, a Warrior trained at (2,9) two actions earlier went to (2,10), which plain sign order gives and rounding doesn't. Still open: af181c8f t10 Warrior 169 pushed (2,17)->(1,18). Engine RULES push_toward_attacker, push_centre_round; miss.py units 4722/4737 -> 4724/4733."
   }
  ]
 }
