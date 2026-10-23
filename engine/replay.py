@@ -78,6 +78,7 @@ RULES = {   # one switch per line; A/B each in tools/miss.py before keeping a ch
     'polaris_capture_freezes': True,
     'idle_auto_recover': True,
     'explode_poison_halves': True,
+    'push_saved_facing': True,
 }
 LOG = collections.Counter(); EVENTS = []
 
@@ -153,6 +154,8 @@ def push_target(st, u, actor):
     x, y = u.x, u.y; cx, cy = st.W // 2, st.H // 2
     atk, frm = getattr(u, "last_attack", None), getattr(u, "last_from", None)
     if atk is not None and stat(u).get("range", 1) > 1: d = (sgn(atk[0] - x), sgn(atk[1] - y))
+    elif RULES["push_saved_facing"] and getattr(u, "facing", None) is not None and getattr(u, "ever_moved", False):
+        d = u.facing                             # MEASURED af181c8f t15: the save's UnitDirection (kept up by moves); never-moved units' facing doesn't fit (t10)
     elif frm is not None and frm != (x, y):
         vx, vy = x - frm[0], y - frm[1]; m = max(abs(vx), abs(vy))
         if RULES["push_dir_round"]: d = (sgn(vx) * (2 * abs(vx) > m), sgn(vy) * (2 * abs(vy) > m))   # MEASURED (6e1bf8e0 t11, e15f392c t13): a 2-tile move (-2,-1) pushes on (-1,0)
@@ -345,6 +348,7 @@ def apply(st, a, turn):
             return                                                                                     # attacks it from where it stood
         old = u.type                             # Stomp uses the type before the move (a Juggernaut that lands as a Giant still stomps)
         enter(st, u, x0, y0, x1, y1); u.last_from = (x0, y0); explore(st, u.owner, x1, y1)
+        vx, vy = x1 - x0, y1 - y0; m = max(abs(vx), abs(vy), 1); u.facing = (sgn(vx) * (2 * abs(vx) > m), sgn(vy) * (2 * abs(vy) > m)); u.ever_moved = True
         if RULES["stomp"] and "stomp" in STATS.get(old, {}).get("skills", ()): stomp(st, u, old)
         if u.type in RULES["freezers"]: mooni_freeze(st, x1, y1, u.owner)
     elif t == 2:                                 # Attack
@@ -521,7 +525,7 @@ def prime_last_moves(st, acts, upto):
         if a["type"] == 6:
             _, x0, y0, x1, y1, uid = struct.unpack(FMT[6], bytes.fromhex(a["raw"])); last[uid] = ((x0, y0), (x1, y1))
     for u in st.units.values():
-        m = last.get(u.id)
+        m = last.get(u.id); u.ever_moved = m is not None
         if m and m[1] == (u.x, u.y): u.last_from = m[0]
 
 def snapshot_units(d):

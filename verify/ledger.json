@@ -851,6 +851,13 @@
    "level": "L3 (n=1) + replay A/B",
    "game_version": "v123 (measured in game)",
    "evidence": "6e1bf8e0 t14 action 2035: Bardur examined ruin (18,21) (ocean); t15 save: Rammership 431 (15 HP, created 14) carrying Warrior 432 at promotion 1. Engine RULES ruin_boat_passenger; miss.py units 4725/4732 -> 4726/4732."
+  },
+  {
+   "id": "SAVE-UNIT-FACING",
+   "rule": "Each tile's UnitDirection (5 bytes after UnitEffects) holds the unit's facing in byte 2: 0 NW, 1 W, 2 SW, 3 S, 4 SE, 5 E, 6 NE, 7 N. It follows the unit's last move (rounded to 8 directions); this is the hidden direction the forced-spawn push uses, so pushes read it from the save instead of guessing. Units that never moved also carry a facing, but it doesn't predict their push (af181c8f t10), so they keep the toward-attacker / toward-centre fallback.",
+   "level": "L3 (save field matches the last logged move's direction for about 85% of units with a move, 2 games; replay A/B 6 -> 5 unit misses, stars hold)",
+   "game_version": "v123 (saves)",
+   "evidence": "engine RULES push_saved_facing; verify/state_v123.py UnitDirection; af181c8f t15 (ruin push of Raychi id94 lands east as its facing says)"
   }
  ]
 }

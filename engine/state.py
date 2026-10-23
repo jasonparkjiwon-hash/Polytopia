@@ -14,6 +14,8 @@ TRIBE = {int(k): v for k, v in E["TribeType"].items()}
 START = json.load(open(os.path.join(ROOT, "data", "measured_start.json")))
 BOATS = {"Raft", "Scoutship", "Rammership", "Bomber", "Juggernaut"}   # Juggernaut: a Giant at sea (af181c8f, 19/19 Juggernauts carry a Giant)
 
+FACING = [(-1, -1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1)]   # UnitDirection byte 2 (MEASURED: = last move's direction)
+
 @dataclass
 class Unit:
     id: int; owner: int; type: str; x: int; y: int; hp: float; max_hp: float
@@ -41,7 +43,7 @@ class State:
                     self.city[(x, y)] = t["Owner"]
                     if 1 in (t.get("ImprovementData") or {}).get("CityRewards", []): self.wall.add((x, y))
                 if t.get("Unit"):
-                    self.add_unit_record(t["Unit"], t.get("PassengerUnit"), t.get("UnitEffects"))
+                    self.add_unit_record(t["Unit"], t.get("PassengerUnit"), t.get("UnitEffects"), t.get("UnitDirection"))
         self.players = {}
         for p in players:
             tr = TRIBE.get(p["Tribe"], str(p["Tribe"]))
@@ -52,7 +54,7 @@ class State:
         self.peace = {frozenset((p["PlayerId"], r["PlayerId"])) for p in players for r in p.get("Diplomacy", []) if r["RelationState"] == 1}
         self.max_unit_id = max(self.units) if self.units else 0
 
-    def add_unit_record(self, u, passenger=None, effects=None):
+    def add_unit_record(self, u, passenger=None, effects=None, direction=None):
         from stats import STATS
         name = UNIT.get(u["UnitType"], f"unit{u['UnitType']}")
         un = Unit(u["Id"], u["Owner"], name, u["cx"], u["cy"], u["Health"] / 10, 0, u["PromotionLevel"], u["Experience"])
@@ -61,6 +63,7 @@ class State:
             un.promotion = passenger["PromotionLevel"]   # MEASURED: the boat record's level is always 0; the passenger keeps veteran status (HP is the boat's)
         un.max_hp = max_hp(un); un.effects = effects or []
         un.saved_acted = bool(u.get("Moved") or u.get("Attacked"))   # flags as of the save, for a replay starting mid-turn
+        if direction and len(direction) > 2 and direction[2] < 8: un.facing = FACING[direction[2]]   # the way it faces: its last move
         self.units[un.id] = un; self.at[(un.x, un.y)] = un.id
 
 def max_hp(u):

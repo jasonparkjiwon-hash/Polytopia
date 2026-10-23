@@ -39,6 +39,11 @@ spawn) with the unit's last move, the 8 neighbours and where the next save shows
 - `explode_poison_halves`: poison halves the target's defence in an explosion too (t15
   Warrior id219, Defender id194; the save's UnitEffects showed both poisoned) → 13 → 12. Kept.
   Ledger EXPLODE-POISON-DEFENCE.
+- (botwar's "no move: toward attacker, else centre rounded" cleared t19 and t24.)
+- `push_saved_facing`: the save's UnitDirection byte 2 is the unit's facing (0 NW, W, SW, S,
+  SE, E, NE, N); pushes use it for units that have moved at least once → Raychi id94 fixed,
+  misses 6 → 5. Using it for never-moved units too sends t10 id169 onto the port: net hold, so
+  restricted. Ledger SAVE-UNIT-FACING.
 
 ## Push cases (all saves)
 
