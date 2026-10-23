@@ -15,7 +15,7 @@ LAND_UNITS = {"Warrior", "Rider", "Archer", "Defender", "MindBender", "Swordsman
               "Polytaur", "Mooni", "IceArcher", "BattleSled", "IceFortress", "Gaami", "Hexapod", "Kiton", "Shaman", "Exida", "Doomux",
               "Centipede", "Segment", "Larva", "SteamWagon", "SteamFortress", "Pyro", "AshArcher"}   # Aquarion units are amphibious/water: never embark
 WATER_UNITS = {"Shark", "Raychi", "Puffer", "Jelly", "Crab"}   # MEASURED: seen only on water, flooded tiles or cities (Mermaid walks on land)
-RULES = {"retaliation_uses_bonus": True, "melee_moves_in_on_kill": True, "t18_disband": False, "t18_break_ice": True, "t24_explode": True, "t38_swarm": True, "t38_attack_boost": False, "mooni_freezes_units": True, "retaliation_needs_sight": True, "frozen_no_retaliation": True, "freeze_on_hit": True, "tribe_super_unit": True, "bridge_is_land": True, "stomp": True, "summon_promotion": True, "hidden_attacker_no_retaliation": True,
+RULES = {"retaliation_uses_bonus": True, "melee_moves_in_on_kill": True, "t18_disband": False, "t18_break_ice": True, "t24_explode": True, "t38_swarm": True, "t38_attack_boost": False, "mooni_freezes_units": True, "retaliation_needs_sight": True, "frozen_no_retaliation": True, "freeze_on_hit": True, "tribe_super_unit": True, "bridge_is_land": True, "stomp": True, "summon_promotion": True, "peace_spares_area_damage": True, "hidden_attacker_no_retaliation": True,
          "algae_is_land": True, "flood_keeps_form": True, "resync_terrain": True, "kill_move_lands": True, "push_polyfish": True, "push_needs_climbing": True, "ruin_unit": True, "mooni_freeze": True, "water_units_stay": True, "shaman_convert": True, "shaman_damage": True,
          "poison": True, "attack_splash": True, "poison_recover_cures": True,
          "mooni_freezes": ("Water", "Ocean"), "freezers": ("Mooni", "Gaami"), "giant_juggernaut": True,
@@ -212,11 +212,16 @@ SUPER_UNIT = {"Polaris": "Gaami", "Aquarion": "Crab", "Elyrion": "DragonEgg", "C
 def add_effect(u, e):
     if e not in u.effects: u.effects = list(u.effects) + [e]
 
+def hostile(st, a, b):
+    """Different tribes not at peace (Polyfish get_true_enemy_at). MEASURED af181c8f t25: an Ai-Mo Stomp left an Imperius Defender
+    (at peace) untouched."""
+    return a != b and not (RULES["peace_spares_area_damage"] and frozenset((a, b)) in st.peace)
+
 def stomp(st, u, old):
     """Polyfish move_unit Stomp: after moving, every adjacent enemy takes half the normal attack damage, floored (MEASURED af181c8f t25:
     an Ai-Mo Juggernaut landing next to three wounded Oumaji units killed them with no logged attack)."""
     sa = STATS[old]
-    for d in [e for e in st.units.values() if e.owner != u.owner and dist((e.x, e.y), (u.x, u.y)) == 1 and st.at.get((e.x, e.y)) == e.id]:
+    for d in [e for e in st.units.values() if hostile(st, e.owner, u.owner) and dist((e.x, e.y), (u.x, u.y)) == 1 and st.at.get((e.x, e.y)) == e.id]:
         af = sa["atk"] * u.hp / u.max_hp; df = stat(d)["def"] * d.hp / d.max_hp * defence_bonus(st, d); tot = af + df
         d.hp -= math.floor(rnd(af / tot * sa["atk"] * 4.5) / 2) if tot > 0 else 0
         if d.hp <= 0: remove(st, d)
@@ -275,7 +280,7 @@ def apply(st, a, turn):
             df.owner = at.owner; LOG["convert"] += 1; EVENTS.append(("convert", turn, at.type, df.type)); return
         dmg, ret, bonus = fight(st, at, df); at.boosted = False; at.last_attack = (tx, ty)
         if RULES["attack_splash"] and "splash" in stat(at)["skills"]:   # Polyfish: enemies next to the target take half their own damage, floored
-            for e in [u for u in st.units.values() if u.owner != at.owner and u is not df and dist((u.x, u.y), (tx, ty)) == 1 and st.at.get((u.x, u.y)) == u.id]:
+            for e in [u for u in st.units.values() if hostile(st, u.owner, at.owner) and u is not df and dist((u.x, u.y), (tx, ty)) == 1 and st.at.get((u.x, u.y)) == u.id]:
                 sd = math.floor(fight(st, at, e)[0] / 2); e.hp -= sd
                 if RULES["poison"] and "poison" in stat(at)["skills"]: add_effect(e, POISON)
                 if e.hp <= 0: remove(st, e)
@@ -320,6 +325,11 @@ def apply(st, a, turn):
         if imp == 30: spawn(st, pl, "Polytaur", x, y); LOG["enchant animal"] += 1
         if imp == 8: st.port.add((x, y))
         if imp == 48: st.bridge.add((x, y))
+    elif t == 28:                                # peace reply: 1 = accepted
+        p1, p2, flag = v
+        if flag == 1: st.peace.add(frozenset((p1, p2)))
+    elif t == 29:                                # break peace
+        _, x, y, other = v; st.peace.discard(frozenset((pl, other)))
     elif t == 7 and RULES.get("territory", True):  # Capture: the city's tile and the 8 around it become the captor's (unowned or owned by the old owner)
         _, uid, x, y = v; old = st.city.get((x, y))
         for dy in (-1, 0, 1):
@@ -378,7 +388,7 @@ def apply(st, a, turn):
         if u and u.owner == pl:
             sa = stat(u)
             for d in list(st.units.values()):
-                if d.owner != pl and dist((d.x, d.y), (x, y)) == 1 and st.at.get((d.x, d.y)) == d.id:
+                if hostile(st, d.owner, pl) and dist((d.x, d.y), (x, y)) == 1 and st.at.get((d.x, d.y)) == d.id:
                     af = sa["atk"] * u.hp / u.max_hp; df = stat(d)["def"] * d.hp / d.max_hp * defence_bonus(st, d); tot = af + df
                     dmg = math.floor(rnd(af / tot * sa["atk"] * 4.5) / 2) if tot > 0 else 0
                     d.hp -= dmg

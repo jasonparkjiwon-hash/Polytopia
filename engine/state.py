@@ -49,6 +49,7 @@ class State:
             if which == "initial":       # start techs are granted by StartMatch (measured_start.json)
                 techs |= set(START.get(tr, {}).get("after_match_start", {}).get("techs", []))
             self.players[p["PlayerId"]] = Player(p["PlayerId"], tr, techs, p["Currency"])
+        self.peace = {frozenset((p["PlayerId"], r["PlayerId"])) for p in players for r in p.get("Diplomacy", []) if r["RelationState"] == 1}
         self.max_unit_id = max(self.units) if self.units else 0
 
     def add_unit_record(self, u, passenger=None, effects=None):
