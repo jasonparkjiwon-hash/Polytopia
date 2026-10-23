@@ -219,7 +219,8 @@ Jason (Imperius) vs 15 Hard bots on a 30x30 map, exported every turn from 1 to 1
   - A boat on Cymanti algae stays a boat.
   - A tribe with no cities left loses its units.
   - Per-turn replay: 2310 → 2356 exact. Full replay: 2157 → 2252 exact over 24 checkpoints.
-  - The bot war and Misty Fields saves were not in this session, so the A/B check against them is still owed.
+  - A/B on Misty Fields (e15f392c), turns 13-16: 132, 144, 148, 157 → 133, 143, 149, 157 exact. The port-kill rule accounts for all of it (+1, −1, +1).
+  - The bot war check is still owed: those saves only exist in polytopia-ai.zip.
 - **Flood and algae:** the save's flood flag is the TileEffect enum (1 Flooded, 4 Algae). On Aquarion-flooded land, boats stay boats and walkers stay walkers (a city is plain land). On Cymanti algae, land units walk on water.
 - **Moving in after a kill:** a boat landing after a kill drops its passenger. A land unit doesn't follow a kill into water. Sharks and Raychi (water-only) don't follow onto dry land.
 - **Boat records:** a boat's own record always shows promotion 0. The passenger record keeps veteran status, and the boat's HP is the live value.
