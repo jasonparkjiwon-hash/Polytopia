@@ -571,6 +571,13 @@
    "level": "L3",
    "game_version": "v123 (measured in game)",
    "evidence": "Jason in game 2026-10-23; Polyfish freeze_area applies Frozen to adjacent enemies; saves: 3 of the 4 frozen units ever seen stand next to an enemy Mooni (saves are taken after most freezes wear off). Engine RULES mooni_freezes_units; no change to HP or position scores."
+  },
+  {
+   "id": "C20",
+   "rule": "No retaliation when the defender cannot see the attacker (wiki). Polyfish and PolyEnv have no such check.",
+   "level": "L1 split (wiki; Jason quoting the wiki) vs Polyfish + PolyEnv; untestable in the saves so far",
+   "game_version": "undated wiki vs v115 (Polyfish)",
+   "evidence": "verify/c20_test.py: over 1198 attacks replayed turn by turn (5 games), no attack came from a tile the defender's tribe had not explored while the defender was in range to retaliate, so both readings give the same 4679 exact units. A melee attacker is always seen (adjacent); a ranged attacker from fog is normally out of the defender's range anyway. Only a hidden Cloak/Dagger or a long-range defender (Archer, Catapult) shot at from fog can separate them; 2 Cloaks/Daggers were trained in 34 games. Test item: attack an enemy Archer with a hidden Cloak, or shoot an enemy Archer from a tile 2 away that its tribe hasn't explored, and note whether it shoots back."
   }
  ]
 }
