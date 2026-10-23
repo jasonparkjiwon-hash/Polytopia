@@ -5,8 +5,8 @@
 - **Goal:** a Polytopia AI "wartime general" that beats the built-in bots (Hard first, then Crazy).
 - **Roles:** Jason is the president and gives orders; Claude is the general.
 - **Priority:** winning, combat first. Score doesn't matter.
-- **Phases:** 1 data and verification (now) → 2 advisor mode → 3 forward model → 4 fog inference → 5 search → 6 bot model and exploits → 7 directives. See `docs/polytopia_ai_roadmap.md`.
-- **Phase 1 exit gates:** see `docs/polytopia_ai_phase_1_spec.md`. The advisor stays on hold until they pass.
+- **Phases:** 1 data and verification (done, 23 Oct 2026) → 2 advisor mode (next, on Jason's go) → 3 forward model → 4 fog inference → 5 search → 6 bot model and exploits → 7 directives. See `docs/polytopia_ai_roadmap.md`.
+- **Phase 1 exit gates:** see `docs/polytopia_ai_phase_1_spec.md`. All six passed on 23 Oct 2026. Before Phase 3, load real saves into Polyfish (`docs/simulator_choice.md`).
 
 ## Working with Jason
 
