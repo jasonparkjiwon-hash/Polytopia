@@ -89,7 +89,7 @@
 
 ## Open work (hand-off, 23 Oct 2026)
 
-Phase 1 is done. Replay is at 4709/4753 units (99.1%) and 754/819 star player-turns exact (`tools/miss.py`).
+Phase 1 is done. Replay is at 4709/4753 units (99.1%) and 762/819 star player-turns exact (`tools/miss.py`).
 
 1. **Unit misses left (44):** bot war turn 11-15 (23, mostly 1-5 HP off and units the engine keeps alive; saves 4 turns apart, so cause is hard to isolate) and Oasis Struggle (21, one spot each; trace with `tools/trace.py`). One explosion (Oasis t25, three targets 1 HP less) fits no variant.
 2. **Star misses left (65):**

@@ -291,3 +291,4 @@ Jason (Imperius) vs 15 Hard bots on a 30x30 map, exported every turn from 1 to 1
 - **Gate A passes, 23 Oct.** Two L0 items stay as test items outside its scope (ruins and diplomacy):
   - Elyrion ruin rewards.
   - Units disbanded when peace breaks.
+- ECON-BOT-BONUS: bonus is also not paid while the capital is besieged (enemy unit on it). A/B: stars exact 754->762/819, units unchanged.

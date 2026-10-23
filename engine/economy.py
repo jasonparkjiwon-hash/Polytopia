@@ -71,7 +71,7 @@ class Books:
             cs = [(q, c) for q, c in cs if not (units.get(q) is not None and units[q] != pl)]
         if model == "production": return sum(c["Production"] for _, c in cs)
         bonus = max(0, self.handicap.get(pl, 1) - 1)     # MEASURED: bot bonus = DifficultyHandicap - 1 stars a turn (Easy 1, Hard 2)
-        if BONUS_NEEDS_CAPITAL and not any(self.capital.get(q) == pl and c["owner"] == pl for q, c in self.city.items()): bonus = 0
+        if BONUS_NEEDS_CAPITAL and not any(self.capital.get(q) == pl and c["owner"] == pl for q, c in (cs if BONUS_NEEDS_FREE_CAPITAL else self.city.items())): bonus = 0
         tot = bonus if any(c["owner"] == pl for c in self.city.values()) else 0
         for e in self.embassies:                        # both the builder and the host earn from an embassy, unless at war
             if pl in e:
@@ -127,6 +127,7 @@ def book(b, a):
 RUIN_STARS = 10
 PEACE, WAR = 1, 3           # RelationState values (0 = neutral)
 BONUS_NEEDS_CAPITAL = True
+BONUS_NEEDS_FREE_CAPITAL = True   # A/B 2026-10-23: a besieged capital also loses the bot bonus
 NEG_POP = True
 PAID_AT_TURN_START = False  # MEASURED: a save taken right at a turn start does not hold that turn's income yet; a mid-turn save does (596 vs 562 exact)
 
