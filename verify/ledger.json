@@ -297,6 +297,12 @@
    "evidence": "engine replay 6e1bf8e0"
   },
   {
+   "id": "UNIT-ID-48",
+   "rule": "Unit type id 48 = Swordsmaid (Aquarion's Swordsman: 15hp 3/3, Dash).",
+   "level": "L3",
+   "evidence": "save af181c8f (Oasis Struggle, turns 1-26): all 45 type-48 units belong to Aquarion; its 18 Train actions all come after Aquarion researched Smithery; freshly trained ones show 15 HP at most. Stats from the v123 card (data/measured_ui.json)."
+  },
+  {
    "id": "ACTION-TYPES-V123",
    "rule": "Action meanings inferred from context: 27 = Establish Embassy (player, foreign capital x,y, owner id); 30 = embassy/peace follow-up on the same capital; 28 = diplomacy reply at turn start (player, other player, flag); 38 = Shaman ability: the save shows the Swift effect (UnitEffect 6) on Cymanti units, which matches Polyfish's v115 note that Boost became Swarm (movement only). The engine's +0.5 attack for 38 changes nothing in any replay, so attack-or-movement is still a test item; 24 = Explode (Cymanti Boomchi); Build type 30 = Enchant Animal (Elyrion, spawns a Polytaur). Type 18 is NOT Disband (36 more in e15f392c); still unknown. 14 = Examine Ruins.",
    "level": "L1",
@@ -334,9 +340,39 @@
   },
   {
    "id": "MOONI-FREEZE",
-   "rule": "Right after a Polaris Mooni moves or captures, the water tiles around it are ice, so land units walk onto them without boarding. Ice also melts back later (e15f392c (15,10): ice at turn 4, water at 5, ice at 6). Ocean freezing not seen yet.",
+   "rule": "Right after a Polaris Mooni moves or captures, the water tiles around it are ice, so land units walk onto them without boarding. Ice also melts back later (e15f392c (15,10): ice at turn 4, water at 5, ice at 6). Ocean freezes too (af181c8f: 45 of 70 new ice tiles were ocean; 61 of the 70 were next to a Mooni or Gaami).",
    "level": "L3 (4/4 Warrior-on-ice cases in e15f392c) + Polyfish AutoFreeze",
    "evidence": "engine RULES mooni_freeze; e15f392c turns 5, 7, 8, 12"
+  },
+  {
+   "id": "GIANT-JUGGERNAUT",
+   "rule": "A Giant that goes to sea becomes a Juggernaut (not a Raft); on landing it is a Giant again.",
+   "level": "L3",
+   "evidence": "af181c8f: 19 of 19 Juggernauts in turns 1-26 carry a Giant; no Juggernaut ever comes from an Upgrade action (37 upgrades: Scoutship 19, Rammership 17, Bomber 1). Engine RULES giant_juggernaut."
+  },
+  {
+   "id": "PORT-KILL-EMBARK",
+   "rule": "A land unit that kills a unit standing on a port moves in and boards (it becomes a boat).",
+   "level": "L3 (n=1)",
+   "evidence": "af181c8f turn 14: Ai-Mo Warrior 271 kills a Raychi on the port at (20,21), is then that tile's passenger, and the boat is upgraded to a Bomber. Engine RULES port_kill_embark."
+  },
+  {
+   "id": "PUSH-ONTO-PORT",
+   "rule": "A forced spawn can push a land unit onto a neighbouring port, where it boards.",
+   "level": "L3 (n=2)",
+   "evidence": "af181c8f turns 15 and 21: an Ai-Mo Warrior trained in the city at (20,22), pushed out by the Giant reward, ends up as the passenger of a boat on the port at (19,21) (direction toward the map centre, as in Polyfish). Engine RULES push_onto_port; net +1 exact in the per-turn replay."
+  },
+  {
+   "id": "ALGAE-KEEPS-BOATS",
+   "rule": "A boat moving onto Cymanti algae stays a boat with its passenger aboard (land units still walk on algae unboarded).",
+   "level": "L3 (n=2)",
+   "evidence": "af181c8f: Xin-xi Scoutship 501 at (20,9) on turn 22 and Rammership 499 at (21,13) on turn 25, both carrying a Swordsman on flood value 4. Engine RULES algae_keeps_boats."
+  },
+  {
+   "id": "NO-CITIES-NO-UNITS",
+   "rule": "When a tribe loses its last city, its remaining units are removed.",
+   "level": "L3 (n=1)",
+   "evidence": "af181c8f: Kickoo lost its last city on turn 10 (DestroyedTurn 10, by Xin-xi); its leftover Warriors are gone by the turn-12 save. Engine RULES no_cities_no_units."
   },
   {
    "id": "FLOOD-ALGAE",

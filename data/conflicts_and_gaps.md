@@ -205,13 +205,21 @@ All six are Massive maps, game v123, turn 0, each with 15 Crazy bots, giving 96 
 - `engine/` (stats.py, state.py, replay.py) replays a save's actions from turn 0 and compares unit HP, type, position and owner at each exported checkpoint.
 - **Bot war 6e1bf8e0 (16 players, 468 attacks by turn 15):** at turn 5, 63 of 66 units have exact HP. Matches drop later: 77 at turn 11 and 93 at turn 15, against 14 and 20 HP mismatches, because of the open items below.
 - **Settled by A/B replay (L2):** C6, the counter-attack does include the defence bonus. Also settled: the city bonus applies only to Fortify units (4 with walls), the terrain bonus needs its tech, rounding is half-up, there is no counter-attack from out of range, and melee attackers move in after a kill.
-- **Still to model:** Aquarion v123 units (ids 46 and 53 are not in any enum; 46 is amphibious and probably Shark-like), boat HP, healing (passive or reward?), unknown action types 18/24/27/38 (abilities), splash, poison, explode (Cymanti), and Polaris freezing.
+- **Still to model:** Aquarion v123 units (ids 46, 48 and 53 are not in any enum: 46 Mermaid, 48 Swordsmaid, 53 Shark; the other Aquarion ids are still unknown), boat HP, healing (passive or reward?), unknown action types 18/24/27/38 (abilities), splash, poison, explode (Cymanti), and Polaris freezing.
 
 ## The Misty Fields (e15f392c), 16 turns in a row, 2026-10-23
 Jason (Imperius) vs 15 Hard bots on a 30x30 map, exported every turn from 1 to 16 (2254 actions, all decoded). This game has Aquarion, Polaris and Cymanti, so it exercises most of the special rules. A per-turn tool (restart from each save, replay one turn) pinned each mismatch to its turn. Every change below was A/B tested on all three replay games and kept only if no score dropped.
 - **Push direction (was L0, now L2):** Polyfish's rule. The unit keeps going the way it last moved, enemies go the opposite way, and a unit that hasn't moved goes toward the map centre. 2/2 ruin pushes land on the saved tile. Ankiian turn 3 is now exact.
 - **Ruins (C14, G4):** a unit reward spawns on the ruin tile and pushes the explorer. The log grows to 13 ruins (above). The weights are still open.
-- **Polaris ice:** a Mooni freezes the water around it straight after it moves or captures (4/4 cases). Ice also melts again, which is not modelled; the replay re-reads terrain at each checkpoint.
+- **Polaris ice:** a Mooni freezes the water and ocean around it straight after it moves or captures (4/4 cases). Ice also melts again, which is not modelled; the replay re-reads terrain at each checkpoint.
+- **Oasis Struggle (af181c8f, turns 1-26, 16 tribes):**
+  - Unit id 48 is the Aquarion Swordsmaid.
+  - A Giant at sea is a Juggernaut.
+  - A land unit can board at a port after a kill there or when pushed there.
+  - A boat on Cymanti algae stays a boat.
+  - A tribe with no cities left loses its units.
+  - Per-turn replay: 2310 → 2356 exact. Full replay: 2157 → 2252 exact over 24 checkpoints.
+  - The bot war and Misty Fields saves were not in this session, so the A/B check against them is still owed.
 - **Flood and algae:** the save's flood flag is the TileEffect enum (1 Flooded, 4 Algae). On Aquarion-flooded land, boats stay boats and walkers stay walkers (a city is plain land). On Cymanti algae, land units walk on water.
 - **Moving in after a kill:** a boat landing after a kill drops its passenger. A land unit doesn't follow a kill into water. Sharks and Raychi (water-only) don't follow onto dry land.
 - **Boat records:** a boat's own record always shows promotion 0. The passenger record keeps veteran status, and the boat's HP is the live value.

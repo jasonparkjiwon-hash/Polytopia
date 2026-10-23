@@ -18,7 +18,9 @@ WATER_UNITS = {"Shark", "Raychi", "Puffer", "Jelly", "Crab"}   # MEASURED: seen 
 RULES = {"retaliation_uses_bonus": True, "melee_moves_in_on_kill": True, "t18_disband": False, "t24_explode": True, "t38_boost": True,
          "algae_is_land": True, "flood_keeps_form": True, "resync_terrain": True, "kill_move_lands": True, "push_polyfish": True, "ruin_unit": True, "mooni_freeze": True, "water_units_stay": True, "shaman_convert": True, "shaman_damage": True,
          "poison": True, "attack_splash": True, "poison_recover_cures": True,
-         "mooni_freezes": ("Water",)}
+         "mooni_freezes": ("Water", "Ocean"), "freezers": ("Mooni",), "giant_juggernaut": True,
+         "port_kill_embark": True, "algae_keeps_boats": True,
+         "push_onto_port": True, "no_cities_no_units": True}
 LOG = collections.Counter(); EVENTS = []
 
 def dist(a, b): return max(abs(a[0] - b[0]), abs(a[1] - b[1]))
@@ -90,7 +92,7 @@ def push_target(st, u, actor):
     for dx, dy in order:
         q = (x + dx, y + dy)
         if q not in st.terrain or q in st.at: continue
-        if u.type in LAND_UNITS and is_water(st, *q): continue
+        if u.type in LAND_UNITS and is_water(st, *q) and not (RULES["push_onto_port"] and q in st.port): continue   # MEASURED (af181c8f t15): a port takes it, and it boards
         if u.type not in LAND_UNITS and u.type in BOATS and not is_water(st, *q): continue
         return q
     return None
@@ -107,7 +109,7 @@ def spawn(st, owner, name, x, y):
             free = [(x + dx, y + dy) for dy in (-1, 0, 1) for dx in (-1, 0, 1) if (dx or dy) and (x + dx, y + dy) in st.terrain and (x + dx, y + dy) not in st.at]
             land = [q for q in free if st.terrain[q] not in ("Water", "Ocean")]
             q = (land or free or [None])[0]
-        if q is not None: place(st, old, *q); EVENTS.append(("push", old.id, (x, y), q))
+        if q is not None: enter(st, old, x, y, *q); EVENTS.append(("push", old.id, (x, y), q))
         else: st.at.pop((x, y), None)
     st.units[u.id] = u; st.at[(x, y)] = u.id
     return u
@@ -155,10 +157,13 @@ def enter(st, u, x0, y0, x1, y1):
     if RULES["algae_is_land"]:                     # MEASURED (e15f392c): land units stand on Cymanti algae (flood value 4) unboarded
         if st.flood.get((x1, y1)) == 4: ter = "Field"
         if st.flood.get((x0, y0)) == 4: ter0 = "Field"
-    if RULES["flood_keeps_form"] and st.flood.get((x1, y1)) == 1 and ter not in water and (x1, y1) not in st.city:
+    if RULES["algae_keeps_boats"] and st.flood.get((x1, y1)) == 4 and u.type in BOATS:
+        pass                                     # MEASURED (af181c8f t22, t25): a boat moving onto Cymanti algae stays a boat, passenger aboard
+    elif RULES["flood_keeps_form"] and st.flood.get((x1, y1)) == 1 and ter not in water and (x1, y1) not in st.city:
         pass                                     # MEASURED: on Aquarion-flooded land a boat stays a boat and a land unit stays on foot (a city is plain land)
     elif ter in water and ter0 not in water and u.type in LAND_UNITS:
-        u.passenger = u.type; u.type = "Raft"        # a land unit stepping into water becomes a Raft
+        u.passenger = u.type                         # a land unit stepping into water becomes a Raft; MEASURED (af181c8f): a Giant becomes a Juggernaut
+        u.type = "Juggernaut" if RULES["giant_juggernaut"] and u.type == "Giant" else "Raft"
         if RULES.get("boat_new_id", True):            # MEASURED: the boat is a new unit id; the passenger keeps its own id
             u.passenger_id = u.id; TEMP[0] -= 1; st.units.pop(u.id, None)
             if st.at.get((u.x, u.y)) == u.id: st.at[(u.x, u.y)] = TEMP[0]
@@ -179,7 +184,8 @@ def add_effect(u, e):
     if e not in u.effects: u.effects = list(u.effects) + [e]
 
 def mooni_freeze(st, x, y):
-    """MEASURED (e15f392c, 4/4 cases): right after a Mooni moves or captures, the water around it is ice, so land units walk on it."""
+    """MEASURED (e15f392c, 4/4 cases): right after a Mooni moves or captures, the water around it is ice, so land units walk on it.
+    MEASURED (af181c8f): ocean freezes too (45 of 70 new ice tiles were ocean; 61 of the 70 were next to a Mooni or Gaami)."""
     if not RULES["mooni_freeze"]: return
     for dy in (-1, 0, 1):
         for dx in (-1, 0, 1):
@@ -202,7 +208,7 @@ def apply(st, a, turn):
         _, x0, y0, x1, y1, uid = v
         u = locate(st, uid, x0, y0, pl)
         enter(st, u, x0, y0, x1, y1); u.last_from = (x0, y0)
-        if u.type == "Mooni": mooni_freeze(st, x1, y1)
+        if u.type in RULES["freezers"]: mooni_freeze(st, x1, y1)
     elif t == 2:                                 # Attack
         _, uid, ox, oy, tx, ty = v
         at = locate(st, uid, ox, oy, pl)
@@ -234,7 +240,8 @@ def apply(st, a, turn):
             remove(st, df); at.xp += 1
             if RULES["melee_moves_in_on_kill"] and dist((ox, oy), (tx, ty)) == 1 and "stiff" not in stat(at)["skills"] and stat(at).get("range", 1) == 1:
                 if not RULES["kill_move_lands"]: place(st, at, tx, ty)
-                elif at.type in LAND_UNITS and is_water(st, tx, ty): pass   # a land unit doesn't follow a kill into water
+                elif at.type in LAND_UNITS and is_water(st, tx, ty) and not (RULES["port_kill_embark"] and (tx, ty) in st.port):
+                    pass                                 # a land unit doesn't follow a kill into water, except onto a port (MEASURED af181c8f t14: it boards)
                 elif RULES["water_units_stay"] and at.type in WATER_UNITS and not (is_water(st, tx, ty) or (tx, ty) in st.flood or (tx, ty) in st.city):
                     pass                                 # MEASURED (e15f392c t9): a Shark doesn't follow a kill onto dry land
                 else:
@@ -261,6 +268,7 @@ def apply(st, a, turn):
     elif t == 1:                                 # Build (only unit-spawning builds matter for combat)
         _, imp, x, y = v
         if imp == 30: spawn(st, pl, "Polytaur", x, y); LOG["enchant animal"] += 1
+        if imp == 8: st.port.add((x, y))
     elif t == 7 and RULES.get("territory", True):  # Capture: the city's tile and the 8 around it become the captor's (unowned or owned by the old owner)
         _, uid, x, y = v; old = st.city.get((x, y))
         for dy in (-1, 0, 1):
@@ -268,8 +276,11 @@ def apply(st, a, turn):
                 q = (x + dx, y + dy)
                 if q in st.terrain and st.owner.get(q) in (0, old, None): st.owner[q] = pl
         st.city[(x, y)] = pl
+        if RULES["no_cities_no_units"] and old and old != pl and old not in st.city.values():   # MEASURED (af181c8f t10): Kickoo lost its last city
+            for u in [u for u in st.units.values() if u.owner == old]: remove(st, u)          # and its remaining units were gone by the next save
+            LOG["tribe destroyed"] += 1
         cu = st.units.get(uid)
-        if cu is not None and cu.type == "Mooni": mooni_freeze(st, x, y)
+        if cu is not None and cu.type in RULES["freezers"]: mooni_freeze(st, x, y)
     elif t == 7:                                 # Capture village/city
         _, uid, x, y = v; st.city[(x, y)] = pl
     elif t == 8:                                 # Research
@@ -365,10 +376,11 @@ def run(final, checkpoints):
                 for yy, row in enumerate(cd["currentTiles"]):
                     for xx, tt in enumerate(row): st.owner[(xx, yy)] = tt["Owner"]
             if RULES["resync_terrain"]:                  # ice (Mooni freeze, melts again), Aquarion flood and Cymanti algae change outside the log
-                st.flood = {}; st.fungi = {}
+                st.flood = {}; st.fungi = {}; st.port = set()
                 for yy, row in enumerate(cd["currentTiles"]):
                     for xx, tt in enumerate(row):
                         if tt.get("ImprovementExists") and tt["ImprovementType"] == 37: st.fungi[(xx, yy)] = tt["Owner"]
+                        if tt.get("ImprovementExists") and tt["ImprovementType"] == 8: st.port.add((xx, yy))
                         st.terrain[(xx, yy)] = TERRAIN.get(tt["Terrain"], tt["Terrain"])
                         if tt.get("FloodedFlag"): st.flood[(xx, yy)] = tt.get("FloodedValue", 1)
         if a["type"] == 15 and bytes.fromhex(a["raw"])[0] == 255: turn += 1
