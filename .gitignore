@@ -16,3 +16,6 @@ verify/statedebug/statedebug
 
 # Real game saves and their decoded JSON stay local (not committed)
 saves/
+
+# Personal Claude Code notes, one per person
+CLAUDE.local.md
