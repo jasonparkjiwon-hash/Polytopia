@@ -1,6 +1,6 @@
 # Bot war (6e1bf8e0) t5-15: unit misses, saves 4-6 turns apart
 
-_Owner: polish-botwar session · started 2026-10-23 · paused 2026-10-23 at 2 misses_
+_Owner: polish-botwar session · started 2026-10-23 · **done 2026-10-23: 0 misses** (units 4728/4728 in all games)_
 
 ## Symptom
 
@@ -47,21 +47,12 @@ Miss tuples are `(save, engine)`: `(owner, type, x, y, hp, promotion)`.
 - Pushes skip forest (both remaining push cases avoided a free forest): 4727/4731 → 4727/4739 (round on),
   4725/4741 (round off).
 
-## Current theory
+## Resolution (after Jason's answers)
 
-- **Giant 290 (t11->15):** the chain only fits if Kickoo Warrior 36's hit at 1562 on the Zebasi Juggernaut
-  (Giant aboard, on Zebasi's own port (22,6), no Aquatism) did 2, not 3, i.e. the Juggernaut had a 1.5
-  defence bonus there: then 40→38→35→32→29 exactly. No general rule found that gives it.
-- **Trainee -94 (t5->11):** a Warrior trained at (2,9) at action 1060 and pushed by the Giant reward at
-  1062 went to (2,10). Plain sign order toward the centre gives (2,10); `push_centre_round` gives (3,8).
-  Rounding wins 3 other pushes, so it stays. Never-moved push cases so far: 4; no single rule fits all.
-
-## Next step
-
-Both remaining misses can't be pinned with saves 4-6 turns apart. In-game tests that would settle them
-(also in status.md "Waiting on Jason"):
-
-1. Move a Giant onto your own port (it becomes a Juggernaut), without Aquatism, and let an enemy Warrior
-   attack it there. Note the damage (3 means no bonus, 2 means a 1.5 bonus).
-2. Any game: export a save the turn before and the turn after a super-unit (Giant) city reward that lands
-   on a unit trained that same turn.
+- Jason: pushes try the counter-clockwise side first (`push_ccw_first`, added by another stream); no port defence bonus.
+- **Trainee -94:** new units face the map centre, nearest of 8 by angle (824/871 saved facings match; the axis
+  rounding fitted 756). `push_centre_round = 'angle'`: the trainee at (2,9) faces (1,1), (3,10) is blocked,
+  CCW next is (2,10) = save. 4727/4729 → 4727/4728.
+- **Giant 290:** a Giant boarding its port as a Juggernaut stomps (`stomp_after_boarding`): Kickoo Warrior 36
+  drops to 4 HP, its hit at 1562 does 2, Giant 38→35→32→29 = save. 4727/4728 → 4728/4728.
+  Ledger PUSH-NEVER-MOVED (updated), STOMP-ON-BOARDING.

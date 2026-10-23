@@ -797,13 +797,6 @@
    "evidence": "Star check (engine/economy.py TIER): each was the only unknown on a one-turn row; Polarism: af181c8f p6 t10->12, residual -10 at 2 cities (801 -> 802)."
   },
   {
-   "id": "PUSH-NEVER-MOVED",
-   "rule": "Push direction for a unit with no move: (a) if it was attacked, toward the attacker (as if it had stepped away from it); (b) otherwise toward the map centre, rounded to the nearest of the 8 directions like a multi-tile move ((-1,+13) pushes on (0,+1)). Then Polyfish's fallback order (PUSH-DIRECTION).",
-   "level": "L3 (replay A/B, 3 fits vs 1 counter-case)",
-   "game_version": "v123 (measured in game)",
-   "evidence": "6e1bf8e0 t13 action 1849: Oumaji Swordsman 317, trained in (16,2), hit from (17,1) at 1538, pushed onto (17,1) by the Giant reward (toward the centre would be (15,3)). Rounded centre: 6e1bf8e0 t14 Giant 387 pushed (16,2)->(16,3); af181c8f t19 and t24 pushes now land on the saved tiles. Counter-case: 6e1bf8e0 t9 action 1062, a Warrior trained at (2,9) two actions earlier went to (2,10), which plain sign order gives and rounding doesn't. Still open: af181c8f t10 Warrior 169 pushed (2,17)->(1,18). Engine RULES push_toward_attacker, push_centre_round; miss.py units 4722/4737 -> 4724/4733."
-  },
-  {
    "id": "ECON-MEET",
    "rule": "Meeting a tribe gives 1 + 2*min(ceil(score/1000), 5) stars, from the MET tribe's score when met (Polyfish get_star_exchange). The log has no meet event; it is read from the Encountered lists.",
    "level": "L3",
@@ -865,6 +858,20 @@
    "level": "L3 (Jason in game, 23 Oct 2026 + the one deciding save push, af181c8f t10; no save has a push with no open tile)",
    "game_version": "v123 (saves + Jason in game)",
    "evidence": "engine RULES push_ccw_first, push_no_room_removes; Jason's in-game answer 23 Oct 2026; af181c8f t10 (south blocked, Warrior id169 went SW, not SE)"
+  },
+  {
+   "id": "PUSH-NEVER-MOVED",
+   "rule": "Push direction for a unit with no move: (a) if it was attacked, toward the attacker; (b) otherwise the way a new unit faces: toward the map centre (W//2, H//2), nearest of the 8 directions by angle. Blocked: counter-clockwise side first (PUSH-DIRECTION).",
+   "level": "L3 (871 saved facings + replay A/B)",
+   "game_version": "v123 (measured in game)",
+   "evidence": "Saves: units on their spawn tile that never moved face the centre by nearest angle in 824/871 cases (sign only 543, axis-rounding 756). 6e1bf8e0 t9 action 1062: trainee at (2,9) faces (1,1), (3,10) blocked, CCW next (2,10) = save; t13 1849: Swordsman 317 hit from (17,1) pushed onto (17,1); t14 Giant 387 (16,2)->(16,3). Engine RULES push_toward_attacker, push_centre_round='angle'; miss.py units 4727/4729 -> 4727/4728."
+  },
+  {
+   "id": "STOMP-ON-BOARDING",
+   "rule": "A Giant that boards (moves onto water or its port and becomes a Juggernaut) stomps the enemies next to its new tile, like a Juggernaut moving.",
+   "level": "L3 (n=1) + replay A/B",
+   "game_version": "v123 (measured in game)",
+   "evidence": "6e1bf8e0 t12 action 1549: Zebasi Giant 290 moved onto its port (22,6); Kickoo Warrior 36 next to it then hit the Juggernaut for 2 (only fits at 4 HP = 10 - floor(12/2) stomp), giving Giant 290 exactly 29 HP at t15 (38-3-3-3). Jason: no port defence bonus. Engine RULES stomp_after_boarding; miss.py units 4727/4728 -> 4728/4728."
   }
  ]
 }

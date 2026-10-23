@@ -67,7 +67,8 @@ RULES = {   # one switch per line; A/B each in tools/miss.py before keeping a ch
     'stiff_boat_lands': True,
     'stomp_on_kill_move': True,
     'move_blocked_by_hidden': True,
-    'push_centre_round': True,
+    'push_centre_round': 'angle',
+    'stomp_after_boarding': True,
     'push_toward_attacker': True,
     'push_port_first_only': True,
     'ruin_boat_passenger': True,
@@ -166,7 +167,9 @@ def push_target(st, u, actor):
     if d is not None and u.owner != actor: d = (-d[0], -d[1])
     if d is None or d == (0, 0):
         vx, vy = cx - x, cy - y; m = max(abs(vx), abs(vy), 1)
-        if RULES["push_centre_round"]: d = (sgn(vx) * (2 * abs(vx) > m), sgn(vy) * (2 * abs(vy) > m))   # MEASURED 6e1bf8e0 t14: (-1,+13) pushes on (0,+1)
+        if RULES["push_centre_round"] == "angle":   # MEASURED: a new unit faces the centre, nearest of 8 by angle (824/871 saved facings)
+            k8 = round(math.atan2(vy, vx) / (math.pi / 4)) % 8; d = (round(math.cos(k8 * math.pi / 4)), round(math.sin(k8 * math.pi / 4)))
+        elif RULES["push_centre_round"]: d = (sgn(vx) * (2 * abs(vx) > m), sgn(vy) * (2 * abs(vy) > m))   # MEASURED 6e1bf8e0 t14: (-1,+13) pushes on (0,+1)
         else: d = (sgn(vx), sgn(vy))
         if d == (0, 0): d = (0, 1)
     k = DIRS.index(d); order = [DIRS[k]]
@@ -356,6 +359,7 @@ def apply(st, a, turn):
         enter(st, u, x0, y0, x1, y1); u.last_from = (x0, y0); u.moved_now = True; explore(st, u.owner, x1, y1)
         vx, vy = x1 - x0, y1 - y0; m = max(abs(vx), abs(vy), 1); u.facing = (sgn(vx) * (2 * abs(vx) > m), sgn(vy) * (2 * abs(vy) > m)); u.ever_moved = True
         if RULES["stomp"] and "stomp" in STATS.get(old, {}).get("skills", ()): stomp(st, u, old)
+        elif RULES["stomp_after_boarding"] and "stomp" in STATS.get(u.type, {}).get("skills", ()): stomp(st, u, u.type)   # MEASURED 6e1bf8e0 t12: a Giant boarding as a Juggernaut stomps
         if u.type in RULES["freezers"]: mooni_freeze(st, x1, y1, u.owner)
     elif t == 2:                                 # Attack
         _, uid, ox, oy, tx, ty = v
