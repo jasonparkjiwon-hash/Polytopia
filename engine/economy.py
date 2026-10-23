@@ -73,6 +73,11 @@ class Books:
         self.structure = {(x, y): (t["ImprovementType"], t["Owner"]) for y, row in enumerate(d["currentTiles"])
                           for x, t in enumerate(row) if t["ImprovementExists"]}
 
+    def level(self, q, s):
+        """A Windmill/Sawmill/Forge's level: its adjacent Farms/LumberHuts/Mines."""
+        feed = {6: 5, 13: 12, 22: 21}[s]
+        return sum(1 for dx in (-1, 0, 1) for dy in (-1, 0, 1) if (dx or dy) and self.structure.get((q[0] + dx, q[1] + dy), (None,))[0] == feed)
+
     def cities(self, pl): return [c for c in self.city.values() if c["owner"] == pl]
 
     def income(self, pl, model, units=None):
@@ -90,7 +95,10 @@ class Books:
                 if rel != WAR: tot += EMBASSY_INCOME * (2 if rel == PEACE else 1)
         for (x, y), (imp, owner) in self.structure.items():   # in-game cards: Market +1 per adjacent Windmill/Forge/Sawmill,
             if owner != pl or imp not in ADJ_INCOME or not ECON_RULES[{50: "market_income", 41: "clathrus_income"}[imp]]: continue  # Clathrus +1 per adjacent Fungi (Polyfish says Algae; the v123 card says Fungi)
-            tot += sum(1 for dx in (-1, 0, 1) for dy in (-1, 0, 1) if (dx or dy) and self.structure.get((x + dx, y + dy), (None,))[0] in ADJ_INCOME[imp])   # MEASURED: bot bonus = DifficultyHandicap - 1 stars a turn (Easy 1, Hard 2)
+            for q in [(x + dx, y + dy) for dx in (-1, 0, 1) for dy in (-1, 0, 1) if dx or dy]:
+                s = self.structure.get(q, (None,))[0]
+                if s not in ADJ_INCOME[imp]: continue
+                tot += self.level(q, s) if imp == 50 and MARKET_BY_LEVEL else 1
         for q, c in cs:
             tot += c["Level"] + (1 if self.capital.get(q) == pl else 0)
             tot += sum(REWARD_INCOME.get(r, 0) for r in c["CityRewards"])
@@ -149,6 +157,7 @@ PEACE, WAR = 1, 3           # RelationState values (0 = neutral)
 BONUS_NEEDS_CAPITAL = True
 BONUS_NEEDS_FREE_CAPITAL = True   # A/B 2026-10-23: a besieged capital also loses the bot bonus
 NEG_POP = True
+MARKET_BY_LEVEL = True      # A/B 2026-10-23: a Market pays the level of each adjacent Windmill/Sawmill/Forge (af181c8f p14 t25: Windmill with 3 Farms -> +3)
 ROUND_START_PAID = True     # A/B 2026-10-23: a save taken right after the round-end EndTurn (player 255) already holds the next player's income
 LEVEL_FROM_REWARD = True    # MEASURED: a city's level rises by its number of CityReward actions (243/243); action 21 never changes it (201/201)
 EMBASSY_ACTION30 = True    # MEASURED: action 30 (player, host capital x,y, host id) builds an embassy: the host's Diplomacy entry gets EmbassyLevel 1 (6e1bf8e0)

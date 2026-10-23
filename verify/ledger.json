@@ -727,13 +727,6 @@
    "evidence": "Jason's screenshot 2026-10-23 ('It will give you both 2 stars per turn, when you have a peace treaty the income is doubled') and his note that it costs 5 (first reported as 4, then corrected). No save has a Build 70 yet, so untested. | Price step +2 per embassy: Jason in game, 2026-10-23. | 2026-10-23: engine switch ECON_RULES embassy_income (on); off drops stars exact 780 -> 778 (embassies via action 30, see EMBASSY-ACTION). Polyfish v115 EstablishEmbassyMove: flat 5 stars, sets embassy_level 1, no income modelled, one embassy per relation; it has no +2 price step."
   },
   {
-   "id": "ECON-MARKET-CLATHRUS",
-   "rule": "Market (5) +1 star a turn per adjacent Windmill, Forge or Sawmill; Clathrus (5) +1 per adjacent Fungi; one of each per city.",
-   "level": "L3 (UI card); Polyfish's Algae for Clathrus overruled by the tie-break (the real game beats Polyfish)",
-   "game_version": "v123 (measured in game)",
-   "evidence": "v123 info cards (Jason's screenshots 2026-10-23). Polyfish counts Algae for Clathrus; the card says Fungi, so the engine follows the card. Test item. Only one Market in the saves (no change to the exact count). | 2026-10-23: engine switches ECON_RULES market_income, clathrus_income (on); off changes no score. Polyfish get_city_production counts only Markets/Clathrus inside the city's territory, Clathrus per adjacent Algae tile in own territory; the engine counts adjacent structures of any owner (untested detail)."
-  },
-  {
    "id": "ECON-PRICES-V123",
    "rule": "Prices implied by the star check: Enchant Animal 3 (5/5); harvesting Starfish GIVES 8 stars (18/22); Aqua Farm 5 (n=1 in the saves, confirmed 5 by Jason in game, 2026-10-23); Aquarion structure 51 5 (n=2); tribe techs Ice Fishing and Sledding tier 2, Polar Warfare and Spearing tier 3 (same tier*cities+4 formula). Build ids: 7 Fishing, 9 Hunting, 15 Harvest Fruit, 46 Starfish, 49 Aqua Farm.",
    "level": "L3 (n noted)",
@@ -809,6 +802,13 @@
    "level": "L3 (n=1) + replay A/B",
    "game_version": "v123 (measured in game)",
    "evidence": "6e1bf8e0 t11 actions 1324-1325: Elyrion Warrior 215 'moved' (27,11)->(27,10) onto an invisible Yadakk Cloak, then attacked (27,10) from (27,11); later actions only fit if 215 killed the Cloak from (27,11), moved in, and was killed there by Yadakk 272 (1415). Engine RULES move_blocked_by_hidden; miss.py units 4721/4741 -> 4722/4738."
+  },
+  {
+   "id": "ECON-MARKET-CLATHRUS",
+   "rule": "Market (5) earns, each turn, the level of each adjacent Windmill, Forge or Sawmill (a Windmill's level = its adjacent Farms, Sawmill = Lumber Huts, Forge = Mines); Clathrus (5) +1 per adjacent Fungi; one of each per city.",
+   "level": "L3 (Market by level n=1; card); Clathrus untested",
+   "game_version": "v123 (measured in game)",
+   "evidence": "v123 info cards (Jason's screenshots 2026-10-23). Polyfish counts Algae for Clathrus; the card says Fungi, so the engine follows the card. Test item. Only one Market in the saves (no change to the exact count). | 2026-10-23: engine switches ECON_RULES market_income, clathrus_income (on); off changes no score. Polyfish get_city_production counts only Markets/Clathrus inside the city's territory, Clathrus per adjacent Algae tile in own territory; the engine counts adjacent structures of any owner (untested detail). | 2026-10-23 star check: af181c8f p14 t25->26, the only Market income in any save: Market next to a Windmill with 3 Farms paid +3, not +1 (MARKET_BY_LEVEL, 800 -> 801; n=1). The card's '+1 per adjacent' reads as +1 per level."
   }
  ]
 }

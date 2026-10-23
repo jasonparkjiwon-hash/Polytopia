@@ -27,8 +27,14 @@ python3 -I tools/trace.py <game> <turnA> <turnB> x,y ...
 
 - `LEVEL_FROM_REWARD`: city Level rises with each CityReward, not with action 21 (243/243 vs 0/201) → 780 -> 800. Kept.
   END_INCOME_FROM_B became redundant (800 either way) and was removed.
+- `MARKET_BY_LEVEL`: a Market pays the level of each adjacent Windmill/Sawmill/Forge (af181c8f p14 t25) → 801. Kept.
+- e15f392c t11->12 p5 -4: explained in part. p4 founded a city at (26,19); its border cut p5's water route
+  (HasWaterRoute lost, ConnectedPlayerCapital 5 -> 0), so 3 p5 cities fell to -1 population before p5's turn
+  (NEG_POP would take 3). The engine has no trade-route model; 1 star still unexplained. Left as is.
 
 ## Ruled out
+
+- Break Ice (action 18) paying stars: 77/78 single-turn rows with it are exact.
 
 - Cost 5 for the embassy with any builder-income variant: leaves 09a5bf1e p1 and 6e1bf8e0 p12 both off by +-1.
 
