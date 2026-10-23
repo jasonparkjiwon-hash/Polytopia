@@ -66,12 +66,24 @@ As you asked, the advisor stays on hold. Phase 1 now has strict exit gates, a ru
 
 Phase 1 is done only when **all six** gates pass. No advisor work starts before then.
 
-- [ ] **Gate A. Core rules are trusted.** Every rule that changes the result of a move reaches at least level L1 (below), with at least one source dated 2025 or later, and no open conflict among them. That covers units, combat, movement, tech costs and prerequisites, income and growth, and tile actions. *Now: most pass. Open: C20, C27, road cost.*
-- [ ] **Gate B. The map model is decided.** C23 (capital resources), C10 (capital guarantees) and C9 (villages) are each decided by their pre-registered test on real data, with a Bayes factor above 10. *Now: tests written; no real data yet.*
-- [ ] **Gate C. Real data in a fixed format.** You're on iPhone with no save files, so this gate needs **at least 15 capitals** logged on the test sheet. Each row records the tribe, your starting tech and the fruit, animals and fish you can see on turn 1 (plus crops and metal if your tech shows them). If the verdict is still open after 15, we continue to 25. *Now: the scoring script is ready; 0 capitals logged.*
-- [ ] **Gate D. Fog is measured, not assumed.** The first reveal (C21), whether old sightings go stale (G3) and city vision (G9) are measured at level L3. *Now: all three are still open.*
-- [ ] **Gate E. The dataset rebuilds and checks itself.** The dataset is rebuilt from its script, then the self-check and the engine cross-check run with no unexplained differences. The game version (115 or later) is stamped on every rule. *Now: both checks run; the version stamp is not done yet.*
-- [ ] **Gate F. The simulator base is chosen.** A written comparison of PolyEnv, Polyfish and our own Python engine, on rule coverage, freshness, speed and licence, with a decision. *Now: the Polyfish engine builds and runs here from GitHub sources. Next step: patch it with our dataset's corrections and compare.*
+- [ ] **Gate A. Core rules are trusted.** Every rule that changes the result of a move reaches at least level L1 (below), with at least one source dated 2025 or later, and no open conflict among them. That covers units, combat, movement, tech costs and prerequisites, income and growth, and tile actions. *Now (23 Oct): nearly done.*
+  - Settled: road cost 3, C27 Navigation needs Sailing, income rules and diplomacy actions.
+  - Open: C20 (retaliation vs fog), action 18, action 38 (Swarm vs Boost), the Crazy bot bonus, ice melting, and C29b (Static skill).
+- [ ] **Gate B. The map model is decided.** C23 (capital resources), C10 (capital guarantees) and C9 (villages) are each decided by their pre-registered test on real data, with a Bayes factor above 10. *Now (23 Oct): nearly done.*
+  - C23 and C10 are decided (L3).
+  - C9 is decided for Lakes, Continents and Archipelago: Bayes factor 10^2.3 over the wiki on 6 held-out saves (`verify/c9_test.md`).
+  - Still needs one held-out save each: Drylands, Pangea and Waterworld.
+- [x] **Gate C. Real data in a fixed format.** You're on iPhone with no save files, so this gate needs **at least 15 capitals** logged on the test sheet. Each row records the tribe, your starting tech and the fruit, animals and fish you can see on turn 1 (plus crops and metal if your tech shows them). If the verdict is still open after 15, we continue to 25. *Passed: iPhone saves turned out to be exportable. 33 games are decoded, over 300 capitals.*
+- [x] **Gate D. Fog is measured, not assumed.** The first reveal (C21), whether old sightings go stale (G3) and city vision (G9) are measured at level L3. *Passed:*
+  - *C21: 5×5 reveal, every save.*
+  - *G3: explored tiles show enemies live (Jason).*
+  - *G9: cities see 3×3 (Jason; the saves agree).*
+- [x] **Gate E. The dataset rebuilds and checks itself.** The dataset is rebuilt from its script, then the self-check and the engine cross-check run with no unexplained differences. The game version (115 or later) is stamped on every rule. *Passed:*
+  - *`verify/run_all.sh` rebuilds the data exactly. In-game facts now live in `data/game_ui_overlay.json`.*
+  - *The self-check passes.*
+  - *The Polyfish cross-check gives 290 agree and 36 differ, all 36 explained.*
+  - *Every fact, unit and ledger rule carries `game_version`.*
+- [x] **Gate F. The simulator base is chosen.** A written comparison of PolyEnv, Polyfish and our own Python engine, on rule coverage, freshness, speed and licence, with a decision. *Passed: Polyfish, patched with the v123 corrections, with our replay engine as the referee (`docs/simulator_choice.md`).*
 
 ## Evidence ladder
 
