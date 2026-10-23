@@ -23,6 +23,13 @@ spawn) with the unit's last move, the 8 neighbours and where the next save shows
 - `push_dir_persists` + `push_dir_round` (engine/replay.py, `prime_last_moves` reads the
   last move back from the log when miss.py starts at a checkpoint) → misses 44 → 42
   (af181c8f t4 id18, 6e1bf8e0 t11 id347), stars 762 hold. Kept. Ledger PUSH-DIRECTION.
+- (botwar's ruin-Swordsman and kill-move-in fixes cleared t10 HP, t15 Defender and several others.)
+- `push_unmoved_reverse` (a never-moved unit is pushed opposite to its owner's latest Move) →
+  fits af18 t10 and t24, fails t19 (fits only the move before the latest) and breaks t15
+  (CityReward at 20,22, which plain toward-centre gets right). Misses 28 → 30. Reverted.
+- `polaris_capture_freezes`: a Polaris city capture freezes water around the city
+  (af18 t13, Battle Sled takes 9,16; Warrior id105 walks onto 9,15 on foot) → misses 28 → 27. Kept.
+  Ledger POLARIS-CAPTURE-FREEZE.
 
 ## Push cases (all saves)
 
@@ -33,6 +40,9 @@ spawn) with the unit's last move, the 8 neighbours and where the next save shows
 | e15 t13 sled (8,10) | previous turn, (-1,-2) | fits only with persistence + rounding |
 | 6e1b t11 Scoutship | (-2,-1) | (-1,0): rounding |
 | af18 t10 (2,17) CityReward Giant | never moved (trained there) | pushed (-1,+1), AWAY from centre. Open |
+| af18 t19 (2,17) CityReward Giant | Defender trained there this turn | pushed (+1,0) onto own port; centre rule says (3,16). Open |
+| af18 t24 (6,12) CityReward Gaami | Swordsman trained there this turn | pushed (+1,-1) to (7,11); centre rule says (6,13) Ice+Outpost. Open |
+| af18 t15/t21 (20,22) CityReward | never moved | toward-centre fits |
 | af18 t15 Raychi (14,7) | unclear (its last logged move ended on 13,7) | save (15,7), engine (15,8). Open |
 
 ## Ruled out
@@ -41,11 +51,18 @@ spawn) with the unit's last move, the 8 neighbours and where the next save shows
 
 ## Current theory
 
-- af18 t10: for a never-moved unit the direction may come from something else (sprite
-  `Flipped` field? the spawner?). Only one sample.
+- City-reward pushes of a unit trained that turn (af18 t10, t19, t24): 3 of 5 never-moved
+  cases miss the toward-centre rule. Same city (2,17) chose differently at t10 and t19 with the
+  same free tiles, so no rule from the map alone fits: the game must hold hidden per-unit state
+  (Polyfish's prev_coords is not saved). Ideas tried: reverse of the owner's last move (2/4),
+  `Flipped` facing (new units mostly face right, doesn't give a y component). Likely not
+  deterministic from save data; 5 miss lines (t10 id169, t19 id489 + temp, t24 id661 + temp).
+  An Outpost (imp 33) on Ice/Water blocking pushes would make t24 fit the move-direction story;
+  untested.
 
 ## Next step
 
-- af18 t10 (id169) and t15 (id94) pushes; then t24 Swordsman id661 / Giant id491
-  (also a CityReward push); then HP misses t10 (id76, id72, Mermaid id110, Warrior id134),
-  t15 (id260, id219, id194), t25 (Juggernaut id664 and neighbours, off by 1).
+- t15 Raychi id94 ruin push (its last logged move ended on 13,7, but it stood on 14,7);
+  t15 HP misses (Rider id260 10 vs 6, Warrior id219 1 vs 2, Defender id194 should be dead);
+  t25 Juggernaut id664 + Warrior id723 + Scoutship id721, each 1 HP high in the save
+  (off by one: rounding or a heal?).

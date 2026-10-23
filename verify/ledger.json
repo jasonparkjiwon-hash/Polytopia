@@ -795,6 +795,13 @@
    "level": "L3",
    "game_version": "v123 (measured in game)",
    "evidence": "af181c8f t25: moved into a killed Boomchi's water tile. af181c8f t21: stayed put after killing a unit on a mountain (Luxidoor, no Climbing). 6e1bf8e0 t13 action 1729: Zebasi Juggernaut 326 killed Kickoo Warrior 36 on forest (23,5), was Giant 290 on (23,5) afterwards (moves from there at 1921), and Kickoo Defender 295 next to (23,5) lost exactly 5 = floor(10/2) stomp damage. Engine RULES stiff_boat_lands, stomp_on_kill_move; miss.py units 4717/4743 -> 4721/4741."
+  },
+  {
+   "id": "POLARIS-CAPTURE-FREEZE",
+   "rule": "When Polaris captures a city, the water and ocean tiles around it (radius 1) that are now Polaris territory turn to ice at once, except under a unit. Not in Polyfish.",
+   "level": "L3 (n=1 replay case; supporting count: 12 of 16 water tiles newly in Polaris territory across saves were ice at the next save)",
+   "game_version": "v123 (saves)",
+   "evidence": "engine RULES polaris_capture_freezes; af181c8f t13 (Battle Sled captures 9,16; a Luxidoor Warrior then walks onto 9,15 on foot); replay A/B 28 -> 27 unit misses, stars hold"
   }
  ]
 }

@@ -70,6 +70,7 @@ RULES = {   # one switch per line; A/B each in tools/miss.py before keeping a ch
     'push_dir_round': True,
     'peace_break_disbands': True,       # UNVERIFIED (L0): no save has a broken peace with units inside the ex-ally's borders
     'break_ice_after_move_needs_dash': True,   # UNVERIFIED legality check (L0 in-game text): only counts violations in LOG
+    'polaris_capture_freezes': True,
 }
 LOG = collections.Counter(); EVENTS = []
 
@@ -416,6 +417,12 @@ def apply(st, a, turn):
             LOG["tribe destroyed"] += 1
         cu = st.units.get(uid)
         if cu is not None and cu.type in RULES["freezers"]: mooni_freeze(st, x, y, pl)
+        if RULES["polaris_capture_freezes"] and st.players.get(pl) and st.players[pl].tribe == "Polaris":
+            for dy in (-1, 0, 1):                # MEASURED af181c8f t13: a Battle Sled took a city and the water around it was ice
+                for dx in (-1, 0, 1):            # the same turn (a Warrior then walked onto it on foot)
+                    q = (x + dx, y + dy)
+                    if st.terrain.get(q) in RULES["mooni_freezes"] and st.owner.get(q) == pl and q not in st.at:
+                        st.ice_from[q] = st.terrain[q]; st.terrain[q] = "Ice"
     elif t == 7:                                 # Capture village/city
         _, uid, x, y = v; st.city[(x, y)] = pl
     elif t == 8:                                 # Research
