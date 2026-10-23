@@ -29,7 +29,9 @@ _Last updated 2026-10-23._
 
 - Embassy price check: note your stars right before building one embassy, right after, and at your next turn start (saves say a net 4, you and the card say 5).
 
-- One Aquarion tech researched per turn in a fresh game, with the save exported (names ids 39, 46, 47).
+- Round 3, items 35–40 on the test sheet: controlled tests for the rules the engine
+  marks unverified (peace-break disband, embassy price/income, Market, Clathrus, Raft
+  Break Ice, Aquarion tech names 39/47; 46 is now known: Marine Life).
 
 - Waterworld and other new saves as he plays.
 - The Aquarion wiki page or tech list (backlog item 1).

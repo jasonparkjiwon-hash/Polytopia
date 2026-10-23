@@ -29,10 +29,15 @@ that rely on them.
    (positional; agrees with measured 46, 48 and inferred 53). Ledger only; not put
    in engine/state.py (economy prices 39/46/47 by id; no save holds the other units).
 
-## Next step
+4. **Wiki cross-check** (search snippets only: fandom, breezewiki, archive.org and
+   miraheze are all blocked here). Recorded in the ledger: 46 = Marine Life (unlocks
+   Shark; all 29 Shark trainings follow it) -> L2, 53 = Shark -> L2; 47 is the tier-1
+   slot (always first); wiki embassy (builder earns 2) and price 5 conflict with the
+   saves; wiki Break Ice open to all but Mooni/Gaami; peace-break text = Jason's.
+5. **Test list:** Round 3 (items 35-40) in the open-questions doc; status.md updated.
 
-- Task 3: wiki cross-check (WebSearch / mirrors; fandom 403s). Downloads into their
-  own directory, read with `python3 -I`.
-- Task 4: test list in `docs/polytopia_open_questions_to_fill_in_while_playing.md`
-  (new round) + status.md "Waiting on Jason": peace-break disband, Raft break ice,
-  embassy income, Market and Clathrus income (Fungi vs Algae), Aquarion ids.
+## Left for the orchestrator
+
+- Engine names for techs 39/46/47 are not set (economy prices them by id; renaming
+  would break `AQUARION_TIERS`). Units 47, 49-52, 54, 55 named in the ledger only.
+- Delete this file once merged; conclusions are in the ledger.

@@ -9,7 +9,7 @@
   },
   "economy.AQUARION_TIERS": {
    "ledger": "AQUARION-TECH-TIERS",
-   "level": "L3 (tiers only; names unknown)",
+   "level": "L3 (tiers); names: 46 Marine Life L2, 39 Aquaculture and 47 AquaFishing L0",
    "source": "engine/economy.py:32",
    "unverified": false
   },

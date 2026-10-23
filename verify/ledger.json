@@ -685,13 +685,6 @@
    "evidence": "engine RULES push_polyfish, push_dir_persists, push_dir_round; saves e15f392c t4/t13, af181c8f t4/t24, 6e1bf8e0 t5/t11, 09a5bf1e t6, 1bf60251 t2"
   },
   {
-   "id": "EMBASSY-ACTION",
-   "rule": "Action 30 (player, host capital x,y, host id) builds an embassy. The builder pays a net 4 stars in both saves; from its next turn the host earns 2 stars a turn (4 with peace); the builder earned nothing while neutral and 4 a turn at peace. An accepted peace (action 28, reply 1) counts from that action on.",
-   "level": "L3 (n=2)",
-   "game_version": "v123 (measured in saves)",
-   "evidence": "6e1bf8e0 t15: host p7's Diplomacy entry for p12 has EmbassyLevel 1, EmbassyBuildTurn 13 after p12's action 30 at 1839. Star check 2026-10-23: 09a5bf1e t7->8 p1 (builder, -4) and p7 (host, +2) go exact; 6e1bf8e0 p12 stays exact (778 -> 780). SPLIT with ECON-EMBASSY (5 stars per Jason and the card): test item."
-  },
-  {
    "id": "MOTH-V123",
    "rule": "Cymanti Moth (v123): 10 HP, attack 2, stiff (no return fire), and its attack draws no retaliation; defence at least 1.6 (engine uses 2; Polyfish v115 says 0.1). It can explode (action 24) like a Boomchi.",
    "level": "L3 (n=1, fitted) + replay A/B",
@@ -734,20 +727,6 @@
    "evidence": "engine/replay.py run(): resync_terrain, resync_territory, recover_lost_defender. These only stop old errors from carrying over; they are not under test."
   },
   {
-   "id": "ACTION-18-AFTER-MOVE",
-   "rule": "Break Ice (action 18) uses the unit's action, so only a Dash unit can move and then break ice in the same turn.",
-   "level": "L3 for Dash units (128 uses); L0 for 'a unit without Dash cannot' (2 Raft exceptions)",
-   "game_version": "v123 (measured in game)",
-   "evidence": "Jason's in-game text 2026-10-23 (see ACTION-18-BREAK-ICE). Saves, all per-turn intervals (engine/replay.py LOG, 2026-10-23): 130 break-ice actions came right after the same unit moved that turn; 128 were Dash units (v123 cards, else data/units.json: Warrior, Rider, Raychi, Tridention, Rammer...), 2 were a Raft, which has no Dash on any source. The Raft may borrow its passenger's Dash, or breaking ice may not need Dash: test item. Engine: RULES break_ice_after_move_needs_dash only counts violations (legality check for the forward model), no state change."
-  },
-  {
-   "id": "DIPLO-BREAK-DISBAND",
-   "rule": "Breaking a peace disbands the breaker's units inside the ex-ally's borders, with no refund; the breaker cannot attack that turn. Peace forbids attacks both ways and lets units pass through each other's territory and use their roads. Bots accept peace only at a 'Great' opinion.",
-   "level": "L0 (untested)",
-   "game_version": "v123 (measured in game)",
-   "evidence": "Jason's pasted summary, 2026-10-23, undated source. The one broken peace in the saves had no units inside the other's borders, so nothing to test yet. Not in the engine. | 2026-10-23: now in the engine as RULES peace_break_disbands (on, best guess; labelled unverified in data/rule_levels.json). On or off changes no replay score (no disband happens in any save). Polyfish v115 BreakPeaceMove only resets the relation (no disband) and notes that breaking should end the breaker's turn: a second source on the turn end, none on the disband."
-  },
-  {
    "id": "ECON-EMBASSY",
    "rule": "An Embassy costs 5 stars, plus 2 for each embassy the tribe already has (5, 7, 9, ...), and gives both the builder and the host 2 stars a turn while not at war, 4 with a peace treaty. Modelled as Build structure 70 in a foreign capital.",
    "level": "L1 (in-game text + Jason's 5-star cost, same as the v123 card); not yet seen in a save",
@@ -769,20 +748,6 @@
    "evidence": "engine/economy.py star check over the per-turn saves (Ankiian, Misty Fields, Oasis Struggle): tile changes in the saves (fish/game/fruit/starfish removed, aquacrop kept) identify the build ids. | 2026-10-23: structure 51's price is ECON_RULES aquarion51_price = 5; A/B: 4 drops stars exact 770 -> 766, so the save does test it (thin)."
   },
   {
-   "id": "AQUARION-TECH-TIERS",
-   "rule": "Aquarion tech ids 47 (tier 1), 39 and 46 (tier 2) cost tier x cities + 4 like every other tech.",
-   "level": "L3 (tiers only; names unknown)",
-   "game_version": "v123 (measured in saves)",
-   "evidence": "Star check 2026-10-23: with these tiers 8 single-turn star rows in 1bf60251, e15f392c and 09a5bf1e go exact (762 -> 770); the residual was exactly the price (-5 at 1 city for 47, -6/-8 for 39/46). Names still wanted from Jason. | Names (L0, one source): Polyfish polyfish-rs/src/types.rs (commit a9f90ab, Sep 2026) lists the game's TechnologyType ids it doesn't model as comments: 39 Aquaculture, 46 MarineLife, 47 AquaFishing (also 40 FishingSimple, 43 Pascetism, 45 AquaBase, 33 Oceanology, 50 Mysticism). Consistent with the saves: 39, 46, 47 are researched only by Aquarion (3, 3, 5 times). Jason's card: Aquaculture costs 6 at 1 city = tier 2, matching 39's measured tier. 47 'AquaFishing' is tier 1, so it is likely the Aquarion replacement for Fishing; its in-game display name is not confirmed (Jason lists Waterways, Aquaculture, Marine Life, Spearing, Free Diving). Polyfish's older JS UI (src/public/js/types.js) maps 39 to Ramming: stale, the Rust enum has Ramming = 44."
-  },
-  {
-   "id": "UNIT-ID-53",
-   "rule": "Unit type id 53 = Shark (inferred: the best replay fit, 96 exact HP at turn 15 vs 90 for other 10-HP Aquarion units; 32 trained by Aquarion bots).",
-   "level": "L1",
-   "game_version": "v123 (measured in game)",
-   "evidence": "engine replay 6e1bf8e0 | 2026-10-23 second source: Polyfish polyfish-rs/src/types.rs lists the UnitType ids it doesn't model as unnumbered comments between Juggernaut = 45 and Boomchi = 56, exactly ten names, so in order 46 MermaidWarrior, 47 MermaidArcher, 48 MermaidSwordsman, 49 MermaidDefender, 50 MermaidCloak, 51 MermaidDagger, 52 Jelly, 53 Shark, 54 Siren, 55 Aquapult. That puts Shark at 53 (agrees with the replay fit), and agrees with the measured 46 = Mermaid (start unit) and 48 = Swordsmaid. Polyfish (Sep 2026) + replay = L1."
-  },
-  {
    "id": "AQUARION-UNIT-IDS",
    "rule": "Aquarion UnitType ids 46-55 (Polyfish's internal names, in order): 46 MermaidWarrior (= Mermaid), 47 MermaidArcher, 48 MermaidSwordsman (= Swordsmaid), 49 MermaidDefender, 50 MermaidCloak, 51 MermaidDagger, 52 Jelly, 53 Shark, 54 Siren, 55 Aquapult.",
    "level": "L0 (47, 49-52, 54, 55: one source, positional); L3 for 46 and 48; L1 for 53",
@@ -795,6 +760,41 @@
    "level": "L3",
    "game_version": "v123 (measured in saves)",
    "evidence": "All consecutive save pairs 2026-10-23: Level change = number of CityRewards in 243/243 cities; 201 cities with only action 21 kept their Level. Star check with levels from rewards: 780 -> 800."
+  },
+  {
+   "id": "UNIT-ID-53",
+   "rule": "Unit type id 53 = Shark (inferred: the best replay fit, 96 exact HP at turn 15 vs 90 for other 10-HP Aquarion units; 32 trained by Aquarion bots).",
+   "level": "L2",
+   "game_version": "v123 (measured in game)",
+   "evidence": "engine replay 6e1bf8e0 | 2026-10-23 second source: Polyfish polyfish-rs/src/types.rs lists the UnitType ids it doesn't model as unnumbered comments between Juggernaut = 45 and Boomchi = 56, exactly ten names, so in order 46 MermaidWarrior, 47 MermaidArcher, 48 MermaidSwordsman, 49 MermaidDefender, 50 MermaidCloak, 51 MermaidDagger, 52 Jelly, 53 Shark, 54 Siren, 55 Aquapult. That puts Shark at 53 (agrees with the replay fit), and agrees with the measured 46 = Mermaid (start unit) and 48 = Swordsmaid. Polyfish (Sep 2026) + replay = L1. | 2026-10-23 third check: all 29 Shark trainings in the saves follow research of tech 46, which Polyfish names Marine Life and the wiki says unlocks the Shark. Replay fit + Polyfish order + unlock order agree: L2."
+  },
+  {
+   "id": "ACTION-18-AFTER-MOVE",
+   "rule": "Break Ice (action 18) uses the unit's action, so only a Dash unit can move and then break ice in the same turn.",
+   "level": "L3 for Dash units (128 uses); L0 for 'a unit without Dash cannot' (2 Raft exceptions)",
+   "game_version": "v123 (measured in game)",
+   "evidence": "Jason's in-game text 2026-10-23 (see ACTION-18-BREAK-ICE). Saves, all per-turn intervals (engine/replay.py LOG, 2026-10-23): 130 break-ice actions came right after the same unit moved that turn; 128 were Dash units (v123 cards, else data/units.json: Warrior, Rider, Raychi, Tridention, Rammer...), 2 were a Raft, which has no Dash on any source. The Raft may borrow its passenger's Dash, or breaking ice may not need Dash: test item. Engine: RULES break_ice_after_move_needs_dash only counts violations (legality check for the forward model), no state change. | Wiki (fandom Unit page, search snippet, undated): Break Ice is available to all units except those with Freeze Area (Mooni, Gaami) and needs at least one adjacent ice tile; it says nothing about Dash. That fits the 2 Raft cases better than 'Dash only': conflict, test item."
+  },
+  {
+   "id": "DIPLO-BREAK-DISBAND",
+   "rule": "Breaking a peace disbands the breaker's units inside the ex-ally's borders, with no refund; the breaker cannot attack that turn. Peace forbids attacks both ways and lets units pass through each other's territory and use their roads. Bots accept peace only at a 'Great' opinion.",
+   "level": "L0 (untested)",
+   "game_version": "v123 (measured in game)",
+   "evidence": "Jason's pasted summary, 2026-10-23, undated source. The one broken peace in the saves had no units inside the other's borders, so nothing to test yet. Not in the engine. | 2026-10-23: now in the engine as RULES peace_break_disbands (on, best guess; labelled unverified in data/rule_levels.json). On or off changes no replay score (no disband happens in any save). Polyfish v115 BreakPeaceMove only resets the relation (no disband) and notes that breaking should end the breaker's turn: a second source on the turn end, none on the disband. | Wiki (fandom, search snippet, undated): the breaker cannot attack that tribe that turn, all the breaker's active units are frozen for the rest of the turn, and its units inside the other tribe's borders are disbanded with no refund. Likely the same text Jason pasted, so not an independent source: stays L0. The 'units frozen' part is not in the engine."
+  },
+  {
+   "id": "EMBASSY-ACTION",
+   "rule": "Action 30 (player, host capital x,y, host id) builds an embassy. The builder pays a net 4 stars in both saves; from its next turn the host earns 2 stars a turn (4 with peace); the builder earned nothing while neutral and 4 a turn at peace. An accepted peace (action 28, reply 1) counts from that action on.",
+   "level": "L3 (n=2)",
+   "game_version": "v123 (measured in saves)",
+   "evidence": "6e1bf8e0 t15: host p7's Diplomacy entry for p12 has EmbassyLevel 1, EmbassyBuildTurn 13 after p12's action 30 at 1839. Star check 2026-10-23: 09a5bf1e t7->8 p1 (builder, -4) and p7 (host, +2) go exact; 6e1bf8e0 p12 stays exact (778 -> 780). SPLIT with ECON-EMBASSY (5 stars per Jason and the card): test item. | Wiki (fandom Embassy page, search snippet, undated): 5 stars, 2 stars a turn to BOTH the builder and the host, 4 each with peace; attacking destroys both embassies. CONFLICT with the saves for the builder while neutral (earned nothing, n=1) and the price (net 4, n=2): the saves win (L3), test item."
+  },
+  {
+   "id": "AQUARION-TECH-TIERS",
+   "rule": "Aquarion tech ids 47 (tier 1), 39 and 46 (tier 2) cost tier x cities + 4 like every other tech.",
+   "level": "L3 (tiers); names: 46 Marine Life L2, 39 Aquaculture and 47 AquaFishing L0",
+   "game_version": "v123 (measured in saves)",
+   "evidence": "Star check 2026-10-23: with these tiers 8 single-turn star rows in 1bf60251, e15f392c and 09a5bf1e go exact (762 -> 770); the residual was exactly the price (-5 at 1 city for 47, -6/-8 for 39/46). Names still wanted from Jason. | Names (L0, one source): Polyfish polyfish-rs/src/types.rs (commit a9f90ab, Sep 2026) lists the game's TechnologyType ids it doesn't model as comments: 39 Aquaculture, 46 MarineLife, 47 AquaFishing (also 40 FishingSimple, 43 Pascetism, 45 AquaBase, 33 Oceanology, 50 Mysticism). Consistent with the saves: 39, 46, 47 are researched only by Aquarion (3, 3, 5 times). Jason's card: Aquaculture costs 6 at 1 city = tier 2, matching 39's measured tier. 47 'AquaFishing' is tier 1, so it is likely the Aquarion replacement for Fishing; its in-game display name is not confirmed (Jason lists Waterways, Aquaculture, Marine Life, Spearing, Free Diving). Polyfish's older JS UI (src/public/js/types.js) maps 39 to Ramming: stale, the Rust enum has Ramming = 44. | Wiki cross-check 2026-10-23 (search snippets of the fandom Aquarion page and the Steam rework beta notes; the pages themselves are blocked here): Marine Life replaces Sailing and unlocks the Shark; Waterways replaces Roads (any unit can flood a land tile); Free Diving replaces Free Spirit; Aquaculture is tier 2. Saves (last save of every game): all 29 Shark (unit 53) trainings come after the player researched 46, none without it; 47 is researched before 39 and 46 in every Aquarion player (sets seen: 47; 47+39; 47+39+46), so 47 is the tier-1 slot (Fishing's place, prerequisite of the Sailing slot). So 46 = Marine Life is L2 (Polyfish name + wiki 'unlocks Shark' + save order); 39 = Aquaculture and 47 = AquaFishing stay L0 (one source for the name; tiers fit). | Level relabelled 2026-10-23 after the name cross-check."
   }
  ]
 }
