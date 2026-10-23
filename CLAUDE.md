@@ -75,17 +75,34 @@
 - **Healing:** +4 in own territory, +2 elsewhere. Territory is re-synced at checkpoints.
 - **Fog:** explored tiles show enemies live. Only unexplored clouds hide them.
 
-## Open work (next up)
+## Working efficiently (read this first: the main cost is context, not code)
 
-1. **Economy replay:** `engine/economy.py`, 95% of player-turns exact on the per-turn games. Crazy bonus settled (3 a turn). Open: structure 51, and Embassy, Market and Clathrus income (coded, not yet seen in a save).
-2. **Coverage report:** which rules each replay exercises.
-3. **Remaining replay mismatches** (bot war turn 15: 12 HP; Misty Fields: a few leftover units):
-   - Ruin reward weights.
-4. **Waiting on Jason:** per-turn saves of a fight-heavy Crazy game; Round 2 items 26–34 on the test sheet (`docs/polytopia_open_questions_to_fill_in_while_playing.md`).
+- **Start of a session:** run `sh scripts/restore_saves.sh` (8 s; rebuilds `saves/` from the raw `saves_raw/*.state`). Then `python3 -I tools/miss.py` for the current score (units and stars per game).
+- **Never open** `saves/*.json`, `notebook/*.ipynb`, or `verify/ledger.json` / `data/conflicts_and_gaps.md` whole. `.claude/settings.json` blocks the first two.
+  - One spot in a game: `python3 -I tools/trace.py <game> <turnA> <turnB> x,y ...`.
+  - Ledger: `python3 -I tools/ledger.py ids | get ID | add ... | note "..."`. Edit the ledger and gaps file only through this tool.
+  - Code: `python3 -I tools/outline.py engine/replay.py`, then Read only the lines you need (`offset`/`limit`).
+- **One fix per loop, small output:** change one rule, A/B it with `RULES` in `tools/miss.py` (keep only if the total improves or holds), commit. Don't paste misses back into the chat: use `--list` and read only the lines about the case you're on.
+- **Notebook:** rebuild and run it only when you finish a batch of work, not after each change.
+- **Docs:** the repo copies in `docs/` are the source of truth. Update the live claude.ai spec only when Jason asks.
+- Start a fresh session after about 15 replay-fix loops.
+
+## Open work (hand-off, 23 Oct 2026)
+
+Phase 1 is done. Replay is at 4709/4753 units (99.1%) and 754/819 star player-turns exact (`tools/miss.py`).
+
+1. **Unit misses left (44):** bot war turn 11-15 (23, mostly 1-5 HP off and units the engine keeps alive; saves 4 turns apart, so cause is hard to isolate) and Oasis Struggle (21, one spot each; trace with `tools/trace.py`). One explosion (Oasis t25, three targets 1 HP less) fits no variant.
+2. **Star misses left (65):**
+   - Aquarion research: tech ids 39, 46, 47 are missing from `TECH`. The saves imply 47 is tier 1 and 39 and 46 are tier 2 (price tier x cities + 4). Name them and add to `TIER` in `engine/economy.py`. The Aquarion wiki page (https://polytopia.fandom.com/wiki/Aquarion) is blocked from the cloud container (proxy 403); Jason can paste it or the tech names.
+   - Single-turn misses of -1 on a bot that attacked (about 10): probably a kill or capture reward not modelled.
+   - Multi-turn gaps (bot war): small errors add up; ignore until single-turn ones are fixed.
+3. **Not yet in any save:** Embassy, Market, Clathrus income; structure 51 price; Dash units breaking ice the same turn; peace-break disbanding.
+4. **Aquarion unknown unit ids:** only 46 Mermaid, 48 Swordsmaid, 53 Shark are named; the other Aquarion ids are still unknown.
+5. **Next phase:** Phase 2 (advisor) waits for Jason's go. Before Phase 3, load saves into Polyfish (`docs/simulator_choice.md`).
+6. **Waiting on Jason:** Waterworld/other new saves as he plays; the Aquarion page or tech list.
 
 ## Conventions
 
 - Pure-stdlib Python 3 in `engine/` and `verify/`. Run scripts that read downloaded or third-party data with `python3 -I`.
-- After changing engine code, rebuild the notebook (`python3 notebook/build_notebook.py`) and run `python3 scripts/run_notebook.py notebook/polytopia_engine.ipynb /tmp/nbwork`.
-- `sh scripts/check.sh` must not regress the baseline in README.md.
-- `ext/` (third-party clones) and build outputs are gitignored. Fetch them with `scripts/fetch_third_party.sh`.
+- `sh scripts/check.sh` must not regress the baseline in README.md (run it before pushing; push straight to `main`).
+- Raw saves live in `saves_raw/` (committed, tiny). `saves/` (decoded JSON) and `ext/` are gitignored and rebuilt on demand (`scripts/restore_saves.sh`, `scripts/fetch_third_party.sh`).

@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(./notebook/*.ipynb)",
+      "Read(./saves/**)",
+      "Read(./saves_raw/**)",
+      "Read(./verify/polyfish_tables.json)",
+      "Read(./verify/crosscheck_polyfish.json)"
+    ]
+  }
+}
