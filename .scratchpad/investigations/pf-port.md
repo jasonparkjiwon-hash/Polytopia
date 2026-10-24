@@ -43,11 +43,11 @@ Status: **done** = ported with a test; **pf ok** = Polyfish already does it;
 | 14 | Only own port boards | PORT-BOARDS | L3 | any port | done |
 | 15 | Boat on Aquarion-flooded land stays a boat; walker stays walker | FLOOD-ALGAE | L3 | boat lands | done |
 | 16 | Boat on algae stays a boat | ALGAE-KEEPS-BOATS | L3 | pf ok (algae is water terrain) | done (pf: algae tiles keep water terrain) |
-| 17 | Stiff units don't move in after a kill (boats do, and land) | KILL-MOVE-IN, JUGGERNAUT-KILL-MOVE | L3 | every range-1 unit moves in | todo |
-| 18 | Kill move-in onto mountain needs Climbing | KILL-MOVE-CLIMBING | L3 | pf ok (is_steppable_for_push) | check |
-| 19 | Land unit follows a kill into water only onto own port | PORT-KILL-EMBARK | L3 | pf ok via is_steppable_for_push | check |
+| 17 | Stiff units don't move in after a kill (boats do, and land) | KILL-MOVE-IN, JUGGERNAUT-KILL-MOVE | L3 | every range-1 unit moves in | done |
+| 18 | Kill move-in onto mountain needs Climbing | KILL-MOVE-CLIMBING | L3 | pf ok (is_steppable_for_push) | done (pf: is_steppable_for_push / step_unit) |
+| 19 | Land unit follows a kill into water only onto own port | PORT-KILL-EMBARK | L3 | pf ok via is_steppable_for_push | done (pf: is_steppable_for_push / step_unit) |
 | 20 | Water units don't follow a kill onto dry land | WATER-UNITS | L2 | Water skill only | todo |
-| 21 | Stomp on kill move-in | JUGGERNAUT-KILL-MOVE | L3 | step_unit stomps | check |
+| 21 | Stomp on kill move-in | JUGGERNAUT-KILL-MOVE | L3 | step_unit stomps | done (pf: is_steppable_for_push / step_unit) |
 | 22 | Push direction: saved facing / last move ever, rounded to 8 dirs | PUSH-DIRECTION, SAVE-UNIT-FACING | L3 | prev_coords sign | todo |
 | 23 | Never-moved unit: toward attacker if attacked, else centre by angle | PUSH-NEVER-MOVED | L3 | centre by sign | todo |
 | 24 | Blocked: counter-clockwise side first; no room removes the unit | PUSH-TIEBREAK | L3 | nearer-centre first; removes | todo |

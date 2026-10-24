@@ -307,3 +307,22 @@ fn boat_stays_boat_on_flooded_land() {
     step(&mut s, 1, b, 6, 5);
     assert_eq!(unit(&s, 1, b).unit_type, UnitType::Warrior);
 }
+
+/// KILL-MOVE-IN (L3 + replay A/B), JUGGERNAUT-KILL-MOVE (L3): a Stiff melee unit (here a Moth) stays put
+/// after a kill; a Juggernaut (Stiff boat) moves in and lands as its Giant.
+#[test]
+fn stiff_stays_after_kill_boats_move_in() {
+    let mut s = board();
+    let a = add_unit(&mut s, 1, UnitType::Moth, 4, 5, 10.0);
+    add_unit(&mut s, 2, UnitType::Warrior, 5, 5, 1.0);
+    attack(&mut s, a, 0);
+    assert_eq!(unit(&s, 1, a).coords.idx, idx(4, 5));
+    let mut s = board();
+    s.tiles.get_mut(&idx(4, 5)).unwrap().terrain_type = TerrainType::Water;
+    let j = add_unit(&mut s, 1, UnitType::Juggernaut, 4, 5, 40.0);
+    s.tribes.get_mut(&1).unwrap().units[j].passenger_type = Some(UnitType::Giant);
+    add_unit(&mut s, 2, UnitType::Warrior, 5, 5, 1.0);
+    attack(&mut s, j, 0);
+    assert_eq!(unit(&s, 1, j).coords.idx, idx(5, 5));
+    assert_eq!(unit(&s, 1, j).unit_type, UnitType::Giant);
+}

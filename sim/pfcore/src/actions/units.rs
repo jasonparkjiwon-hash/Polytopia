@@ -1348,7 +1348,11 @@ pub fn attack_unit(
                 .unwrap_or(UnitType::None)
         });
 
-        if atk_settings.range < 2 {
+        // v123 (ledgers KILL-MOVE-IN, JUGGERNAUT-KILL-MOVE): a Stiff unit stays put after a kill,
+        // except a boat (Juggernaut), which moves in and lands
+        let stays = atk_settings.skills.contains(&SkillType::Stiff)
+            && !atk_settings.skills.contains(&SkillType::Carry);
+        if atk_settings.range < 2 && !stays {
             let can_step = state
                 .tribes
                 .get(&attacker_owner)
