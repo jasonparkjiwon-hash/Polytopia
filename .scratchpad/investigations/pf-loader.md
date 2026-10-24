@@ -59,7 +59,10 @@ after a Dash move, d4e40af) -> 94.0% (harness plays one Break Ice, c0235c8).
 
 1. **Stars drift** (80: Train 29, Research 23, Build 22, Upgrade 6): follows the 100 star misses; `pf_stars.py`.
 2. **Peace** (77, DIPLO-PEACE L3): Polyfish's generator has OfferPeace (27) and PeaceReply (28) switched off
-   ("to prevent loops"). The loader can fill pending offers from DiplomacyMessages once replies are generated.
+   ("to prevent loops", `moves/abilities/diplomacy.rs` generate_diplomacy_moves). v123 gates the offer on
+   Strategy, Polyfish's commented code on Diplomacy. Not a one-liner (loops matter for search), so left to
+   pf-port. Offers made inside a replay set `has_offered_peace` themselves; only offers pending at a
+   checkpoint would need the save's DiplomacyMessages (2 raw bytes each, format not decoded yet).
 3. **Water/ice movement** (79 Moves): Cymanti Boomchi/Raychi/Living Island leaving a city 2-3 tiles onto
    water or algae (~25); Polaris Mooni/Battle Sled skating 2-3 tiles from a city onto ice (~11); Mermaid
    ocean->ocean or onto ocean (~10: which tech opens ocean for Aquarion?); a few boats into a port.
@@ -75,6 +78,10 @@ after a Dash move, d4e40af) -> 94.0% (harness plays one Break Ice, c0235c8).
    v123 but not in Polyfish: HP drift), Train "city full" (15: checked, not a loader bug: homes load right (`trace.py` shows
    them); the real city had levelled from a build Polyfish refused, e.g. 09a5bf1e t5 Outpost -> 3 Polaris units), monuments 27/28 (8: Polyfish recomputes tasks heuristically; the save's Tasks aren't loaded),
    ConvertMove never generated (4, SHAMAN).
+9. Unit misses worth a look (36 left; hp 11, pos 13, extra 7, missing 4, type 1): mostly Cymanti/Aquarion
+   movement and HP after fights Polyfish skipped. Two are land units that step onto their own port and stay
+   on foot in Polyfish but become boats in the save (PORT-BOARDS): e15f392c t15 #2071 Swordsman 172 onto
+   (28,18) -> Raft 504; e15f392c t14 Rammership 479 / Warrior 145.
 
 ## Harness rules (how logged actions become Polyfish moves)
 
