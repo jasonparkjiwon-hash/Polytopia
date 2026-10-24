@@ -34,8 +34,24 @@ fn slot(t: TechnologyType) -> Option<TechnologyType> {
     if slots() { Some(t) } else { None }
 }
 
-/// Get technology settings by type
+/// Get technology settings by type.
+/// v123 (ledger TRIBE-TECH-TIERS): a tribe's own tech costs like the base tech it replaces, and needs what that
+/// one needs (its tribe's version of it), unless it says otherwise.
 pub fn get_technology_setting(tech_type: TechnologyType) -> TechnologySetting {
+    let mut s = tech_setting_table(tech_type);
+    if let (Some(_), Some(base)) = (s.tribe_type, s.replaces_tech) {
+        let b = tech_setting_table(base);
+        if s.tier.is_none() {
+            s.tier = b.tier;
+        }
+        if s.requires.is_none() {
+            s.requires = b.requires;
+        }
+    }
+    s
+}
+
+fn tech_setting_table(tech_type: TechnologyType) -> TechnologySetting {
     use TechnologyType::*;
 
     match tech_type {
@@ -465,11 +481,15 @@ pub fn get_researchable_techs(
                 if has_technology(tech_list, req)
                     || has_technology(tech_list, resolve_tech_for_tribe(req, tribe_type))
                 {
-                    researchable.push(resolved);
+                    if !researchable.contains(&resolved) {
+                        researchable.push(resolved);
+                    }
                 }
             } else if settings.tier == Some(1) {
                 // Tier 1 techs are always researchable
-                researchable.push(resolved);
+                if !researchable.contains(&resolved) {
+                    researchable.push(resolved);
+                }
             }
         }
     }

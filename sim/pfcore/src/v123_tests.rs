@@ -559,3 +559,30 @@ fn amphibious_on_water() {
     let t = step_targets(&s);
     assert!(t.contains(&idx(6, 5)) && t.contains(&idx(5, 6)) && !t.contains(&idx(4, 5)), "{t:?}");
 }
+
+/// TRIBE-TECH-TIERS (L3, n=1-2 each): tribe techs cost tier x cities + 4 at the tier of the base tech they replace
+/// (Ice Fishing 2, Sledding 2, Polar Warfare 3, Spearing 3, Polarism 3, Oceantology 3), and need what it needs.
+#[test]
+fn tribe_tech_tiers() {
+    use crate::settings::technology::get_researchable_techs;
+    let mut t = TribeState::default();
+    t.tribe_type = TribeType::Polaris;
+    t.cities.push(CityState::default());
+    for (tech, cost) in [
+        (TechnologyType::IceFishing, 6),
+        (TechnologyType::Sledding, 6),
+        (TechnologyType::PolarWarfare, 7),
+        (TechnologyType::Polarism, 7),
+        (TechnologyType::Spearing, 7),
+        (TechnologyType::Oceantology, 7),
+    ] {
+        assert_eq!(crate::functions::get_tech_cost(&t, tech), cost, "{tech:?}");
+    }
+    let have = |v: &[TechnologyType]| -> Vec<TechnologyState> {
+        v.iter().map(|&x| TechnologyState { tech_type: x, discovered: true, ..Default::default() }).collect()
+    };
+    let r = get_researchable_techs(&have(&[TechnologyType::Frostwork]), TribeType::Polaris);
+    assert!(r.contains(&TechnologyType::Sledding) && r.contains(&TechnologyType::IceFishing), "{r:?}");
+    let r = get_researchable_techs(&have(&[TechnologyType::Frostwork, TechnologyType::Sledding]), TribeType::Polaris);
+    assert!(r.contains(&TechnologyType::PolarWarfare), "{r:?}");
+}
