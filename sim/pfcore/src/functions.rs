@@ -475,10 +475,8 @@ pub fn get_defense_bonus(state: &GameState, unit: &UnitState) -> f32 {
         _ => {
             // City defense: applies to friendly units (owner or ally) with Fortify skill
             if let Some(city) = get_city_at(state, unit.coords.idx) {
-                // Must be a friendly city and require skill
-                if has_skill(unit, SkillType::Fortify)
-                    && !is_enemy_city(state, city.idx, unit.owner)
-                {
+                // v123 (ledger DEF-BONUS): only the unit's own city, not an ally's
+                if has_skill(unit, SkillType::Fortify) && city.owner == unit.owner {
                     if city.has_walls() { 4.0 } else { 1.5 }
                 } else {
                     1.0

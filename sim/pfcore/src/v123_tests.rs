@@ -137,3 +137,28 @@ fn unseen_attacker_no_retaliation() {
     attack(&mut s, a, d);
     assert!(unit(&s, 1, a).health < 10.0);
 }
+
+pub fn add_city(s: &mut GameState, owner: i32, x: i32, y: i32) {
+    let mut c = CityState::default();
+    c.idx = idx(x, y);
+    c.owner = owner;
+    c.level = 1;
+    s.tiles.get_mut(&idx(x, y)).unwrap().owner = owner;
+    s.tribes.get_mut(&owner).unwrap().cities.push(c);
+}
+
+/// DEF-BONUS (L2, replay A/B): 1.5 for a Fortify unit in its own city; none in another tribe's city, even at peace.
+#[test]
+fn city_bonus_own_city_only() {
+    let mut s = board();
+    add_city(&mut s, 1, 5, 5);
+    add_city(&mut s, 2, 7, 7);
+    let mut rel = DiplomacyRelationState::default();
+    rel.state = 1;
+    s.tribes.get_mut(&1).unwrap().relations.insert(2, rel.clone());
+    s.tribes.get_mut(&2).unwrap().relations.insert(1, rel);
+    let own = add_unit(&mut s, 1, UnitType::Warrior, 5, 5, 10.0);
+    let ally = add_unit(&mut s, 1, UnitType::Warrior, 7, 7, 10.0);
+    assert_eq!(get_defense_bonus(&s, unit(&s, 1, own)), 1.5);
+    assert_eq!(get_defense_bonus(&s, unit(&s, 1, ally)), 1.0);
+}

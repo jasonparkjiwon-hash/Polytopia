@@ -18,3 +18,4 @@
 - A Frozen defender doesn't retaliate (`actions/units.rs` attack_unit) [FROZEN-NO-RETALIATION].
 - A hidden attacker (Hide skill: Cloak) takes no retaliation [CLOAK-DAGGER-RETALIATION].
 - No retaliation when the defender's tribe can't see the attacker's tile (explored, or current vision) (`functions.rs` tribe_sees_tile) [C20].
+- City defence bonus (1.5, walls 4) only in the unit's own city, not an ally's [DEF-BONUS].
