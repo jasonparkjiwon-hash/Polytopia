@@ -27,8 +27,8 @@ Status: **done** = ported with a test; **pf ok** = Polyfish already does it;
 
 | # | Rule | Ledger id | Level | Polyfish v115 | Status |
 |---|---|---|---|---|---|
-| 1 | Poison halves defence, bonus included (no extra x0.7 on defence) | C7 | L3 | def x0.7 AND bonus x0.5 | todo |
-| 2 | Recover cures poison instead of healing | C7 | L1 | ? | todo |
+| 1 | Poison halves defence, bonus included (no extra x0.7 on defence) | C7 | L3 | def x0.7 AND bonus x0.5 | done |
+| 2 | Recover cures poison instead of healing | C7 | L1 | pf ok (heal_unit) | done (pf) |
 | 3 | Frozen defender doesn't retaliate | FROZEN-NO-RETALIATION | L3 | retaliates | todo |
 | 4 | Hidden (Hide) attacker takes no retaliation | CLOAK-DAGGER-RETALIATION | L3 | retaliates | todo |
 | 5 | No retaliation if defender's tribe can't see the attacker's tile | C20 | L3 | not checked | todo |

@@ -2,10 +2,16 @@
 
 - `pfcore/` contains the Polyfish engine modules copied from HenBOMB/Polyfish `polyfish-rs/src` (Apache-2.0, commit of 2026-09-02).
   - Left out: `ai/`, `bin/`, `main.rs`, `training_api.rs`, `recorder.rs` and `replay/`.
-  - One change: the Sanctuary spawn in `actions/mod.rs` uses DotNetRandom instead of StdRng.
+  - Changed from upstream (Apache-2.0 section 4b: modified files carry these changes):
+    - the Sanctuary spawn in `actions/mod.rs` uses DotNetRandom instead of StdRng;
+    - v123 rule corrections, listed below.
 - `vendor/` holds 25 dependency crates, copied from their GitHub release tags (`vendor_list.txt`).
   - Offline only: a `.cargo/config.toml` made `vendor/` stand in for crates.io (not in the repo; online `cargo build` fetches crates normally).
   - The `serde_derive` manifest is de-workspaced (inherited dependency versions written in).
 - Build: `cd pfcore && cargo build --release --offline`.
 - Generate maps: `target/release/genmaps <out> <n> <map_type 1-6> <size 0-5> <seed0> <tribe ids> [players]`.
   - Then analyse them with `../verify/analyze_map.py`.
+
+## v123 corrections (pf-port; ledger ids in brackets, tests in `src/v123_tests.rs`)
+
+- Poison halves only the defence bonus; the v115 extra -30% on defence is removed (`functions.rs`) [C7].

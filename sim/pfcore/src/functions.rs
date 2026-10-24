@@ -364,13 +364,10 @@ pub fn get_unit_attack(state: &GameState, unit: &UnitState) -> f32 {
     atk
 }
 
-/// Get unit defense strength (accounting for Poison)
+/// Get unit defense strength. v123 (ledger C7): poison only halves the defence bonus
+/// (get_defense_bonus); the v115 extra -30% on defence is gone.
 pub fn get_unit_defense(unit: &UnitState) -> f32 {
-    let mut def = crate::settings::units::get_unit_setting(unit.unit_type).defense;
-    if has_effect(unit, UnitEffect::Poison) {
-        def *= 0.7; // 30% defense reduction
-    }
-    def
+    crate::settings::units::get_unit_setting(unit.unit_type).defense
 }
 
 /// Get unit movement (accounting for Boost, Poison, and Skate)

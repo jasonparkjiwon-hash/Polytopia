@@ -1,0 +1,88 @@
+//! Tests for the v123 corrections (Polytopia repo, not upstream Polyfish).
+//! Each test names the ledger id (verify/ledger.json) and, where there is one, the save case it comes from.
+#![cfg(test)]
+
+use crate::coords::Coords;
+use crate::functions::{get_defense_bonus, get_unit_attack, get_unit_defense, get_unit_max_health};
+use crate::actions::units::calculate_combat;
+use crate::states::*;
+use crate::types::*;
+
+pub const SIZE: i32 = 11;
+
+/// An 11x11 board of Field tiles, players 1 and 2, player 1 to move.
+pub fn board() -> GameState {
+    let mut s = GameState::default();
+    s.settings.size = SIZE;
+    s.settings.tile_count = SIZE * SIZE;
+    s.settings.version = 123;
+    s.settings.current_player_turn_id = 1;
+    for idx in 0..SIZE * SIZE {
+        let mut t = TileState::default();
+        t.coords = Coords::from_index(idx, SIZE);
+        t.terrain_type = TerrainType::Field;
+        s.tiles.insert(idx, t);
+        s.structures.insert(idx, None);
+        s.resources.insert(idx, None);
+    }
+    for id in [1, 2] {
+        let mut t = TribeState::default();
+        t.id = id;
+        t.tribe_type = if id == 1 { TribeType::Imperius } else { TribeType::Bardur };
+        s.tribes.insert(id, t);
+    }
+    s
+}
+
+pub fn idx(x: i32, y: i32) -> i32 {
+    y * SIZE + x
+}
+
+/// Put a unit on (x, y); returns its index in the owner's unit list.
+pub fn add_unit(s: &mut GameState, owner: i32, ut: UnitType, x: i32, y: i32, hp: f32) -> usize {
+    let mut u = UnitState::default();
+    u.owner = owner;
+    u.unit_type = ut;
+    u.health = hp;
+    u.coords = Coords::from_xy(x, y, SIZE);
+    u.prev_coords = Coords::invalid();
+    s.tiles.get_mut(&idx(x, y)).unwrap()._unit_owner_id = Some(owner);
+    let t = s.tribes.get_mut(&owner).unwrap();
+    t.units.push(u);
+    t.units.len() - 1
+}
+
+pub fn unit(s: &GameState, owner: i32, i: usize) -> &UnitState {
+    &s.tribes[&owner].units[i]
+}
+
+/// Damage a direct attack would deal (attacker owner/index -> defender owner/index).
+pub fn damage(s: &GameState, a: (i32, usize), d: (i32, usize)) -> f32 {
+    let au = unit(s, a.0, a.1);
+    let du = unit(s, d.0, d.1);
+    calculate_combat(
+        get_unit_attack(s, au),
+        au.health,
+        get_unit_max_health(au),
+        get_unit_defense(du),
+        du.health,
+        get_unit_max_health(du),
+        get_defense_bonus(s, du),
+    )
+    .attack_damage
+}
+
+/// C7 (L3): poison halves defence, bonus included, nothing more.
+/// e15f392c turn 11: a Raychi (atk 3) hits a poisoned full-HP Warrior (def 2) on open ground for exactly 10.
+#[test]
+fn poison_halves_defence() {
+    let mut s = board();
+    let a = add_unit(&mut s, 1, UnitType::Raychi, 4, 5, 10.0);
+    let d = add_unit(&mut s, 2, UnitType::Warrior, 5, 5, 10.0);
+    s.tribes.get_mut(&2).unwrap().units[d].effects.insert(UnitEffect::Poison);
+    assert_eq!(get_unit_defense(unit(&s, 2, d)) * get_defense_bonus(&s, unit(&s, 2, d)), 1.0);
+    // a 15 HP Warrior tells 10 (x0.5) from 11 (x0.35, the v115 rule)
+    s.tribes.get_mut(&2).unwrap().units[d].health = 15.0;
+    s.tribes.get_mut(&2).unwrap().units[d].veteran = true;
+    assert_eq!(damage(&s, (1, a), (2, d)), 10.0);
+}

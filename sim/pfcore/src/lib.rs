@@ -20,3 +20,4 @@ pub use coords::Coords;
 pub use game::Game;
 pub use states::*;
 pub use types::*;
+mod v123_tests;
