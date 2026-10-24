@@ -326,3 +326,4 @@ Jason (Imperius) vs 15 Hard bots on a 30x30 map, exported every turn from 1 to 1
 - AMPHIBIOUS-WATER (24 Oct, pf-port): Aquarion Mermaids/Swordsmaids stand on shallow water with only the start tech (11 save records); ocean seen only with Navigation + Marine Life (open: which one opens ocean).
 - CYMANTI-TECHS (24 Oct, pf-port): v123 Cymanti use the base Sailing/Ramming/Navigation/Diplomacy; Raychi via Sailing (21/21), Boomchi via Ramming (35/35), Algae via Fishing (12/12), Moth via Diplomacy (n=1). Polyfish's Hydrology/Synergy/Oceantology replacements removed in sim/pfcore.
 - ALGAE-MOVE (L3, pf-legal): Cymanti units and boats move through Cymanti algae; whether another tribe's land unit stops on algae is untested (in-game test in status.md).
+- SKATE-MOVE (L3, pf-legal): skaters get +1 movement wherever they start; Mooni max 2, Battle Sled max 3 in the saves (answers pf-port's skating-range question from the saves).

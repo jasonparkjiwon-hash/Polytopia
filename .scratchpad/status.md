@@ -31,6 +31,8 @@ _Last updated 2026-10-23._
   2. Aqua Farm (build 49) and Aquarion structure 51: which tech unlocks each, and what does each do?
   3. Polaris skating: how far can a Mooni or Battle Sled move from a city (land) onto ice in one turn?
      (09a5bf1e t1: a Mooni went 2 tiles from its city onto ice.)
+     pf-legal: the saves show Mooni at most 2 and Battle Sled at most 3, from a city or ice alike (SKATE-MOVE);
+     only a Battle Sled 4 tiles over ice would change that.
 
 - pf-legal (24 Oct), one in-game check: move a non-Cymanti land unit (e.g. a Warrior) onto a Cymanti
   algae tile with 2+ moves left. Does it stop there, or can it keep going? (Cymanti units and boats keep

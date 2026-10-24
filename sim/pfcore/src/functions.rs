@@ -401,7 +401,7 @@ pub fn get_unit_defense(unit: &UnitState) -> f32 {
 }
 
 /// Get unit movement (accounting for Boost, Poison, and Skate)
-pub fn get_unit_movement(state: &GameState, unit: &UnitState) -> i32 {
+pub fn get_unit_movement(_state: &GameState, unit: &UnitState) -> i32 {
     let mut movement = crate::settings::units::get_unit_setting(unit.unit_type).movement;
 
     // Boost bonus
@@ -409,13 +409,10 @@ pub fn get_unit_movement(state: &GameState, unit: &UnitState) -> i32 {
         movement += 1;
     }
 
-    // Skate bonus: +1 movement on Ice (Resulting in 3 movement for standard skating units)
+    // Skate bonus: +1 movement; land tiles still end the move (moves/mod.rs is_terminal). v123 (ledger
+    // SKATE-MOVE): also when starting off the ice (09a5bf1e t1 #124: a Mooni leaves its city 2 tiles onto ice)
     if has_skill(unit, SkillType::Skate) {
-        if let Some(tile) = state.tiles.get(&unit.coords.idx) {
-            if tile.is_frozen() {
-                movement += 1;
-            }
-        }
+        movement += 1;
     }
 
     // Poison slows down enemy units: reduces movement by 1 (but cannot reduce to 0)

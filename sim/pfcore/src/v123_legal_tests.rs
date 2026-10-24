@@ -59,3 +59,20 @@ fn cymanti_move_through_algae() {
     s.tribes.get_mut(&1).unwrap().tribe_type = TribeType::Imperius;
     assert!(!has(&s, &StepMove::new(idx(5, 5), idx(6, 3))));
 }
+
+/// SKATE-MOVE (L3): a skater gets +1 movement leaving a city too. 09a5bf1e t1 #124: a Mooni (movement 1)
+/// leaves its city at (26,19) 2 tiles onto ice.
+#[test]
+fn mooni_skates_two_from_city() {
+    use crate::moves::step::StepMove;
+    use crate::v123_tests::add_unit;
+    let mut s = board();
+    explore(&mut s);
+    for (x, y) in [(5, 4), (5, 3), (5, 2)] {
+        s.tiles.get_mut(&idx(x, y)).unwrap().terrain_type = TerrainType::Ice;
+    }
+    add_city(&mut s, 1, 5, 5);
+    add_unit(&mut s, 1, UnitType::Mooni, 5, 5, 10.0);
+    assert!(has(&s, &StepMove::new(idx(5, 5), idx(5, 3))));
+    assert!(!has(&s, &StepMove::new(idx(5, 5), idx(5, 2))));
+}
