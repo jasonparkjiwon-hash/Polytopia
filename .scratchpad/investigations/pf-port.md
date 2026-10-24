@@ -166,6 +166,6 @@ pf-port keeps: economy / star drift, unit HP and position misses, the rest of th
 
 ## Next step
 
-Movement: compare Polyfish's step generator (moves/mod.rs is_steppable / is_navigationable_terrain /
-move cost) with the saves for Cymanti water units and Polaris skaters (`pf_miss.py --illegal`,
-`--detail "Move: target not in Polyfish step list"`).
+Movement, Explode, Convert, Outpost and 49/51 belong to pf-legal (pf-legal.md). pf-port next: star drift
+(`tools/pf_stars.py`: city rewards Polyfish doesn't offer, "econ itself off" rows in 6e1bf8e0) and the 11 unit
+misses (6e1bf8e0 HP drift; af181c8f t16 is the harness ruin hint).
