@@ -27,7 +27,7 @@ Pieces:
 - `scripts/check.sh` prints `pf_miss` TOTAL/LEGAL as an informational line (can't fail the baseline).
 - One hook in Polyfish: `UnitState.uid` (save unit id; rules ignore it).
 
-## Scores (2026-10-24, with pf-port through WATER-UNITS)
+## Scores (2026-10-24, with pf-port through the push rule, 032c9fd)
 
 Python referee: units 4728/4728, stars 802/819.
 
@@ -35,18 +35,32 @@ Python referee: units 4728/4728, stars 802/819.
 |---|---|---|
 | 09a5bf1e Cliff & Gods | 420/421 | 4/96 |
 | 1bf60251 Ankiian | 291/291 | 84/96 |
-| 6e1bf8e0 bot war | 204/230 | 1/32 |
-| af181c8f Oasis | 2362/2393 | 38/355 |
-| e15f392c Misty Fields | 1413/1425 | 28/240 |
-| **total** | **4690/4760** | **155/819** |
+| 6e1bf8e0 bot war | 208/224 | 1/32 |
+| af181c8f Oasis | 2365/2390 | 38/355 |
+| e15f392c Misty Fields | 1413/1424 | 28/240 |
+| **total** | **4697/4750** | **155/819** |
 
 Totals differ from 4728 because units Polyfish keeps alive (extras) count as misses too.
-Unit misses by kind: hp 29, missing 17, pos 17, extra 13, type 1.
+Unit misses by kind: hp 27, pos 13, extra 8, missing 4, type 1.
 
-Legality: **7813/8972 = 87.1%** of logged actions are in Polyfish's legal list.
-Capture 175/175, ExamineRuins 56/56, Recover 154/155, EndTurn 979/979, Attack 1160/1198,
-Move 3524/3765, Promote 35/38, CityReward 215/264, Train 750/1028, Research 233/369, Build 361/614,
+Legality: **7824/8972 = 87.2%** of logged actions are in Polyfish's legal list.
+Capture 175/175, Recover 155/155, EndTurn 979/979, ExamineRuins 56/56, Attack 1170/1198,
+Move 3544/3765, Promote 36/38, CityReward 215/264, Train 752/1028, Research 234/369, Build 363/614,
 Upgrade 94/127, BreakIce 30/92, Explode 11/24, OfferPeace 0/40, PeaceReply 0/37.
+
+## For pf-port, biggest first
+
+1. Bot bonus (ECON-BOT-BONUS): 571 of 664 star misses; its drift also makes ~460 Train/Build/Research
+   illegal. The loader fills `TribeState.handicap` from DifficultyHandicap as soon as the field exists.
+2. Aquarion techs: 45 AquaBase (start tech) must unlock water/flooded movement (142 illegal Moves,
+   58 fixed by a stand-in test), plus 39/46/47.
+3. Meeting stars (78 player-turns).
+4. Peace: OfferPeace/PeaceReply are switched off in Polyfish's generator (77 illegal).
+5. Break Ice: allowed after a move without Dash, and clears all adjacent ice (59 + 44 tiles).
+6. Train unlocks: Boomchi 56, Shark 53, Raychi 35, Moth 61, Living Island 57 (~85).
+7. Cymanti water units and Polaris skating movement (~69 Moves).
+8. Prices: Outpost (unimplemented), Starfish (+8, no Navigation needed), Enchant Animal 3, tech costs.
+9. ConvertMove never generated (Mind Bender, Shaman; Shaman damage).
 
 ## Harness rules (how logged actions become Polyfish moves)
 
@@ -139,6 +153,8 @@ boarded (PORT-BOARDS), Cymanti/Aquarion units not trained; the Shaman's convert 
 
 ## Next step
 
-1. OfferPeace / PeaceReply: see why Polyfish never offers them (`--detail OfferPeace`).
-2. Fill pf-port's new fields when they land: `TribeState.handicap`, `embassies`, `UnitState.ever_moved`.
-3. Re-run after each pf-port batch; keep this table current.
+1. Fill pf-port's new fields when they land: `TribeState.handicap` (DifficultyHandicap), `embassies`
+   (hosts with EmbassyLevel > 0, plus Embassy actions 30 in the log before the save).
+   `ever_moved` / `push_from` are already filled in pfreplay's priming (by pf-port).
+2. Re-run `pf_miss.py` after each pf-port batch; update the tables above.
+3. Once stars are close: drop the "on credit" crutch from the legality score (report both).
