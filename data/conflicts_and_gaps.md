@@ -329,3 +329,4 @@ Jason (Imperius) vs 15 Hard bots on a 30x30 map, exported every turn from 1 to 1
 - SKATE-MOVE (L3, pf-legal): skaters get +1 movement wherever they start; Mooni max 2, Battle Sled max 3 in the saves (answers pf-port's skating-range question from the saves).
 - PORT-STEP (L3, pf-legal): only boarding needs the own port; frozen ports, ports on flooded land and amphibious units walk onto any port.
 - WATER-UNITS-VILLAGE (L3, pf-legal): Raychi/Shark move from water into villages and cities and stop there.
+- EXPLODE-ANYTIME (L3, pf-legal): Explode needs no adjacent enemy.

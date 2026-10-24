@@ -23,14 +23,10 @@ pub fn generate_unit_action_moves_for_unit(
     }
 
     // Explode
-    // new change: Explode units can explode even after attacking
+    // new change: Explode units can explode even after attacking. v123 (ledger EXPLODE-ANYTIME): also with no
+    // enemy next to them (af181c8f t16 #2288: a Boomchi explodes on (13,9) with no unit around)
     if functions::has_skill(unit, SkillType::Explode) {
-        let enemies_around = get_adjacent_indices(state, idx, 1)
-            .iter()
-            .any(|&adj| functions::get_enemy_at(state, adj, pov_id).is_some());
-        if enemies_around {
-            moves.push(Box::new(ExplodeMove::new(idx)));
-        }
+        moves.push(Box::new(ExplodeMove::new(idx)));
     }
 
     // Break Ice: checks its own Dash / attacked rule, so it comes before the early return

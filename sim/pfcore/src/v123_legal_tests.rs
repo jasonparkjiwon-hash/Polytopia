@@ -113,3 +113,16 @@ fn raychi_enters_village() {
     assert!(has(&s, &StepMove::new(idx(5, 5), idx(6, 4))));
     assert!(!has(&s, &StepMove::new(idx(5, 5), idx(6, 6))), "plain land stays closed");
 }
+
+/// EXPLODE-ANYTIME (L3): a Boomchi can explode with no enemy around, after moving. af181c8f t16 #2288.
+#[test]
+fn explode_without_enemy() {
+    use crate::moves::abilities::explode::ExplodeMove;
+    use crate::v123_tests::add_unit;
+    let mut s = board();
+    s.tribes.get_mut(&1).unwrap().tribe_type = TribeType::Cymanti;
+    s.tiles.get_mut(&idx(5, 5)).unwrap().terrain_type = TerrainType::Ocean;
+    let b = add_unit(&mut s, 1, UnitType::Boomchi, 5, 5, 15.0);
+    s.tribes.get_mut(&1).unwrap().units[b].moved = true;
+    assert!(has(&s, &ExplodeMove::new(idx(5, 5))));
+}

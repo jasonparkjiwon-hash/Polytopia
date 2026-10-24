@@ -956,6 +956,13 @@
    "level": "L3 (saves: 10 logged moves)",
    "game_version": "v123 (measured in saves)",
    "evidence": "pf-legal 2026-10-24: 10 logged moves of Raychi/Shark from water or ocean into a village/city tile on land were out of reach in Polyfish (Water skill = water/flooded tiles only), e.g. af181c8f t14 #1875 Raychi (23,12) -> unowned village (24,11), t19 #2904 into own city (12,14); e15f392c t14 #1828 Shark 3 tiles into a village. Consistent with WATER-UNITS (these types are seen only on water, flooded tiles or cities). A/B: stopping in the village changes no logged move."
+  },
+  {
+   "id": "EXPLODE-ANYTIME",
+   "rule": "Explode (action 24) can be used with no enemy unit next to the exploder, after moving too (Cymanti Boomchi explode on water, e.g. to leave algae).",
+   "level": "L3 (saves: 12 explosions)",
+   "game_version": "v123 (measured in saves)",
+   "evidence": "pf-legal 2026-10-24: 12 logged Boomchi explosions were not offered by Polyfish v115 (needs an adjacent enemy), e.g. af181c8f t16 #2288 Boomchi 354 explodes on ocean (13,9) after moving, with no unit on any neighbour (tools/trace.py t16->t18: the 8 neighbours empty until a Raychi arrives at #2287 on (13,10), a Cymanti unit). Offering it without the enemy check makes 12 of 13 legal (the 13th is the Moth, MOTH-V123)."
   }
  ]
 }
