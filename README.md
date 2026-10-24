@@ -36,6 +36,19 @@ Expected from `check.sh` (the current baseline):
 - Oasis Struggle turn by turn (`af181c8f…_t1`–`_t26`, no t11/t17): see `data/conflicts_and_gaps.md` (full replay 2252 exact over 24 checkpoints).
 - Cliff & Gods turn by turn (`09a5bf1e…_t1`–`_t8`, Crazy, 16 players): 26, 33, 47, 63, 78, 91, 109: every unit exact.
 - Stars (`engine/economy.py`, last block of `check.sh`): Ankiian 96/96, bot war 18/32 (saves 4-6 turns apart), Misty Fields 239/240, Cliff & Gods 96/96 player-turns exact.
+- Held-out check (`python3 -I tools/miss.py --holdout`): no games held out yet (`data/holdout.json`).
+
+**Held-out protocol.** Every rule so far was tuned on the saves above, so their scores
+say how well the engine fits, not how well it predicts. To measure prediction:
+
+1. A new save (or a new run of turns in an old game) goes into `data/holdout.json`
+   `held` **before anyone looks at its misses or tunes a rule on it**.
+2. Score it once: `python3 -I tools/miss.py --holdout`. Write the result (date, units,
+   stars, the commit it was scored at) into that entry's `scored` field and the line above.
+3. Plain `tools/miss.py` leaves held checkpoints out, so tuning loops never see them.
+   `--all` scores everything.
+4. To start fixing its misses, move the entry to `released` (with the date). Never move a
+   game back: once tuned on, it is training data.
 
 Replay one game by hand:
 
