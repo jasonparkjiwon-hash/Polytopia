@@ -240,6 +240,20 @@ impl Replay {
         let t = a["type"].as_i64().unwrap_or(0);
         let v = unpack(t, a["raw"].as_str().unwrap_or(""));
         let actor = if v[0] == 255 { -1 } else { v[0] as i32 };
+        // meetings come only from the oracle (grant_meets): while the action plays, every tribe "knows" every other,
+        // so Polyfish's own discovery (turn start, Explorer) books none the next save doesn't show
+        let ids: Vec<i32> = self.game.state.tribes.keys().copied().collect();
+        let mut blocked: Vec<(i32, i32)> = Vec::new();
+        for (p, tr) in self.game.state.tribes.iter_mut() {
+            for &o in &ids { if o != *p && tr.known_players.insert(o) { blocked.push((*p, o)); } }
+        }
+        self.apply_outer(i, a, t, &v, actor);
+        for (p, o) in blocked {
+            if let Some(tr) = self.game.state.tribes.get_mut(&p) { tr.known_players.remove(&o); }
+        }
+    }
+
+    fn apply_outer(&mut self, i: usize, a: &Value, t: i64, v: &[i64], actor: i32) {
         if self.done.contains(&i) || t == 20 || t == 21 || actor < 0 { return self.apply_inner(i, a); }
         if actor != self.game.state.settings.current_player_turn_id {
             self.note("turn order differs (actor set)");
