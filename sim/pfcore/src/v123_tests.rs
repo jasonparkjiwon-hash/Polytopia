@@ -223,3 +223,35 @@ fn aquarion_units() {
     assert_eq!(smith, vec![UnitType::Swordsmaid]);
     assert_eq!(get_unlocked_units(TechnologyType::Smithery, TribeType::Imperius), vec![UnitType::Swordsman]);
 }
+
+pub fn put_structure(s: &mut GameState, x: i32, y: i32, st: StructureType) {
+    s.structures.insert(
+        idx(x, y),
+        Some(StructureState { structure_type: st, level: 1, founded: 0 }),
+    );
+}
+
+/// Move player 1's unit i to (x, y) as a voluntary step.
+pub fn step(s: &mut GameState, owner: i32, i: usize, x: i32, y: i32) {
+    s.settings.current_player_turn_id = owner;
+    let _ = crate::actions::units::step_unit(s, owner, i, idx(x, y), false);
+}
+
+/// GIANT-JUGGERNAUT (L3, af181c8f: 19/19 Juggernauts carry a Giant): a Giant boarding at a port becomes a
+/// Juggernaut carrying the Giant, and lands as a Giant.
+#[test]
+fn giant_boards_as_juggernaut_and_lands() {
+    let mut s = board();
+    s.tiles.get_mut(&idx(5, 5)).unwrap().terrain_type = TerrainType::Water;
+    s.tiles.get_mut(&idx(5, 5)).unwrap().owner = 1;
+    s.tiles.get_mut(&idx(6, 5)).unwrap().terrain_type = TerrainType::Water;
+    put_structure(&mut s, 5, 5, StructureType::Port);
+    let g = add_unit(&mut s, 1, UnitType::Giant, 4, 5, 40.0);
+    step(&mut s, 1, g, 5, 5);
+    assert_eq!(unit(&s, 1, g).unit_type, UnitType::Juggernaut);
+    assert_eq!(unit(&s, 1, g).passenger_type, Some(UnitType::Giant));
+    step(&mut s, 1, g, 6, 5);
+    step(&mut s, 1, g, 7, 5);
+    assert_eq!(unit(&s, 1, g).unit_type, UnitType::Giant);
+    assert_eq!(unit(&s, 1, g).passenger_type, None);
+}

@@ -622,7 +622,11 @@ pub fn step_unit(
                     }
                     UnitType::Cloak => unit.unit_type = UnitType::Dinghy,
                     UnitType::Dagger => unit.unit_type = UnitType::Pirate,
-                    UnitType::Giant => unit.unit_type = UnitType::Juggernaut,
+                    // v123 (ledger GIANT-JUGGERNAUT): the Juggernaut carries the Giant and lands as a Giant
+                    UnitType::Giant => {
+                        unit.unit_type = UnitType::Juggernaut;
+                        unit.passenger_type = Some(UnitType::Giant);
+                    }
                     _ => {
                         unit.unit_type = UnitType::Raft;
                         unit.passenger_type = Some(old_type);

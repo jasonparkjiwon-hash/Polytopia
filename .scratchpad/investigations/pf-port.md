@@ -38,7 +38,7 @@ Status: **done** = ported with a test; **pf ok** = Polyfish already does it;
 | 9 | Shaman and Mooni have no Static | C29b | L3 | Static | done |
 | 10 | Aquarion units 46 Mermaid, 48 Swordsmaid, 53 Shark | AQUARION-UNIT, UNIT-ID-48, UNIT-ID-53 | L3/L3/L2 | missing | done (Shark's unlock waits on #54); pf_miss units 4356/4898 -> 4424/4873 |
 | 11 | Aquarion ids 47, 49-52, 54, 55 | AQUARION-UNIT-IDS | L0 | missing | flag (not added) |
-| 12 | Giant boards as Juggernaut carrying the Giant; lands as Giant | GIANT-JUGGERNAUT | L3 | Juggernaut with no passenger, never lands | todo |
+| 12 | Giant boards as Juggernaut carrying the Giant; lands as Giant | GIANT-JUGGERNAUT | L3 | Juggernaut with no passenger, never lands | done |
 | 13 | Giant boarding as Juggernaut stomps | STOMP-ON-BOARDING | L3 | uses old type (no stomp) | todo |
 | 14 | Only own port boards | PORT-BOARDS | L3 | any port | todo |
 | 15 | Boat on Aquarion-flooded land stays a boat; walker stays walker | FLOOD-ALGAE | L3 | boat lands | todo |
