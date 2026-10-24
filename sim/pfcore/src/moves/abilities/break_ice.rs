@@ -56,9 +56,21 @@ impl Move for BreakIceMove {
         });
 
         if let Some(u_idx) = actor_idx {
-            // 2. Modify Terrain (Ice -> Water)
-            // Polytopia uses the original terrain (Water vs Ocean), but default to Water if unknown.
-            undos.push(modify_terrain(state, ice_idx, TerrainType::Water));
+            // 2. v123 (ledger ACTION-18-BREAK-ICE): all the ice around the acting unit goes back to the
+            // water or ocean it was (Water if unknown), except under a unit
+            let actor_tile = state.tribes[&pov_id].units[u_idx].coords.idx;
+            let mut around = get_adjacent_indices(state, actor_tile, 1);
+            around.push(actor_tile);
+            for k in around {
+                let back = match state.tiles.get(&k) {
+                    Some(t) if t.terrain_type == TerrainType::Ice => t.frozen_from.unwrap_or(TerrainType::Water),
+                    _ => continue,
+                };
+                if crate::functions::get_true_unit_at(state, k).is_some() {
+                    continue;
+                }
+                undos.push(modify_terrain(state, k, back));
+            }
 
             // 3. End unit turn
             undos.push(end_unit_turn(state, pov_id, u_idx));

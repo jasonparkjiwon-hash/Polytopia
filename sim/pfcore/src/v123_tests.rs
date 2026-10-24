@@ -420,3 +420,22 @@ fn mooni_freeze() {
     assert_eq!(s.tiles[&idx(7, 6)].terrain_type, TerrainType::Ocean);
     assert!(unit(&s, 2, e).effects.contains(&UnitEffect::Frozen));
 }
+
+/// ACTION-18-BREAK-ICE (L3; Jason's in-game text, 91/92 uses had ice next to the unit): Break Ice turns all the
+/// ice around the acting unit back to water or ocean, except under a unit.
+#[test]
+fn break_ice_around_unit() {
+    use crate::moves::Move;
+    let mut s = board();
+    for (x, y, from) in [(4, 4, Some(TerrainType::Ocean)), (6, 6, None), (6, 4, None)] {
+        let t = s.tiles.get_mut(&idx(x, y)).unwrap();
+        t.terrain_type = TerrainType::Ice;
+        t.frozen_from = from;
+    }
+    add_unit(&mut s, 1, UnitType::Warrior, 5, 5, 10.0);
+    add_unit(&mut s, 2, UnitType::Warrior, 6, 4, 10.0);
+    crate::moves::abilities::break_ice::BreakIceMove::new(idx(4, 4)).execute(&mut s).unwrap();
+    assert_eq!(s.tiles[&idx(4, 4)].terrain_type, TerrainType::Ocean);
+    assert_eq!(s.tiles[&idx(6, 6)].terrain_type, TerrainType::Water);
+    assert_eq!(s.tiles[&idx(6, 4)].terrain_type, TerrainType::Ice);
+}

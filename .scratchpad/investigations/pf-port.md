@@ -58,7 +58,7 @@ Status: **done** = ported with a test; **pf ok** = Polyfish already does it;
 | 29 | Polaris capture freezes own water around the city | POLARIS-CAPTURE-FREEZE | L3 | no | todo |
 | 30 | Ice Archer hit freezes the target | FROZEN-NO-RETALIATION | L3 | pf ok | done (pf) |
 | 31 | Frozen unit sits its next turn out, thaws | FROZEN-NO-RETALIATION | L3 | pf ok (unfreeze + end turn) | done (pf) |
-| 32 | Break Ice (action 18) | ACTION-18-BREAK-ICE | L3 | break_ice.rs | check |
+| 32 | Break Ice (action 18) | ACTION-18-BREAK-ICE | L3 | break_ice.rs | done (actor = first eligible own unit next to the target ice; may differ from the logged unit) |
 | 33 | Idle auto-recover for the human only | IDLE-AUTO-RECOVER | L3 | every active player | todo |
 | 34 | Heal 4 own territory / 2 elsewhere | HEAL-TERRITORY | L2 | pf ok | done (pf) |
 | 35 | Heal Others (action 4) +4 to adjacent friends | ACTION-4-HEAL | L3 | heal_others.rs | check |
