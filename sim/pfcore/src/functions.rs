@@ -956,7 +956,10 @@ pub fn is_steppable_for_push(state: &GameState, unit: &UnitState, idx: i32) -> b
             let has_bridge = get_structure_type_at(state, idx) == Some(StructureType::Bridge);
             let has_port = get_structure_type_at(state, idx) == Some(StructureType::Port);
             let is_our_port = has_port && tile.owner == unit.owner;
+            // v123 (ledger WATER-UNITS; AMPHIBIOUS-WATER): water and amphibious units go onto water too
             if !settings.skills.contains(&SkillType::Float)
+                && !settings.skills.contains(&SkillType::Water)
+                && !(settings.skills.contains(&SkillType::Amphibious) && tile.terrain_type == TerrainType::Water)
                 && !tile.is_algae()
                 && !has_bridge
                 && !is_our_port

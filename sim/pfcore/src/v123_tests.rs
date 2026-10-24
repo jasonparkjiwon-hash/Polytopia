@@ -795,3 +795,17 @@ fn workshop_counts_once() {
     crate::moves::reward::RewardMove::new(idx(5, 5), CityRewardType::Workshop).execute(&mut s).unwrap();
     assert_eq!(crate::functions::get_city_production(&s, &s.tribes[&1].cities[0]) - before, 1);
 }
+
+/// WATER-UNITS (L2) / KILL-MOVE-IN: a water unit follows a kill onto water. e15f392c t8 action 843: Raychi 147 killed
+/// Luxidoor unit 122 on (2,14) and stood there at t9.
+#[test]
+fn water_unit_follows_kill_on_water() {
+    let mut s = board();
+    for x in 4..=5 {
+        s.tiles.get_mut(&idx(x, 5)).unwrap().terrain_type = TerrainType::Water;
+    }
+    let a = add_unit(&mut s, 1, UnitType::Raychi, 4, 5, 10.0);
+    add_unit(&mut s, 2, UnitType::Raft, 5, 5, 1.0);
+    attack(&mut s, a, 0);
+    assert_eq!(unit(&s, 1, a).coords.idx, idx(5, 5));
+}

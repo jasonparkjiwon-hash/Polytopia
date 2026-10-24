@@ -54,3 +54,4 @@
 - A move onto a hidden enemy reveals it and uses the move but not the attack (`moves/step.rs`) [MOVE-BLOCKED-HIDDEN].
 - Breaking peace disbands the breaker's units inside the ex-ally's territory (`moves/abilities/diplomacy.rs`) [DIPLO-BREAK-DISBAND].
 - A Workshop or Park adds +1 income once (Polyfish raised production and also counted the reward) (`moves/reward.rs`) [ECON-INCOME].
+- Water-skill units (and amphibious units on shallow water) follow a kill onto water (`functions.rs` is_steppable_for_push) [WATER-UNITS].

@@ -77,7 +77,7 @@ Status: **done** = ported with a test; **pf ok** = Polyfish already does it;
 | 48 | Market pays level of each adjacent Windmill/Sawmill/Forge | ECON-MARKET-CLATHRUS | L3 | +1 each | done |
 | 49 | Clathrus +1 per adjacent Fungi (card) vs Algae (Polyfish) | ECON-MARKET-CLATHRUS | split, untested | Algae | flag |
 | 50 | City level +1 per city reward | CITY-LEVEL-BY-REWARD | L3 | reward.rs | pf: level rises from population, reward follows; harness plays logged rewards (pf-loader) |
-| 51 | Meet stars from the met tribe's score | ECON-MEET | L3 | get_star_exchange | check |
+| 51 | Meet stars from the met tribe's score | ECON-MEET | L3 | get_star_exchange | pf ok (formula); trigger: see Findings (exploration gap) |
 | 52 | Tech cost tier x cities + 4; Literacy 2/3 ceil | TECH-COST | L2 | x0.66 ceil | done |
 | 53 | Tribe techs priced at the replaced tech's tier (Polarism, Oceantology 3, ...) | TRIBE-TECH-TIERS | L3 | tier missing -> 1 for most | done (stars 700 -> 719) |
 | 54 | Aquarion techs 39, 46, 47 by tier | AQUARION-TECH-TIERS | L3 (tiers) | missing | done (stars 688 -> 700, legal 91.4 -> 91.8%) |
@@ -92,7 +92,8 @@ Status: **done** = ported with a test; **pf ok** = Polyfish already does it;
 | 63 | Capture takes the 3x3 (unowned / old owner's), not radius-2 same-owner tiles | CAPTURE-TERRITORY | L2 | city._territory (radius 2, any same-owner tile) | done (+2 units, pf-loader item 9) |
 | 64 | A captured capital isn't the captor's capital (+1 income, bot bonus) | ECON-INCOME, ECON-BOT-BONUS | L3 | capital_of moves to the captor | done (stars 740 -> 742) |
 | 65 | A city's building income counts only tiles it rules (post_load territories overlap) | ECON-MARKET-CLATHRUS | L3 | counted in every overlapping city | done (Market port 741 -> 742) |
-| 57 | Bridge carries land units | BRIDGE-LAND | L3 | pf ok (is_steppable) | check |
+| 66 | Water and amphibious units follow a kill onto water | WATER-UNITS, KILL-MOVE-IN | L2/L3 | only Float units | done (unit misses 29 -> 12) |
+| 57 | Bridge carries land units | BRIDGE-LAND | L3 | pf ok (is_steppable) | done (pf: is_steppable allows bridges for walkers; boats pass under) |
 
 ## Flagged (below L1, off)
 
@@ -116,6 +117,12 @@ Misses = compared - exact.
 - Flooded land keeps boats (#15): 178 -> 170. Stiff stays after kill (#17): 0.
 - Water units into a city (#20): 117 -> 98 misses, stars 157 -> 155 (sieges by those units; check when stars are worked on).
 - Push rule (#22-25): 70 -> 53 (at 032c9fd, after pf-loader's fixes).
+- Freeze (#27), captures freeze (#28-29): units 0, legal +5. Break Ice all around (#32): legal +34. Idle recover human-only (#33): +3.
+- Explode (#36): misses 50 -> 36. Bot bonus (#46): stars 155 -> 688. Aquarion techs (#54): stars 688 -> 700, legal 91.4 -> 91.8%.
+- Amphibious water (#59): legal Moves +127. Tribe tech tiers (#53): stars 700 -> 719. Starfish (#60): +1 star.
+- Enchant 3 (#55): stars 720 -> 730. Outpost (#62): 730 -> 740. Capture 3x3 (#63): +2 units. Captured capital (#64): +2 stars.
+- Market by level (#48): -1 star until the ruling-city fix (#65) made the row exact (742). Embassy (#47): +2 stars.
+- Shaman damage (#38): +3 units. Hidden bump (#40): +1 legal. Workshop/Park once (#44): stars 744 -> 750.
 
 ## Findings
 
