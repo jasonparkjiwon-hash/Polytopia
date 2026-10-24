@@ -19,11 +19,10 @@ _Last updated 2026-10-23._
 |---|---|
 | Jason | — |
 | Minjae | — |
-| Claude (orchestrator) | Polish program (backlog "Polish"): runs the four sessions below and merges their results |
-| Claude: polish-oasis | Done 23 Oct: Oasis Struggle (`af181c8f`) unit misses 21 -> 0 (`investigations/oasis-units.md`) |
-| Claude: polish-botwar | Unit misses, bot war (`6e1bf8e0`) |
-| Claude: polish-stars | Star tail (`engine/economy.py`) |
-| Claude: polish-rules | Unverified rules as flagged switches, rule labelling, wiki cross-check |
+| Claude (orchestrator) | Phase 3 prep (backlog item 0): runs the sessions below |
+| Claude: pf-loader | Load saves into Polyfish, score it, legality check |
+| Claude: pf-port | Port v123 corrections into Polyfish |
+| Claude: sim-dist | Measured distributions for random parts; held-out check |
 
 ## Waiting on Jason
 

@@ -6,25 +6,23 @@ Set it when you pick an item up so two people don't do the same work.
 Score now: 4709/4753 units (99.1%) and 762/819 star player-turns exact
 (`python3 -I tools/miss.py`).
 
-## 0. Polish program (Jason, 23 Oct): deterministic parts exact
+## 0. Phase 3 prep: Polyfish as the forward model (Jason, 24 Oct)
 
-Goal: every deterministic rule (combat, movement, income, tech cost) matches every
-save; random parts (ruins, bot choices) become measured distributions; every rule
-the engine uses has a ledger id and level. Four parallel Claude sessions, one
-investigation file each in `investigations/`:
+Polish is done for now (units 4728/4728, stars 802/819); it continues over time as
+sims run. Plan: `docs/simulator_choice.md` "What has to happen before Phase 3".
+Polyfish (`sim/pfcore`, Rust) becomes the forward model; `engine/` stays the
+referee. Three parallel Claude sessions, one investigation file each:
 
-| Stream | File | Owns (edit freely) |
+| Stream | File | Owns |
 |---|---|---|
-| polish-oasis | `investigations/oasis-units.md` | Oasis unit misses; combat/move code in `engine/replay.py` |
-| polish-botwar | `investigations/botwar-units.md` | Bot war unit misses; same file, so rebase often |
-| polish-stars | `investigations/star-tail.md` | `engine/economy.py`; items 1 and 3 below |
-| polish-rules | `investigations/flagged-rules.md` | New `RULES` switches for unseen rules, rule labelling, "Not yet in any save", item 4 |
+| pf-loader | `investigations/pf-loader.md` | Save JSON -> Polyfish GameState; run logged actions in Polyfish; `tools/pf_miss.py` scored like `tools/miss.py`; then a legality check (every logged action is in Polyfish's legal-move list) |
+| pf-port | `investigations/pf-port.md` | Port the v123 corrections (every ledger rule at L1+) into `sim/pfcore`, one rule per commit, each with a Rust unit test; list of what Polyfish still lacks |
+| sim-dist | `investigations/sim-dist.md` | Random parts as measured distributions (ruin rewards, bot choices that matter to the sim) in `data/`; held-out check (`tools/miss.py --holdout`) |
 
-Shared-file rules: small commits; `git pull --rebase origin main` before every
-push, then re-run `tools/miss.py` and `check.sh` on the rebased tree; the A/B gate
-is the combined total. Ledger edits only through `tools/ledger.py` (on a rebase
-conflict in the ledger, take upstream and re-run your ledger command). Don't edit
-`CLAUDE.md`.
+Shared rules: small commits, `git pull --rebase origin main` before every push,
+`sh scripts/check.sh` must hold the README baseline; don't edit `CLAUDE.md`.
+pf-loader and pf-port both touch `sim/pfcore`: pf-loader adds new files (a loader
+module, a bin), pf-port edits rule code; rebase often.
 
 ## 1. Aquarion research (star misses)
 
