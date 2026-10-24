@@ -72,7 +72,7 @@ Status: **done** = ported with a test; **pf ok** = Polyfish already does it;
 | 43 | Super unit by tribe | SUPER-UNIT-BY-TRIBE | L3/L1 | pf ok | done (pf) |
 | 44 | Income = level + capital + Workshop/Park + min(0,pop) | ECON-INCOME | L3 | production field + capital + rewards + progress<0 | check |
 | 45 | Siege: city with enemy on centre earns 0 | ECON-SIEGE | L3 | pf ok | done (pf) |
-| 46 | Bot bonus: handicap-1 a turn while holding own unbesieged capital | ECON-BOT-BONUS | L3 | missing | todo |
+| 46 | Bot bonus: handicap-1 a turn while holding own unbesieged capital | ECON-BOT-BONUS | L3 | missing | done (stars 155 -> 688/819) |
 | 47 | Embassy: 5 +2 each further (engine 4, split), income 2 / 4 at peace for host (builder only at peace) | ECON-EMBASSY, EMBASSY-ACTION | L1/L3 | 5 flat, no income | todo |
 | 48 | Market pays level of each adjacent Windmill/Sawmill/Forge | ECON-MARKET-CLATHRUS | L3 | +1 each | todo |
 | 49 | Clathrus +1 per adjacent Fungi (card) vs Algae (Polyfish) | ECON-MARKET-CLATHRUS | split, untested | Algae | flag |

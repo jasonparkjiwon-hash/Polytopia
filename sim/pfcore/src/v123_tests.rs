@@ -489,3 +489,20 @@ fn explode_damage() {
     }
     assert!(s.tribes[&1].units.is_empty());
 }
+
+/// ECON-BOT-BONUS (L3): bots get DifficultyHandicap - 1 stars a turn (Crazy 4 -> +3, Hard 2 -> +1, human/Easy 1
+/// -> 0), only while they hold their own capital with no enemy on it (A/B 2026-10-23: a besieged capital loses it).
+#[test]
+fn bot_bonus() {
+    use crate::functions::get_bot_bonus;
+    let mut s = board();
+    add_city(&mut s, 1, 5, 5);
+    s.tiles.get_mut(&idx(5, 5)).unwrap().capital_of = 1;
+    s.tribes.get_mut(&1).unwrap().handicap = 4;
+    assert_eq!(get_bot_bonus(&s, &s.tribes[&1]), 3);
+    s.tribes.get_mut(&1).unwrap().handicap = 1;
+    assert_eq!(get_bot_bonus(&s, &s.tribes[&1]), 0);
+    s.tribes.get_mut(&1).unwrap().handicap = 2;
+    add_unit(&mut s, 2, UnitType::Warrior, 5, 5, 10.0);
+    assert_eq!(get_bot_bonus(&s, &s.tribes[&1]), 0);
+}

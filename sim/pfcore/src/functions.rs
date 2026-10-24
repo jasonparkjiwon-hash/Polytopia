@@ -597,6 +597,19 @@ pub fn get_total_production(state: &GameState, cities: &[CityState]) -> i32 {
     cities.iter().map(|c| get_city_production(state, c)).sum()
 }
 
+/// v123 (ledger ECON-BOT-BONUS): a bot earns DifficultyHandicap - 1 extra stars a turn, only while it holds
+/// its own capital and no enemy unit stands on it.
+pub fn get_bot_bonus(state: &GameState, tribe: &TribeState) -> i32 {
+    let bonus = (tribe.handicap - 1).max(0);
+    if bonus == 0 {
+        return 0;
+    }
+    let holds_capital = tribe.cities.iter().any(|c| {
+        state.tiles.get(&c.idx).map_or(false, |t| t.capital_of == tribe.id) && !is_under_siege(state, c.idx)
+    });
+    if holds_capital { bonus } else { 0 }
+}
+
 /// Get total tribe SPT (stars per turn)
 pub fn get_tribe_spt(state: &GameState, tribe: &TribeState) -> i32 {
     get_total_production(state, &tribe.cities)

@@ -391,6 +391,9 @@ pub struct TribeState {
     pub known_players: HashSet<PlayerId>,
     #[serde(default)]
     pub bot: bool,
+    /// v123 (ECON-BOT-BONUS): the save's DifficultyHandicap (1 human and Easy, 2 Hard, 4 Crazy); 0 = unknown
+    #[serde(default)]
+    pub handicap: i32,
     #[serde(default)]
     pub score: i32,
     #[serde(default)]
@@ -445,6 +448,7 @@ impl Default for TribeState {
             built_unique_improvements: HashSet::new(),
             known_players: HashSet::new(),
             bot: false,
+            handicap: 0,
             score: 0,
             stars: 0,
             tribe_type: TribeType::None,

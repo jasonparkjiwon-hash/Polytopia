@@ -146,6 +146,7 @@ pub fn load(d: &Value, which: &str, current_player: i32) -> Result<(Game, LoadRe
         let mut t = TribeState { id, tribe_type: tribe, ..Default::default() };
         t.username = p.get("Name").and_then(|v| v.as_str()).unwrap_or("").to_string();
         t.bot = i(p, "AutoPlay") != 0;
+        t.handicap = i(p, "DifficultyHandicap") as i32; // pf-port ECON-BOT-BONUS
         t.stars = i(p, "Currency") as i32;
         t.score = i(p, "Score") as i32;
         t.kills = i(p, "Kills") as i32;
