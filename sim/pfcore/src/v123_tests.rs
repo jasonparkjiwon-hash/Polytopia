@@ -608,3 +608,25 @@ fn philosophy_discount() {
     assert_eq!(get_tech_cost(2, 3, true), 7); // 10 -> 6.67 -> 7
     assert_eq!(get_tech_cost(23, 2, true), 34); // 50 -> 33.3 -> 34 (x0.66 gives 33)
 }
+
+/// Starfish (pf-port count: all 32 harvests in the saves came with Navigation, Polaris's with Polar Warfare):
+/// the tribe's version of Navigation is enough to gather Starfish (+8, ECON-PRICES-V123).
+#[test]
+fn polaris_gathers_starfish() {
+    use crate::moves::Move;
+    let mut s = board();
+    s.tribes.get_mut(&1).unwrap().tribe_type = TribeType::Polaris;
+    s.tribes.get_mut(&1).unwrap().tech_vanilla.push(TechnologyState {
+        tech_type: TechnologyType::PolarWarfare,
+        discovered: true,
+        ..Default::default()
+    });
+    s.resources.insert(idx(5, 5), Some(ResourceState { resource_type: ResourceType::Starfish }));
+    s.tiles.get_mut(&idx(5, 5)).unwrap().terrain_type = TerrainType::Water;
+    add_unit(&mut s, 1, UnitType::Raft, 5, 5, 10.0);
+    let cap = crate::moves::capture::CaptureMove::new(idx(5, 5)).serialize();
+    assert!(crate::moves::generate_legal_moves(&s).iter().any(|m| m.serialize() == cap));
+    let stars = s.tribes[&1].stars;
+    crate::moves::capture::CaptureMove::new(idx(5, 5)).execute(&mut s).unwrap();
+    assert_eq!(s.tribes[&1].stars, stars + 8);
+}

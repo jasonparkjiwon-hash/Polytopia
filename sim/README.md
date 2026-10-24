@@ -41,3 +41,4 @@
 - Amphibious units step onto shallow water and flooded land without a tech (`moves/mod.rs`) [AMPHIBIOUS-WATER, new ledger entry].
 - Tribe techs take the tier and prerequisite of the base tech they replace (most had tier 1 and could not be researched); the researchable list has no duplicates (`settings/technology.rs`) [TRIBE-TECH-TIERS].
 - Philosophy discount is ceil(cost x 2/3) (`settings/technology.rs`) [TECH-COST].
+- Starfish can be gathered with Navigation or the tribe's version of it (Polar Warfare) (`moves/mod.rs`, `moves/capture.rs`) [ECON-PRICES-V123].

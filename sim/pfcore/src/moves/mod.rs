@@ -279,10 +279,11 @@ fn generate_capture_moves(state: &GameState, unit: &UnitState, moves: &mut Vec<B
     if let Some(Some(resource)) = state.resources.get(&idx).as_ref() {
         if resource.resource_type == ResourceType::Starfish {
             let tribe = &state.tribes[&unit.owner];
-            if crate::settings::technology::has_technology(
-                &tribe.tech_vanilla,
-                TechnologyType::Navigation,
-            ) {
+            // v123 (pf-port; 32/32 Starfish harvests in the saves): Navigation, or the tribe's version of it
+            let nav = crate::settings::technology::resolve_tech_for_tribe(TechnologyType::Navigation, tribe.tribe_type);
+            if crate::settings::technology::has_technology(&tribe.tech_vanilla, TechnologyType::Navigation)
+                || crate::settings::technology::has_technology(&tribe.tech_vanilla, nav)
+            {
                 moves.push(Box::new(CaptureMove::new(idx)));
             }
         }

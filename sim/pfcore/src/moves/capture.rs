@@ -140,10 +140,15 @@ impl Move for CaptureMove {
                     if resource.resource_type == crate::types::ResourceType::Starfish {
                         // Just in case
                         if let Some(tribe) = state.tribes.get(&unit_owner) {
+                            let nav = crate::settings::technology::resolve_tech_for_tribe(
+                                crate::types::TechnologyType::Navigation,
+                                tribe.tribe_type,
+                            );
                             if !crate::settings::technology::has_technology(
                                 &tribe.tech_vanilla,
                                 crate::types::TechnologyType::Navigation,
-                            ) {
+                            ) && !crate::settings::technology::has_technology(&tribe.tech_vanilla, nav)
+                            {
                                 return Err("Cannot gather starfish without Navigation technology"
                                     .to_string());
                             }

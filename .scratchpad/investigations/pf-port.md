@@ -86,6 +86,8 @@ Status: **done** = ported with a test; **pf ok** = Polyfish already does it;
 | 58 | Navigation requires Sailing (base tree) | TECH-TREE | L3 | requires Ramming | done |
 | 58 | Navigation requires Sailing (base tree) | TECH-TREE | L3 | requires Ramming | done |
 | 59 | Amphibious units onto shallow water / flooded land with no tech | AMPHIBIOUS-WATER (new) | L3 | needs a water tech | done (legal Moves +127) |
+| 60 | Starfish: Navigation or the tribe's version (Polar Warfare) | ECON-PRICES-V123 + save count 32/32 | L3 | plain Navigation only | done |
+| 61 | Break Ice after a Dash move | ACTION-18-AFTER-MOVE | L3 | not offered | done by pf-loader (d4e40af) |
 | 57 | Bridge carries land units | BRIDGE-LAND | L3 | pf ok (is_steppable) | check |
 
 ## Flagged (below L1, off)
