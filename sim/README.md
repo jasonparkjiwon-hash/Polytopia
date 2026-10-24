@@ -56,3 +56,4 @@
 - A Workshop or Park adds +1 income once (Polyfish raised production and also counted the reward) (`moves/reward.rs`) [ECON-INCOME].
 - Water-skill units (and amphibious units on shallow water) follow a kill onto water (`functions.rs` is_steppable_for_push) [WATER-UNITS].
 - A Cymanti water ruin's unit is a veteran Boomchi (`actions/structure.rs`) [RUIN-UNIT-CYMANTI].
+- Resource harvests accept the tribe's version of the tech, and Aquarion's 47 counts as Fishing (`settings/technology.rs` has_tech_for_tribe, `moves/mod.rs`, `functions.rs`).

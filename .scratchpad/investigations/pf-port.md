@@ -94,6 +94,7 @@ Status: **done** = ported with a test; **pf ok** = Polyfish already does it;
 | 65 | A city's building income counts only tiles it rules (post_load territories overlap) | ECON-MARKET-CLATHRUS | L3 | counted in every overlapping city | done (Market port 741 -> 742) |
 | 66 | Water and amphibious units follow a kill onto water | WATER-UNITS, KILL-MOVE-IN | L2/L3 | only Float units | done (unit misses 29 -> 12) |
 | 67 | Cymanti water ruin gives a veteran Boomchi | RUIN-UNIT-CYMANTI | L3 | Rammership + Warrior | done (+1 unit) |
+| 68 | Fish harvest with the tribe's Fishing (Aquarion 47, Polaris Frostwork) | save count 14/14, 13/13 | L3 | base Fishing only | done (legal Build 518 -> 545) |
 | 57 | Bridge carries land units | BRIDGE-LAND | L3 | pf ok (is_steppable) | done (pf: is_steppable allows bridges for walkers; boats pass under) |
 
 ## Flagged (below L1, off)

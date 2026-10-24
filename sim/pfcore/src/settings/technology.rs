@@ -426,6 +426,14 @@ pub fn has_technology(tech_list: &[crate::states::TechnologyState], tech: Techno
         .any(|t| t.tech_type == tech && t.discovered)
 }
 
+/// v123 (pf-port): does the tribe hold this tech or its own version of it? Aquarion's 47 counts as Fishing
+/// (every Aquarion Fishing build in the saves came with 47, 14/14; Polaris's with Frostwork, 13/13).
+pub fn has_tech_for_tribe(tribe: &crate::states::TribeState, tech: TechnologyType) -> bool {
+    has_technology(&tribe.tech_vanilla, tech)
+        || has_technology(&tribe.tech_vanilla, resolve_tech_for_tribe(tech, tribe.tribe_type))
+        || (tech == TechnologyType::Fishing && has_technology(&tribe.tech_vanilla, TechnologyType::AquaFishing))
+}
+
 /// Helper to find which technology unlocks a specific unit
 pub fn get_tech_unlocking_unit(unit_type: UnitType) -> Option<TechnologyType> {
     use strum::IntoEnumIterator;

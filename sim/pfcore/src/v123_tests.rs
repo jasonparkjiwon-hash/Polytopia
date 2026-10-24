@@ -823,3 +823,25 @@ fn cymanti_water_ruin_boomchi() {
     let b = s.tribes[&1].units.iter().find(|u| u.unit_type == UnitType::Boomchi).expect("Boomchi");
     assert_eq!((b.coords.idx, b.health, b.veteran), (idx(5, 5), 15.0, true));
 }
+
+/// Fishing by tribe version (pf-port save count: Aquarion's Fishing builds all came with 47, 14/14; Polaris's with
+/// Frostwork, 13/13): either tech offers the fish harvest.
+#[test]
+fn fishing_with_tribe_tech() {
+    use crate::moves::Move;
+    for (tribe, tech) in [(TribeType::Aquarion, TechnologyType::AquaFishing), (TribeType::Polaris, TechnologyType::Frostwork)] {
+        let mut s = board();
+        s.tribes.get_mut(&1).unwrap().tribe_type = tribe;
+        s.tribes.get_mut(&1).unwrap().stars = 5;
+        s.tribes.get_mut(&1).unwrap().tech_vanilla.push(TechnologyState { tech_type: tech, discovered: true, ..Default::default() });
+        add_city(&mut s, 1, 5, 5);
+        s.tribes.get_mut(&1).unwrap().cities[0]._territory = crate::functions::get_square_indices(idx(5, 5), 1, SIZE);
+        s.tiles.get_mut(&idx(6, 6)).unwrap().terrain_type = TerrainType::Water;
+        s.resources.insert(idx(6, 6), Some(ResourceState { resource_type: ResourceType::Fish }));
+        for t in s.tiles.values_mut() {
+            t.explorers.insert(1);
+        }
+        let h = crate::moves::HarvestMove::new(idx(6, 6)).serialize();
+        assert!(crate::moves::generate_legal_moves(&s).iter().any(|m| m.serialize() == h), "{tribe:?}");
+    }
+}

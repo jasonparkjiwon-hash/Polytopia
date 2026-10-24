@@ -318,7 +318,7 @@ fn generate_econ_moves(state: &GameState, moves: &mut Vec<Box<dyn Move>>) {
                 let settings = get_resource_setting(resource.resource_type);
                 let tech_ok = match settings.tech_required {
                     TechnologyType::Basic => true,
-                    tech => crate::settings::technology::has_technology(&tribe.tech_vanilla, tech),
+                    tech => crate::settings::technology::has_tech_for_tribe(tribe, tech),
                 };
 
                 // Cannot harvest if structure is required or if it requires capture
