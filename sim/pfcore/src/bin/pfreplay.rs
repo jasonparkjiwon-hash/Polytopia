@@ -146,7 +146,10 @@ impl Replay {
             6 => vec![Box::new(StepMove::new(at(v[1], v[2]), at(v[3], v[4])))],
             2 => {
                 let (a, d) = (at(v[2], v[3]), at(v[4], v[5]));
-                vec![Box::new(AttackMove::new(a, d)), Box::new(ConvertMove::new(a, d))]
+                let converts = polyfish::functions::get_unit_at(s, a).map_or(false, |u| polyfish::settings::has_skill(u.unit_type, SkillType::Convert));
+                // a converter's logged attack converts (Python replay); Polyfish's move list never offers ConvertMove
+                if converts { vec![Box::new(ConvertMove::new(a, d))] }
+                else { vec![Box::new(AttackMove::new(a, d)), Box::new(ConvertMove::new(a, d))] }
             }
             5 => {
                 let ut = unit_type(v[1] as i32).ok_or(format!("unit type {} not in Polyfish", v[1]))?;
@@ -225,10 +228,12 @@ impl Replay {
         // rekey temp ids named by the log
         if t == 6 { let k = self.idx(v[1], v[2]); self.rekey(k, v[5]); }
         if t == 2 { let k = self.idx(v[2], v[3]); self.rekey(k, v[1]); }
-        let before: Option<(i32, UnitType)> = if t == 6 {
-            let k = self.idx(v[1], v[2]);
-            polyfish::functions::get_unit_at(&self.game.state, k).map(|u| (k, u.unit_type))
-        } else { None };
+        // the acting unit (Move or Attack): its uid and type before, to catch boarding/landing (an attack can move it in)
+        let before: Option<(i64, UnitType)> = match t {
+            6 => polyfish::functions::get_unit_at(&self.game.state, self.idx(v[1], v[2])),
+            2 => polyfish::functions::get_unit_at(&self.game.state, self.idx(v[2], v[3])),
+            _ => None,
+        }.map(|u| (u.uid, u.unit_type));
 
         let cands = match self.candidates(t, &v) {
             Ok(c) => c,
@@ -285,23 +290,21 @@ impl Replay {
             self.note(&format!("{name}: Polyfish refused to execute"));
         }
         // boarding gives the boat a new id; landing gives the passenger its id back
-        if let Some((k0, old)) = before {
-            let k1 = self.idx(v[3], v[4]);
-            let now = polyfish::functions::get_unit_at(&self.game.state, k1).filter(|u| u.owner == actor).map(|u| (u.unit_type, u.uid));
-            if let Some((nt, uid)) = now {
-                let was_boat = old.is_naval();
-                if !was_boat && nt.is_naval() {
+        if let Some((uid, old)) = before {
+            let now = self.game.state.tribes.get(&actor).and_then(|tr| tr.units.iter().find(|u| u.uid == uid)).map(|u| u.unit_type);
+            if let Some(nt) = now {
+                let new_id = if !old.is_naval() && nt.is_naval() {
                     let tmp = self.temp_id();
                     self.passenger_uid.insert(tmp, uid);
                     if let Some(rt) = self.real_type.remove(&uid) { self.real_type.insert(tmp, rt); }
-                    if let Some(u) = self.unit_at_mut(k1) { u.uid = tmp; }
-                } else if was_boat && !nt.is_naval() {
-                    if let Some(p) = self.passenger_uid.remove(&uid) {
-                        if let Some(u) = self.unit_at_mut(k1) { u.uid = p; }
-                    }
+                    Some(tmp)
+                } else if old.is_naval() && !nt.is_naval() {
+                    self.passenger_uid.remove(&uid)
+                } else { None };
+                if let Some(n) = new_id {
+                    if let Some(u) = self.game.state.tribes.get_mut(&actor).and_then(|tr| tr.units.iter_mut().find(|u| u.uid == uid)) { u.uid = n; }
                 }
             }
-            let _ = k0;
         }
         if t == 16 && played_ok {
             let k = self.idx(v[2], v[3]);
@@ -359,6 +362,7 @@ impl Replay {
                 Some(u) => {
                     if t == 6 && u.moved { return "unit already moved in Polyfish".into(); }
                     if t == 2 && u.attacked { return "unit already attacked in Polyfish".into(); }
+                    if t == 2 && polyfish::settings::has_skill(u.unit_type, SkillType::Convert) { return "convert: Polyfish's move list has no ConvertMove".into(); }
                     if t == 2 {
                         let d = at(v[4], v[5]);
                         if polyfish::functions::get_unit_at(s, d).is_none() { return "no defender at target in Polyfish".into(); }
