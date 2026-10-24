@@ -269,7 +269,9 @@ pub fn load(d: &Value, which: &str, current_player: i32) -> Result<(Game, LoadRe
                                 border_size: i(&data, "BorderSize") as i32,
                                 connected_to_capital: i(&data, "ConnectedPlayerCapital") != 0,
                                 level: i(&data, "Level") as i32,
-                                production: i(&data, "Production") as i32,
+                                // Polyfish's production is the city's star income before bonuses (= level, as mapgen sets it).
+                                // The save's "Production" field is something else (1 or 2 at every level; meaning unknown).
+                                production: i(&data, "Level") as i32,
                                 rewards,
                                 _territory: Vec::new(),
                             };

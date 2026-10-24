@@ -3,6 +3,7 @@ logged actions to the next checkpoint (bin pfreplay) and compare units (exact HP
 Also the legality check: is each logged action in Polyfish's legal-move list at that point?
 Usage: python3 -I tools/pf_miss.py [--list] [--illegal] [--game <id prefix>] [--holdout | --all]
   --list     one line per unit/star miss        --illegal  illegal actions grouped by cause (3 examples each)
+  --detail <text> [n]  what Polyfish saw at the first n (default 8) illegal actions whose type/cause contains <text>
 Needs the bin: cd sim/pfcore && cargo build --release. Never prints save JSON."""
 import sys, os, json, glob, re, collections, subprocess, tempfile
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
@@ -61,7 +62,7 @@ def compare(units, d):
 
 tu, ts, lg = collections.Counter(), collections.Counter(), collections.defaultdict(lambda: [0, 0])
 causes = collections.defaultdict(list); lines = []; per = collections.defaultdict(lambda: [collections.Counter(), collections.Counter()])
-errors = []; notes = collections.Counter(); load = collections.Counter()
+details = []; errors = []; notes = collections.Counter(); load = collections.Counter()
 for line in (l[7:] for l in out.splitlines() if l.startswith("PFJSON ")):
     r = json.loads(line); gid, ta, tb = r["tag"].split("|"); g = per[gid[:8]]
     if "error" in r: errors.append(f"{gid[:8]} t{ta}->{tb}: {r['error']}"); continue
@@ -76,7 +77,10 @@ for line in (l[7:] for l in out.splitlines() if l.startswith("PFJSON ")):
         if off == 0 or (off % EC.RUIN_STARS == 0 and 0 < off // EC.RUIN_STARS <= ruins[pl]): g[1]["exact"] += 1   # ruin stars aren't logged
         else: lines.append(f"{gid[:8]} t{ta}->{tb} stars p{pl} off {off:+d} (start {r['stars0'].get(str(pl))})")
     for k, (ok, n) in r["legal"].items(): lg[k][0] += ok; lg[k][1] += n
-    for c in r["illegal"]: causes[(c["type"], c.get("cause"), c.get("why", ""))].append(f"{gid[:8]} t{ta} #{c['i']} {c['raw']}")
+    for c in r["illegal"]:
+        if "--detail" in sys.argv and sys.argv[sys.argv.index("--detail") + 1] in f"{c['type']}: {c.get('cause')} {c.get('why', '')}": details.append(f"{gid[:8]} t{ta} #{c['i']} {c['type']} {c['raw']}: {c.get('cause')} {json.dumps(c.get('detail'))}")
+    tribe = {p["PlayerId"]: p["Tribe"] for p in a["currentPlayers"]}
+    for c in r["illegal"]: causes[(c["type"] + (" [Aquarion]" if tribe.get(int(c["raw"][:2], 16)) == 3 else ""), c.get("cause"), c.get("why", ""))].append(f"{gid[:8]} t{ta} #{c['i']} {c['raw']}")
     notes.update(r["notes"]); load.update({"drop " + k: v for k, v in r["load"]["dropped"].items()}); load.update({"sub " + k: v for k, v in r["load"]["substituted"].items()})
 for gid, (u, s) in sorted(per.items()):
     miss = sum(v for k, v in u.items() if k != "HP exact")
@@ -94,3 +98,6 @@ if "--list" in sys.argv:
 if "--illegal" in sys.argv:
     for (t, c, w), ex in sorted(causes.items(), key=lambda kv: -len(kv[1])):
         print(f"{len(ex):5d} {t}: {c} {w}".rstrip(), "|", "; ".join(ex[:3]))
+if "--detail" in sys.argv:
+    k = sys.argv.index("--detail"); n = int(sys.argv[k + 2]) if len(sys.argv) > k + 2 and sys.argv[k + 2].isdigit() else 8
+    print(len(details), "matching"); print("\n".join(details[:n]))

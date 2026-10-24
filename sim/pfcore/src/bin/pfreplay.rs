@@ -51,6 +51,8 @@ struct Replay {
     legal: BTreeMap<String, [i64; 2]>, // action name -> [legal, total]
     illegal: Vec<Value>,
     notes: BTreeMap<String, i64>,
+    acts: Vec<Value>,
+    done: std::collections::HashSet<usize>, // logged actions already played out of order
 }
 
 fn name_of(t: i64) -> &'static str {
@@ -93,6 +95,37 @@ impl Replay {
         if let Some(o) = old {
             if let Some(rt) = self.real_type.remove(&o) { self.real_type.insert(uid, rt); }
             if let Some(p) = self.passenger_uid.remove(&o) { self.passenger_uid.insert(uid, p); }
+        }
+    }
+
+    /// v123 lets a player choose a level-up reward later in the turn; Polyfish offers only the reward until it is chosen.
+    /// So play the player's next logged CityReward now (counted legal if Polyfish offers it).
+    fn rewards_first(&mut self, i: usize, actor: i32) {
+        for _ in 0..8 {
+            let legal = self.game.legal_moves();
+            if !legal.iter().any(|m| m.move_type() == MoveType::Reward) { return; }
+            let keys: Vec<Value> = legal.iter().map(|m| m.serialize()).collect();
+            let mut found = None;
+            for j in i + 1..self.acts.len() {
+                let a = &self.acts[j];
+                let (t, raw) = (a["type"].as_i64().unwrap_or(0), a["raw"].as_str().unwrap_or(""));
+                let v = unpack(t, raw);
+                if v[0] as i32 != actor { if t == 15 { break; } continue; }
+                if t == 15 { break; }
+                if t == 11 && !self.done.contains(&j) {
+                    if let Some(rw) = CityRewardType::from_repr(v[3] as i8) {
+                        let m = RewardMove::new(self.idx(v[1], v[2]), rw);
+                        if keys.contains(&m.serialize()) { found = Some((j, m)); break; }
+                    }
+                }
+            }
+            let Some((j, m)) = found else { return; };
+            self.done.insert(j);
+            let e = self.legal.entry("CityReward".into()).or_insert([0, 0]);
+            e[0] += 1; e[1] += 1;
+            self.note("city reward played early (Polyfish offers it first)");
+            if self.game.play_move(&m).is_none() { self.note("CityReward: Polyfish refused to execute"); }
+            self.name_new_units();
         }
     }
 
@@ -168,6 +201,7 @@ impl Replay {
         let v = unpack(t, raw);
         let pl = *v.first().unwrap_or(&0) as i32;
         let name = name_of(t).to_string();
+        if self.done.contains(&i) { return; }
         if t == 20 || t == 21 { return; } // StartMatch; CityLevelUp is a marker (the level-up itself comes with the CityReward)
         if t == 15 && pl == 255 {
             // round end: Polyfish wraps to player 1 and counts the turn inside the last player's EndTurn
@@ -178,6 +212,7 @@ impl Replay {
             self.note("turn order differs (actor set)");
             self.game.state.settings.current_player_turn_id = actor;
         }
+        if t != 11 { self.rewards_first(i, actor); }
         // rekey temp ids named by the log
         if t == 6 { let k = self.idx(v[1], v[2]); self.rekey(k, v[5]); }
         if t == 2 { let k = self.idx(v[2], v[3]); self.rekey(k, v[1]); }
@@ -213,9 +248,25 @@ impl Replay {
             }
             None => {
                 let pending = legal.iter().any(|m| m.move_type() == MoveType::Reward);
-                let why = self.why_illegal(t, &v, pending);
-                self.illegal.push(json!({"i": i, "type": name, "raw": raw, "cause": why, "turn": self.game.state.settings.turn}));
-                played_ok = cands.iter().any(|c| self.game.play_move(c.as_ref()).is_some());
+                // Short of stars only (Polyfish's stars drifted)? Then play it on credit: the tribe's stars go below what they'd be.
+                const CREDIT: i32 = 1000;
+                let me = self.game.state.settings.current_player_turn_id;
+                let short = !pending && matches!(t, 1 | 5 | 8 | 16 | 30) && {
+                    if let Some(tr) = self.game.state.tribes.get_mut(&me) { tr.stars += CREDIT; }
+                    let keys2: Vec<Value> = self.game.legal_moves().iter().map(|m| m.serialize()).collect();
+                    if let Some(tr) = self.game.state.tribes.get_mut(&me) { tr.stars -= CREDIT; }
+                    cands.iter().any(|c| keys2.contains(&c.serialize()))
+                };
+                let why = if short { "stars short in Polyfish (drift)".to_string() } else { self.why_illegal(t, &v, pending) };
+                let detail = self.detail(t, &v, &keys);
+                self.illegal.push(json!({"i": i, "type": name, "raw": raw, "cause": why, "turn": self.game.state.settings.turn, "detail": detail}));
+                if short {
+                    if let Some(tr) = self.game.state.tribes.get_mut(&me) { tr.stars += CREDIT; }
+                    played_ok = cands.iter().any(|c| self.game.play_move(c.as_ref()).is_some());
+                    if let Some(tr) = self.game.state.tribes.get_mut(&me) { tr.stars -= CREDIT; }
+                } else {
+                    played_ok = cands.iter().any(|c| self.game.play_move(c.as_ref()).is_some());
+                }
             }
         }
         if !played_ok {
@@ -252,6 +303,34 @@ impl Replay {
         if t == 5 && UnitType::from_repr(v[1] as i8).is_none() {
             for id in self.next_temp..new_before { self.real_type.insert(id, v[1] as i32); }
         }
+    }
+
+    /// What Polyfish sees around an illegal unit action: the unit, the two tiles, and the targets Polyfish offers from that tile.
+    fn detail(&self, t: i64, v: &[i64], keys: &[Value]) -> Value {
+        let s = &self.game.state;
+        let at = |x: i64, y: i64| (y as i32) * s.settings.size + x as i32;
+        let me = s.settings.current_player_turn_id;
+        let city = |c: &polyfish::states::CityState| json!({"xy": [c.idx % s.settings.size, c.idx / s.settings.size], "level": c.level, "progress": c.progress, "pop": c.population, "rewards": c.rewards.iter().map(|r| *r as i32).collect::<Vec<_>>()});
+        let pending: Vec<Value> = s.tribes.get(&me).map(|tr| tr.cities.iter().filter(|c| c.level > 1 && c.rewards.len() < (c.level - 1) as usize).map(|c| city(c)).collect()).unwrap_or_default();
+        if t == 11 {
+            let k = at(v[1], v[2]);
+            let c = s.tribes.values().flat_map(|tr| tr.cities.iter()).find(|c| c.idx == k).map(|c| json!([c.owner, city(c)]));
+            return json!({"city": c, "pending": pending});
+        }
+        if !pending.is_empty() { return json!({"pending": pending}); }
+        let (src, dst) = match t { 6 => (at(v[1], v[2]), at(v[3], v[4])), 2 => (at(v[2], v[3]), at(v[4], v[5])), 3 | 4 | 13 | 14 | 17 | 18 | 24 | 38 => (at(v[1], v[2]), -1), _ => return Value::Null };
+        let tile = |k: i32| -> Value {
+            if k < 0 { return Value::Null; }
+            let tl = &s.tiles[&k];
+            let st = polyfish::functions::get_structure_at(s, k).map(|x| x.structure_type as i32);
+            let u = polyfish::functions::get_unit_at(s, k).map(|u| json!([u.owner, u.unit_type as i32, u.health, u.uid]));
+            json!({"xy": [tl.coords.x, tl.coords.y], "terrain": tl.terrain_type as i32, "owner": tl.owner, "fx": tl.effects.iter().map(|e| *e as i32).collect::<Vec<_>>(), "struct": st, "unit": u,
+                   "seen": tl.explorers.contains(&s.settings.current_player_turn_id)})
+        };
+        let u = polyfish::functions::get_unit_at(s, src).map(|u| json!({"type": u.unit_type as i32, "pass": u.passenger_type.map(|p| p as i32), "moved": u.moved, "attacked": u.attacked, "fx": u.effects.iter().map(|e| *e as i32).collect::<Vec<_>>(), "hp": u.health, "uid": u.uid}));
+        let offers: Vec<Value> = keys.iter().filter(|k| k.get("src").and_then(|x| x.as_i64()) == Some(src as i64))
+            .map(|k| json!([k["moveType"], k.get("target").and_then(|x| x.as_i64()).map(|x| [x % s.settings.size as i64, x / s.settings.size as i64])])).collect();
+        json!({"unit": u, "src": tile(src), "dst": tile(dst), "offers": offers})
     }
 
     /// Why a logged action isn't in Polyfish's legal list: a first-cut classification, refined in pf-loader.md.
@@ -331,7 +410,7 @@ fn run_job(job: &Value) -> Result<Value, String> {
     let (game, rep) = save_loader::load(&start, "current", cur)?;
     let size = game.state.settings.size;
     let mut r = Replay { game, size, next_temp: 0, real_type: HashMap::new(), passenger_uid: HashMap::new(),
-        legal: BTreeMap::new(), illegal: Vec::new(), notes: BTreeMap::new() };
+        legal: BTreeMap::new(), illegal: Vec::new(), notes: BTreeMap::new(), acts: acts[..to].to_vec(), done: Default::default() };
     // stand-in types and boat passengers, from the save records
     for row in start["currentTiles"].as_array().into_iter().flatten() {
         for tv in row.as_array().into_iter().flatten() {
@@ -362,11 +441,22 @@ fn run_job(job: &Value) -> Result<Value, String> {
         }
     }
     let stars0: BTreeMap<i32, i32> = r.game.state.tribes.iter().map(|(k, t)| (*k, t.stars)).collect();
-    for i in from..to { r.apply(i, &acts[i]); }
+    // PF_TRACE=1: every star change, as [action index, type, first byte, {player: delta}]
+    let trace_on = std::env::var("PF_TRACE").is_ok();
+    let mut trace = Vec::new();
+    for i in from..to {
+        let s0: Vec<(i32, i32)> = if trace_on { r.game.state.tribes.iter().map(|(k, t)| (*k, t.stars)).collect() } else { vec![] };
+        r.apply(i, &acts[i]);
+        if trace_on {
+            let d: BTreeMap<i32, i32> = s0.iter().filter_map(|(k, s)| { let n = r.game.state.tribes[k].stars; (n != *s).then(|| (*k, n - s)) }).collect();
+            let raw = acts[i]["raw"].as_str().unwrap_or("");
+            if !d.is_empty() { trace.push(json!([i, acts[i]["type"], i64::from_str_radix(raw.get(0..2).unwrap_or("0"), 16).unwrap_or(0), d])); }
+        }
+    }
     let stars: BTreeMap<i32, i32> = r.game.state.tribes.iter().map(|(k, t)| (*k, t.stars)).collect();
     Ok(json!({"tag": job["tag"], "units": units_out(&r), "stars": stars, "stars0": stars0, "legal": r.legal,
               "illegal": r.illegal, "notes": r.notes, "load": rep, "turn": r.game.state.settings.turn,
-              "player": r.game.state.settings.current_player_turn_id}))
+              "player": r.game.state.settings.current_player_turn_id, "trace": trace}))
 }
 
 fn main() {
