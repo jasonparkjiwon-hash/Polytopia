@@ -93,6 +93,7 @@ Status: **done** = ported with a test; **pf ok** = Polyfish already does it;
 | 64 | A captured capital isn't the captor's capital (+1 income, bot bonus) | ECON-INCOME, ECON-BOT-BONUS | L3 | capital_of moves to the captor | done (stars 740 -> 742) |
 | 65 | A city's building income counts only tiles it rules (post_load territories overlap) | ECON-MARKET-CLATHRUS | L3 | counted in every overlapping city | done (Market port 741 -> 742) |
 | 66 | Water and amphibious units follow a kill onto water | WATER-UNITS, KILL-MOVE-IN | L2/L3 | only Float units | done (unit misses 29 -> 12) |
+| 67 | Cymanti water ruin gives a veteran Boomchi | RUIN-UNIT-CYMANTI | L3 | Rammership + Warrior | done (+1 unit) |
 | 57 | Bridge carries land units | BRIDGE-LAND | L3 | pf ok (is_steppable) | done (pf: is_steppable allows bridges for walkers; boats pass under) |
 
 ## Flagged (below L1, off)

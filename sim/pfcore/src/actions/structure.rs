@@ -353,7 +353,19 @@ pub fn capture_ruin(
                 undos.push(discover_tiles(state, pov_id, None, Some(revealed)));
             }
             RuinsRewardType::Swordsman => {
-                if is_water {
+                // v123 (ledger RUIN-UNIT-CYMANTI, L3 n=2): a Cymanti water ruin gives a veteran Boomchi
+                let cymanti = state.tribes.get(&pov_id).map_or(false, |t| t.tribe_type == TribeType::Cymanti);
+                if is_water && cymanti {
+                    if let Ok(res) =
+                        crate::actions::units::summon_unit(state, UnitType::Boomchi, tile_idx, false, false)
+                    {
+                        undos.push(res.undo);
+                        if let Some(u) = crate::functions::get_unit_at_mut(state, tile_idx) {
+                            u.veteran = true;
+                            u.health = crate::functions::get_unit_max_health(u);
+                        }
+                    }
+                } else if is_water {
                     // Veteran Rammer
                     if let Ok(res) = crate::actions::units::summon_unit(
                         state,
@@ -522,8 +534,28 @@ pub fn capture_ruin(
         }
     }
 
-    // 5. Units (Veteran Swordsman or Rammer)
-    if is_water {
+    // 5. Units (Veteran Swordsman or Rammer; v123 RUIN-UNIT-CYMANTI: Cymanti get a Mantis / Boomchi)
+    let cymanti = state.tribes.get(&pov_id).map_or(false, |t| t.tribe_type == TribeType::Cymanti);
+    if is_water && cymanti {
+        possible_rewards.push(Box::new(move |s: &mut GameState| -> UndoCallback {
+            let mut undos = Vec::new();
+            if let Ok(res) = crate::actions::units::summon_unit(s, UnitType::Boomchi, tile_idx, false, false) {
+                undos.push(res.undo);
+                if let Some(u) = crate::functions::get_unit_at_mut(s, tile_idx) {
+                    let (old_vet, old_hp) = (u.veteran, u.health);
+                    u.veteran = true;
+                    u.health = crate::functions::get_unit_max_health(u);
+                    undos.push(Box::new(move |st: &mut GameState| {
+                        if let Some(u) = crate::functions::get_unit_at_mut(st, tile_idx) {
+                            u.veteran = old_vet;
+                            u.health = old_hp;
+                        }
+                    }) as UndoCallback);
+                }
+            }
+            chain_undos(undos)
+        }) as RuinRewardFn);
+    } else if is_water {
         // Veteran Rammer (carrying Warrior)
         possible_rewards.push(Box::new(move |s: &mut GameState| -> UndoCallback {
             let mut undos = Vec::new();

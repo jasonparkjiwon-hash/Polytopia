@@ -809,3 +809,17 @@ fn water_unit_follows_kill_on_water() {
     attack(&mut s, a, 0);
     assert_eq!(unit(&s, 1, a).coords.idx, idx(5, 5));
 }
+
+/// RUIN-UNIT-CYMANTI (L3, n=2): a Cymanti water ruin gives a veteran Boomchi (af181c8f t15: (14,7), 15 HP).
+#[test]
+fn cymanti_water_ruin_boomchi() {
+    use crate::moves::Move;
+    let mut s = board();
+    s.tribes.get_mut(&1).unwrap().tribe_type = TribeType::Cymanti;
+    s.tiles.get_mut(&idx(5, 5)).unwrap().terrain_type = TerrainType::Ocean;
+    put_structure(&mut s, 5, 5, StructureType::Ruin);
+    add_unit(&mut s, 1, UnitType::Raychi, 5, 5, 10.0);
+    crate::moves::capture::CaptureMove::with_reward(idx(5, 5), RuinsRewardType::Swordsman).execute(&mut s).unwrap();
+    let b = s.tribes[&1].units.iter().find(|u| u.unit_type == UnitType::Boomchi).expect("Boomchi");
+    assert_eq!((b.coords.idx, b.health, b.veteran), (idx(5, 5), 15.0, true));
+}
