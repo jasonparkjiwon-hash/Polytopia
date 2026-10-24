@@ -777,3 +777,21 @@ fn break_peace_disbands() {
     assert_eq!(s.tribes[&1].units.len(), 1);
     assert_eq!(unit(&s, 1, 0).coords.idx, idx(2, 2));
 }
+
+/// ECON-INCOME (L3): a city earns level + 1 per Workshop or Park (+1 own capital); a Workshop picked during play
+/// adds exactly 1 (Polyfish raised production and also counted the reward).
+#[test]
+fn workshop_counts_once() {
+    use crate::moves::Move;
+    let mut s = board();
+    add_city(&mut s, 1, 5, 5);
+    put_structure(&mut s, 5, 5, StructureType::Village);
+    {
+        let c = &mut s.tribes.get_mut(&1).unwrap().cities[0];
+        c.level = 2;
+        c.production = 2;
+    }
+    let before = crate::functions::get_city_production(&s, &s.tribes[&1].cities[0]);
+    crate::moves::reward::RewardMove::new(idx(5, 5), CityRewardType::Workshop).execute(&mut s).unwrap();
+    assert_eq!(crate::functions::get_city_production(&s, &s.tribes[&1].cities[0]) - before, 1);
+}

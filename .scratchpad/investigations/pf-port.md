@@ -70,13 +70,13 @@ Status: **done** = ported with a test; **pf ok** = Polyfish already does it;
 | 41 | Tribe with no cities loses its units | NO-CITIES-NO-UNITS | L3 | ? | done (pf: capture_city removes an eliminated tribe's units) |
 | 42 | Breaking peace disbands breaker's units in ex-ally territory | DIPLO-BREAK-DISBAND | L3 | no | done |
 | 43 | Super unit by tribe | SUPER-UNIT-BY-TRIBE | L3/L1 | pf ok | done (pf) |
-| 44 | Income = level + capital + Workshop/Park + min(0,pop) | ECON-INCOME | L3 | production field + capital + rewards + progress<0 | check |
+| 44 | Income = level + capital + Workshop/Park + min(0,pop) | ECON-INCOME | L3 | production field + capital + rewards + progress<0 | done: Workshop/Park counted once (stars 744 -> 750); production = level from the loader |
 | 45 | Siege: city with enemy on centre earns 0 | ECON-SIEGE | L3 | pf ok | done (pf) |
 | 46 | Bot bonus: handicap-1 a turn while holding own unbesieged capital | ECON-BOT-BONUS | L3 | missing | done (stars 155 -> 688/819) |
 | 47 | Embassy: 5 +2 each further (engine 4, split), income 2 / 4 at peace for host (builder only at peace) | ECON-EMBASSY, EMBASSY-ACTION | L1/L3 | 5 flat, no income | done (engine's L3 version: cost 4 +2 each; host 2/4, builder 4 at peace only); stars 742 -> 744 |
 | 48 | Market pays level of each adjacent Windmill/Sawmill/Forge | ECON-MARKET-CLATHRUS | L3 | +1 each | done |
 | 49 | Clathrus +1 per adjacent Fungi (card) vs Algae (Polyfish) | ECON-MARKET-CLATHRUS | split, untested | Algae | flag |
-| 50 | City level +1 per city reward | CITY-LEVEL-BY-REWARD | L3 | reward.rs | check |
+| 50 | City level +1 per city reward | CITY-LEVEL-BY-REWARD | L3 | reward.rs | pf: level rises from population, reward follows; harness plays logged rewards (pf-loader) |
 | 51 | Meet stars from the met tribe's score | ECON-MEET | L3 | get_star_exchange | check |
 | 52 | Tech cost tier x cities + 4; Literacy 2/3 ceil | TECH-COST | L2 | x0.66 ceil | done |
 | 53 | Tribe techs priced at the replaced tech's tier (Polarism, Oceantology 3, ...) | TRIBE-TECH-TIERS | L3 | tier missing -> 1 for most | done (stars 700 -> 719) |

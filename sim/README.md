@@ -53,3 +53,4 @@
 - A Shaman's convert also deals its normal damage, with no retaliation; a target it kills isn't converted (`moves/abilities/convert.rs`) [SHAMAN].
 - A move onto a hidden enemy reveals it and uses the move but not the attack (`moves/step.rs`) [MOVE-BLOCKED-HIDDEN].
 - Breaking peace disbands the breaker's units inside the ex-ally's territory (`moves/abilities/diplomacy.rs`) [DIPLO-BREAK-DISBAND].
+- A Workshop or Park adds +1 income once (Polyfish raised production and also counted the reward) (`moves/reward.rs`) [ECON-INCOME].

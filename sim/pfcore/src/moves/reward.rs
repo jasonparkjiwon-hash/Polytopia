@@ -68,18 +68,12 @@ impl Move for RewardMove {
             match reward_type {
                 CityRewardType::Workshop => {
                     if let Some(tribe) = state.tribes.get_mut(&p_id) {
-                        if let Some(city) = tribe.cities.get_mut(c_idx) {
+                        if tribe.cities.get(c_idx).is_some() {
                             if state.settings._verbose {
                                 state._messages.push(format!("Workshop (+1 Production) 🔨"));
                             }
-                            city.production += 1;
-                            undos.push(Box::new(move |s: &mut GameState| {
-                                if let Some(t) = s.tribes.get_mut(&p_id) {
-                                    if let Some(c) = t.cities.get_mut(c_idx) {
-                                        c.production -= 1;
-                                    }
-                                }
-                            }) as UndoCallback);
+                            // v123 (ECON-INCOME): the +1 comes from the reward itself (get_city_production
+                            // counts Workshop/Park rewards); raising production too counted it twice
                         }
                     }
                 }
@@ -134,18 +128,15 @@ impl Move for RewardMove {
                 }
                 CityRewardType::Park => {
                     if let Some(tribe) = state.tribes.get_mut(&p_id) {
-                        if let Some(city) = tribe.cities.get_mut(c_idx) {
+                        if tribe.cities.get(c_idx).is_some() {
                             if state.settings._verbose {
                                 state._messages.push(format!("🏠 Park (+250 Score) 🌳"));
                             }
-                            city.production += 1;
+                            // v123: no production += 1 (counted from the reward, see Workshop)
                             tribe.score += 250;
                             undos.push(Box::new(move |s: &mut GameState| {
                                 if let Some(t) = s.tribes.get_mut(&p_id) {
                                     t.score -= 250;
-                                    if let Some(c) = t.cities.get_mut(c_idx) {
-                                        c.production -= 1;
-                                    }
                                 }
                             }) as UndoCallback);
                         }
