@@ -857,3 +857,33 @@ fn cymanti_techs() {
     assert!(get_unlocked_units(TechnologyType::Ramming, TribeType::Cymanti).contains(&UnitType::Boomchi));
     assert!(!get_unlocked_units(TechnologyType::Ramming, TribeType::Imperius).contains(&UnitType::Boomchi));
 }
+
+/// DIPLO-PEACE (L3): offering peace (action 27) needs Strategy and a met tribe; the other tribe may then accept
+/// or decline (action 28); one pending offer per pair; breaking peace leaves RelationState 3 on the breaker's side.
+#[test]
+fn peace_offer_and_reply() {
+    use crate::moves::Move;
+    let mut s = board();
+    add_city(&mut s, 2, 8, 8);
+    s.tiles.get_mut(&idx(8, 8)).unwrap().capital_of = 2;
+    add_city(&mut s, 1, 2, 2);
+    s.tiles.get_mut(&idx(2, 2)).unwrap().capital_of = 1;
+    for (a, b) in [(1, 2), (2, 1)] {
+        s.tribes.get_mut(&a).unwrap().relations.insert(b, DiplomacyRelationState::default());
+        s.tribes.get_mut(&a).unwrap().known_players.insert(b);
+    }
+    let offer = crate::moves::abilities::diplomacy::PeaceTreatyMove::new(idx(8, 8), 2).serialize();
+    let has = |s: &GameState, m: &serde_json::Value| crate::moves::generate_legal_moves(s).iter().any(|x| &x.serialize() == m);
+    assert!(!has(&s, &offer)); // no Strategy
+    s.tribes.get_mut(&1).unwrap().tech_vanilla.push(TechnologyState { tech_type: TechnologyType::Strategy, discovered: true, ..Default::default() });
+    assert!(has(&s, &offer));
+    crate::moves::abilities::diplomacy::PeaceTreatyMove::new(idx(8, 8), 2).execute(&mut s).unwrap();
+    assert!(!has(&s, &offer)); // pending
+    s.settings.current_player_turn_id = 2;
+    let accept = crate::moves::abilities::diplomacy::PeaceRequestResponse::new(1, 1);
+    assert!(has(&s, &accept.serialize()));
+    accept.execute(&mut s).unwrap();
+    assert!(crate::functions::is_at_peace(&s, 1, 2) && crate::functions::is_at_peace(&s, 2, 1));
+    crate::moves::abilities::diplomacy::BreakPeaceMove::new(1).execute(&mut s).unwrap();
+    assert_eq!((s.tribes[&2].relations[&1].state, s.tribes[&1].relations[&2].state), (3, 0));
+}

@@ -96,6 +96,7 @@ Status: **done** = ported with a test; **pf ok** = Polyfish already does it;
 | 67 | Cymanti water ruin gives a veteran Boomchi | RUIN-UNIT-CYMANTI | L3 | Rammership + Warrior | done (+1 unit) |
 | 68 | Fish harvest with the tribe's Fishing (Aquarion 47, Polaris Frostwork) | save count 14/14, 13/13 | L3 | base Fishing only | done (legal Build 518 -> 545) |
 | 69 | Cymanti use base Sailing/Ramming/Navigation/Diplomacy; Raychi via Sailing, Boomchi via Ramming, Algae via Fishing | CYMANTI-TECHS (new) | L3 | Hydrology/Synergy/Oceantology replacements | done (legal 94.8 -> 95.7%) |
+| 70 | Peace offers (Strategy, met, one pending per pair) and replies generated; breaker's side RelationState 3 | DIPLO-PEACE | L3 | generation switched off upstream | done (legal 95.7 -> 96.3%; replies to offers pending at a checkpoint need the loader) |
 | 57 | Bridge carries land units | BRIDGE-LAND | L3 | pf ok (is_steppable) | done (pf: is_steppable allows bridges for walkers; boats pass under) |
 
 ## Flagged (below L1, off)

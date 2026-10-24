@@ -38,7 +38,7 @@ impl Move for BreakPeaceMove {
         if let Some(tribe) = state.tribes.get_mut(&pov_id) {
             if let Some(relation) = tribe.relations.get_mut(&target_id) {
                 let old_state = relation.state;
-                relation.state = 0; // Neutral/War
+                relation.state = 3; // v123 (DIPLO-PEACE): RelationState 3 on the side that broke the peace
                 undos.push(Box::new(move |s: &mut GameState| {
                     if let Some(t) = s.tribes.get_mut(&pov_id) {
                         if let Some(r) = t.relations.get_mut(&target_id) {
@@ -511,19 +511,30 @@ pub fn generate_diplomacy_moves(state: &GameState, moves: &mut Vec<Box<dyn Move>
         &tribe.tech_vanilla,
         crate::types::TechnologyType::Diplomacy,
     );
+    let has_strategy = crate::settings::technology::has_tech_for_tribe(tribe, crate::types::TechnologyType::Strategy);
 
     for (&other_id, relation) in &tribe.relations {
         if other_id == pov_id {
             continue;
         }
 
-        // Response to pending requests - DISABLED to prevent loops
-        /*
-        if relation.has_offered_peace {
+        // v123 (ledger DIPLO-PEACE, L3): a pending offer can be accepted or declined (action 28); an offer
+        // (action 27, needs Strategy) goes to a met tribe not at peace, at most one pending per pair, so a
+        // tribe makes one offer per turn and no move loops
+        if relation.has_offered_peace && relation.state != 1 {
             moves.push(Box::new(PeaceRequestResponse::new(other_id, 1)));
             moves.push(Box::new(PeaceRequestResponse::new(other_id, 0)));
         }
-        */
+        let pending = state
+            .tribes
+            .get(&other_id)
+            .and_then(|t| t.relations.get(&pov_id))
+            .map_or(true, |r| r.has_offered_peace);
+        if relation.state != 1 && !pending && has_strategy && tribe.known_players.contains(&other_id) {
+            if let Some(cap) = crate::functions::get_capital_city(state, other_id) {
+                moves.push(Box::new(PeaceTreatyMove::new(cap.idx, other_id)));
+            }
+        }
 
         if relation.state == 1 {
             moves.push(Box::new(BreakPeaceMove::new(other_id)));
