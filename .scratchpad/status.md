@@ -26,6 +26,12 @@ _Last updated 2026-10-23._
 
 ## Waiting on Jason
 
+- pf-port (24 Oct), three in-game checks for the Polyfish forward model:
+  1. Which tech lets Aquarion units (Mermaid) onto ocean? (saves: only seen with Navigation + Marine Life)
+  2. Aqua Farm (build 49) and Aquarion structure 51: which tech unlocks each, and what does each do?
+  3. Polaris skating: how far can a Mooni or Battle Sled move from a city (land) onto ice in one turn?
+     (09a5bf1e t1: a Mooni went 2 tiles from its city onto ice.)
+
 - Round 3 (items 35-40) all answered 23-24 Oct.
 
 - Waterworld and other new saves as he plays. **Export every turn** (one save per turn, like Misty Fields), not every 4-6 turns: single-turn gaps are what let ruin rewards and bot choices be read off. Each new game goes into `data/holdout.json` first and is scored before any tuning. Most wanted: a water-heavy map (only 10 water ruins so far) and a game where he builds a Sanctuary (no animal-spawn data at all).
