@@ -67,6 +67,6 @@ pub fn get_polytaur_cost(gs: &GameState) -> i32 {
     if gs.settings.version <= GameVersion::AquarionRework as i32 {
         2
     } else {
-        1
+        3 // v123 (ledger ECON-PRICES-V123: Enchant Animal 3, 5/5 star checks); upstream v115: 1
     }
 }

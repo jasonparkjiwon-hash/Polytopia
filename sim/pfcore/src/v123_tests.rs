@@ -630,3 +630,10 @@ fn polaris_gathers_starfish() {
     crate::moves::capture::CaptureMove::new(idx(5, 5)).execute(&mut s).unwrap();
     assert_eq!(s.tribes[&1].stars, stars + 8);
 }
+
+/// ECON-PRICES-V123 (L3, 5/5 star checks): Enchant Animal costs 3.
+#[test]
+fn enchant_animal_costs_3() {
+    let s = board();
+    assert_eq!(crate::version_sync::get_polytaur_cost(&s), 3);
+}

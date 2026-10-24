@@ -81,7 +81,7 @@ Status: **done** = ported with a test; **pf ok** = Polyfish already does it;
 | 52 | Tech cost tier x cities + 4; Literacy 2/3 ceil | TECH-COST | L2 | x0.66 ceil | done |
 | 53 | Tribe techs priced at the replaced tech's tier (Polarism, Oceantology 3, ...) | TRIBE-TECH-TIERS | L3 | tier missing -> 1 for most | done (stars 700 -> 719) |
 | 54 | Aquarion techs 39, 46, 47 by tier | AQUARION-TECH-TIERS | L3 (tiers) | missing | done (stars 688 -> 700, legal 91.4 -> 91.8%) |
-| 55 | Unit/structure/upgrade costs v123 (Enchant 3, Starfish +8, AquaFarm 5, ...) | C19-COSTS, ECON-PRICES-V123 | L3 | Starfish 8 pf ok | check |
+| 55 | Unit/structure/upgrade costs v123 (Enchant 3, Starfish +8, AquaFarm 5, ...) | C19-COSTS, ECON-PRICES-V123 | L3 | Starfish 8 pf ok | Enchant 3 done; Starfish done (#60); Outpost unimplemented upstream (see What's left) |
 | 56 | Ruin stars 10 | ECON-RUIN-STARS | L3 | pf ok | done (pf) |
 | 58 | Navigation requires Sailing (base tree) | TECH-TREE | L3 | requires Ramming | done |
 | 58 | Navigation requires Sailing (base tree) | TECH-TREE | L3 | requires Ramming | done |
