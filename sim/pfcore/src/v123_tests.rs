@@ -255,3 +255,27 @@ fn giant_boards_as_juggernaut_and_lands() {
     assert_eq!(unit(&s, 1, g).unit_type, UnitType::Giant);
     assert_eq!(unit(&s, 1, g).passenger_type, None);
 }
+
+/// PORT-BOARDS (L3): a land unit boards only at its own tribe's port; a frozen-over port is walked on foot.
+/// e15f392c t12: a Hoodrick Warrior crossed its own port after a Mooni froze it and stayed on foot.
+#[test]
+fn own_port_boards() {
+    let mut s = board();
+    for (x, owner) in [(5, 2), (6, 1)] {
+        s.tiles.get_mut(&idx(x, 5)).unwrap().terrain_type = TerrainType::Water;
+        s.tiles.get_mut(&idx(x, 5)).unwrap().owner = owner;
+        put_structure(&mut s, x, 5, StructureType::Port);
+    }
+    let w = add_unit(&mut s, 1, UnitType::Warrior, 5, 4, 10.0);
+    step(&mut s, 1, w, 5, 5);
+    assert_eq!(unit(&s, 1, w).unit_type, UnitType::Warrior);
+    s.tiles.get_mut(&idx(6, 5)).unwrap().terrain_type = TerrainType::Ice;
+    let w2 = add_unit(&mut s, 1, UnitType::Warrior, 6, 4, 10.0);
+    step(&mut s, 1, w2, 6, 5);
+    assert_eq!(unit(&s, 1, w2).unit_type, UnitType::Warrior);
+    s.tiles.get_mut(&idx(6, 5)).unwrap().terrain_type = TerrainType::Water;
+    let w3 = add_unit(&mut s, 1, UnitType::Warrior, 7, 4, 10.0);
+    step(&mut s, 1, w2, 6, 6);
+    step(&mut s, 1, w3, 6, 5);
+    assert_eq!(unit(&s, 1, w3).unit_type, UnitType::Raft);
+}

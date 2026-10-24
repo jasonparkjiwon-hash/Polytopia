@@ -594,7 +594,11 @@ pub fn step_unit(
         .map(crate::score::get_unit_score)
         .unwrap_or(0);
     let struct_at_dest = get_structure_type_at(state, to_tile_idx);
-    let is_port = struct_at_dest == Some(StructureType::Port);
+    // v123 (ledger PORT-BOARDS): only the unit's own port boards it, and a frozen-over port is walked on foot
+    let is_port = struct_at_dest == Some(StructureType::Port)
+        && state.tiles.get(&to_tile_idx).map_or(false, |t| {
+            t.owner == unit_owner && t.terrain_type != crate::types::TerrainType::Ice
+        });
     let mut should_remove_invis = false;
 
     // Embark logic

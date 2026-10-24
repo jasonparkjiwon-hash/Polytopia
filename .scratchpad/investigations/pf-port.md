@@ -40,7 +40,7 @@ Status: **done** = ported with a test; **pf ok** = Polyfish already does it;
 | 11 | Aquarion ids 47, 49-52, 54, 55 | AQUARION-UNIT-IDS | L0 | missing | flag (not added) |
 | 12 | Giant boards as Juggernaut carrying the Giant; lands as Giant | GIANT-JUGGERNAUT | L3 | Juggernaut with no passenger, never lands | done |
 | 13 | Giant boarding as Juggernaut stomps | STOMP-ON-BOARDING | L3 | uses old type (no stomp) | todo |
-| 14 | Only own port boards | PORT-BOARDS | L3 | any port | todo |
+| 14 | Only own port boards | PORT-BOARDS | L3 | any port | done |
 | 15 | Boat on Aquarion-flooded land stays a boat; walker stays walker | FLOOD-ALGAE | L3 | boat lands | todo |
 | 16 | Boat on algae stays a boat | ALGAE-KEEPS-BOATS | L3 | pf ok (algae is water terrain) | check |
 | 17 | Stiff units don't move in after a kill (boats do, and land) | KILL-MOVE-IN, JUGGERNAUT-KILL-MOVE | L3 | every range-1 unit moves in | todo |
