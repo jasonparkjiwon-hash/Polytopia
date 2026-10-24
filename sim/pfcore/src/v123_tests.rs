@@ -665,3 +665,20 @@ fn capture_takes_3x3() {
     assert_eq!(s.tiles[&idx(5, 6)].owner, 1);
     assert_eq!(s.tiles[&idx(5, 7)].owner, 2);
 }
+
+/// Captured capital (save count: 33 captured capitals keep the old owner's Capital id; no tribe holds two): the
+/// captor gets no capital star and no bot bonus from it (ECON-INCOME, ECON-BOT-BONUS).
+#[test]
+fn captured_capital_stays_old_owners() {
+    use crate::moves::Move;
+    let mut s = board();
+    add_city(&mut s, 2, 5, 5);
+    put_structure(&mut s, 5, 5, StructureType::Village);
+    s.tiles.get_mut(&idx(5, 5)).unwrap().capital_of = 2;
+    add_city(&mut s, 2, 1, 1);
+    s.tribes.get_mut(&1).unwrap().handicap = 4;
+    add_unit(&mut s, 1, UnitType::Warrior, 5, 5, 10.0);
+    crate::moves::capture::CaptureMove::new(idx(5, 5)).execute(&mut s).unwrap();
+    assert_eq!(s.tiles[&idx(5, 5)].capital_of, 2);
+    assert_eq!(crate::functions::get_bot_bonus(&s, &s.tribes[&1]), 0);
+}

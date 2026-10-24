@@ -90,7 +90,7 @@ Status: **done** = ported with a test; **pf ok** = Polyfish already does it;
 | 61 | Break Ice after a Dash move | ACTION-18-AFTER-MOVE | L3 | not offered | done by pf-loader (d4e40af) |
 | 62 | Outpost buildable for 5 (effect still missing) | engine BUILD (star check) | L3 price, effect unknown | refused as unimplemented | done (stars 730 -> 740) |
 | 63 | Capture takes the 3x3 (unowned / old owner's), not radius-2 same-owner tiles | CAPTURE-TERRITORY | L2 | city._territory (radius 2, any same-owner tile) | done (+2 units, pf-loader item 9) |
-| 64 | A captured capital isn't the captor's capital (+1 income, bot bonus) | ECON-INCOME, ECON-BOT-BONUS | L3 | capital_of moves to the captor | todo |
+| 64 | A captured capital isn't the captor's capital (+1 income, bot bonus) | ECON-INCOME, ECON-BOT-BONUS | L3 | capital_of moves to the captor | done (stars 740 -> 742) |
 | 57 | Bridge carries land units | BRIDGE-LAND | L3 | pf ok (is_steppable) | check |
 
 ## Flagged (below L1, off)

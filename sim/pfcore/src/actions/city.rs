@@ -292,11 +292,9 @@ pub fn capture_city(state: &mut GameState, tile_idx: i32) -> Result<UndoCallback
 
             // Ownership of the city tile itself is transferred by the
             // `claim_territory` call below, so that its 20 points move with it.
-            if let Some(tile) = state.tiles.get_mut(&tile_idx) {
-                if tile.capital_of > 0 {
-                    tile.capital_of = pov_id;
-                }
-            }
+            // v123 (pf-port; ECON-INCOME, ECON-BOT-BONUS): a captured capital stays the old owner's capital
+            // (33 save records keep the old owner's Capital id; no tribe ever holds two), so the captor gets
+            // neither its +1 nor the bot bonus from it
 
             // What the city itself carries: level, population and parks. Its
             // territory (and the structures on it) is moved by the
