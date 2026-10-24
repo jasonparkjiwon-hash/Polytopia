@@ -545,12 +545,22 @@ pub fn get_city_production(state: &GameState, city: &CityState) -> i32 {
                     }
                 }
                 StructureType::Market => {
-                    // +X star for each adjacent "production" building (Windmill, Sawmill, Forge)
+                    // v123 (ledger ECON-MARKET-CLATHRUS, MARKET_BY_LEVEL): the level of each adjacent Windmill,
+                    // Sawmill or Forge, i.e. its adjacent Farms, Lumber Huts or Mines
                     let adj = crate::functions::get_adjacent_indices(state, idx, 1);
                     for n_idx in adj {
                         if let Some(n_struct) = crate::functions::get_structure_at(state, n_idx) {
                             if setting.adjacent_types.contains(&n_struct.structure_type) {
-                                prod += setting.reward_stars;
+                                let feeder = match n_struct.structure_type {
+                                    StructureType::Windmill => StructureType::Farm,
+                                    StructureType::Sawmill => StructureType::LumberHut,
+                                    _ => StructureType::Mine,
+                                };
+                                prod += setting.reward_stars
+                                    * crate::functions::get_adjacent_indices(state, n_idx, 1)
+                                        .into_iter()
+                                        .filter(|&k| get_structure_type_at(state, k) == Some(feeder))
+                                        .count() as i32;
                             }
                         }
                     }

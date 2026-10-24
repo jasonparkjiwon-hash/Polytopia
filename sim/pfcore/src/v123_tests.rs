@@ -682,3 +682,19 @@ fn captured_capital_stays_old_owners() {
     assert_eq!(s.tiles[&idx(5, 5)].capital_of, 2);
     assert_eq!(crate::functions::get_bot_bonus(&s, &s.tribes[&1]), 0);
 }
+
+/// ECON-MARKET-CLATHRUS (L3, n=1: af181c8f p14 t25->26, a Market next to a Windmill with 3 Farms paid +3):
+/// a Market earns the level of each adjacent Windmill/Sawmill/Forge.
+#[test]
+fn market_pays_by_level() {
+    let mut s = board();
+    add_city(&mut s, 1, 5, 5);
+    s.tribes.get_mut(&1).unwrap().cities[0]._territory = crate::functions::get_square_indices(idx(5, 5), 2, SIZE);
+    put_structure(&mut s, 6, 6, StructureType::Market);
+    put_structure(&mut s, 7, 6, StructureType::Windmill);
+    for (x, y) in [(8, 5), (8, 6), (8, 7)] {
+        put_structure(&mut s, x, y, StructureType::Farm);
+    }
+    let base = { let mut t = s.clone(); t.structures.insert(idx(6, 6), None); crate::functions::get_city_production(&t, &t.tribes[&1].cities[0]) };
+    assert_eq!(crate::functions::get_city_production(&s, &s.tribes[&1].cities[0]) - base, 3);
+}
