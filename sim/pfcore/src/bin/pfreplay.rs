@@ -463,7 +463,11 @@ fn run_job(job: &Value) -> Result<Value, String> {
     for tr in r.game.state.tribes.values_mut() {
         for u in tr.units.iter_mut() {
             if let Some((f, to_)) = last.get(&u.uid) {
-                if *to_ == u.coords.idx { u.prev_coords = polyfish::coords::Coords::from_index(*f, size); }
+                u.ever_moved = true;   // pf-port push rule (PUSH-DIRECTION)
+                if *to_ == u.coords.idx {
+                    u.prev_coords = polyfish::coords::Coords::from_index(*f, size);
+                    u.push_from = Some(u.prev_coords);
+                }
             }
         }
     }

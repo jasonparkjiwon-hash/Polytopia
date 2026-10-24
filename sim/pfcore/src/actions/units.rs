@@ -311,9 +311,27 @@ pub fn step_unit(
         tile._unit_owner_id = None;
     }
 
+    let old_push = state
+        .tribes
+        .get(&unit_owner)
+        .and_then(|t| t.units.get(unit_idx))
+        .map(|u| (u.direction, u.ever_moved, u.push_from))
+        .unwrap_or((0, false, None));
+
     // Move the unit
     if let Some(tribe) = state.tribes.get_mut(&unit_owner) {
         if let Some(unit) = tribe.units.get_mut(unit_idx) {
+            // v123 push rule (PUSH-DIRECTION, SAVE-UNIT-FACING): a move (not a push or a kill move-in) sets
+            // the facing, rounded to 8 directions, and the tile it started from
+            if !involuntary {
+                let to = Coords::from_index(to_tile_idx, map_size);
+                unit.direction = crate::functions::facing_code(crate::functions::round_dir(
+                    to.x - unit.coords.x,
+                    to.y - unit.coords.y,
+                ));
+                unit.ever_moved = true;
+                unit.push_from = Some(unit.coords);
+            }
             unit.prev_coords.copy_from(&unit.coords);
             unit.coords.set_at(to_tile_idx, map_size);
 
@@ -770,6 +788,7 @@ pub fn step_unit(
             if let Some(unit) = tribe.units.get_mut(unit_idx) {
                 unit.coords.set_at(old_tile_idx, map_size);
                 unit.prev_coords = old_prev_coords;
+                (unit.direction, unit.ever_moved, unit.push_from) = old_push;
                 unit.unit_type = old_type;
                 unit.passenger_type = old_passenger;
                 unit.moved = old_moved;
@@ -1076,6 +1095,22 @@ pub fn attack_unit(
     }));
 
     // Apply damage to defender
+    // v123 push rule (PUSH-NEVER-MOVED): a unit that was attacked is pushed toward its attacker
+    let old_def_push = {
+        let size = state.settings.size;
+        let a = Coords::from_index(atk_coords, size);
+        let d = Coords::from_index(def_coords, size);
+        let unit = state.tribes.get_mut(&defender_owner).unwrap().units.get_mut(defender_idx).unwrap();
+        let old = unit.push_from;
+        unit.push_from = Some(Coords::from_xy(2 * d.x - a.x, 2 * d.y - a.y, size));
+        old
+    };
+    undos.push(Box::new(move |s| {
+        if let Some(u) = s.tribes.get_mut(&defender_owner).and_then(|t| t.units.get_mut(defender_idx)) {
+            u.push_from = old_def_push;
+        }
+    }));
+
     let def_damage = result.attack_damage;
 
     // Fog memory: defender remembers being hit here (real moves only).
@@ -1707,6 +1742,8 @@ pub fn spawn_unit(
         parent_unit_idx: None,
         child_unit_idx: None,
         last_attack_coords: None,
+        ever_moved: false,
+        push_from: None,
         uid: 0,
     };
 

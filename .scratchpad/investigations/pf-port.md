@@ -48,10 +48,10 @@ Status: **done** = ported with a test; **pf ok** = Polyfish already does it;
 | 19 | Land unit follows a kill into water only onto own port | PORT-KILL-EMBARK | L3 | pf ok via is_steppable_for_push | done (pf: is_steppable_for_push / step_unit) |
 | 20 | Water units don't follow a kill onto dry land | WATER-UNITS | L2 | Water skill only | done |
 | 21 | Stomp on kill move-in | JUGGERNAUT-KILL-MOVE | L3 | step_unit stomps | done (pf: is_steppable_for_push / step_unit) |
-| 22 | Push direction: saved facing / last move ever, rounded to 8 dirs | PUSH-DIRECTION, SAVE-UNIT-FACING | L3 | prev_coords sign | todo |
-| 23 | Never-moved unit: toward attacker if attacked, else centre by angle | PUSH-NEVER-MOVED | L3 | centre by sign | todo |
-| 24 | Blocked: counter-clockwise side first; no room removes the unit | PUSH-TIEBREAK | L3 | nearer-centre first; removes | todo |
-| 25 | Push onto own port only as first choice; boats not onto land | PUSH-PORT-FIRST, PUSH-ONTO-PORT | L3 | any order; boats onto land allowed | todo |
+| 22 | Push direction: saved facing / last move ever, rounded to 8 dirs | PUSH-DIRECTION, SAVE-UNIT-FACING | L3 | prev_coords sign | done (misses 98 -> 81) |
+| 23 | Never-moved unit: toward attacker if attacked, else centre by angle | PUSH-NEVER-MOVED | L3 | centre by sign | done (misses 98 -> 81) |
+| 24 | Blocked: counter-clockwise side first; no room removes the unit | PUSH-TIEBREAK | L3 | nearer-centre first; removes | done (misses 98 -> 81) |
+| 25 | Push onto own port only as first choice; boats not onto land | PUSH-PORT-FIRST, PUSH-ONTO-PORT | L3 | any order; boats onto land allowed | done (misses 98 -> 81) |
 | 26 | Push onto mountain needs Climbing | PUSH-TERRAIN | L3 | pf ok | done (pf) |
 | 27 | Freeze (Mooni/Gaami move, action 17): water+ocean around, not under units; adjacent enemies frozen | MOONI-FREEZE, GAAMI-FREEZE, MOONI-FREEZE-UNITS, ACTION-17-FREEZE-AREA | L3/L1 | freezes under units too | todo |
 | 28 | Mooni/Gaami freeze after capturing too | MOONI-FREEZE | L3 | ? | todo |

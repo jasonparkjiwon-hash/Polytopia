@@ -247,6 +247,12 @@ pub struct UnitState {
     pub child_unit_idx: Option<usize>,
     #[serde(default)]
     pub last_attack_coords: Option<Coords>,
+    /// v123 push rule (PUSH-DIRECTION): the unit moved at least once (in the log or since the load)
+    #[serde(default, deserialize_with = "flex_bool::deserialize")]
+    pub ever_moved: bool,
+    /// v123 push rule (PUSH-DIRECTION, PUSH-NEVER-MOVED): where its last move started, or the mirror of its last attacker
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub push_from: Option<Coords>,
     pub coords: Coords,
     /// Unit id from a real save (save_loader); 0 for units Polyfish spawns. Rules ignore it.
     #[serde(default)]
@@ -276,6 +282,8 @@ impl Default for UnitState {
             parent_unit_idx: None,
             child_unit_idx: None,
             last_attack_coords: None,
+            ever_moved: false,
+            push_from: None,
             uid: 0,
         }
     }

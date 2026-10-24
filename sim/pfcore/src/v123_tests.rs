@@ -345,3 +345,55 @@ fn water_unit_kill_move() {
         assert_eq!(unit(&s, 1, a).coords.idx == idx(5, 5), moves_in);
     }
 }
+
+fn push_to(s: &GameState, owner: i32, i: usize) -> Option<(i32, i32)> {
+    crate::functions::calculate_pushable_position(s, unit(s, owner, i)).map(|t| (t % SIZE, t / SIZE))
+}
+
+/// PUSH-DIRECTION, SAVE-UNIT-FACING, PUSH-NEVER-MOVED, PUSH-TIEBREAK, PUSH-PORT-FIRST (all L3; engine push_target).
+#[test]
+fn push_rule() {
+    use crate::functions::round_dir;
+    // 6e1bf8e0 t11 / e15f392c t13: a 2-tile move (-2,-1) pushes on (-1,0)
+    assert_eq!(round_dir(-2, -1), (-1, 0));
+    // a unit that never moved goes toward the centre, nearest of 8 by angle; 6e1bf8e0 t14: (-1,+13) -> (0,+1)
+    let mut s = board();
+    let u = add_unit(&mut s, 1, UnitType::Warrior, 6, 0, 10.0);
+    assert_eq!(push_to(&s, 1, u), Some((6, 1)));
+    // a unit that moved goes on the way it faces (its last move, kept across turns: af181c8f t4) ...
+    let mut s = board();
+    let w = add_unit(&mut s, 1, UnitType::Warrior, 2, 8, 10.0);
+    step(&mut s, 1, w, 3, 7);
+    assert_eq!(push_to(&s, 1, w), Some((4, 6)));
+    // ... reversed for a unit of another player than the one acting
+    s.settings.current_player_turn_id = 2;
+    assert_eq!(push_to(&s, 1, w), Some((2, 8)));
+    // blocked: counter-clockwise side first (the next entry of N, NE, E, ...); af181c8f t10
+    s.settings.current_player_turn_id = 1;
+    add_unit(&mut s, 2, UnitType::Warrior, 4, 6, 10.0);
+    assert_eq!(push_to(&s, 1, w), Some((4, 7)));
+    // a unit that was attacked and never moved is pushed toward its attacker (6e1bf8e0 t13)
+    let mut s = board();
+    let a = add_unit(&mut s, 1, UnitType::Archer, 3, 3, 10.0);
+    let d = add_unit(&mut s, 2, UnitType::Defender, 5, 3, 15.0);
+    s.tiles.get_mut(&idx(3, 3)).unwrap().explorers.insert(2);
+    attack(&mut s, a, d);
+    s.settings.current_player_turn_id = 2;
+    assert_eq!(push_to(&s, 2, d), Some((4, 3)));
+    // own port only as the first choice (af181c8f t15, t21); no open tile -> None (the unit is removed)
+    let mut s = board();
+    let p = add_unit(&mut s, 1, UnitType::Warrior, 5, 1, 10.0);
+    for x in 4..=6 {
+        for y in 0..=2 {
+            if (x, y) != (5, 1) {
+                s.tiles.get_mut(&idx(x, y)).unwrap().terrain_type = TerrainType::Water;
+            }
+        }
+    }
+    s.tiles.get_mut(&idx(6, 1)).unwrap().owner = 1;
+    put_structure(&mut s, 6, 1, StructureType::Port);
+    assert_eq!(push_to(&s, 1, p), None);
+    s.tiles.get_mut(&idx(5, 2)).unwrap().owner = 1;
+    put_structure(&mut s, 5, 2, StructureType::Port);
+    assert_eq!(push_to(&s, 1, p), Some((5, 2)));
+}
