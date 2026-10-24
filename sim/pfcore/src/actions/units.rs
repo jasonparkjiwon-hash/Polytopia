@@ -1682,6 +1682,7 @@ pub fn spawn_unit(
         parent_unit_idx: None,
         child_unit_idx: None,
         last_attack_coords: None,
+        uid: 0,
     };
 
     let old_unit_owner: Option<PlayerId> =

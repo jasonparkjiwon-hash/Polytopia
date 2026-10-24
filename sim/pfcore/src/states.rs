@@ -248,6 +248,9 @@ pub struct UnitState {
     #[serde(default)]
     pub last_attack_coords: Option<Coords>,
     pub coords: Coords,
+    /// Unit id from a real save (save_loader); 0 for units Polyfish spawns. Rules ignore it.
+    #[serde(default)]
+    pub uid: i64,
 }
 
 impl Default for UnitState {
@@ -273,6 +276,7 @@ impl Default for UnitState {
             parent_unit_idx: None,
             child_unit_idx: None,
             last_attack_coords: None,
+            uid: 0,
         }
     }
 }

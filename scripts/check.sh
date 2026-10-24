@@ -22,3 +22,5 @@ python3 economy.py ${A}_t1.json ${A}_t2.json ${A}_t3.json ${A}_t4.json ${A}_t5.j
 python3 economy.py ${B}_t5.json ${B}_t11.json ${B}_t15.json | tail -1
 python3 economy.py $(for t in $(seq 1 16); do printf "${C}_t$t.json "; done) | tail -1
 python3 economy.py $G | tail -1
+echo "== Polyfish forward model (informational, not part of the baseline): tools/pf_miss.py"
+python3 -I ../tools/pf_miss.py 2>/dev/null | grep -E "^(TOTAL|LEGAL)" | cut -c1-120 || echo "pf_miss skipped (build sim/pfcore first)"

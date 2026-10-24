@@ -11,6 +11,7 @@ pub mod mapgen;
 pub mod memory;
 pub mod moves;
 pub mod prediction;
+pub mod save_loader;
 pub mod score;
 pub mod settings;
 pub mod states;
