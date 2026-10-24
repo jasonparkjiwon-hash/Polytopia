@@ -665,7 +665,12 @@ fn is_terminal(state: &GameState, unit: &UnitState, tile_idx: i32) -> bool {
     // "Units cannot move through them (they can move onto them, but no further in the same turn)"
     // Flooded rough terrain usually acts like water (not terminal for aquatic)
     // Algae is Rough Terrain (stops movement)
+    // v123 (ledger ALGAE-MOVE): Cymanti units and boats move on through algae (af181c8f t16 #2293: a Boomchi
+    // leaves its city over algae onto water, 2 tiles; t25 #4153: a Rammership crosses 3 algae tiles)
+    let passes_algae = is_naval_unit(unit.unit_type)
+        || state.tribes.get(&unit.owner).map_or(false, |t| t.tribe_type == TribeType::Cymanti);
     if tile.is_algae()
+        && !passes_algae
         && !settings.skills.contains(&SkillType::Creep)
         && !settings.skills.contains(&SkillType::Fly)
     // Respect "stops the movement of units without the creep or fly unit skills"

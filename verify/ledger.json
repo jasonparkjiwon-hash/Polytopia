@@ -928,6 +928,13 @@
    "level": "L3 (saves: 57 Cymanti player records)",
    "game_version": "v123 (measured in saves)",
    "evidence": "All saves (2026-10-24, pf-port): Cymanti player records hold Fishing 44, Sailing 35, Navigation 30, Ramming 23, Diplomacy 2 of 57; never Hydrology (37), Synergy or Recycling; Oceantology (49) once, next to Navigation. Every Raychi training (21/21) comes with Sailing, every Boomchi training (35/35) with Ramming, every Algae build (12/12) with Fishing; the one Moth training with Diplomacy. Polyfish v115 had Hydrology replace Sailing (unlocking Raychi, Boomchi, Algae), Synergy replace Diplomacy (Moth), Oceantology replace Navigation."
+  },
+  {
+   "id": "ALGAE-MOVE",
+   "rule": "Cymanti algae (flood value 4) doesn't stop the movement of Cymanti units or of boats; they move on through it. Other tribes' land units on algae untested (Polyfish v115 stops every unit without Creep/Fly there).",
+   "level": "L3 (saves: 26 logged moves)",
+   "game_version": "v123 (measured in saves)",
+   "evidence": "pf-legal 2026-10-24: with algae as Polyfish's rough terrain, 26 logged moves are out of reach: 25 by Cymanti units (Boomchi, Raychi, Living Island leaving a city over algae, e.g. af181c8f t16 #2293 Boomchi (25,15) -> (26,13) via algae (25,14)) and 1 by a non-Cymanti Rammership crossing three algae tiles (af181c8f t25 #4153, (21,13) -> (24,13)). Exempting Cymanti units and boats makes all 26 legal; exempting every unit adds none."
   }
  ]
 }
