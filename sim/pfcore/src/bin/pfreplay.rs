@@ -53,6 +53,7 @@ struct Replay {
     notes: BTreeMap<String, i64>,
     acts: Vec<Value>,
     done: std::collections::HashSet<usize>, // logged actions already played out of order
+    hints: HashMap<usize, (i64, Option<i64>)>, // action index -> ruin reward (RuinsRewardType), tech (from the next save)
 }
 
 fn name_of(t: i64) -> &'static str {
@@ -96,6 +97,14 @@ impl Replay {
             if let Some(rt) = self.real_type.remove(&o) { self.real_type.insert(uid, rt); }
             if let Some(p) = self.passenger_uid.remove(&o) { self.passenger_uid.insert(uid, p); }
         }
+    }
+
+    /// Examine Ruins with the reward the next save shows (the log doesn't record it).
+    fn ruin_move(&self, i: usize, v: &[i64]) -> Option<Box<dyn Move>> {
+        let (rw, tech) = *self.hints.get(&i)?;
+        let mut m = CaptureMove::with_reward(self.idx(v[1], v[2]), RuinsRewardType::from_repr(rw as i8)?);
+        m.tech_hint = tech.and_then(|k| TechnologyType::from_repr(k as i8));
+        Some(Box::new(m))
     }
 
     /// v123 lets a player choose a level-up reward later in the turn; Polyfish offers only the reward until it is chosen.
@@ -238,7 +247,10 @@ impl Replay {
         match pick {
             Some(p) => {
                 e[0] += 1;
-                let mv = legal.into_iter().find(|m| m.serialize() == cands[p].serialize()).unwrap();
+                let mut mv = legal.into_iter().find(|m| m.serialize() == cands[p].serialize()).unwrap();
+                if t == 14 {
+                    if let Some(h) = self.ruin_move(i, &v) { mv = h; }
+                }
                 played_ok = self.game.play_move(mv.as_ref()).is_some();
                 if t == 18 {
                     for (k, c) in cands.iter().enumerate() {
@@ -361,8 +373,19 @@ impl Replay {
             }
         }
         let stars = tribe.map_or(0, |t| t.stars);
+        if t == 5 {
+            let k = at(v[2], v[3]);
+            let ut = unit_type(v[1] as i32).unwrap_or(UnitType::None);
+            let Some(tr) = tribe else { return "no tribe".into() };
+            let Some(city) = tr.cities.iter().find(|c| c.idx == k) else { return "train: no city of this player there in Polyfish".into() };
+            if polyfish::functions::get_unit_at(s, k).is_some() { return "train: city tile occupied in Polyfish".into(); }
+            let count = polyfish::functions::get_city_unit_count(s, city);
+            if count > city.level { return format!("train: city full in Polyfish (units {count} > level {})", city.level); }
+            let unlocked = ut == UnitType::Warrior || tr.tech_vanilla.iter().any(|ts| polyfish::settings::technology::get_unlocked_units(ts.tech_type, tr.tribe_type).contains(&ut));
+            if !unlocked { return format!("train: unit {} not unlocked by the tribe's techs in Polyfish", v[1]); }
+            return format!("train not offered (stars {stars}, cost {})", polyfish::settings::get_unit_setting(ut).cost);
+        }
         match t {
-            5 => format!("train not offered (stars {stars})"),
             1 => format!("build {} not offered (stars {stars})", v[1]),
             8 => format!("research not offered (stars {stars})"),
             16 => format!("upgrade not offered (stars {stars})"),
@@ -410,7 +433,10 @@ fn run_job(job: &Value) -> Result<Value, String> {
     let (game, rep) = save_loader::load(&start, "current", cur)?;
     let size = game.state.settings.size;
     let mut r = Replay { game, size, next_temp: 0, real_type: HashMap::new(), passenger_uid: HashMap::new(),
-        legal: BTreeMap::new(), illegal: Vec::new(), notes: BTreeMap::new(), acts: acts[..to].to_vec(), done: Default::default() };
+        legal: BTreeMap::new(), illegal: Vec::new(), notes: BTreeMap::new(), acts: acts[..to].to_vec(), done: Default::default(), hints: HashMap::new() };
+    for h in job["hints"].as_array().into_iter().flatten() {
+        r.hints.insert(h["i"].as_u64().unwrap_or(0) as usize, (h["reward"].as_i64().unwrap_or(0), h["tech"].as_i64()));
+    }
     // stand-in types and boat passengers, from the save records
     for row in start["currentTiles"].as_array().into_iter().flatten() {
         for tv in row.as_array().into_iter().flatten() {

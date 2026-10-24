@@ -5,33 +5,15 @@ Usage: python3 -I tools/pf_miss.py [--list] [--illegal] [--game <id prefix>] [--
   --list     one line per unit/star miss        --illegal  illegal actions grouped by cause (3 examples each)
   --detail <text> [n]  what Polyfish saw at the first n (default 8) illegal actions whose type/cause contains <text>
 Needs the bin: cd sim/pfcore && cargo build --release. Never prints save JSON."""
-import sys, os, json, glob, re, collections, subprocess, tempfile
-ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
-sys.path.insert(0, os.path.join(ROOT, "engine"))
-import replay as R, economy as EC
-from state import UNIT
-BIN = os.path.join(ROOT, "sim", "pfcore", "target", "release", "pfreplay")
+import sys, os, json, collections
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import pf_jobs as PJ
+import economy as EC
 want = sys.argv[sys.argv.index("--game") + 1] if "--game" in sys.argv else ""
-HELD = {h["game"]: h for h in json.load(open(os.path.join(ROOT, "data", "holdout.json")))["held"]}
-def held(gid, turn): return gid in HELD and turn >= HELD[gid].get("from_turn", 0)
-def keep(gid, turn): return True if "--all" in sys.argv else held(gid, turn) == ("--holdout" in sys.argv)
+def keep(gid, turn): return True if "--all" in sys.argv else PJ.held(gid, turn) == ("--holdout" in sys.argv)
 BOATS = {39, 40, 41, 42, 43, 44, 45}   # Dinghy, Pirate, Bomber, Scoutship, Raft, Rammership, Juggernaut: boat types count as one (like miss.py)
-
-if not os.path.exists(BIN): sys.exit("pf_miss: build Polyfish first (cd sim/pfcore && cargo build --release)")
-games = collections.defaultdict(list)
-for f in glob.glob(os.path.join(ROOT, "saves", want + "*_t*.json")):
-    if re.search(r"_t\d+\.json$", f): games[os.path.basename(f)[:36]].append(f)
-jobs, pairs = [], {}
-for gid, fs in sorted(games.items()):
-    ds = sorted(((json.load(open(f)), f) for f in fs), key=lambda d: len(d[0]["actions"])); final = ds[-1][1]
-    for (a, fa), (b, fb) in zip(ds, ds[1:]):
-        if not keep(gid, b["currentTurn"]): continue
-        tag = f"{gid}|{a['currentTurn']}|{b['currentTurn']}"
-        jobs.append(dict(tag=tag, start=fa, final=final, **{"from": len(a["actions"]), "to": len(b["actions"])}))
-        pairs[tag] = (a, b, ds[-1][0]["actions"])
-with tempfile.TemporaryDirectory() as tmp:
-    jf = os.path.join(tmp, "jobs.json"); json.dump(jobs, open(jf, "w"))
-    out = subprocess.run([BIN, jf], capture_output=True, text=True).stdout
+jobs, pairs = PJ.jobs_for(want, keep)
+results = PJ.run(jobs)
 
 def snap(d):   # save id -> (owner, type id, x, y, hp)
     o = {}
@@ -63,8 +45,8 @@ def compare(units, d):
 tu, ts, lg = collections.Counter(), collections.Counter(), collections.defaultdict(lambda: [0, 0])
 causes = collections.defaultdict(list); lines = []; per = collections.defaultdict(lambda: [collections.Counter(), collections.Counter()])
 details = []; errors = []; notes = collections.Counter(); load = collections.Counter()
-for line in (l[7:] for l in out.splitlines() if l.startswith("PFJSON ")):
-    r = json.loads(line); gid, ta, tb = r["tag"].split("|"); g = per[gid[:8]]
+for r in results:
+    gid, ta, tb = r["tag"].split("|"); g = per[gid[:8]]
     if "error" in r: errors.append(f"{gid[:8]} t{ta}->{tb}: {r['error']}"); continue
     a, b, acts = pairs[r["tag"]]
     res, bad = compare(r["units"], b); g[0].update(res)

@@ -56,7 +56,7 @@ fn i(v: &Value, k: &str) -> i64 {
     }
 }
 
-fn unit_state(u: &Value, passenger: Option<&Value>, effects: Option<&Value>, size: i32, rep: &mut LoadReport) -> Option<UnitState> {
+fn unit_state(u: &Value, passenger: Option<&Value>, effects: Option<&Value>, facing: Option<&Value>, size: i32, rep: &mut LoadReport) -> Option<UnitState> {
     let tid = i(u, "UnitType") as i32;
     let t = match unit_type(tid) {
         Some(t) => t,
@@ -86,6 +86,10 @@ fn unit_state(u: &Value, passenger: Option<&Value>, effects: Option<&Value>, siz
         uid: i(u, "Id"),
         ..Default::default()
     };
+    // facing (pf-port SAVE-UNIT-FACING): UnitDirection byte 2 is 0..7 = NW, W, SW, S, SE, E, NE, N; Polyfish stores it + 1 (0 = unknown)
+    if let Some(d) = facing.and_then(|f| f.get(2)).and_then(|b| b.as_i64()) {
+        if d < 8 { s.direction = d as i32 + 1; }
+    }
     if let Some(p) = passenger {
         let pid = i(p, "UnitType") as i32;
         match unit_type(pid) {
@@ -286,7 +290,7 @@ pub fn load(d: &Value, which: &str, current_player: i32) -> Result<(Game, LoadRe
                 }
             }
             if let Some(u) = tv.get("Unit").filter(|u| !u.is_null()) {
-                if let Some(us) = unit_state(u, tv.get("PassengerUnit").filter(|p| !p.is_null()), tv.get("UnitEffects"), size, &mut rep) {
+                if let Some(us) = unit_state(u, tv.get("PassengerUnit").filter(|p| !p.is_null()), tv.get("UnitEffects"), tv.get("UnitDirection"), size, &mut rep) {
                     if i(u, "FollowerUnitId") != 0 || i(u, "LeaderUnitId") != 0 {
                         rep.drop("centipede leader/follower links".into());
                     }
