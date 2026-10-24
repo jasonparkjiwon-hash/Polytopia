@@ -83,6 +83,8 @@ Status: **done** = ported with a test; **pf ok** = Polyfish already does it;
 | 54 | Aquarion techs 39, 46, 47 by tier | AQUARION-TECH-TIERS | L3 (tiers) | missing | todo |
 | 55 | Unit/structure/upgrade costs v123 (Enchant 3, Starfish +8, AquaFarm 5, ...) | C19-COSTS, ECON-PRICES-V123 | L3 | Starfish 8 pf ok | check |
 | 56 | Ruin stars 10 | ECON-RUIN-STARS | L3 | pf ok | done (pf) |
+| 58 | Navigation requires Sailing (base tree) | TECH-TREE | L3 | requires Ramming | done |
+| 58 | Navigation requires Sailing (base tree) | TECH-TREE | L3 | requires Ramming | done |
 | 57 | Bridge carries land units | BRIDGE-LAND | L3 | pf ok (is_steppable) | check |
 
 ## Flagged (below L1, off)

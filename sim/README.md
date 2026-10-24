@@ -36,3 +36,4 @@
 - Idle units heal at the end of the turn only for the human (`TribeState.bot` false), and not when poisoned [IDLE-AUTO-RECOVER].
 - Explode hits each adjacent enemy (hidden too, not at peace) for half the exploder's direct damage, rounded then halved and floored, and poisons survivors (was a flat 2) (`moves/abilities/explode.rs`) [EXPLODE-DAMAGE, EXPLODE-POISON, EXPLODE-POISON-DEFENCE].
 - Bot bonus: DifficultyHandicap - 1 stars a turn while holding the own unbesieged capital (`TribeState.handicap`, filled by save_loader; `functions.rs` get_bot_bonus, `game.rs`) [ECON-BOT-BONUS].
+- Navigation requires Sailing as in the verified tree (upstream: Ramming) [TECH-TREE].

@@ -506,3 +506,10 @@ fn bot_bonus() {
     add_unit(&mut s, 2, UnitType::Warrior, 5, 5, 10.0);
     assert_eq!(get_bot_bonus(&s, &s.tribes[&1]), 0);
 }
+
+/// TECH-TREE (L3): every base tech's tier and prerequisite as in data/tech_tree.json; Navigation needs Sailing.
+#[test]
+fn navigation_needs_sailing() {
+    use crate::settings::technology::get_technology_setting;
+    assert_eq!(get_technology_setting(TechnologyType::Navigation).requires, Some(TechnologyType::Sailing));
+}
