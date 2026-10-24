@@ -903,7 +903,10 @@ pub fn process_end_turn_effects(state: &mut GameState, _player_id: PlayerId) -> 
             .units
             .iter()
             .enumerate()
-            .filter(|(_, u)| !u.moved && !u.attacked)
+            // v123 (ledger IDLE-AUTO-RECOVER): only the human's idle units heal (the bots' don't), and a
+            // poisoned unit stays as it is
+            .filter(|_| !tribe.bot)
+            .filter(|(_, u)| !u.moved && !u.attacked && !u.effects.contains(&UnitEffect::Poison))
             .map(|(idx, u)| (idx, u.coords.idx))
             .collect();
 

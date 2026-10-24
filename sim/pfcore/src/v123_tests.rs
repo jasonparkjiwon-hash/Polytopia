@@ -458,3 +458,16 @@ fn polaris_capture_freezes() {
     assert_eq!(s.tiles[&idx(6, 5)].terrain_type, TerrainType::Ice);
     assert_eq!(s.tiles[&idx(6, 6)].terrain_type, TerrainType::Water);
 }
+
+/// IDLE-AUTO-RECOVER (L3: Jason in game + af181c8f t15, his idle wounded Rider was +4 by the next save; applying it
+/// to AI players adds 57 replay misses): only the human's idle units heal at the end of the turn.
+#[test]
+fn idle_recover_human_only() {
+    for bot in [false, true] {
+        let mut s = board();
+        s.tribes.get_mut(&1).unwrap().bot = bot;
+        add_unit(&mut s, 1, UnitType::Rider, 5, 5, 5.0);
+        let _ = crate::actions::process_end_turn_effects(&mut s, 1);
+        assert_eq!(unit(&s, 1, 0).health, if bot { 5.0 } else { 7.0 }); // +2 outside its territory
+    }
+}

@@ -33,3 +33,4 @@
 - Freeze area (Mooni/Gaami moves, action 17) doesn't freeze a tile under a unit, and records the frozen terrain (`TileState.frozen_from`) [MOONI-FREEZE].
 - Break Ice turns all ice around the acting unit back to its water/ocean, except under a unit (`moves/abilities/break_ice.rs`) [ACTION-18-BREAK-ICE].
 - On a village/city capture a Mooni/Gaami freezes the area, and any Polaris capture turns its own water around the city to ice (`moves/capture.rs`) [MOONI-FREEZE, POLARIS-CAPTURE-FREEZE].
+- Idle units heal at the end of the turn only for the human (`TribeState.bot` false), and not when poisoned [IDLE-AUTO-RECOVER].
