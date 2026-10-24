@@ -1370,6 +1370,8 @@ pub fn attack_unit(
         let can_retaliate = !def_skills.contains(&SkillType::Stiff)
             && !atk_skills.contains(&SkillType::Surprise)
             && !def_frozen
+            // v123 (ledger CLOAK-DAGGER-RETALIATION): a hidden attacker (Cloak) takes no return fire
+            && !atk_skills.contains(&SkillType::Hide)
             && distance <= def_range;
 
         let atk_damage = result.defense_damage;

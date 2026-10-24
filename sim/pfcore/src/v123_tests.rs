@@ -105,3 +105,18 @@ fn frozen_defender_no_retaliation() {
     assert_eq!(unit(&s, 1, a).health, 10.0);
     assert_eq!(unit(&s, 2, d).health, 5.0);
 }
+
+/// CLOAK-DAGGER-RETALIATION (L3, Jason in game): a Cloak never takes retaliation; a Dagger retaliates when attacked.
+#[test]
+fn hidden_attacker_no_retaliation() {
+    let mut s = board();
+    let a = add_unit(&mut s, 1, UnitType::Cloak, 4, 5, 5.0);
+    let d = add_unit(&mut s, 2, UnitType::Warrior, 5, 5, 10.0);
+    attack(&mut s, a, d);
+    assert_eq!(unit(&s, 1, a).health, 5.0);
+    let mut s = board();
+    let a = add_unit(&mut s, 1, UnitType::Warrior, 4, 5, 10.0);
+    let d = add_unit(&mut s, 2, UnitType::Dagger, 5, 5, 10.0);
+    attack(&mut s, a, d);
+    assert!(unit(&s, 1, a).health < 10.0);
+}

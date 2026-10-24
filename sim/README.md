@@ -16,3 +16,4 @@
 
 - Poison halves only the defence bonus; the v115 extra -30% on defence is removed (`functions.rs`) [C7].
 - A Frozen defender doesn't retaliate (`actions/units.rs` attack_unit) [FROZEN-NO-RETALIATION].
+- A hidden attacker (Hide skill: Cloak) takes no retaliation [CLOAK-DAGGER-RETALIATION].
