@@ -4,13 +4,14 @@ Also the legality check: is each logged action in Polyfish's legal-move list at 
 Usage: python3 -I tools/pf_miss.py [--list] [--illegal] [--game <id prefix>] [--holdout | --all]
   --list     one line per unit/star miss        --illegal  illegal actions grouped by cause (3 examples each)
   --detail <text> [n]  what Polyfish saw at the first n (default 8) illegal actions whose type/cause contains <text>
+  --accept   one acceptance line (units, stars, legal %) for the tuned saves and the held-out ones (implies --all)
 Needs the bin: cd sim/pfcore && cargo build --release. Never prints save JSON."""
 import sys, os, json, collections
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import pf_jobs as PJ
 import economy as EC
 want = sys.argv[sys.argv.index("--game") + 1] if "--game" in sys.argv else ""
-def keep(gid, turn): return True if "--all" in sys.argv else PJ.held(gid, turn) == ("--holdout" in sys.argv)
+def keep(gid, turn): return True if "--all" in sys.argv or "--accept" in sys.argv else PJ.held(gid, turn) == ("--holdout" in sys.argv)
 BOATS = {39, 40, 41, 42, 43, 44, 45}   # Dinghy, Pirate, Bomber, Scoutship, Raft, Rammership, Juggernaut: boat types count as one (like miss.py)
 jobs, pairs = PJ.jobs_for(want, keep)
 results = PJ.run(jobs)
@@ -45,11 +46,15 @@ def compare(units, d):
 tu, ts, lg = collections.Counter(), collections.Counter(), collections.defaultdict(lambda: [0, 0])
 causes = collections.defaultdict(list); lines = []; per = collections.defaultdict(lambda: [collections.Counter(), collections.Counter()])
 details = []; errors = []; notes = collections.Counter(); load = collections.Counter()
+acc = collections.defaultdict(lambda: [0] * 6)   # tuned / held-out -> units ok, n, stars ok, n, legal ok, n
 for r in results:
     gid, ta, tb = r["tag"].split("|"); g = per[gid[:8]]
     if "error" in r: errors.append(f"{gid[:8]} t{ta}->{tb}: {r['error']}"); continue
     a, b, acts = pairs[r["tag"]]
     res, bad = compare(r["units"], b); g[0].update(res)
+    A = acc["held-out" if PJ.held(gid, int(tb)) else "tuned"]; A[0] += res["HP exact"]; A[1] += sum(res.values())
+    for k, (ok, n) in r["legal"].items(): A[4] += ok; A[5] += n
+    s0 = dict(g[1])
     lines += [f"{gid[:8]} t{ta}->{tb} unit {z[0]} id{z[1]} {z[2:]}" for z in bad]
     ruins = collections.Counter(bytes.fromhex(x["raw"])[0] for x in acts[len(a["actions"]):len(b["actions"])] if x["type"] == 14)
     after = {p["PlayerId"]: p["Currency"] for p in b["currentPlayers"]}
@@ -58,12 +63,17 @@ for r in results:
         g[1]["players"] += 1; off = after[pl] - r["stars"].get(str(pl), 0)
         if off == 0 or (off % EC.RUIN_STARS == 0 and 0 < off // EC.RUIN_STARS <= ruins[pl]): g[1]["exact"] += 1   # ruin stars aren't logged
         else: lines.append(f"{gid[:8]} t{ta}->{tb} stars p{pl} off {off:+d} (start {r['stars0'].get(str(pl))})")
+    A[2] += g[1]["exact"] - s0.get("exact", 0); A[3] += g[1]["players"] - s0.get("players", 0)
     for k, (ok, n) in r["legal"].items(): lg[k][0] += ok; lg[k][1] += n
     for c in r["illegal"]:
         if "--detail" in sys.argv and sys.argv[sys.argv.index("--detail") + 1] in f"{c['type']}: {c.get('cause')} {c.get('why', '')}": details.append(f"{gid[:8]} t{ta} #{c['i']} {c['type']} {c['raw']}: {c.get('cause')} {json.dumps(c.get('detail'))}")
     tribe = {p["PlayerId"]: p["Tribe"] for p in a["currentPlayers"]}
     for c in r["illegal"]: causes[(c["type"] + (" [Aquarion]" if tribe.get(int(c["raw"][:2], 16)) == 3 else ""), c.get("cause"), c.get("why", ""))].append(f"{gid[:8]} t{ta} #{c['i']} {c['raw']}")
     notes.update(r["notes"]); load.update({"drop " + k: v for k, v in r["load"]["dropped"].items()}); load.update({"sub " + k: v for k, v in r["load"]["substituted"].items()})
+if "--accept" in sys.argv:
+    print("PF ACCEPT " + " | ".join(f"{k}: units {A[0]}/{A[1]}, stars {A[2]}/{A[3]}, legal {100 * A[4] / max(A[5], 1):.1f}%"
+                                   for k, A in sorted(acc.items(), key=lambda kv: kv[0] != "tuned")))
+    sys.exit(0)
 for gid, (u, s) in sorted(per.items()):
     miss = sum(v for k, v in u.items() if k != "HP exact")
     print(f"{gid} units exact {u['HP exact']}/{u['HP exact'] + miss} | stars exact {s['exact']}/{s['players']}")
