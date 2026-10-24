@@ -439,3 +439,22 @@ fn break_ice_around_unit() {
     assert_eq!(s.tiles[&idx(6, 6)].terrain_type, TerrainType::Water);
     assert_eq!(s.tiles[&idx(6, 4)].terrain_type, TerrainType::Ice);
 }
+
+/// POLARIS-CAPTURE-FREEZE (L3, n=1: af181c8f t13, a Battle Sled took a city and the water around it was ice the
+/// same turn; 12 of 16 water tiles newly in Polaris territory were ice at the next save), MOONI-FREEZE (capture).
+#[test]
+fn polaris_capture_freezes() {
+    use crate::moves::Move;
+    let mut s = board();
+    s.tribes.get_mut(&1).unwrap().tribe_type = TribeType::Polaris;
+    put_structure(&mut s, 5, 5, StructureType::Village);
+    for y in 4..=6 {
+        s.tiles.get_mut(&idx(6, y)).unwrap().terrain_type = TerrainType::Water;
+    }
+    add_unit(&mut s, 1, UnitType::BattleSled, 5, 5, 15.0);
+    add_unit(&mut s, 2, UnitType::Raft, 6, 6, 10.0);
+    crate::moves::capture::CaptureMove::new(idx(5, 5)).execute(&mut s).unwrap();
+    assert_eq!(s.tiles[&idx(6, 4)].terrain_type, TerrainType::Ice);
+    assert_eq!(s.tiles[&idx(6, 5)].terrain_type, TerrainType::Ice);
+    assert_eq!(s.tiles[&idx(6, 6)].terrain_type, TerrainType::Water);
+}

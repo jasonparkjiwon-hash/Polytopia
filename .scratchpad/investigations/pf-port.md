@@ -54,8 +54,8 @@ Status: **done** = ported with a test; **pf ok** = Polyfish already does it;
 | 25 | Push onto own port only as first choice; boats not onto land | PUSH-PORT-FIRST, PUSH-ONTO-PORT | L3 | any order; boats onto land allowed | done (misses 98 -> 81) |
 | 26 | Push onto mountain needs Climbing | PUSH-TERRAIN | L3 | pf ok | done (pf) |
 | 27 | Freeze (Mooni/Gaami move, action 17): water+ocean around, not under units; adjacent enemies frozen | MOONI-FREEZE, GAAMI-FREEZE, MOONI-FREEZE-UNITS, ACTION-17-FREEZE-AREA | L3/L1 | freezes under units too | done |
-| 28 | Mooni/Gaami freeze after capturing too | MOONI-FREEZE | L3 | ? | todo |
-| 29 | Polaris capture freezes own water around the city | POLARIS-CAPTURE-FREEZE | L3 | no | todo |
+| 28 | Mooni/Gaami freeze after capturing too | MOONI-FREEZE | L3 | ? | done |
+| 29 | Polaris capture freezes own water around the city | POLARIS-CAPTURE-FREEZE | L3 | no | done |
 | 30 | Ice Archer hit freezes the target | FROZEN-NO-RETALIATION | L3 | pf ok | done (pf) |
 | 31 | Frozen unit sits its next turn out, thaws | FROZEN-NO-RETALIATION | L3 | pf ok (unfreeze + end turn) | done (pf) |
 | 32 | Break Ice (action 18) | ACTION-18-BREAK-ICE | L3 | break_ice.rs | done (actor = first eligible own unit next to the target ice; may differ from the logged unit) |

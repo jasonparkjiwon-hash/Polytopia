@@ -74,6 +74,40 @@ impl Move for CaptureMove {
                 let capture_undo = crate::actions::city::capture_city(state, self.src_index)?;
                 undos.push(capture_undo);
 
+                // v123 (ledger MOONI-FREEZE): a Mooni or Gaami freezes the area after capturing too
+                let capturer_type = state.tribes[&unit_owner].units[capturer_idx].unit_type;
+                if crate::settings::has_skill(capturer_type, crate::types::SkillType::AutoFreeze) {
+                    undos.push(crate::actions::freeze_area(state, unit_owner, self.src_index));
+                }
+                // v123 (ledger POLARIS-CAPTURE-FREEZE): a Polaris capture turns the tribe's own water and
+                // ocean around the city to ice (not under a unit)
+                if state.tribes[&unit_owner].tribe_type == crate::types::TribeType::Polaris {
+                    let mut around =
+                        crate::functions::get_adjacent_indices(state, self.src_index, 1);
+                    around.push(self.src_index);
+                    for k in around {
+                        let freeze = state.tiles.get(&k).map_or(false, |t| {
+                            t.owner == unit_owner
+                                && matches!(
+                                    t.terrain_type,
+                                    crate::types::TerrainType::Water | crate::types::TerrainType::Ocean
+                                )
+                        }) && crate::functions::get_true_unit_at(state, k).is_none();
+                        if freeze {
+                            let t = state.tiles.get_mut(&k).unwrap();
+                            let (old_t, old_from) = (t.terrain_type, t.frozen_from);
+                            t.frozen_from = Some(old_t);
+                            t.terrain_type = crate::types::TerrainType::Ice;
+                            undos.push(Box::new(move |s: &mut crate::states::GameState| {
+                                if let Some(t) = s.tiles.get_mut(&k) {
+                                    t.terrain_type = old_t;
+                                    t.frozen_from = old_from;
+                                }
+                            }));
+                        }
+                    }
+                }
+
                 // Update capturer's home
                 let map_size = state.settings.size;
                 if let Some(tribe) = state.tribes.get_mut(&unit_owner) {
