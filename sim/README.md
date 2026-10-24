@@ -69,3 +69,4 @@
 - Another tribe's port stops only a unit that would board; frozen ports, ports on flooded land and amphibious units step onto it (`moves/mod.rs` is_steppable) [PORT-STEP, new ledger entry].
 - Water-only units (Raychi, Shark) move from water into a village or city and stop there (`moves/mod.rs`) [WATER-UNITS-VILLAGE, new ledger entry].
 - Explode is offered with no enemy next to the exploder (`moves/abilities/unit_actions.rs`) [EXPLODE-ANYTIME, new ledger entry].
+- The Moth has Explode (`settings/units.rs`) [MOTH-V123].

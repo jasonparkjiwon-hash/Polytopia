@@ -596,7 +596,8 @@ pub fn get_unit_setting(unit_type: UnitType) -> UnitSetting {
                 S::Poison,
                 S::Static,
                 S::Stiff,
-                S::Surprise // v123 (MOTH-V123): its attack draws no retaliation
+                S::Surprise, // v123 (MOTH-V123): its attack draws no retaliation
+                S::Explode   // v123 (MOTH-V123): explodes like a Boomchi (6e1bf8e0 t11 #1674)
             ],
             tribe_type: TribeType::Cymanti,
             ..Default::default()

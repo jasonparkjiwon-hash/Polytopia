@@ -126,3 +126,14 @@ fn explode_without_enemy() {
     s.tribes.get_mut(&1).unwrap().units[b].moved = true;
     assert!(has(&s, &ExplodeMove::new(idx(5, 5))));
 }
+
+/// MOTH-V123 (L3): a Moth can explode. 6e1bf8e0 t11 #1674: Moth 213 explodes on (9,3).
+#[test]
+fn moth_explodes() {
+    use crate::moves::abilities::explode::ExplodeMove;
+    use crate::v123_tests::add_unit;
+    let mut s = board();
+    s.tribes.get_mut(&1).unwrap().tribe_type = TribeType::Cymanti;
+    add_unit(&mut s, 1, UnitType::Moth, 5, 5, 3.0);
+    assert!(has(&s, &ExplodeMove::new(idx(5, 5))));
+}
