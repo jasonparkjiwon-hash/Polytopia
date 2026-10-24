@@ -586,3 +586,16 @@ fn tribe_tech_tiers() {
     let r = get_researchable_techs(&have(&[TechnologyType::Frostwork, TechnologyType::Sledding]), TribeType::Polaris);
     assert!(r.contains(&TechnologyType::PolarWarfare), "{r:?}");
 }
+
+/// ACTION-18-BREAK-ICE (L3: "a Dash unit can move onto ice and break it the same turn"): a Warrior that has
+/// moved is still offered Break Ice.
+#[test]
+fn dash_unit_breaks_ice_after_moving() {
+    use crate::moves::Move;
+    let mut s = board();
+    s.tiles.get_mut(&idx(6, 5)).unwrap().terrain_type = TerrainType::Ice;
+    let i = add_unit(&mut s, 1, UnitType::Warrior, 5, 5, 10.0);
+    s.tribes.get_mut(&1).unwrap().units[i].moved = true;
+    let brk = crate::moves::abilities::break_ice::BreakIceMove::new(idx(6, 5)).serialize();
+    assert!(crate::moves::generate_legal_moves(&s).iter().any(|m| m.serialize() == brk));
+}

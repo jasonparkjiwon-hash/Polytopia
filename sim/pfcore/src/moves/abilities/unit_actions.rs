@@ -33,6 +33,10 @@ pub fn generate_unit_action_moves_for_unit(
         }
     }
 
+    // Break Ice: checks its own Dash / attacked rule, so it comes before the early return
+    // (pf-loader: v123 Dash units break ice after moving, ACTION-18-BREAK-ICE)
+    generate_break_ice_moves_for_unit(state, unit, moves);
+
     if unit.moved || unit.attacked {
         return;
     }
@@ -87,8 +91,6 @@ pub fn generate_unit_action_moves_for_unit(
         }
     }
 
-    // Break Ice
-    generate_break_ice_moves_for_unit(state, unit, moves);
 }
 
 pub fn generate_economic_ability_moves(state: &GameState, moves: &mut Vec<Box<dyn Move>>) {
