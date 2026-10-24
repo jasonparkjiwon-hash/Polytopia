@@ -27,11 +27,7 @@ _Last updated 2026-10-23._
 
 ## Waiting on Jason
 
-- Oceantology (Cymanti tech, save id 49): its tier, from the tech card or a game where a one-city Cymanti researches it.
-
-- Embassy price check: note your stars right before building one embassy, right after, and at your next turn start (saves say a net 4, you and the card say 5).
-
-- Round 3, items 36–38 and 40 on the test sheet: embassy price/income, Market,
+- Round 3, item 40 (Aquarion tech names 39/47; 36–38 answered 24 Oct by cards: embassy 4 +2 each, Market, Clathrus). Items 36–38 and 40 on the test sheet: embassy price/income, Market,
   Clathrus, Aquarion tech names 39/47 (35 and 39 answered 23 Oct).
 
 - Waterworld and other new saves as he plays.
