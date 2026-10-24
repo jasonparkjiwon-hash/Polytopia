@@ -630,6 +630,34 @@ pub fn get_bot_bonus(state: &GameState, tribe: &TribeState) -> i32 {
     if holds_capital { bonus } else { 0 }
 }
 
+/// v123 (ledgers EMBASSY-ACTION L3, ECON-EMBASSY): embassy income at the start of a tribe's turn. The host of an
+/// embassy earns 2 a turn while not at war, 4 at peace; the builder earns 4 only at peace (nothing while neutral).
+/// `DiplomacyRelationState.state`: 1 peace, 3 war (the save's RelationState), 0 neutral.
+pub fn get_embassy_income(state: &GameState, tribe: &TribeState) -> i32 {
+    let mut stars = 0;
+    for (&other_id, other) in &state.tribes {
+        if other_id == tribe.id {
+            continue;
+        }
+        // the other tribe built an embassy here (this tribe hosts it)
+        if let Some(rel) = other.relations.get(&tribe.id).filter(|r| r.embassy_level > 0) {
+            stars += match rel.state { 1 => 4, 3 => 0, _ => 2 };
+        }
+        // this tribe built one there
+        if let Some(rel) = tribe.relations.get(&other_id).filter(|r| r.embassy_level > 0) {
+            if rel.state == 1 {
+                stars += 4;
+            }
+        }
+    }
+    stars
+}
+
+/// v123 (EMBASSY-ACTION: net 4 in both saves; ECON-EMBASSY: +2 for each embassy the tribe already has)
+pub fn get_embassy_cost(tribe: &TribeState) -> i32 {
+    4 + 2 * tribe.relations.values().filter(|r| r.embassy_level > 0).count() as i32
+}
+
 /// Get total tribe SPT (stars per turn)
 pub fn get_tribe_spt(state: &GameState, tribe: &TribeState) -> i32 {
     get_total_production(state, &tribe.cities)

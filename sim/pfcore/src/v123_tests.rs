@@ -705,3 +705,27 @@ fn market_pays_by_level() {
     let base = { let mut t = s.clone(); t.structures.insert(idx(6, 6), None); total(&t) };
     assert_eq!(total(&s) - base, 3);
 }
+
+/// EMBASSY-ACTION (L3, n=2: 09a5bf1e t7, 6e1bf8e0 t13): an embassy costs the builder a net 4 (+2 for each one it
+/// already has, ECON-EMBASSY); the host earns 2 a turn (4 at peace); the builder earns nothing while neutral, 4 at peace.
+#[test]
+fn embassy_cost_and_income() {
+    use crate::functions::{get_embassy_cost, get_embassy_income};
+    use crate::moves::Move;
+    let mut s = board();
+    add_city(&mut s, 2, 8, 8);
+    s.tiles.get_mut(&idx(8, 8)).unwrap().capital_of = 2;
+    for (a, b) in [(1, 2), (2, 1)] {
+        s.tribes.get_mut(&a).unwrap().relations.insert(b, DiplomacyRelationState::default());
+    }
+    s.tribes.get_mut(&1).unwrap().stars = 10;
+    assert_eq!(get_embassy_cost(&s.tribes[&1]), 4);
+    crate::moves::abilities::diplomacy::EstablishEmbassyMove::new(idx(8, 8), 2).execute(&mut s).unwrap();
+    assert_eq!(s.tribes[&1].stars, 6);
+    assert_eq!(get_embassy_cost(&s.tribes[&1]), 6);
+    assert_eq!((get_embassy_income(&s, &s.tribes[&1]), get_embassy_income(&s, &s.tribes[&2])), (0, 2));
+    for (a, b) in [(1, 2), (2, 1)] {
+        s.tribes.get_mut(&a).unwrap().relations.get_mut(&b).unwrap().state = 1;
+    }
+    assert_eq!((get_embassy_income(&s, &s.tribes[&1]), get_embassy_income(&s, &s.tribes[&2])), (4, 4));
+}

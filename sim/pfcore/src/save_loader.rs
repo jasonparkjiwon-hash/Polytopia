@@ -181,7 +181,7 @@ pub fn load(d: &Value, which: &str, current_player: i32) -> Result<(Game, LoadRe
         }
         for r in p.get("Diplomacy").and_then(|v| v.as_array()).into_iter().flatten() {
             let rel = DiplomacyRelationState {
-                state: if i(r, "RelationState") == 1 { 1 } else { 0 }, // save: 0 neutral, 1 peace, 3 war; Polyfish: 1 peace, else not
+                state: i(r, "RelationState") as i32, // save: 0 neutral, 1 peace, 3 war; Polyfish reads 1 as peace (pf-port keeps 3 for embassy income)
                 last_attack_turn: i(r, "LastAttackTurn") as i32,
                 embassy_level: i(r, "EmbassyLevel") as i32,
                 last_peace_broken_turn: i(r, "LastPeaceBrokenTurn") as i32,

@@ -580,7 +580,8 @@ impl Game {
             if let Some(tribe) = state.tribes.get(&new_pov) {
                 let cities: Vec<_> = tribe.cities.clone();
                 let spt = get_total_production(state, &cities)
-                    + crate::functions::get_bot_bonus(state, tribe);
+                    + crate::functions::get_bot_bonus(state, tribe)
+                    + crate::functions::get_embassy_income(state, tribe);
                 if spt > 0 {
                     undos.push(gain_stars(state, spt));
                 }
