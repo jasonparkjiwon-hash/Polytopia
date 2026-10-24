@@ -921,6 +921,13 @@
    "level": "L3 (measured, statistical: 313/524 = 60% vs 44% random; held-out 2/3, too small)",
    "game_version": "v123 (measured in game)",
    "evidence": "tools/bot_attacks.py + tools/bot_rules.py; engine fight() predictions; 19 of 1210 attacks hit a target not on our list (fog/peace/range model)."
+  },
+  {
+   "id": "CYMANTI-TECHS",
+   "rule": "v123 Cymanti research the base Fishing, Sailing, Ramming, Navigation and Diplomacy (no Hydrology, Synergy or Oceantology in their place). They train the Raychi with Sailing, the Boomchi with Ramming, and build Algae with Fishing. Moth with Diplomacy (n=1).",
+   "level": "L3 (saves: 57 Cymanti player records)",
+   "game_version": "v123 (measured in saves)",
+   "evidence": "All saves (2026-10-24, pf-port): Cymanti player records hold Fishing 44, Sailing 35, Navigation 30, Ramming 23, Diplomacy 2 of 57; never Hydrology (37), Synergy or Recycling; Oceantology (49) once, next to Navigation. Every Raychi training (21/21) comes with Sailing, every Boomchi training (35/35) with Ramming, every Algae build (12/12) with Fishing; the one Moth training with Diplomacy. Polyfish v115 had Hydrology replace Sailing (unlocking Raychi, Boomchi, Algae), Synergy replace Diplomacy (Moth), Oceantology replace Navigation."
   }
  ]
 }

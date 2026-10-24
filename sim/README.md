@@ -57,3 +57,4 @@
 - Water-skill units (and amphibious units on shallow water) follow a kill onto water (`functions.rs` is_steppable_for_push) [WATER-UNITS].
 - A Cymanti water ruin's unit is a veteran Boomchi (`actions/structure.rs`) [RUIN-UNIT-CYMANTI].
 - Resource harvests accept the tribe's version of the tech, and Aquarion's 47 counts as Fishing (`settings/technology.rs` has_tech_for_tribe, `moves/mod.rs`, `functions.rs`).
+- Cymanti use the base Sailing, Ramming, Navigation and Diplomacy; Raychi unlock with Sailing, Boomchi with Ramming, Algae with Fishing, Moth with Diplomacy; Oceantology tier 3 (`settings/technology.rs`) [CYMANTI-TECHS, new ledger entry].

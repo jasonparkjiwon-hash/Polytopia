@@ -146,6 +146,7 @@ fn tech_setting_table(tech_type: TechnologyType) -> TechnologySetting {
             unlocks_unit: Some(UnitType::Cloak),
             unlocks_structure: Some(StructureType::Embassy),
             unlocks_other: 1, // capital vision
+            unlocks_special_units: vec![UnitType::Moth], // v123 CYMANTI-TECHS
             ..Default::default()
         },
 
@@ -195,6 +196,7 @@ fn tech_setting_table(tech_type: TechnologyType) -> TechnologySetting {
             unlocks_unit: Some(UnitType::Raft),
             unlocks_terrain: Some(TerrainType::Water),
             unlocks_structure: Some(StructureType::Port),
+            unlocks_special_structures: vec![StructureType::Algae], // v123 CYMANTI-TECHS
             ..Default::default()
         },
         Sailing => TechnologySetting {
@@ -203,6 +205,7 @@ fn tech_setting_table(tech_type: TechnologyType) -> TechnologySetting {
             next: vec![Navigation],
             unlocks_unit: Some(UnitType::Scoutship),
             unlocks_terrain: Some(TerrainType::Ocean),
+            unlocks_special_units: vec![UnitType::Raychi], // v123 CYMANTI-TECHS
             ..Default::default()
         },
         Navigation => TechnologySetting {
@@ -216,6 +219,7 @@ fn tech_setting_table(tech_type: TechnologyType) -> TechnologySetting {
             requires: Some(Fishing),
             next: vec![Aquatism],
             unlocks_unit: Some(UnitType::Rammership),
+            unlocks_special_units: vec![UnitType::Boomchi], // v123 CYMANTI-TECHS
             ..Default::default()
         },
         Aquatism => TechnologySetting {
@@ -307,12 +311,10 @@ fn tech_setting_table(tech_type: TechnologyType) -> TechnologySetting {
             tribe_type: Some(TribeType::Cymanti),
             ..Default::default()
         },
+        // v123 (ledger CYMANTI-TECHS): Cymanti research the base Sailing, Ramming, Navigation and Diplomacy;
+        // Hydrology, Synergy and Oceantology replace nothing, and their unlocks sit on the base techs
         Hydrology => TechnologySetting {
-            replaces_tech: Some(Sailing),
             tribe_type: Some(TribeType::Cymanti),
-            next: vec![Navigation],
-            unlocks_special_units: vec![UnitType::Raychi, UnitType::Boomchi],
-            unlocks_special_structures: vec![StructureType::Algae],
             ..Default::default()
         },
         Rituals => TechnologySetting {
@@ -331,15 +333,13 @@ fn tech_setting_table(tech_type: TechnologyType) -> TechnologySetting {
             ..Default::default()
         },
         Oceantology => TechnologySetting {
-            replaces_tech: Some(Navigation),
+            tier: Some(3), // TRIBE-TECH-TIERS (7 at 1 city); its prerequisite (Pescetism) isn't modelled
             tribe_type: Some(TribeType::Cymanti),
             unlocks_unit: Some(UnitType::LivingIsland),
             ..Default::default()
         },
         Synergy => TechnologySetting {
-            replaces_tech: Some(Diplomacy),
             tribe_type: Some(TribeType::Cymanti),
-            unlocks_unit: Some(UnitType::Moth),
             ..Default::default()
         },
 

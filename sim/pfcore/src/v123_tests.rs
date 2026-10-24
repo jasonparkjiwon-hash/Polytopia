@@ -845,3 +845,15 @@ fn fishing_with_tribe_tech() {
         assert!(crate::moves::generate_legal_moves(&s).iter().any(|m| m.serialize() == h), "{tribe:?}");
     }
 }
+
+/// CYMANTI-TECHS (L3, save counts): Cymanti research the base Sailing/Navigation/Diplomacy; Raychi come with
+/// Sailing (21/21), Boomchi with Ramming (35/35).
+#[test]
+fn cymanti_techs() {
+    use crate::settings::technology::{get_unlocked_units, resolve_tech_for_tribe};
+    assert_eq!(resolve_tech_for_tribe(TechnologyType::Sailing, TribeType::Cymanti), TechnologyType::Sailing);
+    assert_eq!(resolve_tech_for_tribe(TechnologyType::Navigation, TribeType::Cymanti), TechnologyType::Navigation);
+    assert!(get_unlocked_units(TechnologyType::Sailing, TribeType::Cymanti).contains(&UnitType::Raychi));
+    assert!(get_unlocked_units(TechnologyType::Ramming, TribeType::Cymanti).contains(&UnitType::Boomchi));
+    assert!(!get_unlocked_units(TechnologyType::Ramming, TribeType::Imperius).contains(&UnitType::Boomchi));
+}
