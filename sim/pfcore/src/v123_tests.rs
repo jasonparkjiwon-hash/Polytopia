@@ -162,3 +162,16 @@ fn city_bonus_own_city_only() {
     assert_eq!(get_defense_bonus(&s, unit(&s, 1, own)), 1.5);
     assert_eq!(get_defense_bonus(&s, unit(&s, 1, ally)), 1.0);
 }
+
+/// SPLASH (L2: Polyfish + e15f392c turn 13 + replay A/B): each enemy next to the target takes half
+/// the damage a direct hit would deal it, floored. A Bomber's direct hit on a full Defender is 7, so splash is 3.
+#[test]
+fn splash_is_floored() {
+    let mut s = board();
+    let a = add_unit(&mut s, 1, UnitType::Bomber, 2, 5, 10.0);
+    let d = add_unit(&mut s, 2, UnitType::Warrior, 5, 5, 10.0);
+    let n = add_unit(&mut s, 2, UnitType::Defender, 5, 6, 15.0);
+    assert_eq!(damage(&s, (1, a), (2, n)), 7.0);
+    attack(&mut s, a, d);
+    assert_eq!(unit(&s, 2, n).health, 12.0);
+}

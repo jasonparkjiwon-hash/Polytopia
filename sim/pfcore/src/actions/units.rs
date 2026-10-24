@@ -1123,7 +1123,8 @@ pub fn attack_unit(
                     get_unit_max_health(adj_enemy),
                     get_defense_bonus(state, adj_enemy),
                 );
-                let individual_splash_damage = adj_res.splash_damage;
+                // v123 (ledger SPLASH): half the direct damage, floored
+                let individual_splash_damage = adj_res.splash_damage.floor();
 
                 let adj_owner = adj_enemy.owner;
                 let mut unit_died = false;
