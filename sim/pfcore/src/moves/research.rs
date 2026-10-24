@@ -70,50 +70,21 @@ impl Move for ResearchMove {
 pub fn generate_research_moves(state: &GameState, moves: &mut Vec<Box<dyn Move>>) {
     let pov_id = state.settings.current_player_turn_id;
     if let Some(tribe) = state.tribes.get(&pov_id) {
-        // Collect available techs based on what we have
-        let mut available_techs = std::collections::HashSet::new();
-
-        // Always include Unrequired's children if we have Unrequired (everyone has it implicitly or explicitly)
-        // Actually, just iterate all discovered techs and add their 'next'
+        // v123 (ledger TRIBE-TECH-TIERS, TECH-TREE): the researchable list follows the v123 tree, tribe techs
+        // included (upstream walked each known tech's `next`, which tribe techs don't inherit: 09a5bf1e t1
+        // #126 Polaris with Frostwork could not research Sledding)
+        let mut available_techs =
+            crate::settings::technology::get_researchable_techs(&tribe.tech_vanilla, tribe.tribe_type);
+        // Backward, as upstream: a known tech's prerequisite is researchable too (09a5bf1e t1 #114: Vengir,
+        // starting with Smithery, research Mining without Climbing)
         for tech_state in &tribe.tech_vanilla {
-            // Get settings for this tech
-            let settings =
-                crate::settings::technology::get_technology_setting(tech_state.tech_type);
-            for next_tech in settings.next {
-                let resolved = crate::settings::technology::resolve_tech_for_tribe(
-                    next_tech,
-                    tribe.tribe_type,
-                );
-                available_techs.insert(resolved);
-            }
-
-            // Backward: also allow researching the prerequisite of this tech
-            let mut req_opt = settings.requires;
-
-            // If checking a replacement tech that doesn't explicitly override requires, check the replaced tech
-            if req_opt.is_none() {
-                if let Some(replaced) = settings.replaces_tech {
-                    let replaced_settings =
-                        crate::settings::technology::get_technology_setting(replaced);
-                    req_opt = replaced_settings.requires;
+            if let Some(req) = crate::settings::technology::get_technology_setting(tech_state.tech_type).requires {
+                let resolved = crate::settings::technology::resolve_tech_for_tribe(req, tribe.tribe_type);
+                if !available_techs.contains(&resolved) {
+                    available_techs.push(resolved);
                 }
             }
-
-            if let Some(req_tech) = req_opt {
-                let resolved =
-                    crate::settings::technology::resolve_tech_for_tribe(req_tech, tribe.tribe_type);
-                available_techs.insert(resolved);
-            }
         }
-
-        // Also check if we have Unrequired explicitly? Usually yes.
-        // If tech_vanilla is empty (impossible), add Unrequired?
-        // Let's assume tech_vanilla is populated.
-
-        // Sorted: a HashSet's iteration order varies between instances, so the
-        // ResearchMove block landed in a different order each run and no search
-        // could be replayed (audit T3).
-        let mut available_techs: Vec<_> = available_techs.into_iter().collect();
         available_techs.sort_by_key(|t| *t as i8);
 
         for tech in available_techs {

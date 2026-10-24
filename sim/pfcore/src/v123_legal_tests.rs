@@ -155,3 +155,24 @@ fn converter_attack_is_convert() {
     u.passenger_type = Some(UnitType::MindBender);
     assert!(has(&s, &AttackMove::new(idx(5, 5), idx(6, 5))));
 }
+
+
+/// TRIBE-TECH-TIERS / RESEARCH-BACKWARD (L3): Polaris with Frostwork can research Sledding (09a5bf1e t1 #126);
+/// Vengir with Smithery can research Mining without Climbing (09a5bf1e t1 #114).
+#[test]
+fn research_tribe_tree_and_backward() {
+    use crate::moves::research::ResearchMove;
+    use crate::states::TechnologyState;
+    let t = |k| TechnologyState { tech_type: k, discovered: true, discovered_turn: 0 };
+    let mut s = board();
+    add_city(&mut s, 1, 5, 5);
+    let tr = s.tribes.get_mut(&1).unwrap();
+    tr.stars = 100;
+    tr.tribe_type = TribeType::Polaris;
+    tr.tech_vanilla = vec![t(TechnologyType::Basic), t(TechnologyType::Frostwork)];
+    assert!(has(&s, &ResearchMove::new(TechnologyType::Sledding)));
+    let tr = s.tribes.get_mut(&1).unwrap();
+    tr.tribe_type = TribeType::Vengir;
+    tr.tech_vanilla = vec![t(TechnologyType::Basic), t(TechnologyType::Smithery)];
+    assert!(has(&s, &ResearchMove::new(TechnologyType::Mining)));
+}

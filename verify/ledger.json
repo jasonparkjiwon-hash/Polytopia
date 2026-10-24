@@ -970,6 +970,13 @@
    "level": "L3 (saves: 4 converts, 1 boat attack)",
    "game_version": "v123 (measured in saves)",
    "evidence": "pf-legal 2026-10-24: the 4 logged converter attacks (09a5bf1e t5 #523 Shaman; af181c8f t3 #241 Shaman, t6 #518 Mind Bender; e15f392c t9 #1001 Shaman) change the target's owner in the next save; Polyfish v115 generated AttackMove for them and never ConvertMove. e15f392c t9 #1007: Ai-Mo Scoutship 113 carrying a Mind Bender hits Polaris Battle Sled 66, which is still Polaris at 5 HP at t10 (treating the boat as a converter makes it a unit miss)."
+  },
+  {
+   "id": "RESEARCH-BACKWARD",
+   "rule": "A known tech's prerequisite can be researched even without its own prerequisite (backwards from a start tech): Vengir, who start with Smithery, research Mining without Climbing.",
+   "level": "L3 (saves: 3 researches)",
+   "game_version": "v123 (measured in saves)",
+   "evidence": "pf-legal 2026-10-24: 09a5bf1e t1 #114, 1bf60251 t2 #132, af181c8f t1 #65: Vengir (tribe 12, techs [Basic, Smithery]) research Mining (23) without Climbing. Polyfish v115's generator allowed it (it adds each known tech's prerequisite); the v123 researchable list (TRIBE-TECH-TIERS) alone does not."
   }
  ]
 }

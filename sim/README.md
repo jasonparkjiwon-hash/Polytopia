@@ -71,3 +71,4 @@
 - Explode is offered with no enemy next to the exploder (`moves/abilities/unit_actions.rs`) [EXPLODE-ANYTIME, new ledger entry].
 - The Moth has Explode (`settings/units.rs`) [MOTH-V123].
 - A converter's (Mind Bender, Shaman) attack is generated as ConvertMove; a boat carrying one attacks normally (`moves/mod.rs` generate_attack_moves) [CONVERT-ATTACK, new ledger entry].
+- Research moves come from the v123 researchable list (tribe techs included) plus each known tech's prerequisite (`moves/research.rs`) [TRIBE-TECH-TIERS, RESEARCH-BACKWARD, new ledger entry].
