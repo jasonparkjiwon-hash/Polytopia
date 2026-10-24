@@ -127,6 +127,14 @@ Misses = compared - exact.
 - Enchant 3 (#55): stars 720 -> 730. Outpost (#62): 730 -> 740. Capture 3x3 (#63): +2 units. Captured capital (#64): +2 stars.
 - Market by level (#48): -1 star until the ruling-city fix (#65) made the row exact (742). Embassy (#47): +2 stars.
 - Shaman damage (#38): +3 units. Hidden bump (#40): +1 legal. Workshop/Park once (#44): stars 744 -> 750.
+- pf-port-2 (24 Oct, harness only, `bin/pfreplay.rs` + `tools/pf_jobs.py`; no Polyfish rule changed):
+  - Meeting oracle (6c3eb7b): tribes met between the saves come from the next save's Encountered, at the
+    economy model's price (`pf_jobs.meet_hints`, ECON-MEET). Stars 750 -> 781, legal 96.5 -> 97.3%.
+  - Meetings only from the oracle (423f5ed): while a logged action plays, every tribe "knows" every other, so
+    Polyfish's own discovery (turn start, random Explorer path) books none. Stars 781 -> 792.
+  - Unmapped Aquarion builds 49/51 charged 5 stars (ECON-PRICES-V123), and a logged CityReward that Polyfish
+    didn't have pending levels the city by adding just enough population (LEVEL_FROM_REWARD) (f65efe4).
+    Stars 792 -> 798, Train "city full" 1006 -> 1018.
 
 ## Findings
 
@@ -138,9 +146,11 @@ Misses = compared - exact.
   distribution), not a rule port. A "meet after each own move" switch changed nothing (tried, removed).
 - Saves: meets are one-way in 124 of 290 new meets (A knows B, B doesn't know A yet).
 
-## Scores (pf_miss, 24 Oct, at ec8f6da)
+## Scores (pf_miss, 24 Oct, at f65efe4 incl. pf-legal's moves)
 
-Units exact 4723/4734 (11 misses), stars exact 750/819, legal 8644/8972 = 96.3%.
+Units exact 4723/4734 (11 misses), stars exact 798/819 (referee 802/819), legal 8801/8972 = 98.1%.
+Held-out ed6cb932 (data/holdout.json, scored once by check.sh at f65efe4): units 187/187, stars 64/64, legal 98.9%.
+Earlier: at ec8f6da units 4723/4734, stars 750/819, legal 96.3%.
 Start of this session (pf-loader's first run): units 4349/4906, stars 162/819, legal 81.8%.
 
 ## Split with pf-legal (orchestrator, 24 Oct)
@@ -153,9 +163,15 @@ pf-port keeps: economy / star drift, unit HP and position misses, the rest of th
 
 ## What's left (rule gaps, biggest first)
 
-1. Stars (69 misses): mostly meeting stars after Explorer exploration (see Findings; harness or sim-dist),
-   Aquarion structures 49 (AquaFarm) and 51 (no Polyfish type: unlocking tech and effect unknown; price 5),
-   city rewards Polyfish doesn't offer (population from refused builds).
+1. Stars (21 misses). 18 are rows the referee's economy misses too (`pf_stars` "econ itself off": almost all
+   6e1bf8e0 t5->11 / t11->15, saves 4-6 turns apart, so the met tribe's score at the meeting is unknown).
+   3 rows Polyfish misses but the referee doesn't, each 1 star of income:
+   - 09a5bf1e t2->4 p15 Cymanti: a city's population runs 1 ahead in Polyfish, so its CityReward is offered
+     before the Fishing that really levels it (income +1 a turn early). CaptureCity/CityReward lines in
+     pf_stars are the same 5 stars swapped, not a bug.
+   - e15f392c t4->5 and t15->? p14: Polyfish pays 6 a turn, the economy model 5 (level 2 capital + 1 capital
+     + 1 Workshop + bonus 1). Was being looked at: dump Polyfish's per-city get_city_production for p14 after
+     load (an eprintln behind an env var in run_job, not committed) to see which term is +1.
 2. Movement legality (~85 Moves): Cymanti water units leaving a city 2-3 tiles onto water/algae; Polaris
    skating 2-3 tiles from a city onto ice; Mermaid onto ocean (which tech opens ocean for Aquarion: open,
    AMPHIBIOUS-WATER); a few boats into a port.
@@ -165,6 +181,13 @@ pf-port keeps: economy / star drift, unit HP and position misses, the rest of th
 6. Unit misses (11): af181c8f t16 ruin Swordsman hint (harness, noted in pf-loader.md), 6e1bf8e0 HP drift.
 
 ## Next step
+
+(pf-port-2, 24 Oct) Next session: the e15f392c p14 +1 income (above), then the 11 unit misses (6e1bf8e0 HP
+drift; Knights "already attacked" 9 = HP drift; af181c8f t16 is the harness ruin hint), then item 5 (Outpost
+effect). Note: the meeting oracle reads the next save, so it's for replay scoring only; a forward model
+running without a next save keeps Polyfish's own meeting rule (sim-dist: Explorer path distribution).
+
+Older:
 
 Movement, Explode, Convert, Outpost and 49/51 belong to pf-legal (pf-legal.md). pf-port next: star drift
 (`tools/pf_stars.py`: city rewards Polyfish doesn't offer, "econ itself off" rows in 6e1bf8e0) and the 11 unit
