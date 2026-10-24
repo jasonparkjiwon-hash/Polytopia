@@ -67,8 +67,8 @@ Status: **done** = ported with a test; **pf ok** = Polyfish already does it;
 | 38 | Shaman converts and also deals damage | SHAMAN | L3 | convert only? | done (+3 units) |
 | 39 | Swarm (38): adjacent friends get extra move, no attack boost | ACTION-TYPES-V123 | L1 | Boost (+1 move; +0.5 atk only v<115) | done (pf: Boost = +1 move, no attack bonus at v115+) |
 | 40 | Move onto a hidden enemy: stops, reveals it | MOVE-BLOCKED-HIDDEN | L3 | ? | done |
-| 41 | Tribe with no cities loses its units | NO-CITIES-NO-UNITS | L3 | ? | todo |
-| 42 | Breaking peace disbands breaker's units in ex-ally territory | DIPLO-BREAK-DISBAND | L3 | no | todo |
+| 41 | Tribe with no cities loses its units | NO-CITIES-NO-UNITS | L3 | ? | done (pf: capture_city removes an eliminated tribe's units) |
+| 42 | Breaking peace disbands breaker's units in ex-ally territory | DIPLO-BREAK-DISBAND | L3 | no | done |
 | 43 | Super unit by tribe | SUPER-UNIT-BY-TRIBE | L3/L1 | pf ok | done (pf) |
 | 44 | Income = level + capital + Workshop/Park + min(0,pop) | ECON-INCOME | L3 | production field + capital + rewards + progress<0 | check |
 | 45 | Siege: city with enemy on centre earns 0 | ECON-SIEGE | L3 | pf ok | done (pf) |

@@ -758,3 +758,22 @@ fn move_onto_hidden_unit() {
     assert!(!unit(&s, 2, c).effects.contains(&UnitEffect::Invisible));
     assert!(!unit(&s, 1, w).attacked);
 }
+
+/// DIPLO-BREAK-DISBAND (L3 for the disband, Jason in game 2026-10-23): breaking peace disbands the breaker's units
+/// inside the ex-ally's territory; units elsewhere stay.
+#[test]
+fn break_peace_disbands() {
+    use crate::moves::Move;
+    let mut s = board();
+    for (a, b) in [(1, 2), (2, 1)] {
+        let mut r = DiplomacyRelationState::default();
+        r.state = 1;
+        s.tribes.get_mut(&a).unwrap().relations.insert(b, r);
+    }
+    s.tiles.get_mut(&idx(7, 7)).unwrap().owner = 2;
+    add_unit(&mut s, 1, UnitType::Warrior, 7, 7, 10.0);
+    add_unit(&mut s, 1, UnitType::Warrior, 2, 2, 10.0);
+    crate::moves::abilities::diplomacy::BreakPeaceMove::new(2).execute(&mut s).unwrap();
+    assert_eq!(s.tribes[&1].units.len(), 1);
+    assert_eq!(unit(&s, 1, 0).coords.idx, idx(2, 2));
+}

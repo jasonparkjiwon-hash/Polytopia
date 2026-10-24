@@ -63,6 +63,20 @@ impl Move for BreakPeaceMove {
             }
         }
 
+        // v123 (ledger DIPLO-BREAK-DISBAND, Jason in game): the breaker's units inside the ex-ally's
+        // territory are disbanded
+        let inside: Vec<i32> = state.tribes[&pov_id]
+            .units
+            .iter()
+            .map(|u| u.coords.idx)
+            .filter(|k| state.tiles.get(k).map_or(false, |t| t.owner == target_id))
+            .collect();
+        for k in inside {
+            if let Some(i) = state.tribes[&pov_id].units.iter().position(|u| u.coords.idx == k) {
+                undos.push(crate::actions::units::remove_unit(state, pov_id, i, None, None));
+            }
+        }
+
         // KNOWN GAP (v115): breaking a peace treaty should end the breaker's turn
         // immediately. `Move::execute` only gets `&mut GameState`, so the handover has to
         // come from `Game::play_move`, which today special-cases only `MoveType::EndTurn`.
