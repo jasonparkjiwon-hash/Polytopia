@@ -145,3 +145,12 @@ Diagnosis helpers: `--detail "<cause text>"` (matches "<type>: <cause>"; the [Aq
 1. Re-run `pf_miss.py --accept` after each pf-port batch; update the scores table.
 2. Loader: once Polyfish generates PeaceReply, fill pending offers from the save's DiplomacyMessages.
 3. Harness: once stars are close, drop the "on credit" crutch from the legality score (report both).
+
+## From pf-port (24 Oct)
+
+- Ruin hint misses a Swordsman that walks off the ruin before the next save: af181c8f t16 #2211, XinXi
+  examined (20,0); ruin Swordsman 374 (created t16, home -1,-1) moved to (21,1) at #2416, so no unit stood on
+  the ruin tile at t18 and the hint wasn't Swordsman. Without the spawn, Warrior 205 isn't pushed to (21,0) and
+  5 unit misses follow (ids 205, 374, 111, 357, 281). The Python replay's RUIN oracle keys on created turn plus
+  the unit's first logged Move starting on the ruin tile.
+- Meeting stars: see pf-port.md "Findings" (exploration from Explorer rewards, not the meet rule).
