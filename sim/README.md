@@ -30,3 +30,4 @@
 - A Stiff unit doesn't move in after a kill; a Stiff boat (Juggernaut) does, and lands [KILL-MOVE-IN, JUGGERNAUT-KILL-MOVE].
 - A water unit may enter a city (it follows a kill into one) (`functions.rs` is_steppable_for_push) [WATER-UNITS].
 - Push rule from engine/replay.py push_target: ranged attack target, else saved/kept facing (`UnitState.direction` = save byte + 1, `ever_moved`), else away from the last move's start or toward the last attacker (`push_from`); reversed for other players' units; centre by angle; counter-clockwise first; own port only as first choice; boats only onto water; no open tile removes (`functions.rs` calculate_pushable_position, `actions/units.rs`, `bin/pfreplay.rs` primes ever_moved) [PUSH-DIRECTION, SAVE-UNIT-FACING, PUSH-NEVER-MOVED, PUSH-TIEBREAK, PUSH-PORT-FIRST, PUSH-ONTO-PORT].
+- Freeze area (Mooni/Gaami moves, action 17) doesn't freeze a tile under a unit, and records the frozen terrain (`TileState.frozen_from`) [MOONI-FREEZE].

@@ -136,6 +136,9 @@ pub struct TileState {
     pub effects: HashSet<TileEffect>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub _unit_owner_id: Option<PlayerId>,
+    /// v123 (ACTION-18-BREAK-ICE): the terrain this ice was frozen from (None: Water)
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub frozen_from: Option<TerrainType>,
 }
 
 impl Default for TileState {
@@ -154,6 +157,7 @@ impl Default for TileState {
             owner: 0,
             effects: HashSet::new(),
             _unit_owner_id: None,
+            frozen_from: None,
         }
     }
 }

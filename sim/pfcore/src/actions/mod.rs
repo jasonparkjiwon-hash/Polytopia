@@ -436,16 +436,20 @@ pub fn freeze_area(
     let adjacent = get_adjacent_indices(state, freezer_idx, 1);
 
     for idx in adjacent {
-        // Freeze any water
+        // Freeze any water; v123 (ledger MOONI-FREEZE): not under a unit
+        let occupied = crate::functions::get_true_unit_at(state, idx).is_some();
         if let Some(tile) = state.tiles.get_mut(&idx) {
             match tile.terrain_type {
-                TerrainType::Water | TerrainType::Ocean => {
+                TerrainType::Water | TerrainType::Ocean if !occupied => {
                     if !tile.is_frozen() {
                         let old_terrain = tile.terrain_type;
+                        let old_from = tile.frozen_from;
                         tile.terrain_type = TerrainType::Ice;
+                        tile.frozen_from = Some(old_terrain);
                         undos.push(Box::new(move |s| {
                             if let Some(t) = s.tiles.get_mut(&idx) {
                                 t.terrain_type = old_terrain;
+                                t.frozen_from = old_from;
                             }
                         }));
                     }

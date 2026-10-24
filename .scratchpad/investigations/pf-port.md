@@ -53,7 +53,7 @@ Status: **done** = ported with a test; **pf ok** = Polyfish already does it;
 | 24 | Blocked: counter-clockwise side first; no room removes the unit | PUSH-TIEBREAK | L3 | nearer-centre first; removes | done (misses 98 -> 81) |
 | 25 | Push onto own port only as first choice; boats not onto land | PUSH-PORT-FIRST, PUSH-ONTO-PORT | L3 | any order; boats onto land allowed | done (misses 98 -> 81) |
 | 26 | Push onto mountain needs Climbing | PUSH-TERRAIN | L3 | pf ok | done (pf) |
-| 27 | Freeze (Mooni/Gaami move, action 17): water+ocean around, not under units; adjacent enemies frozen | MOONI-FREEZE, GAAMI-FREEZE, MOONI-FREEZE-UNITS, ACTION-17-FREEZE-AREA | L3/L1 | freezes under units too | todo |
+| 27 | Freeze (Mooni/Gaami move, action 17): water+ocean around, not under units; adjacent enemies frozen | MOONI-FREEZE, GAAMI-FREEZE, MOONI-FREEZE-UNITS, ACTION-17-FREEZE-AREA | L3/L1 | freezes under units too | done |
 | 28 | Mooni/Gaami freeze after capturing too | MOONI-FREEZE | L3 | ? | todo |
 | 29 | Polaris capture freezes own water around the city | POLARIS-CAPTURE-FREEZE | L3 | no | todo |
 | 30 | Ice Archer hit freezes the target | FROZEN-NO-RETALIATION | L3 | pf ok | done (pf) |
@@ -100,6 +100,9 @@ Misses = compared - exact.
 - sight (#5), own-city bonus (#6): 0. Splash floor (#7): +1. Cloak/Moth cards (#8): +1 (and 3 fewer missing).
 - Aquarion units (#10): 4552/4860 -> 4651/4829 (misses 308 -> 178 at 43a8af1).
 - Juggernaut carries Giant (#12): 187 -> 178. Own port boards (#14): 210 -> 178. Stomp on boarding (#13): 0.
+- Flooded land keeps boats (#15): 178 -> 170. Stiff stays after kill (#17): 0.
+- Water units into a city (#20): 117 -> 98 misses, stars 157 -> 155 (sieges by those units; check when stars are worked on).
+- Push rule (#22-25): 70 -> 53 (at 032c9fd, after pf-loader's fixes).
 
 ## Next step
 

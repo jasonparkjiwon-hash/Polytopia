@@ -397,3 +397,26 @@ fn push_rule() {
     put_structure(&mut s, 5, 2, StructureType::Port);
     assert_eq!(push_to(&s, 1, p), Some((5, 2)));
 }
+
+/// MOONI-FREEZE (L3: e15f392c 4/4 Warrior-on-ice cases; af181c8f ocean freezes too), MOONI-FREEZE-UNITS (L3):
+/// after a Mooni moves, the water and ocean around it turn to ice, except under a unit; adjacent enemies are Frozen.
+#[test]
+fn mooni_freeze() {
+    let mut s = board();
+    for (x, t) in [(6, TerrainType::Water), (7, TerrainType::Ocean)] {
+        for y in 4..=6 {
+            s.tiles.get_mut(&idx(x, y)).unwrap().terrain_type = t;
+        }
+    }
+    let m = add_unit(&mut s, 1, UnitType::Mooni, 5, 5, 10.0);
+    add_unit(&mut s, 1, UnitType::Raft, 7, 4, 10.0);
+    let e = add_unit(&mut s, 2, UnitType::Raft, 7, 6, 10.0);
+    step(&mut s, 1, m, 6, 5);
+    assert_eq!(s.tiles[&idx(5, 4)].terrain_type, TerrainType::Field);
+    assert_eq!(s.tiles[&idx(6, 4)].terrain_type, TerrainType::Ice);
+    assert_eq!(s.tiles[&idx(7, 5)].terrain_type, TerrainType::Ice);
+    assert_eq!(s.tiles[&idx(7, 5)].frozen_from, Some(TerrainType::Ocean));
+    assert_eq!(s.tiles[&idx(7, 4)].terrain_type, TerrainType::Ocean);
+    assert_eq!(s.tiles[&idx(7, 6)].terrain_type, TerrainType::Ocean);
+    assert!(unit(&s, 2, e).effects.contains(&UnitEffect::Frozen));
+}
