@@ -900,6 +900,27 @@
    "level": "L3 (saves: 11 unit records)",
    "game_version": "v123 (measured in saves)",
    "evidence": "All saves, last state of each checkpoint (2026-10-24, pf-port): unit records of types 46/48 on Water tiles without flooding whose owner holds none of 47, 46, Navigation: 9 Mermaids + 2 Swordsmaids; 9 more Mermaids on Water with 47 only. On Ocean: 3 records (2 Mermaids, 1 Shark), all owners with Navigation and 46. Polyfish v115 lets Amphibious units onto water only with a tech that opens water (none for Aquarion), which made 142 logged Aquarion moves illegal (pf-loader)."
+  },
+  {
+   "id": "BOT-RESEARCH-OPENER",
+   "rule": "Bot first research, decision list on start techs and the 3x3 around the capital (initialTiles): Aquarion -> its tribe tech (id 47); Polaris -> IceFishing or Sledding; a tribe whose start tech opens Mining (Climbing or Smithery: XinXi, Vengir) -> Mining if 2+ metal, or 1+ metal and no water; else any water tile -> Fishing (if not known); else 2+ fruit -> Organization; else 2+ game -> Hunting; else metal -> Climbing; else Riding. Misses are mostly Kickoo (starts with Fishing; next tech varies) and Oumaji (FreeSpirit 2/2).",
+   "level": "L3 (measured, statistical: 62/77 training = 81% vs 55% always-Fishing; held-out ed6cb932 14/15 vs 10/15)",
+   "game_version": "v123 (measured in game)",
+   "evidence": "tools/bot_rules.py -> data/bot_rules.json; 77 bot players in 6 training games, 15 in held-out ed6cb932 (scored once after the rule was fixed on training misses)."
+  },
+  {
+   "id": "BOT-ATTACK-DECISION",
+   "rule": "A bot unit that has a visible hostile target within range at the moment of its first action attacks (in place or after a move) unless it stands in its own city or is a Defender. Attack rates: field unit with a predicted kill 217/302 (72%), field no kill 294/541 (54%), own city with kill 31/110, own city no kill 17/92, Defender no kill 14/131 (11%). Unit HP, relation (who hit whom), human vs bot target barely matter. Not deterministic: treat as these probabilities.",
+   "level": "L3 (measured, statistical: 791/1195 = 66% vs 51% majority; held-out 10/10, too small to judge)",
+   "game_version": "v123 (measured in game)",
+   "evidence": "tools/bot_attacks.py (replay + engine fight() on the live state just before each bot unit's first action) -> data/bot_attacks.csv; tools/bot_rules.py scores it. 1195 decisions in 5 games with bot attacks; Raft/Mooni/Boomchi excluded."
+  },
+  {
+   "id": "BOT-ATTACK-TARGET",
+   "rule": "With 2+ targets in range at the attack, a bot hits: a predicted kill first, then the target with the least return damage, then the most expensive unit type. 65% for attacks without a prior move (n=157, random 42%), 58% after a move (n=367, random 44%; the bot probably chose the target before moving, from squares we do not enumerate). Max damage, lowest HP, unit id, nearest, relation all score 50-57%.",
+   "level": "L3 (measured, statistical: 313/524 = 60% vs 44% random; held-out 2/3, too small)",
+   "game_version": "v123 (measured in game)",
+   "evidence": "tools/bot_attacks.py + tools/bot_rules.py; engine fight() predictions; 19 of 1210 attacks hit a target not on our list (fog/peace/range model)."
   }
  ]
 }

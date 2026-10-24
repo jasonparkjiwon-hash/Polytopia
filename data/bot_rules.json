@@ -1,0 +1,193 @@
+{
+ "about": "Predictive rules for built-in bot behaviour, each scored on the training games and on the held-out games (data/holdout.json) See .scratchpad/investigations/sim-dist.md.",
+ "rules": {
+  "BOT-RESEARCH-OPENER": {
+   "rule": "BOT-RESEARCH-OPENER",
+   "baseline": "always Fishing",
+   "training": {
+    "n": 77,
+    "hits": 62,
+    "rate": 0.805,
+    "wilson95": [
+     0.703,
+     0.878
+    ],
+    "baseline": 0.545
+   },
+   "held_out": {
+    "n": 15,
+    "hits": 14,
+    "rate": 0.933,
+    "wilson95": [
+     0.702,
+     0.988
+    ],
+    "baseline": 0.667
+   }
+  },
+  "BOT-ATTACK-DECISION": {
+   "rule": "attacks unless it stands in its own city or is a Defender.",
+   "baseline": "majority class",
+   "training": {
+    "n": 1195,
+    "hits": 791,
+    "rate": 0.662,
+    "wilson95": [
+     0.635,
+     0.688
+    ],
+    "baseline": 0.512,
+    "attack_rate_by_case": {
+     "Defender, kill available": {
+      "attacked": 10,
+      "n": 19,
+      "wilson95": [
+       0.317,
+       0.727
+      ]
+     },
+     "Defender, no kill": {
+      "attacked": 14,
+      "n": 131,
+      "wilson95": [
+       0.065,
+       0.171
+      ]
+     },
+     "field, kill available": {
+      "attacked": 217,
+      "n": 302,
+      "wilson95": [
+       0.665,
+       0.766
+      ]
+     },
+     "field, no kill": {
+      "attacked": 294,
+      "n": 541,
+      "wilson95": [
+       0.501,
+       0.585
+      ]
+     },
+     "own city, kill available": {
+      "attacked": 31,
+      "n": 110,
+      "wilson95": [
+       0.206,
+       0.372
+      ]
+     },
+     "own city, no kill": {
+      "attacked": 17,
+      "n": 92,
+      "wilson95": [
+       0.119,
+       0.276
+      ]
+     }
+    }
+   },
+   "held_out": {
+    "n": 10,
+    "hits": 10,
+    "rate": 1.0,
+    "wilson95": [
+     0.722,
+     1.0
+    ],
+    "baseline": 0.9,
+    "attack_rate_by_case": {
+     "field, kill available": {
+      "attacked": 3,
+      "n": 3,
+      "wilson95": [
+       0.438,
+       1.0
+      ]
+     },
+     "field, no kill": {
+      "attacked": 6,
+      "n": 6,
+      "wilson95": [
+       0.61,
+       1.0
+      ]
+     },
+     "own city, kill available": {
+      "attacked": 0,
+      "n": 1,
+      "wilson95": [
+       0.0,
+       0.793
+      ]
+     }
+    }
+   }
+  },
+  "BOT-ATTACK-TARGET": {
+   "rule": "a kill first, then the least return damage, then the most expensive target.",
+   "baseline": "uniform random among targets",
+   "training": {
+    "n": 524,
+    "hits": 313.2,
+    "rate": 0.598,
+    "wilson95": [
+     0.555,
+     0.638
+    ],
+    "baseline": 0.435,
+    "in_place": {
+     "n": 157,
+     "hits": 102.0,
+     "rate": 0.65,
+     "wilson95": [
+      0.572,
+      0.72
+     ],
+     "baseline": 0.421
+    },
+    "after_move": {
+     "n": 367,
+     "hits": 211.2,
+     "rate": 0.575,
+     "wilson95": [
+      0.524,
+      0.624
+     ],
+     "baseline": 0.442
+    }
+   },
+   "held_out": {
+    "n": 3,
+    "hits": 2.0,
+    "rate": 0.667,
+    "wilson95": [
+     0.208,
+     0.939
+    ],
+    "baseline": 0.5,
+    "in_place": {
+     "n": 0,
+     "hits": 0,
+     "rate": null,
+     "wilson95": [
+      0.0,
+      1.0
+     ],
+     "baseline": null
+    },
+    "after_move": {
+     "n": 3,
+     "hits": 2.0,
+     "rate": 0.667,
+     "wilson95": [
+      0.208,
+      0.939
+     ],
+     "baseline": 0.5
+    }
+   }
+  }
+ }
+}
