@@ -1360,8 +1360,16 @@ pub fn attack_unit(
         let distance =
             crate::functions::get_chebyshev_distance(atk_coords, def_coords, state.settings.size);
 
+        // v123 (ledger FROZEN-NO-RETALIATION): a Frozen defender doesn't hit back
+        let def_frozen = state
+            .tribes
+            .get(&defender_owner)
+            .and_then(|t| t.units.get(defender_idx))
+            .map_or(false, |u| u.effects.contains(&UnitEffect::Frozen));
+
         let can_retaliate = !def_skills.contains(&SkillType::Stiff)
             && !atk_skills.contains(&SkillType::Surprise)
+            && !def_frozen
             && distance <= def_range;
 
         let atk_damage = result.defense_damage;

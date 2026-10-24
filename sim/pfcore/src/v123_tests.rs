@@ -86,3 +86,22 @@ fn poison_halves_defence() {
     s.tribes.get_mut(&2).unwrap().units[d].veteran = true;
     assert_eq!(damage(&s, (1, a), (2, d)), 10.0);
 }
+
+/// Attack with player 1's unit a on player 2's unit d, as player 1's move.
+pub fn attack(s: &mut GameState, a: usize, d: usize) {
+    s.settings.current_player_turn_id = 1;
+    let _ = crate::actions::units::attack_unit(s, 1, a, 2, Some(d));
+}
+
+/// FROZEN-NO-RETALIATION (L3): a Frozen unit doesn't retaliate.
+/// 09a5bf1e turn 7: a Frozen Warrior took a hit and did not hit back.
+#[test]
+fn frozen_defender_no_retaliation() {
+    let mut s = board();
+    let a = add_unit(&mut s, 1, UnitType::Warrior, 4, 5, 10.0);
+    let d = add_unit(&mut s, 2, UnitType::Warrior, 5, 5, 10.0);
+    s.tribes.get_mut(&2).unwrap().units[d].effects.insert(UnitEffect::Frozen);
+    attack(&mut s, a, d);
+    assert_eq!(unit(&s, 1, a).health, 10.0);
+    assert_eq!(unit(&s, 2, d).health, 5.0);
+}

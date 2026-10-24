@@ -15,3 +15,4 @@
 ## v123 corrections (pf-port; ledger ids in brackets, tests in `src/v123_tests.rs`)
 
 - Poison halves only the defence bonus; the v115 extra -30% on defence is removed (`functions.rs`) [C7].
+- A Frozen defender doesn't retaliate (`actions/units.rs` attack_unit) [FROZEN-NO-RETALIATION].
