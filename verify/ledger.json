@@ -872,6 +872,27 @@
    "level": "L3 (n=1) + replay A/B",
    "game_version": "v123 (measured in game)",
    "evidence": "6e1bf8e0 t12 action 1549: Zebasi Giant 290 moved onto its port (22,6); Kickoo Warrior 36 next to it then hit the Juggernaut for 2 (only fits at 4 HP = 10 - floor(12/2) stomp), giving Giant 290 exactly 29 HP at t15 (38-3-3-3). Jason: no port defence bonus. Engine RULES stomp_after_boarding; miss.py units 4727/4728 -> 4728/4728."
+  },
+  {
+   "id": "DIST-RUIN-REWARD",
+   "rule": "Ruin reward frequencies measured from the saves (data/distributions.json, tools/distributions.py): stars 14, population 16, tech 11, unit 7, explorer 6 of 54 classified ruins (2 unresolved). Consistent with a uniform pick over the eligible rewards (RUIN-REWARD): chi-square vs 1/5 each = 6.95, df 4, p = 0.14. Water ruins (n=10): no explorer seen (0/10). The simulator should sample uniformly over the eligible pool; the measured shares are the check.",
+   "level": "L3 (measured, n=54 resolved of 56; explorer/pop read from soft signals)",
+   "game_version": "v123 (measured in game)",
+   "evidence": "Per-turn saves 09a5bf1e, 1bf60251, 6e1bf8e0, af181c8f, e15f392c. Each examined ruin classified from the saves either side: unit = unit created that turn on the ruin tile; tech = tech gained without Research; stars = star check +10; explorer = 30+ newly visible tiles the replayed units don't explain (false-positive rate 1/674 player-turns; city Explorer rewards reach it 31/35); pop = capital TotalPopulation +3 beyond builds (false-positive 8/709). Cross-check: whole-game free techs per ruin 14/57 = 0.25 (95% 0.15-0.37). Polyfish (sim/pfcore) has the reward enum but no weights; PolyEnv and the wiki say uniform."
+  },
+  {
+   "id": "RUIN-UNIT-CYMANTI",
+   "rule": "A Cymanti ruin's unit reward is a Mantis on land and a Boomchi on water (instead of the veteran Swordsman / Rammership with a Warrior other tribes get).",
+   "level": "L3 (n=2)",
+   "game_version": "v123 (measured in game)",
+   "evidence": "09a5bf1e t6 p15 (Cymanti) ruin (15,19) Field: Mantis created on the ruin tile; af181c8f t15 p11 (Cymanti) ruin (14,7) Ocean: Boomchi. Other tribes: Swordsman x4 (land), Rammership x1 (water). tools/distributions.py --rows."
+  },
+  {
+   "id": "DIST-CITY-REWARD",
+   "rule": "Bot city reward choices: level 2 Workshop 94 / Explorer 65 (Workshop 0.59, 95% 0.51-0.67); level 3 City Wall 48 / Resources 43 (about even); level 4 Border Growth 36 / Pop Growth 0; level 5+ Super Unit 14 / Park 0. Level 4 and 5+ look deterministic for bots; levels 2 and 3 showed no clear dependence on tribe, difficulty, capital or turn in these samples (treat as random with the measured shares).",
+   "level": "L3 (measured, n=307 choices)",
+   "game_version": "v123 (measured in game)",
+   "evidence": "tools/distributions.py over every game's longest log (6 games with actions); reward id fixes the offered pair; the city's own reward count agrees with the pair's level in 298/307. Human choices (n=7) kept apart."
   }
  ]
 }
