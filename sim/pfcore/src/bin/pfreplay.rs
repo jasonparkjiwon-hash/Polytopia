@@ -55,6 +55,7 @@ struct Replay {
     done: std::collections::HashSet<usize>, // logged actions already played out of order
     hints: HashMap<usize, (i64, Option<i64>)>, // action index -> ruin reward (RuinsRewardType), tech (from the next save)
     pad_noted: std::collections::HashSet<(i32, i32)>, // (city, turn) already noted as a hidden pending reward
+    meets: Vec<(i32, i32, i32)>, // (player, met tribe, stars): tribes met between the saves, from the next save's Encountered
 }
 
 fn name_of(t: i64) -> &'static str {
@@ -98,6 +99,22 @@ impl Replay {
             if let Some(rt) = self.real_type.remove(&o) { self.real_type.insert(uid, rt); }
             if let Some(p) = self.passenger_uid.remove(&o) { self.passenger_uid.insert(uid, p); }
         }
+    }
+
+    /// Meeting oracle: give `pl` (every player if None) the meetings the next save shows and Polyfish hasn't made,
+    /// with the economy model's stars (the tribe is already in known_players: see run_job). Returns the star change per player.
+    fn grant_meets(&mut self, pl: Option<i32>) -> BTreeMap<i32, i32> {
+        let mut d = BTreeMap::new();
+        let turn = self.game.state.settings.turn;
+        for (p, o, stars) in std::mem::take(&mut self.meets) {
+            if pl.is_some_and(|q| q != p) { self.meets.push((p, o, stars)); continue; }
+            let Some(tr) = self.game.state.tribes.get_mut(&p) else { continue };
+            tr.stars += stars;
+            tr.relations.entry(o).or_default().first_meet = turn;
+            *d.entry(p).or_insert(0) += stars;
+            self.note("meeting from the next save (oracle)");
+        }
+        d
     }
 
     /// Examine Ruins with the reward the next save shows (the log doesn't record it).
@@ -483,9 +500,16 @@ fn run_job(job: &Value) -> Result<Value, String> {
     let (game, rep) = save_loader::load(&start, "current", cur)?;
     let size = game.state.settings.size;
     let mut r = Replay { game, size, next_temp: 0, real_type: HashMap::new(), passenger_uid: HashMap::new(),
-        legal: BTreeMap::new(), illegal: Vec::new(), notes: BTreeMap::new(), acts: acts[..to].to_vec(), done: Default::default(), hints: HashMap::new(), pad_noted: Default::default() };
+        legal: BTreeMap::new(), illegal: Vec::new(), notes: BTreeMap::new(), acts: acts[..to].to_vec(), done: Default::default(), hints: HashMap::new(), pad_noted: Default::default(), meets: Vec::new() };
     for h in job["hints"].as_array().into_iter().flatten() {
         r.hints.insert(h["i"].as_u64().unwrap_or(0) as usize, (h["reward"].as_i64().unwrap_or(0), h["tech"].as_i64()));
+    }
+    for m in job["meets"].as_array().into_iter().flatten() {
+        let g = |k: &str| m[k].as_i64().unwrap_or(0) as i32;
+        // known from the start, so Polyfish's own rule (turn start, its own score) doesn't book the meeting too
+        if let Some(tr) = r.game.state.tribes.get_mut(&g("pl")) {
+            if tr.known_players.insert(g("o")) { r.meets.push((g("pl"), g("o"), g("stars"))); }
+        }
     }
     // stand-in types and boat passengers, from the save records
     for row in start["currentTiles"].as_array().into_iter().flatten() {
@@ -525,6 +549,12 @@ fn run_job(job: &Value) -> Result<Value, String> {
     let trace_on = std::env::var("PF_TRACE").is_ok();
     let mut trace = Vec::new();
     for i in from..to {
+        let t = acts[i]["type"].as_i64().unwrap_or(0);
+        let v = unpack(t, acts[i]["raw"].as_str().unwrap_or(""));
+        if v.first().is_some_and(|&p| p != 255) && t != 20 && t != 21 {
+            let d = r.grant_meets(Some(v[0] as i32));
+            if trace_on && !d.is_empty() { trace.push(json!([i, 15, v[0], d])); }
+        }
         let s0: Vec<(i32, i32)> = if trace_on { r.game.state.tribes.iter().map(|(k, t)| (*k, t.stars)).collect() } else { vec![] };
         r.apply(i, &acts[i]);
         if trace_on {
@@ -533,6 +563,8 @@ fn run_job(job: &Value) -> Result<Value, String> {
             if !d.is_empty() { trace.push(json!([i, acts[i]["type"], i64::from_str_radix(raw.get(0..2).unwrap_or("0"), 16).unwrap_or(0), d])); }
         }
     }
+    let d = r.grant_meets(None);
+    if trace_on && !d.is_empty() { trace.push(json!([to.saturating_sub(1), 15, 255, d])); }
     let stars: BTreeMap<i32, i32> = r.game.state.tribes.iter().map(|(k, t)| (*k, t.stars)).collect();
     Ok(json!({"tag": job["tag"], "units": units_out(&r), "stars": stars, "stars0": stars0, "legal": r.legal,
               "illegal": r.illegal, "notes": r.notes, "load": rep, "turn": r.game.state.settings.turn,
