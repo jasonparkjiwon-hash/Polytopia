@@ -154,13 +154,14 @@ pub fn get_unit_setting(unit_type: UnitType) -> UnitSetting {
         // Agent units
         U::Cloak => UnitSetting {
             cost: 8,
-            attack: 0.0,
+            attack: 2.0, // v123 card (UNIT-STATS-UI)
             movement: 2,
             defense: 0.5,
             range: 1,
             health: 5.0,
             skills: skills![
                 S::Hide,
+                S::Stiff, // v123 card
                 S::Infiltrate,
                 S::Dash,
                 S::Scout,
@@ -549,7 +550,7 @@ pub fn get_unit_setting(unit_type: UnitType) -> UnitSetting {
             cost: 5,
             attack: 2.0,
             movement: 2,
-            defense: 0.1,
+            defense: 2.0, // v123 fit (MOTH-V123: at least 1.6)
             range: 1,
             health: 10.0,
             is_super: false,
@@ -560,7 +561,8 @@ pub fn get_unit_setting(unit_type: UnitType) -> UnitSetting {
                 S::Infiltrate,
                 S::Poison,
                 S::Static,
-                S::Stiff
+                S::Stiff,
+                S::Surprise // v123 (MOTH-V123): its attack draws no retaliation
             ],
             tribe_type: TribeType::Cymanti,
             ..Default::default()

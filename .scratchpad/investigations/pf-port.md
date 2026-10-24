@@ -34,7 +34,7 @@ Status: **done** = ported with a test; **pf ok** = Polyfish already does it;
 | 5 | No retaliation if defender's tribe can't see the attacker's tile | C20 | L3 | not checked | done |
 | 6 | City defence bonus only in own city (not ally's) | DEF-BONUS | L2 | any non-enemy city | done |
 | 7 | Splash: half damage floored | SPLASH | L2 | half, not floored | done |
-| 8 | Unit stats from v123 cards (Cloak atk 2, Moth def 2, ...) | UNIT-STATS-UI, MOTH-V123 | L3 | v115 values | todo |
+| 8 | Unit stats from v123 cards (Cloak atk 2, Moth def 2, ...) | UNIT-STATS-UI, MOTH-V123 | L3 | v115 values | done (Cloak, Moth; Crab def 5 vs engine 4 open: engine's 4 is calc v116, no card) |
 | 9 | Shaman and Mooni have no Static | C29b | L3 | Static | todo |
 | 10 | Aquarion units 46 Mermaid, 48 Swordsmaid, 53 Shark | AQUARION-UNIT, UNIT-ID-48, UNIT-ID-53 | L3/L3/L2 | missing | todo |
 | 11 | Aquarion ids 47, 49-52, 54, 55 | AQUARION-UNIT-IDS | L0 | missing | flag (not added) |

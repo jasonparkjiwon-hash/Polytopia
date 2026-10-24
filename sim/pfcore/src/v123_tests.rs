@@ -175,3 +175,24 @@ fn splash_is_floored() {
     attack(&mut s, a, d);
     assert_eq!(unit(&s, 2, n).health, 12.0);
 }
+
+/// UNIT-STATS-UI (L3, v123 info cards): Cloak attack 2, Stiff.
+/// MOTH-V123 (L3, n=1 fit): 6e1bf8e0 t11-12, Moth 213 attacked a poisoned Warrior in a city and took no
+/// retaliation, then survived a full-HP Swordsman's hit on a mountain: defence >= 1.6 (engine uses 2).
+#[test]
+fn v123_unit_cards() {
+    use crate::settings::units::get_unit_setting;
+    let c = get_unit_setting(UnitType::Cloak);
+    assert_eq!((c.attack, c.defense, c.health), (2.0, 0.5, 5.0));
+    assert!(c.skills.contains(&SkillType::Stiff));
+    let mut s = board();
+    let a = add_unit(&mut s, 1, UnitType::Moth, 4, 5, 10.0);
+    let d = add_unit(&mut s, 2, UnitType::Warrior, 5, 5, 10.0);
+    attack(&mut s, a, d);
+    assert_eq!(unit(&s, 1, a).health, 10.0);
+    let mut s = board();
+    s.tiles.get_mut(&idx(4, 5)).unwrap().terrain_type = TerrainType::Mountain;
+    let m = add_unit(&mut s, 2, UnitType::Moth, 4, 5, 10.0);
+    let sw = add_unit(&mut s, 1, UnitType::Swordsman, 5, 5, 15.0);
+    assert!(damage(&s, (1, sw), (2, m)) < 10.0);
+}
