@@ -179,8 +179,12 @@ pub fn is_resource_visible_to_tribe(
             has_technology(&tribe.tech_vanilla, TechnologyType::Organization)
                 || has_technology(&tribe.tech_vanilla, TechnologyType::Farming)
         }
-        // Metal requires Climbing
-        ResourceType::Metal => has_technology(&tribe.tech_vanilla, TechnologyType::Climbing),
+        // Metal requires Climbing; v123 (ledger METAL-WITH-MINING): or Mining (09a5bf1e t2 #190: Vengir, with
+        // Smithery and Mining but no Climbing, build a Mine)
+        ResourceType::Metal => {
+            has_technology(&tribe.tech_vanilla, TechnologyType::Climbing)
+                || has_technology(&tribe.tech_vanilla, TechnologyType::Mining)
+        }
         // Game (animal) requires Hunting
         ResourceType::Game => has_technology(&tribe.tech_vanilla, TechnologyType::Hunting),
         // Fish requires Fishing

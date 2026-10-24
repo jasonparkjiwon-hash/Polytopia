@@ -176,3 +176,22 @@ fn research_tribe_tree_and_backward() {
     tr.tech_vanilla = vec![t(TechnologyType::Basic), t(TechnologyType::Smithery)];
     assert!(has(&s, &ResearchMove::new(TechnologyType::Mining)));
 }
+
+/// METAL-WITH-MINING (L3): Vengir with Mining but no Climbing can build a Mine. 09a5bf1e t2 #190: (25,4).
+#[test]
+fn mine_with_mining_no_climbing() {
+    use crate::moves::build::BuildMove;
+    use crate::states::{ResourceState, TechnologyState};
+    let t = |k| TechnologyState { tech_type: k, discovered: true, discovered_turn: 0 };
+    let mut s = board();
+    explore(&mut s);
+    add_city(&mut s, 1, 5, 5);
+    s.tribes.get_mut(&1).unwrap().cities[0]._territory = vec![idx(5, 5), idx(5, 4)];
+    s.tiles.get_mut(&idx(5, 4)).unwrap().terrain_type = TerrainType::Mountain;
+    s.resources.insert(idx(5, 4), Some(ResourceState { resource_type: ResourceType::Metal }));
+    let tr = s.tribes.get_mut(&1).unwrap();
+    tr.stars = 20;
+    tr.tribe_type = TribeType::Vengir;
+    tr.tech_vanilla = vec![t(TechnologyType::Basic), t(TechnologyType::Smithery), t(TechnologyType::Mining)];
+    assert!(has(&s, &BuildMove::new(idx(5, 4), StructureType::Mine)));
+}

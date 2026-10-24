@@ -32,6 +32,10 @@ python3 -I tools/pf_miss.py --detail "<type: cause>" 50
 - EXPLODE-ANYTIME (4388fed): no adjacent enemy needed (+12); Moth explodes (925d276, MOTH-V123) -> 24/24.
 - CONVERT-ATTACK (46f9984): converters get ConvertMove, not AttackMove; a boat carrying a Mind Bender
   attacks normally (passenger skills must not count: e15f392c t9 #1007).
+- Research (58e699f, TRIBE-TECH-TIERS + RESEARCH-BACKWARD): the generator uses pf-port's
+  get_researchable_techs (tribe techs never inherited `next`) plus each known tech's prerequisite (Vengir
+  Mining from Smithery). Research 351 -> 361.
+- METAL-WITH-MINING: Metal visible with Mining too (Vengir have no Climbing): Build 577 -> 585.
 
 ## Scores
 
@@ -40,9 +44,26 @@ python3 -I tools/pf_miss.py --detail "<type: cause>" 50
 | 8d129e7 (start) | 8481/8972 94.5% | 4723/4734 | 750/819 |
 | a0b9be3 | 8657/8972 96.5% | 4723/4734 | 750/819 |
 | 46f9984 | 8818/8972 98.3% | 4723/4734 | 798/819 (pf-port's star work) |
+| METAL-WITH-MINING | 8836/8972 98.5% (held-out 99.4%) | 4723/4734 | 798/819 |
 
-## Next step
+## Next step (HANDOFF 24 Oct; start here on Monday)
 
-Left (pf_miss --illegal): Mermaid onto ocean (Waiting on Jason: which tech), Research / Build 21, 8, 27, 28
-"not offered" with stars in hand, Aquarion 49/51 (no Polyfish type), a few odd moves. Downstream (not
-generation): CityReward not pending, Train city full, stars short, Attack already attacked.
+Pull main, rebuild (`How to run`), `python3 -I tools/pf_miss.py --illegal | head -40`. Illegal left: 136.
+Mine to do, biggest first:
+1. **Build 8 Port not offered (6)**: af181c8f t9 #961/#962 p8, t15 #2095 and t16 #2307 p12. Check the tile
+   (water next to own city? Aquarion flood?) with `tools/trace.py` and the gate in `moves/build.rs`.
+2. **Build 27/28 monuments (5+)**: Polyfish recomputes tasks (check_task) instead of reading the save's
+   Tasks; probably a loader job (player `Tasks`, 6 bytes for task types 1/5/9).
+3. **Aquarion structures 49/51 (11)**: no Polyfish StructureType; pf-port charged their price in pfreplay
+   (f65efe4). Needs a type + unlock tech: waiting on Jason (status.md).
+4. **Mermaid onto ocean (~12 Aquarion Moves)**: which tech opens ocean, waiting on Jason; the
+   `aquarion_tech_slots` flag (46 replaces Sailing) is the candidate. Also Aquarion research of
+   Navigation/Aquatism/Free Spirit and Cymanti Oceantology (prerequisite Pescetism not modelled).
+5. Odd moves (~10): Warrior onto Fungi structure 37 (e15f392c t12 #1563, t13 #1775), Shark 2-3 tiles on
+   water (6e1bf8e0 t11 #1786, e15f392c t14 #1829), Rammership onto mountain (af181c8f t22 #3456).
+Not generation (drift, pf-port-2): CityReward not pending (45), Attack already attacked / no unit (HP drift),
+Train city full, stars short.
+
+Legal by type now: Move 3739/3765, Attack 1181/1198, Train 1018/1028, Build 585/614, Research 361/369,
+CityReward 220/264, BreakIce 91/92, Embassy 1/2; all others 100% (OfferPeace 40/40, PeaceReply 37/37,
+Explode 24/24, Capture, Recover, Upgrade, Promote, Swarm, EndTurn, ExamineRuins).

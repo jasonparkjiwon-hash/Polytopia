@@ -977,6 +977,13 @@
    "level": "L3 (saves: 3 researches)",
    "game_version": "v123 (measured in saves)",
    "evidence": "pf-legal 2026-10-24: 09a5bf1e t1 #114, 1bf60251 t2 #132, af181c8f t1 #65: Vengir (tribe 12, techs [Basic, Smithery]) research Mining (23) without Climbing. Polyfish v115's generator allowed it (it adds each known tech's prerequisite); the v123 researchable list (TRIBE-TECH-TIERS) alone does not."
+  },
+  {
+   "id": "METAL-WITH-MINING",
+   "rule": "Metal is visible (and a Mine buildable) with Mining even without Climbing.",
+   "level": "L3 (saves: 8 Mine builds)",
+   "game_version": "v123 (measured in saves)",
+   "evidence": "pf-legal 2026-10-24: 8 logged Mine builds (09a5bf1e t2 #190, t4 #384, t7 #818, 1bf60251 t4 #266, ...) by Vengir, who start with Smithery and research Mining backwards (RESEARCH-BACKWARD) without Climbing. Polyfish v115 shows Metal only with Climbing, so the Mine was never offered; with Mining too all 8 are legal."
   }
  ]
 }
