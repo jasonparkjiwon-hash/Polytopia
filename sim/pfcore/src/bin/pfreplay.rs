@@ -277,13 +277,10 @@ impl Replay {
                 let why = if short { "stars short in Polyfish (drift)".to_string() } else { self.why_illegal(t, &v, pending) };
                 let detail = self.detail(t, &v, &keys);
                 self.illegal.push(json!({"i": i, "type": name, "raw": raw, "cause": why, "turn": self.game.state.settings.turn, "detail": detail}));
-                if short {
-                    if let Some(tr) = self.game.state.tribes.get_mut(&me) { tr.stars += CREDIT; }
-                    played_ok = cands.iter().any(|c| self.game.play_move(c.as_ref()).is_some());
-                    if let Some(tr) = self.game.state.tribes.get_mut(&me) { tr.stars -= CREDIT; }
-                } else {
-                    played_ok = cands.iter().any(|c| self.game.play_move(c.as_ref()).is_some());
-                }
+                // forced: always on credit, so a price Polyfish disagrees with doesn't also block the action
+                if let Some(tr) = self.game.state.tribes.get_mut(&me) { tr.stars += CREDIT; }
+                played_ok = cands.iter().any(|c| self.game.play_move(c.as_ref()).is_some());
+                if let Some(tr) = self.game.state.tribes.get_mut(&me) { tr.stars -= CREDIT; }
             }
         }
         if !played_ok {

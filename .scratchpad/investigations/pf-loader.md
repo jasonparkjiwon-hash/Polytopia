@@ -27,25 +27,26 @@ Pieces:
 - `scripts/check.sh` prints `pf_miss` TOTAL/LEGAL as an informational line (can't fail the baseline).
 - One hook in Polyfish: `UnitState.uid` (save unit id; rules ignore it).
 
-## Scores (2026-10-24, after pf-port's Aquarion units and Juggernaut commits)
+## Scores (2026-10-24, with pf-port through WATER-UNITS)
 
 Python referee: units 4728/4728, stars 802/819.
 
 | game | units exact | stars exact |
 |---|---|---|
-| 09a5bf1e Cliff & Gods | 418/423 | 4/96 |
-| 1bf60251 Ankiian | 291/291 | 82/96 |
-| 6e1bf8e0 bot war | ~171/256 | 1/32 |
-| af181c8f Oasis | ~2290/2440 | 40/355 |
-| e15f392c Misty Fields | ~1400/1437 | 29/240 |
-| **total** | **4645/4802** | **157/819** |
+| 09a5bf1e Cliff & Gods | 420/421 | 4/96 |
+| 1bf60251 Ankiian | 291/291 | 84/96 |
+| 6e1bf8e0 bot war | 204/230 | 1/32 |
+| af181c8f Oasis | 2362/2393 | 38/355 |
+| e15f392c Misty Fields | 1413/1425 | 28/240 |
+| **total** | **4690/4760** | **155/819** |
 
-Units total differs from 4728 because extras (units Polyfish keeps alive) count as misses too.
+Totals differ from 4728 because units Polyfish keeps alive (extras) count as misses too.
+Unit misses by kind: hp 29, missing 17, pos 17, extra 13, type 1.
 
-Legality: **7758/8972 = 86.5%** of logged actions are in Polyfish's legal list.
-ExamineRuins 56/56, Capture 172/175, EndTurn 972/979, Recover 152/155,
-Attack 1150/1198, Move 3513/3765, Train 755/1028, Build 364/614, Research 236/369,
-CityReward 210/264, Upgrade 94/127, BreakIce 30/92, OfferPeace 0/40, PeaceReply 0/37, Explode 11/24.
+Legality: **7779/8972 = 86.7%** of logged actions are in Polyfish's legal list.
+Capture 175/175, ExamineRuins 56/56, Recover 154/155, EndTurn 971/979, Attack 1160/1198,
+Move 3524/3765, Promote 35/38, CityReward 215/264, Train 750/1028, Research 233/369, Build 361/614,
+Upgrade 94/127, BreakIce 30/92, Explode 11/24, OfferPeace 0/40, PeaceReply 0/37.
 
 ## Harness rules (how logged actions become Polyfish moves)
 
@@ -99,30 +100,35 @@ Not mapped (dropped or unknown):
 
 ## Misses by cause (for pf-port)
 
-Stars (`pf_stars.py`, 819 player-turns):
-- 567 bot bonus missing (DifficultyHandicap - 1 a turn; needs `handicap` field + rule).
-- 71 meeting stars differ (turns where a tribe was met).
-- Prices: Enchant Animal (pf 1 vs 3), Outpost (pf 0 vs 5), Starfish (pf 0 vs +8), tech costs
-  (e.g. pf 5 vs 6/7 for tier 2/3), Aquarion techs/structures unmapped.
-- Ruin stars show as "spend ExamineRuins" in pf_stars (not a miss: pf_miss allows them).
+Stars (`pf_stars.py`, 819 player-turns; most misses have the first cause):
+- 571 bot bonus missing (DifficultyHandicap - 1 a turn while the capital is held; needs
+  `TribeState.handicap`, which the loader will fill as soon as the field exists).
+- 78 meeting stars differ (turns where a tribe was met).
+- Prices: Enchant Animal (pf 1 vs 3), Outpost (unimplemented in Polyfish: it refuses the build),
+  Starfish (needs Navigation in Polyfish and gives 0; v123 +8), tech costs (e.g. pf 5 vs 6/7),
+  Aquarion techs 39/45/46/47 and structures 49/51 unmapped.
+- "spend ExamineRuins" lines in pf_stars are ruin stars (not misses; pf_miss allows them).
 
-Illegal actions (`pf_miss.py --illegal`):
-- Stars short (drift from the above): Train 156, Build 145, Research 102, Upgrade 31.
-- Aquarion movement (138 Moves): Mermaid/Shark/Swordsmaid on flooded land and water get few or no
-  steps in Polyfish.
-- Cymanti water units (Boomchi, Raychi, Living Island) between land and water; Polaris skating on ice
-  (Mooni, Battle Sled 2-3 tiles onto ice): ~45 Moves.
-- Train not unlocked: Boomchi 56 (35), Shark 53 (24), Raychi 35 (21), Moth 61, Living Island 57.
-- Train "city full" (units > level): ~18, check v123's cap.
-- Break Ice not offered (51): units that moved without Dash, or attacked; v123 allows it.
-- City reward not pending (44): Polyfish's city hasn't levelled (pop from a failed harvest, or v123
-  pop rules).
-- OfferPeace 0/40, PeaceReply 0/37: not checked yet (translation or Polyfish's diplomacy conditions).
-- Explode not offered (12), Attack: no defender / already attacked (~30), Move: no unit at source (~20):
-  downstream of earlier divergence; check after the above.
+Illegal actions (`pf_miss.py --illegal`), by cause:
+- Stars short after drift (follows from the star causes): Train 172, Build 151, Research 104, Upgrade 32.
+- Aquarion movement, 142 Moves: Mermaid/Shark/Swordsmaid on flooded land and water get few or no steps.
+- Other movement, 69 Moves: Cymanti water units (Boomchi, Raychi, Living Island) between land and
+  water; Polaris skating on ice (Mooni, Battle Sled 2-3 tiles onto ice).
+- Train, unit not unlocked by the tribe's techs: Boomchi 56 (35), Shark 53 (27), Raychi 35 (21),
+  Moth 61, Living Island 57. City full (units > level): ~15, check v123's cap.
+- Break Ice not offered (59): units that moved without Dash or attacked. Also v123 clears all ice next
+  to the unit in one action; Polyfish clears one tile and ends the unit's turn (44 extra tiles refused).
+- Peace: Polyfish's generator has OfferPeace and PeaceReply switched off ("to prevent loops"): 0/40, 0/37.
+- Convert: Polyfish's move list never offers ConvertMove; a converter's attack converts in v123 (4,
+  played as ConvertMove; the Shaman's damage is then missing).
+- City reward not pending (49): Polyfish's city hasn't levelled (pop from a refused harvest, e.g.
+  Starfish, or v123 pop rules); the reverse, a reward Polyfish wants that the log never picks: ~40
+  (Move/Attack/EndTurn "reward pending").
+- Explode not offered (13), Attack "already attacked" (10).
+- Downstream of earlier divergence: no unit at source / no defender (~25).
 
-Units (`pf_miss.py --list`, 157 misses): mostly downstream of the illegal actions above (units not
-trained, Aquarion movement, ruin units).
+Units (70 misses): HP 1-2 off after fights (af181c8f), pushes/move-ins to another tile, boats not
+boarded (PORT-BOARDS), Cymanti/Aquarion units not trained; the Shaman's convert damage.
 
 ## Next step
 
