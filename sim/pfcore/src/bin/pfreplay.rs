@@ -117,6 +117,21 @@ impl Replay {
         d
     }
 
+    /// A logged CityReward Polyfish had no level-up for (the population came from something it doesn't model, e.g.
+    /// an Aqua Farm): each CityReward is one level (economy.py LEVEL_FROM_REWARD, 243/243), so add the population
+    /// that makes exactly that level-up.
+    fn level_up_for_reward(&mut self, pl: i32, city: i32) {
+        let Some(tr) = self.game.state.tribes.get(&pl) else { return };
+        let lux = tr.tribe_type == TribeType::Luxidoor;
+        let start = tr.starting_tile_coords.idx;
+        let Some(c) = tr.cities.iter().find(|c| c.idx == city) else { return };
+        let levels = ((c.level - 1).max(0) as usize).saturating_sub(if lux && c.idx == start { 2 } else { 0 });
+        if c.rewards.len() <= levels { return; }
+        let need = (c.level + 1 - c.progress).max(1);
+        polyfish::actions::city::add_population(&mut self.game.state, city, need);
+        self.note("city level-up from a logged CityReward (population Polyfish doesn't model)");
+    }
+
     /// Examine Ruins with the reward the next save shows (the log doesn't record it).
     fn ruin_move(&self, i: usize, v: &[i64]) -> Option<Box<dyn Move>> {
         let (rw, tech) = *self.hints.get(&i)?;
@@ -318,6 +333,11 @@ impl Replay {
             Err(e) => {
                 self.legal.entry(name.clone()).or_insert([0, 0])[1] += 1;
                 self.illegal.push(json!({"i": i, "type": name, "raw": raw, "cause": "unmapped", "why": e}));
+                // Aquarion structures 49 (Aqua Farm) and 51 have no Polyfish type yet: charge the economy model's price
+                // so the stars don't drift (economy.py BUILD, ECON-PRICES-V123)
+                if t == 1 && (v[1] == 49 || v[1] == 51) {
+                    if let Some(tr) = self.game.state.tribes.get_mut(&actor) { tr.stars -= 5; }
+                }
                 return;
             }
         };
@@ -354,6 +374,7 @@ impl Replay {
                 if let Some(tr) = self.game.state.tribes.get_mut(&me) { tr.stars += CREDIT; }
                 played_ok = cands.iter().any(|c| self.game.play_move(c.as_ref()).is_some());
                 if let Some(tr) = self.game.state.tribes.get_mut(&me) { tr.stars -= CREDIT; }
+                if t == 11 && played_ok { self.level_up_for_reward(me, self.idx(v[1], v[2])); }
             }
         }
         if !played_ok {
