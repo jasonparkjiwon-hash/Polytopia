@@ -40,3 +40,4 @@
 - Aquarion techs 45 AquaBase (start), 47 AquaFishing (tier 1), 39 Aquaculture and 46 Marine Life (tier 2, need 47; Marine Life unlocks the Shark); another tribe's own tech is never researchable; prerequisites accept the tribe's version. Which base tech each replaces is behind the off switch `aquarion_tech_slots` (new `src/v123_flags.rs`, `PF_FLAGS` in pfreplay) [AQUARION-TECH-TIERS, UNIT-ID-53].
 - Amphibious units step onto shallow water and flooded land without a tech (`moves/mod.rs`) [AMPHIBIOUS-WATER, new ledger entry].
 - Tribe techs take the tier and prerequisite of the base tech they replace (most had tier 1 and could not be researched); the researchable list has no duplicates (`settings/technology.rs`) [TRIBE-TECH-TIERS].
+- Philosophy discount is ceil(cost x 2/3) (`settings/technology.rs`) [TECH-COST].

@@ -599,3 +599,12 @@ fn dash_unit_breaks_ice_after_moving() {
     let brk = crate::moves::abilities::break_ice::BreakIceMove::new(idx(6, 5)).serialize();
     assert!(crate::moves::generate_legal_moves(&s).iter().any(|m| m.serialize() == brk));
 }
+
+/// TECH-COST (L2; the discount itself not yet seen in a save): Philosophy cuts a tech to ceil(cost x 2/3),
+/// as engine/economy.py tech_cost (x0.66 differs at 50, 100, ...).
+#[test]
+fn philosophy_discount() {
+    use crate::settings::technology::get_tech_cost;
+    assert_eq!(get_tech_cost(2, 3, true), 7); // 10 -> 6.67 -> 7
+    assert_eq!(get_tech_cost(23, 2, true), 34); // 50 -> 33.3 -> 34 (x0.66 gives 33)
+}
