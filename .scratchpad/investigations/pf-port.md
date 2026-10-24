@@ -85,6 +85,7 @@ Status: **done** = ported with a test; **pf ok** = Polyfish already does it;
 | 56 | Ruin stars 10 | ECON-RUIN-STARS | L3 | pf ok | done (pf) |
 | 58 | Navigation requires Sailing (base tree) | TECH-TREE | L3 | requires Ramming | done |
 | 58 | Navigation requires Sailing (base tree) | TECH-TREE | L3 | requires Ramming | done |
+| 59 | Amphibious units onto shallow water / flooded land with no tech | AMPHIBIOUS-WATER (new) | L3 | needs a water tech | done (legal Moves +127) |
 | 57 | Bridge carries land units | BRIDGE-LAND | L3 | pf ok (is_steppable) | check |
 
 ## Flagged (below L1, off)
@@ -92,7 +93,7 @@ Status: **done** = ported with a test; **pf ok** = Polyfish already does it;
 - Aquarion unit ids 47, 49-52, 54, 55 (L0): not added.
 - Clathrus income source (split): left as Polyfish (Algae).
 - `aquarion_tech_slots` (src/v123_flags.rs; conflicts_and_gaps AQUARION-TECHS, inferred): 47 replaces Fishing
-  (opens water), 39 Ramming, 46 Sailing (opens ocean). A/B at 3cf...: off legal 91.8%, on 92.0% (Move +19,
+  (opens water), 39 Ramming, 46 Sailing (opens ocean). A/B at d0a5d85: off legal 91.8%, on 92.0% (Move +19,
   Research +7), units/stars equal. Supports the inference; promoting it needs a second source.
 - Switches: `PF_FLAGS=name,name` in the environment of pfreplay (tools/pf_miss.py passes the environment).
 

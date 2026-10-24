@@ -533,3 +533,29 @@ fn aquarion_techs() {
     assert!(r.contains(&TechnologyType::MarineLife) && r.contains(&TechnologyType::Aquaculture));
     assert!(!get_researchable_techs(&[], TribeType::Imperius).contains(&TechnologyType::AquaFishing));
 }
+
+/// All tiles player 1's units may step to (from Polyfish's legal move list).
+pub fn step_targets(s: &GameState) -> Vec<i32> {
+    crate::moves::generate_legal_moves(s)
+        .iter()
+        .filter(|m| m.move_type() == MoveType::Step)
+        .filter_map(|m| m.serialize().get("target").and_then(|v| v.as_i64()).map(|v| v as i32))
+        .collect()
+}
+
+/// AMPHIBIOUS-WATER (L3, 11 save records): an Aquarion Mermaid steps onto shallow water and flooded land with
+/// no water tech; not onto ocean.
+#[test]
+fn amphibious_on_water() {
+    let mut s = board();
+    s.tribes.get_mut(&1).unwrap().tribe_type = TribeType::Aquarion;
+    s.tiles.get_mut(&idx(6, 5)).unwrap().terrain_type = TerrainType::Water;
+    s.tiles.get_mut(&idx(4, 5)).unwrap().terrain_type = TerrainType::Ocean;
+    s.tiles.get_mut(&idx(5, 6)).unwrap().effects.insert(TileEffect::Flooded);
+    for t in s.tiles.values_mut() {
+        t.explorers.insert(1);
+    }
+    add_unit(&mut s, 1, UnitType::Mermaid, 5, 5, 10.0);
+    let t = step_targets(&s);
+    assert!(t.contains(&idx(6, 5)) && t.contains(&idx(5, 6)) && !t.contains(&idx(4, 5)), "{t:?}");
+}

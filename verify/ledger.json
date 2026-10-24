@@ -893,6 +893,13 @@
    "level": "L3 (measured, n=307 choices)",
    "game_version": "v123 (measured in game)",
    "evidence": "tools/distributions.py over every game's longest log (6 games with actions); reward id fixes the offered pair; the city's own reward count agrees with the pair's level in 298/307. Human choices (n=7) kept apart."
+  },
+  {
+   "id": "AMPHIBIOUS-WATER",
+   "rule": "Aquarion amphibious units (Mermaid 46, Swordsmaid 48) stand on shallow water with no water tech (only the start tech 45): no Fishing-slot tech needed. Ocean: seen only for players holding Navigation and Marine Life (46), so the ocean rule is still open.",
+   "level": "L3 (saves: 11 unit records)",
+   "game_version": "v123 (measured in saves)",
+   "evidence": "All saves, last state of each checkpoint (2026-10-24, pf-port): unit records of types 46/48 on Water tiles without flooding whose owner holds none of 47, 46, Navigation: 9 Mermaids + 2 Swordsmaids; 9 more Mermaids on Water with 47 only. On Ocean: 3 records (2 Mermaids, 1 Shark), all owners with Navigation and 46. Polyfish v115 lets Amphibious units onto water only with a tech that opens water (none for Aquarion), which made 142 logged Aquarion moves illegal (pf-loader)."
   }
  ]
 }

@@ -875,8 +875,8 @@ fn is_steppable(state: &GameState, unit: &UnitState, idx: i32, strict: bool) -> 
                 return false;
             }
         }
-    } else if is_aquatic {
-        // Aquatic units can step on any water/ocean
+    } else if is_aquatic || crate::functions::is_amphibious(unit) {
+        // Aquatic units can step on any water/ocean; v123 (AMPHIBIOUS-WATER): amphibious units too
         let is_water = matches!(terrain, TerrainType::Water | TerrainType::Ocean);
         if is_water {
             return true;
@@ -917,6 +917,13 @@ fn is_navigationable_terrain(
 
     let has_bridge = get_structure_type_at(state, tile.coords.idx) == Some(StructureType::Bridge);
     if tile.is_frozen() || tile.is_algae() || has_bridge {
+        return true;
+    }
+
+    // v123 (ledger AMPHIBIOUS-WATER): amphibious units need no tech for shallow water or flooded land
+    if has_skill(unit_type, SkillType::Amphibious)
+        && (terrain == TerrainType::Water || (tile.is_flooded() && terrain != TerrainType::Ocean))
+    {
         return true;
     }
 

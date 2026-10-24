@@ -38,3 +38,4 @@
 - Bot bonus: DifficultyHandicap - 1 stars a turn while holding the own unbesieged capital (`TribeState.handicap`, filled by save_loader; `functions.rs` get_bot_bonus, `game.rs`) [ECON-BOT-BONUS].
 - Navigation requires Sailing as in the verified tree (upstream: Ramming) [TECH-TREE].
 - Aquarion techs 45 AquaBase (start), 47 AquaFishing (tier 1), 39 Aquaculture and 46 Marine Life (tier 2, need 47; Marine Life unlocks the Shark); another tribe's own tech is never researchable; prerequisites accept the tribe's version. Which base tech each replaces is behind the off switch `aquarion_tech_slots` (new `src/v123_flags.rs`, `PF_FLAGS` in pfreplay) [AQUARION-TECH-TIERS, UNIT-ID-53].
+- Amphibious units step onto shallow water and flooded land without a tech (`moves/mod.rs`) [AMPHIBIOUS-WATER, new ledger entry].
