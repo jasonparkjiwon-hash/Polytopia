@@ -637,3 +637,11 @@ fn enchant_animal_costs_3() {
     let s = board();
     assert_eq!(crate::version_sync::get_polytaur_cost(&s), 3);
 }
+
+/// Outpost (engine/economy.py BUILD 33: 5 stars, star rows exact): buildable for 5; its effect is not modelled yet.
+#[test]
+fn outpost_buildable() {
+    use crate::settings::structures::{get_structure_setting, unimplemented_reason};
+    assert!(unimplemented_reason(StructureType::Outpost).is_none());
+    assert_eq!(get_structure_setting(StructureType::Outpost).cost, Some(5));
+}

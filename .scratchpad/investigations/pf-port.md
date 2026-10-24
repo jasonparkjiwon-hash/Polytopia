@@ -81,13 +81,14 @@ Status: **done** = ported with a test; **pf ok** = Polyfish already does it;
 | 52 | Tech cost tier x cities + 4; Literacy 2/3 ceil | TECH-COST | L2 | x0.66 ceil | done |
 | 53 | Tribe techs priced at the replaced tech's tier (Polarism, Oceantology 3, ...) | TRIBE-TECH-TIERS | L3 | tier missing -> 1 for most | done (stars 700 -> 719) |
 | 54 | Aquarion techs 39, 46, 47 by tier | AQUARION-TECH-TIERS | L3 (tiers) | missing | done (stars 688 -> 700, legal 91.4 -> 91.8%) |
-| 55 | Unit/structure/upgrade costs v123 (Enchant 3, Starfish +8, AquaFarm 5, ...) | C19-COSTS, ECON-PRICES-V123 | L3 | Starfish 8 pf ok | Enchant 3 done; Starfish done (#60); Outpost unimplemented upstream (see What's left) |
+| 55 | Unit/structure/upgrade costs v123 (Enchant 3, Starfish +8, AquaFarm 5, ...) | C19-COSTS, ECON-PRICES-V123 | L3 | Starfish 8 pf ok | Enchant 3 done (stars 720 -> 730); Starfish done (#60); Outpost: see What's left |
 | 56 | Ruin stars 10 | ECON-RUIN-STARS | L3 | pf ok | done (pf) |
 | 58 | Navigation requires Sailing (base tree) | TECH-TREE | L3 | requires Ramming | done |
 | 58 | Navigation requires Sailing (base tree) | TECH-TREE | L3 | requires Ramming | done |
 | 59 | Amphibious units onto shallow water / flooded land with no tech | AMPHIBIOUS-WATER (new) | L3 | needs a water tech | done (legal Moves +127) |
 | 60 | Starfish: Navigation or the tribe's version (Polar Warfare) | ECON-PRICES-V123 + save count 32/32 | L3 | plain Navigation only | done |
 | 61 | Break Ice after a Dash move | ACTION-18-AFTER-MOVE | L3 | not offered | done by pf-loader (d4e40af) |
+| 62 | Outpost buildable for 5 (effect still missing) | engine BUILD (star check) | L3 price, effect unknown | refused as unimplemented | done (stars 730 -> 740) |
 | 57 | Bridge carries land units | BRIDGE-LAND | L3 | pf ok (is_steppable) | check |
 
 ## Flagged (below L1, off)

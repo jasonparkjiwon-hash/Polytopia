@@ -42,12 +42,9 @@ macro_rules! adjacent {
 /// Everything else Polaris-related (units, techs, Ice terrain, IceBank/IceTemple income)
 /// IS implemented; see the notes at `actions/connection.rs` and `actions/mod.rs`.
 pub fn unimplemented_reason(struct_type: StructureType) -> Option<&'static str> {
+    // v123 (pf-port): the Outpost is buildable for its 5 stars (engine/economy.py BUILD, exact star rows), so the
+    // star count follows the saves; its effect (ice connection network, ice spread) is still missing.
     match struct_type {
-        StructureType::Outpost => Some(
-            "Polaris Outpost is unimplemented: nothing consumes it. A real implementation \
-             needs the 5x5 ice connection network in actions/connection.rs plus the \
-             per-outpost ice spread; building one today would only burn 5 stars.",
-        ),
         _ => None,
     }
 }

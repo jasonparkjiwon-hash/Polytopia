@@ -43,3 +43,5 @@
 - Philosophy discount is ceil(cost x 2/3) (`settings/technology.rs`) [TECH-COST].
 - Starfish can be gathered with Navigation or the tribe's version of it (Polar Warfare) (`moves/mod.rs`, `moves/capture.rs`) [ECON-PRICES-V123].
 - Enchant Animal costs 3 (`version_sync.rs`) [ECON-PRICES-V123].
+- Enchant Animal costs 3 (`version_sync.rs`) [ECON-PRICES-V123].
+- The Polaris Outpost is buildable for 5 stars; its effect (ice network) is not modelled yet (`settings/structures.rs`).
