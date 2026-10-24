@@ -1016,7 +1016,8 @@ pub fn is_steppable_for_push(state: &GameState, unit: &UnitState, idx: i32) -> b
             }
         }
         _ => {
-            if settings.skills.contains(&SkillType::Water) && !tile.is_flooded() {
+            // v123 (ledger WATER-UNITS): a water unit may also enter a city (it follows a kill into one)
+            if settings.skills.contains(&SkillType::Water) && !tile.is_flooded() && !is_city(state, idx) {
                 return false;
             }
         }

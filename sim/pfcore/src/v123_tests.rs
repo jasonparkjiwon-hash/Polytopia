@@ -143,7 +143,9 @@ pub fn add_city(s: &mut GameState, owner: i32, x: i32, y: i32) {
     c.idx = idx(x, y);
     c.owner = owner;
     c.level = 1;
-    s.tiles.get_mut(&idx(x, y)).unwrap().owner = owner;
+    let t = s.tiles.get_mut(&idx(x, y)).unwrap();
+    t.owner = owner;
+    t.ruling_city_coords = Some(Coords::from_xy(x, y, SIZE));
     s.tribes.get_mut(&owner).unwrap().cities.push(c);
 }
 
@@ -325,4 +327,21 @@ fn stiff_stays_after_kill_boats_move_in() {
     attack(&mut s, j, 0);
     assert_eq!(unit(&s, 1, j).coords.idx, idx(5, 5));
     assert_eq!(unit(&s, 1, j).unit_type, UnitType::Giant);
+}
+
+/// WATER-UNITS (L2, replay A/B): after a kill a water unit follows onto water, flooded land or a city, never
+/// dry land. e15f392c t9: a Shark didn't follow a kill onto dry land.
+#[test]
+fn water_unit_kill_move() {
+    for (city, moves_in) in [(false, false), (true, true)] {
+        let mut s = board();
+        s.tiles.get_mut(&idx(4, 5)).unwrap().terrain_type = TerrainType::Water;
+        if city {
+            add_city(&mut s, 2, 5, 5);
+        }
+        let a = add_unit(&mut s, 1, UnitType::Shark, 4, 5, 10.0);
+        add_unit(&mut s, 2, UnitType::Warrior, 5, 5, 1.0);
+        attack(&mut s, a, 0);
+        assert_eq!(unit(&s, 1, a).coords.idx == idx(5, 5), moves_in);
+    }
 }

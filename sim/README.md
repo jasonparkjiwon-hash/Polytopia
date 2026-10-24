@@ -28,3 +28,4 @@
 - A Giant boarding at its own port stomps with Juggernaut attack [STOMP-ON-BOARDING].
 - A boat on Aquarion-flooded land (not a city) stays a boat [FLOOD-ALGAE].
 - A Stiff unit doesn't move in after a kill; a Stiff boat (Juggernaut) does, and lands [KILL-MOVE-IN, JUGGERNAUT-KILL-MOVE].
+- A water unit may enter a city (it follows a kill into one) (`functions.rs` is_steppable_for_push) [WATER-UNITS].
