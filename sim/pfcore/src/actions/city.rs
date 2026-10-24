@@ -394,10 +394,28 @@ pub fn capture_city(state: &mut GameState, tile_idx: i32) -> Result<UndoCallback
 
             // Claim territory — the city tile included, since older cities do
             // not list their own tile in `_territory`.
-            let mut claimed = city._territory.clone();
+            // v123 (ledger CAPTURE-TERRITORY): the captor gets the city tile and the 8 around it, those
+            // unowned or owned by the old owner (not the radius-2 same-owner tiles, which can belong to
+            // the old owner's other cities)
+            let mut claimed: Vec<i32> = get_square_indices(tile_idx, 1, state.settings.size)
+                .into_iter()
+                .filter(|k| {
+                    state.tiles.get(k).map_or(false, |t| {
+                        t.owner == 0 || t.owner == tile_owner || t.owner == pov_id
+                    })
+                })
+                .collect();
             if !claimed.contains(&tile_idx) {
                 claimed.push(tile_idx);
             }
+            if let Some(c) = state
+                .tribes
+                .get_mut(&pov_id)
+                .and_then(|t| t.cities.iter_mut().find(|c| c.idx == tile_idx))
+            {
+                c._territory = claimed.clone();
+            }
+            let city = { let mut c = city; c._territory = claimed.clone(); c };
             undos.push(claim_territory(state, &claimed, tile_idx, true));
             undos.push(discover_tiles(
                 state,

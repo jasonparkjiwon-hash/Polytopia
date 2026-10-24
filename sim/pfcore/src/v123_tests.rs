@@ -645,3 +645,23 @@ fn outpost_buildable() {
     assert!(unimplemented_reason(StructureType::Outpost).is_none());
     assert_eq!(get_structure_setting(StructureType::Outpost).cost, Some(5));
 }
+
+/// CAPTURE-TERRITORY (L2, replay A/B): capturing a city gives the captor the city tile and the 8 around it (unowned
+/// or the old owner's), nothing further. e15f392c t15: player 3 took (28,16); the port (28,18), two tiles away and
+/// ruled by the old owner's other city, stayed the old owner's, and a Swordsman then boarded there.
+#[test]
+fn capture_takes_3x3() {
+    use crate::moves::Move;
+    let mut s = board();
+    add_city(&mut s, 2, 5, 5);
+    put_structure(&mut s, 5, 5, StructureType::Village);
+    for k in crate::functions::get_square_indices(idx(5, 5), 2, SIZE) {
+        s.tiles.get_mut(&k).unwrap().owner = 2;
+    }
+    s.tribes.get_mut(&2).unwrap().cities[0]._territory = crate::functions::get_square_indices(idx(5, 5), 2, SIZE);
+    add_city(&mut s, 2, 1, 1); // the old owner keeps a city
+    add_unit(&mut s, 1, UnitType::Warrior, 5, 5, 10.0);
+    crate::moves::capture::CaptureMove::new(idx(5, 5)).execute(&mut s).unwrap();
+    assert_eq!(s.tiles[&idx(5, 6)].owner, 1);
+    assert_eq!(s.tiles[&idx(5, 7)].owner, 2);
+}

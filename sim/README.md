@@ -45,3 +45,4 @@
 - Enchant Animal costs 3 (`version_sync.rs`) [ECON-PRICES-V123].
 - Enchant Animal costs 3 (`version_sync.rs`) [ECON-PRICES-V123].
 - The Polaris Outpost is buildable for 5 stars; its effect (ice network) is not modelled yet (`settings/structures.rs`).
+- Capturing a city claims the 3x3 around it (unowned or the old owner's tiles), not every same-owner tile within 2 (`actions/city.rs` capture_city) [CAPTURE-TERRITORY].
