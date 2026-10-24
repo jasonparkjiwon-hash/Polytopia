@@ -12,7 +12,7 @@ acts = max((json.load(open(f)) for f in glob.glob(os.path.join(ROOT, "saves", f"
 tr = {p["PlayerId"]: TRIBE.get(p["Tribe"]) for p in b["currentPlayers"]}
 def tile(d, x, y):
     t = d["currentTiles"][y][x]; u = t.get("Unit"); p = t.get("PassengerUnit")
-    return (TERRAIN.get(t["Terrain"]), f"flood{t.get('FloodedValue')}" if t.get("FloodedFlag") else "", f"imp{t['ImprovementType']}" if t["ImprovementExists"] else "",
+    return (TERRAIN.get(t["Terrain"]), f"flood{t.get('FloodedValue')}" if t.get("FloodedFlag") else "", f"imp{t['ImprovementType']}" if t["ImprovementExists"] else "", f"res{t['ResourceType']}" if t.get("ResourceExists") else "",
             u and (u["Id"], tr.get(u["Owner"]), UNIT.get(u["UnitType"], u["UnitType"]), u["Health"] / 10), p and (p["Id"], UNIT.get(p["UnitType"])))
 for x, y in pts: print((x, y), "before", tile(a, x, y), "| after", tile(b, x, y))
 for i in range(len(a["actions"]), len(b["actions"])):
