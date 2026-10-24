@@ -17,6 +17,7 @@ pub mod settings;
 pub mod states;
 pub mod types;
 pub mod version_sync;
+pub mod v123_flags;
 pub use coords::Coords;
 pub use game::Game;
 pub use states::*;

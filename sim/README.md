@@ -37,3 +37,4 @@
 - Explode hits each adjacent enemy (hidden too, not at peace) for half the exploder's direct damage, rounded then halved and floored, and poisons survivors (was a flat 2) (`moves/abilities/explode.rs`) [EXPLODE-DAMAGE, EXPLODE-POISON, EXPLODE-POISON-DEFENCE].
 - Bot bonus: DifficultyHandicap - 1 stars a turn while holding the own unbesieged capital (`TribeState.handicap`, filled by save_loader; `functions.rs` get_bot_bonus, `game.rs`) [ECON-BOT-BONUS].
 - Navigation requires Sailing as in the verified tree (upstream: Ramming) [TECH-TREE].
+- Aquarion techs 45 AquaBase (start), 47 AquaFishing (tier 1), 39 Aquaculture and 46 Marine Life (tier 2, need 47; Marine Life unlocks the Shark); another tribe's own tech is never researchable; prerequisites accept the tribe's version. Which base tech each replaces is behind the off switch `aquarion_tech_slots` (new `src/v123_flags.rs`, `PF_FLAGS` in pfreplay) [AQUARION-TECH-TIERS, UNIT-ID-53].

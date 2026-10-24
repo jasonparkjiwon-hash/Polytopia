@@ -80,7 +80,7 @@ Status: **done** = ported with a test; **pf ok** = Polyfish already does it;
 | 51 | Meet stars from the met tribe's score | ECON-MEET | L3 | get_star_exchange | check |
 | 52 | Tech cost tier x cities + 4; Literacy 2/3 ceil | TECH-COST | L2 | x0.66 ceil | todo |
 | 53 | Tribe techs priced at the replaced tech's tier (Polarism, Oceantology 3, ...) | TRIBE-TECH-TIERS | L3 | tier missing -> 1 for most | todo |
-| 54 | Aquarion techs 39, 46, 47 by tier | AQUARION-TECH-TIERS | L3 (tiers) | missing | todo |
+| 54 | Aquarion techs 39, 46, 47 by tier | AQUARION-TECH-TIERS | L3 (tiers) | missing | done (stars 688 -> 700, legal 91.4 -> 91.8%) |
 | 55 | Unit/structure/upgrade costs v123 (Enchant 3, Starfish +8, AquaFarm 5, ...) | C19-COSTS, ECON-PRICES-V123 | L3 | Starfish 8 pf ok | check |
 | 56 | Ruin stars 10 | ECON-RUIN-STARS | L3 | pf ok | done (pf) |
 | 58 | Navigation requires Sailing (base tree) | TECH-TREE | L3 | requires Ramming | done |
@@ -91,6 +91,10 @@ Status: **done** = ported with a test; **pf ok** = Polyfish already does it;
 
 - Aquarion unit ids 47, 49-52, 54, 55 (L0): not added.
 - Clathrus income source (split): left as Polyfish (Algae).
+- `aquarion_tech_slots` (src/v123_flags.rs; conflicts_and_gaps AQUARION-TECHS, inferred): 47 replaces Fishing
+  (opens water), 39 Ramming, 46 Sailing (opens ocean). A/B at 3cf...: off legal 91.8%, on 92.0% (Move +19,
+  Research +7), units/stars equal. Supports the inference; promoting it needs a second source.
+- Switches: `PF_FLAGS=name,name` in the environment of pfreplay (tools/pf_miss.py passes the environment).
 
 ## Log
 

@@ -26,6 +26,14 @@ pub struct TechnologySetting {
     pub unlocks_terrain: Option<TerrainType>,
 }
 
+fn slots() -> bool {
+    crate::v123_flags::on(&crate::v123_flags::AQUARION_TECH_SLOTS)
+}
+
+fn slot(t: TechnologyType) -> Option<TechnologyType> {
+    if slots() { Some(t) } else { None }
+}
+
 /// Get technology settings by type
 pub fn get_technology_setting(tech_type: TechnologyType) -> TechnologySetting {
     use TechnologyType::*;
@@ -341,6 +349,39 @@ pub fn get_technology_setting(tech_type: TechnologyType) -> TechnologySetting {
         },
 
         // Elyrion replacement
+        // v123 Aquarion techs (ledger AQUARION-TECH-TIERS: tiers L3; 47 is always bought before 39 and 46).
+        // Which base tech each replaces is inferred (below L1): switch v123_flags::AQUARION_TECH_SLOTS.
+        AquaBase => TechnologySetting {
+            tier: Some(0),
+            tribe_type: Some(TribeType::Aquarion),
+            ..Default::default()
+        },
+        AquaFishing => TechnologySetting {
+            tier: Some(1),
+            tribe_type: Some(TribeType::Aquarion),
+            replaces_tech: slot(Fishing),
+            next: vec![Aquaculture, MarineLife],
+            unlocks_terrain: if slots() { Some(TerrainType::Water) } else { None },
+            ..Default::default()
+        },
+        Aquaculture => TechnologySetting {
+            tier: Some(2),
+            requires: Some(AquaFishing),
+            tribe_type: Some(TribeType::Aquarion),
+            replaces_tech: slot(Ramming),
+            next: if slots() { vec![Aquatism] } else { vec![] },
+            ..Default::default()
+        },
+        MarineLife => TechnologySetting {
+            tier: Some(2),
+            requires: Some(AquaFishing),
+            tribe_type: Some(TribeType::Aquarion),
+            replaces_tech: slot(Sailing),
+            next: if slots() { vec![Navigation] } else { vec![] },
+            unlocks_special_units: vec![UnitType::Shark],
+            unlocks_terrain: if slots() { Some(TerrainType::Ocean) } else { None },
+            ..Default::default()
+        },
         ForestMagic => TechnologySetting {
             replaces_tech: Some(Hunting),
             tribe_type: Some(TribeType::Elyrion),
@@ -415,9 +456,15 @@ pub fn get_researchable_techs(
 
         if !has_technology(tech_list, resolved) {
             let settings = get_technology_setting(resolved);
+            // v123: another tribe's own tech is never researchable
+            if settings.tribe_type.map_or(false, |t| t != tribe_type) {
+                continue;
+            }
             if let Some(req) = settings.requires {
-                // To be researchable, prerequisite must be RESEARCHED
-                if has_technology(tech_list, req) {
+                // To be researchable, prerequisite must be RESEARCHED (the tribe's version of it)
+                if has_technology(tech_list, req)
+                    || has_technology(tech_list, resolve_tech_for_tribe(req, tribe_type))
+                {
                     researchable.push(resolved);
                 }
             } else if settings.tier == Some(1) {

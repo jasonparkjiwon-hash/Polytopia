@@ -531,6 +531,10 @@ fn run_job(job: &Value) -> Result<Value, String> {
 
 fn main() {
     let a: Vec<String> = std::env::args().collect();
+    // pf-port: below-L1 rule switches for A/B runs, e.g. PF_FLAGS=aquarion_tech_slots
+    if let Ok(f) = std::env::var("PF_FLAGS") {
+        for n in polyfish::v123_flags::set_from(&f) { eprintln!("PF_FLAGS: unknown switch {n}"); }
+    }
     let jobs: Value = serde_json::from_str(&std::fs::read_to_string(&a[1]).expect("jobs file")).expect("jobs json");
     for job in jobs.as_array().expect("jobs list") {
         let out = std::panic::catch_unwind(|| run_job(job));

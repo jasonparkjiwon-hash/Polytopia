@@ -513,3 +513,23 @@ fn navigation_needs_sailing() {
     use crate::settings::technology::get_technology_setting;
     assert_eq!(get_technology_setting(TechnologyType::Navigation).requires, Some(TechnologyType::Sailing));
 }
+
+/// AQUARION-TECH-TIERS (L3 tiers): 47 tier 1, 39 and 46 tier 2, priced tier x cities + 4; 46 Marine Life unlocks
+/// the Shark (UNIT-ID-53: all 29 Shark trainings come after 46). Only Aquarion can research them; 39 and 46 need 47.
+#[test]
+fn aquarion_techs() {
+    use crate::settings::technology::{get_researchable_techs, get_unlocked_units};
+    let mut t = TribeState::default();
+    t.tribe_type = TribeType::Aquarion;
+    let one_city = { let mut c = CityState::default(); c.idx = 0; c };
+    t.cities.push(one_city);
+    assert_eq!(crate::functions::get_tech_cost(&t, TechnologyType::AquaFishing), 5);
+    assert_eq!(crate::functions::get_tech_cost(&t, TechnologyType::Aquaculture), 6);
+    assert_eq!(get_unlocked_units(TechnologyType::MarineLife, TribeType::Aquarion), vec![UnitType::Shark]);
+    let r = get_researchable_techs(&t.tech_vanilla, TribeType::Aquarion);
+    assert!(r.contains(&TechnologyType::AquaFishing) && !r.contains(&TechnologyType::MarineLife));
+    t.tech_vanilla.push(TechnologyState { tech_type: TechnologyType::AquaFishing, discovered: true, ..Default::default() });
+    let r = get_researchable_techs(&t.tech_vanilla, TribeType::Aquarion);
+    assert!(r.contains(&TechnologyType::MarineLife) && r.contains(&TechnologyType::Aquaculture));
+    assert!(!get_researchable_techs(&[], TribeType::Imperius).contains(&TechnologyType::AquaFishing));
+}
