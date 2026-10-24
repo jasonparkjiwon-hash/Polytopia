@@ -62,7 +62,7 @@ Status: **done** = ported with a test; **pf ok** = Polyfish already does it;
 | 33 | Idle auto-recover for the human only | IDLE-AUTO-RECOVER | L3 | every active player | done |
 | 34 | Heal 4 own territory / 2 elsewhere | HEAL-TERRITORY | L2 | pf ok | done (pf) |
 | 35 | Heal Others (action 4) +4 to adjacent friends | ACTION-4-HEAL | L3 | heal_others.rs | check |
-| 36 | Explode: round then half, poison halves defence, targets poisoned | EXPLODE-DAMAGE, EXPLODE-POISON(-DEFENCE) | L3 | explode.rs | check |
+| 36 | Explode: round then half, poison halves defence, targets poisoned | EXPLODE-DAMAGE, EXPLODE-POISON(-DEFENCE) | L3 | explode.rs | done |
 | 37 | Area damage (stomp/splash/explode) spares tribes at peace | PEACE-AREA-DAMAGE | L3 | get_true_enemy_at | done (pf: is_enemy excludes peace) |
 | 38 | Shaman converts and also deals damage | SHAMAN | L3 | convert only? | todo |
 | 39 | Swarm (38): adjacent friends get extra move, no attack boost | ACTION-TYPES-V123 | L1 | Boost (+1 move; +0.5 atk only v<115) | check |

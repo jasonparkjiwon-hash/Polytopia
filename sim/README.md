@@ -34,3 +34,4 @@
 - Break Ice turns all ice around the acting unit back to its water/ocean, except under a unit (`moves/abilities/break_ice.rs`) [ACTION-18-BREAK-ICE].
 - On a village/city capture a Mooni/Gaami freezes the area, and any Polaris capture turns its own water around the city to ice (`moves/capture.rs`) [MOONI-FREEZE, POLARIS-CAPTURE-FREEZE].
 - Idle units heal at the end of the turn only for the human (`TribeState.bot` false), and not when poisoned [IDLE-AUTO-RECOVER].
+- Explode hits each adjacent enemy (hidden too, not at peace) for half the exploder's direct damage, rounded then halved and floored, and poisons survivors (was a flat 2) (`moves/abilities/explode.rs`) [EXPLODE-DAMAGE, EXPLODE-POISON, EXPLODE-POISON-DEFENCE].

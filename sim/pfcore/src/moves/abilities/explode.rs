@@ -82,39 +82,51 @@ impl Move for ExplodeMove {
                 // between "50% of the exploder's current hp, ignoring modifiers" and "attack
                 // result halved" (defence-sensitive); settle it from a polyfish-mod capture
                 // of a Segment and a Doomux exploding beside a known-defence unit.
-                let atk = 4.0;
-
-                // 1. Deal AOE Damage
+                // v123 (ledgers EXPLODE-DAMAGE, EXPLODE-POISON, EXPLODE-POISON-DEFENCE): each adjacent enemy
+                // takes half the damage the exploder's direct hit would deal it, rounded then halved and floored
+                // (poison halves its defence via the bonus); survivors are poisoned
+                let (atk, hp, max_hp) = {
+                    let u = &state.tribes[&owner].units[explode_u_idx];
+                    (
+                        crate::functions::get_unit_attack(state, u),
+                        u.health,
+                        crate::functions::get_unit_max_health(u),
+                    )
+                };
                 let adj = crate::functions::get_adjacent_indices(state, explode_tile_idx, 1);
                 for t_idx in adj {
-                    if let Some(enemy_unit) = crate::functions::get_enemy_at(state, t_idx, owner) {
-                        let enemy_owner = enemy_unit.owner;
-                        if let Some(e_tribe) = state.tribes.get(&enemy_owner) {
-                            if let Some(e_pos) =
-                                e_tribe.units.iter().position(|u| u.coords.idx == t_idx)
-                            {
-                                // TODO: verify this
-                                let damage_val = atk / 2.0;
-                                undos.push(crate::actions::units::deal_damage(
-                                    state,
-                                    enemy_owner,
-                                    e_pos,
-                                    damage_val,
-                                    Some(owner),
-                                ));
-
-                                // Poison enemy
-                                undos.push(crate::actions::units::poison_unit(
-                                    state,
-                                    enemy_owner,
-                                    e_pos,
-                                ));
-                            }
+                    let hit = crate::functions::get_true_enemy_at(state, t_idx, owner).map(|e| {
+                        let dmg = crate::actions::units::calculate_combat(
+                            atk,
+                            hp,
+                            max_hp,
+                            crate::functions::get_unit_defense(e),
+                            e.health,
+                            crate::functions::get_unit_max_health(e),
+                            crate::functions::get_defense_bonus(state, e),
+                        )
+                        .splash_damage
+                        .floor();
+                        (e.owner, dmg, e.health - dmg > 0.0)
+                    });
+                    if let Some((enemy_owner, damage_val, survives)) = hit {
+                        let e_pos = state.tribes[&enemy_owner]
+                            .units
+                            .iter()
+                            .position(|u| u.coords.idx == t_idx)
+                            .unwrap();
+                        if survives {
+                            undos.push(crate::actions::units::poison_unit(state, enemy_owner, e_pos));
                         }
+                        undos.push(crate::actions::units::deal_damage(
+                            state,
+                            enemy_owner,
+                            e_pos,
+                            damage_val,
+                            Some(owner),
+                        ));
                     }
                 }
-
-                // 2. Create Spores (if land/ice and no structure)
                 if let Some(tile) = state.tiles.get(&explode_tile_idx) {
                     let is_water_like = matches!(
                         tile.terrain_type,

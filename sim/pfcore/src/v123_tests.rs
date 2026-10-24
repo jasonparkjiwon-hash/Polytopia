@@ -471,3 +471,21 @@ fn idle_recover_human_only() {
         assert_eq!(unit(&s, 1, 0).health, if bot { 5.0 } else { 7.0 }); // +2 outside its territory
     }
 }
+
+/// EXPLODE-DAMAGE (L3), EXPLODE-POISON (L3): an explosion hits each adjacent enemy for half the exploder's direct
+/// damage (rounded, halved, floored) and poisons the survivors. 6e1bf8e0 t12: Moth 213 (3-9 HP) exploded and took
+/// exactly 1 HP from each adjacent full-HP Swordsman (237, 344).
+#[test]
+fn explode_damage() {
+    use crate::moves::Move;
+    let mut s = board();
+    add_unit(&mut s, 1, UnitType::Moth, 5, 5, 6.0);
+    let a = add_unit(&mut s, 2, UnitType::Swordsman, 6, 5, 15.0);
+    let b = add_unit(&mut s, 2, UnitType::Swordsman, 4, 4, 15.0);
+    crate::moves::abilities::explode::ExplodeMove::new(idx(5, 5)).execute(&mut s).unwrap();
+    for i in [a, b] {
+        assert_eq!(unit(&s, 2, i).health, 14.0);
+        assert!(unit(&s, 2, i).effects.contains(&UnitEffect::Poison));
+    }
+    assert!(s.tribes[&1].units.is_empty());
+}
