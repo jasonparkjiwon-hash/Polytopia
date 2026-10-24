@@ -41,8 +41,8 @@ Status: **done** = ported with a test; **pf ok** = Polyfish already does it;
 | 12 | Giant boards as Juggernaut carrying the Giant; lands as Giant | GIANT-JUGGERNAUT | L3 | Juggernaut with no passenger, never lands | done |
 | 13 | Giant boarding as Juggernaut stomps | STOMP-ON-BOARDING | L3 | uses old type (no stomp) | done |
 | 14 | Only own port boards | PORT-BOARDS | L3 | any port | done |
-| 15 | Boat on Aquarion-flooded land stays a boat; walker stays walker | FLOOD-ALGAE | L3 | boat lands | todo |
-| 16 | Boat on algae stays a boat | ALGAE-KEEPS-BOATS | L3 | pf ok (algae is water terrain) | check |
+| 15 | Boat on Aquarion-flooded land stays a boat; walker stays walker | FLOOD-ALGAE | L3 | boat lands | done |
+| 16 | Boat on algae stays a boat | ALGAE-KEEPS-BOATS | L3 | pf ok (algae is water terrain) | done (pf: algae tiles keep water terrain) |
 | 17 | Stiff units don't move in after a kill (boats do, and land) | KILL-MOVE-IN, JUGGERNAUT-KILL-MOVE | L3 | every range-1 unit moves in | todo |
 | 18 | Kill move-in onto mountain needs Climbing | KILL-MOVE-CLIMBING | L3 | pf ok (is_steppable_for_push) | check |
 | 19 | Land unit follows a kill into water only onto own port | PORT-KILL-EMBARK | L3 | pf ok via is_steppable_for_push | check |
@@ -91,6 +91,15 @@ Status: **done** = ported with a test; **pf ok** = Polyfish already does it;
 - Clathrus income source (split): left as Polyfish (Algae).
 
 ## Log
+
+A/B = tools/pf_miss.py units exact with the port vs the same tree with only that port reverted
+(`ab.sh` in the session scratchpad: `git diff C^ C -- sim/pfcore/src | git apply -R`, rebuild, rerun).
+Misses = compared - exact.
+
+- poison (#1): misses 545 -> 542 (+3 exact). Frozen (#3), hidden (#4): not separable (stacked edits), tiny.
+- sight (#5), own-city bonus (#6): 0. Splash floor (#7): +1. Cloak/Moth cards (#8): +1 (and 3 fewer missing).
+- Aquarion units (#10): 4552/4860 -> 4651/4829 (misses 308 -> 178 at 43a8af1).
+- Juggernaut carries Giant (#12): 187 -> 178. Own port boards (#14): 210 -> 178. Stomp on boarding (#13): 0.
 
 ## Next step
 

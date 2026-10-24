@@ -293,3 +293,17 @@ fn giant_boarding_stomps() {
     step(&mut s, 1, g, 5, 5);
     assert_eq!(unit(&s, 2, w).health, 4.0);
 }
+
+/// FLOOD-ALGAE (L3): on Aquarion-flooded land a boat stays a boat (its passenger aboard); a city is plain land.
+#[test]
+fn boat_stays_boat_on_flooded_land() {
+    let mut s = board();
+    s.tiles.get_mut(&idx(4, 5)).unwrap().terrain_type = TerrainType::Water;
+    s.tiles.get_mut(&idx(5, 5)).unwrap().effects.insert(TileEffect::Flooded);
+    let b = add_unit(&mut s, 1, UnitType::Raft, 4, 5, 10.0);
+    s.tribes.get_mut(&1).unwrap().units[b].passenger_type = Some(UnitType::Warrior);
+    step(&mut s, 1, b, 5, 5);
+    assert_eq!(unit(&s, 1, b).unit_type, UnitType::Raft);
+    step(&mut s, 1, b, 6, 5);
+    assert_eq!(unit(&s, 1, b).unit_type, UnitType::Warrior);
+}

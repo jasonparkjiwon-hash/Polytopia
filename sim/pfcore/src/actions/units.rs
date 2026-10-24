@@ -653,8 +653,11 @@ pub fn step_unit(
     else if has_skill(old_type, SkillType::Carry) && old_passenger.is_some() {
         let tile = state.tiles.get(&to_tile_idx);
         let is_water = tile.map_or(false, |t| is_water_terrain_type(t.terrain_type));
+        // v123 (ledger FLOOD-ALGAE): a boat on Aquarion-flooded land stays a boat (a city is plain land)
+        let flooded = tile.map_or(false, |t| t.is_flooded())
+            && !crate::functions::is_city(state, to_tile_idx);
 
-        if !is_water {
+        if !is_water && !flooded {
             // Determine land unit type based on carrier type
             let land_unit_type = old_passenger.unwrap();
 
