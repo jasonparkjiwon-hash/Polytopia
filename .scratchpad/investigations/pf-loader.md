@@ -72,8 +72,8 @@ after a Dash move, d4e40af) -> 94.0% (harness plays one Break Ice, c0235c8).
 7. **Outpost** (build 33, ~17): unimplemented in Polyfish. **Aquarion structures 49/51** (11): no Polyfish type
    (the loader drops 29 of them at load).
 8. Explode not offered (13), Attack "already attacked" (13: mostly Knights whose earlier attack killed in
-   v123 but not in Polyfish: HP drift), Train "city full" (15: Polyfish counts units by home city; check
-   v123's cap), monuments 27/28 (8: Polyfish recomputes tasks heuristically; the save's Tasks aren't loaded),
+   v123 but not in Polyfish: HP drift), Train "city full" (15: checked, not a loader bug: homes load right (`trace.py` shows
+   them); the real city had levelled from a build Polyfish refused, e.g. 09a5bf1e t5 Outpost -> 3 Polaris units), monuments 27/28 (8: Polyfish recomputes tasks heuristically; the save's Tasks aren't loaded),
    ConvertMove never generated (4, SHAMAN).
 
 ## Harness rules (how logged actions become Polyfish moves)
@@ -138,5 +138,3 @@ Diagnosis helpers: `--detail "<cause text>"` (matches "<type>: <cause>"; the [Aq
 1. Re-run `pf_miss.py --accept` after each pf-port batch; update the scores table.
 2. Loader: once Polyfish generates PeaceReply, fill pending offers from the save's DiplomacyMessages.
 3. Harness: once stars are close, drop the "on credit" crutch from the legality score (report both).
-4. "Train: city full" (15): print the units Polyfish counts for that city (owner, type, uid) next to the
-   save's, to tell a loader home-city bug from a v123 cap difference.

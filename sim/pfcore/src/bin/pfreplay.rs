@@ -364,6 +364,13 @@ impl Replay {
             return json!({"city": c, "pending": pending});
         }
         if !pending.is_empty() { return json!({"pending": pending}); }
+        if t == 5 {   // Train: the units Polyfish counts against this city (home = city tile)
+            let k = at(v[2], v[3]);
+            let homed: Vec<Value> = s.tribes.values().flat_map(|tr| tr.units.iter())
+                .filter(|u| u.home_coords.map_or(false, |h| h.idx == k))
+                .map(|u| json!([u.owner, u.unit_type as i32, u.uid, [u.coords.idx % s.settings.size, u.coords.idx / s.settings.size]])).collect();
+            return json!({"homed": homed});
+        }
         let (src, dst) = match t { 6 => (at(v[1], v[2]), at(v[3], v[4])), 2 => (at(v[2], v[3]), at(v[4], v[5])), 3 | 4 | 13 | 14 | 17 | 18 | 24 | 38 => (at(v[1], v[2]), -1), _ => return Value::Null };
         let tile = |k: i32| -> Value {
             if k < 0 { return Value::Null; }
