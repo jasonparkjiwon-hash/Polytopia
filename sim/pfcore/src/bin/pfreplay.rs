@@ -192,7 +192,7 @@ impl Replay {
             38 => vec![Box::new(BoostMove::new(at(v[1], v[2])))],
             9 => vec![Box::new(DestroyMove::new(at(v[1], v[2])))],
             18 => {
-                // v123 logs the acting unit's tile and breaks the ice around it; Polyfish breaks one ice tile per move
+                // v123 logs the acting unit's tile; any adjacent ice tile names the move (Polyfish's Break Ice clears all the ice around)
                 let u = at(v[1], v[2]);
                 let ice: Vec<i32> = get_adjacent_indices(s, u, 1).into_iter()
                     .filter(|k| s.tiles.get(k).map_or(false, |t| t.terrain_type == TerrainType::Ice)).collect();
@@ -296,11 +296,6 @@ impl Replay {
                     if let Some(h) = self.ruin_move(i, &v) { mv = h; }
                 }
                 played_ok = self.game.play_move(mv.as_ref()).is_some();
-                if t == 18 {
-                    for (k, c) in cands.iter().enumerate() {
-                        if k != p && self.game.play_move(c.as_ref()).is_none() { self.note("break ice: extra tile refused"); }
-                    }
-                }
             }
             None => {
                 let pending = legal.iter().any(|m| m.move_type() == MoveType::Reward);
