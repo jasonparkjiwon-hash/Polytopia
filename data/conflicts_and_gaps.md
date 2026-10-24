@@ -330,3 +330,4 @@ Jason (Imperius) vs 15 Hard bots on a 30x30 map, exported every turn from 1 to 1
 - PORT-STEP (L3, pf-legal): only boarding needs the own port; frozen ports, ports on flooded land and amphibious units walk onto any port.
 - WATER-UNITS-VILLAGE (L3, pf-legal): Raychi/Shark move from water into villages and cities and stop there.
 - EXPLODE-ANYTIME (L3, pf-legal): Explode needs no adjacent enemy.
+- CONVERT-ATTACK (L3, pf-legal): converters' attacks are converts; a boat carrying a Mind Bender attacks normally.

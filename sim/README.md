@@ -70,3 +70,4 @@
 - Water-only units (Raychi, Shark) move from water into a village or city and stop there (`moves/mod.rs`) [WATER-UNITS-VILLAGE, new ledger entry].
 - Explode is offered with no enemy next to the exploder (`moves/abilities/unit_actions.rs`) [EXPLODE-ANYTIME, new ledger entry].
 - The Moth has Explode (`settings/units.rs`) [MOTH-V123].
+- A converter's (Mind Bender, Shaman) attack is generated as ConvertMove; a boat carrying one attacks normally (`moves/mod.rs` generate_attack_moves) [CONVERT-ATTACK, new ledger entry].

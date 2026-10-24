@@ -137,3 +137,21 @@ fn moth_explodes() {
     add_unit(&mut s, 1, UnitType::Moth, 5, 5, 3.0);
     assert!(has(&s, &ExplodeMove::new(idx(5, 5))));
 }
+
+/// CONVERT-ATTACK (L3): a Mind Bender's attack is a ConvertMove; a Scoutship carrying one attacks normally.
+/// 09a5bf1e t5 #523 (Shaman converts), e15f392c t9 #1007 (Scoutship with a Mind Bender attacks).
+#[test]
+fn converter_attack_is_convert() {
+    use crate::moves::abilities::convert::ConvertMove;
+    use crate::moves::attack::AttackMove;
+    use crate::v123_tests::add_unit;
+    let mut s = board();
+    let m = add_unit(&mut s, 1, UnitType::MindBender, 5, 5, 10.0);
+    add_unit(&mut s, 2, UnitType::Warrior, 6, 5, 10.0);
+    assert!(has(&s, &ConvertMove::new(idx(5, 5), idx(6, 5))));
+    assert!(!has(&s, &AttackMove::new(idx(5, 5), idx(6, 5))));
+    let u = &mut s.tribes.get_mut(&1).unwrap().units[m];
+    u.unit_type = UnitType::Scoutship;
+    u.passenger_type = Some(UnitType::MindBender);
+    assert!(has(&s, &AttackMove::new(idx(5, 5), idx(6, 5))));
+}

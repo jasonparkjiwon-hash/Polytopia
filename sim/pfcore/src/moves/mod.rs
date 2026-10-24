@@ -785,7 +785,14 @@ fn generate_attack_moves(
         for target_idx in get_tiles_in_range(state, from_idx, range) {
             if let Some(enemy) = get_enemy_at(state, target_idx, unit.owner) {
                 if !crate::functions::is_at_peace(state, unit.owner, enemy.owner) {
-                    moves.push(Box::new(AttackMove::new(from_idx, target_idx)));
+                    // v123 (ledger SHAMAN, C29-convert): a converter's attack is a convert (upstream never
+                    // generated ConvertMove; 09a5bf1e t5 #523 a Shaman converts a Mind Bender). A boat carrying a
+                    // Mind Bender attacks normally (e15f392c t9 #1007: a Scoutship's hit leaves a Battle Sled Polaris)
+                    if crate::settings::units::has_skill(unit.unit_type, SkillType::Convert) {
+                        moves.push(Box::new(crate::moves::abilities::convert::ConvertMove::new(from_idx, target_idx)));
+                    } else {
+                        moves.push(Box::new(AttackMove::new(from_idx, target_idx)));
+                    }
                 }
             }
         }
