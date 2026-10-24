@@ -1,5 +1,17 @@
 {
-  "about": "Held-out checkpoints for tools/miss.py --holdout. Protocol: README.md (under the baseline) and .scratchpad/investigations/sim-dist.md. Each 'held' entry: {game: full save id, from_turn: optional (checkpoint pairs whose later save is at or after this turn are held; default the whole game), added: date, scored: {date, units, stars, rules_commit} once scored}. A new save goes into 'held' before any rule is tuned on it and is scored once with --holdout; the score goes into 'scored'. Plain tools/miss.py leaves held checkpoints out, so tuning never sees them. To release one into tuning, move it to 'released' with the date; never move it back.",
-  "held": [],
-  "released": []
+ "about": "Held-out checkpoints for tools/miss.py --holdout. Protocol: README.md (under the baseline) and .scratchpad/investigations/sim-dist.md. Each 'held' entry: {game: full save id, from_turn: optional (checkpoint pairs whose later save is at or after this turn are held; default the whole game), added: date, scored: {date, units, stars, rules_commit} once scored}. A new save goes into 'held' before any rule is tuned on it and is scored once with --holdout; the score goes into 'scored'. Plain tools/miss.py leaves held checkpoints out, so tuning never sees them. To release one into tuning, move it to 'released' with the date; never move it back.",
+ "held": [
+  {
+   "game": "ed6cb932-c741-4ba8-9fd3-66f5c3f6bad7",
+   "added": "2026-10-24",
+   "note": "16 players, every turn 1-4 (t0 is pre-StartMatch, left out); from Jason's Drive doc 'Polytopia'",
+   "scored": {
+    "date": "2026-10-24",
+    "units": "129/129",
+    "stars": "48/48",
+    "rules_commit": "43a8af1"
+   }
+  }
+ ],
+ "released": []
 }
