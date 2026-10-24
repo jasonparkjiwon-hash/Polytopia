@@ -22,3 +22,4 @@
 - Splash damage is half the direct damage, floored [SPLASH].
 - Unit stats from the v123 cards: Cloak attack 2 and Stiff; Moth defence 2 and Surprise (`settings/units.rs`) [UNIT-STATS-UI, MOTH-V123].
 - Mooni and Shaman lose Static [C29b].
+- Aquarion unit types 46 Mermaid, 48 Swordsmaid, 53 Shark with v123 card stats; Mermaid/Swordsmaid replace Aquarion's Warrior/Swordsman (`types.rs`, `settings/units.rs`, `settings/technology.rs`) [AQUARION-UNIT, UNIT-ID-48, UNIT-ID-53].

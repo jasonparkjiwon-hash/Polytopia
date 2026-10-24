@@ -37,6 +37,7 @@ pub fn get_technology_setting(tech_type: TechnologyType) -> TechnologySetting {
             tier: Some(0),
             next: vec![Riding, Organization, Climbing, Fishing, Hunting],
             unlocks_unit: Some(UnitType::Warrior),
+            unlocks_special_units: vec![UnitType::Mermaid],
             unlocks_task: vec![
                 TaskType::Explorer,
                 TaskType::Killer,
@@ -143,7 +144,7 @@ pub fn get_technology_setting(tech_type: TechnologyType) -> TechnologySetting {
             requires: Some(Mining),
             unlocks_structure: Some(StructureType::Forge),
             unlocks_unit: Some(UnitType::Swordsman),
-            unlocks_special_units: vec![UnitType::Mantis],
+            unlocks_special_units: vec![UnitType::Mantis, UnitType::Swordsmaid],
             ..Default::default()
         },
         Meditation => TechnologySetting {
@@ -474,7 +475,11 @@ pub fn is_unit_replaced_for_tribe(unit: UnitType, tribe: TribeType) -> bool {
                 | U::Giant
                 | U::Archer
         ),
-        T::Aquarion => matches!(unit, U::Rider | U::Knight | U::Giant),
+        // v123: the Mermaid and Swordsmaid replace Aquarion's Warrior and Swordsman (AQUARION-UNIT, UNIT-ID-48)
+        T::Aquarion => matches!(
+            unit,
+            U::Rider | U::Knight | U::Giant | U::Warrior | U::Swordsman
+        ),
         T::Polaris => matches!(unit, U::MindBender | U::Giant | U::Archer | U::Catapult),
         T::Nature => matches!(unit, U::Giant), // Elyrion
         _ => false,

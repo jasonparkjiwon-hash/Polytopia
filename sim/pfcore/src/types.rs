@@ -313,16 +313,18 @@ pub enum UnitType {
     Raft = 43, // Raft
     Rammership = 44,
     Juggernaut = 45,
-    // MermaidWarrior,
-    // MermaidArcher,
-    // MermaidSwordsman,
-    // MermaidDefender,
-    // MermaidCloak,
-    // MermaidDagger,
-    // Jelly,
-    // Shark,
-    // Siren,
-    // Aquapult,
+    // v123 Aquarion units (ids measured in the saves: AQUARION-UNIT, UNIT-ID-48, UNIT-ID-53).
+    // 47, 49-52, 54, 55 are below L1 (AQUARION-UNIT-IDS) and left out.
+    Mermaid = 46, // Polyfish's MermaidWarrior
+    // MermaidArcher = 47,
+    Swordsmaid = 48, // Polyfish's MermaidSwordsman
+    // MermaidDefender = 49,
+    // MermaidCloak = 50,
+    // MermaidDagger = 51,
+    // Jelly = 52,
+    Shark = 53,
+    // Siren = 54,
+    // Aquapult = 55,
     Boomchi = 56,
     LivingIsland = 57,
     // Ciru = 58,

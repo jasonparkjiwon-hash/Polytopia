@@ -205,3 +205,21 @@ fn mooni_shaman_not_static() {
         assert!(!get_unit_setting(ut).skills.contains(&SkillType::Static));
     }
 }
+
+/// AQUARION-UNIT (L3), UNIT-ID-48 (L3), UNIT-ID-53 (L2): v123 ids 46 Mermaid (start unit), 48 Swordsmaid
+/// (af181c8f: all 45 belong to Aquarion, trained after Smithery, 15 HP), 53 Shark; stats from the v123 cards.
+#[test]
+fn aquarion_units() {
+    use crate::settings::technology::get_unlocked_units;
+    use crate::settings::units::get_unit_setting;
+    assert_eq!(UnitType::from(46), UnitType::Mermaid);
+    assert_eq!(UnitType::from(48), UnitType::Swordsmaid);
+    assert_eq!(UnitType::from(53), UnitType::Shark);
+    assert_eq!(get_unit_setting(UnitType::Swordsmaid).health, 15.0);
+    assert_eq!(get_unit_setting(UnitType::Shark).attack, 3.5);
+    let basic = get_unlocked_units(TechnologyType::Basic, TribeType::Aquarion);
+    assert_eq!(basic, vec![UnitType::Mermaid]);
+    let smith = get_unlocked_units(TechnologyType::Smithery, TribeType::Aquarion);
+    assert_eq!(smith, vec![UnitType::Swordsmaid]);
+    assert_eq!(get_unlocked_units(TechnologyType::Smithery, TribeType::Imperius), vec![UnitType::Swordsman]);
+}

@@ -296,6 +296,40 @@ pub fn get_unit_setting(unit_type: UnitType) -> UnitSetting {
             tribe_type: TribeType::Aquarion,
             ..Default::default()
         },
+        // v123 info cards (data/measured_ui.json; UNIT-STATS-UI, AQUARION-UNITS)
+        U::Mermaid => UnitSetting {
+            cost: 2,
+            attack: 2.0,
+            movement: 1,
+            defense: 2.0,
+            range: 1,
+            health: 10.0,
+            skills: skills![S::Dash, S::Fortify, S::Amphibious],
+            tribe_type: TribeType::Aquarion,
+            ..Default::default()
+        },
+        U::Swordsmaid => UnitSetting {
+            cost: 5,
+            attack: 3.0,
+            movement: 1,
+            defense: 3.0,
+            range: 1,
+            health: 15.0,
+            skills: skills![S::Dash, S::Amphibious],
+            tribe_type: TribeType::Aquarion,
+            ..Default::default()
+        },
+        U::Shark => UnitSetting {
+            cost: 8,
+            attack: 3.5,
+            movement: 3,
+            defense: 2.0,
+            range: 1,
+            health: 10.0,
+            skills: skills![S::Dash, S::Surprise, S::Water],
+            tribe_type: TribeType::Aquarion,
+            ..Default::default()
+        },
         U::Tridention => UnitSetting {
             cost: 8,
             attack: 2.5,

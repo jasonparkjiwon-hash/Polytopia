@@ -36,7 +36,7 @@ Status: **done** = ported with a test; **pf ok** = Polyfish already does it;
 | 7 | Splash: half damage floored | SPLASH | L2 | half, not floored | done |
 | 8 | Unit stats from v123 cards (Cloak atk 2, Moth def 2, ...) | UNIT-STATS-UI, MOTH-V123 | L3 | v115 values | done (Cloak, Moth; Crab def 5 vs engine 4 open: engine's 4 is calc v116, no card) |
 | 9 | Shaman and Mooni have no Static | C29b | L3 | Static | done |
-| 10 | Aquarion units 46 Mermaid, 48 Swordsmaid, 53 Shark | AQUARION-UNIT, UNIT-ID-48, UNIT-ID-53 | L3/L3/L2 | missing | todo |
+| 10 | Aquarion units 46 Mermaid, 48 Swordsmaid, 53 Shark | AQUARION-UNIT, UNIT-ID-48, UNIT-ID-53 | L3/L3/L2 | missing | done (Shark's unlock waits on #54); pf_miss units 4356/4898 -> 4424/4873 |
 | 11 | Aquarion ids 47, 49-52, 54, 55 | AQUARION-UNIT-IDS | L0 | missing | flag (not added) |
 | 12 | Giant boards as Juggernaut carrying the Giant; lands as Giant | GIANT-JUGGERNAUT | L3 | Juggernaut with no passenger, never lands | todo |
 | 13 | Giant boarding as Juggernaut stomps | STOMP-ON-BOARDING | L3 | uses old type (no stomp) | todo |
