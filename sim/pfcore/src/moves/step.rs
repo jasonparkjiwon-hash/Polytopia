@@ -73,7 +73,15 @@ impl Move for StepMove {
                     crate::types::UnitEffect::Invisible,
                 );
 
-                let undo_exhaust = crate::actions::units::end_unit_turn(state, unit_owner, unit_idx);
+                // v123 (ledger MOVE-BLOCKED-HIDDEN, 6e1bf8e0 t11): the mover stays and can still attack the
+                // unit it found (its move is used, not its attack)
+                let old_moved = state.tribes[&unit_owner].units[unit_idx].moved;
+                state.tribes.get_mut(&unit_owner).unwrap().units[unit_idx].moved = true;
+                let undo_exhaust: crate::actions::UndoCallback = Box::new(move |s: &mut GameState| {
+                    if let Some(u) = s.tribes.get_mut(&unit_owner).and_then(|t| t.units.get_mut(unit_idx)) {
+                        u.moved = old_moved;
+                    }
+                });
 
                 return Ok(MoveResult {
                     undo: crate::actions::chain_undos(vec![undo_reveal, undo_exhaust]),

@@ -743,3 +743,18 @@ fn shaman_converts_and_damages() {
     assert_eq!((w.unit_type, w.health), (UnitType::Warrior, 8.0)); // 1/(1+2) x 1 x 4.5 = 1.5 -> 2
     assert_eq!(unit(&s, 1, a).health, 10.0);
 }
+
+/// MOVE-BLOCKED-HIDDEN (L3, n=1: 6e1bf8e0 t11, a move onto a hidden Cloak stopped and the mover then attacked it
+/// from where it stood): the move reveals the unit and the mover may still attack.
+#[test]
+fn move_onto_hidden_unit() {
+    use crate::moves::Move;
+    let mut s = board();
+    let w = add_unit(&mut s, 1, UnitType::Warrior, 4, 5, 10.0);
+    let c = add_unit(&mut s, 2, UnitType::Cloak, 5, 5, 5.0);
+    s.tribes.get_mut(&2).unwrap().units[c].effects.insert(UnitEffect::Invisible);
+    crate::moves::step::StepMove::new(idx(4, 5), idx(5, 5)).execute(&mut s).unwrap();
+    assert_eq!(unit(&s, 1, w).coords.idx, idx(4, 5));
+    assert!(!unit(&s, 2, c).effects.contains(&UnitEffect::Invisible));
+    assert!(!unit(&s, 1, w).attacked);
+}

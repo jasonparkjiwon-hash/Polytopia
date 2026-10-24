@@ -65,8 +65,8 @@ Status: **done** = ported with a test; **pf ok** = Polyfish already does it;
 | 36 | Explode: round then half, poison halves defence, targets poisoned | EXPLODE-DAMAGE, EXPLODE-POISON(-DEFENCE) | L3 | explode.rs | done |
 | 37 | Area damage (stomp/splash/explode) spares tribes at peace | PEACE-AREA-DAMAGE | L3 | get_true_enemy_at | done (pf: is_enemy excludes peace) |
 | 38 | Shaman converts and also deals damage | SHAMAN | L3 | convert only? | done (+3 units) |
-| 39 | Swarm (38): adjacent friends get extra move, no attack boost | ACTION-TYPES-V123 | L1 | Boost (+1 move; +0.5 atk only v<115) | check |
-| 40 | Move onto a hidden enemy: stops, reveals it | MOVE-BLOCKED-HIDDEN | L3 | ? | todo |
+| 39 | Swarm (38): adjacent friends get extra move, no attack boost | ACTION-TYPES-V123 | L1 | Boost (+1 move; +0.5 atk only v<115) | done (pf: Boost = +1 move, no attack bonus at v115+) |
+| 40 | Move onto a hidden enemy: stops, reveals it | MOVE-BLOCKED-HIDDEN | L3 | ? | done |
 | 41 | Tribe with no cities loses its units | NO-CITIES-NO-UNITS | L3 | ? | todo |
 | 42 | Breaking peace disbands breaker's units in ex-ally territory | DIPLO-BREAK-DISBAND | L3 | no | todo |
 | 43 | Super unit by tribe | SUPER-UNIT-BY-TRIBE | L3/L1 | pf ok | done (pf) |
