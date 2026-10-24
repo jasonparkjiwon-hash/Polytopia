@@ -48,3 +48,4 @@
 - Capturing a city claims the 3x3 around it (unowned or the old owner's tiles), not every same-owner tile within 2 (`actions/city.rs` capture_city) [CAPTURE-TERRITORY].
 - A captured capital stays the old owner's capital (no +1, no bot bonus for the captor) (`actions/city.rs`) [ECON-INCOME, ECON-BOT-BONUS].
 - Market earns the level of each adjacent Windmill/Sawmill/Forge (its adjacent Farms/Lumber Huts/Mines) (`functions.rs` get_city_production) [ECON-MARKET-CLATHRUS].
+- A city's building income (Market, Clathrus, ...) counts only tiles that city rules; post_load's territories overlap (`functions.rs` get_city_production).

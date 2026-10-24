@@ -91,6 +91,7 @@ Status: **done** = ported with a test; **pf ok** = Polyfish already does it;
 | 62 | Outpost buildable for 5 (effect still missing) | engine BUILD (star check) | L3 price, effect unknown | refused as unimplemented | done (stars 730 -> 740) |
 | 63 | Capture takes the 3x3 (unowned / old owner's), not radius-2 same-owner tiles | CAPTURE-TERRITORY | L2 | city._territory (radius 2, any same-owner tile) | done (+2 units, pf-loader item 9) |
 | 64 | A captured capital isn't the captor's capital (+1 income, bot bonus) | ECON-INCOME, ECON-BOT-BONUS | L3 | capital_of moves to the captor | done (stars 740 -> 742) |
+| 65 | A city's building income counts only tiles it rules (post_load territories overlap) | ECON-MARKET-CLATHRUS | L3 | counted in every overlapping city | done (Market port 741 -> 742) |
 | 57 | Bridge carries land units | BRIDGE-LAND | L3 | pf ok (is_steppable) | check |
 
 ## Flagged (below L1, off)

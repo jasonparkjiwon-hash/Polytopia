@@ -525,6 +525,16 @@ pub fn get_city_production(state: &GameState, city: &CityState) -> i32 {
 
     // Clathrus and Market bonuses
     for &idx in &city._territory {
+        // v123 (pf-port): count each building once, in the city that rules its tile (territories from
+        // post_load overlap: same-owner tiles within 2 of every city)
+        if state
+            .tiles
+            .get(&idx)
+            .and_then(|t| t.ruling_city_coords)
+            .map_or(false, |c| c.idx != city.idx)
+        {
+            continue;
+        }
         if let Some(structure) = crate::functions::get_structure_at(state, idx) {
             let setting =
                 crate::settings::structures::get_structure_setting(structure.structure_type);

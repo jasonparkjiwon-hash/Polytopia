@@ -695,6 +695,13 @@ fn market_pays_by_level() {
     for (x, y) in [(8, 5), (8, 6), (8, 7)] {
         put_structure(&mut s, x, y, StructureType::Farm);
     }
-    let base = { let mut t = s.clone(); t.structures.insert(idx(6, 6), None); crate::functions::get_city_production(&t, &t.tribes[&1].cities[0]) };
-    assert_eq!(crate::functions::get_city_production(&s, &s.tribes[&1].cities[0]) - base, 3);
+    // a second city whose territory overlaps: the Market (ruled by the first city) still counts once
+    add_city(&mut s, 1, 7, 7);
+    s.tribes.get_mut(&1).unwrap().cities[1]._territory = crate::functions::get_square_indices(idx(7, 7), 2, SIZE);
+    s.tiles.get_mut(&idx(6, 6)).unwrap().ruling_city_coords = Some(Coords::from_xy(5, 5, SIZE));
+    let total = |t: &GameState| -> i32 {
+        t.tribes[&1].cities.iter().map(|c| crate::functions::get_city_production(t, c)).sum()
+    };
+    let base = { let mut t = s.clone(); t.structures.insert(idx(6, 6), None); total(&t) };
+    assert_eq!(total(&s) - base, 3);
 }
