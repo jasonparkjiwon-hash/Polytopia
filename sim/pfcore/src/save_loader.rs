@@ -188,9 +188,18 @@ pub fn load(d: &Value, which: &str, current_player: i32) -> Result<(Game, LoadRe
                 first_meet: i(r, "FirstMeet") as i32,
                 embassy_build_turn: i(r, "EmbassyBuildTurn") as i32,
                 previous_attack_turn: i(r, "PreviousAttackTurn") as i32,
-                has_offered_peace: false, // not in the save (pending offers may be in DiplomacyMessages)
+                has_offered_peace: false, // pending offers: DiplomacyMessages below
             };
             t.relations.insert(i(r, "PlayerId") as i32, rel);
+        }
+        // DiplomacyMessages: [1, sender] = a peace offer from sender still waiting for this tribe's reply
+        // (14 in the saves, all type 1; each is answered by a logged action 28 after the save).
+        for m in p.get("DiplomacyMessages").and_then(|v| v.as_array()).into_iter().flatten() {
+            let m: Vec<i64> = m.as_array().into_iter().flatten().filter_map(|x| x.as_i64()).collect();
+            match m.as_slice() {
+                [1, sender] => t.relations.entry(*sender as i32).or_default().has_offered_peace = true,
+                _ => rep.drop(format!("diplomacy message {m:?}")),
+            }
         }
         if i(p, "DestroyedTurn") > 0 || i(p, "DestroyedByTribe") > 0 {
             t.killed_turn = i(p, "DestroyedTurn").max(1) as i32;
