@@ -114,6 +114,18 @@ Misses = compared - exact.
 - Water units into a city (#20): 117 -> 98 misses, stars 157 -> 155 (sieges by those units; check when stars are worked on).
 - Push rule (#22-25): 70 -> 53 (at 032c9fd, after pf-loader's fixes).
 
+## Findings
+
+- Meeting stars (the biggest star gap left, ~57 player-turns): Polyfish's rule (a tribe meets another at its turn
+  start when an enemy unit stands on a tile it has explored) fits the saves; the misses come from exploration that
+  Polyfish doesn't reproduce, mostly Explorer rewards (city reward 4, ruin Explorer: random path). Example 09a5bf1e
+  t2->4: player 3's explored tiles go 28 -> 87 with only short moves and one Explorer reward. Fix belongs to the
+  harness (read the explored set / Encountered from the next save, like the ruin oracle) or sim-dist (Explorer path
+  distribution), not a rule port. A "meet after each own move" switch changed nothing (tried, removed).
+- Saves: meets are one-way in 124 of 290 new meets (A knows B, B doesn't know A yet).
+
 ## Next step
 
-Port #1 (poison).
+Remaining todo rows: #35 heal others (check), #38 Shaman convert + damage, #39 Swarm, #40 move onto hidden
+unit, #41 no cities no units, #42 break-peace disband, #47 embassy, #48 Market by level, #50 city level per
+reward (check), #44 income (loader sets production = level; check).
