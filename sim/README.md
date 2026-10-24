@@ -25,3 +25,4 @@
 - Aquarion unit types 46 Mermaid, 48 Swordsmaid, 53 Shark with v123 card stats; Mermaid/Swordsmaid replace Aquarion's Warrior/Swordsman (`types.rs`, `settings/units.rs`, `settings/technology.rs`) [AQUARION-UNIT, UNIT-ID-48, UNIT-ID-53].
 - A Giant boarding becomes a Juggernaut carrying the Giant, and lands as a Giant [GIANT-JUGGERNAUT].
 - Only the unit's own port boards it; a frozen-over port is walked on foot [PORT-BOARDS].
+- A Giant boarding at its own port stomps with Juggernaut attack [STOMP-ON-BOARDING].

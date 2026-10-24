@@ -428,7 +428,13 @@ pub fn step_unit(
     }
 
     // Stomp: Deal damage to adjacent enemies (Plus formation) after moving
-    if has_skill(old_type, SkillType::Stomp) {
+    // v123 (ledger STOMP-ON-BOARDING): a Giant boarding at its own port stomps as the Juggernaut it becomes
+    let boards_as_juggernaut = old_type == UnitType::Giant
+        && get_structure_type_at(state, to_tile_idx) == Some(StructureType::Port)
+        && state.tiles.get(&to_tile_idx).map_or(false, |t| {
+            t.owner == unit_owner && t.terrain_type != crate::types::TerrainType::Ice
+        });
+    if has_skill(old_type, SkillType::Stomp) || boards_as_juggernaut {
         let adjacent_tiles = get_adjacent_indices(state, to_tile_idx, 1);
 
         // Attacker stats (refetching to get current health/max_health from state)
@@ -436,7 +442,11 @@ pub fn step_unit(
             let tribe = state.tribes.get(&unit_owner).unwrap();
             let unit = tribe.units.get(unit_idx).unwrap();
             (
-                crate::functions::get_unit_attack(state, unit),
+                if boards_as_juggernaut {
+                    crate::settings::units::get_unit_setting(UnitType::Juggernaut).attack
+                } else {
+                    crate::functions::get_unit_attack(state, unit)
+                },
                 unit.health,
                 crate::functions::get_unit_max_health(unit),
             )

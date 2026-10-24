@@ -279,3 +279,17 @@ fn own_port_boards() {
     step(&mut s, 1, w3, 6, 5);
     assert_eq!(unit(&s, 1, w3).unit_type, UnitType::Raft);
 }
+
+/// STOMP-ON-BOARDING (L3, n=1): 6e1bf8e0 t12 action 1549, Zebasi Giant 290 (38/40 HP) moved onto its port;
+/// the full-HP Kickoo Warrior next to it was left at 4 HP (stomp floor(12/2) with Juggernaut attack 4).
+#[test]
+fn giant_boarding_stomps() {
+    let mut s = board();
+    s.tiles.get_mut(&idx(5, 5)).unwrap().terrain_type = TerrainType::Water;
+    s.tiles.get_mut(&idx(5, 5)).unwrap().owner = 1;
+    put_structure(&mut s, 5, 5, StructureType::Port);
+    let g = add_unit(&mut s, 1, UnitType::Giant, 4, 5, 38.0);
+    let w = add_unit(&mut s, 2, UnitType::Warrior, 6, 5, 10.0);
+    step(&mut s, 1, g, 5, 5);
+    assert_eq!(unit(&s, 2, w).health, 4.0);
+}
