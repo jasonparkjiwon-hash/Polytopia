@@ -21,3 +21,4 @@
 - City defence bonus (1.5, walls 4) only in the unit's own city, not an ally's [DEF-BONUS].
 - Splash damage is half the direct damage, floored [SPLASH].
 - Unit stats from the v123 cards: Cloak attack 2 and Stiff; Moth defence 2 and Surprise (`settings/units.rs`) [UNIT-STATS-UI, MOTH-V123].
+- Mooni and Shaman lose Static [C29b].

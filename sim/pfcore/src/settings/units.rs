@@ -353,7 +353,7 @@ pub fn get_unit_setting(unit_type: UnitType) -> UnitSetting {
             defense: 1.0,
             range: 1,
             health: 10.0,
-            skills: skills![S::Skate, S::AutoFreeze, S::Stiff, S::Static],
+            skills: skills![S::Skate, S::AutoFreeze, S::Stiff], // v123: no Static (C29b)
             tribe_type: TribeType::Polaris,
             ..Default::default()
         },
@@ -431,7 +431,7 @@ pub fn get_unit_setting(unit_type: UnitType) -> UnitSetting {
             defense: 1.0,
             range: 1,
             health: 10.0,
-            skills: skills![S::Convert, S::Swarm, S::Static],
+            skills: skills![S::Convert, S::Swarm], // v123: no Static (C29b)
             tribe_type: TribeType::Cymanti,
             ..Default::default()
         },

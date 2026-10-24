@@ -196,3 +196,12 @@ fn v123_unit_cards() {
     let sw = add_unit(&mut s, 1, UnitType::Swordsman, 5, 5, 15.0);
     assert!(damage(&s, (1, sw), (2, m)) < 10.0);
 }
+
+/// C29b (L3): neither the Mooni nor the Shaman has Static (they can become veterans).
+#[test]
+fn mooni_shaman_not_static() {
+    use crate::settings::units::get_unit_setting;
+    for ut in [UnitType::Mooni, UnitType::Shaman] {
+        assert!(!get_unit_setting(ut).skills.contains(&SkillType::Static));
+    }
+}
