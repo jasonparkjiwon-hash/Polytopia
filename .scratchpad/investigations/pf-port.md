@@ -138,8 +138,26 @@ Misses = compared - exact.
   distribution), not a rule port. A "meet after each own move" switch changed nothing (tried, removed).
 - Saves: meets are one-way in 124 of 290 new meets (A knows B, B doesn't know A yet).
 
+## Scores (pf_miss, 24 Oct, at ec8f6da)
+
+Units exact 4723/4734 (11 misses), stars exact 750/819, legal 8644/8972 = 96.3%.
+Start of this session (pf-loader's first run): units 4349/4906, stars 162/819, legal 81.8%.
+
+## What's left (rule gaps, biggest first)
+
+1. Stars (69 misses): mostly meeting stars after Explorer exploration (see Findings; harness or sim-dist),
+   Aquarion structures 49 (AquaFarm) and 51 (no Polyfish type: unlocking tech and effect unknown; price 5),
+   city rewards Polyfish doesn't offer (population from refused builds).
+2. Movement legality (~85 Moves): Cymanti water units leaving a city 2-3 tiles onto water/algae; Polaris
+   skating 2-3 tiles from a city onto ice; Mermaid onto ocean (which tech opens ocean for Aquarion: open,
+   AMPHIBIOUS-WATER); a few boats into a port.
+3. Explode not offered (13), Attack "already attacked" (Knights, HP drift), Train "city full" (downstream).
+4. Peace replies to offers pending at a checkpoint (11): the loader needs the save's DiplomacyMessages.
+5. Outpost effect (ice network) not modelled; Clathrus Fungi vs Algae (split, left as Polyfish).
+6. Unit misses (11): af181c8f t16 ruin Swordsman hint (harness, noted in pf-loader.md), 6e1bf8e0 HP drift.
+
 ## Next step
 
-Remaining todo rows: #35 heal others (check), #38 Shaman convert + damage, #39 Swarm, #40 move onto hidden
-unit, #41 no cities no units, #42 break-peace disband, #47 embassy, #48 Market by level, #50 city level per
-reward (check), #44 income (loader sets production = level; check).
+Movement: compare Polyfish's step generator (moves/mod.rs is_steppable / is_navigationable_terrain /
+move cost) with the saves for Cymanti water units and Polaris skaters (`pf_miss.py --illegal`,
+`--detail "Move: target not in Polyfish step list"`).
