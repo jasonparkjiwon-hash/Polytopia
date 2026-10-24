@@ -76,3 +76,24 @@ fn mooni_skates_two_from_city() {
     assert!(has(&s, &StepMove::new(idx(5, 5), idx(5, 3))));
     assert!(!has(&s, &StepMove::new(idx(5, 5), idx(5, 2))));
 }
+
+/// PORT-STEP (L3): a frozen enemy port is skated onto; an amphibious unit steps onto an enemy port on water;
+/// a Warrior can't step onto an enemy port on water. af181c8f t12 #1424 (Battle Sled), t12 #1403 (Mermaid).
+#[test]
+fn enemy_port_step() {
+    use crate::moves::step::StepMove;
+    use crate::v123_tests::{add_unit, put_structure};
+    let mut s = board();
+    explore(&mut s);
+    s.tiles.get_mut(&idx(5, 4)).unwrap().terrain_type = TerrainType::Water;
+    s.tiles.get_mut(&idx(5, 4)).unwrap().owner = 2;
+    put_structure(&mut s, 5, 4, StructureType::Port);
+    s.tribes.get_mut(&1).unwrap().tech_vanilla.push(crate::states::TechnologyState { tech_type: TechnologyType::Fishing, discovered: true, discovered_turn: 0 });
+    let w = add_unit(&mut s, 1, UnitType::Warrior, 5, 5, 10.0);
+    assert!(!has(&s, &StepMove::new(idx(5, 5), idx(5, 4))));
+    s.tribes.get_mut(&1).unwrap().units[w].unit_type = UnitType::Mermaid;
+    assert!(has(&s, &StepMove::new(idx(5, 5), idx(5, 4))));
+    s.tribes.get_mut(&1).unwrap().units[w].unit_type = UnitType::BattleSled;
+    s.tiles.get_mut(&idx(5, 4)).unwrap().terrain_type = TerrainType::Ice;
+    assert!(has(&s, &StepMove::new(idx(5, 5), idx(5, 4))));
+}

@@ -66,3 +66,4 @@
 - A peace offer to a tribe without a capital is named by its first city (v123 logs one of its cities) (`moves/abilities/diplomacy.rs` peace_offer_target); the loader reads pending offers from DiplomacyMessages `[1, sender]` (`save_loader.rs`) [DIPLO-PEACE].
 - Cymanti algae doesn't stop Cymanti units or boats, which move on through it (`moves/mod.rs` is_terminal) [ALGAE-MOVE, new ledger entry].
 - Skate units get +1 movement wherever the move starts, not only on ice (`functions.rs` get_unit_movement) [SKATE-MOVE, new ledger entry].
+- Another tribe's port stops only a unit that would board; frozen ports, ports on flooded land and amphibious units step onto it (`moves/mod.rs` is_steppable) [PORT-STEP, new ledger entry].

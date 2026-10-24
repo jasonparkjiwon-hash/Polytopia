@@ -863,7 +863,13 @@ fn is_steppable(state: &GameState, unit: &UnitState, idx: i32, strict: bool) -> 
         if tile.is_algae() || has_bridge {
             // Pass
         } else if let Some(structure) = get_structure_at(state, idx) {
-            if structure.structure_type == StructureType::Port {
+            // v123 (ledger PORT-STEP): another tribe's port only stops a unit that would board there; a
+            // frozen port, a port on flooded land and amphibious units are walked over (af181c8f t12 #1424 a
+            // Battle Sled onto a frozen enemy port, t16 #2408 a Mermaid onto one on flooded land)
+            let walked = terrain == TerrainType::Ice
+                || (tile.is_flooded() && !matches!(terrain, TerrainType::Water | TerrainType::Ocean))
+                || crate::functions::is_amphibious(unit);
+            if structure.structure_type == StructureType::Port && !walked {
                 return tile.owner == unit.owner;
             }
         }
