@@ -60,3 +60,7 @@
 - Cymanti use the base Sailing, Ramming, Navigation and Diplomacy; Raychi unlock with Sailing, Boomchi with Ramming, Algae with Fishing, Moth with Diplomacy; Oceantology tier 3 (`settings/technology.rs`) [CYMANTI-TECHS, new ledger entry].
 - Peace offers (need Strategy, a met tribe, no offer pending) and replies are generated again; breaking peace leaves RelationState 3 on the breaker's side (`moves/abilities/diplomacy.rs`) [DIPLO-PEACE].
 - Clathrus income source behind the off switch `clathrus_fungi` (Fungi per the v123 card; default Algae as upstream) [ECON-MARKET-CLATHRUS, split].
+
+## Legal-move generation (pf-legal; tests in `src/v123_legal_tests.rs`)
+
+- A peace offer to a tribe without a capital is named by its first city (v123 logs one of its cities) (`moves/abilities/diplomacy.rs` peace_offer_target); the loader reads pending offers from DiplomacyMessages `[1, sender]` (`save_loader.rs`) [DIPLO-PEACE].

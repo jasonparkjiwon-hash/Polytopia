@@ -199,7 +199,15 @@ impl Replay {
                 if ice.is_empty() { return Err("break ice: no ice next to the unit".into()); }
                 ice.into_iter().map(|k| Box::new(BreakIceMove::new(k)) as Box<dyn Move>).collect()
             }
-            27 => vec![Box::new(abilities::diplomacy::PeaceTreatyMove::new(at(v[1], v[2]), v[3] as i32))],
+            27 => {
+                // Polyfish names an offer by abilities::diplomacy::peace_offer_target; v123 may log another city
+                // of an opponent without a capital. The tile has no effect, so that form is tried second.
+                let mut c: Vec<Box<dyn Move>> = vec![Box::new(abilities::diplomacy::PeaceTreatyMove::new(at(v[1], v[2]), v[3] as i32))];
+                if let Some(k) = abilities::diplomacy::peace_offer_target(s, v[3] as i32) {
+                    c.push(Box::new(abilities::diplomacy::PeaceTreatyMove::new(k, v[3] as i32)));
+                }
+                c
+            }
             28 => vec![Box::new(abilities::diplomacy::PeaceRequestResponse::new(v[1] as i32, v[2] as i32))],
             29 => vec![Box::new(BreakPeaceMove::new(v[3] as i32))],
             30 => vec![Box::new(abilities::diplomacy::EstablishEmbassyMove::new(at(v[1], v[2]), v[3] as i32))],

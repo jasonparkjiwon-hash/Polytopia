@@ -23,3 +23,5 @@ pub use game::Game;
 pub use states::*;
 pub use types::*;
 mod v123_tests;
+#[cfg(test)]
+mod v123_legal_tests;

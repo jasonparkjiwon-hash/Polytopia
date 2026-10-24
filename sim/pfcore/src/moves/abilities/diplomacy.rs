@@ -500,6 +500,15 @@ impl Move for DestroyEmbassyMove {
     }
 }
 
+/// The tile a peace offer to `other_id` is named by: its capital, else its first city. v123 logs a city of the
+/// opponent (the capital while it holds one; 6e1bf8e0 t11 #1676 Vengir without a capital: a city it had just
+/// captured). The tile has no effect on the game.
+pub fn peace_offer_target(state: &GameState, other_id: PlayerId) -> Option<i32> {
+    crate::functions::get_capital_city(state, other_id)
+        .or_else(|| state.tribes.get(&other_id).and_then(|t| t.cities.first()))
+        .map(|c| c.idx)
+}
+
 pub fn generate_diplomacy_moves(state: &GameState, moves: &mut Vec<Box<dyn Move>>) {
     let pov_id = state.settings.current_player_turn_id;
     let tribe = match state.tribes.get(&pov_id) {
@@ -531,8 +540,8 @@ pub fn generate_diplomacy_moves(state: &GameState, moves: &mut Vec<Box<dyn Move>
             .and_then(|t| t.relations.get(&pov_id))
             .map_or(true, |r| r.has_offered_peace);
         if relation.state != 1 && !pending && has_strategy && tribe.known_players.contains(&other_id) {
-            if let Some(cap) = crate::functions::get_capital_city(state, other_id) {
-                moves.push(Box::new(PeaceTreatyMove::new(cap.idx, other_id)));
+            if let Some(k) = peace_offer_target(state, other_id) {
+                moves.push(Box::new(PeaceTreatyMove::new(k, other_id)));
             }
         }
 
