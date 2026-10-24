@@ -31,7 +31,7 @@ Status: **done** = ported with a test; **pf ok** = Polyfish already does it;
 | 2 | Recover cures poison instead of healing | C7 | L1 | pf ok (heal_unit) | done (pf) |
 | 3 | Frozen defender doesn't retaliate | FROZEN-NO-RETALIATION | L3 | retaliates | done |
 | 4 | Hidden (Hide) attacker takes no retaliation | CLOAK-DAGGER-RETALIATION | L3 | retaliates | done |
-| 5 | No retaliation if defender's tribe can't see the attacker's tile | C20 | L3 | not checked | todo |
+| 5 | No retaliation if defender's tribe can't see the attacker's tile | C20 | L3 | not checked | done |
 | 6 | City defence bonus only in own city (not ally's) | DEF-BONUS | L2 | any non-enemy city | todo |
 | 7 | Splash: half damage floored | SPLASH | L2 | half, not floored | todo |
 | 8 | Unit stats from v123 cards (Cloak atk 2, Moth def 2, ...) | UNIT-STATS-UI, MOTH-V123 | L3 | v115 values | todo |

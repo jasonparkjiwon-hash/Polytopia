@@ -1372,6 +1372,8 @@ pub fn attack_unit(
             && !def_frozen
             // v123 (ledger CLOAK-DAGGER-RETALIATION): a hidden attacker (Cloak) takes no return fire
             && !atk_skills.contains(&SkillType::Hide)
+            // v123 (ledger C20): no return fire at a tile the defender's tribe can't see
+            && crate::functions::tribe_sees_tile(state, defender_owner, atk_coords)
             && distance <= def_range;
 
         let atk_damage = result.defense_damage;

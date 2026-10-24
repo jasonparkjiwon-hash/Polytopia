@@ -333,6 +333,34 @@ pub fn is_amphibious(unit: &UnitState) -> bool {
     has_skill(unit, SkillType::Amphibious)
 }
 
+/// v123 (ledger C20): does this tribe see the tile right now? Explored tiles show enemies live,
+/// so an explored tile counts; so does current vision: radius 1 around its units (2 for Scout
+/// units or units on a mountain) and radius 1 around its cities.
+pub fn tribe_sees_tile(state: &GameState, owner: PlayerId, idx: i32) -> bool {
+    if state.tiles.get(&idx).map_or(false, |t| t.explorers.contains(&owner)) {
+        return true;
+    }
+    let size = state.settings.size;
+    let tribe = match state.tribes.get(&owner) {
+        Some(t) => t,
+        None => return false,
+    };
+    for u in &tribe.units {
+        let on_mountain = state
+            .tiles
+            .get(&u.coords.idx)
+            .map_or(false, |t| t.terrain_type == TerrainType::Mountain);
+        let r = if has_skill(u, SkillType::Scout) || on_mountain { 2 } else { 1 };
+        if get_chebyshev_distance(u.coords.idx, idx, size) <= r {
+            return true;
+        }
+    }
+    tribe
+        .cities
+        .iter()
+        .any(|c| get_chebyshev_distance(c.idx, idx, size) <= 1)
+}
+
 /// Get the maximum health of a unit (accounting for veteran status and pass-through)
 pub fn get_unit_max_health(unit: &UnitState) -> f32 {
     // Health is determined by the passenger (inner unit) if available

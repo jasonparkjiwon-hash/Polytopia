@@ -120,3 +120,20 @@ fn hidden_attacker_no_retaliation() {
     attack(&mut s, a, d);
     assert!(unit(&s, 1, a).health < 10.0);
 }
+
+/// C20 (L3, Jason's in-game test): an Archer shooting from a tile the target's tribe can't see draws no return fire;
+/// from an explored tile it does.
+#[test]
+fn unseen_attacker_no_retaliation() {
+    let mut s = board();
+    let a = add_unit(&mut s, 1, UnitType::Archer, 3, 5, 10.0);
+    let d = add_unit(&mut s, 2, UnitType::Archer, 5, 5, 10.0);
+    attack(&mut s, a, d);
+    assert_eq!(unit(&s, 1, a).health, 10.0);
+    let mut s = board();
+    let a = add_unit(&mut s, 1, UnitType::Archer, 3, 5, 10.0);
+    let d = add_unit(&mut s, 2, UnitType::Archer, 5, 5, 10.0);
+    s.tiles.get_mut(&idx(3, 5)).unwrap().explorers.insert(2);
+    attack(&mut s, a, d);
+    assert!(unit(&s, 1, a).health < 10.0);
+}
