@@ -43,8 +43,8 @@ Python referee: units 4728/4728, stars 802/819.
 Totals differ from 4728 because units Polyfish keeps alive (extras) count as misses too.
 Unit misses by kind: hp 29, missing 17, pos 17, extra 13, type 1.
 
-Legality: **7779/8972 = 86.7%** of logged actions are in Polyfish's legal list.
-Capture 175/175, ExamineRuins 56/56, Recover 154/155, EndTurn 971/979, Attack 1160/1198,
+Legality: **7813/8972 = 87.1%** of logged actions are in Polyfish's legal list.
+Capture 175/175, ExamineRuins 56/56, Recover 154/155, EndTurn 979/979, Attack 1160/1198,
 Move 3524/3765, Promote 35/38, CityReward 215/264, Train 750/1028, Research 233/369, Build 361/614,
 Upgrade 94/127, BreakIce 30/92, Explode 11/24, OfferPeace 0/40, PeaceReply 0/37.
 
@@ -112,6 +112,10 @@ Stars (`pf_stars.py`, 819 player-turns; most misses have the first cause):
 Illegal actions (`pf_miss.py --illegal`), by cause:
 - Stars short after drift (follows from the star causes): Train 172, Build 151, Research 104, Upgrade 32.
 - Aquarion movement, 142 Moves: Mermaid/Shark/Swordsmaid on flooded land and water get few or no steps.
+  Cause found: Polyfish lets a unit onto water or flooded land only with a tech whose `unlocks_terrain`
+  is Water (Fishing); Aquarion's v123 start tech 45 (AquaBase, ledger AQUARION-TECH-TIERS) has no Polyfish
+  id and is dropped. Test (not committed): loading 45 as Fishing cuts these 142 to 84 (legal 87.1% ->
+  87.8%). For pf-port: add tech 45 (and 39, 46, 47) with what they unlock; the rest is likely Ocean.
 - Other movement, 69 Moves: Cymanti water units (Boomchi, Raychi, Living Island) between land and
   water; Polaris skating on ice (Mooni, Battle Sled 2-3 tiles onto ice).
 - Train, unit not unlocked by the tribe's techs: Boomchi 56 (35), Shark 53 (27), Raychi 35 (21),
@@ -121,9 +125,12 @@ Illegal actions (`pf_miss.py --illegal`), by cause:
 - Peace: Polyfish's generator has OfferPeace and PeaceReply switched off ("to prevent loops"): 0/40, 0/37.
 - Convert: Polyfish's move list never offers ConvertMove; a converter's attack converts in v123 (4,
   played as ConvertMove; the Shaman's damage is then missing).
-- City reward not pending (49): Polyfish's city hasn't levelled (pop from a refused harvest, e.g.
-  Starfish, or v123 pop rules); the reverse, a reward Polyfish wants that the log never picks: ~40
-  (Move/Attack/EndTurn "reward pending").
+- City reward not pending (49): Polyfish's city hasn't levelled. 36 have a logged harvest/build near the
+  city that Polyfish refuses or values differently (Starfish needs Navigation in Polyfish; Outpost is
+  unimplemented; Fishing); 13 have no logged source near the city (unknown pop gain).
+- The reverse, a reward Polyfish wants that the log never picks: hidden by the harness for the rest of
+  that turn (noted "reward Polyfish wants but the log never picks"), so it no longer makes every later
+  action illegal.
 - Explode not offered (13), Attack "already attacked" (10).
 - Downstream of earlier divergence: no unit at source / no defender (~25).
 

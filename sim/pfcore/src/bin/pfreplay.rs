@@ -54,6 +54,7 @@ struct Replay {
     acts: Vec<Value>,
     done: std::collections::HashSet<usize>, // logged actions already played out of order
     hints: HashMap<usize, (i64, Option<i64>)>, // action index -> ruin reward (RuinsRewardType), tech (from the next save)
+    pad_noted: std::collections::HashSet<(i32, i32)>, // (city, turn) already noted as a hidden pending reward
 }
 
 fn name_of(t: i64) -> &'static str {
@@ -207,7 +208,46 @@ impl Replay {
         })
     }
 
+    /// Play one logged action. A level-up reward Polyfish wants but the log never picks this turn is hidden while
+    /// the action is checked and played (padded with a None reward), so one population difference doesn't make
+    /// every later action of the turn illegal. It is noted once per city and turn.
     fn apply(&mut self, i: usize, a: &Value) {
+        let t = a["type"].as_i64().unwrap_or(0);
+        let v = unpack(t, a["raw"].as_str().unwrap_or(""));
+        let actor = if v[0] == 255 { -1 } else { v[0] as i32 };
+        if self.done.contains(&i) || t == 20 || t == 21 || actor < 0 { return self.apply_inner(i, a); }
+        if actor != self.game.state.settings.current_player_turn_id {
+            self.note("turn order differs (actor set)");
+            self.game.state.settings.current_player_turn_id = actor;
+        }
+        if t != 11 { self.rewards_first(i, actor); }
+        let keep = if t == 11 { self.idx(v[1], v[2]) } else { -1 };
+        let mut pads: Vec<i32> = Vec::new();
+        let turn = self.game.state.settings.turn;
+        if let Some(tr) = self.game.state.tribes.get_mut(&actor) {
+            let lux = tr.tribe_type == TribeType::Luxidoor;
+            let start = tr.starting_tile_coords.idx;
+            for c in tr.cities.iter_mut() {
+                let need = ((c.level - 1).max(0) as usize).saturating_sub(if lux && c.idx == start { 2 } else { 0 });
+                if c.level > 1 && c.idx != keep && c.rewards.len() < need {
+                    while c.rewards.len() < need { c.rewards.push(CityRewardType::None); pads.push(c.idx); }
+                }
+            }
+        }
+        for k in pads.iter().copied().collect::<std::collections::BTreeSet<i32>>() {
+            if self.pad_noted.insert((k, turn)) { self.note("reward Polyfish wants but the log never picks (hidden)"); }
+        }
+        self.apply_inner(i, a);
+        for k in pads {
+            for tr in self.game.state.tribes.values_mut() {
+                if let Some(c) = tr.cities.iter_mut().find(|c| c.idx == k) {
+                    if let Some(p) = c.rewards.iter().rposition(|r| *r == CityRewardType::None) { c.rewards.remove(p); }
+                }
+            }
+        }
+    }
+
+    fn apply_inner(&mut self, i: usize, a: &Value) {
         let t = a["type"].as_i64().unwrap_or(0);
         let raw = a["raw"].as_str().unwrap_or("");
         let v = unpack(t, raw);
@@ -224,7 +264,6 @@ impl Replay {
             self.note("turn order differs (actor set)");
             self.game.state.settings.current_player_turn_id = actor;
         }
-        if t != 11 { self.rewards_first(i, actor); }
         // rekey temp ids named by the log
         if t == 6 { let k = self.idx(v[1], v[2]); self.rekey(k, v[5]); }
         if t == 2 { let k = self.idx(v[2], v[3]); self.rekey(k, v[1]); }
@@ -434,7 +473,7 @@ fn run_job(job: &Value) -> Result<Value, String> {
     let (game, rep) = save_loader::load(&start, "current", cur)?;
     let size = game.state.settings.size;
     let mut r = Replay { game, size, next_temp: 0, real_type: HashMap::new(), passenger_uid: HashMap::new(),
-        legal: BTreeMap::new(), illegal: Vec::new(), notes: BTreeMap::new(), acts: acts[..to].to_vec(), done: Default::default(), hints: HashMap::new() };
+        legal: BTreeMap::new(), illegal: Vec::new(), notes: BTreeMap::new(), acts: acts[..to].to_vec(), done: Default::default(), hints: HashMap::new(), pad_noted: Default::default() };
     for h in job["hints"].as_array().into_iter().flatten() {
         r.hints.insert(h["i"].as_u64().unwrap_or(0) as usize, (h["reward"].as_i64().unwrap_or(0), h["tech"].as_i64()));
     }
