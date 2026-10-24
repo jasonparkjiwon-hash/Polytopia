@@ -949,6 +949,13 @@
    "level": "L3 (saves: 13 logged moves)",
    "game_version": "v123 (measured in saves)",
    "evidence": "pf-legal 2026-10-24: 13 logged moves onto another tribe's port, all out of reach with Polyfish's own-port-only step rule: skaters onto frozen ports (af181c8f t12 #1424, t13 #1620; e15f392c t7 #615), walkers onto ports on flooded land (af181c8f t10 #1305, t14 #1886 Defenders), amphibious units onto ports on water or flooded land (af181c8f t12 #1403, t16 #2196/#2402/#2408, t20 #3015, t23 #3658, t24 #3894/#3998). A land unit stepping onto an enemy port on open water: not seen."
+  },
+  {
+   "id": "WATER-UNITS-VILLAGE",
+   "rule": "Water-only units (Raychi, Shark) may move from water into a village or city on land (to capture it); they stop there. Whether they can pass through one on land in the same move is unseen (Polyfish model: stops).",
+   "level": "L3 (saves: 10 logged moves)",
+   "game_version": "v123 (measured in saves)",
+   "evidence": "pf-legal 2026-10-24: 10 logged moves of Raychi/Shark from water or ocean into a village/city tile on land were out of reach in Polyfish (Water skill = water/flooded tiles only), e.g. af181c8f t14 #1875 Raychi (23,12) -> unowned village (24,11), t19 #2904 into own city (12,14); e15f392c t14 #1828 Shark 3 tiles into a village. Consistent with WATER-UNITS (these types are seen only on water, flooded tiles or cities). A/B: stopping in the village changes no logged move."
   }
  ]
 }

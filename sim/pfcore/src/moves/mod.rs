@@ -646,6 +646,14 @@ fn is_terminal(state: &GameState, unit: &UnitState, tile_idx: i32) -> bool {
         }
     }
 
+    // v123 (ledger WATER-UNITS-VILLAGE): a water unit entering a village or city on land stops there
+    if settings.skills.contains(&SkillType::Water)
+        && !tile.is_water_terrain()
+        && get_structure_type_at(state, tile_idx) == Some(StructureType::Village)
+    {
+        return true;
+    }
+
     if tile.is_water_terrain() {
         // Navigate on to village
         if settings.skills.contains(&SkillType::Navigate)
@@ -839,8 +847,9 @@ fn is_steppable(state: &GameState, unit: &UnitState, idx: i32, strict: bool) -> 
 
     // SkillType::Water units can only move on water/ocean/flooded tiles
     if settings.skills.contains(&SkillType::Water) {
-        let is_water_like =
-            matches!(terrain, TerrainType::Water | TerrainType::Ocean) || tile.is_flooded();
+        let is_water_like = matches!(terrain, TerrainType::Water | TerrainType::Ocean)
+            || tile.is_flooded()
+            || get_structure_type_at(state, idx) == Some(StructureType::Village);
         if !is_water_like {
             return false;
         }
@@ -919,11 +928,12 @@ fn is_navigationable_terrain(
     }
 
     if has_skill(unit_type, SkillType::Water) {
-        // Restricted to water/ocean/algae/ice/flooded land
+        // Restricted to water/ocean/algae/ice/flooded land; v123 (ledger WATER-UNITS-VILLAGE): and villages/cities
         let is_water_like = matches!(terrain, TerrainType::Water | TerrainType::Ocean)
             || tile.is_algae()
             || tile.is_frozen()
-            || tile.is_flooded();
+            || tile.is_flooded()
+            || get_structure_type_at(state, tile.coords.idx) == Some(StructureType::Village);
         return is_water_like;
     }
 

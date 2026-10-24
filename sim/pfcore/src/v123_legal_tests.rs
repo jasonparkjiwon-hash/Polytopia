@@ -97,3 +97,19 @@ fn enemy_port_step() {
     s.tiles.get_mut(&idx(5, 4)).unwrap().terrain_type = TerrainType::Ice;
     assert!(has(&s, &StepMove::new(idx(5, 5), idx(5, 4))));
 }
+
+/// WATER-UNITS-VILLAGE (L3): a water unit moves from water into a village on land. af181c8f t14 #1875: a Raychi
+/// at (23,12) enters the unowned village at (24,11).
+#[test]
+fn raychi_enters_village() {
+    use crate::moves::step::StepMove;
+    use crate::v123_tests::{add_unit, put_structure};
+    let mut s = board();
+    explore(&mut s);
+    s.tribes.get_mut(&1).unwrap().tribe_type = TribeType::Cymanti;
+    s.tiles.get_mut(&idx(5, 5)).unwrap().terrain_type = TerrainType::Water;
+    put_structure(&mut s, 6, 4, StructureType::Village);
+    add_unit(&mut s, 1, UnitType::Raychi, 5, 5, 10.0);
+    assert!(has(&s, &StepMove::new(idx(5, 5), idx(6, 4))));
+    assert!(!has(&s, &StepMove::new(idx(5, 5), idx(6, 6))), "plain land stays closed");
+}
