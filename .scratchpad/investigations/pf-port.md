@@ -143,6 +143,14 @@ Misses = compared - exact.
 Units exact 4723/4734 (11 misses), stars exact 750/819, legal 8644/8972 = 96.3%.
 Start of this session (pf-loader's first run): units 4349/4906, stars 162/819, legal 81.8%.
 
+## Split with pf-legal (orchestrator, 24 Oct)
+
+pf-legal owns move generation: peace generation, tribe water/ice/algae movement, tribe train unlocks, fish /
+replacement-tech resource gates, Outpost and Aquarion structures 49/51, Explode and ConvertMove generation.
+Already done here before the split (don't redo): peace offers/replies (#70, ec8f6da), Cymanti train unlocks
+(#69, ec40fcf), fish gate (#68, 4c13187), Outpost buildable (#62, 46a6115), amphibious water (#59), Starfish (#60).
+pf-port keeps: economy / star drift, unit HP and position misses, the rest of the table.
+
 ## What's left (rule gaps, biggest first)
 
 1. Stars (69 misses): mostly meeting stars after Explorer exploration (see Findings; harness or sim-dist),
