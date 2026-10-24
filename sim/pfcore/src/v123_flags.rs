@@ -7,7 +7,12 @@ use std::sync::atomic::{AtomicBool, Ordering};
 /// type): 47 replaces Fishing, 39 replaces Ramming, 46 Marine Life replaces Sailing (and opens ocean).
 pub static AQUARION_TECH_SLOTS: AtomicBool = AtomicBool::new(false);
 
-pub const ALL: &[(&str, &AtomicBool)] = &[("aquarion_tech_slots", &AQUARION_TECH_SLOTS)];
+/// Clathrus income from adjacent Fungi (v123 card) instead of Algae (Polyfish); a split in ECON-MARKET-CLATHRUS,
+/// untested by any save.
+pub static CLATHRUS_FUNGI: AtomicBool = AtomicBool::new(false);
+
+pub const ALL: &[(&str, &AtomicBool)] =
+    &[("aquarion_tech_slots", &AQUARION_TECH_SLOTS), ("clathrus_fungi", &CLATHRUS_FUNGI)];
 
 pub fn on(flag: &AtomicBool) -> bool {
     flag.load(Ordering::Relaxed)

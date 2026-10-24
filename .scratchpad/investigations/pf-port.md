@@ -75,7 +75,7 @@ Status: **done** = ported with a test; **pf ok** = Polyfish already does it;
 | 46 | Bot bonus: handicap-1 a turn while holding own unbesieged capital | ECON-BOT-BONUS | L3 | missing | done (stars 155 -> 688/819) |
 | 47 | Embassy: 5 +2 each further (engine 4, split), income 2 / 4 at peace for host (builder only at peace) | ECON-EMBASSY, EMBASSY-ACTION | L1/L3 | 5 flat, no income | done (engine's L3 version: cost 4 +2 each; host 2/4, builder 4 at peace only); stars 742 -> 744 |
 | 48 | Market pays level of each adjacent Windmill/Sawmill/Forge | ECON-MARKET-CLATHRUS | L3 | +1 each | done |
-| 49 | Clathrus +1 per adjacent Fungi (card) vs Algae (Polyfish) | ECON-MARKET-CLATHRUS | split, untested | Algae | flag |
+| 49 | Clathrus +1 per adjacent Fungi (card) vs Algae (Polyfish) | ECON-MARKET-CLATHRUS | split, untested | Algae | flag (clathrus_fungi, off; A/B no change) |
 | 50 | City level +1 per city reward | CITY-LEVEL-BY-REWARD | L3 | reward.rs | pf: level rises from population, reward follows; harness plays logged rewards (pf-loader) |
 | 51 | Meet stars from the met tribe's score | ECON-MEET | L3 | get_star_exchange | pf ok (formula); trigger: see Findings (exploration gap) |
 | 52 | Tech cost tier x cities + 4; Literacy 2/3 ceil | TECH-COST | L2 | x0.66 ceil | done |
@@ -102,7 +102,7 @@ Status: **done** = ported with a test; **pf ok** = Polyfish already does it;
 ## Flagged (below L1, off)
 
 - Aquarion unit ids 47, 49-52, 54, 55 (L0): not added.
-- Clathrus income source (split): left as Polyfish (Algae).
+- `clathrus_fungi`: Clathrus income from adjacent Fungi (v123 card) instead of Algae (Polyfish); A/B: no change (no Clathrus in the saves).
 - `aquarion_tech_slots` (src/v123_flags.rs; conflicts_and_gaps AQUARION-TECHS, inferred): 47 replaces Fishing
   (opens water), 39 Ramming, 46 Sailing (opens ocean). A/B at d0a5d85: off legal 91.8%, on 92.0% (Move +19,
   Research +7), units/stars equal. Supports the inference; promoting it needs a second source.

@@ -546,9 +546,15 @@ pub fn get_city_production(state: &GameState, city: &CityState) -> i32 {
                 StructureType::Clathrus => {
                     // +X star for each adjacent Algae in friendly territory
                     let adj = crate::functions::get_adjacent_indices(state, idx, 1);
+                    let fungi = crate::v123_flags::on(&crate::v123_flags::CLATHRUS_FUNGI);
                     for n_idx in adj {
                         if let Some(n_tile) = state.tiles.get(&n_idx) {
-                            if n_tile.effects.contains(&TileEffect::Algae)
+                            let source = if fungi {
+                                get_structure_type_at(state, n_idx) == Some(StructureType::Fungi)
+                            } else {
+                                n_tile.effects.contains(&TileEffect::Algae)
+                            };
+                            if source
                                 && n_tile.owner == city.owner
                             {
                                 prod += setting.reward_stars;

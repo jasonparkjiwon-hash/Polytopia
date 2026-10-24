@@ -887,3 +887,11 @@ fn peace_offer_and_reply() {
     crate::moves::abilities::diplomacy::BreakPeaceMove::new(1).execute(&mut s).unwrap();
     assert_eq!((s.tribes[&2].relations[&1].state, s.tribes[&1].relations[&2].state), (3, 0));
 }
+
+/// ECON-MARKET-CLATHRUS (split, untested): Clathrus counts adjacent Algae (Polyfish) by default, Fungi (v123 card)
+/// with the switch clathrus_fungi. Switch state is global, so this test only checks the default.
+#[test]
+fn clathrus_default_algae() {
+    assert!(!crate::v123_flags::on(&crate::v123_flags::CLATHRUS_FUNGI));
+    assert!(crate::v123_flags::set_from("no_such_switch") == vec!["no_such_switch".to_string()]);
+}
