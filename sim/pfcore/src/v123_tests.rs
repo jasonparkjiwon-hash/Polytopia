@@ -729,3 +729,17 @@ fn embassy_cost_and_income() {
     }
     assert_eq!((get_embassy_income(&s, &s.tribes[&1]), get_embassy_income(&s, &s.tribes[&2])), (4, 4));
 }
+
+/// SHAMAN (L3, n=1: e15f392c t9, Shaman 14 converted Scoutship 161, which ended Cymanti with 6 HP): a Shaman's
+/// convert also deals its normal damage and takes no retaliation.
+#[test]
+fn shaman_converts_and_damages() {
+    use crate::moves::Move;
+    let mut s = board();
+    let a = add_unit(&mut s, 1, UnitType::Shaman, 4, 5, 10.0);
+    add_unit(&mut s, 2, UnitType::Warrior, 5, 5, 10.0);
+    crate::moves::abilities::convert::ConvertMove::new(idx(4, 5), idx(5, 5)).execute(&mut s).unwrap();
+    let w = s.tribes[&1].units.iter().find(|u| u.coords.idx == idx(5, 5)).unwrap();
+    assert_eq!((w.unit_type, w.health), (UnitType::Warrior, 8.0)); // 1/(1+2) x 1 x 4.5 = 1.5 -> 2
+    assert_eq!(unit(&s, 1, a).health, 10.0);
+}

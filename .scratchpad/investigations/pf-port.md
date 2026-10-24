@@ -61,10 +61,10 @@ Status: **done** = ported with a test; **pf ok** = Polyfish already does it;
 | 32 | Break Ice (action 18) | ACTION-18-BREAK-ICE | L3 | break_ice.rs | done (actor = first eligible own unit next to the target ice; may differ from the logged unit) |
 | 33 | Idle auto-recover for the human only | IDLE-AUTO-RECOVER | L3 | every active player | done |
 | 34 | Heal 4 own territory / 2 elsewhere | HEAL-TERRITORY | L2 | pf ok | done (pf) |
-| 35 | Heal Others (action 4) +4 to adjacent friends | ACTION-4-HEAL | L3 | heal_others.rs | check |
+| 35 | Heal Others (action 4) +4 to adjacent friends | ACTION-4-HEAL | L3 | heal_others.rs | done (pf: heal_others +4 to adjacent friends) |
 | 36 | Explode: round then half, poison halves defence, targets poisoned | EXPLODE-DAMAGE, EXPLODE-POISON(-DEFENCE) | L3 | explode.rs | done |
 | 37 | Area damage (stomp/splash/explode) spares tribes at peace | PEACE-AREA-DAMAGE | L3 | get_true_enemy_at | done (pf: is_enemy excludes peace) |
-| 38 | Shaman converts and also deals damage | SHAMAN | L3 | convert only? | todo |
+| 38 | Shaman converts and also deals damage | SHAMAN | L3 | convert only? | done (+3 units) |
 | 39 | Swarm (38): adjacent friends get extra move, no attack boost | ACTION-TYPES-V123 | L1 | Boost (+1 move; +0.5 atk only v<115) | check |
 | 40 | Move onto a hidden enemy: stops, reveals it | MOVE-BLOCKED-HIDDEN | L3 | ? | todo |
 | 41 | Tribe with no cities loses its units | NO-CITIES-NO-UNITS | L3 | ? | todo |

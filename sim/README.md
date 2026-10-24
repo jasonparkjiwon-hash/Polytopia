@@ -50,3 +50,4 @@
 - Market earns the level of each adjacent Windmill/Sawmill/Forge (its adjacent Farms/Lumber Huts/Mines) (`functions.rs` get_city_production) [ECON-MARKET-CLATHRUS].
 - A city's building income (Market, Clathrus, ...) counts only tiles that city rules; post_load's territories overlap (`functions.rs` get_city_production).
 - Embassy: costs 4 plus 2 per embassy the tribe has; the host earns 2 a turn (4 at peace, 0 at war), the builder 4 only at peace; the loader keeps RelationState 3 (war) (`functions.rs` get_embassy_income/get_embassy_cost, `game.rs`, `moves/abilities/diplomacy.rs`, `save_loader.rs`) [EMBASSY-ACTION, ECON-EMBASSY].
+- A Shaman's convert also deals its normal damage, with no retaliation; a target it kills isn't converted (`moves/abilities/convert.rs`) [SHAMAN].

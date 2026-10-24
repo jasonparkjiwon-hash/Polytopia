@@ -29,8 +29,46 @@ impl Move for ConvertMove {
             .and_then(|t| t._unit_owner_id)
             .unwrap_or(0);
 
+        // v123 (ledger SHAMAN, L3 n=1: e15f392c t9 a Scoutship converted by a Shaman ended at 6 HP): a Shaman's
+        // convert also deals its normal damage, with no retaliation; a target it kills is not converted
+        let mut pre: Option<crate::actions::UndoCallback> = None;
+        let shaman = state.tribes.get(&owner).and_then(|t| {
+            t.units.iter().find(|u| u.coords.idx == self.src_index && u.unit_type == crate::types::UnitType::Shaman)
+        });
+        if let (Some(a), Some(d)) = (shaman, crate::functions::get_true_unit_at(state, self.target_index)) {
+            let dmg = crate::actions::units::calculate_combat(
+                crate::functions::get_unit_attack(state, a),
+                a.health,
+                crate::functions::get_unit_max_health(a),
+                crate::functions::get_unit_defense(d),
+                d.health,
+                crate::functions::get_unit_max_health(d),
+                crate::functions::get_defense_bonus(state, d),
+            )
+            .attack_damage;
+            let (d_owner, d_hp) = (d.owner, d.health);
+            let d_pos = state.tribes[&d_owner].units.iter().position(|u| u.coords.idx == self.target_index).unwrap();
+            let undo_dmg = crate::actions::units::deal_damage(state, d_owner, d_pos, dmg, Some(owner));
+            if d_hp - dmg <= 0.0 {
+                let a_pos = state.tribes[&owner].units.iter().position(|u| u.coords.idx == self.src_index).unwrap();
+                let undo_end = crate::actions::end_unit_turn(state, owner, a_pos);
+                return Ok(MoveResult { undo: crate::actions::chain_undos(vec![undo_dmg, undo_end]), rewards: None });
+            }
+            pre = Some(undo_dmg);
+        }
+
         match crate::actions::units::convert_unit(state, self.src_index, self.target_index) {
+            Err(e) => {
+                if let Some(p) = pre {
+                    p(state);
+                }
+                Err(e)
+            }
             Ok(undo) => {
+                let undo: crate::actions::UndoCallback = match pre {
+                    Some(p) => crate::actions::chain_undos(vec![p, undo]),
+                    None => undo,
+                };
                 let old_attacked_this_turn = state
                     .tribes
                     .get(&owner)
@@ -51,7 +89,6 @@ impl Move for ConvertMove {
                     rewards: None,
                 })
             }
-            Err(e) => Err(e),
         }
     }
 
