@@ -1,13 +1,21 @@
 # Status
 
-_Last updated 2026-10-23._
+_Last updated 2026-10-25 (polish program done; Phase 3 prep running)._
 
 ## Now
 
 - **Phase 1 (data and verification) is done.** All six exit gates passed on
   2026-10-23 (`docs/polytopia_ai_phase_1_spec.md`).
-- **Phase 2 (advisor mode) is next**, and starts only when Jason says go.
-- Before Phase 3, load real saves into Polyfish (`docs/simulator_choice.md`).
+- **Polish program is done** (four parallel sessions, 23 Oct):
+  - **Units: 4728/4728, every unit in every save exact** (was 4709/4753).
+  - **Stars: 802/819 player-turns exact** (was 762). All 17 misses left are
+    explained; most need saves without gaps or an answer from Jason
+    (`investigations/star-tail.md`).
+  - Every engine rule has a ledger id (`tools/rule_levels.py`, run by `check.sh`):
+    140 rules, 3 still unverified (embassy price step, Market, Clathrus income).
+    Jason answered tests 36–38; they stay unverified until a save shows them.
+- **Phase 3 prep is running** (backlog item 0): Polyfish becomes the forward
+  model (`docs/simulator_choice.md`).
 - **Score baseline:** the expected `check.sh` output is under "Quick start" in
   `README.md`. That's the one copy. Update it there when scores change.
 - **Saves:** the raw saves are committed in `saves_raw/`; `sh scripts/restore_saves.sh`

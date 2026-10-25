@@ -3,7 +3,7 @@
 Open work only, highest priority first. Owner is whoever is working on it now.
 Set it when you pick an item up so two people don't do the same work.
 
-Score now: 4709/4753 units (99.1%) and 762/819 star player-turns exact
+Score now: 4728/4728 units (100%) and 802/819 star player-turns exact
 (`python3 -I tools/miss.py`).
 
 ## 0. Phase 3 prep: Polyfish as the forward model (Jason, 24 Oct)
@@ -24,43 +24,37 @@ Shared rules: small commits, `git pull --rebase origin main` before every push,
 pf-loader and pf-port both touch `sim/pfcore`: pf-loader adds new files (a loader
 module, a bin), pf-port edits rule code; rebase often.
 
-## 1. Aquarion research (star misses)
+## 1. Aquarion unit ids
 
-_Owner: unassigned_
+_Owner: unassigned · waiting on a save_
 
-Priced by id since 23 Oct (`AQUARION_TIERS` in `engine/economy.py`: 47 tier 1, 39 and 46
-tier 2; 8 star rows went exact). Still open: the in-game names, to replace the ids. The Aquarion wiki page is blocked from the cloud container
-(proxy 403); Jason can paste it or the tech names.
+46 Mermaid, 48 Swordsmaid, 53 Shark are measured. Polyfish names the rest
+(47, 49–52, 54, 55) in the ledger only (`AQUARION-UNIT-IDS`, L0); no save holds
+them yet. Tech ids are settled (`AQUARION-TECH-TIERS`).
 
-## 2. Unit misses left (44)
+## 2. Star misses left (17)
 
-_Owner: unassigned_
+_Owner: unassigned · details in `investigations/star-tail.md`_
 
-- Bot war turn 11-15 (23): mostly 1-5 HP off, and units the engine keeps alive.
-  Saves are 4 turns apart, so the cause is hard to isolate.
-- Oasis Struggle (21): one spot each; trace with `tools/trace.py`. One explosion
-  (Oasis t25, three targets 1 HP less) fits no variant.
+- Bot war (13 rows): stars for meeting a tribe, somewhere in a 4–6 turn gap.
+  Needs a game with saves every turn.
+- Bot war t11→15 p16 (-1): was -8 before Oceanology was priced tier 3 (Jason's card).
+- Misty Fields t11→12 p5 (-4): a trade route cut by another tribe's new city
+  border. Would need a trade-route model; worth it only if more saves show it.
+- Oasis t10→12: p13 (-2) is meet timing with no t11 save; p9 (+3) is a tribe
+  destroyed mid-gap. Ignore both.
 
-Start a file in `investigations/` when you pick this up (see
-`investigations/_template.md`).
+## 3. Unverified rules (3)
 
-## 3. Other star misses
+_Owner: unassigned · waiting on a save that shows them_
 
-_Owner: unassigned_
+Embassy price step (`EMBASSY_STEP`; 4, +2 each, settled from Jason's test but
+not yet seen in a save), Market income (one save case), Clathrus income (Fungi
+per the card, Algae per Polyfish; untested). Jason answered tests 36–38.
 
-- Single-turn misses of -1 on a bot that attacked (about 10): probably a kill or
-  capture reward not modelled.
-- Multi-turn gaps (bot war): small errors add up; ignore until the single-turn
-  ones are fixed.
+## 4. Small open questions (no save tests them yet)
 
-## 4. Aquarion unit ids
-
-_Owner: unassigned_
-
-Only 46 Mermaid, 48 Swordsmaid, 53 Shark are named; the other Aquarion ids are
-still unknown.
-
-## Not yet in any save
-
-Embassy, Market, Clathrus income; structure 51 price; Dash units breaking ice the
-same turn; peace-break disbanding. Nothing to do until a save shows them.
+- Why AI players' idle units never heal in the saves, while the human player's
+  do (`IDLE-AUTO-RECOVER`). Also: does allied territory count as friendly?
+- Does Polaris border growth (not just a capture) freeze water too?
+- A push with no open tile removes the unit (Jason); no save shows one yet.
