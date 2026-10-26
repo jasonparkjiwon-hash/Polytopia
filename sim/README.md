@@ -73,3 +73,4 @@
 - A converter's (Mind Bender, Shaman) attack is generated as ConvertMove; a boat carrying one attacks normally (`moves/mod.rs` generate_attack_moves) [CONVERT-ATTACK, new ledger entry].
 - Research moves come from the v123 researchable list (tribe techs included) plus each known tech's prerequisite (`moves/research.rs`) [TRIBE-TECH-TIERS, RESEARCH-BACKWARD, new ledger entry].
 - Metal is visible with Mining as well as Climbing (`functions.rs` is_resource_visible_to_tribe) [METAL-WITH-MINING, new ledger entry].
+- Amphibious units step onto ocean with Marine Life (46); with no tech behind the switch `amphibious_ocean_innate` (`moves/mod.rs` is_navigationable_terrain, `v123_flags.rs`) [AMPHIBIOUS-WATER].

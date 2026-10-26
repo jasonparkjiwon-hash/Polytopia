@@ -980,10 +980,10 @@
   },
   {
    "id": "AMPHIBIOUS-WATER",
-   "rule": "Aquarion amphibious units (Mermaid 46, Swordsmaid 48) stand on shallow water with no water tech (only the start tech 45): no Fishing-slot tech needed. Ocean: Jason (26 Oct 2026) says moving onto ocean is innate for Aquarion units, not a tech unlock. The saves only show ocean records for owners with Navigation and Marine Life (46), which is consistent with innate (not a test of it). Ocean rule: no tech gate.",
-   "level": "L3 (saves: 11 unit records); ocean L0 (Jason, 26 Oct 2026)",
+   "rule": "Aquarion amphibious units (Mermaid 46, Swordsmaid 48) stand on shallow water with no water tech (only the start tech 45): no Fishing-slot tech needed. Ocean: every logged Aquarion ocean move came with Marine Life (46); Jason (26 Oct 2026) says moving onto ocean is innate for Aquarion units, not a tech unlock. Polyfish: amphibious units onto ocean with 46 (plain code, L3); with no tech behind the switch amphibious_ocean_innate (L0, off).",
+   "level": "L3 (saves: 11 unit records, 10 logged ocean moves with Marine Life); ocean without a tech L0 (Jason, 26 Oct 2026)",
    "game_version": "v123 (measured in saves)",
-   "evidence": "All saves, last state of each checkpoint (2026-10-24, pf-port): unit records of types 46/48 on Water tiles without flooding whose owner holds none of 47, 46, Navigation: 9 Mermaids + 2 Swordsmaids; 9 more Mermaids on Water with 47 only. On Ocean: 3 records (2 Mermaids, 1 Shark), all owners with Navigation and 46. Ocean innate: Jason's answer, L0, no save contradicts it. Polyfish v115 lets Amphibious units onto water only with a tech that opens water (none for Aquarion), which made 142 logged Aquarion moves illegal (pf-loader)."
+   "evidence": "All saves, last state of each checkpoint (2026-10-24, pf-port): unit records of types 46/48 on Water tiles without flooding whose owner holds none of 47, 46, Navigation: 9 Mermaids + 2 Swordsmaids; 9 more Mermaids on Water with 47 only. On Ocean: 3 records (2 Mermaids, 1 Shark), all owners with 46. Logged moves (pf-legal-2, 26 Oct): 10 Mermaid moves onto ocean in 6e1bf8e0 t5/t11 (e.g. t5 #918 from the city at (18,9) to (19,10)), owner techs 0/45/47/39/46, no Navigation; Polyfish legal 3739 -> 3749 Moves. No save has an Aquarion unit on ocean without 46, so innate stays L0 (consistent, untested). Test to promote: a Mermaid next to ocean before Marine Life."
   }
  ]
 }

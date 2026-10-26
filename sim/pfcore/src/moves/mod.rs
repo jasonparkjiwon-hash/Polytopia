@@ -956,6 +956,17 @@ fn is_navigationable_terrain(
         return true;
     }
 
+    // v123 (ledger AMPHIBIOUS-WATER): amphibious units onto ocean with Marine Life (46), as in every logged
+    // Aquarion ocean move (6e1bf8e0 t5 #918 a Mermaid from its city); with no tech at all behind the switch
+    // v123_flags::AMPHIBIOUS_OCEAN_INNATE (Jason's answer, one source)
+    if has_skill(unit_type, SkillType::Amphibious)
+        && terrain == TerrainType::Ocean
+        && (crate::v123_flags::on(&crate::v123_flags::AMPHIBIOUS_OCEAN_INNATE)
+            || crate::settings::technology::has_technology(&tribe.tech_vanilla, TechnologyType::MarineLife))
+    {
+        return true;
+    }
+
     match terrain {
         TerrainType::Water => tribe.tech_vanilla.iter().any(|t| {
             let s = crate::settings::technology::get_technology_setting(t.tech_type);

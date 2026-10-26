@@ -11,8 +11,15 @@ pub static AQUARION_TECH_SLOTS: AtomicBool = AtomicBool::new(false);
 /// untested by any save.
 pub static CLATHRUS_FUNGI: AtomicBool = AtomicBool::new(false);
 
-pub const ALL: &[(&str, &AtomicBool)] =
-    &[("aquarion_tech_slots", &AQUARION_TECH_SLOTS), ("clathrus_fungi", &CLATHRUS_FUNGI)];
+/// Amphibious units onto ocean with no tech (AMPHIBIOUS-WATER ocean part: Jason 26 Oct 2026, one source). Off,
+/// Marine Life (46) opens it, which every logged Aquarion ocean move had.
+pub static AMPHIBIOUS_OCEAN_INNATE: AtomicBool = AtomicBool::new(false);
+
+pub const ALL: &[(&str, &AtomicBool)] = &[
+    ("aquarion_tech_slots", &AQUARION_TECH_SLOTS),
+    ("clathrus_fungi", &CLATHRUS_FUNGI),
+    ("amphibious_ocean_innate", &AMPHIBIOUS_OCEAN_INNATE),
+];
 
 pub fn on(flag: &AtomicBool) -> bool {
     flag.load(Ordering::Relaxed)

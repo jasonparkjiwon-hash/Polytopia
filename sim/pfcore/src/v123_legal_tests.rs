@@ -195,3 +195,22 @@ fn mine_with_mining_no_climbing() {
     tr.tech_vanilla = vec![t(TechnologyType::Basic), t(TechnologyType::Smithery), t(TechnologyType::Mining)];
     assert!(has(&s, &BuildMove::new(idx(5, 4), StructureType::Mine)));
 }
+
+/// AMPHIBIOUS-WATER (L3 with Marine Life): a Mermaid leaves its city onto ocean. 6e1bf8e0 t5 #918: Aquarion
+/// (techs 45, 47, 39, 46) Mermaid from (18,9) to (19,10). Without 46 the ocean stays closed unless the
+/// amphibious_ocean_innate switch is on.
+#[test]
+fn mermaid_onto_ocean() {
+    use crate::moves::step::StepMove;
+    use crate::states::TechnologyState;
+    use crate::v123_tests::add_unit;
+    let mut s = board();
+    explore(&mut s);
+    s.tribes.get_mut(&1).unwrap().tribe_type = TribeType::Aquarion;
+    s.tiles.get_mut(&idx(6, 6)).unwrap().terrain_type = TerrainType::Ocean;
+    add_city(&mut s, 1, 5, 5);
+    add_unit(&mut s, 1, UnitType::Mermaid, 5, 5, 10.0);
+    assert!(!has(&s, &StepMove::new(idx(5, 5), idx(6, 6))));
+    s.tribes.get_mut(&1).unwrap().tech_vanilla.push(TechnologyState { tech_type: TechnologyType::MarineLife, discovered: true, discovered_turn: 0 });
+    assert!(has(&s, &StepMove::new(idx(5, 5), idx(6, 6))));
+}
