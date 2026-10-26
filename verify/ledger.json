@@ -1047,6 +1047,13 @@
    "level": "L3 (id, HP, price; n=3 trainings)",
    "game_version": "v123 (measured in a save)",
    "evidence": "2026-10-26, game 05ade18c (Jason's game 4, Lyuhian Pond, Hard): bot p5 Aquarion trained unit 47 on turns 4, 5 and 6 right after researching Archery (the base Archery slot, no Aquarion tech involved); each new unit has 10 HP; the star check is off by exactly -3 on each of those three turns and nothing else is unpriced -> price 3. Matches Jason's card (Mermaid Archer 3 stars, atk 2 def 1 mov 1 range 2) and Polyfish's positional name MermaidArcher (AQUARION-UNIT-IDS). Attack/defence/range not yet measured: the replay (no stats for 47) leaves a Warrior at 8.0 HP where the save has 5.0 (t5->6) and misses a kill (t6->7). Not in engine/state.py UNIT yet (rule sessions). | 2026-10-26 pf-legal-2: Polyfish now has MermaidArcher (47) with the card's stats (2/1, range 2, Dash Fortify, amphibious), unlocked by Archery for Aquarion in place of the Archer: legal Train +3, Attack +3, Move +1; units 6441 -> 6449, stars 1316 -> 1319 (05ade18c)."
+  },
+  {
+   "id": "SANCTUARY-NO-INCOME",
+   "rule": "The Elyrion Sanctuary (structure 32) costs 3 and pays no star income (Polyfish v115: costs 5, +1 a turn per adjacent wild animal in own territory).",
+   "level": "L3",
+   "game_version": "v123 (measured in a save)",
+   "evidence": "2026-10-26, b2448ead p1 (Jason's Elyrion): built t4 for 3 net (SANCTUARY-V123); t5->6 the star check is exact with no Sanctuary income while its ImprovementData.Level (= adjacent Game tiles: 2, 1, 1, 2 at t5-t8) was 2; Polyfish's +1 per animal was 2 too many. t4->5 fits both 5-with-income and 3-without; t5->6 decides. n=1 game. Polyfish pf_miss: t5->6 exact; t7->8 becomes the open siege row (ECON-SIEGE test item), which the Sanctuary's +1 had hidden."
   }
  ]
 }

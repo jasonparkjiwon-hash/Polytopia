@@ -245,11 +245,12 @@ pub fn get_structure_setting(struct_type: StructureType) -> StructureSetting {
             ..Default::default()
         },
 
-        // Elyrion. Income and animal spawning are implemented; the build-time
+        // Elyrion. Animal spawning is implemented; the build-time
         // "must be adjacent to a wild animal" requirement is not enforced.
+        // v123 (ledger SANCTUARY-V123, SANCTUARY-NO-INCOME, b2448ead t4-6): costs 3 and pays no star income.
         StructureType::Sanctuary => StructureSetting {
-            cost: Some(5),
-            reward_stars: 1,
+            cost: Some(3),
+            reward_stars: 0,
             tribe_type: Some(TribeType::Elyrion),
             terrain_types: terrains![
                 TerrainType::Field,

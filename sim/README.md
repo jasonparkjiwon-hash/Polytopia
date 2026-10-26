@@ -60,6 +60,7 @@
 - Peace offers (need Strategy, a met tribe, no offer pending) and replies are generated again; breaking peace leaves RelationState 3 on the breaker's side (`moves/abilities/diplomacy.rs`) [DIPLO-PEACE].
 - Turn income is paid before the start-of-turn effects, so a level from Fungi growth counts from the next turn (`game.rs` end_turn) [CITY-LEVEL-BY-REWARD].
 - A Persist unit (Knight, Tridention) that kills moves in and may attack again; the kill move-in no longer ends its turn (`actions/units.rs` attack_unit) [PERSIST-KILL-MOVE, new ledger entry].
+- The Elyrion Sanctuary costs 3 and pays no star income (upstream 5 and +1 per adjacent animal) (`settings/structures.rs`, `functions.rs`) [SANCTUARY-V123, SANCTUARY-NO-INCOME, new ledger entry].
 - Clathrus earns +1 per adjacent Fungi (v123 card; upstream counted Algae) (`functions.rs` get_city_production) [ECON-MARKET-CLATHRUS].
 
 ## Legal-move generation (pf-legal; tests in `src/v123_legal_tests.rs`)

@@ -958,3 +958,28 @@ fn persist_attacks_again_after_kill() {
     attack(&mut s, a, 0);
     assert!(unit(&s, 1, a).attacked, "no kill: turn over");
 }
+
+/// SANCTUARY-NO-INCOME (L3, n=1): the Sanctuary costs 3 and pays no star income.
+/// b2448ead t5->6, player 1 (Elyrion): two level-1 cities (one capital) and a Sanctuary with 2 adjacent wild
+/// animals earn 3, not 5. Here: the level-1 capital with that Sanctuary earns 2.
+#[test]
+fn sanctuary_no_income() {
+    use crate::functions::get_city_production;
+    use crate::settings::structures::get_structure_setting;
+    let mut s = board();
+    add_city(&mut s, 1, 5, 5);
+    s.tiles.get_mut(&idx(5, 5)).unwrap().capital_of = 1;
+    { let c = &mut s.tribes.get_mut(&1).unwrap().cities[0]; c.production = 1; }
+    for (x, y) in [(5, 6), (4, 7), (6, 7)] {
+        let t = s.tiles.get_mut(&idx(x, y)).unwrap();
+        t.owner = 1;
+        t.ruling_city_coords = Some(Coords::from_xy(5, 5, SIZE));
+        s.tribes.get_mut(&1).unwrap().cities[0]._territory.push(idx(x, y));
+    }
+    s.structures.insert(idx(5, 6), Some(StructureState { structure_type: StructureType::Sanctuary, level: 1, founded: 0 }));
+    for (x, y) in [(4, 7), (6, 7)] {
+        s.resources.insert(idx(x, y), Some(ResourceState { resource_type: ResourceType::Game }));
+    }
+    assert_eq!(get_city_production(&s, &s.tribes[&1].cities[0]), 2);
+    assert_eq!(get_structure_setting(StructureType::Sanctuary).cost, Some(3));
+}
