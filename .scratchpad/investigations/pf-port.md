@@ -104,6 +104,8 @@ Status: **done** = ported with a test; **pf ok** = Polyfish already does it;
 | 75 | A convert ends the converter's turn (no idle heal, no second action) | CONVERT-ATTACK, IDLE-AUTO-RECOVER | L3 | converter left idle | done (+1 unit) |
 | 76 | Amphibious + Marine Life follow a kill onto ocean | WATER-UNITS, AMPHIBIOUS-WATER | L3 | shallow water only | done (+1 unit) |
 | 77 | Fungi save level 0/1 = Polyfish 1/2 (grows once, +1 pop) | FUNGI-GROWTH (new) | L3 | loaded as is: new Fungi never grew | done (CityReward legal +9) |
+| 78 | Polaris Outpost network: roads, cities, ports, Outposts, ice within 2 of an Outpost | OUTPOST-NETWORK (new) | L3 (80/83 states) | no Polaris network at all | done (legal +8); ice formed later doesn't re-run the connection update |
+| 79 | Aquarion Atoll links own cities/Atolls within 3 | ATOLL-NETWORK (new) | L3 (49/50 states) | none | done (CityReward +5) |
 | 57 | Bridge carries land units | BRIDGE-LAND | L3 | pf ok (is_steppable) | done (pf: is_steppable allows bridges for walkers; boats pass under) |
 
 ## Flagged (below L1, off)
@@ -205,7 +207,7 @@ pf-port keeps: economy / star drift, unit HP and position misses, the rest of th
    AMPHIBIOUS-WATER); a few boats into a port.
 3. Explode not offered (13), Attack "already attacked" (Knights, HP drift), Train "city full" (downstream).
 4. Peace replies to offers pending at a checkpoint (11): the loader needs the save's DiplomacyMessages.
-5. Outpost effect (ice network) not modelled; Clathrus Fungi vs Algae (split, left as Polyfish).
+5. ~~Outpost effect~~ done (#78, OUTPOST-NETWORK); ~~Clathrus~~ done (#73).
 6. Unit misses (11): af181c8f t16 ruin Swordsman hint (harness, noted in pf-loader.md), 6e1bf8e0 HP drift.
 
 ## pf-port-3 notes (26 Oct)
@@ -222,7 +224,23 @@ pf-port keeps: economy / star drift, unit HP and position misses, the rest of th
   e15f392c t4) and ports (09a5bf1e t7, e15f392c t5/t8, af181c8f t21); 3 lighthouse discoveries (af181c8f t8,
   6e1bf8e0 t11); the rest unexplained so far.
 
-## Next step
+## Next step (pf-port-3 handoff, 26 Oct)
+
+Scores at 8bbd5bc: tuned units 6455/6456, stars 1320/1342, legal 11704/11781 = 99.3% (CityReward 332/366);
+held-out ed6cb932 187/187, 64/64, 99.7%. The referee on the tuned set: 6452/6461, 1314/1342.
+
+1. CityReward "not pending" (34 left): Polaris capitals that need 2 population after an Outpost connection
+   (09a5bf1e t5 #533/#537, af181c8f t8 #795: maybe the Outpost itself gives population); cities connected by
+   ports (Build 8: e15f392c t5 Yadakk, 09a5bf1e t7 Hoodrick, af181c8f t21 Quetzali; Polyfish's standard branch
+   only follows roads); captures (e15f392c t8 Vengir); Kickoo/Zebasi/others unexplained. Recipe: the scratchpad
+   scripts in this session were throwaway; `ConnectedPlayerCapital` per city in consecutive saves tells
+   connection events apart from other population sources.
+2. Polaris connection update when ice forms (freeze moves) and when it breaks (af181c8f t14->16 (9,16)
+   disconnected again); OUTPOST-NETWORK misfits listed in the ledger.
+3. Stars: nothing Polyfish-only left (all 22 misses are economy.py misses too).
+4. Last unit miss 6e1bf8e0 t11->15 Swordsman 198 (gap drift, see pf-port-3 notes).
+
+## Next step (older)
 
 (pf-port-2, 24 Oct) Next session: the e15f392c p14 +1 income (above), then the 11 unit misses (6e1bf8e0 HP
 drift; Knights "already attacked" 9 = HP drift; af181c8f t16 is the harness ruin hint), then item 5 (Outpost

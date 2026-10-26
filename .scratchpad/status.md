@@ -37,10 +37,15 @@ _Last updated 2026-10-26 (Jason's games 1-5 ingested, scored held-out, released)
 | Minjae | — |
 | Claude (orchestrator) | Phase 3 prep (backlog item 0): runs the sessions below |
 | Claude: pf-loader | Load saves into Polyfish, score it, legality check |
-| Claude: pf-port | Port v123 corrections into Polyfish |
+| Claude: pf-port | Port v123 corrections into Polyfish (pf-port-3 handoff 26 Oct: units 6455/6456, stars 1320/1342, legal 99.3%) |
 | Claude: sim-dist | First pass done (held-out check, `data/distributions.json`, `data/bot_turns.csv`); see `investigations/sim-dist.md` |
 
 ## Waiting on Jason
+
+- pf-port-3 (26 Oct), one in-game check for the Polaris Outpost network (OUTPOST-NETWORK, fits 80/83 save states):
+  build two Outposts 5 tiles apart with ice between them, a city next to each. Does the far city get connected
+  (+1 population to it and the capital)? Then break the ice between them (or let it melt): does it disconnect?
+  Save each turn.
 
 - pf-port (24 Oct), two in-game checks left for the Polyfish forward model:
   1. ~~Mermaid onto ocean~~ answered 26 Oct: innate for Aquarion, no tech (AMPHIBIOUS-WATER, L0).
