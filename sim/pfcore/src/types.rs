@@ -318,10 +318,10 @@ pub enum UnitType {
     Mermaid = 46, // Polyfish's MermaidWarrior
     MermaidArcher = 47, // v123 (AQUARION-UNIT-47): Aquarion's Archer
     Swordsmaid = 48, // Polyfish's MermaidSwordsman
-    // MermaidDefender = 49,
-    // MermaidCloak = 50,
-    // MermaidDagger = 51,
-    // Jelly = 52,
+    MermaidDefender = 49, // v123 (AQUARION-UNITS-49-52): Aquarion's Defender
+    MermaidCloak = 50,    // v123: the Scuba, Aquarion's Cloak
+    MermaidDagger = 51,   // v123: spawned by a Scuba's infiltration
+    Jelly = 52,           // v123: water unit, 20 HP
     Shark = 53,
     // Siren = 54,
     // Aquapult = 55,

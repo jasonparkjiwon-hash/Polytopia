@@ -334,3 +334,28 @@ fn aquarion_tech_slots_research() {
     assert!(has(&s, &ResearchMove::new(TechnologyType::Navigation)));
     assert!(has(&s, &ResearchMove::new(TechnologyType::Aquatism)));
 }
+
+/// AQUARION-UNITS-49-52 (L3 ids by HP): Aquarion train the Mermaid Defender (49) with Strategy and the Scuba (50)
+/// with Diplomacy, not the Defender and Cloak. 9906f7da t13 #898 (49 after Strategy), t16 #1227 (50 one turn
+/// after researching Diplomacy at t15 #1109).
+#[test]
+fn aquarion_defender_and_scuba() {
+    use crate::moves::summon::SummonMove;
+    use crate::states::TechnologyState;
+    let t = |k| TechnologyState { tech_type: k, discovered: true, discovered_turn: 0 };
+    let mut s = board();
+    add_city(&mut s, 1, 5, 5);
+    let tr = s.tribes.get_mut(&1).unwrap();
+    tr.stars = 20;
+    tr.tribe_type = TribeType::Aquarion;
+    tr.tech_vanilla = vec![
+        t(TechnologyType::AquaBase),
+        t(TechnologyType::Organization),
+        t(TechnologyType::Strategy),
+        t(TechnologyType::Diplomacy),
+    ];
+    assert!(has(&s, &SummonMove::new(idx(5, 5), UnitType::MermaidDefender)));
+    assert!(has(&s, &SummonMove::new(idx(5, 5), UnitType::MermaidCloak)));
+    assert!(!has(&s, &SummonMove::new(idx(5, 5), UnitType::Defender)));
+    assert!(!has(&s, &SummonMove::new(idx(5, 5), UnitType::Cloak)));
+}

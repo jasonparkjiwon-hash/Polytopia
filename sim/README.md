@@ -83,3 +83,4 @@
 - New unit Mermaid Archer (47), Aquarion's Archer, unlocked by Archery (`types.rs`, `settings/units.rs`, `settings/technology.rs`) [AQUARION-UNIT-47].
 - Monuments can be built on ice, and on ocean by Aquarion (`moves/build.rs`) [MONUMENT-TERRAIN, new ledger entry].
 - Swift (Swarm's effect, save effect 6) gives +1 movement like Boosted (`functions.rs` get_unit_movement) [SWIFT-MOVE, new ledger entry].
+- New Aquarion units Mermaid Defender (49, Strategy), Scuba (50, Diplomacy), Mermaid Dagger (51, from a Scuba's infiltration) and Jelly (52, no unlocking tech known yet) with the v123 card stats (`types.rs`, `settings/units.rs`, `settings/technology.rs`, `actions/units.rs`) [AQUARION-UNITS-49-52, new ledger entry].

@@ -129,7 +129,7 @@ fn tech_setting_table(tech_type: TechnologyType) -> TechnologySetting {
             requires: Some(Organization),
             next: vec![Diplomacy],
             unlocks_unit: Some(UnitType::Defender),
-            unlocks_special_units: vec![UnitType::Kiton],
+            unlocks_special_units: vec![UnitType::Kiton, UnitType::MermaidDefender],
             ..Default::default()
         },
         Diplomacy => TechnologySetting {
@@ -138,7 +138,7 @@ fn tech_setting_table(tech_type: TechnologyType) -> TechnologySetting {
             unlocks_unit: Some(UnitType::Cloak),
             unlocks_structure: Some(StructureType::Embassy),
             unlocks_other: 1, // capital vision
-            unlocks_special_units: vec![UnitType::Moth], // v123 CYMANTI-TECHS
+            unlocks_special_units: vec![UnitType::Moth, UnitType::MermaidCloak], // v123 CYMANTI-TECHS, AQUARION-UNITS-49-52
             ..Default::default()
         },
 
@@ -545,11 +545,11 @@ pub fn is_unit_replaced_for_tribe(unit: UnitType, tribe: TribeType) -> bool {
                 | U::Giant
                 | U::Archer
         ),
-        // v123: the Mermaid, Swordsmaid and Mermaid Archer replace Aquarion's Warrior, Swordsman and Archer
-        // (AQUARION-UNIT, UNIT-ID-48, AQUARION-UNIT-47)
+        // v123: the Mermaid, Swordsmaid, Mermaid Archer, Mermaid Defender and Scuba replace Aquarion's Warrior,
+        // Swordsman, Archer, Defender and Cloak (AQUARION-UNIT, UNIT-ID-48, AQUARION-UNIT-47, AQUARION-UNITS-49-52)
         T::Aquarion => matches!(
             unit,
-            U::Rider | U::Knight | U::Giant | U::Warrior | U::Swordsman | U::Archer
+            U::Rider | U::Knight | U::Giant | U::Warrior | U::Swordsman | U::Archer | U::Defender | U::Cloak
         ),
         T::Polaris => matches!(unit, U::MindBender | U::Giant | U::Archer | U::Catapult),
         T::Nature => matches!(unit, U::Giant), // Elyrion

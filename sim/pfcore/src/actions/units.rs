@@ -1011,7 +1011,8 @@ pub fn attack_unit(
                         }
                     }
                 } else {
-                    // Cloak: Spawn Daggers
+                    // Cloak: Spawn Daggers; v123 (AQUARION-UNITS-49-52): a Scuba spawns Mermaid Daggers
+                    let dagger = if atk_type == UnitType::MermaidCloak { UnitType::MermaidDagger } else { UnitType::Dagger };
                     let adj = crate::functions::get_adjacent_indices(state, city_tile_idx, 1);
                     let mut spawn_count = 0;
                     for t_idx in &adj {
@@ -1022,7 +1023,7 @@ pub fn attack_unit(
                             undos.push(spawn_unit(
                                 state,
                                 attacker_owner,
-                                UnitType::Dagger,
+                                dagger,
                                 *t_idx,
                                 false,
                             ));

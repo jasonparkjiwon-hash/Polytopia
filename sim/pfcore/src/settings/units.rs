@@ -320,6 +320,53 @@ pub fn get_unit_setting(unit_type: UnitType) -> UnitSetting {
             tribe_type: TribeType::Aquarion,
             ..Default::default()
         },
+        // v123 (AQUARION-UNITS-49-52: ids by HP in 9906f7da, 15 / 5 / 10 / 20; AQUARION-UNITS card stats)
+        U::MermaidDefender => UnitSetting {
+            cost: 8,
+            attack: 1.0,
+            movement: 1,
+            defense: 3.0,
+            range: 1,
+            health: 15.0,
+            skills: skills![S::Fortify, S::Amphibious],
+            tribe_type: TribeType::Aquarion,
+            ..Default::default()
+        },
+        U::MermaidCloak => UnitSetting {
+            cost: 8,
+            attack: 2.0,
+            movement: 2,
+            defense: 0.5,
+            range: 1,
+            health: 5.0,
+            skills: skills![S::Hide, S::Stiff, S::Infiltrate, S::Dash, S::Scout, S::Creep, S::Static, S::Amphibious],
+            tribe_type: TribeType::Aquarion,
+            ..Default::default()
+        },
+        // no Aquarion card seen: the Dagger's stats, amphibious (9906f7da t19: three spawn on water at 10 HP)
+        U::MermaidDagger => UnitSetting {
+            cost: 2,
+            attack: 2.0,
+            movement: 1,
+            defense: 2.0,
+            range: 1,
+            health: 10.0,
+            skills: skills![S::Dash, S::Surprise, S::Independent, S::Static, S::Amphibious],
+            tribe_type: TribeType::Aquarion,
+            ..Default::default()
+        },
+        // card skills Stiff, Tentacles, Static; Polyfish has no Tentacles
+        U::Jelly => UnitSetting {
+            cost: 8,
+            attack: 2.0,
+            movement: 2,
+            defense: 2.0,
+            range: 1,
+            health: 20.0,
+            skills: skills![S::Stiff, S::Static, S::Water],
+            tribe_type: TribeType::Aquarion,
+            ..Default::default()
+        },
         U::Swordsmaid => UnitSetting {
             cost: 5,
             attack: 3.0,
