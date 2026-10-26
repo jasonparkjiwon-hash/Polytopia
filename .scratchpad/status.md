@@ -19,6 +19,9 @@ _Last updated 2026-10-26 (Jason's games 1-5 ingested, scored held-out, released)
   6452/6461, stars 1314/1342. Misses classified, five small rule fixes listed in
   `investigations/games-1-5.md` (unit 47 Mermaid Archer, Waterways tier, Sanctuary price,
   Clear Forest +1, siege case).
+- **Jason's game 6 (26 Oct, Cymanti, every turn t2-t20):** held-out units 917/984, stars 173/198;
+  released. Embassies x5, peace offers, Aquarion units 49-52, Living Island; see `investigations/game-6.md`.
+  With games 1-6 `tools/miss.py` is units 7369/7445, stars 1487/1540.
 - **Phase 3 prep is running** (backlog item 0): Polyfish becomes the forward
   model (`docs/simulator_choice.md`).
 - **Score baseline:** the expected `check.sh` output is under "Quick start" in
@@ -53,7 +56,7 @@ _Last updated 2026-10-26 (Jason's games 1-5 ingested, scored held-out, released)
 
 - Round 3 (items 35-40) all answered 23-24 Oct.
 
-- New saves as he plays, **every turn** (games 1-5 did this). Each new game goes into `data/holdout.json` first and is scored before any tuning. Still wanted: an embassy (two in one game for the price step), Oceanology research, peace, and a Sanctuary game played on for 10+ turns (games 1-5 gave 1 Sanctuary over 4 turns and 10 more water ruins).
+- New saves as he plays, **every turn** (games 1-5 did this). Each new game goes into `data/holdout.json` first and is scored before any tuning. Still wanted: Oceanology research, peace, and a Sanctuary game played on for 10+ turns (games 1-5 gave 1 Sanctuary over 4 turns and 10 more water ruins).
 - ~~Waterways save id~~: 48, tier 2 (game 1, AQUARION-WATERWAYS-ID).
 - Round 2, items 26–34 on the test sheet
   (`docs/polytopia_open_questions_to_fill_in_while_playing.md`).

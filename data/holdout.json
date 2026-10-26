@@ -17,17 +17,6 @@
     "stars": "16/16 new (64/64 total)",
     "rules_commit": "a70f3a3"
    }
-  },
-  {
-   "game": "9906f7da-cac2-493f-96be-09756032712f",
-   "added": "2026-10-26",
-   "note": "game 6 'Butte Treaties' (Jason Cymanti, Hard, 11 players), every turn 2-20 (t0 pre-StartMatch and t1, whose action list has 12 unknown leading bytes, left out); Jason's Google Doc 'Polytopia game 6'",
-   "scored": {
-    "date": "2026-10-26",
-    "units": "917/984",
-    "stars": "173/198",
-    "rules_commit": "11018f7 (+ decoder fix for multi-effect tiles, no rule change)"
-   }
   }
  ],
  "released": [
@@ -88,6 +77,18 @@
     "units": "381/381",
     "stars": "119/121",
     "rules_commit": "62666fa"
+   },
+   "released": "2026-10-26"
+  },
+  {
+   "game": "9906f7da-cac2-493f-96be-09756032712f",
+   "added": "2026-10-26",
+   "note": "game 6 'Butte Treaties' (Jason Cymanti, Hard, 11 players), every turn 2-20 (t0 pre-StartMatch and t1, whose action list has 12 unknown leading bytes, left out); Jason's Google Doc 'Polytopia game 6'",
+   "scored": {
+    "date": "2026-10-26",
+    "units": "917/984",
+    "stars": "173/198",
+    "rules_commit": "11018f7 (+ decoder fix for multi-effect tiles, no rule change)"
    },
    "released": "2026-10-26"
   }
