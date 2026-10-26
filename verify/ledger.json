@@ -1019,6 +1019,13 @@
    "level": "L3",
    "game_version": "v123 (measured in saves)",
    "evidence": "All saves 2026-10-26 (tuned + held-out): 20 same-turn second attacks by one unit (8 Knight, 12 Tridention), each right after a kill, none after a non-kill (e.g. af181c8f t17 #2381-2382 Knight 369 kills a Warrior, moves in, attacks again). Polyfish v115 marked the kill move-in as exhausting (step_unit), so the second attack was refused."
+  },
+  {
+   "id": "JUGGERNAUT-NO-RETALIATION",
+   "rule": "A Giant embarked on a ship (Juggernaut) never retaliates. Engine: Juggernaut has the stiff skill (engine/stats.py), and stiff units never hit back (replay.fight).",
+   "level": "L3 (Jason in game + 2 melee save cases)",
+   "game_version": "v123 (measured in game)",
+   "evidence": "Jason in game, 26 Oct 2026: 'A giant that's embarked on a ship never retaliates.' Saves (every game's longest log, replayed): 4 attacks on a surviving Juggernaut, attacker HP unchanged in all 4: 6e1bf8e0 turn 12 #1562 Warrior at distance 1 (Juggernaut 40 -> 38); af181c8f turn 21 #3218 Swordsmaid at distance 1 (32 -> 28); af181c8f turn 15 #1991 and turn 16 #2197 Tridention at distance 2 (outside its range 1, so not deciding). Every unit in those replays is exact, so the saves agree with the rule."
   }
  ]
 }
