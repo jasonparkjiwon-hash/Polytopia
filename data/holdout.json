@@ -17,7 +17,9 @@
     "stars": "16/16 new (64/64 total)",
     "rules_commit": "a70f3a3"
    }
-  },
+  }
+ ],
+ "released": [
   {
    "game": "3edee0ec-91be-451f-a915-4687b0b47daa",
    "added": "2026-10-26",
@@ -27,7 +29,8 @@
     "units": "409/409",
     "stars": "141/144",
     "rules_commit": "62666fa"
-   }
+   },
+   "released": "2026-10-26"
   },
   {
    "game": "b2448ead-f011-4979-8817-db1731cd277c",
@@ -38,7 +41,8 @@
     "units": "454/454",
     "stars": "109/112",
     "rules_commit": "62666fa"
-   }
+   },
+   "released": "2026-10-26"
   },
   {
    "game": "9be1198d-3e07-4484-a504-758c8edd95ee",
@@ -49,7 +53,8 @@
     "units": "272/272",
     "stars": "80/80",
     "rules_commit": "62666fa"
-   }
+   },
+   "released": "2026-10-26"
   },
   {
    "game": "05ade18c-8db0-4f4a-b6d0-af9d8786c8ed",
@@ -60,7 +65,8 @@
     "units": "208/217",
     "stars": "63/66",
     "rules_commit": "62666fa"
-   }
+   },
+   "released": "2026-10-26"
   },
   {
    "game": "028182a9-17a0-481a-a3c4-9519144c46b7",
@@ -71,8 +77,8 @@
     "units": "381/381",
     "stars": "119/121",
     "rules_commit": "62666fa"
-   }
+   },
+   "released": "2026-10-26"
   }
- ],
- "released": []
+ ]
 }

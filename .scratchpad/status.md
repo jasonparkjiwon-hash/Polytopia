@@ -1,6 +1,6 @@
 # Status
 
-_Last updated 2026-10-25 (polish program done; Phase 3 prep running)._
+_Last updated 2026-10-26 (Jason's games 1-5 ingested, scored held-out, released)._
 
 ## Now
 
@@ -12,8 +12,13 @@ _Last updated 2026-10-25 (polish program done; Phase 3 prep running)._
     explained; most need saves without gaps or an answer from Jason
     (`investigations/star-tail.md`).
   - Every engine rule has a ledger id (`tools/rule_levels.py`, run by `check.sh`):
-    140 rules, 3 still unverified (embassy price step, Market, Clathrus income).
-    Jason answered tests 36–38; they stay unverified until a save shows them.
+    140 rules, 1 still unverified (embassy price step; Market and Clathrus income
+    passed on games 1-5, 26 Oct).
+- **Jason's games 1-5 (26 Oct, Hard, every turn):** held-out score before tuning units
+  1724/1733, stars 512/523; released for tuning. With them `tools/miss.py` is units
+  6452/6461, stars 1314/1342. Misses classified, five small rule fixes listed in
+  `investigations/games-1-5.md` (unit 47 Mermaid Archer, Waterways tier, Sanctuary price,
+  Clear Forest +1, siege case).
 - **Phase 3 prep is running** (backlog item 0): Polyfish becomes the forward
   model (`docs/simulator_choice.md`).
 - **Score baseline:** the expected `check.sh` output is under "Quick start" in
@@ -48,8 +53,8 @@ _Last updated 2026-10-25 (polish program done; Phase 3 prep running)._
 
 - Round 3 (items 35-40) all answered 23-24 Oct.
 
-- Waterworld and other new saves as he plays. **Export every turn** (one save per turn, like Misty Fields), not every 4-6 turns: single-turn gaps are what let ruin rewards and bot choices be read off. Each new game goes into `data/holdout.json` first and is scored before any tuning. Most wanted: a water-heavy map (only 10 water ruins so far) and a game where he builds a Sanctuary (no animal-spawn data at all).
-- Waterways: its save id (only Aquarion tech id not yet seen).
+- New saves as he plays, **every turn** (games 1-5 did this). Each new game goes into `data/holdout.json` first and is scored before any tuning. Still wanted: an embassy (two in one game for the price step), a Giant on its own port attacked by a Warrior, Oceanology research, peace, and a Sanctuary game played on for 10+ turns (games 1-5 gave 1 Sanctuary over 4 turns and 10 more water ruins).
+- ~~Waterways save id~~: 48, tier 2 (game 1, AQUARION-WATERWAYS-ID).
 - Round 2, items 26–34 on the test sheet
   (`docs/polytopia_open_questions_to_fill_in_while_playing.md`).
 
