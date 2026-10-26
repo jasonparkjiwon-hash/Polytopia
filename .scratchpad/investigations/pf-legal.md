@@ -36,6 +36,11 @@ python3 -I tools/pf_miss.py --detail "<type: cause>" 50
   get_researchable_techs (tribe techs never inherited `next`) plus each known tech's prerequisite (Vengir
   Mining from Smithery). Research 351 -> 361.
 - METAL-WITH-MINING: Metal visible with Mining too (Vengir have no Climbing): Build 577 -> 585.
+- pf-legal-2 (26 Oct): AMPHIBIOUS-WATER ocean (Mermaid onto ocean with Marine Life 46; innate = switch
+  `amphibious_ocean_innate`, off, Jason's L0 answer) +10 Moves; AQUARION-STRUCTURES (Aqua Farm 49 on AquaCrop,
+  +2 pop; Atoll 51 on water/ocean/flooded land, pop not modelled; both need Aquaculture 39) +14; PORT-FLOODED
+  (Ports on flooded land) +6; AQUARION-UNIT-47 (Mermaid Archer replaces Archer) +7, units +8; MONUMENT-TERRAIN
+  (monuments on ice; ocean for Aquarion) +3; SWIFT-MOVE (save effect 6 from Swarm = +1 movement) +4.
 
 ## Scores
 
@@ -45,6 +50,8 @@ python3 -I tools/pf_miss.py --detail "<type: cause>" 50
 | a0b9be3 | 8657/8972 96.5% | 4723/4734 | 750/819 |
 | 46f9984 | 8818/8972 98.3% | 4723/4734 | 798/819 (pf-port's star work) |
 | METAL-WITH-MINING | 8836/8972 98.5% (held-out 99.4%) | 4723/4734 | 798/819 |
+| AQUARION-STRUCTURES (old set) | 8860/8972 98.8%; games 1-5 held-out 3135/3163 99.1% (new 5: 2778/2809 98.9% before) | 4723/4734 | 798/819 |
+| SWIFT-MOVE (games 1-5 now tuned) | 11682/11781 99.2% | 6455/6457 | 1320/1342 |
 
 ## Next step (HANDOFF 24 Oct; start here on Monday)
 
