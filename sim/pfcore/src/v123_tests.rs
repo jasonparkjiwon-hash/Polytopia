@@ -983,3 +983,17 @@ fn sanctuary_no_income() {
     assert_eq!(get_city_production(&s, &s.tribes[&1].cities[0]), 2);
     assert_eq!(get_structure_setting(StructureType::Sanctuary).cost, Some(3));
 }
+
+/// CONVERT-ATTACK, IDLE-AUTO-RECOVER (L3): a convert is the converter's attack; it has acted, so no idle heal.
+/// 028182a9 t4 #0: Jason's Mind Bender (4 HP) converts a unit and is still at 4 HP in the next save.
+#[test]
+fn converter_has_acted() {
+    use crate::moves::abilities::convert::ConvertMove;
+    use crate::moves::Move;
+    let mut s = board();
+    let a = add_unit(&mut s, 1, UnitType::MindBender, 5, 5, 4.0);
+    add_unit(&mut s, 2, UnitType::Warrior, 5, 6, 10.0);
+    ConvertMove::new(idx(5, 5), idx(5, 6)).execute(&mut s).unwrap();
+    assert_eq!(s.tribes[&1].units.len(), 2, "converted");
+    assert!(unit(&s, 1, a).attacked && unit(&s, 1, a).moved);
+}

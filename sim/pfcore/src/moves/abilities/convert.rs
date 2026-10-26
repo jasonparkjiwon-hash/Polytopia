@@ -69,6 +69,15 @@ impl Move for ConvertMove {
                     Some(p) => crate::actions::chain_undos(vec![p, undo]),
                     None => undo,
                 };
+                // v123 (ledgers CONVERT-ATTACK, IDLE-AUTO-RECOVER): a convert is the converter's attack, so it has
+                // acted (upstream left it idle: it could act again and healed at End Turn)
+                let undo = match state.tribes.get(&owner).and_then(|t| t.units.iter().position(|u| u.coords.idx == self.src_index)) {
+                    Some(a_pos) => {
+                        let undo_end = crate::actions::end_unit_turn(state, owner, a_pos);
+                        crate::actions::chain_undos(vec![undo, undo_end])
+                    }
+                    None => undo,
+                };
                 let old_attacked_this_turn = state
                     .tribes
                     .get(&owner)
