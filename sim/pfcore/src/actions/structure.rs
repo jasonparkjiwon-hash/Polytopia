@@ -62,10 +62,11 @@ pub fn create_structure(
 
     let mut undos: Vec<UndoCallback> = Vec::new();
 
-    // Update connections if Road or Port
+    // Update connections if Road or Port (or a Polaris Outpost, ledger OUTPOST-NETWORK)
     if structure_type == StructureType::Road
         || structure_type == StructureType::Port
         || structure_type == StructureType::Bridge
+        || structure_type == StructureType::Outpost
     {
         undos.push(crate::actions::connection::update_capital_connections(
             state, pov_id,
@@ -183,10 +184,11 @@ pub fn destroy_structure(state: &mut GameState, idx: i32) -> UndoCallback {
         }
     }
 
-    // Update connections if Road or Port
+    // Update connections if Road or Port (or a Polaris Outpost, ledger OUTPOST-NETWORK)
     if structure.structure_type == StructureType::Road
         || structure.structure_type == StructureType::Port
         || structure.structure_type == StructureType::Bridge
+        || structure.structure_type == StructureType::Outpost
     {
         undos.push(crate::actions::connection::update_capital_connections(
             state, pov_id,

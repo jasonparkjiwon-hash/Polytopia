@@ -1040,3 +1040,28 @@ fn fungi_grows_once() {
         assert_eq!(g.state.tribes[&2].cities[0].level, if grows { 2 } else { 1 }, "save level {save_level}");
     }
 }
+
+/// OUTPOST-NETWORK (L3, 80/83 save states): Polaris cities connect through Outposts and ice within 2 of one.
+/// af181c8f t8->9 (Polaris): Outposts next to the city (1,8) and the capital (6,12), 5 apart, linked over ice;
+/// the city joins the capital's network (+1 population each).
+#[test]
+fn polaris_outpost_network() {
+    use crate::actions::connection::update_capital_connections;
+    let mut s = board();
+    s.tribes.get_mut(&1).unwrap().tribe_type = TribeType::Polaris;
+    add_city(&mut s, 1, 6, 6);
+    add_city(&mut s, 1, 1, 2);
+    s.tiles.get_mut(&idx(6, 6)).unwrap().capital_of = 1;
+    for (x, y) in [(0, 3), (1, 4), (2, 5), (3, 6), (4, 6), (5, 6)] {
+        s.tiles.get_mut(&idx(x, y)).unwrap().terrain_type = TerrainType::Ice;
+        s.tiles.get_mut(&idx(x, y)).unwrap().owner = 1;
+    }
+    let outpost = Some(StructureState { structure_type: StructureType::Outpost, level: 0, founded: 0 });
+    s.structures.insert(idx(0, 3), outpost.clone());
+    let _ = update_capital_connections(&mut s, 1);
+    assert!(!s.tribes[&1].cities[1].connected_to_capital, "one Outpost: (3,6) and (4,6) out of reach");
+    s.structures.insert(idx(5, 6), outpost);
+    let _ = update_capital_connections(&mut s, 1);
+    assert!(s.tribes[&1].cities[1].connected_to_capital);
+    assert_eq!(s.tribes[&1].cities[1].population, 1);
+}

@@ -88,10 +88,13 @@ pub fn update_capital_connections(state: &mut GameState, tribe_id: i32) -> UndoC
                     connected = true;
                 }
             } else if tribe_type == TribeType::Polaris {
-                // Polaris has no city-connection network here: it should connect through
-                // Outposts over a 5x5 ice radius, and Outpost is unimplemented
-                // (settings::structures::unimplemented_reason). Polaris therefore plays
-                // with zero connection income; it is not in self_play's tribe pool.
+                // v123 (ledger OUTPOST-NETWORK, pf-port): roads, cities and ports as usual, plus the tribe's
+                // Outposts and any ice within 2 tiles (5x5) of one of them
+                if polaris_net(state, tribe_id, current_idx, &city_indices)
+                    && polaris_net(state, tribe_id, n_idx, &city_indices)
+                {
+                    connected = true;
+                }
             } else {
                 // Standard road connection
                 if current_has_road && n_has_road {
@@ -221,6 +224,19 @@ pub fn update_capital_connections(state: &mut GameState, tribe_id: i32) -> UndoC
     }));
 
     chain_undos(undos)
+}
+
+/// A Polaris network tile (ledger OUTPOST-NETWORK): road, city, port, own Outpost, or ice within 2 of an own Outpost.
+fn polaris_net(state: &GameState, tribe_id: i32, idx: i32, cities: &HashSet<i32>) -> bool {
+    let own_outpost = |i: i32| {
+        state.tiles.get(&i).map_or(false, |t| t.owner == tribe_id)
+            && state.structures.get(&i).and_then(|s| s.as_ref()).map_or(false, |s| s.structure_type == StructureType::Outpost)
+    };
+    if has_road(state, idx) || cities.contains(&idx) || has_port(state, idx) || own_outpost(idx) {
+        return true;
+    }
+    state.tiles.get(&idx).map_or(false, |t| t.is_frozen())
+        && crate::functions::get_adjacent_indices(state, idx, 2).into_iter().any(own_outpost)
 }
 
 fn has_port(state: &GameState, idx: i32) -> bool {

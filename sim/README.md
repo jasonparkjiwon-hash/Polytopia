@@ -43,7 +43,7 @@
 - Philosophy discount is ceil(cost x 2/3) (`settings/technology.rs`) [TECH-COST].
 - Starfish can be gathered with Navigation or the tribe's version of it (Polar Warfare) (`moves/mod.rs`, `moves/capture.rs`) [ECON-PRICES-V123].
 - Enchant Animal costs 3 (`version_sync.rs`) [ECON-PRICES-V123].
-- The Polaris Outpost is buildable for 5 stars; its effect (ice network) is not modelled yet (`settings/structures.rs`).
+- The Polaris Outpost is buildable for 5 stars (`settings/structures.rs`); Polaris cities connect through roads, cities, ports, Outposts and ice within 2 of an Outpost, updated when an Outpost is built (`actions/connection.rs`, `actions/structure.rs`) [OUTPOST-NETWORK, new ledger entry; ice formed later doesn't trigger an update yet].
 - Capturing a city claims the 3x3 around it (unowned or the old owner's tiles), not every same-owner tile within 2 (`actions/city.rs` capture_city) [CAPTURE-TERRITORY].
 - A captured capital stays the old owner's capital (no +1, no bot bonus for the captor) (`actions/city.rs`) [ECON-INCOME, ECON-BOT-BONUS].
 - Market earns the level of each adjacent Windmill/Sawmill/Forge (its adjacent Farms/Lumber Huts/Mines) (`functions.rs` get_city_production) [ECON-MARKET-CLATHRUS].

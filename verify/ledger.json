@@ -1117,6 +1117,13 @@
    "level": "L3 (A/B over all saves: stars 1550 -> 1562 of 1604, no game worse) + Jason",
    "game_version": "v123 (measured in saves)",
    "evidence": "Jason 26 Oct: 'the embassy still gives stars unless we are actively fighting'; he rebuilt his embassy each time it broke (game 6, 9906f7da). Saves: game 6 p1 (builder) and p9 (host) were each +2 a turn short in the engine on every turn the embassy stood (t7-t13, t16-t17). The one older 'builder earned nothing while neutral' case (09a5bf1e p1 -> p7, built t7 #694) was destroyed the same turn: p7 attacked p1 at #762 and the save shows EmbassyLevel 0 with EmbassyBuildTurn 7, LastAttackTurn 7 at t8. A/B (scratch script, engine untouched), star rows exact over every game: baseline 1550/1604; + standing embassies read from the save's EmbassyLevel (the check only pre-books Build-70 embassies, not action 30: a bookkeeping bug at economy.check) 1554; + builder paid while neutral (EMBASSY_BUILDER_PAID True) 1561 (09a5bf1e 96 -> 95); + destroy on attack/capture between the pair 1562 (09a5bf1e back to 96, game 6 173 -> 185). Supersedes the 'builder earns nothing while neutral' part of EMBASSY-ACTION / ECON-EMBASSY. To do (rule session): those three changes in engine/economy.py and the replay."
+  },
+  {
+   "id": "OUTPOST-NETWORK",
+   "rule": "Polaris cities connect to their capital through roads, cities and ports as usual, plus the tribe's Outposts (build 33) and any ice tile within 2 (Chebyshev, the Outpost's 5x5) of one of its Outposts; a newly connected city and the capital each gain 1 population (as roads).",
+   "level": "L3",
+   "game_version": "v123 (measured in saves)",
+   "evidence": "2026-10-26 pf-port-3, every save with an Outpost: ConnectedPlayerCapital of 83 Polaris (non-capital) city states predicted by a path from the capital over such tiles: 80 fit with radius 2 (radius 1: 75, radius 3: 75; outposts linking by distance alone: at best 70). Cases: 09a5bf1e t5->6 (Outposts (25,20), (23,21) connect (24,22)), af181c8f t8->9 ((0,9) and (5,12) linked over ice), t13->14. Misfits: 09a5bf1e t8 (28,22) and e15f392c t13 (9,12) predicted connected but aren't (maybe recomputed only on some events), af181c8f t14 (9,16) connected through an Outpost on water. Polyfish v115 had no Polaris network at all (not even roads)."
   }
  ]
 }
