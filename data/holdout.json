@@ -17,6 +17,61 @@
     "stars": "16/16 new (64/64 total)",
     "rules_commit": "a70f3a3"
    }
+  },
+  {
+   "game": "3edee0ec-91be-451f-a915-4687b0b47daa",
+   "added": "2026-10-26",
+   "note": "game 1 'Wrath of Fiasji', every turn 1-10; Jason's PDFs 'Polytopia game 1-5' (.scratchpad/inbox/2026-10-26_games1-5.zip)",
+   "scored": {
+    "date": "2026-10-26",
+    "units": "409/409",
+    "stars": "141/144",
+    "rules_commit": "62666fa"
+   }
+  },
+  {
+   "game": "b2448ead-f011-4979-8817-db1731cd277c",
+   "added": "2026-10-26",
+   "note": "game 2 'Fields Adventure', every turn 1-8 (t0 pre-StartMatch left out); Jason's PDFs 'Polytopia game 1-5' (.scratchpad/inbox/2026-10-26_games1-5.zip)",
+   "scored": {
+    "date": "2026-10-26",
+    "units": "454/454",
+    "stars": "109/112",
+    "rules_commit": "62666fa"
+   }
+  },
+  {
+   "game": "9be1198d-3e07-4484-a504-758c8edd95ee",
+   "added": "2026-10-26",
+   "note": "game 3 'Cliff & Love', every turn 1-9 (t0 left out); Jason's PDFs 'Polytopia game 1-5' (.scratchpad/inbox/2026-10-26_games1-5.zip)",
+   "scored": {
+    "date": "2026-10-26",
+    "units": "272/272",
+    "stars": "80/80",
+    "rules_commit": "62666fa"
+   }
+  },
+  {
+   "game": "05ade18c-8db0-4f4a-b6d0-af9d8786c8ed",
+   "added": "2026-10-26",
+   "note": "game 4 'Lyuhian Pond', every turn 1-7 (t0 left out); Jason's PDFs 'Polytopia game 1-5' (.scratchpad/inbox/2026-10-26_games1-5.zip)",
+   "scored": {
+    "date": "2026-10-26",
+    "units": "208/217",
+    "stars": "63/66",
+    "rules_commit": "62666fa"
+   }
+  },
+  {
+   "game": "028182a9-17a0-481a-a3c4-9519144c46b7",
+   "added": "2026-10-26",
+   "note": "game 5 'Magnificent Songs', every turn 1-12 (t0 left out); Jason's PDFs 'Polytopia game 1-5' (.scratchpad/inbox/2026-10-26_games1-5.zip)",
+   "scored": {
+    "date": "2026-10-26",
+    "units": "381/381",
+    "stars": "119/121",
+    "rules_commit": "62666fa"
+   }
   }
  ],
  "released": []
