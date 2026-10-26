@@ -235,7 +235,10 @@ held-out ed6cb932 187/187, 64/64, 99.7%. The referee on the tuned set: 6452/6461
    only follows roads); captures (e15f392c t8 Vengir); Kickoo/Zebasi/others unexplained. Recipe: the scratchpad
    scripts in this session were throwaway; `ConnectedPlayerCapital` per city in consecutive saves tells
    connection events apart from other population sources.
-2. Polaris connection update when ice forms (freeze moves) and when it breaks (af181c8f t14->16 (9,16)
+2. Jason 26 Oct: an Outpost can only be built on ice (OUTPOST-ON-ICE; the saves agree, 23/25 on ice when first
+   seen, the 2 on water had their ice broken or thawed afterwards; Polyfish already ice-only). Open: does the
+   network still run through an Outpost whose ice is gone (af181c8f t14 says yes, t15-18 (9,16) disconnected)?
+   Polaris connection update when ice forms (freeze moves) and when it breaks (af181c8f t14->16 (9,16)
    disconnected again); OUTPOST-NETWORK misfits listed in the ledger.
 3. Stars: nothing Polyfish-only left (all 22 misses are economy.py misses too).
 4. Last unit miss 6e1bf8e0 t11->15 Swordsman 198 (gap drift, see pf-port-3 notes).

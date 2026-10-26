@@ -1138,6 +1138,13 @@
    "level": "L3",
    "game_version": "v123 (measured in saves)",
    "evidence": "2026-10-26 pf-port-3, every save with an Atoll: ConnectedPlayerCapital of 50 Aquarion (non-capital) city states predicted by Atoll links: range 3 fits 49 (range 1: 17, 2: 35, 4: 40). Cases: e15f392c t4->5 (Atoll (25,12) connects (23,9), 3 away), 3edee0ec t9->10, 6e1bf8e0 t11->15. Misfit: 6e1bf8e0 t15 (14,8) connected but not by Atolls (roads or ports likely)."
+  },
+  {
+   "id": "OUTPOST-ON-ICE",
+   "rule": "The Polaris Outpost (build 33) can only be built on ice. The ice under it can later turn back to water (Break Ice, thaw) and the Outpost stays.",
+   "level": "L3",
+   "game_version": "v123 (Jason in game + saves)",
+   "evidence": "Jason 26 Oct 2026 (in game). Saves 2026-10-26: 25 Outposts, 23 on ice when first seen; af181c8f (8,11) ice in the save before and water after, (8,16) water in both saves (ice formed and went in that window). Polyfish already allows ice only (settings/structures.rs). Explains the OUTPOST-NETWORK misfit af181c8f t14 (9,16): its Outpost was on ice when built."
   }
  ]
 }
