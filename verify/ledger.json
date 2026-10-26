@@ -1061,6 +1061,13 @@
    "level": "L3 (saves: 3 builds; ocean n=2 Aquarion, ice n=1 Polaris)",
    "game_version": "v123 (measured in saves)",
    "evidence": "pf-legal-2, 26 Oct: Gate of Power (build 27) on Ocean by Aquarion: e15f392c t14 #1843 (27,13) and 6e1bf8e0 t11 #1610 (14,14, a Fish tile); on Ice by Polaris p6: af181c8f t16 #2442 (10,17). Each builder's Killer task (save task type 5) showed [1, 1, 10] at the next save. Two more misses (6e1bf8e0 t11 #1632, #1859) are kill-count drift across that game's 4-6 turn save gaps, not terrain. Polyfish legal Build 865 -> 868."
+  },
+  {
+   "id": "SWIFT-MOVE",
+   "rule": "A unit with Swift (save unit effect 6, given by a Shaman's Swarm, action 38) has +1 movement. The effect is still there on the next turn (no save shows when it ends).",
+   "level": "L3 (saves: 4 logged moves in 3 games)",
+   "game_version": "v123 (measured in saves)",
+   "evidence": "pf-legal-2, 26 Oct: Cymanti Warriors with effect 6 moving 2 tiles: 09a5bf1e t7 #838 (15,17)->(14,15) after Swarm t6 #674 at (15,18); 3edee0ec t8 #622 (26,18)->(25,20) after Swarm #518 at (25,19); e15f392c t12 #1563 (3,11)->(2,13) and t13 #1775 (3,12)->(1,12). Polyfish loaded effect 6 as its unused Swift and gave no movement; legal Move +4. Python engine: Swarm adds SWIFT (replay.py t38_swarm, ACTION-TYPES-V123)."
   }
  ]
 }

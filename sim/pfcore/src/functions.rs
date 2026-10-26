@@ -411,8 +411,8 @@ pub fn get_unit_defense(unit: &UnitState) -> f32 {
 pub fn get_unit_movement(_state: &GameState, unit: &UnitState) -> i32 {
     let mut movement = crate::settings::units::get_unit_setting(unit.unit_type).movement;
 
-    // Boost bonus
-    if has_effect(unit, UnitEffect::Boosted) {
+    // Boost bonus; v123 (SWIFT-MOVE): Swarm's Swift (save unit effect 6) too (09a5bf1e t7 #838: a Swift Warrior moves 2)
+    if has_effect(unit, UnitEffect::Boosted) || has_effect(unit, UnitEffect::Swift) {
         movement += 1;
     }
 

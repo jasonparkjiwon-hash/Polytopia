@@ -81,3 +81,4 @@
 - A Port can be built on flooded land (`moves/build.rs`) [PORT-FLOODED, new ledger entry].
 - New unit Mermaid Archer (47), Aquarion's Archer, unlocked by Archery (`types.rs`, `settings/units.rs`, `settings/technology.rs`) [AQUARION-UNIT-47].
 - Monuments can be built on ice, and on ocean by Aquarion (`moves/build.rs`) [MONUMENT-TERRAIN, new ledger entry].
+- Swift (Swarm's effect, save effect 6) gives +1 movement like Boosted (`functions.rs` get_unit_movement) [SWIFT-MOVE, new ledger entry].

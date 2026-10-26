@@ -298,3 +298,17 @@ fn gate_of_power_on_ocean_and_ice() {
     s.tribes.get_mut(&1).unwrap().tribe_type = TribeType::Aquarion;
     assert!(has(&s, &BuildMove::new(idx(5, 4), StructureType::GateOfPower)));
 }
+
+/// SWIFT-MOVE (L3): a unit with Swift (save effect 6, from a Shaman's Swarm) moves one tile further, also on the
+/// turn after the Swarm. 09a5bf1e t7 #838: a Warrior swarmed at t6 #674 moves 2 tiles, (15,17) -> (14,15).
+#[test]
+fn swift_warrior_moves_two() {
+    use crate::moves::step::StepMove;
+    use crate::v123_tests::add_unit;
+    let mut s = board();
+    explore(&mut s);
+    let w = add_unit(&mut s, 1, UnitType::Warrior, 5, 5, 10.0);
+    assert!(!has(&s, &StepMove::new(idx(5, 5), idx(5, 3))));
+    s.tribes.get_mut(&1).unwrap().units[w].effects.insert(UnitEffect::Swift);
+    assert!(has(&s, &StepMove::new(idx(5, 5), idx(5, 3))));
+}
