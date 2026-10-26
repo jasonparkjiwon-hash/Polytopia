@@ -98,6 +98,12 @@ Status: **done** = ported with a test; **pf ok** = Polyfish already does it;
 | 69 | Cymanti use base Sailing/Ramming/Navigation/Diplomacy; Raychi via Sailing, Boomchi via Ramming, Algae via Fishing | CYMANTI-TECHS (new) | L3 | Hydrology/Synergy/Oceantology replacements | done (legal 94.8 -> 95.7%) |
 | 70 | Peace offers (Strategy, met, one pending per pair) and replies generated; breaker's side RelationState 3 | DIPLO-PEACE | L3 | generation switched off upstream | done (legal 95.7 -> 96.3%; replies to offers pending at a checkpoint need the loader) |
 | 71 | Turn income before start-of-turn effects (Fungi growth's level counts next turn) | CITY-LEVEL-BY-REWARD | L3 | income after Fungi growth | done (stars 798 -> 801) |
+| 72 | Persist (Knight, Tridention) attacks again after a kill; the kill move-in doesn't exhaust | PERSIST-KILL-MOVE (new) | L3 | step_unit exhausted first | done (legal Attack +8) |
+| 73 | Clathrus +1 per adjacent Fungi | ECON-MARKET-CLATHRUS | L3 (9be1198d) | Algae | done, switch removed (stars +3) |
+| 74 | Sanctuary costs 3, no star income | SANCTUARY-NO-INCOME (new) | L3 n=1 | 5, +1 per adjacent animal | done (stars hold: t5->6 fixed, t7->8 siege row exposed) |
+| 75 | A convert ends the converter's turn (no idle heal, no second action) | CONVERT-ATTACK, IDLE-AUTO-RECOVER | L3 | converter left idle | done (+1 unit) |
+| 76 | Amphibious + Marine Life follow a kill onto ocean | WATER-UNITS, AMPHIBIOUS-WATER | L3 | shallow water only | done (+1 unit) |
+| 77 | Fungi save level 0/1 = Polyfish 1/2 (grows once, +1 pop) | FUNGI-GROWTH (new) | L3 | loaded as is: new Fungi never grew | done (CityReward legal +9) |
 | 57 | Bridge carries land units | BRIDGE-LAND | L3 | pf ok (is_steppable) | done (pf: is_steppable allows bridges for walkers; boats pass under) |
 
 ## Flagged (below L1, off)
@@ -149,6 +155,10 @@ Misses = compared - exact.
 
 ## Scores (pf_miss)
 
+26 Oct (pf-port-3), at f42844c, games 1-5 released into the tuned set: tuned units 6455/6456, stars 1320/1342,
+legal 99.2% (referee on the same set, tools/miss.py: units 6452/6461, stars 1314/1342). Held-out (ed6cb932 only
+now) 187/187, 64/64, legal 99.7%.
+
 26 Oct (pf-port-3), at 28ac99e: tuned units 4723/4734, stars 801/819, legal 8846/8972 = 98.6%.
 Jason's 5 new held-out games (535a6d8, `pf_miss --holdout`, scored once, not tuned on), Polyfish vs referee
 (holdout.json `scored`, at 62666fa):
@@ -197,6 +207,20 @@ pf-port keeps: economy / star drift, unit HP and position misses, the rest of th
 4. Peace replies to offers pending at a checkpoint (11): the loader needs the save's DiplomacyMessages.
 5. Outpost effect (ice network) not modelled; Clathrus Fungi vs Algae (split, left as Polyfish).
 6. Unit misses (11): af181c8f t16 ruin Swordsman hint (harness, noted in pf-loader.md), 6e1bf8e0 HP drift.
+
+## pf-port-3 notes (26 Oct)
+
+- Harness (tools/pf_jobs.py ruin_hints): a ruin Swordsman that walked off or died before the next save is found
+  from its first logged Move starting on the ruin tile (new unit; boat passengers count as old). Fixed the
+  af181c8f t16 chain (5 misses) and 6e1bf8e0 t7 (Giant 231 HP).
+- Last unit miss: 6e1bf8e0 t11->15 Swordsman 198 (#1623-1624: two attacks on (7,3) where neither Polyfish nor
+  the referee has a defender; the referee is exact only because it moves units by id). Drift in the 4-turn gap.
+- Stars: all 22 misses are rows economy.py misses too ("econ itself off"; 6e1bf8e0 gaps, meetings, b2448ead
+  t7->8 siege: the game paid a city with a Hoodrick unit on it, ECON-SIEGE test item).
+- CityReward "not pending" (42 left) by cause, from saves' ConnectedPlayerCapital: cities newly connected to
+  the capital via Polaris Outposts (09a5bf1e t5, af181c8f t8/t13), Aquarion Atoll 51 (3edee0ec t9, 6e1bf8e0 t11,
+  e15f392c t4) and ports (09a5bf1e t7, e15f392c t5/t8, af181c8f t21); 3 lighthouse discoveries (af181c8f t8,
+  6e1bf8e0 t11); the rest unexplained so far.
 
 ## Next step
 
