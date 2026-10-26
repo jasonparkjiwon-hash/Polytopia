@@ -29,12 +29,23 @@ def ruin_hints(a, b, acts):
         if x["type"] == 8: researched[r[0]].add(struct.unpack("<BH", r)[1])
         if x["type"] == 14: ruins[r[0]].append((i, turn) + struct.unpack("<BII", r)[1:])
     units = [(t["Unit"], x, y) for y, row in enumerate(b["currentTiles"]) for x, t in enumerate(row) if t.get("Unit")]
+    made = collections.defaultdict(set)              # (owner, created turn) -> unit ids in the next save
+    for u, _, _ in units: made[(u["Owner"], u["CreatedTurn"])].add(u["Id"])
+    first = {}                                       # each unit's first logged Move in the window: (pl, fx, fy, tx, ty, id, index)
+    for i in range(n0, n1):
+        if acts[i]["type"] == 6:
+            m = struct.unpack("<BIIIII", bytes.fromhex(acts[i]["raw"])); first.setdefault(m[5], m + (i,))
+    moves = list(first.values())
     rows = EC.check(a, b, acts) if ruins else {}
     hints = []
     for pl, rs in ruins.items():
         free = sorted(tech(b, pl) - tech(a, pl) - researched[pl]); stars = (rows.get(pl, {}).get("residual") or 0) + rows.get(pl, {}).get("ruin_stars", 0)
         for i, t, x, y in rs:
-            if any(u["Owner"] == pl and u["CreatedTurn"] == t and (ux, uy) == (x, y) for u, ux, uy in units): hints.append(dict(i=i, reward=SWORDSMAN))
+            on_tile = any(u["Owner"] == pl and u["CreatedTurn"] == t and (ux, uy) == (x, y) for u, ux, uy in units)
+            # or it walked off before the next save: a unit created that turn whose first logged Move starts on the ruin
+            # (af181c8f t16 #2211; the Python replay's RUIN oracle does the same)
+            walked = any(m[0] == pl and m[1:3] == (x, y) and m[5] in made[(pl, t)] for m in moves if m[6] > i)
+            if on_tile or walked: hints.append(dict(i=i, reward=SWORDSMAN))
             elif free: hints.append(dict(i=i, reward=FREE_TECH, tech=free.pop(0)))
             elif stars >= EC.RUIN_STARS: hints.append(dict(i=i, reward=RESOURCES)); stars -= EC.RUIN_STARS
             else: hints.append(dict(i=i, reward=EXPLORER))
