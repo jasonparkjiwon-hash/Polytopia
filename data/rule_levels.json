@@ -4,25 +4,25 @@
   "economy.ADJ_INCOME": {
    "ledger": "ECON-MARKET-CLATHRUS",
    "level": "L3 (Market by level n=1 + n=1 at level 1; Clathrus per adjacent Fungi n=1 game, 3 player-turns); cards",
-   "source": "engine/economy.py:37",
+   "source": "engine/economy.py:38",
    "unverified": false
   },
   "economy.AQUARION_TIERS": {
    "ledger": "AQUARION-TECH-TIERS",
    "level": "L3 (tiers); names: 46 Marine Life L2, 39 Aquaculture and 47 AquaFishing L0",
-   "source": "engine/economy.py:33",
+   "source": "engine/economy.py:34",
    "unverified": false
   },
   "economy.BONUS_NEEDS_CAPITAL": {
    "ledger": "ECON-BOT-BONUS",
    "level": "L3",
-   "source": "engine/economy.py:159",
+   "source": "engine/economy.py:160",
    "unverified": false
   },
   "economy.BONUS_NEEDS_FREE_CAPITAL": {
    "ledger": "ECON-BOT-BONUS",
    "level": "L3",
-   "source": "engine/economy.py:160",
+   "source": "engine/economy.py:161",
    "unverified": false
   },
   "economy.BUILD": {
@@ -34,133 +34,133 @@
   "economy.Books.income": {
    "ledger": "ECON-INCOME",
    "level": "L3",
-   "source": "engine/economy.py:85",
+   "source": "engine/economy.py:86",
    "unverified": false
   },
   "economy.Books.income.siege": {
    "ledger": "ECON-SIEGE",
    "level": "L3",
-   "source": "engine/economy.py:85",
+   "source": "engine/economy.py:86",
    "unverified": false
   },
   "economy.ECON_RULES.aquarion51_price": {
    "ledger": "ECON-PRICES-V123",
    "level": "L3 (n noted)",
-   "source": "engine/economy.py:48",
+   "source": "engine/economy.py:49",
    "unverified": false
   },
   "economy.ECON_RULES.clathrus_income": {
    "ledger": "ECON-MARKET-CLATHRUS",
    "level": "L3 (Market by level n=1 + n=1 at level 1; Clathrus per adjacent Fungi n=1 game, 3 player-turns); cards",
-   "source": "engine/economy.py:47",
+   "source": "engine/economy.py:48",
    "unverified": false
   },
   "economy.ECON_RULES.embassy_income": {
    "ledger": "ECON-EMBASSY",
    "level": "L1 (in-game text + Jason's 5-star cost, same as the v123 card); not yet seen in a save",
-   "source": "engine/economy.py:45",
+   "source": "engine/economy.py:46",
    "unverified": false
   },
   "economy.ECON_RULES.market_income": {
    "ledger": "ECON-MARKET-CLATHRUS",
    "level": "L3 (Market by level n=1 + n=1 at level 1; Clathrus per adjacent Fungi n=1 game, 3 player-turns); cards",
-   "source": "engine/economy.py:46",
+   "source": "engine/economy.py:47",
    "unverified": false
   },
   "economy.EMBASSY_ACTION30": {
    "ledger": "EMBASSY-ACTION",
    "level": "L3 (n=2)",
-   "source": "engine/economy.py:165",
+   "source": "engine/economy.py:166",
    "unverified": false
   },
   "economy.EMBASSY_BUILDER_PAID": {
    "ledger": "EMBASSY-ACTION",
    "level": "L3 (n=2)",
-   "source": "engine/economy.py:166",
+   "source": "engine/economy.py:167",
    "unverified": false
   },
   "economy.EMBASSY_COST": {
    "ledger": "ECON-EMBASSY",
    "level": "L1 (in-game text + Jason's 5-star cost, same as the v123 card); not yet seen in a save",
-   "source": "engine/economy.py:38",
+   "source": "engine/economy.py:39",
    "unverified": false
   },
   "economy.EMBASSY_INCOME": {
    "ledger": "ECON-EMBASSY",
    "level": "L1 (in-game text + Jason's 5-star cost, same as the v123 card); not yet seen in a save",
-   "source": "engine/economy.py:40",
+   "source": "engine/economy.py:41",
    "unverified": false
   },
   "economy.EMBASSY_STEP": {
    "ledger": "ECON-EMBASSY",
    "level": "L1 (in-game text + Jason's 5-star cost, same as the v123 card); not yet seen in a save",
-   "source": "engine/economy.py:39",
+   "source": "engine/economy.py:40",
    "unverified": true
   },
   "economy.LEVEL_FROM_REWARD": {
    "ledger": "CITY-LEVEL-BY-REWARD",
    "level": "L3",
-   "source": "engine/economy.py:164",
+   "source": "engine/economy.py:165",
    "unverified": false
   },
   "economy.MARKET_BY_LEVEL": {
    "ledger": "ECON-MARKET-CLATHRUS",
    "level": "L3 (Market by level n=1 + n=1 at level 1; Clathrus per adjacent Fungi n=1 game, 3 player-turns); cards",
-   "source": "engine/economy.py:162",
+   "source": "engine/economy.py:163",
    "unverified": false
   },
   "economy.NEG_POP": {
    "ledger": "ECON-INCOME",
    "level": "L3",
-   "source": "engine/economy.py:161",
+   "source": "engine/economy.py:162",
    "unverified": false
   },
   "economy.PAID_AT_TURN_START": {
    "ledger": "ECON-SAVE-TIMING",
    "level": "L3",
-   "source": "engine/economy.py:168",
+   "source": "engine/economy.py:169",
    "unverified": false
   },
   "economy.PEACE": {
    "ledger": "DIPLO-PEACE",
    "level": "L3 (27/28); L3 n=1 (29)",
-   "source": "engine/economy.py:158",
+   "source": "engine/economy.py:159",
    "unverified": false
   },
   "economy.REWARD_INCOME": {
    "ledger": "CITY-REWARDS",
    "level": "L3",
-   "source": "engine/economy.py:41",
+   "source": "engine/economy.py:42",
    "unverified": false
   },
   "economy.REWARD_STARS": {
    "ledger": "CITY-REWARDS",
    "level": "L3",
-   "source": "engine/economy.py:36",
+   "source": "engine/economy.py:37",
    "unverified": false
   },
   "economy.ROUND_START_PAID": {
    "ledger": "ROUND-START-INCOME",
    "level": "L3",
-   "source": "engine/economy.py:163",
+   "source": "engine/economy.py:164",
    "unverified": false
   },
   "economy.RUIN_STARS": {
    "ledger": "ECON-RUIN-STARS",
    "level": "L3",
-   "source": "engine/economy.py:157",
+   "source": "engine/economy.py:158",
    "unverified": false
   },
   "economy.TIER": {
    "ledger": "TECH-COST",
    "level": "L2 (tier 3 and the Literacy discount not yet seen)",
-   "source": "engine/economy.py:31",
+   "source": "engine/economy.py:32",
    "unverified": false
   },
   "economy.TRACK_PEACE": {
    "ledger": "EMBASSY-ACTION",
    "level": "L3 (n=2)",
-   "source": "engine/economy.py:167",
+   "source": "engine/economy.py:168",
    "unverified": false
   },
   "economy.UNIT_COST": {
@@ -172,25 +172,25 @@
   "economy.UPGRADE_COST": {
    "ledger": "C19-COSTS",
    "level": "L3",
-   "source": "engine/economy.py:30",
+   "source": "engine/economy.py:31",
    "unverified": false
   },
   "economy.WAR": {
    "ledger": "DIPLO-PEACE",
    "level": "L3 (27/28); L3 n=1 (29)",
-   "source": "engine/economy.py:158",
+   "source": "engine/economy.py:159",
    "unverified": false
   },
   "economy.meet_stars": {
    "ledger": "ECON-MEET",
    "level": "L3",
-   "source": "engine/economy.py:51",
+   "source": "engine/economy.py:52",
    "unverified": false
   },
   "economy.tech_cost": {
    "ledger": "TECH-COST",
    "level": "L2 (tier 3 and the Literacy discount not yet seen)",
-   "source": "engine/economy.py:56",
+   "source": "engine/economy.py:57",
    "unverified": false
   },
   "replay.DASH": {

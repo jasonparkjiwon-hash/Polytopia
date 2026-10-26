@@ -997,7 +997,7 @@
    "rule": "Clear Forest is build id 10: Forest becomes Field, the tile's resource is removed, and the player gains 1 star.",
    "level": "L3 (n=1)",
    "game_version": "v123 (measured in a save)",
-   "evidence": "2026-10-26, game 028182a9 (Jason's game 5, Magnificent Songs, Hard): p1 = Jason's AiMo (Forestry) used build 10 on (6,10) on turn 8: Forest with a Game resource -> Field with none; the star check is off by exactly +1 that turn with only build 10 unpriced. The engine has no build 10 (economy.BUILD)."
+   "evidence": "2026-10-26, game 028182a9 (Jason's game 5, Magnificent Songs, Hard): p1 = Jason's AiMo (Forestry) used build 10 on (6,10) on turn 8: Forest with a Game resource -> Field with none; the star check is off by exactly +1 that turn with only build 10 unpriced. The engine has no build 10 (economy.BUILD). | 2026-10-26 ref-fix: engine/economy.py BUILD[10] = ClearForest, -1 (gives 1); A/B stars 1492 -> 1493 (028182a9 t8->9 exact), units and holdout hold."
   },
   {
    "id": "ECON-MARKET-CLATHRUS",

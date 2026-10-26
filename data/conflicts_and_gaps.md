@@ -351,3 +351,4 @@ Jason (Imperius) vs 15 Hard bots on a 30x30 map, exported every turn from 1 to 1
 - AQUARION-UNIT-47 (26 Oct, ref-fix): unit 47 = Mermaid Archer in the engine, card stats; game 4 now exact (units 211/211, stars 66/66).
 - AQUARION-WATERWAYS-ID (26 Oct, ref-fix): Waterways (tech 48) priced as tier 2 in the engine; 3edee0ec t8->9 now exact.
 - SANCTUARY-V123 (26 Oct, ref-fix): Sanctuary (build 32) priced 3 in the engine (n=1).
+- CLEAR-FOREST-V123 (26 Oct, ref-fix): Clear Forest (build 10) gives +1 star in the engine (n=1).
