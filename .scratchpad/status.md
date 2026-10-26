@@ -36,7 +36,7 @@ _Last updated 2026-10-25 (polish program done; Phase 3 prep running)._
 
 - pf-port (24 Oct), two in-game checks left for the Polyfish forward model:
   1. ~~Mermaid onto ocean~~ answered 26 Oct: innate for Aquarion, no tech (AMPHIBIOUS-WATER, L0).
-  2. Aqua Farm (build 49) and Aquarion structure 51: which tech unlocks each, and what does each do?
+  2. Aqua Farm (build 49) and Aquarion structure 51: Aquaculture unlocks Aqua Farm and Atoll (5 stars each). Jason 26 Oct: Atoll is like Fungi mycelium (connects cities, buildable anywhere, population grows with the number of cities connected); 51 = Atoll is likely, unconfirmed. Still open: the population formula, where it can be built, what Aqua Farm does. Test: build an Atoll linking 2 and then 3 cities, saving each turn.
   3. Polaris skating: how far can a Mooni or Battle Sled move from a city (land) onto ice in one turn?
      (09a5bf1e t1: a Mooni went 2 tiles from its city onto ice.)
      pf-legal: the saves show Mooni at most 2 and Battle Sled at most 3, from a city or ice alike (SKATE-MOVE);
