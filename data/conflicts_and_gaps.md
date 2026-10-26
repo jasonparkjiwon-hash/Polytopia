@@ -350,3 +350,4 @@ Jason (Imperius) vs 15 Hard bots on a 30x30 map, exported every turn from 1 to 1
 - AQUARION-UNITS-49-52 (26 Oct, pf-legal-2): 49 Mermaid Defender (Strategy), 50 Scuba (Diplomacy), 51 Mermaid Dagger (from a Scuba's infiltration), 52 Jelly: ids by HP in 9906f7da. Open: Jelly's unlocking tech; prices (cards say 8 each; the star check at 9906f7da t14->15 has 49 + 52 = 13).
 - AQUARION-UNIT-47 (26 Oct, ref-fix): unit 47 = Mermaid Archer in the engine, card stats; game 4 now exact (units 211/211, stars 66/66).
 - AQUARION-WATERWAYS-ID (26 Oct, ref-fix): Waterways (tech 48) priced as tier 2 in the engine; 3edee0ec t8->9 now exact.
+- SANCTUARY-V123 (26 Oct, ref-fix): Sanctuary (build 32) priced 3 in the engine (n=1).

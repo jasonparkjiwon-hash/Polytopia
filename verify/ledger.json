@@ -990,7 +990,7 @@
    "rule": "Sanctuary is build id 32 / structure 32; it cost its builder 3 stars net; its tile keeps a counter in ImprovementData.Level; a wild animal (resource Game) reappeared on an adjacent forest tile 3 turns after one there was enchanted.",
    "level": "L3 (n=1)",
    "game_version": "v123 (measured in a save)",
-   "evidence": "2026-10-26, game b2448ead (Jason's game 2, Fields Adventure, Hard): p1 = Jason's Elyrion (researched only Forestry so far) built a Sanctuary at (4,11) (mountain) on turn 4; star check -3 that turn with only the Sanctuary unpriced. Enchant Animal (build 30) on (5,11) and (3,10) on turn 5. Sanctuary ImprovementData.Level by save: t5 2, t6 1, t7 1, t8 2. Game resources within 3 tiles: 5, 5, 4, 4, 5 (t4..t8); (5,11) lost its Game at t5->6 and got a new one at t7->8; (3,10) kept its Game after being enchanted. Open: spawn radius, rate, what Level counts, the unlocking tech. One game only."
+   "evidence": "2026-10-26, game b2448ead (Jason's game 2, Fields Adventure, Hard): p1 = Jason's Elyrion (researched only Forestry so far) built a Sanctuary at (4,11) (mountain) on turn 4; star check -3 that turn with only the Sanctuary unpriced. Enchant Animal (build 30) on (5,11) and (3,10) on turn 5. Sanctuary ImprovementData.Level by save: t5 2, t6 1, t7 1, t8 2. Game resources within 3 tiles: 5, 5, 4, 4, 5 (t4..t8); (5,11) lost its Game at t5->6 and got a new one at t7->8; (3,10) kept its Game after being enchanted. Open: spawn radius, rate, what Level counts, the unlocking tech. One game only. | 2026-10-26 ref-fix: engine/economy.py BUILD[32] = Sanctuary, 3 stars; A/B stars 1491 -> 1492 (b2448ead t4->5 exact), units and holdout hold."
   },
   {
    "id": "CLEAR-FOREST-V123",
