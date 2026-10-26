@@ -76,3 +76,9 @@ Stars (11):
 - sim-dist: re-run `tools/distributions.py` (adds 24 ruin events, 10 on water) and count Polaris-frozen ruins as water.
 - Still wanted from Jason: an embassy (two in one game for the price step), Oceanology research,
   peace, a Sanctuary game played on for more turns. (Giant on a port: answered by Jason, GIANT-ON-PORT.)
+
+## Kept rule fixes (ref-fix, 26 Oct), for the Polyfish port
+
+| # | Ledger id | Change | miss.py total after (units, stars) |
+|---|---|---|---|
+| 1 | AQUARION-UNIT-47 | `engine/state.py` names unit 47 `MermaidArcher`; stats and price 3 from the v123 card in `data/measured_ui.json` | 7372/7439, 1490/1540 |
