@@ -548,16 +548,12 @@ pub fn get_city_production(state: &GameState, city: &CityState) -> i32 {
             // Adjacency Bonuses
             match structure.structure_type {
                 StructureType::Clathrus => {
-                    // +X star for each adjacent Algae in friendly territory
+                    // v123 (ledger ECON-MARKET-CLATHRUS, L3 9be1198d t6-9): +X star for each adjacent Fungi in
+                    // friendly territory (the v123 card; upstream counted Algae)
                     let adj = crate::functions::get_adjacent_indices(state, idx, 1);
-                    let fungi = crate::v123_flags::on(&crate::v123_flags::CLATHRUS_FUNGI);
                     for n_idx in adj {
                         if let Some(n_tile) = state.tiles.get(&n_idx) {
-                            let source = if fungi {
-                                get_structure_type_at(state, n_idx) == Some(StructureType::Fungi)
-                            } else {
-                                n_tile.effects.contains(&TileEffect::Algae)
-                            };
+                            let source = get_structure_type_at(state, n_idx) == Some(StructureType::Fungi);
                             if source
                                 && n_tile.owner == city.owner
                             {

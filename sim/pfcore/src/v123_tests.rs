@@ -888,12 +888,31 @@ fn peace_offer_and_reply() {
     assert_eq!((s.tribes[&2].relations[&1].state, s.tribes[&1].relations[&2].state), (3, 0));
 }
 
-/// ECON-MARKET-CLATHRUS (split, untested): Clathrus counts adjacent Algae (Polyfish) by default, Fungi (v123 card)
-/// with the switch clathrus_fungi. Switch state is global, so this test only checks the default.
+/// ECON-MARKET-CLATHRUS (L3): Clathrus +1 per adjacent Fungi (v123 card), not Algae (upstream).
+/// 9be1198d t7->8, player 1 (Cymanti): level 2 capital (18,4) with a Workshop, Fungi (19,4), Clathrus (19,5) and
+/// (20,5) both next to it: 2 + 1 + 1 + 2 = 6 from that city.
 #[test]
-fn clathrus_default_algae() {
-    assert!(!crate::v123_flags::on(&crate::v123_flags::CLATHRUS_FUNGI));
-    assert!(crate::v123_flags::set_from("no_such_switch") == vec!["no_such_switch".to_string()]);
+fn clathrus_counts_fungi() {
+    use crate::functions::get_city_production;
+    let mut s = board();
+    add_city(&mut s, 1, 5, 5);
+    s.tiles.get_mut(&idx(5, 5)).unwrap().capital_of = 1;
+    for (x, y) in [(6, 5), (6, 6), (7, 6), (8, 6)] {
+        let t = s.tiles.get_mut(&idx(x, y)).unwrap();
+        t.owner = 1;
+        t.ruling_city_coords = Some(Coords::from_xy(5, 5, SIZE));
+        s.tribes.get_mut(&1).unwrap().cities[0]._territory.push(idx(x, y));
+    }
+    {
+        let c = &mut s.tribes.get_mut(&1).unwrap().cities[0];
+        c.level = 2; c.production = 2; c.rewards.push(CityRewardType::Workshop);
+    }
+    let st = |t| Some(StructureState { structure_type: t, level: 1, founded: 0 });
+    s.structures.insert(idx(6, 5), st(StructureType::Fungi));
+    s.structures.insert(idx(6, 6), st(StructureType::Clathrus));
+    s.structures.insert(idx(7, 6), st(StructureType::Clathrus));
+    s.tiles.get_mut(&idx(8, 6)).unwrap().effects.insert(TileEffect::Algae);   // next to one Clathrus: not counted
+    assert_eq!(get_city_production(&s, &s.tribes[&1].cities[0]), 6);
 }
 
 /// CITY-LEVEL-BY-REWARD (L3): the turn's income is paid before Fungi growth, so a level that growth brings counts
