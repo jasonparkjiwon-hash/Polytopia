@@ -1103,6 +1103,13 @@
    "level": "L3 (n=3) + Jason",
    "game_version": "v123 (measured in a save)",
    "evidence": "Jason 26 Oct: 'the embassy is destroyed with any combat or taking cities'. Game 9906f7da, Jason (p1) embassy in the Aquarion (p9) capital, EmbassyLevel in p9's Diplomacy record for p1: built t13 (#818), p9 attacked p1 t13 (#879) -> 0 at t14; built t14 (#925), attack t14 (#991) -> 0 at t15; built t15 (#1029), no p1-p9 combat t15-t17 -> 1 at t16, t17; built t18 (#1386), p9 captured p1's city (2,27) t18 (#1461) -> 0 at t19. Open: why the t13 build while the t6 embassy still stood (level 1 at t13). Engine has no embassy destruction (rule sessions)."
+  },
+  {
+   "id": "FUNGI-GROWTH",
+   "rule": "A Cymanti Fungi (structure 37) is saved at ImprovementData.Level 0 when built (or at game start) and at Level 1 from its owner's next turn on, when the city that rules it gains 1 population; no save shows a Level above 1. Polyfish counts the same levels as 1 and 2 (save level + 1).",
+   "level": "L3",
+   "game_version": "v123 (measured in saves)",
+   "evidence": "2026-10-26, all saves: 29 Fungi in 9 games, every one 0 at its first save after building and 1 from the next turn on (e.g. 05ade18c (5,4) t1:0 t2:1; e15f392c (3,12) founded 3, t4:0 t5:1). 8 Cymanti capitals take a CityReward first thing on turn 1 with population one short (05ade18c, 1bf60251, e15f392c, 028182a9, 09a5bf1e, 3edee0ec, af181c8f, b2448ead): the starting Fungi's growth. Polyfish loaded the save level as is, so a level-0 Fungi never grew and a level-1 one grew once more."
   }
  ]
 }

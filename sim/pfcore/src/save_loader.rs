@@ -114,6 +114,12 @@ fn unit_state(u: &Value, passenger: Option<&Value>, effects: Option<&Value>, fac
 
 /// Build a GameState from save JSON. `which` is "current" (the checkpoint) or "initial" (turn 0).
 /// `current_player`: whose turn it is (the save doesn't say directly; the replay reads it from the log).
+/// A structure's Polyfish level from the save's ImprovementData.Level.
+/// v123 (ledger FUNGI-GROWTH, pf-port): the save's Fungi levels 0/1 are Polyfish's 1/2.
+pub fn structure_level(s: StructureType, save_level: i32) -> i32 {
+    save_level + if s == StructureType::Fungi { 1 } else { 0 }
+}
+
 pub fn load(d: &Value, which: &str, current_player: i32) -> Result<(Game, LoadReport), String> {
     let tiles = d.get(format!("{which}Tiles")).and_then(|v| v.as_array()).ok_or("no tiles")?;
     let players = d.get(format!("{which}Players")).and_then(|v| v.as_array()).ok_or("no players")?;
@@ -264,7 +270,8 @@ pub fn load(d: &Value, which: &str, current_player: i32) -> Result<(Game, LoadRe
                 let data = tv.get("ImprovementData").cloned().unwrap_or(Value::Null);
                 match StructureType::from_repr(k as i8) {
                     Some(s) if k > 0 && k < 128 => {
-                        st.structures.insert(c.idx, Some(StructureState { structure_type: s, level: i(&data, "Level") as i32, founded: i(&data, "FoundedTurn") as i32 }));
+                        let level = structure_level(s, i(&data, "Level") as i32);
+                        st.structures.insert(c.idx, Some(StructureState { structure_type: s, level, founded: i(&data, "FoundedTurn") as i32 }));
                         if s == StructureType::Village && t.owner != 0 {
                             let mut rewards = Vec::new();
                             for rv in data.get("CityRewards").and_then(|v| v.as_array()).into_iter().flatten() {

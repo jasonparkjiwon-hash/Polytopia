@@ -1016,3 +1016,27 @@ fn amphibious_kill_move_onto_ocean() {
     assert!(s.tribes[&2].units.is_empty());
     assert_eq!(unit(&s, 1, a).coords.idx, idx(5, 5));
 }
+
+/// FUNGI-GROWTH (L3): a Fungi saved at level 0 (just built) grows once at its owner's next turn, +1 population to
+/// its city; one saved at level 1 has grown and doesn't again (no Recycling).
+/// 05ade18c t1 #56: the Cymanti capital (level 1, population 1) next to its starting Fungi (level 0) takes its
+/// level-2 CityReward first thing on turn 1.
+#[test]
+fn fungi_grows_once() {
+    use crate::moves::EndTurnMove;
+    use crate::save_loader::structure_level;
+    for (save_level, grows) in [(0, true), (1, false)] {
+        let mut s = board();
+        s.settings.turn = 1;
+        s.settings._max_tribe_count = 2;
+        add_city(&mut s, 2, 5, 5);
+        { let c = &mut s.tribes.get_mut(&2).unwrap().cities[0]; c.population = 1; c.progress = 1; c.production = 1; }
+        s.tiles.get_mut(&idx(6, 5)).unwrap().owner = 2;
+        s.tiles.get_mut(&idx(6, 5)).unwrap().ruling_city_coords = Some(Coords::from_xy(5, 5, SIZE));
+        let level = structure_level(StructureType::Fungi, save_level);
+        s.structures.insert(idx(6, 5), Some(StructureState { structure_type: StructureType::Fungi, level, founded: 0 }));
+        let mut g = crate::game::Game { state: s };
+        g.play_move(&EndTurnMove).unwrap();
+        assert_eq!(g.state.tribes[&2].cities[0].level, if grows { 2 } else { 1 }, "save level {save_level}");
+    }
+}
