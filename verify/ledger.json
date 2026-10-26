@@ -1068,6 +1068,13 @@
    "level": "L3 (saves: 4 logged moves in 3 games)",
    "game_version": "v123 (measured in saves)",
    "evidence": "pf-legal-2, 26 Oct: Cymanti Warriors with effect 6 moving 2 tiles: 09a5bf1e t7 #838 (15,17)->(14,15) after Swarm t6 #674 at (15,18); 3edee0ec t8 #622 (26,18)->(25,20) after Swarm #518 at (25,19); e15f392c t12 #1563 (3,11)->(2,13) and t13 #1775 (3,12)->(1,12). Polyfish loaded effect 6 as its unused Swift and gave no movement; legal Move +4. Python engine: Swarm adds SWIFT (replay.py t38_swarm, ACTION-TYPES-V123)."
+  },
+  {
+   "id": "AQUARION-TECH-SLOTS",
+   "rule": "Aquarion tribe techs fill base slots: 47 (Fishing) replaces Fishing, 39 Aquaculture replaces Ramming (Aquatism follows it), 46 Marine Life replaces Sailing (Navigation follows it). Prices follow the slot's tier (AQUARION-TECH-TIERS).",
+   "level": "L3 (logged research order in all Aquarion saves; Polyfish check n=4)",
+   "game_version": "v123 (measured in saves)",
+   "evidence": "data/conflicts_and_gaps.md AQUARION-TECHS (24 Oct): Aquarion players own Navigation and Aquatism but never base Fishing, Sailing or Ramming; 46 is always bought before Navigation, 39 before Aquatism; ids settled by ed6cb932 (Jason). pf-legal-2 (26 Oct) logged researches Polyfish refused without the slots: Navigation with 46 and no Sailing: 09a5bf1e t6 #635, 6e1bf8e0 t5 #768, e15f392c t6 #464 (46 at #463, one action before); Aquatism (12) with 39 and no Ramming: e15f392c t9 #891. With the slots: legal Research 544 -> 548; units 6455/6457 and stars 1320/1342 unchanged; held-out unchanged. Was the switch aquarion_tech_slots (pf-port); now plain code."
   }
  ]
 }

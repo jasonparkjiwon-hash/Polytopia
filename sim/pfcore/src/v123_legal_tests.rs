@@ -312,3 +312,25 @@ fn swift_warrior_moves_two() {
     s.tribes.get_mut(&1).unwrap().units[w].effects.insert(UnitEffect::Swift);
     assert!(has(&s, &StepMove::new(idx(5, 5), idx(5, 3))));
 }
+
+/// AQUARION-TECH-SLOTS (L3): Marine Life (46) fills Sailing's slot, so Aquarion research Navigation from it;
+/// Aquaculture (39) fills Ramming's, so Aquatism follows. 09a5bf1e t6 #635 (Navigation with 46, no Sailing),
+/// e15f392c t9 #891 (Aquatism with 39, no Ramming).
+#[test]
+fn aquarion_tech_slots_research() {
+    use crate::moves::research::ResearchMove;
+    use crate::states::TechnologyState;
+    let t = |k| TechnologyState { tech_type: k, discovered: true, discovered_turn: 0 };
+    let mut s = board();
+    add_city(&mut s, 1, 5, 5);
+    let tr = s.tribes.get_mut(&1).unwrap();
+    tr.stars = 100;
+    tr.tribe_type = TribeType::Aquarion;
+    tr.tech_vanilla = vec![t(TechnologyType::Basic), t(TechnologyType::AquaBase), t(TechnologyType::AquaFishing)];
+    assert!(!has(&s, &ResearchMove::new(TechnologyType::Navigation)));
+    let tr = s.tribes.get_mut(&1).unwrap();
+    tr.tech_vanilla.push(t(TechnologyType::MarineLife));
+    tr.tech_vanilla.push(t(TechnologyType::Aquaculture));
+    assert!(has(&s, &ResearchMove::new(TechnologyType::Navigation)));
+    assert!(has(&s, &ResearchMove::new(TechnologyType::Aquatism)));
+}

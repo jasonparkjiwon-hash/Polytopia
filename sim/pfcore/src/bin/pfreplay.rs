@@ -603,7 +603,7 @@ fn run_job(job: &Value) -> Result<Value, String> {
 
 fn main() {
     let a: Vec<String> = std::env::args().collect();
-    // pf-port: below-L1 rule switches for A/B runs, e.g. PF_FLAGS=aquarion_tech_slots
+    // pf-port: below-L1 rule switches for A/B runs, e.g. PF_FLAGS=amphibious_ocean_innate
     if let Ok(f) = std::env::var("PF_FLAGS") {
         for n in polyfish::v123_flags::set_from(&f) { eprintln!("PF_FLAGS: unknown switch {n}"); }
     }

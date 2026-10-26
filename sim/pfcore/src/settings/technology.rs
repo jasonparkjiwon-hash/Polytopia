@@ -26,14 +26,6 @@ pub struct TechnologySetting {
     pub unlocks_terrain: Option<TerrainType>,
 }
 
-fn slots() -> bool {
-    crate::v123_flags::on(&crate::v123_flags::AQUARION_TECH_SLOTS)
-}
-
-fn slot(t: TechnologyType) -> Option<TechnologyType> {
-    if slots() { Some(t) } else { None }
-}
-
 /// Get technology settings by type.
 /// v123 (ledger TRIBE-TECH-TIERS): a tribe's own tech costs like the base tech it replaces, and needs what that
 /// one needs (its tribe's version of it), unless it says otherwise.
@@ -366,7 +358,8 @@ fn tech_setting_table(tech_type: TechnologyType) -> TechnologySetting {
 
         // Elyrion replacement
         // v123 Aquarion techs (ledger AQUARION-TECH-TIERS: tiers L3; 47 is always bought before 39 and 46).
-        // Which base tech each replaces is inferred (below L1): switch v123_flags::AQUARION_TECH_SLOTS.
+        // Which base tech each replaces (ledger AQUARION-TECH-SLOTS, L3 from the logged research order): 47 Fishing,
+        // 39 Ramming (then Aquatism, e15f392c t9 #891), 46 Sailing (then Navigation, 09a5bf1e t6 #635).
         AquaBase => TechnologySetting {
             tier: Some(0),
             tribe_type: Some(TribeType::Aquarion),
@@ -375,17 +368,17 @@ fn tech_setting_table(tech_type: TechnologyType) -> TechnologySetting {
         AquaFishing => TechnologySetting {
             tier: Some(1),
             tribe_type: Some(TribeType::Aquarion),
-            replaces_tech: slot(Fishing),
+            replaces_tech: Some(Fishing),
             next: vec![Aquaculture, MarineLife],
-            unlocks_terrain: if slots() { Some(TerrainType::Water) } else { None },
+            unlocks_terrain: Some(TerrainType::Water),
             ..Default::default()
         },
         Aquaculture => TechnologySetting {
             tier: Some(2),
             requires: Some(AquaFishing),
             tribe_type: Some(TribeType::Aquarion),
-            replaces_tech: slot(Ramming),
-            next: if slots() { vec![Aquatism] } else { vec![] },
+            replaces_tech: Some(Ramming),
+            next: vec![Aquatism],
             // v123 (AQUARION-STRUCTURES): every Aqua Farm and Atoll in the saves was built with Aquaculture
             unlocks_special_structures: vec![StructureType::AquaFarm, StructureType::Atoll],
             ..Default::default()
@@ -394,10 +387,10 @@ fn tech_setting_table(tech_type: TechnologyType) -> TechnologySetting {
             tier: Some(2),
             requires: Some(AquaFishing),
             tribe_type: Some(TribeType::Aquarion),
-            replaces_tech: slot(Sailing),
-            next: if slots() { vec![Navigation] } else { vec![] },
+            replaces_tech: Some(Sailing),
+            next: vec![Navigation],
             unlocks_special_units: vec![UnitType::Shark],
-            unlocks_terrain: if slots() { Some(TerrainType::Ocean) } else { None },
+            unlocks_terrain: Some(TerrainType::Ocean),
             ..Default::default()
         },
         ForestMagic => TechnologySetting {
