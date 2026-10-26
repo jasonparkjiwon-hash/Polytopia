@@ -100,7 +100,7 @@ Status: **done** = ported with a test; **pf ok** = Polyfish already does it;
 | 71 | Turn income before start-of-turn effects (Fungi growth's level counts next turn) | CITY-LEVEL-BY-REWARD | L3 | income after Fungi growth | done (stars 798 -> 801) |
 | 72 | Persist (Knight, Tridention) attacks again after a kill; the kill move-in doesn't exhaust | PERSIST-KILL-MOVE (new) | L3 | step_unit exhausted first | done (legal Attack +8) |
 | 73 | Clathrus +1 per adjacent Fungi | ECON-MARKET-CLATHRUS | L3 (9be1198d) | Algae | done, switch removed (stars +3) |
-| 74 | Sanctuary costs 3, no star income | SANCTUARY-NO-INCOME (new) | L3 n=1 | 5, +1 per adjacent animal | done (stars hold: t5->6 fixed, t7->8 siege row exposed) |
+| 74 | Sanctuary costs 3, no star income | SANCTUARY-NO-INCOME (new) | L3 n=1 | 5, +1 per adjacent animal | flag `sanctuary_no_income` (off) 26 Oct: Jason's v123 card says 5 stars, +1 per nearby animal (split; ref-fix settles SANCTUARY-V123, then re-port). A/B 1320 both ways |
 | 75 | A convert ends the converter's turn (no idle heal, no second action) | CONVERT-ATTACK, IDLE-AUTO-RECOVER | L3 | converter left idle | done (+1 unit) |
 | 76 | Amphibious + Marine Life follow a kill onto ocean | WATER-UNITS, AMPHIBIOUS-WATER | L3 | shallow water only | done (+1 unit) |
 | 77 | Fungi save level 0/1 = Polyfish 1/2 (grows once, +1 pop) | FUNGI-GROWTH (new) | L3 | loaded as is: new Fungi never grew | done (CityReward legal +9) |
@@ -109,6 +109,8 @@ Status: **done** = ported with a test; **pf ok** = Polyfish already does it;
 | 57 | Bridge carries land units | BRIDGE-LAND | L3 | pf ok (is_steppable) | done (pf: is_steppable allows bridges for walkers; boats pass under) |
 
 ## Flagged (below L1, off)
+
+- `sanctuary_no_income`: Sanctuary costs 3, no income (b2448ead, n=1) vs the v123 card (5, +1 per nearby animal, default). A/B equal (1320/1342). Re-port once ref-fix records the result in games-1-5.md.
 
 - Aquarion unit ids 47, 49-52, 54, 55 (L0): not added.
 - ~~`clathrus_fungi`~~ promoted 26 Oct (L3, 9be1198d), switch removed.

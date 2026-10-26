@@ -7,7 +7,13 @@ use std::sync::atomic::{AtomicBool, Ordering};
 /// Marine Life (46) opens it, which every logged Aquarion ocean move had.
 pub static AMPHIBIOUS_OCEAN_INNATE: AtomicBool = AtomicBool::new(false);
 
+/// Sanctuary costs 3 and pays no star income (SANCTUARY-NO-INCOME, one game: b2448ead t4-6). Off: the v123 card
+/// (Jason 26 Oct) and Polyfish agree on 5 stars and +1 a turn per adjacent wild animal; split, being settled in
+/// SANCTUARY-V123.
+pub static SANCTUARY_NO_INCOME: AtomicBool = AtomicBool::new(false);
+
 pub const ALL: &[(&str, &AtomicBool)] = &[
+    ("sanctuary_no_income", &SANCTUARY_NO_INCOME),
     ("amphibious_ocean_innate", &AMPHIBIOUS_OCEAN_INNATE),
 ];
 

@@ -589,7 +589,19 @@ pub fn get_city_production(state: &GameState, city: &CityState) -> i32 {
                     let income = ((frozen_count / 20) * 2).min(60); // Max level 30 = 60 stars
                     prod += income;
                 }
-                // v123 (ledger SANCTUARY-NO-INCOME): no star income (upstream: +1 per adjacent wild animal)
+                StructureType::Sanctuary
+                    if !crate::v123_flags::on(&crate::v123_flags::SANCTUARY_NO_INCOME) =>
+                {
+                    // +1 star for every adjacent wild animal in friendly territory (upstream and the v123 card;
+                    // the switch sanctuary_no_income turns it off, SANCTUARY-NO-INCOME)
+                    for n_idx in crate::functions::get_adjacent_indices(state, idx, 1) {
+                        let game = state.resources.get(&n_idx).and_then(|r| r.as_ref())
+                            .map_or(false, |r| r.resource_type == ResourceType::Game);
+                        if game && state.tiles.get(&n_idx).map_or(false, |t| t.owner == city.owner) {
+                            prod += 1;
+                        }
+                    }
+                }
                 _ => {}
             }
         }

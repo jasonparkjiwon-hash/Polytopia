@@ -247,10 +247,11 @@ pub fn get_structure_setting(struct_type: StructureType) -> StructureSetting {
 
         // Elyrion. Animal spawning is implemented; the build-time
         // "must be adjacent to a wild animal" requirement is not enforced.
-        // v123 (ledger SANCTUARY-V123, SANCTUARY-NO-INCOME, b2448ead t4-6): costs 3 and pays no star income.
+        // v123 card (Jason 26 Oct): 5 stars, +1 a turn per nearby wild animal (as upstream). Split with
+        // SANCTUARY-NO-INCOME (b2448ead: 3, no income), behind the off switch sanctuary_no_income.
         StructureType::Sanctuary => StructureSetting {
-            cost: Some(3),
-            reward_stars: 0,
+            cost: Some(if crate::v123_flags::on(&crate::v123_flags::SANCTUARY_NO_INCOME) { 3 } else { 5 }),
+            reward_stars: 1,
             tribe_type: Some(TribeType::Elyrion),
             terrain_types: terrains![
                 TerrainType::Field,

@@ -959,11 +959,11 @@ fn persist_attacks_again_after_kill() {
     assert!(unit(&s, 1, a).attacked, "no kill: turn over");
 }
 
-/// SANCTUARY-NO-INCOME (L3, n=1): the Sanctuary costs 3 and pays no star income.
-/// b2448ead t5->6, player 1 (Elyrion): two level-1 cities (one capital) and a Sanctuary with 2 adjacent wild
-/// animals earn 3, not 5. Here: the level-1 capital with that Sanctuary earns 2.
+/// SANCTUARY-V123 split: by default the v123 card (Jason 26 Oct) and upstream: costs 5, +1 a turn per adjacent wild
+/// animal in own territory. The switch sanctuary_no_income (b2448ead t5->6: 3, no income) is global, so this
+/// test only checks the default. Here: a level-1 capital with a Sanctuary and 2 adjacent animals earns 2 + 2.
 #[test]
-fn sanctuary_no_income() {
+fn sanctuary_default_card() {
     use crate::functions::get_city_production;
     use crate::settings::structures::get_structure_setting;
     let mut s = board();
@@ -980,8 +980,9 @@ fn sanctuary_no_income() {
     for (x, y) in [(4, 7), (6, 7)] {
         s.resources.insert(idx(x, y), Some(ResourceState { resource_type: ResourceType::Game }));
     }
-    assert_eq!(get_city_production(&s, &s.tribes[&1].cities[0]), 2);
-    assert_eq!(get_structure_setting(StructureType::Sanctuary).cost, Some(3));
+    assert!(!crate::v123_flags::on(&crate::v123_flags::SANCTUARY_NO_INCOME));
+    assert_eq!(get_city_production(&s, &s.tribes[&1].cities[0]), 4);
+    assert_eq!(get_structure_setting(StructureType::Sanctuary).cost, Some(5));
 }
 
 /// CONVERT-ATTACK, IDLE-AUTO-RECOVER (L3): a convert is the converter's attack; it has acted, so no idle heal.
