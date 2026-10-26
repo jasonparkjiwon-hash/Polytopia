@@ -214,3 +214,31 @@ fn mermaid_onto_ocean() {
     s.tribes.get_mut(&1).unwrap().tech_vanilla.push(TechnologyState { tech_type: TechnologyType::MarineLife, discovered: true, discovered_turn: 0 });
     assert!(has(&s, &StepMove::new(idx(5, 5), idx(6, 6))));
 }
+
+/// AQUARION-STRUCTURES (L3): with Aquaculture (39) an Aquarion city builds the Aqua Farm (49) on AquaCrop and the
+/// Atoll (51) on water or flooded land. 3edee0ec t6 #393 Aqua Farm on AquaCrop water at (17,21); e15f392c t4 #259
+/// Atoll on flooded field (25,12), right after researching 39.
+#[test]
+fn aquarion_aqua_farm_and_atoll() {
+    use crate::moves::build::BuildMove;
+    use crate::states::{ResourceState, TechnologyState};
+    let t = |k| TechnologyState { tech_type: k, discovered: true, discovered_turn: 0 };
+    let mut s = board();
+    explore(&mut s);
+    add_city(&mut s, 1, 5, 5);
+    s.tribes.get_mut(&1).unwrap().cities[0]._territory = vec![idx(5, 5), idx(5, 4), idx(6, 4), idx(4, 4)];
+    s.tiles.get_mut(&idx(5, 4)).unwrap().terrain_type = TerrainType::Water;
+    s.resources.insert(idx(5, 4), Some(ResourceState { resource_type: ResourceType::AquaCrop }));
+    s.tiles.get_mut(&idx(6, 4)).unwrap().effects.insert(TileEffect::Flooded);
+    let tr = s.tribes.get_mut(&1).unwrap();
+    tr.stars = 20;
+    tr.tribe_type = TribeType::Aquarion;
+    tr.tech_vanilla = vec![t(TechnologyType::AquaBase), t(TechnologyType::AquaFishing)];
+    assert!(!has(&s, &BuildMove::new(idx(5, 4), StructureType::AquaFarm)));
+    assert!(!has(&s, &BuildMove::new(idx(6, 4), StructureType::Atoll)));
+    s.tribes.get_mut(&1).unwrap().tech_vanilla.push(t(TechnologyType::Aquaculture));
+    assert!(has(&s, &BuildMove::new(idx(5, 4), StructureType::AquaFarm)));
+    assert!(has(&s, &BuildMove::new(idx(5, 4), StructureType::Atoll)));
+    assert!(has(&s, &BuildMove::new(idx(6, 4), StructureType::Atoll)));
+    assert!(!has(&s, &BuildMove::new(idx(4, 4), StructureType::Atoll)), "dry land stays closed");
+}

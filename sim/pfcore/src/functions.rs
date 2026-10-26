@@ -191,8 +191,11 @@ pub fn is_resource_visible_to_tribe(
         // v123 (pf-port save count: every Fishing build by Aquarion came with 47 (14/14), by Polaris with
         // Frostwork (13/13)): the tribe's version of Fishing works too
         ResourceType::Fish => crate::settings::technology::has_tech_for_tribe(tribe, TechnologyType::Fishing),
-        // AquaCrop (Aquarion) - requires FreeDiving
-        ResourceType::AquaCrop => has_technology(&tribe.tech_vanilla, TechnologyType::FreeDiving),
+        // AquaCrop (Aquarion) - requires FreeDiving; v123 (AQUARION-STRUCTURES): or Aquaculture, which builds on it
+        ResourceType::AquaCrop => {
+            has_technology(&tribe.tech_vanilla, TechnologyType::FreeDiving)
+                || has_technology(&tribe.tech_vanilla, TechnologyType::Aquaculture)
+        }
     }
 }
 

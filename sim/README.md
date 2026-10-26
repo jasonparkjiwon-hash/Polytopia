@@ -75,3 +75,4 @@
 - Research moves come from the v123 researchable list (tribe techs included) plus each known tech's prerequisite (`moves/research.rs`) [TRIBE-TECH-TIERS, RESEARCH-BACKWARD, new ledger entry].
 - Metal is visible with Mining as well as Climbing (`functions.rs` is_resource_visible_to_tribe) [METAL-WITH-MINING, new ledger entry].
 - Amphibious units step onto ocean with Marine Life (46); with no tech behind the switch `amphibious_ocean_innate` (`moves/mod.rs` is_navigationable_terrain, `v123_flags.rs`) [AMPHIBIOUS-WATER].
+- New structures Aqua Farm (49, on AquaCrop, +2 population) and Atoll (51, on water, ocean or flooded land; no population effect yet), unlocked by Aquaculture; AquaCrop visible with Aquaculture (`types.rs`, `settings/structures.rs`, `settings/resources.rs`, `settings/technology.rs`, `moves/build.rs`, `functions.rs`) [AQUARION-STRUCTURES, new ledger entry].

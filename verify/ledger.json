@@ -1026,6 +1026,13 @@
    "level": "L3 (Jason in game + 2 melee save cases)",
    "game_version": "v123 (measured in game)",
    "evidence": "Jason in game, 26 Oct 2026: 'A giant that's embarked on a ship never retaliates.' Saves (every game's longest log, replayed): 4 attacks on a surviving Juggernaut, attacker HP unchanged in all 4: 6e1bf8e0 turn 12 #1562 Warrior at distance 1 (Juggernaut 40 -> 38); af181c8f turn 21 #3218 Swordsmaid at distance 1 (32 -> 28); af181c8f turn 15 #1991 and turn 16 #2197 Tridention at distance 2 (outside its range 1, so not deciding). Every unit in those replays is exact, so the saves agree with the rule."
+  },
+  {
+   "id": "AQUARION-STRUCTURES",
+   "rule": "Aquarion build 49 = Aqua Farm, 51 = Atoll (Jason 26 Oct: Aquaculture unlocks both, 5 stars each). Both need Aquaculture (39) and the builder's own territory. Aqua Farm: on an AquaCrop (resource 9) tile, Water or Ocean; +2 population. Atoll: on Water, Ocean or flooded land, with or without a resource (Fish, AquaCrop or none seen); population not measured (Jason: grows with the number of cities it connects, like Mycelium).",
+   "level": "L3 (saves: 18 builds in 7 games; Aqua Farm pop n=2); Atoll population L0 (Jason)",
+   "game_version": "v123 (measured in saves)",
+   "evidence": "Saves (pf-legal-2, 26 Oct): 7 Aqua Farms (3edee0ec t6 #393, 6e1bf8e0 t5 #1086 and t11 x4, 9be1198d t5 #260, e15f392c t8 #737), all on AquaCrop Water/Ocean; 11 Atolls (1bf60251 t6 #434, 3edee0ec t9 x2, 6e1bf8e0 t11 #1428 on Ocean, 9be1198d t6 #321, e15f392c t4/t8/t14 ...): Water, Ocean or flooded Field. Every builder held 39 (e15f392c t4 researched it at #258, one action before). All tiles owned by the builder. Pop: 3edee0ec t6 Potic level 1 pop 0 -> level 2 pop 0 (one CityReward) with only the Aqua Farm; 9be1198d t5 Poatlan 0/2 -> 2/4 with only the Aqua Farm: +2. Atoll: 9be1198d t6 no city's pop changed; e15f392c t4 and 1bf60251 t6 two nearby cities each +1 beyond other sources (consistent with Jason's connection rule, not modelled). Polyfish legal Build 585 -> 596, CityReward 220 -> 223; held-out Build 298 -> 302."
   }
  ]
 }

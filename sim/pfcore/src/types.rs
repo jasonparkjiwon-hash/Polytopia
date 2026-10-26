@@ -584,7 +584,9 @@ pub enum StructureType {
     // StarFishing = 46, // capture move
     Lighthouse = 47,
     Bridge = 48,
+    AquaFarm = 49, // v123 Aquarion (AQUARION-STRUCTURES): on AquaCrop, +2 population
     Market = 50,
+    Atoll = 51, // v123 Aquarion (AQUARION-STRUCTURES): on water, ocean or flooded land; its population isn't modelled
     Embassy = 70,
     ChurchOfConverts = 123,
 }

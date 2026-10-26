@@ -333,11 +333,6 @@ impl Replay {
             Err(e) => {
                 self.legal.entry(name.clone()).or_insert([0, 0])[1] += 1;
                 self.illegal.push(json!({"i": i, "type": name, "raw": raw, "cause": "unmapped", "why": e}));
-                // Aquarion structures 49 (Aqua Farm) and 51 have no Polyfish type yet: charge the economy model's price
-                // so the stars don't drift (economy.py BUILD, ECON-PRICES-V123)
-                if t == 1 && (v[1] == 49 || v[1] == 51) {
-                    if let Some(tr) = self.game.state.tribes.get_mut(&actor) { tr.stars -= 5; }
-                }
                 return;
             }
         };

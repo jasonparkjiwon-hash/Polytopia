@@ -83,6 +83,24 @@ pub fn get_structure_setting(struct_type: StructureType) -> StructureSetting {
             tribe_type: Some(TribeType::Cymanti),
             ..Default::default()
         },
+        // v123 (ledger AQUARION-STRUCTURES, L3: 16 builds in 7 games, all by an owner with Aquaculture 39, all in
+        // own territory): the Aqua Farm on AquaCrop (water or ocean), +2 population (3edee0ec t6 #393, 9be1198d
+        // t5 #260); the Atoll on water, ocean (6e1bf8e0 t11 #1428) or flooded land (`moves/build.rs`), population not modelled (Jason: it
+        // grows with the cities it connects; untested). 5 stars each (ECON-PRICES-V123).
+        StructureType::AquaFarm => StructureSetting {
+            cost: Some(5),
+            resource_type: Some(ResourceType::AquaCrop),
+            terrain_types: terrains![TerrainType::Water, TerrainType::Ocean],
+            reward_pop: 2,
+            tribe_type: Some(TribeType::Aquarion),
+            ..Default::default()
+        },
+        StructureType::Atoll => StructureSetting {
+            cost: Some(5),
+            terrain_types: terrains![TerrainType::Water, TerrainType::Ocean],
+            tribe_type: Some(TribeType::Aquarion),
+            ..Default::default()
+        },
         StructureType::Clathrus => StructureSetting {
             cost: Some(5),
             reward_stars: 1,

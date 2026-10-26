@@ -69,8 +69,10 @@ pub fn get_resource_setting(resource_type: ResourceType) -> ResourceSetting {
             reward_stars: 8,
             ..Default::default()
         },
+        // v123 (AQUARION-STRUCTURES): Aquarion farm it with the Aqua Farm (Aquaculture)
         AquaCrop => ResourceSetting {
-            tech_required: BeyondComprehension,
+            tech_required: Aquaculture,
+            struct_required: Some(StructureType::AquaFarm),
             reward_pop: 2,
             ..Default::default()
         },

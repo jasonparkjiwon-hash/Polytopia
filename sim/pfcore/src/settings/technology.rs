@@ -386,6 +386,8 @@ fn tech_setting_table(tech_type: TechnologyType) -> TechnologySetting {
             tribe_type: Some(TribeType::Aquarion),
             replaces_tech: slot(Ramming),
             next: if slots() { vec![Aquatism] } else { vec![] },
+            // v123 (AQUARION-STRUCTURES): every Aqua Farm and Atoll in the saves was built with Aquaculture
+            unlocks_special_structures: vec![StructureType::AquaFarm, StructureType::Atoll],
             ..Default::default()
         },
         MarineLife => TechnologySetting {
