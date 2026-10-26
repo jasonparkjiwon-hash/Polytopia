@@ -1131,6 +1131,13 @@
    "level": "L3 (ids by HP and tech order, game 9906f7da: 49 n=6, 50 n=2, 51 n=3, 52 n=2); prices L3 (card) but the star check is unsettled; Jelly's tech unknown",
    "game_version": "v123 (measured in a save)",
    "evidence": "9906f7da (Jason's game 6), p9 Aquarion: first unit records 52 at t13 (20.0 HP), 49 at t14/t15/t18/t19/t20 (15.0), 50 x2 at t17 (5.0), 51 x3 at t19 (10.0, on Ocean/Water, all new ids at once). Trains: #786 (52, t12; techs 0 45 47 39 46 14 6 7), #898 (49, after Strategy 7), #1227/#1228 (50, Diplomacy researched #1109 the turn before). Positional Polyfish names (AQUARION-UNIT-IDS) match the cards' HP. Polyfish (pf-legal-2): legal 13084 -> 13122, units 7342 -> 7386, stars 1500/1540 unchanged; Build -4 (p9 now short of stars: Polyfish charges the card prices 8/8/8; the star check across t14->15 suggests 49 + 52 = 13 together, unsettled, pf-port). Jelly stays untrainable in Polyfish until its tech is known (Waiting on Jason)."
+  },
+  {
+   "id": "ATOLL-NETWORK",
+   "rule": "Aquarion cities connect to their capital through roads and ports as usual, plus Atolls (build/structure 51): an own Atoll links to own cities and Atolls within 3 tiles (Chebyshev), city to city never directly (as Polyfish's Mycelium at 4). A newly connected city and the capital each gain 1 population. (Jason 26 Oct: the Atoll connects cities like Mycelium; its own population rule is still unknown, ImprovementData.Level is 0 in all 30 Atoll records.)",
+   "level": "L3",
+   "game_version": "v123 (measured in saves)",
+   "evidence": "2026-10-26 pf-port-3, every save with an Atoll: ConnectedPlayerCapital of 50 Aquarion (non-capital) city states predicted by Atoll links: range 3 fits 49 (range 1: 17, 2: 35, 4: 40). Cases: e15f392c t4->5 (Atoll (25,12) connects (23,9), 3 away), 3edee0ec t9->10, 6e1bf8e0 t11->15. Misfit: 6e1bf8e0 t15 (14,8) connected but not by Atolls (roads or ports likely)."
   }
  ]
 }

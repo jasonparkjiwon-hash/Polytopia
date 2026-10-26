@@ -1065,3 +1065,26 @@ fn polaris_outpost_network() {
     assert!(s.tribes[&1].cities[1].connected_to_capital);
     assert_eq!(s.tribes[&1].cities[1].population, 1);
 }
+
+/// ATOLL-NETWORK (L3, 49/50 save states): an Aquarion Atoll links own cities and Atolls within 3 tiles.
+/// e15f392c t4->5 (Aquarion): the Atoll built at (25,12) connects the city (23,9), 3 away, to the capital.
+#[test]
+fn aquarion_atoll_network() {
+    use crate::actions::connection::update_capital_connections;
+    let mut s = board();
+    s.tribes.get_mut(&1).unwrap().tribe_type = TribeType::Aquarion;
+    add_city(&mut s, 1, 8, 8);
+    add_city(&mut s, 1, 3, 2);
+    s.tiles.get_mut(&idx(8, 8)).unwrap().capital_of = 1;
+    for (x, y) in [(5, 5), (6, 8)] {
+        s.tiles.get_mut(&idx(x, y)).unwrap().terrain_type = TerrainType::Water;
+        s.tiles.get_mut(&idx(x, y)).unwrap().owner = 1;
+    }
+    let atoll = Some(StructureState { structure_type: StructureType::Atoll, level: 0, founded: 0 });
+    s.structures.insert(idx(6, 8), atoll.clone());
+    let _ = update_capital_connections(&mut s, 1);
+    assert!(!s.tribes[&1].cities[1].connected_to_capital, "(3,2) is 4 from the Atoll");
+    s.structures.insert(idx(5, 5), atoll);
+    let _ = update_capital_connections(&mut s, 1);
+    assert!(s.tribes[&1].cities[1].connected_to_capital, "Atoll (5,5) links (6,8) and (3,2)");
+}

@@ -67,6 +67,7 @@ pub fn create_structure(
         || structure_type == StructureType::Port
         || structure_type == StructureType::Bridge
         || structure_type == StructureType::Outpost
+        || structure_type == StructureType::Atoll
     {
         undos.push(crate::actions::connection::update_capital_connections(
             state, pov_id,
@@ -189,6 +190,7 @@ pub fn destroy_structure(state: &mut GameState, idx: i32) -> UndoCallback {
         || structure.structure_type == StructureType::Port
         || structure.structure_type == StructureType::Bridge
         || structure.structure_type == StructureType::Outpost
+        || structure.structure_type == StructureType::Atoll
     {
         undos.push(crate::actions::connection::update_capital_connections(
             state, pov_id,

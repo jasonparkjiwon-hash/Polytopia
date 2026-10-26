@@ -111,6 +111,31 @@ pub fn update_capital_connections(state: &mut GameState, tribe_id: i32) -> UndoC
             }
         }
 
+        // v123 (ledger ATOLL-NETWORK, pf-port): Aquarion Atoll long-range connection (3 radius),
+        // Atoll-to-City/Atoll or City-to-Atoll, as Mycelium below
+        if tribe_type == TribeType::Aquarion {
+            let own_atoll = |i: i32| {
+                state.tiles.get(&i).map_or(false, |t| t.owner == tribe_id)
+                    && state.structures.get(&i).and_then(|s| s.as_ref()).map_or(false, |s| s.structure_type == StructureType::Atoll)
+            };
+            let from_atoll = own_atoll(current_idx);
+            if from_atoll || city_indices.contains(&current_idx) {
+                for target_idx in crate::functions::get_adjacent_indices(state, current_idx, 3) {
+                    if visited.contains(&target_idx) {
+                        continue;
+                    }
+                    let target_is_city = city_indices.contains(&target_idx);
+                    if own_atoll(target_idx) || (from_atoll && target_is_city) {
+                        visited.insert(target_idx);
+                        queue.push_back(target_idx);
+                        if target_is_city {
+                            connected_cities.insert(target_idx);
+                        }
+                    }
+                }
+            }
+        }
+
         // Cymanti Mycelium long-range connection (4 radius)
         if tribe_type == TribeType::Cymanti {
             let is_city = city_indices.contains(&current_idx);

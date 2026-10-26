@@ -61,6 +61,7 @@
 - Turn income is paid before the start-of-turn effects, so a level from Fungi growth counts from the next turn (`game.rs` end_turn) [CITY-LEVEL-BY-REWARD].
 - A Persist unit (Knight, Tridention) that kills moves in and may attack again; the kill move-in no longer ends its turn (`actions/units.rs` attack_unit) [PERSIST-KILL-MOVE, new ledger entry].
 - A convert ends the converter's turn (it attacked), so it doesn't act again or idle-heal (`moves/abilities/convert.rs`) [CONVERT-ATTACK, IDLE-AUTO-RECOVER].
+- An Aquarion Atoll links own cities and Atolls within 3 tiles into the capital network (as Mycelium at 4), updated when one is built (`actions/connection.rs`, `actions/structure.rs`) [ATOLL-NETWORK, new ledger entry].
 - The loader reads a Fungi's save level 0/1 as Polyfish's 1/2, so a new Fungi grows once at its owner's next turn (+1 population) and an old one doesn't again (`save_loader.rs` structure_level) [FUNGI-GROWTH, new ledger entry].
 - The Elyrion Sanctuary costs 3 and pays no star income (upstream 5 and +1 per adjacent animal) (`settings/structures.rs`, `functions.rs`) [SANCTUARY-V123, SANCTUARY-NO-INCOME, new ledger entry].
 - Clathrus earns +1 per adjacent Fungi (v123 card; upstream counted Algae) (`functions.rs` get_city_production) [ECON-MARKET-CLATHRUS].
