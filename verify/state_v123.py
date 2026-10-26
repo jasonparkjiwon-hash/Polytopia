@@ -105,8 +105,10 @@ def read_tile(r, version, ex, ey):
     t["PlayerVisibility"] = list(r.raw(r.u8()))
     t["HasRoad"] = r.u8() == 1; t["HasWaterRoute"] = r.u8() == 1; t["TileSkin"] = r.u16(); t["Unknown"] = list(r.raw(2))
     if version >= 105:
-        t["FloodedFlag"] = r.u8()
-        if t["FloodedFlag"] == 1: t["FloodedValue"] = r.u32()
+        t["FloodedFlag"] = r.u8()   # MEASURED (9906f7da t13): a count of TileEffect ids (u32 each), not a flag; 2 = Flooded + Tentacle
+        effects = [r.u32() for _ in range(t["FloodedFlag"])]
+        if effects: t["FloodedValue"] = effects[0]
+        if len(effects) > 1: t["TileEffects"] = effects
     return t
 
 def read_map(r, version):
