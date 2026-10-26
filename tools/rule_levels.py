@@ -159,8 +159,8 @@ FUNCS = {   # formula functions: rule name -> (file key, def name, ledger id)
     "economy.Books.income.siege": ("economy", "income", "ECON-SIEGE"),
 }
 UNTESTED = {   # rules the engine applies that no save has exercised yet (they change no replay score either way)
-    "economy.ECON_RULES.market_income", "economy.ECON_RULES.clathrus_income",
     "economy.EMBASSY_STEP",   # no tribe built a second embassy in any save
+    # market_income and clathrus_income left this set 2026-10-26: Jason's games 1-5 test both (ECON-MARKET-CLATHRUS)
 }
 
 def discover():

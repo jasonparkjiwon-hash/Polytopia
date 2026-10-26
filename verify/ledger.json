@@ -783,13 +783,6 @@
    "evidence": "6e1bf8e0 t11 actions 1324-1325: Elyrion Warrior 215 'moved' (27,11)->(27,10) onto an invisible Yadakk Cloak, then attacked (27,10) from (27,11); later actions only fit if 215 killed the Cloak from (27,11), moved in, and was killed there by Yadakk 272 (1415). Engine RULES move_blocked_by_hidden; miss.py units 4721/4741 -> 4722/4738."
   },
   {
-   "id": "ECON-MARKET-CLATHRUS",
-   "rule": "Market (5) earns, each turn, the level of each adjacent Windmill, Forge or Sawmill (a Windmill's level = its adjacent Farms, Sawmill = Lumber Huts, Forge = Mines); Clathrus (5) +1 per adjacent Fungi; one of each per city.",
-   "level": "L3 (Market by level n=1; card); Clathrus untested",
-   "game_version": "v123 (measured in game)",
-   "evidence": "v123 info cards (Jason's screenshots 2026-10-23). Polyfish counts Algae for Clathrus; the card says Fungi, so the engine follows the card. Test item. Only one Market in the saves (no change to the exact count). | 2026-10-23: engine switches ECON_RULES market_income, clathrus_income (on); off changes no score. Polyfish get_city_production counts only Markets/Clathrus inside the city's territory, Clathrus per adjacent Algae tile in own territory; the engine counts adjacent structures of any owner (untested detail). | 2026-10-23 star check: af181c8f p14 t25->26, the only Market income in any save: Market next to a Windmill with 3 Farms paid +3, not +1 (MARKET_BY_LEVEL, 800 -> 801; n=1). The card's '+1 per adjacent' reads as +1 per level."
-  },
-  {
    "id": "TRIBE-TECH-TIERS",
    "rule": "Tribe techs cost tier x cities + 4 like the base tree: Ice Fishing 2, Sledding 2, Polar Warfare 3, Spearing 3, Polarism 3. Oceantology (id 49) not yet priced (one 4-turn row, residual -8 at 1 city fits no tier).",
    "level": "L3 (n=1-2 each)",
@@ -984,6 +977,41 @@
    "level": "L3 (saves: 11 unit records, 10 logged ocean moves with Marine Life); ocean without a tech L0 (Jason, 26 Oct 2026)",
    "game_version": "v123 (measured in saves)",
    "evidence": "All saves, last state of each checkpoint (2026-10-24, pf-port): unit records of types 46/48 on Water tiles without flooding whose owner holds none of 47, 46, Navigation: 9 Mermaids + 2 Swordsmaids; 9 more Mermaids on Water with 47 only. On Ocean: 3 records (2 Mermaids, 1 Shark), all owners with 46. Logged moves (pf-legal-2, 26 Oct): 10 Mermaid moves onto ocean in 6e1bf8e0 t5/t11 (e.g. t5 #918 from the city at (18,9) to (19,10)), owner techs 0/45/47/39/46, no Navigation; Polyfish legal 3739 -> 3749 Moves. No save has an Aquarion unit on ocean without 46, so innate stays L0 (consistent, untested). Test to promote: a Mermaid next to ocean before Marine Life."
+  },
+  {
+   "id": "AQUARION-WATERWAYS-ID",
+   "rule": "Aquarion Waterways is save tech id 48 (the name game_enums.json already gives 48), tier 2: price = 2 x cities + 4.",
+   "level": "L3 (id and tier, n=1)",
+   "game_version": "v123 (measured in a save)",
+   "evidence": "2026-10-26, game 3edee0ec (Jason's game 1, Wrath of Fiasji, Hard, every turn): p1 = Jason's Aquarion researched 48 on turn 8 after [47 Fishing, 46 Marine Life, 39 Aquaculture, Riding] (Riding = the Roads prerequisite, and Waterways replaces Roads). The star check is off by exactly -8 that turn with 2 cities and the engine has no tier for 48 -> tier 2, matching Jason's card (Waterways 6 stars at 1 city). Held-out game, scored before any rule change (3edee0ec t8->9 stars p1 off -8)."
+  },
+  {
+   "id": "AQUARION-UNIT-47",
+   "rule": "Unit id 47 is Aquarion's Archery unit (Mermaid Archer): 10 HP, costs 3 stars.",
+   "level": "L3 (id, HP, price; n=3 trainings)",
+   "game_version": "v123 (measured in a save)",
+   "evidence": "2026-10-26, game 05ade18c (Jason's game 4, Lyuhian Pond, Hard): bot p5 Aquarion trained unit 47 on turns 4, 5 and 6 right after researching Archery (the base Archery slot, no Aquarion tech involved); each new unit has 10 HP; the star check is off by exactly -3 on each of those three turns and nothing else is unpriced -> price 3. Matches Jason's card (Mermaid Archer 3 stars, atk 2 def 1 mov 1 range 2) and Polyfish's positional name MermaidArcher (AQUARION-UNIT-IDS). Attack/defence/range not yet measured: the replay (no stats for 47) leaves a Warrior at 8.0 HP where the save has 5.0 (t5->6) and misses a kill (t6->7). Not in engine/state.py UNIT yet (rule sessions)."
+  },
+  {
+   "id": "SANCTUARY-V123",
+   "rule": "Sanctuary is build id 32 / structure 32; it cost its builder 3 stars net; its tile keeps a counter in ImprovementData.Level; a wild animal (resource Game) reappeared on an adjacent forest tile 3 turns after one there was enchanted.",
+   "level": "L3 (n=1)",
+   "game_version": "v123 (measured in a save)",
+   "evidence": "2026-10-26, game b2448ead (Jason's game 2, Fields Adventure, Hard): p1 = Jason's Elyrion (researched only Forestry so far) built a Sanctuary at (4,11) (mountain) on turn 4; star check -3 that turn with only the Sanctuary unpriced. Enchant Animal (build 30) on (5,11) and (3,10) on turn 5. Sanctuary ImprovementData.Level by save: t5 2, t6 1, t7 1, t8 2. Game resources within 3 tiles: 5, 5, 4, 4, 5 (t4..t8); (5,11) lost its Game at t5->6 and got a new one at t7->8; (3,10) kept its Game after being enchanted. Open: spawn radius, rate, what Level counts, the unlocking tech. One game only."
+  },
+  {
+   "id": "CLEAR-FOREST-V123",
+   "rule": "Clear Forest is build id 10: Forest becomes Field, the tile's resource is removed, and the player gains 1 star.",
+   "level": "L3 (n=1)",
+   "game_version": "v123 (measured in a save)",
+   "evidence": "2026-10-26, game 028182a9 (Jason's game 5, Magnificent Songs, Hard): p1 = Jason's AiMo (Forestry) used build 10 on (6,10) on turn 8: Forest with a Game resource -> Field with none; the star check is off by exactly +1 that turn with only build 10 unpriced. The engine has no build 10 (economy.BUILD)."
+  },
+  {
+   "id": "ECON-MARKET-CLATHRUS",
+   "rule": "Market (5) earns, each turn, the level of each adjacent Windmill, Forge or Sawmill (a Windmill's level = its adjacent Farms, Sawmill = Lumber Huts, Forge = Mines); Clathrus (5) +1 per adjacent Fungi; one of each per city.",
+   "level": "L3 (Market by level n=1 + n=1 at level 1; Clathrus per adjacent Fungi n=1 game, 3 player-turns); cards",
+   "game_version": "v123 (measured in game)",
+   "evidence": "v123 info cards (Jason's screenshots 2026-10-23). Polyfish counts Algae for Clathrus; the card says Fungi, so the engine follows the card. | 2026-10-23: engine switches ECON_RULES market_income, clathrus_income (on); off changes no score. Polyfish get_city_production counts only Markets/Clathrus inside the city's territory, Clathrus per adjacent Algae tile in own territory; the engine counts adjacent structures of any owner (untested detail). | 2026-10-23 star check: af181c8f p14 t25->26, the only Market income in any save: Market next to a Windmill with 3 Farms paid +3, not +1 (MARKET_BY_LEVEL, 800 -> 801; n=1). The card's '+1 per adjacent' reads as +1 per level. | 2026-10-26, held-out games scored before any change (a pre-registered test of both switches): 028182a9 p1 (Jason's AiMo) Market built turn 10: t10->11 and t11->12 exact with market_income on (+1), off leaves +1 each. 9be1198d p1 (Jason's Cymanti) Clathrus built turns 6 and 7: t6->7, t7->8, t8->9 exact with clathrus_income on (+1, +2, +2 from adjacent Fungi), off leaves +1, +2, +2. Both switches now tested by a save."
   }
  ]
 }

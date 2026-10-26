@@ -3,7 +3,7 @@
  "rules": {
   "economy.ADJ_INCOME": {
    "ledger": "ECON-MARKET-CLATHRUS",
-   "level": "L3 (Market by level n=1; card); Clathrus untested",
+   "level": "L3 (Market by level n=1 + n=1 at level 1; Clathrus per adjacent Fungi n=1 game, 3 player-turns); cards",
    "source": "engine/economy.py:35",
    "unverified": false
   },
@@ -51,9 +51,9 @@
   },
   "economy.ECON_RULES.clathrus_income": {
    "ledger": "ECON-MARKET-CLATHRUS",
-   "level": "L3 (Market by level n=1; card); Clathrus untested",
+   "level": "L3 (Market by level n=1 + n=1 at level 1; Clathrus per adjacent Fungi n=1 game, 3 player-turns); cards",
    "source": "engine/economy.py:45",
-   "unverified": true
+   "unverified": false
   },
   "economy.ECON_RULES.embassy_income": {
    "ledger": "ECON-EMBASSY",
@@ -63,9 +63,9 @@
   },
   "economy.ECON_RULES.market_income": {
    "ledger": "ECON-MARKET-CLATHRUS",
-   "level": "L3 (Market by level n=1; card); Clathrus untested",
+   "level": "L3 (Market by level n=1 + n=1 at level 1; Clathrus per adjacent Fungi n=1 game, 3 player-turns); cards",
    "source": "engine/economy.py:44",
-   "unverified": true
+   "unverified": false
   },
   "economy.EMBASSY_ACTION30": {
    "ledger": "EMBASSY-ACTION",
@@ -105,7 +105,7 @@
   },
   "economy.MARKET_BY_LEVEL": {
    "ledger": "ECON-MARKET-CLATHRUS",
-   "level": "L3 (Market by level n=1; card); Clathrus untested",
+   "level": "L3 (Market by level n=1 + n=1 at level 1; Clathrus per adjacent Fungi n=1 game, 3 player-turns); cards",
    "source": "engine/economy.py:160",
    "unverified": false
   },
