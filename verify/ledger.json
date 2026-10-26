@@ -986,13 +986,6 @@
    "evidence": "2026-10-26, game 3edee0ec (Jason's game 1, Wrath of Fiasji, Hard, every turn): p1 = Jason's Aquarion researched 48 on turn 8 after [47 Fishing, 46 Marine Life, 39 Aquaculture, Riding] (Riding = the Roads prerequisite, and Waterways replaces Roads). The star check is off by exactly -8 that turn with 2 cities and the engine has no tier for 48 -> tier 2, matching Jason's card (Waterways 6 stars at 1 city). Held-out game, scored before any rule change (3edee0ec t8->9 stars p1 off -8)."
   },
   {
-   "id": "AQUARION-UNIT-47",
-   "rule": "Unit id 47 is Aquarion's Archery unit (Mermaid Archer): 10 HP, costs 3 stars.",
-   "level": "L3 (id, HP, price; n=3 trainings)",
-   "game_version": "v123 (measured in a save)",
-   "evidence": "2026-10-26, game 05ade18c (Jason's game 4, Lyuhian Pond, Hard): bot p5 Aquarion trained unit 47 on turns 4, 5 and 6 right after researching Archery (the base Archery slot, no Aquarion tech involved); each new unit has 10 HP; the star check is off by exactly -3 on each of those three turns and nothing else is unpriced -> price 3. Matches Jason's card (Mermaid Archer 3 stars, atk 2 def 1 mov 1 range 2) and Polyfish's positional name MermaidArcher (AQUARION-UNIT-IDS). Attack/defence/range not yet measured: the replay (no stats for 47) leaves a Warrior at 8.0 HP where the save has 5.0 (t5->6) and misses a kill (t6->7). Not in engine/state.py UNIT yet (rule sessions)."
-  },
-  {
    "id": "SANCTUARY-V123",
    "rule": "Sanctuary is build id 32 / structure 32; it cost its builder 3 stars net; its tile keeps a counter in ImprovementData.Level; a wild animal (resource Game) reappeared on an adjacent forest tile 3 turns after one there was enchanted.",
    "level": "L3 (n=1)",
@@ -1047,6 +1040,13 @@
    "level": "L3 (Jason in game 26 Oct + parts measured: PORT-BOARDS, STOMP-ON-BOARDING, JUGGERNAUT-NO-RETALIATION)",
    "game_version": "v123 (measured in game)",
    "evidence": "Jason in game, 26 Oct 2026: 'A giant automatically embarks and does the splash damage too on a port' (and: an embarked Giant never retaliates). Matches the engine: RULES port_boards (PORT-BOARDS), giant_juggernaut (GIANT-JUGGERNAUT), stomp_after_boarding (STOMP-ON-BOARDING, 6e1bf8e0 t12), stiff Juggernaut (JUGGERNAUT-NO-RETALIATION). Closes the wanted item 'a Giant on its own port attacked by a Warrior'."
+  },
+  {
+   "id": "AQUARION-UNIT-47",
+   "rule": "Unit id 47 is Aquarion's Archery unit (Mermaid Archer): 10 HP, costs 3 stars.",
+   "level": "L3 (id, HP, price; n=3 trainings)",
+   "game_version": "v123 (measured in a save)",
+   "evidence": "2026-10-26, game 05ade18c (Jason's game 4, Lyuhian Pond, Hard): bot p5 Aquarion trained unit 47 on turns 4, 5 and 6 right after researching Archery (the base Archery slot, no Aquarion tech involved); each new unit has 10 HP; the star check is off by exactly -3 on each of those three turns and nothing else is unpriced -> price 3. Matches Jason's card (Mermaid Archer 3 stars, atk 2 def 1 mov 1 range 2) and Polyfish's positional name MermaidArcher (AQUARION-UNIT-IDS). Attack/defence/range not yet measured: the replay (no stats for 47) leaves a Warrior at 8.0 HP where the save has 5.0 (t5->6) and misses a kill (t6->7). Not in engine/state.py UNIT yet (rule sessions). | 2026-10-26 pf-legal-2: Polyfish now has MermaidArcher (47) with the card's stats (2/1, range 2, Dash Fortify, amphibious), unlocked by Archery for Aquarion in place of the Archer: legal Train +3, Attack +3, Move +1; units 6441 -> 6449, stars 1316 -> 1319 (05ade18c)."
   }
  ]
 }

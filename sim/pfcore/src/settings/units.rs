@@ -308,6 +308,18 @@ pub fn get_unit_setting(unit_type: UnitType) -> UnitSetting {
             tribe_type: TribeType::Aquarion,
             ..Default::default()
         },
+        // v123 (AQUARION-UNIT-47: id, 10 HP, 3 stars from 05ade18c; AQUARION-UNITS card: 2/1, range 2, Dash Fortify)
+        U::MermaidArcher => UnitSetting {
+            cost: 3,
+            attack: 2.0,
+            movement: 1,
+            defense: 1.0,
+            range: 2,
+            health: 10.0,
+            skills: skills![S::Dash, S::Fortify, S::Amphibious],
+            tribe_type: TribeType::Aquarion,
+            ..Default::default()
+        },
         U::Swordsmaid => UnitSetting {
             cost: 5,
             attack: 3.0,

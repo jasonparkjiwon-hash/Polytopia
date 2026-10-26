@@ -241,7 +241,7 @@ fn tech_setting_table(tech_type: TechnologyType) -> TechnologySetting {
             next: vec![Spiritualism],
             unlocks_unit: Some(UnitType::Archer),
             unlocks_other: 1, // forest def
-            unlocks_special_units: vec![UnitType::Phychi, UnitType::IceArcher],
+            unlocks_special_units: vec![UnitType::Phychi, UnitType::IceArcher, UnitType::MermaidArcher],
             ..Default::default()
         },
         Spiritualism => TechnologySetting {
@@ -552,10 +552,11 @@ pub fn is_unit_replaced_for_tribe(unit: UnitType, tribe: TribeType) -> bool {
                 | U::Giant
                 | U::Archer
         ),
-        // v123: the Mermaid and Swordsmaid replace Aquarion's Warrior and Swordsman (AQUARION-UNIT, UNIT-ID-48)
+        // v123: the Mermaid, Swordsmaid and Mermaid Archer replace Aquarion's Warrior, Swordsman and Archer
+        // (AQUARION-UNIT, UNIT-ID-48, AQUARION-UNIT-47)
         T::Aquarion => matches!(
             unit,
-            U::Rider | U::Knight | U::Giant | U::Warrior | U::Swordsman
+            U::Rider | U::Knight | U::Giant | U::Warrior | U::Swordsman | U::Archer
         ),
         T::Polaris => matches!(unit, U::MindBender | U::Giant | U::Archer | U::Catapult),
         T::Nature => matches!(unit, U::Giant), // Elyrion

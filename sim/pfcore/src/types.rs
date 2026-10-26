@@ -316,7 +316,7 @@ pub enum UnitType {
     // v123 Aquarion units (ids measured in the saves: AQUARION-UNIT, UNIT-ID-48, UNIT-ID-53).
     // 47, 49-52, 54, 55 are below L1 (AQUARION-UNIT-IDS) and left out.
     Mermaid = 46, // Polyfish's MermaidWarrior
-    // MermaidArcher = 47,
+    MermaidArcher = 47, // v123 (AQUARION-UNIT-47): Aquarion's Archer
     Swordsmaid = 48, // Polyfish's MermaidSwordsman
     // MermaidDefender = 49,
     // MermaidCloak = 50,

@@ -261,3 +261,20 @@ fn port_on_flooded_land() {
     assert!(has(&s, &BuildMove::new(idx(5, 4), StructureType::Port)));
     assert!(!has(&s, &BuildMove::new(idx(6, 4), StructureType::Port)), "dry land stays closed");
 }
+
+/// AQUARION-UNIT-47 (L3): Aquarion train the Mermaid Archer (47), not the Archer, once they have Archery.
+/// 05ade18c t4 #193: bot p5 trains unit 47 at (4,11) right after researching Archery.
+#[test]
+fn aquarion_trains_mermaid_archer() {
+    use crate::moves::summon::SummonMove;
+    use crate::states::TechnologyState;
+    let t = |k| TechnologyState { tech_type: k, discovered: true, discovered_turn: 0 };
+    let mut s = board();
+    add_city(&mut s, 1, 5, 5);
+    let tr = s.tribes.get_mut(&1).unwrap();
+    tr.stars = 20;
+    tr.tribe_type = TribeType::Aquarion;
+    tr.tech_vanilla = vec![t(TechnologyType::AquaBase), t(TechnologyType::Hunting), t(TechnologyType::Archery)];
+    assert!(!has(&s, &SummonMove::new(idx(5, 5), UnitType::Archer)));
+    assert!(has(&s, &SummonMove::new(idx(5, 5), UnitType::MermaidArcher)));
+}
