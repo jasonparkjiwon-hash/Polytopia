@@ -66,7 +66,7 @@ Stars (11):
   now lists only the embassy step as untested.
 - **New ids:** unit 47 (Mermaid Archer), build 10 (Clear Forest), build 32 (Sanctuary), tech 48
   (Waterways). Seen before: techs 39/45/46/47, builds 46 (Starfish), 49, 51.
-- **Not in these games:** a Giant on a port (one Giant: Kickoo, game 3 t8, on a city), embassies
+- **Not in these games:** embassies
   (Diplomacy researched by bots in games 1 and 5, none built), peace offers, Oceanology (id 49) research.
 
 ## Next
@@ -74,5 +74,5 @@ Stars (11):
 - Rule sessions: the five fixes in the table (unit 47 name/price/stats, Waterways tier, Sanctuary
   price, Clear Forest +1), each A/B'd with `tools/miss.py` (these games are now training data).
 - sim-dist: re-run `tools/distributions.py` (adds 24 ruin events, 10 on water) and count Polaris-frozen ruins as water.
-- Still wanted from Jason: an embassy (two in one game for the price step), a Giant on its own port
-  attacked by a Warrior, Oceanology research, peace, a Sanctuary game played on for more turns.
+- Still wanted from Jason: an embassy (two in one game for the price step), Oceanology research,
+  peace, a Sanctuary game played on for more turns. (Giant on a port: answered by Jason, GIANT-ON-PORT.)

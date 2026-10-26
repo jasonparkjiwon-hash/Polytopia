@@ -1040,6 +1040,13 @@
    "level": "L3 (saves: 6 builds, 2 players)",
    "game_version": "v123 (measured in saves)",
    "evidence": "af181c8f (pf-legal-2, 26 Oct): logged Port builds (build 8) on flooded Field tiles: t9 #961 (6,26) and #962 (8,28) by player 8, t15 #2095 (5,24), t16 #2307 (4,25) and #2308 (3,25) by player 12, t19 #2877 (6,27) by player 8; all in the builder's territory, some on a Fruit tile. Polyfish offered Ports on Water only; legal Build 859 -> 865."
+  },
+  {
+   "id": "GIANT-ON-PORT",
+   "rule": "A Giant that moves onto its own port boards automatically (becomes a Juggernaut) and does its splash (stomp) damage; on the port it is a Juggernaut, so it never retaliates.",
+   "level": "L3 (Jason in game 26 Oct + parts measured: PORT-BOARDS, STOMP-ON-BOARDING, JUGGERNAUT-NO-RETALIATION)",
+   "game_version": "v123 (measured in game)",
+   "evidence": "Jason in game, 26 Oct 2026: 'A giant automatically embarks and does the splash damage too on a port' (and: an embarked Giant never retaliates). Matches the engine: RULES port_boards (PORT-BOARDS), giant_juggernaut (GIANT-JUGGERNAUT), stomp_after_boarding (STOMP-ON-BOARDING, 6e1bf8e0 t12), stiff Juggernaut (JUGGERNAUT-NO-RETALIATION). Closes the wanted item 'a Giant on its own port attacked by a Warrior'."
   }
  ]
 }

@@ -53,7 +53,7 @@ _Last updated 2026-10-26 (Jason's games 1-5 ingested, scored held-out, released)
 
 - Round 3 (items 35-40) all answered 23-24 Oct.
 
-- New saves as he plays, **every turn** (games 1-5 did this). Each new game goes into `data/holdout.json` first and is scored before any tuning. Still wanted: an embassy (two in one game for the price step), a Giant on its own port attacked by a Warrior, Oceanology research, peace, and a Sanctuary game played on for 10+ turns (games 1-5 gave 1 Sanctuary over 4 turns and 10 more water ruins).
+- New saves as he plays, **every turn** (games 1-5 did this). Each new game goes into `data/holdout.json` first and is scored before any tuning. Still wanted: an embassy (two in one game for the price step), Oceanology research, peace, and a Sanctuary game played on for 10+ turns (games 1-5 gave 1 Sanctuary over 4 turns and 10 more water ruins).
 - ~~Waterways save id~~: 48, tier 2 (game 1, AQUARION-WATERWAYS-ID).
 - Round 2, items 26–34 on the test sheet
   (`docs/polytopia_open_questions_to_fill_in_while_playing.md`).
