@@ -80,3 +80,4 @@
 - New structures Aqua Farm (49, on AquaCrop, +2 population) and Atoll (51, on water, ocean or flooded land; no population effect yet), unlocked by Aquaculture; AquaCrop visible with Aquaculture (`types.rs`, `settings/structures.rs`, `settings/resources.rs`, `settings/technology.rs`, `moves/build.rs`, `functions.rs`) [AQUARION-STRUCTURES, new ledger entry].
 - A Port can be built on flooded land (`moves/build.rs`) [PORT-FLOODED, new ledger entry].
 - New unit Mermaid Archer (47), Aquarion's Archer, unlocked by Archery (`types.rs`, `settings/units.rs`, `settings/technology.rs`) [AQUARION-UNIT-47].
+- Monuments can be built on ice, and on ocean by Aquarion (`moves/build.rs`) [MONUMENT-TERRAIN, new ledger entry].

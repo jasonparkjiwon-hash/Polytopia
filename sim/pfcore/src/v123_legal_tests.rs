@@ -278,3 +278,23 @@ fn aquarion_trains_mermaid_archer() {
     assert!(!has(&s, &SummonMove::new(idx(5, 5), UnitType::Archer)));
     assert!(has(&s, &SummonMove::new(idx(5, 5), UnitType::MermaidArcher)));
 }
+
+/// MONUMENT-TERRAIN (L3): with the Killer task done, Aquarion build the Gate of Power on ocean (e15f392c t14
+/// #1843 at (27,13)) and Polaris on ice (af181c8f t16 #2442 at (10,17)); other tribes still can't use ocean.
+#[test]
+fn gate_of_power_on_ocean_and_ice() {
+    use crate::moves::build::BuildMove;
+    let mut s = board();
+    explore(&mut s);
+    add_city(&mut s, 1, 5, 5);
+    s.tribes.get_mut(&1).unwrap().cities[0]._territory = vec![idx(5, 5), idx(5, 4), idx(6, 4)];
+    s.tiles.get_mut(&idx(5, 4)).unwrap().terrain_type = TerrainType::Ocean;
+    s.tiles.get_mut(&idx(6, 4)).unwrap().terrain_type = TerrainType::Ice;
+    let tr = s.tribes.get_mut(&1).unwrap();
+    tr.stars = 20;
+    tr.kills = 10;
+    assert!(!has(&s, &BuildMove::new(idx(5, 4), StructureType::GateOfPower)));
+    assert!(has(&s, &BuildMove::new(idx(6, 4), StructureType::GateOfPower)));
+    s.tribes.get_mut(&1).unwrap().tribe_type = TribeType::Aquarion;
+    assert!(has(&s, &BuildMove::new(idx(5, 4), StructureType::GateOfPower)));
+}

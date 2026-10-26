@@ -342,3 +342,4 @@ Jason (Imperius) vs 15 Hard bots on a 30x30 map, exported every turn from 1 to 1
 - PORT-FLOODED (26 Oct, pf-legal-2, L3 n=6): Ports are built on Aquarion-flooded land too (af181c8f t9 #961 ...). Polyfish now offers them.
 - 2026-10-26 GIANT-ON-PORT: Jason in game, a Giant on its own port boards (Juggernaut), stomps, and so never retaliates; the engine already does all three. The 'Giant on port attacked by a Warrior' test item is closed.
 - 2026-10-26 pf-port-3: SANCTUARY-NO-INCOME (L3, n=1, b2448ead): Sanctuary costs 3, no star income; Polyfish (v115) had 5 and +1 per adjacent animal. Polyfish now follows the save. Its +1 had hidden the b2448ead t7->8 siege row (ECON-SIEGE test item).
+- MONUMENT-TERRAIN (26 Oct, pf-legal-2, L3 n=3): monuments go on Ice (Polaris, af181c8f t16) and, for Aquarion, on Ocean (e15f392c t14, 6e1bf8e0 t11). Untested: ocean monuments for other tribes. Save task type 5 = Killer: [1, done, kills] (Polyfish's TaskType numbers differ).

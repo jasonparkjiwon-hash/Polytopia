@@ -329,8 +329,12 @@ pub fn generate_build_moves(state: &GameState, moves: &mut Vec<Box<dyn Move>>) {
 
                 // 3. Monuments (Tasks)
                 if existing_struct.is_none() {
+                    // v123 (MONUMENT-TERRAIN): monuments also go on ice (af181c8f t16 #2442, Polaris) and, for Aquarion,
+                    // on ocean (e15f392c t14 #1843, 6e1bf8e0 t11 #1610)
+                    let monument_terrain = tile.terrain_type == TerrainType::Ice
+                        || (tile.terrain_type == TerrainType::Ocean && tribe.tribe_type == crate::types::TribeType::Aquarion);
                     for &(struct_type, ref settings) in &pending_monument_structures {
-                        if settings.terrain_types.contains(&tile.terrain_type) {
+                        if settings.terrain_types.contains(&tile.terrain_type) || monument_terrain {
                             if tribe.built_unique_improvements.contains(&struct_type) {
                                 continue;
                             }
