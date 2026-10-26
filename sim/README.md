@@ -59,6 +59,7 @@
 - Cymanti use the base Sailing, Ramming, Navigation and Diplomacy; Raychi unlock with Sailing, Boomchi with Ramming, Algae with Fishing, Moth with Diplomacy; Oceantology tier 3 (`settings/technology.rs`) [CYMANTI-TECHS, new ledger entry].
 - Peace offers (need Strategy, a met tribe, no offer pending) and replies are generated again; breaking peace leaves RelationState 3 on the breaker's side (`moves/abilities/diplomacy.rs`) [DIPLO-PEACE].
 - Turn income is paid before the start-of-turn effects, so a level from Fungi growth counts from the next turn (`game.rs` end_turn) [CITY-LEVEL-BY-REWARD].
+- A Persist unit (Knight, Tridention) that kills moves in and may attack again; the kill move-in no longer ends its turn (`actions/units.rs` attack_unit) [PERSIST-KILL-MOVE, new ledger entry].
 - Clathrus income source behind the off switch `clathrus_fungi` (Fungi per the v123 card; default Algae as upstream) [ECON-MARKET-CLATHRUS, split].
 
 ## Legal-move generation (pf-legal; tests in `src/v123_legal_tests.rs`)

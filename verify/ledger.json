@@ -1012,6 +1012,13 @@
    "level": "L3 (Market by level n=1 + n=1 at level 1; Clathrus per adjacent Fungi n=1 game, 3 player-turns); cards",
    "game_version": "v123 (measured in game)",
    "evidence": "v123 info cards (Jason's screenshots 2026-10-23). Polyfish counts Algae for Clathrus; the card says Fungi, so the engine follows the card. | 2026-10-23: engine switches ECON_RULES market_income, clathrus_income (on); off changes no score. Polyfish get_city_production counts only Markets/Clathrus inside the city's territory, Clathrus per adjacent Algae tile in own territory; the engine counts adjacent structures of any owner (untested detail). | 2026-10-23 star check: af181c8f p14 t25->26, the only Market income in any save: Market next to a Windmill with 3 Farms paid +3, not +1 (MARKET_BY_LEVEL, 800 -> 801; n=1). The card's '+1 per adjacent' reads as +1 per level. | 2026-10-26, held-out games scored before any change (a pre-registered test of both switches): 028182a9 p1 (Jason's AiMo) Market built turn 10: t10->11 and t11->12 exact with market_income on (+1), off leaves +1 each. 9be1198d p1 (Jason's Cymanti) Clathrus built turns 6 and 7: t6->7, t7->8, t8->9 exact with clathrus_income on (+1, +2, +2 from adjacent Fungi), off leaves +1, +2, +2. Both switches now tested by a save."
+  },
+  {
+   "id": "PERSIST-KILL-MOVE",
+   "rule": "Persist (Knight, Tridention): after a kill the unit moves onto the defender's tile and may attack again the same turn; the kill move-in doesn't end its turn.",
+   "level": "L3",
+   "game_version": "v123 (measured in saves)",
+   "evidence": "All saves 2026-10-26 (tuned + held-out): 20 same-turn second attacks by one unit (8 Knight, 12 Tridention), each right after a kill, none after a non-kill (e.g. af181c8f t17 #2381-2382 Knight 369 kills a Warrior, moves in, attacks again). Polyfish v115 marked the kill move-in as exhausting (step_unit), so the second attack was refused."
   }
  ]
 }

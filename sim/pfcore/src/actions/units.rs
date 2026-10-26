@@ -1525,7 +1525,11 @@ pub fn attack_unit(
             unit.attacks_performed += 1;
 
             // Set attacked flag based on skill interactions
-            if !(killed_defender && has_persist) {
+            if killed_defender && has_persist {
+                // v123 (ledger PERSIST-KILL-MOVE): the kill move-in (step_unit, which exhausts) doesn't end a
+                // Persist unit's turn; it may attack again
+                unit.attacked = false;
+            } else {
                 // DoubleAttack allows 2 attacks, so only set attacked=true after 2nd attack
                 if has_double_attack && unit.attacks_performed < 2 {
                     // Don't set attacked yet, allow second attack

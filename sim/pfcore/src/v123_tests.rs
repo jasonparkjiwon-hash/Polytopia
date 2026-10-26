@@ -921,3 +921,21 @@ fn income_before_fungi_growth() {
     assert_eq!(g.state.tribes[&2].cities[0].level, 3, "Fungi growth still levels the city");
     assert_eq!(g.state.tribes[&2].stars - before, 2, "income from the level before growth");
 }
+
+/// PERSIST-KILL-MOVE (L3): a Persist unit that kills moves in and may attack again the same turn.
+/// af181c8f t17 #2381-2382: Knight 369 (moved first) kills a 10 HP Warrior, moves onto its tile, attacks again.
+#[test]
+fn persist_attacks_again_after_kill() {
+    let mut s = board();
+    let a = add_unit(&mut s, 1, UnitType::Knight, 4, 5, 10.0);
+    s.tribes.get_mut(&1).unwrap().units[a].moved = true;
+    add_unit(&mut s, 2, UnitType::Warrior, 5, 5, 10.0);
+    add_unit(&mut s, 2, UnitType::Defender, 6, 6, 15.0);
+    attack(&mut s, a, 0);
+    let u = unit(&s, 1, a);
+    assert_eq!(s.tribes[&2].units.len(), 1, "the Warrior dies");
+    assert_eq!(u.coords.idx, idx(5, 5), "moves in");
+    assert!(!u.attacked, "may attack again");
+    attack(&mut s, a, 0);
+    assert!(unit(&s, 1, a).attacked, "no kill: turn over");
+}
