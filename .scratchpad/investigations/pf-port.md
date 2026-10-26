@@ -97,6 +97,7 @@ Status: **done** = ported with a test; **pf ok** = Polyfish already does it;
 | 68 | Fish harvest with the tribe's Fishing (Aquarion 47, Polaris Frostwork) | save count 14/14, 13/13 | L3 | base Fishing only | done (legal Build 518 -> 545) |
 | 69 | Cymanti use base Sailing/Ramming/Navigation/Diplomacy; Raychi via Sailing, Boomchi via Ramming, Algae via Fishing | CYMANTI-TECHS (new) | L3 | Hydrology/Synergy/Oceantology replacements | done (legal 94.8 -> 95.7%) |
 | 70 | Peace offers (Strategy, met, one pending per pair) and replies generated; breaker's side RelationState 3 | DIPLO-PEACE | L3 | generation switched off upstream | done (legal 95.7 -> 96.3%; replies to offers pending at a checkpoint need the loader) |
+| 71 | Turn income before start-of-turn effects (Fungi growth's level counts next turn) | CITY-LEVEL-BY-REWARD | L3 | income after Fungi growth | done (stars 798 -> 801) |
 | 57 | Bridge carries land units | BRIDGE-LAND | L3 | pf ok (is_steppable) | done (pf: is_steppable allows bridges for walkers; boats pass under) |
 
 ## Flagged (below L1, off)
@@ -146,7 +147,24 @@ Misses = compared - exact.
   distribution), not a rule port. A "meet after each own move" switch changed nothing (tried, removed).
 - Saves: meets are one-way in 124 of 290 new meets (A knows B, B doesn't know A yet).
 
-## Scores (pf_miss, 24 Oct, at f65efe4 incl. pf-legal's moves)
+## Scores (pf_miss)
+
+26 Oct (pf-port-3), at 28ac99e: tuned units 4723/4734, stars 801/819, legal 8846/8972 = 98.6%.
+Jason's 5 new held-out games (535a6d8, `pf_miss --holdout`, scored once, not tuned on), Polyfish vs referee
+(holdout.json `scored`, at 62666fa):
+
+| game | Polyfish units | stars | referee units | stars |
+|---|---|---|---|---|
+| 3edee0ec | 409/409 | 142/144 | 409/409 | 141/144 |
+| b2448ead | 454/454 | 110/112 | 454/454 | 109/112 |
+| 9be1198d | 272/272 | 77/80 | 272/272 | 80/80 |
+| 05ade18c | 203/211 | 63/66 | 208/217 | 63/66 |
+| 028182a9 | 380/382 | 120/121 | 381/381 | 119/121 |
+| total | 1718/1728 | 512/523 | 1724/1733 | 512/523 |
+
+Legal on the held-out set (ed6cb932 included): 3130/3163 = 99.0%. ed6cb932 still 187/187, 64/64.
+
+24 Oct, at f65efe4 incl. pf-legal's moves:
 
 Units exact 4723/4734 (11 misses), stars exact 798/819 (referee 802/819), legal 8801/8972 = 98.1%.
 Held-out ed6cb932 (data/holdout.json, scored once by check.sh at f65efe4): units 187/187, stars 64/64, legal 98.9%.
