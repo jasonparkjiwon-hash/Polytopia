@@ -31,6 +31,7 @@ TIER = {k.replace(" ", ""): v["tier"] for k, v in _tree.items()}
 TIER.update({"IceFishing": 2, "Sledding": 2, "PolarWarfare": 3, "Spearing": 3, "Polarism": 3, "Oceantology": 3})   # MEASURED: tribe techs priced by the same formula (n=1-2 each; Polarism n=1, af181c8f p6 t11)
 AQUARION_TIERS = True      # Aquarion techs the TECH table doesn't name yet, keyed by save id: only the tier is known
 if AQUARION_TIERS: TIER.update({47: 1, 39: 2, 46: 2})   # MEASURED: the star check prices them as tier x cities + 4 (backlog item 1)
+TIER["Waterways"] = 2        # AQUARION-WATERWAYS-ID: save tech 48, tier 2 (3edee0ec t8, Jason's card: 6 stars at 1 city)
 REWARD_STARS = {7: 5}
 ADJ_INCOME = {50: {6, 22, 13}, 41: {37}}      # Market: Windmill, Forge, Sawmill; Clathrus: Fungi
 EMBASSY_COST = 4            # SPLIT: Jason and the v123 card say 5; both embassies in the saves (09a5bf1e t7, 6e1bf8e0 t13) cost the builder a net 4 (A/B 779 -> 780)

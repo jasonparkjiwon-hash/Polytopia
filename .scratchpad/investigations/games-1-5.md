@@ -82,3 +82,4 @@ Stars (11):
 | # | Ledger id | Change | miss.py total after (units, stars) |
 |---|---|---|---|
 | 1 | AQUARION-UNIT-47 | `engine/state.py` names unit 47 `MermaidArcher`; stats and price 3 from the v123 card in `data/measured_ui.json` | 7372/7439, 1490/1540 |
+| 2 | AQUARION-WATERWAYS-ID | `engine/economy.py` `TIER["Waterways"] = 2` (tech 48) | 7372/7439, 1491/1540 |
