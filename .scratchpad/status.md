@@ -44,12 +44,16 @@ _Last updated 2026-10-26 (Jason's games 1-5 ingested, scored held-out, released)
 
 - pf-port (24 Oct), two in-game checks left for the Polyfish forward model:
   1. ~~Mermaid onto ocean~~ answered 26 Oct: innate for Aquarion, no tech (AMPHIBIOUS-WATER, L0).
-  2. Aqua Farm (build 49) and Aquarion structure 51: Aquaculture unlocks Aqua Farm and Atoll (5 stars each). Jason 26 Oct: Atoll is like Fungi mycelium (connects cities, buildable anywhere, population grows with the number of cities connected); 51 = Atoll is likely, unconfirmed. Still open: the population formula, where it can be built, what Aqua Farm does. Test: build an Atoll linking 2 and then 3 cities, saving each turn.
+  2. Aqua Farm (build 49) and Aquarion structure 51: Aquaculture unlocks Aqua Farm and Atoll (5 stars each). Jason 26 Oct: Atoll is like Fungi mycelium (connects cities, buildable anywhere, population grows with the number of cities connected); 51 = Atoll is likely, unconfirmed. Still open: the population formula. Test: build an Atoll linking 2 and then 3 cities, saving each turn. (pf-legal-2 26 Oct, from 18 builds: 51 = Atoll is consistent; Aqua Farm goes on AquaCrop and gives +2 population; Atoll goes on water, ocean or flooded land; both need Aquaculture; AQUARION-STRUCTURES.)
   3. Polaris skating: how far can a Mooni or Battle Sled move from a city (land) onto ice in one turn?
      (09a5bf1e t1: a Mooni went 2 tiles from its city onto ice.)
      pf-legal: the saves show Mooni at most 2 and Battle Sled at most 3, from a city or ice alike (SKATE-MOVE);
      only a Battle Sled 4 tiles over ice would change that.
 
+- pf-legal-2 (26 Oct), Aquarion Jelly (unit 52): which tech unlocks it? Look at the tech tree card for the
+  Jelly (or research Navigation alone first and see if the Jelly appears in the city's train list). The
+  only bot that trained one held Navigation, Aquaculture, Marine Life, Organization and Strategy. Until
+  then Polyfish never offers it.
 - pf-legal (24 Oct), one in-game check: move a non-Cymanti land unit (e.g. a Warrior) onto a Cymanti
   algae tile with 2+ moves left. Does it stop there, or can it keep going? (Cymanti units and boats keep
   going, ALGAE-MOVE.)
