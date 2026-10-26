@@ -1075,6 +1075,34 @@
    "level": "L3 (logged research order in all Aquarion saves; Polyfish check n=4)",
    "game_version": "v123 (measured in saves)",
    "evidence": "data/conflicts_and_gaps.md AQUARION-TECHS (24 Oct): Aquarion players own Navigation and Aquatism but never base Fishing, Sailing or Ramming; 46 is always bought before Navigation, 39 before Aquatism; ids settled by ed6cb932 (Jason). pf-legal-2 (26 Oct) logged researches Polyfish refused without the slots: Navigation with 46 and no Sailing: 09a5bf1e t6 #635, 6e1bf8e0 t5 #768, e15f392c t6 #464 (46 at #463, one action before); Aquatism (12) with 39 and no Ramming: e15f392c t9 #891. With the slots: legal Research 544 -> 548; units 6455/6457 and stars 1320/1342 unchanged; held-out unchanged. Was the switch aquarion_tech_slots (pf-port); now plain code."
+  },
+  {
+   "id": "WATER-TEMPLE-PRICE",
+   "rule": "Water Temple (build 19) costs 20 stars.",
+   "level": "L3 (n=2) + Jason",
+   "game_version": "v123 (measured in a save)",
+   "evidence": "Game 9906f7da (Jason's game 6): p10 Zebasi built 19 on turn 17 (#1370) and turn 19 (#1632); both turns the star check is off by exactly -20 with build 19 the only unpriced item. Jason 26 Oct: '20 stars at once must be one of the temples'. engine/economy.py BUILD has no 19 (rule sessions)."
+  },
+  {
+   "id": "CYMANTI-OCEANOLOGY-ID",
+   "rule": "Cymanti's Oceanology is saved as tech id 14 (the base Navigation id); it unlocks the Living Island.",
+   "level": "L3 (n=1) + Jason",
+   "game_version": "v123 (measured in a save)",
+   "evidence": "Game 9906f7da: Jason's Cymanti (p1) researched 6, 7, 38, 10, 13, 14 (turns 2-9), then trained a Living Island (unit 57) on turn 11 (#637); AvailableTech never holds 49 or 33. Jason 26 Oct: 'the living island came after oceanology'. So the in-game Oceanology is stored under 14. CONFLICT with TRIBE-TECH-TIERS, which took Oceanology = save id 49 (from Polyfish's enum and a bot-war star fit): 49 may be another tribe's tech or unused; check that bot-war p16 case."
+  },
+  {
+   "id": "AQUARION-UNIT-52",
+   "rule": "Unit id 52 is a trainable Aquarion unit with 20 HP (the Jelly / jellyfish), available after Navigation; tiles it affects carry TileEffect 3 (Tentacle).",
+   "level": "L3 (HP, trained; n=2) + Jason (name)",
+   "game_version": "v123 (measured in a save)",
+   "evidence": "Game 9906f7da: p9 Aquarion trained 52 on turn 12 (#786) and turn 14 (#1007) with techs [47, 39, 46, Navigation, Organization, Strategy]; record id135 has 20.0 HP at t13-t15. It is trained (action 5), so not a city-reward super unit. Tiles with Flooded + Tentacle effects appear from t13. Polyfish's positional name for 52 is Jelly (AQUARION-UNIT-IDS); Jason 26 Oct: 'might be the jellyfish'. Price and attack not measured yet."
+  },
+  {
+   "id": "EMBASSY-DESTROYED-BY-COMBAT",
+   "rule": "An embassy is destroyed by any combat between the two tribes or by a city capture between them; the builder can build it again.",
+   "level": "L3 (n=3) + Jason",
+   "game_version": "v123 (measured in a save)",
+   "evidence": "Jason 26 Oct: 'the embassy is destroyed with any combat or taking cities'. Game 9906f7da, Jason (p1) embassy in the Aquarion (p9) capital, EmbassyLevel in p9's Diplomacy record for p1: built t13 (#818), p9 attacked p1 t13 (#879) -> 0 at t14; built t14 (#925), attack t14 (#991) -> 0 at t15; built t15 (#1029), no p1-p9 combat t15-t17 -> 1 at t16, t17; built t18 (#1386), p9 captured p1's city (2,27) t18 (#1461) -> 0 at t19. Open: why the t13 build while the t6 embassy still stood (level 1 at t13). Engine has no embassy destruction (rule sessions)."
   }
  ]
 }
