@@ -173,7 +173,7 @@ pf-port keeps: economy / star drift, unit HP and position misses, the rest of th
      + 1 Workshop + bonus 1). Was being looked at: dump Polyfish's per-city get_city_production for p14 after
      load (an eprintln behind an env var in run_job, not committed) to see which term is +1.
 2. Movement legality (~85 Moves): Cymanti water units leaving a city 2-3 tiles onto water/algae; Polaris
-   skating 2-3 tiles from a city onto ice; Mermaid onto ocean (which tech opens ocean for Aquarion: open,
+   skating 2-3 tiles from a city onto ice; Mermaid onto ocean (ocean is innate for Aquarion, Jason 26 Oct (no tech); was open:
    AMPHIBIOUS-WATER); a few boats into a port.
 3. Explode not offered (13), Attack "already attacked" (Knights, HP drift), Train "city full" (downstream).
 4. Peace replies to offers pending at a checkpoint (11): the loader needs the save's DiplomacyMessages.

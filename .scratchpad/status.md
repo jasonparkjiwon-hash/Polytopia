@@ -34,8 +34,8 @@ _Last updated 2026-10-25 (polish program done; Phase 3 prep running)._
 
 ## Waiting on Jason
 
-- pf-port (24 Oct), three in-game checks for the Polyfish forward model:
-  1. Which tech lets Aquarion units (Mermaid) onto ocean? (saves: only seen with Navigation + Marine Life)
+- pf-port (24 Oct), two in-game checks left for the Polyfish forward model:
+  1. ~~Mermaid onto ocean~~ answered 26 Oct: innate for Aquarion, no tech (AMPHIBIOUS-WATER, L0).
   2. Aqua Farm (build 49) and Aquarion structure 51: which tech unlocks each, and what does each do?
   3. Polaris skating: how far can a Mooni or Battle Sled move from a city (land) onto ice in one turn?
      (09a5bf1e t1: a Mooni went 2 tiles from its city onto ice.)

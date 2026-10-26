@@ -333,3 +333,4 @@ Jason (Imperius) vs 15 Hard bots on a 30x30 map, exported every turn from 1 to 1
 - CONVERT-ATTACK (L3, pf-legal): converters' attacks are converts; a boat carrying a Mind Bender attacks normally.
 - RESEARCH-BACKWARD (L3, pf-legal): a known tech's prerequisite is researchable (Vengir Mining from Smithery).
 - METAL-WITH-MINING (L3, pf-legal): Metal shows with Climbing or Mining.
+- AMPHIBIOUS-WATER: Jason (26 Oct 2026) answered pf-port question 1: Aquarion units move onto ocean innately, no tech needed. L0 until a save or in-game test shows it; saves do not contradict it. pf-port/pf-legal: drop the 'which tech opens ocean' item and let Aquarion amphibious units enter Ocean tiles in Polyfish.

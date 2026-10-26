@@ -895,13 +895,6 @@
    "evidence": "tools/distributions.py over every game's longest log (6 games with actions); reward id fixes the offered pair; the city's own reward count agrees with the pair's level in 298/307. Human choices (n=7) kept apart."
   },
   {
-   "id": "AMPHIBIOUS-WATER",
-   "rule": "Aquarion amphibious units (Mermaid 46, Swordsmaid 48) stand on shallow water with no water tech (only the start tech 45): no Fishing-slot tech needed. Ocean: seen only for players holding Navigation and Marine Life (46), so the ocean rule is still open.",
-   "level": "L3 (saves: 11 unit records)",
-   "game_version": "v123 (measured in saves)",
-   "evidence": "All saves, last state of each checkpoint (2026-10-24, pf-port): unit records of types 46/48 on Water tiles without flooding whose owner holds none of 47, 46, Navigation: 9 Mermaids + 2 Swordsmaids; 9 more Mermaids on Water with 47 only. On Ocean: 3 records (2 Mermaids, 1 Shark), all owners with Navigation and 46. Polyfish v115 lets Amphibious units onto water only with a tech that opens water (none for Aquarion), which made 142 logged Aquarion moves illegal (pf-loader)."
-  },
-  {
    "id": "BOT-RESEARCH-OPENER",
    "rule": "Bot first research, decision list on start techs and the 3x3 around the capital (initialTiles): Aquarion -> its tribe tech (id 47); Polaris -> IceFishing or Sledding; a tribe whose start tech opens Mining (Climbing or Smithery: XinXi, Vengir) -> Mining if 2+ metal, or 1+ metal and no water; else any water tile -> Fishing (if not known); else 2+ fruit -> Organization; else 2+ game -> Hunting; else metal -> Climbing; else Riding. Misses are mostly Kickoo (starts with Fishing; next tech varies) and Oumaji (FreeSpirit 2/2).",
    "level": "L3 (measured, statistical: 62/77 training = 81% vs 55% always-Fishing; held-out ed6cb932 14/15 vs 10/15)",
@@ -984,6 +977,13 @@
    "level": "L3 (saves: 8 Mine builds)",
    "game_version": "v123 (measured in saves)",
    "evidence": "pf-legal 2026-10-24: 8 logged Mine builds (09a5bf1e t2 #190, t4 #384, t7 #818, 1bf60251 t4 #266, ...) by Vengir, who start with Smithery and research Mining backwards (RESEARCH-BACKWARD) without Climbing. Polyfish v115 shows Metal only with Climbing, so the Mine was never offered; with Mining too all 8 are legal."
+  },
+  {
+   "id": "AMPHIBIOUS-WATER",
+   "rule": "Aquarion amphibious units (Mermaid 46, Swordsmaid 48) stand on shallow water with no water tech (only the start tech 45): no Fishing-slot tech needed. Ocean: Jason (26 Oct 2026) says moving onto ocean is innate for Aquarion units, not a tech unlock. The saves only show ocean records for owners with Navigation and Marine Life (46), which is consistent with innate (not a test of it). Ocean rule: no tech gate.",
+   "level": "L3 (saves: 11 unit records); ocean L0 (Jason, 26 Oct 2026)",
+   "game_version": "v123 (measured in saves)",
+   "evidence": "All saves, last state of each checkpoint (2026-10-24, pf-port): unit records of types 46/48 on Water tiles without flooding whose owner holds none of 47, 46, Navigation: 9 Mermaids + 2 Swordsmaids; 9 more Mermaids on Water with 47 only. On Ocean: 3 records (2 Mermaids, 1 Shark), all owners with Navigation and 46. Ocean innate: Jason's answer, L0, no save contradicts it. Polyfish v115 lets Amphibious units onto water only with a tech that opens water (none for Aquarion), which made 142 logged Aquarion moves illegal (pf-loader)."
   }
  ]
 }

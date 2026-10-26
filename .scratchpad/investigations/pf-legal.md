@@ -56,7 +56,7 @@ Mine to do, biggest first:
    Tasks; probably a loader job (player `Tasks`, 6 bytes for task types 1/5/9).
 3. **Aquarion structures 49/51 (11)**: no Polyfish StructureType; pf-port charged their price in pfreplay
    (f65efe4). Needs a type + unlock tech: waiting on Jason (status.md).
-4. **Mermaid onto ocean (~12 Aquarion Moves)**: which tech opens ocean, waiting on Jason; the
+4. **Mermaid onto ocean (~12 Aquarion Moves)**: ANSWERED 26 Oct by Jason: innate for Aquarion, no tech (AMPHIBIOUS-WATER); so no tech gate. Old note: the
    `aquarion_tech_slots` flag (46 replaces Sailing) is the candidate. Also Aquarion research of
    Navigation/Aquatism/Free Spirit and Cymanti Oceantology (prerequisite Pescetism not modelled).
 5. Odd moves (~10): Warrior onto Fungi structure 37 (e15f392c t12 #1563, t13 #1775), Shark 2-3 tiles on
