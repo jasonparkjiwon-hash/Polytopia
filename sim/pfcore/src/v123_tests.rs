@@ -895,3 +895,29 @@ fn clathrus_default_algae() {
     assert!(!crate::v123_flags::on(&crate::v123_flags::CLATHRUS_FUNGI));
     assert!(crate::v123_flags::set_from("no_such_switch") == vec!["no_such_switch".to_string()]);
 }
+
+/// CITY-LEVEL-BY-REWARD (L3): the turn's income is paid before Fungi growth, so a level that growth brings counts
+/// from the next turn (the level is the CityReward's, chosen after the income).
+/// e15f392c turn 5, player 14 (Cymanti, Hard): level 2 capital with a Workshop and Fungi next to it gets 5 stars
+/// (2 + capital 1 + Workshop 1 + bot bonus 1), then takes its level-3 CityReward; Polyfish paid 6.
+#[test]
+fn income_before_fungi_growth() {
+    use crate::moves::EndTurnMove;
+    let mut s = board();
+    s.settings.turn = 4;
+    s.settings._max_tribe_count = 2;
+    add_city(&mut s, 2, 5, 5);
+    {
+        let c = &mut s.tribes.get_mut(&2).unwrap().cities[0];
+        c.level = 2; c.production = 2; c.progress = 2; c.population = 4;
+    }
+    s.tiles.get_mut(&idx(5, 4)).unwrap().owner = 2;
+    s.tiles.get_mut(&idx(5, 4)).unwrap().ruling_city_coords = Some(Coords::from_xy(5, 5, SIZE));
+    s.structures.insert(idx(5, 4), Some(StructureState { structure_type: StructureType::Fungi, level: 1, founded: 2 }));
+    let mut g = crate::game::Game { state: s };
+    let before = g.state.tribes[&2].stars;
+    g.play_move(&EndTurnMove).unwrap();
+    assert_eq!(g.state.settings.current_player_turn_id, 2);
+    assert_eq!(g.state.tribes[&2].cities[0].level, 3, "Fungi growth still levels the city");
+    assert_eq!(g.state.tribes[&2].stars - before, 2, "income from the level before growth");
+}

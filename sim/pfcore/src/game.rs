@@ -567,15 +567,9 @@ impl Game {
         // Update exploration for new tribe
         undos.push(update_exploration(state, new_pov));
 
-        // Process start turn effects
-        undos.push(actions::process_start_turn_effects(state, new_pov));
-
-        // Try discovering tribes that moved into view
-        if state.settings._fow {
-            undos.push(try_discover_other_tribes(state));
-        }
-
-        // Reward production if not the first turn
+        // Reward production if not the first turn.
+        // v123 (ledger CITY-LEVEL-BY-REWARD): paid before the start-of-turn effects, so a level that Fungi growth
+        // brings this turn counts only from next turn (the level is the CityReward's, chosen after the income)
         if state.settings.turn > 0 {
             if let Some(tribe) = state.tribes.get(&new_pov) {
                 let cities: Vec<_> = tribe.cities.clone();
@@ -586,6 +580,14 @@ impl Game {
                     undos.push(gain_stars(state, spt));
                 }
             }
+        }
+
+        // Process start turn effects
+        undos.push(actions::process_start_turn_effects(state, new_pov));
+
+        // Try discovering tribes that moved into view
+        if state.settings._fow {
+            undos.push(try_discover_other_tribes(state));
         }
 
         // Update all unit states

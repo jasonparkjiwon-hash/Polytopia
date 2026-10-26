@@ -43,7 +43,6 @@
 - Philosophy discount is ceil(cost x 2/3) (`settings/technology.rs`) [TECH-COST].
 - Starfish can be gathered with Navigation or the tribe's version of it (Polar Warfare) (`moves/mod.rs`, `moves/capture.rs`) [ECON-PRICES-V123].
 - Enchant Animal costs 3 (`version_sync.rs`) [ECON-PRICES-V123].
-- Enchant Animal costs 3 (`version_sync.rs`) [ECON-PRICES-V123].
 - The Polaris Outpost is buildable for 5 stars; its effect (ice network) is not modelled yet (`settings/structures.rs`).
 - Capturing a city claims the 3x3 around it (unowned or the old owner's tiles), not every same-owner tile within 2 (`actions/city.rs` capture_city) [CAPTURE-TERRITORY].
 - A captured capital stays the old owner's capital (no +1, no bot bonus for the captor) (`actions/city.rs`) [ECON-INCOME, ECON-BOT-BONUS].
@@ -59,6 +58,7 @@
 - Resource harvests accept the tribe's version of the tech, and Aquarion's 47 counts as Fishing (`settings/technology.rs` has_tech_for_tribe, `moves/mod.rs`, `functions.rs`).
 - Cymanti use the base Sailing, Ramming, Navigation and Diplomacy; Raychi unlock with Sailing, Boomchi with Ramming, Algae with Fishing, Moth with Diplomacy; Oceantology tier 3 (`settings/technology.rs`) [CYMANTI-TECHS, new ledger entry].
 - Peace offers (need Strategy, a met tribe, no offer pending) and replies are generated again; breaking peace leaves RelationState 3 on the breaker's side (`moves/abilities/diplomacy.rs`) [DIPLO-PEACE].
+- Turn income is paid before the start-of-turn effects, so a level from Fungi growth counts from the next turn (`game.rs` end_turn) [CITY-LEVEL-BY-REWARD].
 - Clathrus income source behind the off switch `clathrus_fungi` (Fungi per the v123 card; default Algae as upstream) [ECON-MARKET-CLATHRUS, split].
 
 ## Legal-move generation (pf-legal; tests in `src/v123_legal_tests.rs`)
