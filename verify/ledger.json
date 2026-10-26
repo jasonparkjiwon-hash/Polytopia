@@ -1033,6 +1033,13 @@
    "level": "L3 (saves: 18 builds in 7 games; Aqua Farm pop n=2); Atoll population L0 (Jason)",
    "game_version": "v123 (measured in saves)",
    "evidence": "Saves (pf-legal-2, 26 Oct): 7 Aqua Farms (3edee0ec t6 #393, 6e1bf8e0 t5 #1086 and t11 x4, 9be1198d t5 #260, e15f392c t8 #737), all on AquaCrop Water/Ocean; 11 Atolls (1bf60251 t6 #434, 3edee0ec t9 x2, 6e1bf8e0 t11 #1428 on Ocean, 9be1198d t6 #321, e15f392c t4/t8/t14 ...): Water, Ocean or flooded Field. Every builder held 39 (e15f392c t4 researched it at #258, one action before). All tiles owned by the builder. Pop: 3edee0ec t6 Potic level 1 pop 0 -> level 2 pop 0 (one CityReward) with only the Aqua Farm; 9be1198d t5 Poatlan 0/2 -> 2/4 with only the Aqua Farm: +2. Atoll: 9be1198d t6 no city's pop changed; e15f392c t4 and 1bf60251 t6 two nearby cities each +1 beyond other sources (consistent with Jason's connection rule, not modelled). Polyfish legal Build 585 -> 596, CityReward 220 -> 223; held-out Build 298 -> 302."
+  },
+  {
+   "id": "PORT-FLOODED",
+   "rule": "A Port can be built on land flooded by Aquarion (FloodedFlag 1), by any tribe, as on water.",
+   "level": "L3 (saves: 6 builds, 2 players)",
+   "game_version": "v123 (measured in saves)",
+   "evidence": "af181c8f (pf-legal-2, 26 Oct): logged Port builds (build 8) on flooded Field tiles: t9 #961 (6,26) and #962 (8,28) by player 8, t15 #2095 (5,24), t16 #2307 (4,25) and #2308 (3,25) by player 12, t19 #2877 (6,27) by player 8; all in the builder's territory, some on a Fruit tile. Polyfish offered Ports on Water only; legal Build 859 -> 865."
   }
  ]
 }

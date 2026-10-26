@@ -247,9 +247,10 @@ pub fn generate_build_moves(state: &GameState, moves: &mut Vec<Box<dyn Move>>) {
                         continue;
                     }
 
-                    // v123 (AQUARION-STRUCTURES): the Atoll also goes on flooded land (e15f392c t4 #259)
+                    // v123: the Atoll (AQUARION-STRUCTURES, e15f392c t4 #259) and the Port (PORT-FLOODED, af181c8f t9
+                    // #961) also go on flooded land
                     let terrain_valid = (settings.terrain_types.contains(&tile.terrain_type)
-                        || (struct_type == StructureType::Atoll && tile.is_flooded()))
+                        || (matches!(struct_type, StructureType::Atoll | StructureType::Port) && tile.is_flooded()))
                         && !tile.is_algae();
                     if !terrain_valid {
                         continue;

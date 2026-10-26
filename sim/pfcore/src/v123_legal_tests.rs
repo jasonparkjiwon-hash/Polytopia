@@ -242,3 +242,22 @@ fn aquarion_aqua_farm_and_atoll() {
     assert!(has(&s, &BuildMove::new(idx(6, 4), StructureType::Atoll)));
     assert!(!has(&s, &BuildMove::new(idx(4, 4), StructureType::Atoll)), "dry land stays closed");
 }
+
+/// PORT-FLOODED (L3): a Port is built on Aquarion-flooded land. af181c8f t9 #961: player 8 (techs incl. Fishing)
+/// builds a Port on the flooded field (6,26).
+#[test]
+fn port_on_flooded_land() {
+    use crate::moves::build::BuildMove;
+    use crate::states::TechnologyState;
+    let t = |k| TechnologyState { tech_type: k, discovered: true, discovered_turn: 0 };
+    let mut s = board();
+    explore(&mut s);
+    add_city(&mut s, 1, 5, 5);
+    s.tribes.get_mut(&1).unwrap().cities[0]._territory = vec![idx(5, 5), idx(5, 4), idx(6, 4)];
+    s.tiles.get_mut(&idx(5, 4)).unwrap().effects.insert(TileEffect::Flooded);
+    let tr = s.tribes.get_mut(&1).unwrap();
+    tr.stars = 20;
+    tr.tech_vanilla = vec![t(TechnologyType::Basic), t(TechnologyType::Fishing)];
+    assert!(has(&s, &BuildMove::new(idx(5, 4), StructureType::Port)));
+    assert!(!has(&s, &BuildMove::new(idx(6, 4), StructureType::Port)), "dry land stays closed");
+}
