@@ -43,3 +43,19 @@ Units 917/984, stars 173/198.
   conflicts with TRIBE-TECH-TIERS 'Oceanology = 49'). Also a Moth (Diplomacy) and Raychi.
 - **Water Temple** (build 19) x2, Grand Bazaar x1, Aqua Farm x14, Atoll x5, Enchant Animal x2.
 - Not here: Sanctuary, Oceanology research, Giant.
+
+## Embassy income: proposal for the rule session (A/B done, engine untouched)
+
+Jason: an embassy pays unless the two tribes are actively fighting; he rebuilt it each time it broke.
+Three changes to `engine/economy.py` (A/B with a scratch copy, star rows exact over every game):
+
+| Variant | Stars exact |
+|---|---|
+| baseline | 1550/1604 |
+| + standing embassies known across saves (read the host's Diplomacy EmbassyLevel in save a; `check()` only pre-books Build-70 embassies, not action 30) | 1554 |
+| + `EMBASSY_BUILDER_PAID = True` (builder earns 2 while neutral) | 1561 (09a5bf1e -1) |
+| + an attack or city capture between builder and host removes the embassy | **1562**, no game worse (09a5bf1e back; game 6 173 -> 185) |
+
+Ledger: EMBASSY-INCOME-NEUTRAL, EMBASSY-DESTROYED-BY-COMBAT. The replay engine needs the same
+destruction rule wherever it tracks embassies. Script: ask the ingest session (scratch `ab_embassy2.py`), or
+rebuild it from the table: it monkeypatches `EC.Books` and `R.apply`.

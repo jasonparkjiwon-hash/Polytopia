@@ -1110,6 +1110,13 @@
    "level": "L3",
    "game_version": "v123 (measured in saves)",
    "evidence": "2026-10-26, all saves: 29 Fungi in 9 games, every one 0 at its first save after building and 1 from the next turn on (e.g. 05ade18c (5,4) t1:0 t2:1; e15f392c (3,12) founded 3, t4:0 t5:1). 8 Cymanti capitals take a CityReward first thing on turn 1 with population one short (05ade18c, 1bf60251, e15f392c, 028182a9, 09a5bf1e, 3edee0ec, af181c8f, b2448ead): the starting Fungi's growth. Polyfish loaded the save level as is, so a level-0 Fungi never grew and a level-1 one grew once more."
+  },
+  {
+   "id": "EMBASSY-INCOME-NEUTRAL",
+   "rule": "While an embassy stands, both the builder and the host earn 2 stars a turn even when neutral (4 at peace); any combat or city capture between the two tribes destroys it, which stops the income.",
+   "level": "L3 (A/B over all saves: stars 1550 -> 1562 of 1604, no game worse) + Jason",
+   "game_version": "v123 (measured in saves)",
+   "evidence": "Jason 26 Oct: 'the embassy still gives stars unless we are actively fighting'; he rebuilt his embassy each time it broke (game 6, 9906f7da). Saves: game 6 p1 (builder) and p9 (host) were each +2 a turn short in the engine on every turn the embassy stood (t7-t13, t16-t17). The one older 'builder earned nothing while neutral' case (09a5bf1e p1 -> p7, built t7 #694) was destroyed the same turn: p7 attacked p1 at #762 and the save shows EmbassyLevel 0 with EmbassyBuildTurn 7, LastAttackTurn 7 at t8. A/B (scratch script, engine untouched), star rows exact over every game: baseline 1550/1604; + standing embassies read from the save's EmbassyLevel (the check only pre-books Build-70 embassies, not action 30: a bookkeeping bug at economy.check) 1554; + builder paid while neutral (EMBASSY_BUILDER_PAID True) 1561 (09a5bf1e 96 -> 95); + destroy on attack/capture between the pair 1562 (09a5bf1e back to 96, game 6 173 -> 185). Supersedes the 'builder earns nothing while neutral' part of EMBASSY-ACTION / ECON-EMBASSY. To do (rule session): those three changes in engine/economy.py and the replay."
   }
  ]
 }
