@@ -30,6 +30,8 @@ def ruin_hints(a, b, acts):
         if x["type"] == 14: ruins[r[0]].append((i, turn) + struct.unpack("<BII", r)[1:])
     units = [(t["Unit"], x, y) for y, row in enumerate(b["currentTiles"]) for x, t in enumerate(row) if t.get("Unit")]
     made = collections.defaultdict(set)              # (owner, created turn) -> unit ids in the next save
+    alive = {u["Id"] for u, _, _ in units}
+    old = {t[k]["Id"] for row in a["currentTiles"] for t in row for k in ("Unit", "PassengerUnit") if t.get(k)}   # a landing passenger gets its id back
     for u, _, _ in units: made[(u["Owner"], u["CreatedTurn"])].add(u["Id"])
     first = {}                                       # each unit's first logged Move in the window: (pl, fx, fy, tx, ty, id, index)
     for i in range(n0, n1):
@@ -42,9 +44,11 @@ def ruin_hints(a, b, acts):
         free = sorted(tech(b, pl) - tech(a, pl) - researched[pl]); stars = (rows.get(pl, {}).get("residual") or 0) + rows.get(pl, {}).get("ruin_stars", 0)
         for i, t, x, y in rs:
             on_tile = any(u["Owner"] == pl and u["CreatedTurn"] == t and (ux, uy) == (x, y) for u, ux, uy in units)
-            # or it walked off before the next save: a unit created that turn whose first logged Move starts on the ruin
-            # (af181c8f t16 #2211; the Python replay's RUIN oracle does the same)
-            walked = any(m[0] == pl and m[1:3] == (x, y) and m[5] in made[(pl, t)] for m in moves if m[6] > i)
+            # or it walked off before the next save: a unit new since the first save (created that turn if it survives)
+            # whose first logged Move starts on the ruin (af181c8f t16 #2211; 6e1bf8e0 t7 #777, that Swordsman died
+            # before the next save). The Python replay's RUIN oracle does the same.
+            walked = any(m[0] == pl and m[1:3] == (x, y) and m[5] not in old and (m[5] in made[(pl, t)] or m[5] not in alive)
+                         for m in moves if m[6] > i)
             if on_tile or walked: hints.append(dict(i=i, reward=SWORDSMAN))
             elif free: hints.append(dict(i=i, reward=FREE_TECH, tech=free.pop(0)))
             elif stars >= EC.RUIN_STARS: hints.append(dict(i=i, reward=RESOURCES)); stars -= EC.RUIN_STARS
