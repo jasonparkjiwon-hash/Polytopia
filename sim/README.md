@@ -53,7 +53,7 @@
 - A move onto a hidden enemy reveals it and uses the move but not the attack (`moves/step.rs`) [MOVE-BLOCKED-HIDDEN].
 - Breaking peace disbands the breaker's units inside the ex-ally's territory (`moves/abilities/diplomacy.rs`) [DIPLO-BREAK-DISBAND].
 - A Workshop or Park adds +1 income once (Polyfish raised production and also counted the reward) (`moves/reward.rs`) [ECON-INCOME].
-- Water-skill units (and amphibious units on shallow water) follow a kill onto water (`functions.rs` is_steppable_for_push) [WATER-UNITS].
+- Water-skill units, and amphibious units on shallow water (on ocean with Marine Life, as in move generation), follow a kill onto water (`functions.rs` is_steppable_for_push) [WATER-UNITS, AMPHIBIOUS-WATER].
 - A Cymanti water ruin's unit is a veteran Boomchi (`actions/structure.rs`) [RUIN-UNIT-CYMANTI].
 - Resource harvests accept the tribe's version of the tech, and Aquarion's 47 counts as Fishing (`settings/technology.rs` has_tech_for_tribe, `moves/mod.rs`, `functions.rs`).
 - Cymanti use the base Sailing, Ramming, Navigation and Diplomacy; Raychi unlock with Sailing, Boomchi with Ramming, Algae with Fishing, Moth with Diplomacy; Oceantology tier 3 (`settings/technology.rs`) [CYMANTI-TECHS, new ledger entry].

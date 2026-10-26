@@ -997,3 +997,22 @@ fn converter_has_acted() {
     assert_eq!(s.tribes[&1].units.len(), 2, "converted");
     assert!(unit(&s, 1, a).attacked && unit(&s, 1, a).moved);
 }
+
+/// WATER-UNITS, KILL-MOVE-IN, AMPHIBIOUS-WATER (L3): an amphibious unit with Marine Life follows a kill onto ocean.
+/// 6e1bf8e0 t10 #1237: Aquarion Mermaid 164 (2 HP) kills a 1 HP Rammership on ocean (19,10) and moves onto it.
+#[test]
+fn amphibious_kill_move_onto_ocean() {
+    let mut s = board();
+    s.tribes.get_mut(&1).unwrap().tribe_type = TribeType::Aquarion;
+    s.tiles.get_mut(&idx(5, 5)).unwrap().terrain_type = TerrainType::Ocean;
+    let a = add_unit(&mut s, 1, UnitType::Mermaid, 4, 5, 2.0);
+    add_unit(&mut s, 2, UnitType::Rammership, 5, 5, 1.0);
+    s.tiles.get_mut(&idx(4, 5)).unwrap().terrain_type = TerrainType::Ocean;
+    let mut no_tech = s.clone();
+    attack(&mut no_tech, a, 0);
+    assert_eq!(unit(&no_tech, 1, a).coords.idx, idx(4, 5), "no Marine Life: stays");
+    s.tribes.get_mut(&1).unwrap().tech_vanilla.push(TechnologyState { tech_type: TechnologyType::MarineLife, discovered: true, ..Default::default() });
+    attack(&mut s, a, 0);
+    assert!(s.tribes[&2].units.is_empty());
+    assert_eq!(unit(&s, 1, a).coords.idx, idx(5, 5));
+}

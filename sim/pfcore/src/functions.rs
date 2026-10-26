@@ -947,10 +947,15 @@ pub fn is_steppable_for_push(state: &GameState, unit: &UnitState, idx: i32) -> b
             let has_bridge = get_structure_type_at(state, idx) == Some(StructureType::Bridge);
             let has_port = get_structure_type_at(state, idx) == Some(StructureType::Port);
             let is_our_port = has_port && tile.owner == unit.owner;
-            // v123 (ledger WATER-UNITS; AMPHIBIOUS-WATER): water and amphibious units go onto water too
+            // v123 (ledger WATER-UNITS; AMPHIBIOUS-WATER): water and amphibious units go onto water too, amphibious
+            // ones onto ocean with Marine Life (as in move generation; 6e1bf8e0 t10 #1237 a Mermaid followed a kill)
+            let amphibious_here = settings.skills.contains(&SkillType::Amphibious)
+                && (tile.terrain_type == TerrainType::Water
+                    || crate::v123_flags::on(&crate::v123_flags::AMPHIBIOUS_OCEAN_INNATE)
+                    || has_technology(&tech, TechnologyType::MarineLife));
             if !settings.skills.contains(&SkillType::Float)
                 && !settings.skills.contains(&SkillType::Water)
-                && !(settings.skills.contains(&SkillType::Amphibious) && tile.terrain_type == TerrainType::Water)
+                && !amphibious_here
                 && !tile.is_algae()
                 && !has_bridge
                 && !is_our_port
