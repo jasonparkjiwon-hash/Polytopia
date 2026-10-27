@@ -45,7 +45,13 @@ python3 -I tools/pf_miss.py --detail "<type: cause>" 50
   AQUARION-LOST-CITY (ocean ruin -> level-3 city, both rewards pending; pf_jobs reads the city from the next save
   as the ruin hint) +8, stars +2; AQUARION-AQUA-FARM-WATER (Aqua Farm on empty water/ocean, makes the AquaCrop;
   the old "on AquaCrop" was read from after-build saves) +4; CLATHRUS-ON-LAND (Field/Forest next to own Fungi)
-  +2. `tools/trace.py ... --city` prints a tile's owning city and city record.
+  +2. EXPLODE-WATER-SPORES (explode on water: algae + Spores, Fungi follows) +1; AQUARION-FREE-SPIRIT (Aquarion
+  research base Free Spirit; 25 Free Diving never seen) +1; FLOOD-ALGAE (land units walk onto flooded land, no
+  water tech) +2; WATER-UNIT-PORT-PASS (Sharks sail on through an own port) +2; MOONI-CAPTURE-NO-UNIT-FREEZE
+  (Mooni capture freezes tiles, not adjacent enemy units; e15f392c t5) +4; CITY-UNITS-OWN-ONLY (city unit limit
+  counts only the owner's units) +4; Lost City finder rehomed there +1.
+  `tools/trace.py`: `--city` (owning city + city record), `--players` (tribe, stars, techs, kills, tasks,
+  diplomacy), `--acts P` (every action of player P).
 
 ## Scores
 
@@ -59,6 +65,7 @@ python3 -I tools/pf_miss.py --detail "<type: cause>" 50
 | SWIFT-MOVE (games 1-5 now tuned) | 11682/11781 99.2% | 6455/6457 | 1320/1342 |
 | pf-legal-3 start (12 games) | 13145/13257 99.2% | 7386/7398 | 1500/1540 |
 | a2176ce CLATHRUS-ON-LAND | 13165/13257 99.3% | 7389/7397 | 1512/1540 |
+| Lost City finder rehomed | 13181/13257 99.4% | 7391/7394 | 1512/1540 |
 
 ## Next step (HANDOFF 24 Oct; start here on Monday)
 
