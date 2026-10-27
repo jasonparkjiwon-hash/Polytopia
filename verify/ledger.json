@@ -1236,6 +1236,13 @@
    "level": "L3",
    "game_version": "v123 (measured in game)",
    "evidence": "pf_miss: CityReward legal 380 -> 403 of 419 (23 level-ups the save shows right after the ruin, e.g. 028182a9 t6 #294 -> #295: capital (24,10) TotalPopulation 0 -> 3, level 2), no unit/star/legal drop; held-out 187/187, 64/64, legal 100%."
+  },
+  {
+   "id": "CAPTURE-DISCONNECT",
+   "rule": "A captured city that was connected to its old owner's capital is cut off: it loses 1 population (and its link flag clears); the captor's capital does not lose population.",
+   "level": "L3",
+   "game_version": "v123 (measured in a save)",
+   "evidence": "af181c8f t8 #755: p3 captured p7's city (23,20) (ConnectedPlayerCapital 7, Total 2); after the turn it is Total 1, CurrentPopulation -1, flag 0, and p3's capital (25,27) lost nothing (Polyfish took 1 from the capital as a lost connection, so #769's CityReward was not pending). CityReward legal 403 -> 404."
   }
  ]
 }

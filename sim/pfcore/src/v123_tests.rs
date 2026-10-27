@@ -668,6 +668,32 @@ fn capture_takes_3x3() {
     assert_eq!(s.tiles[&idx(5, 7)].owner, 2);
 }
 
+/// CAPTURE-DISCONNECT (L3, n=1: af181c8f t8 #755): p3 took p7's connected city (23,20); it came out with population
+/// 2 -> 1 and no capital link, and p3's own capital (25,27) kept its population.
+#[test]
+fn capture_connected_city_costs_only_the_city() {
+    use crate::moves::Move;
+    let mut s = board();
+    add_city(&mut s, 1, 1, 1); // the captor's capital
+    s.tiles.get_mut(&idx(1, 1)).unwrap().capital_of = 1;
+    add_city(&mut s, 2, 5, 5);
+    put_structure(&mut s, 5, 5, StructureType::Village);
+    add_city(&mut s, 2, 9, 9);
+    s.tiles.get_mut(&idx(9, 9)).unwrap().capital_of = 2;
+    {
+        let c = &mut s.tribes.get_mut(&2).unwrap().cities[0];
+        c.level = 2; c.population = 2; c.progress = 0; c.connected_to_capital = true;
+    }
+    s.tribes.get_mut(&1).unwrap().cities[0].population = 3;
+    add_unit(&mut s, 1, UnitType::Warrior, 5, 5, 10.0);
+    crate::moves::capture::CaptureMove::new(idx(5, 5)).execute(&mut s).unwrap();
+    let t1 = &s.tribes[&1];
+    let c = t1.cities.iter().find(|c| c.idx == idx(5, 5)).unwrap();
+    assert_eq!(c.population, 1);
+    assert!(!c.connected_to_capital);
+    assert_eq!(t1.cities.iter().find(|c| c.idx == idx(1, 1)).unwrap().population, 3);
+}
+
 /// Captured capital (save count: 33 captured capitals keep the old owner's Capital id; no tribe holds two): the
 /// captor gets no capital star and no bot bonus from it (ECON-INCOME, ECON-BOT-BONUS).
 #[test]

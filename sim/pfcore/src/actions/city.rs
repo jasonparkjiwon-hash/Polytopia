@@ -423,6 +423,33 @@ pub fn capture_city(state: &mut GameState, tile_idx: i32) -> Result<UndoCallback
                 Some(city._territory.clone()),
             ));
 
+            // v123 (ledger CAPTURE-DISCONNECT): the captured city's link to the old owner's capital is cut: the
+            // city itself loses 1 population; the captor's capital does not (af181c8f t8 #755)
+            let was_connected = state
+                .tribes
+                .get(&pov_id)
+                .and_then(|t| t.cities.iter().find(|c| c.idx == tile_idx))
+                .map_or(false, |c| c.connected_to_capital);
+            if was_connected {
+                if let Some(c) = state
+                    .tribes
+                    .get_mut(&pov_id)
+                    .and_then(|t| t.cities.iter_mut().find(|c| c.idx == tile_idx))
+                {
+                    c.connected_to_capital = false;
+                }
+                undos.push(add_population(state, tile_idx, -1));
+                undos.push(Box::new(move |s: &mut GameState| {
+                    if let Some(c) = s
+                        .tribes
+                        .get_mut(&pov_id)
+                        .and_then(|t| t.cities.iter_mut().find(|c| c.idx == tile_idx))
+                    {
+                        c.connected_to_capital = true;
+                    }
+                }));
+            }
+
             // Refresh connections for BOTH tribes
             undos.push(crate::actions::connection::update_capital_connections(
                 state, pov_id,

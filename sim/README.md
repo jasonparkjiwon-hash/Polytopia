@@ -118,3 +118,4 @@ For search and scenarios. It adds no rules: every call goes through Polyfish's o
 - The Clathrus (41) is built on land (Field, Forest) next to an own Fungi, not on water next to Algae (`settings/structures.rs`, `moves/build.rs`) [CLATHRUS-ON-LAND, new ledger entry].
 - The Aqua Farm (49) also goes on empty water or ocean (`settings/structures.rs`, `moves/build.rs`) [AQUARION-AQUA-FARM-WATER, new ledger entry].
 - The harness hints a ruin's +3 population (to the capital) when the next save's capital grew 3+ more than builds explain; such ruins used to fall to Explorer (`tools/pf_jobs.py`) [RUIN-POP-HINT, new ledger entry].
+- A captured city that was connected to its old owner's capital loses 1 population and its link; the captor's capital keeps its population (`actions/city.rs` capture_city) [CAPTURE-DISCONNECT, new ledger entry].
