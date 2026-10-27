@@ -352,8 +352,9 @@ fn build_unit_setting(unit_type: UnitType) -> UnitSetting {
             ..Default::default()
         },
         // v123 (AQUARION-UNITS-49-52: ids by HP in 9906f7da, 15 / 5 / 10 / 20; AQUARION-UNITS card stats)
+        // price 3: MERMAID-DEFENDER-PRICE (game 6 p9 star rows, n=4); the v123 card says 8, a split kept as a test item
         U::MermaidDefender => UnitSetting {
-            cost: 8,
+            cost: 3,
             attack: 1.0,
             movement: 1,
             defense: 3.0,
