@@ -91,6 +91,7 @@ impl Move for StepMove {
         }
 
         let undo = step_unit(state, unit_owner, unit_idx, self.target_index, false);
+        let undo = crate::actions::chain_undos(vec![undo, crate::actions::units::tentacles_after_step(state, self.target_index)]);
 
         Ok(MoveResult {
             undo,

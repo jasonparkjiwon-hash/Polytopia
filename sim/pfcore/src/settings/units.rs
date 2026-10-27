@@ -355,7 +355,7 @@ pub fn get_unit_setting(unit_type: UnitType) -> UnitSetting {
             tribe_type: TribeType::Aquarion,
             ..Default::default()
         },
-        // card skills Stiff, Tentacles, Static; Polyfish has no Tentacles
+        // card skills Stiff, Tentacles, Static; Tentacles: actions/units.rs tentacles_after_step (TENTACLES)
         U::Jelly => UnitSetting {
             cost: 8,
             attack: 2.0,

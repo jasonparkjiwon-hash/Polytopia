@@ -66,6 +66,7 @@
 - The Elyrion Sanctuary: 5 stars and +1 a turn per adjacent wild animal (v123 card, as upstream) by default; cost 3 and no income behind the off switch `sanctuary_no_income` (b2448ead, one game) until SANCTUARY-V123 settles the split (`settings/structures.rs`, `functions.rs`, `v123_flags.rs`) [SANCTUARY-V123, SANCTUARY-NO-INCOME, split]. A/B: stars 1320/1342 both ways.
 - Enchant Animal removes the wild animal from its tile (v115 put the Game back, so it kept paying a Sanctuary) (`moves/abilities/enchant_animal.rs`) [ENCHANT-REMOVES-GAME].
 - A Cloak or Scuba attacking a unit in an enemy city deals its normal damage (no retaliation), then infiltrates as into an empty city (Daggers) and is used up (`actions/units.rs` attack_unit) [INFILTRATE].
+- Aquarion Jelly Tentacles: after a Jelly moves it hits every adjacent enemy, and an enemy that moves (or follows a kill) next to a Jelly is hit by it; normal damage, defender bonus, no retaliation (`actions/units.rs` tentacles_after_step, called from `moves/step.rs` and the kill move-in) [TENTACLES].
 - Clathrus earns +1 per adjacent Fungi (v123 card; upstream counted Algae) (`functions.rs` get_city_production) [ECON-MARKET-CLATHRUS].
 
 ## Legal-move generation (pf-legal; tests in `src/v123_legal_tests.rs`)

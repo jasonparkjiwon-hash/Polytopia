@@ -903,6 +903,41 @@ pub fn destroy_embassies_between(state: &mut GameState, a: PlayerId, b: PlayerId
     })
 }
 
+/// v123 (TENTACLES, L3: 8 hits in 9906f7da): a Jelly that moves hits every adjacent enemy unit, and an enemy unit
+/// that moves (or follows a kill) next to a Jelly is hit by it: the Jelly's normal damage, the defender's bonus
+/// included, no retaliation. `tile`: where the mover stopped.
+pub fn tentacles_after_step(state: &mut GameState, tile: i32) -> UndoCallback {
+    let mover = match get_true_unit_at(state, tile) {
+        Some(u) => (u.owner, u.unit_type),
+        None => return Box::new(|_| {}),
+    };
+    let mut hits: Vec<(i32, i32)> = Vec::new(); // (Jelly's tile, target's tile)
+    for a in get_adjacent_indices(state, tile, 1) {
+        if let Some(o) = get_true_unit_at(state, a).filter(|o| is_enemy(state, mover.0, o.owner)) {
+            if mover.1 == UnitType::Jelly {
+                hits.push((tile, a));
+            }
+            if o.unit_type == UnitType::Jelly {
+                hits.push((a, tile));
+            }
+        }
+    }
+    hits.sort_by_key(|&(j, _)| j != tile); // the mover's own hits first
+    let mut undos: Vec<UndoCallback> = Vec::new();
+    for (from, to) in hits {
+        let (j, t) = match (get_true_unit_at(state, from), get_true_unit_at(state, to)) {
+            (Some(j), Some(t)) => (j.clone(), t.clone()),
+            _ => continue,
+        };
+        let r = calculate_combat(get_unit_attack(state, &j), j.health, get_unit_max_health(&j), get_unit_defense(&t),
+            t.health, get_unit_max_health(&t), get_defense_bonus(state, &t));
+        if let Some(ti) = state.tribes[&t.owner].units.iter().position(|u| u.coords.idx == to) {
+            undos.push(deal_damage(state, t.owner, ti, r.attack_damage, Some(j.owner)));
+        }
+    }
+    crate::actions::chain_undos(undos)
+}
+
 /// Attack action - one unit attacks another
 ///
 /// This handles:
@@ -1448,6 +1483,7 @@ pub fn attack_unit(
                     def_coords,
                     true,
                 ));
+                undos.push(tentacles_after_step(state, def_coords)); // TENTACLES: following a kill next to a Jelly
             }
         }
     } else {

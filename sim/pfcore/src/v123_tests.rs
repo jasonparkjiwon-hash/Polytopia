@@ -1156,3 +1156,19 @@ fn scuba_infiltrates_occupied_city() {
     assert!(!s.tribes[&1].units.iter().any(|u| u.unit_type == UnitType::MermaidCloak), "used up");
     assert_eq!(s.tribes[&1].units.iter().filter(|u| u.unit_type == UnitType::MermaidDagger).count(), 3);
 }
+
+/// TENTACLES (L3, 9906f7da t16 #1214): Jelly 135 (16/20 HP) moved next to Kickoo Warrior 67 (10 HP, no bonus):
+/// 10 -> 6, the Jelly untouched. t19 #1563: a Warrior that moves in next to a Jelly is hit by it too.
+#[test]
+fn jelly_tentacles() {
+    use crate::actions::units::tentacles_after_step;
+    let mut s = board();
+    let j = add_unit(&mut s, 1, UnitType::Jelly, 5, 5, 16.0);
+    let w = add_unit(&mut s, 2, UnitType::Warrior, 6, 6, 10.0);
+    let _ = tentacles_after_step(&mut s, idx(5, 5));
+    assert_eq!((unit(&s, 2, w).health, unit(&s, 1, j).health), (6.0, 16.0));
+    // entry: a fresh Warrior moves next to the Jelly: hit for 4 the same way; the hurt one is not hit again
+    let w2 = add_unit(&mut s, 2, UnitType::Warrior, 4, 4, 10.0);
+    let _ = tentacles_after_step(&mut s, idx(4, 4));
+    assert_eq!((unit(&s, 2, w2).health, unit(&s, 2, w).health), (6.0, 6.0));
+}
