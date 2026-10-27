@@ -1,0 +1,146 @@
+"""bot-policy: how well a policy predicts the built-in bots' moves inside the forward model (Polyfish).
+
+  python3 -I tools/bot_policy.py collect      # replay every game with PF_DECISIONS=1 -> saves/bot_decisions.jsonl
+  python3 -I tools/bot_policy.py eval [v2]    # top-1 / top-3 agreement: v1 rules (or the fitted v2) vs random
+  python3 -I tools/bot_policy.py fit          # conditional logit on the tuned games -> data/bot_policy.json
+
+A decision = one legal logged action by a bot player: every legal Polyfish move at that point, with the features
+from sim/pfcore/src/botpolicy.rs, and the move the bot played. Held-out games (data/holdout.json) are scored
+separately and never used for fitting. Measures (tie-aware: a tie with k others counts 1/(k+1)):
+  all    : the bot's move among every legal move;
+  actor  : among the moves of the same unit / city (for Research: among research moves) -- "what" given "who";
+  kind   : the top move's class equals the bot's (Step, Attack, Train, ...).
+Random baseline = 1/n (3/n) on the same sets. Pure stdlib.
+"""
+import os, sys, json, math, collections, random, subprocess
+ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
+sys.path.insert(0, os.path.join(ROOT, "tools"))
+import pf_jobs as J
+
+DATA = os.path.join(ROOT, "saves", "bot_decisions.jsonl")
+OUT = os.path.join(ROOT, "data", "bot_policy.json")
+KINDS = ["EndTurn", "Step", "Attack", "Train", "Upgrade", "Research", "Build", "Harvest", "CapVillage", "CapCity",
+         "CapRuin", "CapOther", "Reward", "Convert", "Recover", "HealOthers", "Promote", "Diplomacy", "Forest", "Ability"]
+HELD = set(J.HELD)
+
+
+def collect():
+    jobs, _ = J.jobs_for(keep=lambda g, t: True)
+    os.environ["PF_DECISIONS"] = "1"
+    by_game = collections.defaultdict(list)
+    for j in jobs: by_game[j["tag"][:36]].append(j)
+    # one process per game, in parallel
+    import tempfile
+    procs = []
+    with tempfile.TemporaryDirectory() as tmp:
+        for gid, js in by_game.items():
+            jf = os.path.join(tmp, gid + ".json"); json.dump(js, open(jf, "w"))
+            procs.append((gid, subprocess.Popen([J.BIN, jf], stdout=subprocess.PIPE, text=True)))
+        n = 0
+        with open(DATA, "w") as f:
+            for gid, p in procs:
+                for line in p.stdout:
+                    if not line.startswith("PFJSON "): continue
+                    r = json.loads(line[7:])
+                    if r.get("error"): print("error", r["tag"], r["error"]); continue
+                    cols = r["cols"]
+                    for d in r["decisions"]:
+                        d["game"] = gid; d["tag"] = r["tag"]
+                        d["c"] = [c[:5] + [{cols[k]: v for k, v in zip(c[5][::2], c[5][1::2])}] for c in d["c"]]
+                        f.write(json.dumps(d, separators=(",", ":")) + "\n"); n += 1
+                p.wait()
+    print(f"{n} bot decisions from {len(by_game)} games -> {os.path.relpath(DATA, ROOT)}")
+
+
+def load():
+    return [json.loads(l) for l in open(DATA)]
+
+
+def hit(scores, i, k):
+    s = scores[i]; better = sum(x > s for x in scores); eq = sum(x == s for x in scores)
+    return min(1.0, max(0.0, (k - better) / eq))
+
+
+def actor_set(d):
+    ch = d["c"][d["chosen"]]
+    if ch[0] == 0: return None
+    if ch[0] == 5: return [j for j, c in enumerate(d["c"]) if c[0] == 5]
+    if ch[1] < 0: return None
+    return [j for j, c in enumerate(d["c"]) if c[1] == ch[1] and c[0] != 5]
+
+
+def v2_scorer(w):
+    return lambda d: [sum(w.get(k, 0.0) * v for k, v in c[5].items()) for c in d["c"]]
+
+
+def evaluate(ds, scorer, name):
+    rows = collections.defaultdict(lambda: [0, 0.0, 0.0, 0.0, 0.0])  # n, top1, top3, rand1, rand3
+    def add(key, sc, i, n):
+        r = rows[key]; r[0] += 1; r[1] += hit(sc, i, 1); r[2] += hit(sc, i, 3); r[3] += 1 / n; r[4] += min(3, n) / n
+    for d in ds:
+        sc = scorer(d); i = d["chosen"]; k = KINDS[d["c"][i][0]]; n = len(sc)
+        add(("all", "ALL"), sc, i, n); add(("all", k), sc, i, n)
+        a = actor_set(d)
+        if a and len(a) > 0:
+            sub = [sc[j] for j in a]; ai = a.index(i)
+            add(("actor", "ALL"), sub, ai, len(a)); add(("actor", k), sub, ai, len(a))
+        # kind of the top move
+        best = max(sc); tops = [j for j, x in enumerate(sc) if x == best]
+        r = rows[("kind", "ALL")]; r[0] += 1; r[1] += sum(d["c"][j][0] == d["c"][i][0] for j in tops) / len(tops)
+    return {f"{m}|{k}": dict(n=v[0], top1=round(v[1] / v[0], 3), top3=round(v[2] / v[0], 3),
+                              rand1=round(v[3] / v[0], 3), rand3=round(v[4] / v[0], 3)) for (m, k), v in sorted(rows.items())}
+
+
+def show(res, title, kinds=("ALL", "Step", "Attack", "Train", "Research", "EndTurn", "Build", "Harvest", "CapVillage", "CapCity", "Reward")):
+    print(title)
+    for m in ("all", "actor"):
+        for k in kinds:
+            r = res.get(f"{m}|{k}")
+            if r: print(f"  {m:5} {k:10} n={r['n']:5}  top1 {r['top1']:.3f} top3 {r['top3']:.3f}   random {r['rand1']:.3f} / {r['rand3']:.3f}")
+    r = res["kind|ALL"]; print(f"  kind of top move = bot's kind: {r['top1']:.3f} (n={r['n']})")
+
+
+def fit(ds, l2=0.01, iters=300, lr=0.1, seed=1):
+    """Conditional logit (softmax over each decision's legal moves), AdaGrad, L2."""
+    feats = sorted({k for d in ds for c in d["c"] for k in c[5]})
+    w = {k: 0.0 for k in feats}; g2 = {k: 1e-8 for k in feats}
+    for it in range(iters):
+        grad = collections.defaultdict(float); ll = 0.0
+        for d in ds:
+            sc = [sum(w[k] * v for k, v in c[5].items()) for c in d["c"]]
+            m = max(sc); e = [math.exp(x - m) for x in sc]; z = sum(e)
+            ll += sc[d["chosen"]] - m - math.log(z)
+            for c, x in zip(d["c"], e):
+                p = x / z
+                if p > 1e-6:
+                    for k, v in c[5].items(): grad[k] -= p * v
+            for k, v in d["c"][d["chosen"]][5].items(): grad[k] += v
+        for k in feats:
+            gk = grad[k] / len(ds) - l2 * w[k]
+            g2[k] += gk * gk; w[k] += lr * gk / math.sqrt(g2[k])
+        if it % 25 == 0 or it == iters - 1: print(f"  iter {it}: mean log-lik {ll / len(ds):.4f}", flush=True)
+    return {k: round(v, 4) for k, v in w.items() if abs(v) > 1e-4}
+
+
+def main():
+    cmd = sys.argv[1] if len(sys.argv) > 1 else "eval"
+    if cmd == "collect": return collect()
+    ds = load()
+    tuned = [d for d in ds if d["game"] not in HELD]; held = [d for d in ds if d["game"] in HELD]
+    print(f"decisions: tuned {len(tuned)} ({len({d['game'] for d in tuned})} games), held-out {len(held)}")
+    if cmd == "fit":
+        w = fit(tuned)
+        json.dump(dict(about="bot-policy v2: conditional-logit weights over sim/pfcore/src/botpolicy.rs features, fitted on the "
+                       "tuned games by tools/bot_policy.py fit (held-out games excluded). temperature 1 = the fitted probabilities.",
+                       temperature=1.0, n_decisions=len(tuned), weights=w), open(OUT, "w"), indent=1, sort_keys=True)
+        print(f"{len(w)} weights -> {os.path.relpath(OUT, ROOT)}")
+        cmd = "eval"; sys.argv[2:] = ["v2"]
+    if cmd == "eval":
+        which = sys.argv[2] if len(sys.argv) > 2 else "v1"
+        sc = (lambda d: [c[4] for c in d["c"]]) if which == "v1" else v2_scorer(json.load(open(OUT))["weights"])
+        show(evaluate(tuned, sc, which), f"{which} on tuned games")
+        show(evaluate(held, sc, which), f"{which} on held-out (ed6cb932)")
+
+
+if __name__ == "__main__":
+    main()

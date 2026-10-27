@@ -2,6 +2,7 @@
 //! engine modules only (no AI, network, replay or server), so it builds from GitHub sources alone.
 pub mod actions;
 pub mod api;
+pub mod botpolicy;
 pub mod coords;
 pub mod dotnet_rng;
 pub mod fow;

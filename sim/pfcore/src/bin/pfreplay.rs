@@ -61,6 +61,7 @@ struct Replay {
     acc_fail: Vec<Value>,                // first failures, with the differing state parts
     acc_seen: usize,
     kinds: BTreeMap<String, i64>,        // rule family (api::kind) -> moves played, for data/pf_rule_levels.json
+    decisions: Option<Vec<Value>>,       // PF_DECISIONS=1: every bot's legal logged action with its candidates (botpolicy::record)
 }
 
 fn name_of(t: i64) -> &'static str {
@@ -350,6 +351,14 @@ impl Replay {
         match pick {
             Some(p) => {
                 e[0] += 1;
+                if let Some(d) = self.decisions.as_mut() {
+                    if self.game.state.tribes.get(&actor).map_or(false, |tr| tr.bot) {
+                        let ci = keys.iter().position(|k| *k == cands[p].serialize()).unwrap();
+                        let mut rec = polyfish::botpolicy::record(&self.game, &legal, ci);
+                        rec["i"] = json!(i);
+                        d.push(rec);
+                    }
+                }
                 let mut mv = legal.into_iter().find(|m| m.serialize() == cands[p].serialize()).unwrap();
                 if t == 14 {
                     if let Some(h) = self.ruin_move(i, &v) { mv = h; }
@@ -622,7 +631,8 @@ fn run_job(job: &Value) -> Result<Value, String> {
     let size = game.state.settings.size;
     let mut r = Replay { game, size, next_temp: 0, real_type: HashMap::new(), passenger_uid: HashMap::new(),
         legal: BTreeMap::new(), illegal: Vec::new(), notes: BTreeMap::new(), acts: acts[..to].to_vec(), done: Default::default(), hints: HashMap::new(), pad_noted: Default::default(), meets: Vec::new(),
-        accept: std::env::var("PF_ACCEPT").ok().and_then(|x| x.parse().ok()).unwrap_or(0), acc: BTreeMap::new(), acc_fail: Vec::new(), acc_seen: 0, kinds: BTreeMap::new() };
+        accept: std::env::var("PF_ACCEPT").ok().and_then(|x| x.parse().ok()).unwrap_or(0), acc: BTreeMap::new(), acc_fail: Vec::new(), acc_seen: 0, kinds: BTreeMap::new(),
+        decisions: std::env::var("PF_DECISIONS").ok().map(|_| Vec::new()) };
     for h in job["hints"].as_array().into_iter().flatten() {
         r.hints.insert(h["i"].as_u64().unwrap_or(0) as usize, (h["reward"].as_i64().unwrap_or(0), h["tech"].as_i64()));
     }
@@ -691,7 +701,8 @@ fn run_job(job: &Value) -> Result<Value, String> {
     let tiles = if r.accept > 0 { rd("next").map(|n| tiles_vs(&r, &n, r.game.state.settings.current_player_turn_id)).unwrap_or(Value::Null) } else { Value::Null };
     Ok(json!({"tiles": tiles, "tag": job["tag"], "units": units_out(&r), "stars": stars, "stars0": stars0, "legal": r.legal,
               "illegal": r.illegal, "notes": r.notes, "load": rep, "turn": r.game.state.settings.turn,
-              "player": r.game.state.settings.current_player_turn_id, "trace": trace, "accept": r.acc, "accept_fail": r.acc_fail, "kinds": r.kinds}))
+              "player": r.game.state.settings.current_player_turn_id, "trace": trace, "accept": r.acc, "accept_fail": r.acc_fail, "kinds": r.kinds,
+              "decisions": r.decisions, "cols": if r.decisions.is_some() { json!(polyfish::botpolicy::col_names()) } else { Value::Null }}))
 }
 
 fn main() {
