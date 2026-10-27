@@ -18,7 +18,7 @@ def tile(d, x, y):
             u and (u["Id"], tr.get(u["Owner"]), UNIT.get(u["UnitType"], u["UnitType"]), u["Health"] / 10, "home", u.get("hx"), u.get("hy")), p and (p["Id"], UNIT.get(p["UnitType"])))
 def city(d, x, y):
     t = d["currentTiles"][y][x]; c = t.get("ImprovementData") or {}
-    return c and (t["Owner"], {k: c.get(k) for k in ("Level", "CurrentPopulation", "TotalPopulation", "Production", "BorderSize", "CityRewards", "FoundedTurn")})
+    return (t["Owner"], "city at", t.get("CapitalCoordinates")) + ((c and {k: c.get(k) for k in ("Level", "CurrentPopulation", "TotalPopulation", "Production", "BorderSize", "CityRewards", "FoundedTurn")}),)
 for x, y in pts:
     print((x, y), "before", tile(a, x, y), "| after", tile(b, x, y))
     if CITY: print("   city before", city(a, x, y), "| after", city(b, x, y))

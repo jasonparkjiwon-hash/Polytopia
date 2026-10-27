@@ -101,10 +101,12 @@ pub fn get_structure_setting(struct_type: StructureType) -> StructureSetting {
             tribe_type: Some(TribeType::Aquarion),
             ..Default::default()
         },
+        // v123 (CLATHRUS-ON-LAND, 9be1198d t5 #288 on Forest, t6 #351 on Field): built on land next to an own Fungi
+        // (`moves/build.rs`); upstream had water next to Algae. No per-city limit (only the card hints at one).
         StructureType::Clathrus => StructureSetting {
             cost: Some(5),
             reward_stars: 1,
-            terrain_types: terrains![TerrainType::Water, TerrainType::Ocean],
+            terrain_types: terrains![TerrainType::Field, TerrainType::Forest],
             tribe_type: Some(TribeType::Cymanti),
             ..Default::default()
         },

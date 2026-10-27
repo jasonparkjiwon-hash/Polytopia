@@ -424,3 +424,30 @@ fn aqua_farm_on_plain_ocean() {
     assert_eq!(legal(&s).iter().filter(|m| **m == farm).count(), 1);
     assert!(!has(&s, &BuildMove::new(idx(4, 4), StructureType::AquaFarm)), "dry land stays closed");
 }
+
+/// CLATHRUS-ON-LAND (L3 n=2): Cymanti build the Clathrus (41) on land next to an own Fungi, not on water next to
+/// Algae. 9be1198d t5 #288 on Forest (19,5), t6 #351 on Field (20,5); both earn +1 per adjacent Fungi next turn.
+#[test]
+fn clathrus_on_land_next_to_fungi() {
+    use crate::moves::build::BuildMove;
+    use crate::states::TechnologyState;
+    use crate::v123_tests::put_structure;
+    let t = |k| TechnologyState { tech_type: k, discovered: true, discovered_turn: 0 };
+    let mut s = board();
+    explore(&mut s);
+    add_city(&mut s, 1, 5, 5);
+    s.tribes.get_mut(&1).unwrap().cities[0]._territory = vec![idx(5, 5), idx(5, 4), idx(6, 4), idx(4, 4)];
+    s.tiles.get_mut(&idx(6, 4)).unwrap().terrain_type = TerrainType::Forest;
+    s.tiles.get_mut(&idx(4, 4)).unwrap().terrain_type = TerrainType::Water;
+    let tr = s.tribes.get_mut(&1).unwrap();
+    tr.stars = 20;
+    tr.tribe_type = TribeType::Cymanti;
+    tr.tech_vanilla = vec![t(TechnologyType::Roads), t(TechnologyType::Trade)];
+    assert!(!has(&s, &BuildMove::new(idx(6, 4), StructureType::Clathrus)), "needs a Fungi next to it");
+    put_structure(&mut s, 5, 4, StructureType::Fungi);
+    for (x, y) in [(5, 4), (6, 4), (4, 4)] {
+        s.tiles.get_mut(&idx(x, y)).unwrap().owner = 1;
+    }
+    assert!(has(&s, &BuildMove::new(idx(6, 4), StructureType::Clathrus)));
+    assert!(!has(&s, &BuildMove::new(idx(4, 4), StructureType::Clathrus)), "not on water");
+}

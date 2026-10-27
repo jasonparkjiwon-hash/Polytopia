@@ -365,3 +365,4 @@ Jason (Imperius) vs 15 Hard bots on a 30x30 map, exported every turn from 1 to 1
 - 2026-10-27 AQUARION-AQUA-FARM-WATER (L3 n=5): the Aqua Farm goes on empty water/ocean too and creates the AquaCrop (9906f7da t12); corrects AQUARION-STRUCTURES.
 - TENTACLES (27 Oct, ref-fix, new rule): a Jelly hits each adjacent enemy after its own move (normal damage, no retaliation); 8 hits in game 6 fit. Open: does an enemy moving next to a Jelly get hit?
 - TENTACLES (27 Oct, ref-fix): the Jelly also hits an enemy that moves (or kill-moves) next to it; 2 such hits in game 6 fit. Game 6 unit misses left: only the 3 infiltration Daggers.
+- 2026-10-27 CLATHRUS-ON-LAND (L3 n=2): Clathrus on land next to own Fungi (9be1198d t5/t6); Polyfish upstream had water next to Algae. Clathrus one-per-city (card) stays a test item.

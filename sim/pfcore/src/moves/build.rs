@@ -317,10 +317,10 @@ pub fn generate_build_moves(state: &GameState, moves: &mut Vec<Box<dyn Move>>) {
 
                     if struct_type == StructureType::Clathrus {
                         let adj = crate::functions::get_adjacent_indices(state, idx, 1);
+                        // v123 (CLATHRUS-ON-LAND): next to an own Fungi (the card's income source), not Algae
                         let has_adj_algae = adj.iter().any(|&n_idx| {
-                            state.tiles.get(&n_idx).map_or(false, |t| {
-                                t.is_algae() && state.tiles.get(&n_idx).unwrap().owner == pov_id
-                            })
+                            crate::functions::get_structure_type_at(state, n_idx) == Some(StructureType::Fungi)
+                                && state.tiles.get(&n_idx).map_or(false, |t| t.owner == pov_id)
                         });
                         if !has_adj_algae {
                             continue;
