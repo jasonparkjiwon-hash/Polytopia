@@ -547,6 +547,43 @@ impl Replay {
     }
 }
 
+/// fm-accept: tiles of the replayed state vs the next checkpoint loaded the same way: per part, [exact, total] and
+/// up to 3 example tiles that differ, and structure level misses by type. Parts: owner, terrain, structure (type and level), road, flood/algae, city level and population.
+fn tiles_vs(r: &Replay, next: &Value, player: i32) -> Value {
+    let Ok((g2, _)) = save_loader::load(next, "current", player) else { return Value::Null };
+    let (a, b) = (&r.game.state, &g2.state);
+    let mut out: BTreeMap<&str, [i64; 2]> = BTreeMap::new();
+    let mut ex: BTreeMap<&str, Vec<Value>> = BTreeMap::new();
+    let mut tally = |part: &'static str, ok: bool, k: i32| {
+        let e = out.entry(part).or_insert([0, 0]); e[1] += 1;
+        if ok { e[0] += 1; } else { let v = ex.entry(part).or_default(); if v.len() < 3 { v.push(json!([k % r.size, k / r.size])); } }
+    };
+    let mut lvl: BTreeMap<String, i64> = BTreeMap::new();   // structure type, save level -> Polyfish level: count
+    let fx = |t: &polyfish::states::TileState| { let mut v: Vec<i32> = t.effects.iter().map(|e| *e as i32).filter(|e| *e == TileEffect::Flooded as i32 || *e == TileEffect::Algae as i32).collect(); v.sort(); v };
+    // level 0 (a save's fresh build) and 1 (Polyfish's) are the same building
+    let st = |s: &polyfish::states::GameState, k: i32| polyfish::functions::get_structure_at(s, k).map(|x| (x.structure_type as i32, x.level.max(1)));
+    let city = |s: &polyfish::states::GameState, k: i32| s.tribes.values().flat_map(|t| t.cities.iter()).find(|c| c.idx == k).map(|c| (c.owner, c.level, c.population));
+    for (k, ta) in &a.tiles {
+        let Some(tb) = b.tiles.get(k) else { continue };
+        tally("owner", ta.owner == tb.owner, *k);
+        tally("terrain", ta.terrain_type == tb.terrain_type, *k);
+        tally("structure", st(a, *k).map(|x| x.0) == st(b, *k).map(|x| x.0), *k);
+        if st(a, *k).map(|x| x.0) == st(b, *k).map(|x| x.0) && st(a, *k).is_some() {
+            let ok = st(a, *k) == st(b, *k);
+            tally("structure_level", ok, *k);
+            if !ok { *lvl.entry(format!("{:?} {}->{}", st(a, *k).unwrap().0, st(b, *k).unwrap().1, st(a, *k).unwrap().1)).or_insert(0) += 1; }
+        }
+        tally("road", ta.has_road == tb.has_road, *k);
+        tally("flood", fx(ta) == fx(tb), *k);
+        if city(a, *k).is_some() || city(b, *k).is_some() {
+            tally("city_owner", city(a, *k).map(|c| c.0) == city(b, *k).map(|c| c.0), *k);
+            tally("city_level", city(a, *k).map(|c| c.1) == city(b, *k).map(|c| c.1), *k);
+            tally("city_pop", city(a, *k).map(|c| c.2) == city(b, *k).map(|c| c.2), *k);
+        }
+    }
+    json!({"parts": out, "examples": ex, "levels": lvl})
+}
+
 fn units_out(r: &Replay) -> Vec<Value> {
     let mut out = Vec::new();
     for tr in r.game.state.tribes.values() {
@@ -651,7 +688,8 @@ fn run_job(job: &Value) -> Result<Value, String> {
     let d = r.grant_meets(None);
     if trace_on && !d.is_empty() { trace.push(json!([to.saturating_sub(1), 15, 255, d])); }
     let stars: BTreeMap<i32, i32> = r.game.state.tribes.iter().map(|(k, t)| (*k, t.stars)).collect();
-    Ok(json!({"tag": job["tag"], "units": units_out(&r), "stars": stars, "stars0": stars0, "legal": r.legal,
+    let tiles = if r.accept > 0 { rd("next").map(|n| tiles_vs(&r, &n, r.game.state.settings.current_player_turn_id)).unwrap_or(Value::Null) } else { Value::Null };
+    Ok(json!({"tiles": tiles, "tag": job["tag"], "units": units_out(&r), "stars": stars, "stars0": stars0, "legal": r.legal,
               "illegal": r.illegal, "notes": r.notes, "load": rep, "turn": r.game.state.settings.turn,
               "player": r.game.state.settings.current_player_turn_id, "trace": trace, "accept": r.acc, "accept_fail": r.acc_fail, "kinds": r.kinds}))
 }

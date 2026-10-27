@@ -75,7 +75,7 @@ def jobs_for(prefix="", keep=lambda gid, turn: not held(gid, turn), first_turn=N
         for (a, fa), (b, fb) in zip(ds, ds[1:]):
             if not keep(gid, b["currentTurn"]) or (first_turn is not None and a["currentTurn"] != first_turn): continue
             tag = f"{gid}|{a['currentTurn']}|{b['currentTurn']}"; pairs[tag] = (a, b, acts)
-            jobs.append(dict(tag=tag, start=fa, final=ds[-1][1], hints=ruin_hints(a, b, acts), meets=meet_hints(a, b), **{"from": len(a["actions"]), "to": len(b["actions"])}))
+            jobs.append(dict(tag=tag, start=fa, final=ds[-1][1], next=fb, hints=ruin_hints(a, b, acts), meets=meet_hints(a, b), **{"from": len(a["actions"]), "to": len(b["actions"])}))
     return jobs, pairs
 
 def run(jobs, trace=False):

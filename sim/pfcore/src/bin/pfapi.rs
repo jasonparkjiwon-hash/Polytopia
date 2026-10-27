@@ -113,6 +113,15 @@ fn bench(a: &[String]) {
         for m in &ms { if let Some(u) = g.play_move(m.as_ref()) { u(&mut g.state); applied += 1; } }
     }
     let apply_s = applied as f64 / t.elapsed().as_secs_f64();
+    // 2b. the same through simulate_move (Polyfish's MCTS path: no reveals) and the pieces of play_move
+    let (t, mut sim) = (Instant::now(), 0u64);
+    while t.elapsed().as_secs_f64() < secs / 8.0 && !ms.is_empty() {
+        for m in &ms { if let Some(u) = g.simulate_move(m.as_ref()) { u(&mut g.state); sim += 1; } }
+    }
+    let sim_s = sim as f64 / t.elapsed().as_secs_f64();
+    let (t, mut obs) = (Instant::now(), 0u64);
+    while t.elapsed().as_secs_f64() < secs / 16.0 { let u = polyfish::memory::observe_all(&mut g.state); u(&mut g.state); obs += 1; }
+    let observe_s = obs as f64 / t.elapsed().as_secs_f64();
     // 3. clone
     let (t, mut clones) = (Instant::now(), 0u64);
     while t.elapsed().as_secs_f64() < secs / 8.0 { std::hint::black_box(g0.clone()); clones += 1; }
@@ -127,7 +136,7 @@ fn bench(a: &[String]) {
     }
     let el = t.elapsed().as_secs_f64();
     println!("{}", json!({"turn": g0.state.settings.turn, "player": g0.state.settings.current_player_turn_id, "tribes": n_tribes, "units": n_units, "legal_now": ms.len() + 1,
-        "movegen_per_s": gen_s.round(), "moves_listed_per_s": listed_s.round(), "apply_undo_per_s": apply_s.round(),
+        "movegen_per_s": gen_s.round(), "moves_listed_per_s": listed_s.round(), "apply_undo_per_s": apply_s.round(), "simulate_undo_per_s": sim_s.round(), "fog_memory_observe_per_s": observe_s.round(),
         "clone_per_s": clone_s.round(), "playout_player_turns_per_s": (turns as f64 / el * 10.0).round() / 10.0,
         "playout_rounds_per_s": (turns as f64 / el / n_tribes as f64 * 100.0).round() / 100.0,
         "playout_movegens_per_s": (gens as f64 / el).round(), "playouts": playouts}));

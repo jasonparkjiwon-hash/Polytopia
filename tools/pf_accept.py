@@ -4,7 +4,7 @@
   python3 -I tools/pf_accept.py --fails    also print the first failing checks (state parts that differ)
 Tests: (a) the logged move is in the generated list (legality, as pf_miss); (b) the state after playing it through the
 API on a clone equals the replay's state (units/HP/stars/tiles/everything Polyfish holds; the referee comparison at
-checkpoints is pf_miss --accept); (c) determinism: two clones playing the same move agree; (d) clone independence;
+checkpoints is pf_miss --accept, plus tiles vs the next save: owner, terrain, structure, road, flood, city); (c) determinism: two clones playing the same move agree; (d) clone independence;
 undo exact (and exact up to tile reveals); (e) speed on a mid-game save; (f) random events and Dice coverage;
 (g) rule labels: moves played by kind -> ledger ids, below-L1 and unlabelled ones touched (data/pf_rule_levels.json).
 Prints one 'FM ACCEPT' line per test (check.sh shows them; informational, never part of the baseline)."""
@@ -22,11 +22,14 @@ R = PJ.run(jobs)
 A = {True: collections.Counter(), False: collections.Counter()}   # held-out? -> counts
 legal = {True: [0, 0], False: [0, 0]}
 kinds, fails, errs = collections.Counter(), [], 0
+T, TX = collections.Counter(), collections.defaultdict(list)   # tile part -> exact/total at checkpoints, examples
 for r in R:
     if "error" in r: errs += 1; continue
     gid, _, b = r["tag"].split("|"); h = PJ.held(gid, int(b))
     for k, (p, n) in r["accept"].items(): A[h][k, 0] += p; A[h][k, 1] += n
     for p, n in r["legal"].values(): legal[h][0] += p; legal[h][1] += n
+    for part, (p, n) in ((r.get("tiles") or {}).get("parts") or {}).items(): T[part, 0] += p; T[part, 1] += n
+    for part, xs in ((r.get("tiles") or {}).get("examples") or {}).items(): TX[part] += [(r["tag"][:8] + "|" + r["tag"].split("|", 1)[1], x) for x in xs]
     kinds.update(r["kinds"]); fails += [dict(f, tag=r["tag"]) for f in r["accept_fail"]]
 
 def frac(k):
@@ -36,6 +39,8 @@ print(f"FM ACCEPT (a) logged move in the generated list: tuned {legal[False][0]}
       f"held-out {legal[True][0]}/{legal[True][1]} = {pct(legal[True])}" + (f"; {errs} jobs failed to load" if errs else ""))
 print(f"FM ACCEPT (b) API move on a clone = replay state: {frac('same_as_replay')}; listed with a label: {frac('listed')}; "
       f"applies: {frac('applies')} (checks at every {os.environ['PF_ACCEPT']}th legal action; referee checkpoints: PF ACCEPT line)")
+parts = sorted({k for k, _ in T})
+print("FM ACCEPT (b) tiles vs the next save at each checkpoint: " + ", ".join(f"{k} {T[k, 0]}/{T[k, 1]}" for k in parts))
 print(f"FM ACCEPT (c) deterministic: {frac('deterministic')} | (d) clone independent: {frac('clone_independent')} | "
       f"undo exact: {frac('undo_exact')}, exact but tile reveals: {frac('undo_exact_but_reveals')}")
 
@@ -70,4 +75,5 @@ print(f"FM ACCEPT (g) rules: {sum(kinds.values())} moves in {len(kinds)} kinds, 
       f"below-L1 rules touched: {', '.join(below + [f'{k} (switch)' for k in flags]) or 'none'}; kinds with unlabelled upstream logic touched: "
       f"{', '.join(f'{k} {kinds[k]}' for k in up)}; label errors: {len(errors)}")
 if "--fails" in sys.argv:
+    for k in parts: print("  tiles", k, TX[k][:6])
     for f in fails[:20]: print("  fail", f)
