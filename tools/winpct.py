@@ -51,18 +51,19 @@ def main():
         static = W.softmax_probs(m["lags"][lag]["w"], start, m["names"])
     print("%s  turn %d, player %d to move, %d tribes, %d playouts x %d rounds, %s" % (os.path.basename(path), turn, mover, len(tribes), N, H,
           "BELIEF-sampled hidden map" if "--belief" in a else "FULL INFORMATION (hidden map known: calibration use only)"))
-    print("lead% = P(highest in-game score after %d rounds), 95%% interval; alive%% after %d rounds; start -> mean end" % (H, H))
-    order = sorted(tribes, key=lambda t: -lead[t])
+    print("est = recommended (half playouts, half static; best calibrated in win-pct.md). lead = P(highest in-game score after %d rounds), 95%% interval; alive%% after %d rounds; start -> mean end" % (H, H))
+    blend = {t: (0.5 * lead[t] / N + 0.5 * static[t]) if static else lead[t] / N for t in tribes}
+    order = sorted(tribes, key=lambda t: -blend[t])
     shown = order[:top] + ([str(subject)] if subject and str(subject) not in order[:top] else [])
     for t in shown:
         lo, hi = W.wilson(lead[t], N)
         s, e = start[t], mean[t]
         tag = "%s%s%s" % (tribes[t]["tribe"], " (human)" if not tribes[t]["bot"] else "", " <- subject" if subject and int(t) == subject else "")
-        print("  p%-3s %-26s lead %5.1f%% [%4.1f-%4.1f]  static %s  alive %5.1f%%  cities %.0f->%.1f  units %.0f->%.1f  stars %.0f->%.1f  score %.0f->%.0f" % (
-            t, tag, 100 * lead[t] / N, 100 * lo, 100 * hi, ("%5.1f%%" % (100 * static[t])) if static else "  n/a ", 100 * alive[t] / N,
+        print("  p%-3s %-26s est %5.1f%%  | playouts %5.1f%% [%4.1f-%4.1f]  static %s  alive %5.1f%%  cities %.0f->%.1f  units %.0f->%.1f  stars %.0f->%.1f  score %.0f->%.0f" % (
+            t, tag, 100 * blend[t], 100 * lead[t] / N, 100 * lo, 100 * hi, ("%5.1f%%" % (100 * static[t])) if static else "  n/a ", 100 * alive[t] / N,
             s[FI["cities"]], e[FI["cities"]], s[FI["unit_hp_cost"]], e[FI["unit_hp_cost"]], s[FI["stars"]], e[FI["stars"]], s[FI["score"]], e[FI["score"]]))
     if subject and str(subject) in tribes:
-        t = str(subject); rank = sorted(((sum(1 for u in tribes if mean[u][FI["score"]] > mean[t][FI["score"]]) + 1)),)[0]
+        t = str(subject); rank = sum(1 for u in tribes if mean[u][FI["score"]] > mean[t][FI["score"]]) + 1
         gap = mean[t][FI["score"]] - mean[order[0]][FI["score"]]
         print("drivers (subject p%s vs field median at the horizon): " % t + ", ".join(
             "%s %+.1f" % (nm, mean[t][FI[nm]] - sorted(mean[u][FI[nm]] for u in tribes)[len(tribes) // 2]) for nm in ("cities", "unit_hp_cost", "stars", "income", "techs", "kills", "score"))

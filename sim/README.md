@@ -43,6 +43,12 @@ For search and scenarios. It adds no rules: every call goes through Polyfish's o
 - `fog::player_view(game, pov)`: `clone_for_mcts` plus a scrub of hidden-tile `capital_of`/`ruling_city_coords`/climate (obscure_fog leaks every capital's position). `fog::load_exact` loads with the save's exact explored sets. `pffog sweep saves/*.json` checks both against the saves.
 - `belief::sample_belief(&game, pov, &model, Mode::Full, seed)` -> a full Game with pov's view kept and the hidden map drawn; Python `sample_belief(save, pov, n, seed, outdir)`. Scores and limits: `.scratchpad/investigations/fog-inference.md`.
 
+## Win percentage (win-pct; `src/bin/pfwin.rs`, `tools/winpct.py`)
+
+- `pfwin POLICY.json BELIEF_MODEL.json JOBS.json`: N seeded playouts of the bot policy v2 for every tribe with `Game::search_move`, per-tribe feature vectors at the start of each round. Job fields are in the file header. `belief_pov` draws the hidden map from `belief.rs` but does not sample opposing cities/units yet (biased: do not use for advice).
+- `python3 -I tools/winpct.py <save> [--player P] [--playouts N] [--horizon H]`: per-tribe chance to lead the in-game score after H rounds (est = half playouts, half static; playout interval), full information by default.
+- Calibration (Brier, reliability, speed, weak spots): `.scratchpad/investigations/win-pct.md`; check.sh prints one `WINPCT SMOKE` line.
+
 ## v123 corrections (pf-port; ledger ids in brackets, tests in `src/v123_tests.rs`)
 
 - Poison halves only the defence bonus; the v115 extra -30% on defence is removed (`functions.rs`) [C7].

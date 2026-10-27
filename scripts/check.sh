@@ -28,3 +28,5 @@ echo "== Polyfish forward-model acceptance (informational, not part of the basel
 python3 -I ../tools/pf_accept.py 2>/dev/null | grep "^FM ACCEPT" || echo "pf_accept skipped (build sim/pfcore first)"
 echo "== What-if tool validation (informational, not part of the baseline): tools/whatif_validate.py"
 python3 -I ../tools/whatif_validate.py --summary 2>/dev/null | grep "^WHATIF" || echo "whatif_validate skipped (build sim/pfcore first)"
+echo "== Win-percentage playouts (informational, not part of the baseline): tools/winpct_eval.py smoke"
+python3 -I ../tools/winpct_eval.py smoke 2>/dev/null | grep "^WINPCT SMOKE" || echo "winpct smoke skipped (build sim/pfcore first)"

@@ -1,0 +1,104 @@
+{
+ "about": "conditional-logit weights over alive tribes: P(leads in-game score at t+lag) = softmax(w . phi(state)); fitted by tools/winpct_eval.py write on the tuned games only",
+ "names": [
+  "cities",
+  "level",
+  "unit_hp_cost",
+  "stars",
+  "income",
+  "techs",
+  "kills",
+  "score"
+ ],
+ "scale": {
+  "cities": 1,
+  "level": 0.5,
+  "unit_hp_cost": 0.1,
+  "stars": 0.1,
+  "income": 0.2,
+  "techs": 0.2,
+  "kills": 0.5,
+  "score": 0.001
+ },
+ "tuned": [
+  "028182a9",
+  "05ade18c",
+  "09a5bf1e",
+  "1bf60251",
+  "3edee0ec",
+  "6e1bf8e0",
+  "9847d452",
+  "9906f7da",
+  "9be1198d",
+  "af181c8f",
+  "b2448ead",
+  "e15f392c"
+ ],
+ "lags": {
+  "1": {
+   "w": [
+    -0.1984,
+    0.1905,
+    0.3958,
+    0.7086,
+    0.7648,
+    1.1684,
+    -0.0491,
+    3.3315
+   ],
+   "points": 106
+  },
+  "2": {
+   "w": [
+    -0.2716,
+    0.3859,
+    0.7053,
+    1.103,
+    0.5305,
+    0.9645,
+    -0.0054,
+    2.7522
+   ],
+   "points": 96
+  },
+  "3": {
+   "w": [
+    -0.1057,
+    0.3694,
+    0.5166,
+    -0.045,
+    1.0646,
+    1.3439,
+    -0.0776,
+    2.2759
+   ],
+   "points": 87
+  },
+  "4": {
+   "w": [
+    -0.1651,
+    0.1728,
+    0.3096,
+    0.152,
+    1.2853,
+    0.9448,
+    -0.1863,
+    1.913
+   ],
+   "points": 78
+  },
+  "6": {
+   "w": [
+    -0.0829,
+    -0.1788,
+    0.3586,
+    -0.847,
+    1.7616,
+    1.1905,
+    -0.3734,
+    0.8049
+   ],
+   "points": 60
+  }
+ }
+}
