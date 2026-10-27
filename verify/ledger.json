@@ -1194,6 +1194,13 @@
    "level": "L3 (n=1)",
    "game_version": "v123 (measured in a save)",
    "evidence": "Game af181c8f t16: Boomchi 354 explodes on Water (13,9) (#2288, tile had resource 9 before); Cymanti p11 builds Fungi (37) there at #2502; the t18 save shows flood 4 (algae), resource 7, imp37. Polyfish legal Build 1014 -> 1015."
+  },
+  {
+   "id": "AQUARION-FREE-SPIRIT",
+   "rule": "Aquarion research the base Free Spirit (2) after Riding, then Spearing (26) in the Chivalry slot; Free Diving (25, Polyfish's Aquarion replacement for Free Spirit) does not appear in v123.",
+   "level": "L3 (n=1 research; 0/10 Aquarion players hold 25)",
+   "game_version": "v123 (measured in saves)",
+   "evidence": "Game af181c8f t3: p4 Aquarion (techs 0, 20, 45) researches 1 (#208) and 2 (#209); its t26 techs are [0, 1, 2, 20, 23, 24, 26, 45]. Last saves of all 10 Aquarion players in 11 games: none holds 25. Polyfish legal Research 630 -> 631."
   }
  ]
 }

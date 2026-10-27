@@ -350,8 +350,9 @@ fn tech_setting_table(tech_type: TechnologyType) -> TechnologySetting {
             tribe_type: Some(TribeType::Aquarion),
             ..Default::default()
         },
+        // v123 (AQUARION-FREE-SPIRIT): Aquarion research the base Free Spirit (af181c8f t3 #209); no Aquarion
+        // player holds 25 in any save, so it no longer replaces Free Spirit
         FreeDiving => TechnologySetting {
-            replaces_tech: Some(FreeSpirit),
             tribe_type: Some(TribeType::Aquarion),
             next: vec![Chivalry],
             unlocks_terrain: Some(TerrainType::Ocean),

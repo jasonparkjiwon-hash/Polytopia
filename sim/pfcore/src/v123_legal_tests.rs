@@ -468,3 +468,21 @@ fn explode_on_water_leaves_spores() {
     assert!(s.tiles[&idx(5, 5)].is_algae());
     assert_eq!(s.resources.get(&idx(5, 5)).cloned().flatten().map(|r| r.resource_type), Some(ResourceType::Spores));
 }
+
+/// AQUARION-FREE-SPIRIT (L3): Aquarion research the base Free Spirit after Riding, not Free Diving (25).
+/// af181c8f t3: p4 Aquarion (techs 0, 20, 45) researches Riding (#208) then Free Spirit (#209); no Aquarion
+/// player in any save holds 25.
+#[test]
+fn aquarion_research_free_spirit() {
+    use crate::moves::research::ResearchMove;
+    use crate::states::TechnologyState;
+    let t = |k| TechnologyState { tech_type: k, discovered: true, discovered_turn: 0 };
+    let mut s = board();
+    add_city(&mut s, 1, 5, 5);
+    let tr = s.tribes.get_mut(&1).unwrap();
+    tr.stars = 100;
+    tr.tribe_type = TribeType::Aquarion;
+    tr.tech_vanilla = vec![t(TechnologyType::Basic), t(TechnologyType::AquaBase), t(TechnologyType::Climbing), t(TechnologyType::Riding)];
+    assert!(has(&s, &ResearchMove::new(TechnologyType::FreeSpirit)));
+    assert!(!has(&s, &ResearchMove::new(TechnologyType::FreeDiving)));
+}
