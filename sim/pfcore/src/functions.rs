@@ -118,7 +118,8 @@ pub fn get_squared_euclidean_distance(a: i32, b: i32, size: i32) -> i32 {
 pub fn get_adjacent_indices(state: &GameState, idx: i32, range: i32) -> Vec<i32> {
     let size = state.settings.size;
     let coords = Coords::from_index(idx, size);
-    let mut result = Vec::new();
+    let side = (2 * range + 1).max(1) as usize;
+    let mut result = Vec::with_capacity(side * side - 1);
 
     for dy in -range..=range {
         for dx in -range..=range {

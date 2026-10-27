@@ -730,7 +730,7 @@ pub fn process_start_turn_effects(state: &mut GameState, player_id: PlayerId) ->
             }
 
             if leveled_up {
-                println!("Fungi leveled up to level {}", new_level);
+                if state.settings._verbose { println!("Fungi leveled up to level {}", new_level); }
                 // Undo level change
                 undos.push(Box::new(move |s| {
                     if let Some(st) = s.structures.get_mut(&f_idx).and_then(|x| x.as_mut()) {

@@ -743,10 +743,19 @@ fn is_naval_unit(unit_type: UnitType) -> bool {
 }
 
 fn is_adjacent_to_enemy(state: &GameState, idx: i32, owner: PlayerId) -> bool {
-    for n_idx in get_adjacent_indices(state, idx, 1) {
-        if let Some(enemy) = get_enemy_at(state, n_idx, owner) {
-            if !enemy.effects.contains(&UnitEffect::Invisible) {
-                return true;
+    // the 8 neighbours inside the map (no list allocated)
+    let size = state.settings.size;
+    let c = crate::coords::Coords::from_index(idx, size);
+    for dy in -1..=1 {
+        for dx in -1..=1 {
+            let (nx, ny) = (c.x + dx, c.y + dy);
+            if (dx == 0 && dy == 0) || nx < 0 || nx >= size || ny < 0 || ny >= size {
+                continue;
+            }
+            if let Some(enemy) = get_enemy_at(state, ny * size + nx, owner) {
+                if !enemy.effects.contains(&UnitEffect::Invisible) {
+                    return true;
+                }
             }
         }
     }
