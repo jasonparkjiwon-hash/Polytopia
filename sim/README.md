@@ -95,6 +95,7 @@ For search and scenarios. It adds no rules: every call goes through Polyfish's o
 - Another tribe's port stops only a unit that would board; frozen ports, ports on flooded land and amphibious units step onto it (`moves/mod.rs` is_steppable) [PORT-STEP, new ledger entry].
 - Water-only units (Raychi, Shark) move from water into a village or city and stop there (`moves/mod.rs`) [WATER-UNITS-VILLAGE, new ledger entry].
 - Explode is offered with no enemy next to the exploder (`moves/abilities/unit_actions.rs`) [EXPLODE-ANYTIME, new ledger entry].
+- The Atoll can be built on algae-covered water (`moves/build.rs`) [ATOLL-ON-ALGAE, new ledger entry].
 - The Moth has Explode (`settings/units.rs`) [MOTH-V123].
 - A converter's (Mind Bender, Shaman) attack is generated as ConvertMove; a boat carrying one attacks normally (`moves/mod.rs` generate_attack_moves) [CONVERT-ATTACK, new ledger entry].
 - Research moves come from the v123 researchable list (tribe techs included) plus each known tech's prerequisite (`moves/research.rs`) [TRIBE-TECH-TIERS, RESEARCH-BACKWARD, new ledger entry].

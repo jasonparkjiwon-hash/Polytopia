@@ -1222,6 +1222,13 @@
    "level": "L3 (n=4)",
    "game_version": "v123 (measured in saves)",
    "evidence": "Trains logged in full cities by Polyfish's count, each with a foreign unit homed there: 028182a9 t4 #181 (p3 city, a p1 unit) and t8 #449 (p7 city, a p1 unit), af181c8f t3 #267 (p15 city, a p11 unit), b2448ead t5 #457 (p11 city (24,16), a p9 unit). Polyfish legal Train 1392 -> 1396."
+  },
+  {
+   "id": "ATOLL-ON-ALGAE",
+   "rule": "The Aquarion Atoll (51) can be built on water covered with Cymanti algae (flood 4).",
+   "level": "L3 (n=1)",
+   "game_version": "v123 (measured in a save)",
+   "evidence": "Game 9906f7da t18 #1494: Aquarion p9 builds 51 at (3,27), Water with flood 4 (algae), in the city (2,27) taken from Cymanti that turn; the t19 save shows imp51 there. Polyfish excluded algae tiles; the case is now offered and only short of stars (pf-port drift)."
   }
  ]
 }

@@ -251,7 +251,8 @@ pub fn generate_build_moves(state: &GameState, moves: &mut Vec<Box<dyn Move>>) {
                     // #961) also go on flooded land
                     let terrain_valid = (settings.terrain_types.contains(&tile.terrain_type)
                         || (matches!(struct_type, StructureType::Atoll | StructureType::Port) && tile.is_flooded()))
-                        && !tile.is_algae();
+                        // v123 (ATOLL-ON-ALGAE): the Atoll also goes on algae (9906f7da t18 #1494 at (3,27))
+                        && (!tile.is_algae() || struct_type == StructureType::Atoll);
                     if !terrain_valid {
                         continue;
                     }

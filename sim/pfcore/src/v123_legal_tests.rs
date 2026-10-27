@@ -558,3 +558,23 @@ fn city_limit_counts_own_units_only() {
     s.tribes.get_mut(&2).unwrap().units[b].home_coords = home;
     assert!(has(&s, &SummonMove::new(idx(5, 5), UnitType::Warrior)));
 }
+
+/// ATOLL-ON-ALGAE (L3 n=1): the Atoll can be built on algae-covered water. 9906f7da t18 #1494: Aquarion build 51
+/// at (3,27), Water with Cymanti algae (flood 4), in the city (2,27) they took that turn.
+#[test]
+fn atoll_on_algae() {
+    use crate::moves::build::BuildMove;
+    use crate::states::TechnologyState;
+    let t = |k| TechnologyState { tech_type: k, discovered: true, discovered_turn: 0 };
+    let mut s = board();
+    explore(&mut s);
+    add_city(&mut s, 1, 5, 5);
+    s.tribes.get_mut(&1).unwrap().cities[0]._territory = vec![idx(5, 5), idx(5, 4)];
+    s.tiles.get_mut(&idx(5, 4)).unwrap().terrain_type = TerrainType::Water;
+    s.tiles.get_mut(&idx(5, 4)).unwrap().effects.insert(TileEffect::Algae);
+    let tr = s.tribes.get_mut(&1).unwrap();
+    tr.stars = 20;
+    tr.tribe_type = TribeType::Aquarion;
+    tr.tech_vanilla = vec![t(TechnologyType::AquaBase), t(TechnologyType::Aquaculture)];
+    assert!(has(&s, &BuildMove::new(idx(5, 4), StructureType::Atoll)));
+}
