@@ -795,7 +795,9 @@ pub fn get_best_capital(state: &GameState, player_id: PlayerId) -> Option<&CityS
 /// Get the number of units in a city
 pub fn get_city_unit_count(state: &GameState, city: &crate::states::CityState) -> i32 {
     let mut count = 0;
-    for tribe in state.tribes.values() {
+    // v123 (ledger CITY-UNITS-OWN-ONLY): only the city owner's units count; units another tribe homed there
+    // before it changed hands don't (028182a9 t4 #181, b2448ead t5 #457, af181c8f t3 #267)
+    for tribe in state.tribes.values().filter(|t| t.id == city.owner) {
         for unit in &tribe.units {
             if let Some(home) = &unit.home_coords {
                 if home.idx == city.idx {

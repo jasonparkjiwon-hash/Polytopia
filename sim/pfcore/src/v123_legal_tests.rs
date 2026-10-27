@@ -537,3 +537,22 @@ fn mooni_capture_leaves_units_unfrozen() {
     assert!(!s.tribes[&2].units[w].effects.contains(&UnitEffect::Frozen));
     assert_eq!(s.tiles[&idx(6, 5)].terrain_type, TerrainType::Ice);
 }
+
+/// CITY-UNITS-OWN-ONLY (L3 n=4): a city's unit limit counts only its owner's units; units another tribe homed
+/// there before the city changed hands don't. b2448ead t5 #457: p11 trains in its level-1 city (24,16)
+/// with a p9 unit still homed there and one own unit.
+#[test]
+fn city_limit_counts_own_units_only() {
+    use crate::coords::Coords;
+    use crate::moves::summon::SummonMove;
+    use crate::v123_tests::add_unit;
+    let mut s = board();
+    add_city(&mut s, 1, 5, 5);
+    s.tribes.get_mut(&1).unwrap().stars = 20;
+    let home = Some(Coords::from_xy(5, 5, s.settings.size));
+    let a = add_unit(&mut s, 1, UnitType::Warrior, 3, 3, 10.0);
+    s.tribes.get_mut(&1).unwrap().units[a].home_coords = home.clone();
+    let b = add_unit(&mut s, 2, UnitType::Warrior, 7, 7, 10.0);
+    s.tribes.get_mut(&2).unwrap().units[b].home_coords = home;
+    assert!(has(&s, &SummonMove::new(idx(5, 5), UnitType::Warrior)));
+}

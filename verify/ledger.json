@@ -1215,6 +1215,13 @@
    "level": "L3 (n=1 capture, 2 units)",
    "game_version": "v123 (measured in a save)",
    "evidence": "Game e15f392c t5: Polaris Mooni 20 captures (16,10) at #371; Hoodrick Warrior 22 at (16,9), next to it, moves at #397 and breaks ice at #398; unit 23 moves (#403) and attacks (#404). Polyfish froze both (turn ended): 4 illegal moves, now legal (Move 5606 -> 5608, Attack 1441 -> 1442, BreakIce 118 -> 119). The Python referee (engine/replay.py mooni_freezes_units) still freezes units on a capture but never blocks their moves, so its scores can't tell; Frozen after a Mooni move is unchanged."
+  },
+  {
+   "id": "CITY-UNITS-OWN-ONLY",
+   "rule": "A city's unit limit counts only units of the city's owner; units another tribe homed in the city before it changed hands don't count against it.",
+   "level": "L3 (n=4)",
+   "game_version": "v123 (measured in saves)",
+   "evidence": "Trains logged in full cities by Polyfish's count, each with a foreign unit homed there: 028182a9 t4 #181 (p3 city, a p1 unit) and t8 #449 (p7 city, a p1 unit), af181c8f t3 #267 (p15 city, a p11 unit), b2448ead t5 #457 (p11 city (24,16), a p9 unit). Polyfish legal Train 1392 -> 1396."
   }
  ]
 }
