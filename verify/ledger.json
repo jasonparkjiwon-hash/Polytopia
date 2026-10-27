@@ -1243,6 +1243,13 @@
    "level": "L3",
    "game_version": "v123 (measured in a save)",
    "evidence": "af181c8f t8 #755: p3 captured p7's city (23,20) (ConnectedPlayerCapital 7, Total 2); after the turn it is Total 1, CurrentPopulation -1, flag 0, and p3's capital (25,27) lost nothing (Polyfish took 1 from the capital as a lost connection, so #769's CityReward was not pending). CityReward legal 403 -> 404."
+  },
+  {
+   "id": "WATER-ROUTE",
+   "rule": "Ports link over water: from a connected port, own ports and own cities with an own port beside them are reached over water or ocean in at most 5 steps (diagonals count), not through enemy-owned tiles; a city with no port is not linked.",
+   "level": "L3",
+   "game_version": "v123 (measured in saves)",
+   "evidence": "The HasWaterRoute tile flag marks the route. af181c8f t22 p12: port (8,20) to city (12,20) (4 steps, port (13,20) 5 away) marked (9..11,20), city connected; 09a5bf1e t8 p6: (1,16) to (6,14) is a 5-step route ((2,15),(3,14),(4,14),(5,13)), (6,14) to (5,17) 4 steps; af181c8f t12 p16: the only water path from (3,17) to (7,19) is 7 steps, no route, not connected; 6e1bf8e0 t11 p15: city (7,9) without a port stays unconnected. Replaces the Chebyshev-4 box (Polyfish v115): 4 steps fix 405, 5 or 6 steps 412 (CityReward legal 404 -> 412, Train +1); orthogonal-only steps and Chebyshev-3 are worse."
   }
  ]
 }

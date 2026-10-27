@@ -1136,6 +1136,36 @@ fn aquarion_atoll_network() {
     assert!(s.tribes[&1].cities[1].connected_to_capital, "Atoll (5,5) links (6,8) and (3,2)");
 }
 
+/// WATER-ROUTE (L3, HasWaterRoute flags of 09a5bf1e t8 and af181c8f t22): a port links over water, up to 5 steps, to a
+/// city with a port beside it. af181c8f t22 p12: port (8,20) reaches the city (12,20), 4 steps away, whose port is (13,20);
+/// the old 4-tile box missed routes of 5 steps and the city target; a city with no port beside it is never linked.
+#[test]
+fn water_route_reaches_port_cities() {
+    use crate::actions::connection::update_capital_connections;
+    let mut s = board();
+    add_city(&mut s, 1, 1, 3);
+    s.tiles.get_mut(&idx(1, 3)).unwrap().capital_of = 1;
+    add_city(&mut s, 1, 7, 2);
+    add_city(&mut s, 1, 7, 8);
+    for x in 2..=6 {
+        let t = s.tiles.get_mut(&idx(x, 2)).unwrap();
+        t.terrain_type = TerrainType::Water;
+        t.owner = 1;
+    }
+    for (x, y) in [(2, 2), (8, 2)] {
+        s.tiles.get_mut(&idx(x, y)).unwrap().owner = 1;
+        put_structure(&mut s, x, y, StructureType::Port);
+    }
+    let _ = update_capital_connections(&mut s, 1);
+    assert!(s.tribes[&1].cities[1].connected_to_capital, "city (7,2) is 5 steps from port (2,2)");
+    assert!(!s.tribes[&1].cities[2].connected_to_capital, "(7,8) has no water route");
+    // a city without a port beside it is not a target
+    put_structure(&mut s, 8, 2, StructureType::Farm);
+    s.tribes.get_mut(&1).unwrap().cities[1].connected_to_capital = false;
+    let _ = update_capital_connections(&mut s, 1);
+    assert!(!s.tribes[&1].cities[1].connected_to_capital);
+}
+
 /// EMBASSY-DESTROYED-BY-COMBAT (L3, 9906f7da t13: p9 attacked p1 at #879 and p9's EmbassyLevel for p1 was 0 at t14;
 /// t18 capture of p1's city ended the t18 embassy): an attack between builder and host ends the embassy and its income.
 #[test]

@@ -170,22 +170,14 @@ pub fn update_capital_connections(state: &mut GameState, tribe_id: i32) -> UndoC
             }
         }
 
-        // Port-to-Port connection (4 radius)
+        // v123 (ledger WATER-ROUTE): a port links over water (up to 5 steps, not through enemy tiles) to other
+        // own ports and to own cities that have a port beside them
         if is_port && tribe_type != TribeType::Cymanti {
-            let radius_indices = crate::functions::get_adjacent_indices(state, current_idx, 4);
-            for target_idx in radius_indices {
-                if visited.contains(&target_idx) {
-                    continue;
-                }
-
-                if has_port(state, target_idx) {
-                    // Path check: only through water or ocean
-                    if has_water_path(state, current_idx, target_idx, tribe_id) {
-                        visited.insert(target_idx);
-                        queue.push_back(target_idx);
-                        if city_indices.contains(&target_idx) {
-                            connected_cities.insert(target_idx);
-                        }
+            for target_idx in water_route_targets(state, current_idx, tribe_id, &city_indices) {
+                if visited.insert(target_idx) {
+                    queue.push_back(target_idx);
+                    if city_indices.contains(&target_idx) {
+                        connected_cities.insert(target_idx);
                     }
                 }
             }
@@ -300,53 +292,49 @@ fn has_algae(state: &GameState, idx: i32) -> bool {
         .unwrap_or(false)
 }
 
-fn has_water_path(state: &GameState, src: i32, dest: i32, tribe_id: i32) -> bool {
+/// Own ports and own port-side cities reachable from the port at `src` over water or ocean in at most 5 steps,
+/// not through enemy-owned tiles (the HasWaterRoute tile flag in the saves marks these routes)
+fn water_route_targets(state: &GameState, src: i32, tribe_id: i32, cities: &HashSet<i32>) -> Vec<i32> {
     use crate::functions::is_enemy;
-    let size = state.settings.size;
-    let sx = src % size;
-    let sy = src / size;
-
-    // BFS path check
-    let mut visited = HashSet::new();
-    let mut queue = VecDeque::new();
-    queue.push_back(src);
-    visited.insert(src);
-
-    while let Some(curr) = queue.pop_front() {
-        if curr == dest {
-            return true;
-        }
-
-        let dist = (curr % size - sx).abs().max((curr / size - sy).abs());
-        if dist >= 4 && curr != src {
-            continue;
-        } // Max radius 4
-
-        let adj = crate::functions::get_adjacent_indices(state, curr, 1);
-        for n in adj {
-            if visited.contains(&n) {
-                continue;
-            }
-            let tile = match state.tiles.get(&n) {
-                Some(t) => t,
-                None => continue,
-            };
-
-            // Connections cannot pass through enemy-owned tiles
-            if tile.owner != 0 && is_enemy(state, tribe_id, tile.owner) {
-                continue;
-            }
-
-            // Path must be water or ocean
-            if is_water(tile.terrain_type) || n == dest {
-                visited.insert(n);
-                queue.push_back(n);
+    let mut seen: HashSet<i32> = HashSet::new();
+    let mut out = Vec::new();
+    let mut frontier = vec![src];
+    seen.insert(src);
+    for _ in 0..WATER_ROUTE_STEPS {
+        let mut next = Vec::new();
+        for curr in frontier {
+            for n in crate::functions::get_adjacent_indices(state, curr, 1) {
+                if !seen.insert(n) {
+                    continue;
+                }
+                let tile = match state.tiles.get(&n) {
+                    Some(t) => t,
+                    None => continue,
+                };
+                if tile.owner != 0 && is_enemy(state, tribe_id, tile.owner) {
+                    continue;
+                }
+                if tile.owner == tribe_id && has_port(state, n) {
+                    out.push(n);
+                    next.push(n);
+                } else if cities.contains(&n) {
+                    let port_beside = crate::functions::get_adjacent_indices(state, n, 1)
+                        .into_iter()
+                        .any(|a| has_port(state, a) && state.tiles.get(&a).map_or(false, |t| t.owner == tribe_id));
+                    if port_beside {
+                        out.push(n);
+                    }
+                } else if is_water(tile.terrain_type) {
+                    next.push(n);
+                }
             }
         }
+        frontier = next;
     }
-
-    false
+    out
 }
+
+const WATER_ROUTE_STEPS: i32 = 5;
 
 fn is_water(terrain: TerrainType) -> bool {
     matches!(terrain, TerrainType::Water | TerrainType::Ocean)
