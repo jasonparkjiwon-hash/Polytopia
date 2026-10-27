@@ -24,3 +24,5 @@ python3 economy.py $(for t in $(seq 1 16); do printf "${C}_t$t.json "; done) | t
 python3 economy.py $G | tail -1
 echo "== Polyfish forward model (informational, not part of the baseline): tools/pf_miss.py"
 python3 -I ../tools/pf_miss.py --accept 2>/dev/null | grep "^PF ACCEPT" || echo "pf_miss skipped (build sim/pfcore first)"
+echo "== Polyfish forward-model acceptance (informational, not part of the baseline): tools/pf_accept.py"
+python3 -I ../tools/pf_accept.py 2>/dev/null | grep "^FM ACCEPT" || echo "pf_accept skipped (build sim/pfcore first)"

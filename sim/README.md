@@ -12,6 +12,24 @@
 - Generate maps: `target/release/genmaps <out> <n> <map_type 1-6> <size 0-5> <seed0> <tribe ids> [players]`.
   - Then analyse them with `../verify/analyze_map.py`.
 
+## Forward-model API (fm-accept; `src/api.rs`, `src/bin/pfapi.rs`, `tools/pf_api.py`)
+
+For search and scenarios. It adds no rules: every call goes through Polyfish's own move generation and `play_move`.
+
+- Rust (`polyfish::api`):
+  - `load_save_file(path, "current", player)`: a decoded save (`saves/<id>_t<n>.json`) -> `Game`, `player` to move.
+  - `legal(&game)`: every legal move as `{key, label, mv}`; label like `Step Warrior (3,4)->(4,5)`, `Build Farm (3,4)`, `Research Fishing`, `EndTurn`.
+  - `find(&game, &key)`, `apply(&mut game, mv)` (returns the undo), `undo(&mut game, u)` (newest first), `end_turn(&mut game)`.
+  - `clone(&game)`: direct struct copy (~16k/s on a 16-tribe mid-game state). `Game::clone_game` goes through JSON and is slower.
+  - `fingerprint(&state)`: hash of everything Polyfish holds; equal fingerprints = same game. `fingerprint_with(.., true)` ignores tile reveals.
+  - `kind(mv)`: the move's rule family, the key into `data/pf_rule_levels.json`.
+  - `Dice::from_file("data/distributions.json", seed)` + `apply_with_dice(&mut game, mv, Some(&mut dice))`: an Examine Ruins gets its reward sampled from the measured table (land or water, Free Tech dropped when nothing is researchable) instead of Polyfish's seeded hash. `RANDOM_EVENTS` lists every random event and what covers it.
+  - Undo is exact except tile reveals: `play_move` explores for good, its undo keeps the tiles explored. Clone when that matters.
+- Bin: `target/release/pfapi moves <save> <player>` (one JSON line per legal move), `pfapi serve` (JSON lines on stdin: `load`, `moves`, `play {key}`, `end`, `undo`, `push`, `pop`, `state`, `dice`), `pfapi bench <save> <player|0> [secs]`, `pfapi dice <distributions.json> <save> <player>`.
+- Python: `tools/pf_api.py` (`Sim(save, player)`, `.moves() .play(key) .undo() .end_turn() .push() .pop() .dice() .state()`).
+- Acceptance: `python3 -I tools/pf_accept.py [--full] [--fails]` prints the `FM ACCEPT` lines (end of `scripts/check.sh`, informational). The per-action checks run inside `pfreplay` when `PF_ACCEPT=n` is set (every n-th legal logged action). Rust tests: `src/api_tests.rs`.
+- Rule labels: `python3 -I tools/pf_rule_levels.py [--check]` writes `data/pf_rule_levels.json` (move kinds, the v123 bullets below and the `v123_flags` switches -> ledger id and level).
+
 ## v123 corrections (pf-port; ledger ids in brackets, tests in `src/v123_tests.rs`)
 
 - Poison halves only the defence bonus; the v115 extra -30% on defence is removed (`functions.rs`) [C7].
