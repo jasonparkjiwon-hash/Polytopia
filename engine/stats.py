@@ -20,6 +20,7 @@ V116 = {
  "Shaman": (10, 1, 1, ["convert", "swarm"]),   # Jason in game: no Static; retaliates with plain damage (no conversion)
  "Doomux": (20, 3.5, 2, ["explode", "static"]), "Centipede": (20, 4, 3, ["static"]), "Segment": (10, 2, 2, ["onlyExplode", "static", "stiff"]),
  "Larva": (10, 2, 2, ["surprise", "static"]), "Moth": (10, 2, 2, ["poison", "static", "stiff", "surprise"]),   # Polyfish v115 table (Moth: fitted to v123, see ledger MOTH-V123)
+ "MermaidDagger": (10, 2, 2, ["surprise", "static", "dash"]),   # no v123 card: Polyfish v123 table (= the Dagger), AQUARION-UNITS-49-52
  "InsectEgg": (10, 2, 3, ["onlyExplode", "static", "stiff"]), "Mantis": (15, 3, 3, ["creep", "dash"]),   # Polyfish v115 table; MEASURED 09a5bf1e: a veteran Mantis has 20 HP and hits a Defender for 5
 }
 # ranges (not in the calculator): info cards + dataset; default 1

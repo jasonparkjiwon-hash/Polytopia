@@ -358,3 +358,4 @@ Jason (Imperius) vs 15 Hard bots on a 30x30 map, exported every turn from 1 to 1
 - INFILTRATE (27 Oct, ref-fix): a Scuba infiltrating a city does normal damage (6 here), not Polyfish's fixed 2; split with Polyfish infiltrate_city, n=1. Test item: Dagger count and placement.
 - WATER-TEMPLE-PRICE (27 Oct, ref-fix): Water Temple (build 19) priced 20 in the engine.
 - ECON-EMBASSY (27 Oct, ref-fix): rebuilding an embassy at the same host costs the base 4; the +2 step (if real) counts only other hosts.
+- AQUARION-UNITS-49-52 (27 Oct, ref-fix): Mermaid Dagger stats from Polyfish (= Dagger, Surprise); no v123 card yet (test item).

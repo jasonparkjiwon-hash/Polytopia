@@ -91,3 +91,4 @@ Stars (11):
 | 8 | INFILTRATE | `engine/replay.py` RULES `infiltrate`: Cloak/Scuba attacking an enemy city deals normal damage, no retaliation, and is removed (Polyfish uses a fixed 2: split) | 7385/7396, 1508/1540 |
 | 9 | WATER-TEMPLE-PRICE | `engine/economy.py` `BUILD[19] = ("WaterTemple", 20)` | 7385/7396, 1510/1540 |
 | 10 | ECON-EMBASSY | `engine/economy.py` `EMBASSY_STEP_OTHER_HOSTS`: a rebuild at the same host pays the base price (the +2 step counts other hosts only) | 7385/7396, 1511/1540 |
+| 11 | AQUARION-UNITS-49-52 | `engine/stats.py` `MermaidDagger`: 10 HP, 2/2, Surprise Static Dash (Polyfish; no card) | 7386/7396, 1511/1540 |
