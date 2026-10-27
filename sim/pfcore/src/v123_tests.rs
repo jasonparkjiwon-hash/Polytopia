@@ -1142,3 +1142,17 @@ fn enchant_removes_game() {
     assert_eq!(s.tribes[&1].stars, 7);
     assert!(s.tribes[&1].units.iter().any(|u| u.unit_type == UnitType::Polytaur && u.coords.idx == idx(5, 5)));
 }
+
+/// INFILTRATE (L3, 9906f7da t18 #1481): p9's Scuba (5 HP, atk 2) attacked Jason's city holding his Shaman (10 HP,
+/// def 1): Shaman 10 -> 4 (the normal formula), no retaliation, the Scuba gone, 3 Mermaid Daggers around the city.
+#[test]
+fn scuba_infiltrates_occupied_city() {
+    let mut s = board();
+    add_city(&mut s, 2, 5, 5);
+    let a = add_unit(&mut s, 1, UnitType::MermaidCloak, 5, 4, 5.0);
+    let d = add_unit(&mut s, 2, UnitType::Shaman, 5, 5, 10.0);
+    attack(&mut s, a, d);
+    assert_eq!(unit(&s, 2, d).health, 4.0);
+    assert!(!s.tribes[&1].units.iter().any(|u| u.unit_type == UnitType::MermaidCloak), "used up");
+    assert_eq!(s.tribes[&1].units.iter().filter(|u| u.unit_type == UnitType::MermaidDagger).count(), 3);
+}

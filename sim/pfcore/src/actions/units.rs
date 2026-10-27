@@ -937,6 +937,26 @@ pub fn attack_unit(
         )
     };
 
+    // v123 (INFILTRATE, L3 9906f7da t18 #1481): a Cloak or Scuba attacking a unit in an enemy city deals its normal
+    // damage (no retaliation), then infiltrates as into an empty city (Daggers) and is used up.
+    if let (Some(d), true) = (defender_idx, matches!(atk_type, UnitType::Cloak | UnitType::MermaidCloak)) {
+        let (dmg, dc) = {
+            let u = &state.tribes[&defender_owner].units[d];
+            let r = calculate_combat(atk_atk, atk_health, atk_max_health, get_unit_defense(u), u.health,
+                get_unit_max_health(u), get_defense_bonus(state, u));
+            (r.attack_damage, u.coords.idx)
+        };
+        let city_owner = state.tribes.iter()
+            .find(|(_, t)| t.cities.iter().any(|c| c.idx == dc))
+            .map(|(&id, _)| id)
+            .filter(|&id| id != attacker_owner);
+        if let Some(city_owner) = city_owner {
+            undos.push(deal_damage(state, defender_owner, d, dmg, Some(attacker_owner)));
+            undos.push(attack_unit(state, attacker_owner, attacker_idx, city_owner, None));
+            return crate::actions::chain_undos(undos);
+        }
+    }
+
     // If defender_idx is None, this is an Infiltration attack on a city
     if defender_idx.is_none() {
         if atk_skills.contains(&SkillType::Infiltrate) {
