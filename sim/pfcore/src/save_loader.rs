@@ -213,6 +213,7 @@ pub fn load(d: &Value, which: &str, current_player: i32) -> Result<(Game, LoadRe
         }
         st.tribes.insert(id, t);
     }
+    embassies_to_builder_side(&mut st);
 
     // Tiles, structures, resources, cities, units
     for (y, row) in tiles.iter().enumerate() {
@@ -327,6 +328,24 @@ pub fn load(d: &Value, which: &str, current_player: i32) -> Result<(Game, LoadRe
 }
 
 /// Unit ids present in a state (for checks).
+/// EMBASSY-INCOME-NEUTRAL: the save keeps an embassy on the host's Diplomacy record for the builder (EmbassyLevel);
+/// Polyfish keeps it on the builder's record for the host (EstablishEmbassyMove, get_embassy_cost).
+pub fn embassies_to_builder_side(st: &mut GameState) {
+    let hosted: Vec<(i32, i32, i32)> = st.tribes.iter()
+        .flat_map(|(&host, t)| t.relations.iter().filter(|(_, r)| r.embassy_level > 0).map(move |(&b, r)| (b, host, r.embassy_level)))
+        .collect();
+    for t in st.tribes.values_mut() {
+        for r in t.relations.values_mut() {
+            r.embassy_level = 0;
+        }
+    }
+    for (builder, host, level) in hosted {
+        if let Some(t) = st.tribes.get_mut(&builder) {
+            t.relations.entry(host).or_default().embassy_level = level;
+        }
+    }
+}
+
 pub fn uids(state: &GameState) -> HashSet<i64> {
     state.tribes.values().flat_map(|t| t.units.iter().map(|u| u.uid)).collect()
 }

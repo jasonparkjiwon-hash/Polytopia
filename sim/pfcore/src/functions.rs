@@ -633,8 +633,8 @@ pub fn get_bot_bonus(state: &GameState, tribe: &TribeState) -> i32 {
     if holds_capital { bonus } else { 0 }
 }
 
-/// v123 (ledgers EMBASSY-ACTION L3, ECON-EMBASSY): embassy income at the start of a tribe's turn. The host of an
-/// embassy earns 2 a turn while not at war, 4 at peace; the builder earns 4 only at peace (nothing while neutral).
+/// v123 (EMBASSY-INCOME-NEUTRAL L3, ECON-EMBASSY): embassy income at the start of a tribe's turn. While an embassy
+/// stands, the builder and the host each earn 2 a turn, 4 at peace, nothing at war.
 /// `DiplomacyRelationState.state`: 1 peace, 3 war (the save's RelationState), 0 neutral.
 pub fn get_embassy_income(state: &GameState, tribe: &TribeState) -> i32 {
     let mut stars = 0;
@@ -642,16 +642,13 @@ pub fn get_embassy_income(state: &GameState, tribe: &TribeState) -> i32 {
         if other_id == tribe.id {
             continue;
         }
-        // the other tribe built an embassy here (this tribe hosts it)
-        if let Some(rel) = other.relations.get(&tribe.id).filter(|r| r.embassy_level > 0) {
-            stars += match rel.state { 1 => 4, 3 => 0, _ => 2 };
-        }
-        // this tribe built one there
-        if let Some(rel) = tribe.relations.get(&other_id).filter(|r| r.embassy_level > 0) {
-            if rel.state == 1 {
-                stars += 4;
-            }
-        }
+        let mine = tribe.relations.get(&other_id);
+        let theirs = other.relations.get(&tribe.id);
+        let states = [mine, theirs].map(|r| r.map_or(0, |r| r.state));
+        let rel = if states.contains(&3) { 3 } else if states.contains(&1) { 1 } else { 0 };
+        // the other tribe built an embassy here, and/or this tribe built one there
+        let n = [theirs, mine].iter().filter(|r| r.map_or(false, |r| r.embassy_level > 0)).count() as i32;
+        stars += n * match rel { 1 => 4, 3 => 0, _ => 2 };
     }
     stars
 }

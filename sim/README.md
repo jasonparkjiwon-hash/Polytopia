@@ -48,7 +48,7 @@
 - A captured capital stays the old owner's capital (no +1, no bot bonus for the captor) (`actions/city.rs`) [ECON-INCOME, ECON-BOT-BONUS].
 - Market earns the level of each adjacent Windmill/Sawmill/Forge (its adjacent Farms/Lumber Huts/Mines) (`functions.rs` get_city_production) [ECON-MARKET-CLATHRUS].
 - A city's building income (Market, Clathrus, ...) counts only tiles that city rules; post_load's territories overlap (`functions.rs` get_city_production).
-- Embassy: costs 4 plus 2 per embassy the tribe has; the host earns 2 a turn (4 at peace, 0 at war), the builder 4 only at peace; the loader keeps RelationState 3 (war) (`functions.rs` get_embassy_income/get_embassy_cost, `game.rs`, `moves/abilities/diplomacy.rs`, `save_loader.rs`) [EMBASSY-ACTION, ECON-EMBASSY].
+- Embassy: costs 4 plus 2 per embassy the tribe has; while it stands the builder and the host each earn 2 a turn (4 at peace, 0 at war); the loader keeps RelationState 3 (war) and moves the save's EmbassyLevel from the host's record to the builder's (`functions.rs` get_embassy_income/get_embassy_cost, `game.rs`, `moves/abilities/diplomacy.rs`, `save_loader.rs` embassies_to_builder_side) [EMBASSY-ACTION, ECON-EMBASSY, EMBASSY-INCOME-NEUTRAL].
 - A Shaman's convert also deals its normal damage, with no retaliation; a target it kills isn't converted (`moves/abilities/convert.rs`) [SHAMAN].
 - A move onto a hidden enemy reveals it and uses the move but not the attack (`moves/step.rs`) [MOVE-BLOCKED-HIDDEN].
 - Breaking peace disbands the breaker's units inside the ex-ally's territory (`moves/abilities/diplomacy.rs`) [DIPLO-BREAK-DISBAND].

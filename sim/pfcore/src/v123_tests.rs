@@ -707,7 +707,8 @@ fn market_pays_by_level() {
 }
 
 /// EMBASSY-ACTION (L3, n=2: 09a5bf1e t7, 6e1bf8e0 t13): an embassy costs the builder a net 4 (+2 for each one it
-/// already has, ECON-EMBASSY); the host earns 2 a turn (4 at peace); the builder earns nothing while neutral, 4 at peace.
+/// already has, ECON-EMBASSY). EMBASSY-INCOME-NEUTRAL (L3, 9906f7da t7-t13: Jason's p1 embassy in p9's capital, both
+/// +2 a turn with no peace): builder and host each earn 2 while neutral, 4 at peace.
 #[test]
 fn embassy_cost_and_income() {
     use crate::functions::{get_embassy_cost, get_embassy_income};
@@ -723,11 +724,27 @@ fn embassy_cost_and_income() {
     crate::moves::abilities::diplomacy::EstablishEmbassyMove::new(idx(8, 8), 2).execute(&mut s).unwrap();
     assert_eq!(s.tribes[&1].stars, 6);
     assert_eq!(get_embassy_cost(&s.tribes[&1]), 6);
-    assert_eq!((get_embassy_income(&s, &s.tribes[&1]), get_embassy_income(&s, &s.tribes[&2])), (0, 2));
+    assert_eq!((get_embassy_income(&s, &s.tribes[&1]), get_embassy_income(&s, &s.tribes[&2])), (2, 2));
     for (a, b) in [(1, 2), (2, 1)] {
         s.tribes.get_mut(&a).unwrap().relations.get_mut(&b).unwrap().state = 1;
     }
     assert_eq!((get_embassy_income(&s, &s.tribes[&1]), get_embassy_income(&s, &s.tribes[&2])), (4, 4));
+}
+
+/// EMBASSY-INCOME-NEUTRAL: a save holds the embassy on the host's record (9906f7da t7: p9's Diplomacy entry for p1
+/// has EmbassyLevel 1); loaded, it is the builder's, so the builder's next one costs 6 and both earn 2.
+#[test]
+fn embassy_from_save_is_the_builders() {
+    use crate::functions::{get_embassy_cost, get_embassy_income};
+    let mut s = board();
+    for (a, b) in [(1, 2), (2, 1)] {
+        s.tribes.get_mut(&a).unwrap().relations.insert(b, DiplomacyRelationState::default());
+    }
+    s.tribes.get_mut(&2).unwrap().relations.get_mut(&1).unwrap().embassy_level = 1;
+    crate::save_loader::embassies_to_builder_side(&mut s);
+    assert_eq!((s.tribes[&1].relations[&2].embassy_level, s.tribes[&2].relations[&1].embassy_level), (1, 0));
+    assert_eq!((get_embassy_cost(&s.tribes[&1]), get_embassy_cost(&s.tribes[&2])), (6, 4));
+    assert_eq!((get_embassy_income(&s, &s.tribes[&1]), get_embassy_income(&s, &s.tribes[&2])), (2, 2));
 }
 
 /// SHAMAN (L3, n=1: e15f392c t9, Shaman 14 converted Scoutship 161, which ended Cymanti with 6 HP): a Shaman's
