@@ -56,6 +56,11 @@ struct Replay {
     hints: HashMap<usize, (i64, Option<i64>)>, // action index -> ruin reward (RuinsRewardType), tech (from the next save)
     pad_noted: std::collections::HashSet<(i32, i32)>, // (city, turn) already noted as a hidden pending reward
     meets: Vec<(i32, i32, i32)>, // (player, met tribe, stars): tribes met between the saves, from the next save's Encountered
+    accept: usize,                       // PF_ACCEPT=n: forward-model checks at every n-th legal logged action (0 = off)
+    acc: BTreeMap<String, [i64; 2]>,     // check name -> [passed, run]
+    acc_fail: Vec<Value>,                // first failures, with the differing state parts
+    acc_seen: usize,
+    kinds: BTreeMap<String, i64>,        // rule family (api::kind) -> moves played, for data/pf_rule_levels.json
 }
 
 fn name_of(t: i64) -> &'static str {
@@ -349,7 +354,12 @@ impl Replay {
                 if t == 14 {
                     if let Some(h) = self.ruin_move(i, &v) { mv = h; }
                 }
+                self.acc_seen += 1;
+                let check = self.accept > 0 && self.acc_seen % self.accept == 0;
+                let pre = if check { Some(self.accept_before(i, &name, &keys, &cands[p].serialize(), mv.as_ref())) } else { None };
+                *self.kinds.entry(polyfish::api::kind(mv.as_ref())).or_insert(0) += 1;
                 played_ok = self.game.play_move(mv.as_ref()).is_some();
+                if let Some(Some((f1, c1))) = pre { self.accept_after(i, &name, f1, &c1); }
             }
             None => {
                 let pending = legal.iter().any(|m| m.move_type() == MoveType::Reward);
@@ -404,6 +414,50 @@ impl Replay {
         if t == 5 && UnitType::from_repr(v[1] as i8).is_none() {
             for id in self.next_temp..new_before { self.real_type.insert(id, v[1] as i32); }
         }
+    }
+
+    fn acc_count(&mut self, i: usize, check: &str, act: &str, ok: bool, parts: Vec<String>) {
+        let e = self.acc.entry(check.to_string()).or_insert([0, 0]);
+        e[1] += 1;
+        if ok { e[0] += 1; } else if self.acc_fail.len() < 20 {
+            self.acc_fail.push(json!({"i": i, "check": check, "type": act, "parts": parts}));
+        }
+    }
+
+    /// fm-accept checks before the logged move is played on the replay state: the API lists it (with a label),
+    /// two clones playing it agree (determinism), undo restores the state, and the original is untouched by
+    /// the clones (independence). Returns the clone's fingerprint after the move, for accept_after.
+    fn accept_before(&mut self, i: usize, act: &str, keys: &[Value], key: &Value, mv: &dyn Move) -> Option<(u64, Game)> {
+        use polyfish::api;
+        let listed = api::legal(&self.game);
+        let ok = listed.iter().any(|m| &m.key == key && !m.label.is_empty()) && listed.len() == keys.len();
+        self.acc_count(i, "listed", act, ok, vec![]);
+        let f0 = api::fingerprint(&self.game.state);
+        let (mut c1, mut c2) = (api::clone(&self.game), api::clone(&self.game));
+        let u1 = api::apply(&mut c1, mv);
+        let u2 = api::apply(&mut c2, mv);
+        if u1.is_none() || u2.is_none() { self.acc_count(i, "applies", act, false, vec![]); return None; }
+        self.acc_count(i, "applies", act, true, vec![]);
+        let (f1, f2) = (api::fingerprint(&c1.state), api::fingerprint(&c2.state));
+        let parts = if f1 != f2 { api::diff_parts(&c1.state, &c2.state) } else { vec![] };
+        self.acc_count(i, "deterministic", act, f1 == f2, parts);
+        let fo = api::fingerprint(&self.game.state);
+        self.acc_count(i, "clone_independent", act, fo == f0, vec![]);
+        api::undo(&mut c2, u2.unwrap());
+        let fu = api::fingerprint(&c2.state);
+        let parts = if fu != f0 { api::diff_parts(&c2.state, &self.game.state) } else { vec![] };
+        let reveal_only = fu != f0 && api::fingerprint_with(&c2.state, true) == api::fingerprint_with(&self.game.state, true);
+        self.acc_count(i, "undo_exact", act, fu == f0, if reveal_only { vec![] } else { parts.clone() });
+        self.acc_count(i, "undo_exact_but_reveals", act, fu == f0 || reveal_only, parts);
+        drop(u1);
+        Some((f1, c1))
+    }
+
+    /// After the replay played the logged move: the state equals the clone that played it through the API.
+    fn accept_after(&mut self, i: usize, act: &str, f1: u64, c1: &Game) {
+        let fr = polyfish::api::fingerprint(&self.game.state);
+        let parts = if fr != f1 { polyfish::api::diff_parts(&self.game.state, &c1.state) } else { vec![] };
+        self.acc_count(i, "same_as_replay", act, fr == f1, parts);
     }
 
     /// What Polyfish sees around an illegal unit action: the unit, the two tiles, and the targets Polyfish offers from that tile.
@@ -530,7 +584,8 @@ fn run_job(job: &Value) -> Result<Value, String> {
     let (game, rep) = save_loader::load(&start, "current", cur)?;
     let size = game.state.settings.size;
     let mut r = Replay { game, size, next_temp: 0, real_type: HashMap::new(), passenger_uid: HashMap::new(),
-        legal: BTreeMap::new(), illegal: Vec::new(), notes: BTreeMap::new(), acts: acts[..to].to_vec(), done: Default::default(), hints: HashMap::new(), pad_noted: Default::default(), meets: Vec::new() };
+        legal: BTreeMap::new(), illegal: Vec::new(), notes: BTreeMap::new(), acts: acts[..to].to_vec(), done: Default::default(), hints: HashMap::new(), pad_noted: Default::default(), meets: Vec::new(),
+        accept: std::env::var("PF_ACCEPT").ok().and_then(|x| x.parse().ok()).unwrap_or(0), acc: BTreeMap::new(), acc_fail: Vec::new(), acc_seen: 0, kinds: BTreeMap::new() };
     for h in job["hints"].as_array().into_iter().flatten() {
         r.hints.insert(h["i"].as_u64().unwrap_or(0) as usize, (h["reward"].as_i64().unwrap_or(0), h["tech"].as_i64()));
     }
@@ -598,7 +653,7 @@ fn run_job(job: &Value) -> Result<Value, String> {
     let stars: BTreeMap<i32, i32> = r.game.state.tribes.iter().map(|(k, t)| (*k, t.stars)).collect();
     Ok(json!({"tag": job["tag"], "units": units_out(&r), "stars": stars, "stars0": stars0, "legal": r.legal,
               "illegal": r.illegal, "notes": r.notes, "load": rep, "turn": r.game.state.settings.turn,
-              "player": r.game.state.settings.current_player_turn_id, "trace": trace}))
+              "player": r.game.state.settings.current_player_turn_id, "trace": trace, "accept": r.acc, "accept_fail": r.acc_fail, "kinds": r.kinds}))
 }
 
 fn main() {
