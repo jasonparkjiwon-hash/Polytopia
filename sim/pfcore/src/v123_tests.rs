@@ -1106,3 +1106,21 @@ fn aquarion_atoll_network() {
     let _ = update_capital_connections(&mut s, 1);
     assert!(s.tribes[&1].cities[1].connected_to_capital, "Atoll (5,5) links (6,8) and (3,2)");
 }
+
+/// EMBASSY-DESTROYED-BY-COMBAT (L3, 9906f7da t13: p9 attacked p1 at #879 and p9's EmbassyLevel for p1 was 0 at t14;
+/// t18 capture of p1's city ended the t18 embassy): an attack between builder and host ends the embassy and its income.
+#[test]
+fn embassy_destroyed_by_attack() {
+    use crate::functions::get_embassy_income;
+    let mut s = board();
+    for (a, b) in [(1, 2), (2, 1)] {
+        s.tribes.get_mut(&a).unwrap().relations.insert(b, DiplomacyRelationState::default());
+    }
+    s.tribes.get_mut(&2).unwrap().relations.get_mut(&1).unwrap().embassy_level = 1; // p2 built one at p1
+    let a = add_unit(&mut s, 1, UnitType::Warrior, 4, 4, 10.0);
+    let d = add_unit(&mut s, 2, UnitType::Warrior, 5, 4, 10.0);
+    assert_eq!(get_embassy_income(&s, &s.tribes[&1]), 2);
+    attack(&mut s, a, d);
+    assert_eq!(s.tribes[&2].relations[&1].embassy_level, 0);
+    assert_eq!((get_embassy_income(&s, &s.tribes[&1]), get_embassy_income(&s, &s.tribes[&2])), (0, 0));
+}

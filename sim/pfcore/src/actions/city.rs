@@ -253,6 +253,7 @@ pub fn capture_city(state: &mut GameState, tile_idx: i32) -> Result<UndoCallback
 
     // Case 1: Capture Enemy City
     if tile_owner > 0 && tile_owner != pov_id {
+        undos.push(crate::actions::units::destroy_embassies_between(state, pov_id, tile_owner)); // EMBASSY-DESTROYED-BY-COMBAT
         let mut old_city: Option<CityState> = None;
         let mut old_city_idx: Option<usize> = None;
 

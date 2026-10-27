@@ -882,6 +882,27 @@ pub fn calculate_combat(
     }
 }
 
+/// v123 (EMBASSY-DESTROYED-BY-COMBAT, L3 9906f7da + Jason): an attack or a city capture between two tribes destroys
+/// the embassies between them (either side's).
+pub fn destroy_embassies_between(state: &mut GameState, a: PlayerId, b: PlayerId) -> UndoCallback {
+    let mut old: Vec<(PlayerId, PlayerId, i32)> = Vec::new();
+    for (x, y) in [(a, b), (b, a)] {
+        if let Some(r) = state.tribes.get_mut(&x).and_then(|t| t.relations.get_mut(&y)) {
+            if r.embassy_level > 0 {
+                old.push((x, y, r.embassy_level));
+                r.embassy_level = 0;
+            }
+        }
+    }
+    Box::new(move |s: &mut GameState| {
+        for (x, y, lv) in old {
+            if let Some(r) = s.tribes.get_mut(&x).and_then(|t| t.relations.get_mut(&y)) {
+                r.embassy_level = lv;
+            }
+        }
+    })
+}
+
 /// Attack action - one unit attacks another
 ///
 /// This handles:
@@ -898,6 +919,9 @@ pub fn attack_unit(
     defender_idx: Option<usize>,
 ) -> UndoCallback {
     let mut undos: Vec<UndoCallback> = Vec::new();
+    if defender_idx.is_some() && attacker_owner != defender_owner {
+        undos.push(destroy_embassies_between(state, attacker_owner, defender_owner));
+    }
 
     // Get attacker stats
     let (atk_atk, atk_health, atk_max_health, atk_skills, atk_type, atk_coords) = {
