@@ -23,6 +23,10 @@ _Last updated 2026-10-26 (Jason's games 1-5 ingested, scored held-out, released)
   released. Embassies x5, peace offers, Aquarion units 49-52, Living Island; see `investigations/game-6.md`.
   With games 1-6 `tools/miss.py` is units 7369/7445, stars 1487/1540 before rule fixes; after ref-fix (27 Oct, 14 kept fixes,
   table in `investigations/games-1-5.md`): **units 7389/7392, stars 1511/1540**; holdout ed6cb932 still 187/187, 64/64.
+- **Jason's games 7 and 8 (27 Oct, Drive docs):** game 7 Cymanti, Hard, t1-19; game 8 Elyrion, Crazy bots, t1-10. Held-out before tuning:
+  game 7 units 1950/1982, stars 284/288; game 8 units 824/832, stars 139/144 (Polyfish 1956/1985, 283/288 and 822/833, 140/144); released.
+  Six referee fixes kept (Moth infiltration with Insect Eggs, infiltration spawn, Centipede chain, Forest Temple 15, meeting-score turn,
+  Cymanti tech 49 tier 2). `tools/miss.py` games 1-8: **units 10183/10196, stars 1944/1972**. Details and open rows: `investigations/games-7-8.md`.
 - **Phase 3 prep is running** (backlog item 0): Polyfish becomes the forward
   model (`docs/simulator_choice.md`).
 - **Score baseline:** the expected `check.sh` output is under "Quick start" in
