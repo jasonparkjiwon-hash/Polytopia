@@ -94,3 +94,4 @@ Stars (11):
 | 11 | AQUARION-UNITS-49-52 | `engine/stats.py` `MermaidDagger`: 10 HP, 2/2, Surprise Static Dash (Polyfish; no card) | 7386/7396, 1511/1540 |
 | 12 | PUSH-PORT-FIRST | `engine/replay.py` RULES `push_port_first_only = False`: an own port takes a pushed land unit as a fallback too | 7387/7395, 1511/1540 |
 | 13 | TENTACLES | `engine/replay.py` RULES `tentacles_after_move`: a Jelly hits each adjacent enemy after it moves (normal damage, no retaliation) | 7389/7393, 1511/1540 |
+| 14 | TENTACLES | `engine/replay.py` RULES `tentacles_on_entry`: an enemy that moves or kill-moves next to a Jelly is hit (normal damage, no retaliation) | 7389/7392, 1511/1540 |

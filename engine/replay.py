@@ -71,6 +71,7 @@ RULES = {   # one switch per line; A/B each in tools/miss.py before keeping a ch
     'push_centre_round': 'angle',
     'stomp_after_boarding': True,
     'push_toward_attacker': True,
+    'tentacles_on_entry': True,     # TENTACLES: an enemy that moves (or follows a kill) next to a Jelly is hit by it (9906f7da t19)
     'tentacles_after_move': True,    # TENTACLES: a Jelly (Tentacles) hits each adjacent enemy after it moves, normal damage, no retaliation
     'push_port_first_only': False,   # PUSH-PORT-FIRST: off since 27 Oct; an own port takes a pushed land unit as a fallback too (9906f7da t15)
     'ruin_boat_passenger': True,
@@ -192,6 +193,13 @@ def push_target(st, u, actor):
             continue                             # Polyfish is_steppable_for_push; MEASURED 09a5bf1e t6 (Cymanti, no Climbing)
         return q
     return None
+
+def tentacle_entry(st, u):
+    """TENTACLES: an enemy unit that moves next to a Jelly (Tentacles) is hit by it: the Jelly's normal damage, no retaliation."""
+    if not RULES["tentacles_on_entry"] or u.id not in st.units: return
+    for j in [w for w in st.units.values() if "tentacles" in stat(w)["skills"] and hostile(st, w.owner, u.owner) and dist((w.x, w.y), (u.x, u.y)) == 1 and st.at.get((w.x, w.y)) == w.id]:
+        u.hp -= fight(st, j, u)[0]; LOG["tentacles on entry"] += 1
+        if u.hp <= 0: remove(st, u); return
 
 TEMP = [0]
 def spawn(st, owner, name, x, y):
@@ -367,6 +375,7 @@ def apply(st, a, turn):
             for e in [w for w in st.units.values() if hostile(st, w.owner, u.owner) and dist((w.x, w.y), (x1, y1)) == 1 and st.at.get((w.x, w.y)) == w.id]:
                 e.hp -= fight(st, u, e)[0]; LOG["tentacles"] += 1   # its normal damage, no retaliation (9906f7da t15, t16)
                 if e.hp <= 0: remove(st, e)
+        tentacle_entry(st, u)
     elif t == 2:                                 # Attack
         _, uid, ox, oy, tx, ty = v
         at = locate(st, uid, ox, oy, pl); at.acted = True
@@ -413,6 +422,7 @@ def apply(st, a, turn):
                 else:
                     old_type = at.type
                     enter(st, at, at.x, at.y, tx, ty)    # MEASURED (e15f392c t15): a boat moving in onto land drops its passenger
+                    tentacle_entry(st, at)
                     if RULES["stomp_on_kill_move"] and "stomp" in STATS.get(old_type, {}).get("skills", ()): stomp(st, at, old_type)   # MEASURED 6e1bf8e0 t13
         else:
             at.hp -= ret
