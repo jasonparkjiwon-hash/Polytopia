@@ -370,3 +370,4 @@ Jason (Imperius) vs 15 Hard bots on a 30x30 map, exported every turn from 1 to 1
 - 2026-10-27 AQUARION-FREE-SPIRIT (L3): Aquarion use base Free Spirit (2), no Free Diving (25) in any save. Also open: Cymanti bot p16 (6e1bf8e0 t11 #1678) researched tech 49 holding [0,1,6,7,8,10,13,20,38,44] (no Navigation); 49's prerequisite and what it unlocks are unknown (Jason's Oceanology is 14, CYMANTI-OCEANOLOGY-ID).
 - 2026-10-27 FLOOD-ALGAE: Polyfish now walks land units onto flooded land without a water tech (b2448ead t2/t4).
 - 2026-10-27 WATER-UNIT-PORT-PASS (L3 n=2): Sharks sail on through own ports (e15f392c t12, 6e1bf8e0 t11).
+- 2026-10-27 MOONI-CAPTURE-NO-UNIT-FREEZE (L3 n=1): a Mooni capture freezes tiles, not adjacent enemy units (e15f392c t5 #371 -> #397/#398/#403/#404). Test item: does a Mooni MOVE freeze adjacent units (Jason: yes; saves: 3 of 4 frozen units next to an enemy Mooni)? engine/replay.py still freezes on capture (ref-fix).

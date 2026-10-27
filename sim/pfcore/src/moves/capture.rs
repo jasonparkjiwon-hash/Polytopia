@@ -77,7 +77,8 @@ impl Move for CaptureMove {
                 // v123 (ledger MOONI-FREEZE): a Mooni or Gaami freezes the area after capturing too
                 let capturer_type = state.tribes[&unit_owner].units[capturer_idx].unit_type;
                 if crate::settings::has_skill(capturer_type, crate::types::SkillType::AutoFreeze) {
-                    undos.push(crate::actions::freeze_area(state, unit_owner, self.src_index));
+                    // v123 (MOONI-CAPTURE-NO-UNIT-FREEZE): tiles only, the enemy units next to it stay free
+                    undos.push(crate::actions::freeze_area_with(state, unit_owner, self.src_index, false));
                 }
                 // v123 (ledger POLARIS-CAPTURE-FREEZE): a Polaris capture turns the tribe's own water and
                 // ocean around the city to ice (not under a unit)

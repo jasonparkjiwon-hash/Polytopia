@@ -518,3 +518,22 @@ fn shark_passes_through_own_port() {
     add_unit(&mut s, 1, UnitType::Shark, 5, 5, 15.0);
     assert!(crate::v123_tests::step_targets(&s).contains(&idx(5, 3)));
 }
+
+/// MOONI-CAPTURE-NO-UNIT-FREEZE (L3 n=1, 2 units): a Mooni capturing a village freezes the water around it but not
+/// the enemy units next to it. e15f392c t5: Mooni 20 captures (16,10) at #371; Hoodrick Warrior 22 next to it then
+/// moves (#397) and breaks ice (#398), and unit 23 moves and attacks (#403, #404).
+#[test]
+fn mooni_capture_leaves_units_unfrozen() {
+    use crate::moves::capture::CaptureMove;
+    use crate::moves::Move;
+    use crate::v123_tests::{add_unit, put_structure};
+    let mut s = board();
+    s.tribes.get_mut(&1).unwrap().tribe_type = TribeType::Polaris;
+    put_structure(&mut s, 5, 5, StructureType::Village);
+    add_unit(&mut s, 1, UnitType::Mooni, 5, 5, 10.0);
+    let w = add_unit(&mut s, 2, UnitType::Warrior, 5, 4, 10.0);
+    s.tiles.get_mut(&idx(6, 5)).unwrap().terrain_type = TerrainType::Water;
+    CaptureMove::new(idx(5, 5)).execute(&mut s).unwrap();
+    assert!(!s.tribes[&2].units[w].effects.contains(&UnitEffect::Frozen));
+    assert_eq!(s.tiles[&idx(6, 5)].terrain_type, TerrainType::Ice);
+}

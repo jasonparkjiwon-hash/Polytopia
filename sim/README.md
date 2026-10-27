@@ -93,6 +93,7 @@
 - Aquarion research the base Free Spirit; Free Diving (25) no longer replaces it (`settings/technology.rs`) [AQUARION-FREE-SPIRIT, new ledger entry].
 - Land units walk onto flooded land without a water tech (`moves/mod.rs` is_navigationable_terrain) [FLOOD-ALGAE].
 - Water units (Shark) sail on through an own port; only land units stop there (`moves/mod.rs`) [WATER-UNIT-PORT-PASS, new ledger entry].
+- A Mooni capture freezes the water around it but not the adjacent enemy units (`actions/mod.rs` freeze_area_with, `moves/capture.rs`) [MOONI-CAPTURE-NO-UNIT-FREEZE, new ledger entry].
 - Exploding on water leaves Spores with the algae, not Fruit (`moves/abilities/explode.rs`) [EXPLODE-WATER-SPORES, new ledger entry].
 - The Clathrus (41) is built on land (Field, Forest) next to an own Fungi, not on water next to Algae (`settings/structures.rs`, `moves/build.rs`) [CLATHRUS-ON-LAND, new ledger entry].
 - The Aqua Farm (49) also goes on empty water or ocean (`settings/structures.rs`, `moves/build.rs`) [AQUARION-AQUA-FARM-WATER, new ledger entry].

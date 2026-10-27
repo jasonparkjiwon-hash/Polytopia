@@ -432,6 +432,17 @@ pub fn freeze_area(
     freezer_owner: PlayerId,
     freezer_idx: i32,
 ) -> UndoCallback {
+    freeze_area_with(state, freezer_owner, freezer_idx, true)
+}
+
+/// `freeze_area`, optionally without freezing the enemy units. v123 (ledger MOONI-CAPTURE-NO-UNIT-FREEZE): after a
+/// Mooni captures, the adjacent enemy units act normally on their turn (e15f392c t5 #371 -> #397, #398, #403, #404).
+pub fn freeze_area_with(
+    state: &mut GameState,
+    freezer_owner: PlayerId,
+    freezer_idx: i32,
+    freeze_units: bool,
+) -> UndoCallback {
     let mut undos: Vec<UndoCallback> = Vec::new();
     let adjacent = get_adjacent_indices(state, freezer_idx, 1);
 
@@ -459,6 +470,9 @@ pub fn freeze_area(
         }
 
         // Freeze enemy units
+        if !freeze_units {
+            continue;
+        }
         if let Some(enemy) = get_enemy_at(state, idx, freezer_owner) {
             let enemy_owner = enemy.owner;
             // Find unit index
