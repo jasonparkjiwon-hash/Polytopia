@@ -67,24 +67,24 @@ python3 -I tools/pf_miss.py --detail "<type: cause>" 50
 | a2176ce CLATHRUS-ON-LAND | 13165/13257 99.3% | 7389/7397 | 1512/1540 |
 | Lost City finder rehomed | 13181/13257 99.4% | 7391/7394 | 1512/1540 |
 
-## Next step (HANDOFF 24 Oct; start here on Monday)
+## Next step (pf-legal-3 handoff, 27 Oct)
 
-Pull main, rebuild (`How to run`), `python3 -I tools/pf_miss.py --illegal | head -40`. Illegal left: 136.
-Mine to do, biggest first:
-1. **Build 8 Port not offered (6)**: af181c8f t9 #961/#962 p8, t15 #2095 and t16 #2307 p12. Check the tile
-   (water next to own city? Aquarion flood?) with `tools/trace.py` and the gate in `moves/build.rs`.
-2. **Build 27/28 monuments (5+)**: Polyfish recomputes tasks (check_task) instead of reading the save's
-   Tasks; probably a loader job (player `Tasks`, 6 bytes for task types 1/5/9).
-3. **Aquarion structures 49/51 (11)**: no Polyfish StructureType; pf-port charged their price in pfreplay
-   (f65efe4). Needs a type + unlock tech: waiting on Jason (status.md).
-4. **Mermaid onto ocean (~12 Aquarion Moves)**: ANSWERED 26 Oct by Jason: innate for Aquarion, no tech (AMPHIBIOUS-WATER); so no tech gate. Old note: the
-   `aquarion_tech_slots` flag (46 replaces Sailing) is the candidate. Also Aquarion research of
-   Navigation/Aquatism/Free Spirit and Cymanti Oceantology (prerequisite Pescetism not modelled).
-5. Odd moves (~10): Warrior onto Fungi structure 37 (e15f392c t12 #1563, t13 #1775), Shark 2-3 tiles on
-   water (6e1bf8e0 t11 #1786, e15f392c t14 #1829), Rammership onto mountain (af181c8f t22 #3456).
-Not generation (drift, pf-port-2): CityReward not pending (45), Attack already attacked / no unit (HP drift),
-Train city full, stars short.
+Legal 13181/13257 (99.4%), held-out 354/354; units 7391/7394, stars 1512/1540. Illegal left: 76. Almost all are
+not move generation:
+- **pf-port (drift):** CityReward not pending 39 (population drift, e.g. Polaris capitals levelling with no logged
+  build: Outpost network), stars short ~20 (incl. ATOLL-ON-ALGAE #1494, now offered), Gate of Power x2 (6e1bf8e0 t11:
+  Polyfish misses kills because #1623/#1624 find no defender at (7,3): an enemy got there unlogged, push/spawn),
+  Move no unit at source x2 (same tile), city full e15f392c t10 #1093 (save city level 3, Polyfish 2), af181c8f t24
+  #4071 Defender 488 "already moved" (mid-turn save flags?), 9906f7da t17 #1252 target unexplored (exploration),
+  af181c8f t22 #3456 Rammership onto mountain (needs Cymanti units at (24,11)/(24,12) gone by then).
+- **pf-port (embassy convention):** Embassy x2. 9906f7da t13 #818: p1 builds at p9, but the t12 save has p9's record
+  (1, state 0, EmbassyLevel 1), which embassies_to_builder_side reads as "p1 already has one at p9"; no p1-p9 combat
+  before #818. Either the record side is reversed or something unlogged destroyed it. 6e1bf8e0 t11 #1839 likewise?
+- **Jason:** Jelly (52) tech (2 Trains); Cymanti bot p16 researched tech 49 (6e1bf8e0 t11 #1678) holding
+  [0,1,6,7,8,10,13,20,38,44] (no Navigation): what is it and what does it need? (Jason's Oceanology is 14.)
+- **Random, not modelled:** Lost City spawns resources (fish) around itself: Build 7 x2 (9906f7da t11 #693/#697).
+  Its terrain change (orthogonal ocean -> water) is also unmodelled; the next checkpoint re-syncs it.
 
-Legal by type now: Move 3739/3765, Attack 1181/1198, Train 1018/1028, Build 585/614, Research 361/369,
-CityReward 220/264, BreakIce 91/92, Embassy 1/2; all others 100% (OfferPeace 40/40, PeaceReply 37/37,
-Explode 24/24, Capture, Recover, Upgrade, Promote, Swarm, EndTurn, ExamineRuins).
+Legal by type: Move 5608/5614, Attack 1442/1444, Train 1397/1407, Build 1015/1029, Research 631/634, CityReward
+380/419, Embassy 5/7; all others 100% (EndTurn, Capture, Upgrade, Recover, BreakIce, ExamineRuins, OfferPeace,
+PeaceReply, Promote, Explode, Swarm, HealOthers, BreakPeace, FreezeArea).

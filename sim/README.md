@@ -65,7 +65,7 @@ For search and scenarios. It adds no rules: every call goes through Polyfish's o
 - Capturing a city claims the 3x3 around it (unowned or the old owner's tiles), not every same-owner tile within 2 (`actions/city.rs` capture_city) [CAPTURE-TERRITORY].
 - A captured capital stays the old owner's capital (no +1, no bot bonus for the captor) (`actions/city.rs`) [ECON-INCOME, ECON-BOT-BONUS].
 - Market earns the level of each adjacent Windmill/Sawmill/Forge (its adjacent Farms/Lumber Huts/Mines) (`functions.rs` get_city_production) [ECON-MARKET-CLATHRUS].
-- A city's building income (Market, Clathrus, ...) counts only tiles that city rules; post_load's territories overlap (`functions.rs` get_city_production).
+- A city's building income (Market, Clathrus, ...) counts only tiles that city rules; post_load's territories overlap (`functions.rs` get_city_production) [ECON-MARKET-CLATHRUS].
 - Embassy: costs 4 plus 2 per embassy the tribe has at another host (a rebuild at the same host pays 4); while it stands the builder and the host each earn 2 a turn (4 at peace, 0 at war); the loader keeps RelationState 3 (war) and moves the save's EmbassyLevel from the host's record to the builder's (`functions.rs` get_embassy_income/get_embassy_cost, `game.rs`, `moves/abilities/diplomacy.rs`, `save_loader.rs` embassies_to_builder_side); an attack or city capture between the two tribes destroys it (`actions/units.rs` destroy_embassies_between, called by attack_unit and capture_city) [EMBASSY-ACTION, ECON-EMBASSY, EMBASSY-INCOME-NEUTRAL, EMBASSY-DESTROYED-BY-COMBAT].
 - A Shaman's convert also deals its normal damage, with no retaliation; a target it kills isn't converted (`moves/abilities/convert.rs`) [SHAMAN].
 - A move onto a hidden enemy reveals it and uses the move but not the attack (`moves/step.rs`) [MOVE-BLOCKED-HIDDEN].
@@ -73,7 +73,7 @@ For search and scenarios. It adds no rules: every call goes through Polyfish's o
 - A Workshop or Park adds +1 income once (Polyfish raised production and also counted the reward) (`moves/reward.rs`) [ECON-INCOME].
 - Water-skill units, and amphibious units on shallow water (on ocean with Marine Life, as in move generation), follow a kill onto water (`functions.rs` is_steppable_for_push) [WATER-UNITS, AMPHIBIOUS-WATER].
 - A Cymanti water ruin's unit is a veteran Boomchi (`actions/structure.rs`) [RUIN-UNIT-CYMANTI].
-- Resource harvests accept the tribe's version of the tech, and Aquarion's 47 counts as Fishing (`settings/technology.rs` has_tech_for_tribe, `moves/mod.rs`, `functions.rs`).
+- Resource harvests accept the tribe's version of the tech, and Aquarion's 47 counts as Fishing (`settings/technology.rs` has_tech_for_tribe, `moves/mod.rs`, `functions.rs`) [AQUARION-TECH-SLOTS, CYMANTI-TECHS].
 - Cymanti use the base Sailing, Ramming, Navigation and Diplomacy; Raychi unlock with Sailing, Boomchi with Ramming, Algae with Fishing, Moth with Diplomacy; Oceantology tier 3 (`settings/technology.rs`) [CYMANTI-TECHS, new ledger entry].
 - Peace offers (need Strategy, a met tribe, no offer pending) and replies are generated again; breaking peace leaves RelationState 3 on the breaker's side (`moves/abilities/diplomacy.rs`) [DIPLO-PEACE].
 - Turn income is paid before the start-of-turn effects, so a level from Fungi growth counts from the next turn (`game.rs` end_turn) [CITY-LEVEL-BY-REWARD].
