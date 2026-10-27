@@ -843,7 +843,7 @@ pub fn facing_code(d: (i32, i32)) -> i32 {
 ///   else away from where its last move started, or toward its last attacker;
 /// - reversed for a unit not owned by the player acting;
 /// - nothing to go by: the way a new unit faces, toward the map centre, nearest of 8 by angle;
-/// - blocked: the next direction counter-clockwise, then clockwise, widening.
+/// - blocked: the next direction counter-clockwise, then clockwise, widening; an own port takes a land unit.
 /// None means no open tile: the caller removes the unit.
 pub fn calculate_pushable_position(state: &GameState, unit: &UnitState) -> Option<i32> {
     let size = state.settings.size;
@@ -886,17 +886,17 @@ pub fn calculate_pushable_position(state: &GameState, unit: &UnitState) -> Optio
             order.push(cw);
         }
     }
-    for (n, (dx, dy)) in order.into_iter().enumerate() {
+    for (dx, dy) in order {
         let (nx, ny) = (x + dx, y + dy);
-        if is_in_bounds(nx, ny, size) && is_push_target(state, unit, ny * size + nx, n == 0) {
+        if is_in_bounds(nx, ny, size) && is_push_target(state, unit, ny * size + nx) {
             return Some(ny * size + nx);
         }
     }
     None
 }
 
-/// Can a push put this unit on tile idx (`first`: the first direction tried)?
-fn is_push_target(state: &GameState, unit: &UnitState, idx: i32, first: bool) -> bool {
+/// Can a push put this unit on tile idx?
+fn is_push_target(state: &GameState, unit: &UnitState, idx: i32) -> bool {
     let tile = match state.tiles.get(&idx) {
         Some(t) => t,
         None => return false,
@@ -909,8 +909,8 @@ fn is_push_target(state: &GameState, unit: &UnitState, idx: i32, first: bool) ->
         && st != Some(StructureType::Bridge)
         && !tile.is_algae();
     if PUSH_LAND.contains(&unit.unit_type) && water {
-        // PUSH-ONTO-PORT, PUSH-PORT-FIRST: its own port takes it (and it boards), but only as the first choice
-        if !(first && st == Some(StructureType::Port) && tile.owner == unit.owner) {
+        // PUSH-ONTO-PORT, PUSH-PORT-FIRST: its own port takes it (and it boards), first choice or fallback
+        if !(st == Some(StructureType::Port) && tile.owner == unit.owner) {
             return false;
         }
     }

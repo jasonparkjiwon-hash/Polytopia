@@ -380,7 +380,8 @@ fn push_rule() {
     attack(&mut s, a, d);
     s.settings.current_player_turn_id = 2;
     assert_eq!(push_to(&s, 2, d), Some((4, 3)));
-    // own port only as the first choice (af181c8f t15, t21); no open tile -> None (the unit is removed)
+    // own port as first choice or fallback (PUSH-PORT-FIRST, 27 Oct: 9906f7da t15 #1134, Archer 186 pushed toward
+    // the centre onto Ocean went to the fallback own port); no open tile -> None (the unit is removed)
     let mut s = board();
     let p = add_unit(&mut s, 1, UnitType::Warrior, 5, 1, 10.0);
     for x in 4..=6 {
@@ -390,9 +391,10 @@ fn push_rule() {
             }
         }
     }
+    assert_eq!(push_to(&s, 1, p), None);
     s.tiles.get_mut(&idx(6, 1)).unwrap().owner = 1;
     put_structure(&mut s, 6, 1, StructureType::Port);
-    assert_eq!(push_to(&s, 1, p), None);
+    assert_eq!(push_to(&s, 1, p), Some((6, 1)));
     s.tiles.get_mut(&idx(5, 2)).unwrap().owner = 1;
     put_structure(&mut s, 5, 2, StructureType::Port);
     assert_eq!(push_to(&s, 1, p), Some((5, 2)));
