@@ -1144,7 +1144,7 @@
    "rule": "A Cloak or Aquarion Scuba (50) attacking an enemy city (infiltrate) deals its normal attack damage to the unit in the city, takes no retaliation, and is used up; Daggers (Aquarion: Mermaid Daggers, 51) appear on free tiles around the city, placement not modelled (the replay reads them from the next save).",
    "level": "L3 (n=1)",
    "game_version": "v123 (measured in a save)",
-   "evidence": "2026-10-27 ref-fix, 9906f7da t18 #1481: p9 Scuba 223 (5 HP, atk 2) attacked Jason's city (3,24) holding his Shaman (10 HP, def 1): Shaman 10 -> 4 (= the normal formula: aF 2, dF 1, round(2/3 x 2 x 4.5) = 6; Polyfish infiltrate_city uses a fixed 2, which doesn't fit), the Scuba is gone in t19, and 3 Mermaid Daggers 270-272 stand on (3,23), (2,23), (2,24) (water/ocean around the city). engine/replay.py RULES infiltrate: A/B units 7385/7397 -> 7385/7396 (one miss fewer), stars hold, holdout holds. Number and placement of the Daggers not settled (Polyfish: up to min(5, city production), random tiles)."
+   "evidence": "2026-10-27 ref-fix, 9906f7da t18 #1481: p9 Scuba 223 (5 HP, atk 2) attacked Jason's city (3,24) holding his Shaman (10 HP, def 1): Shaman 10 -> 4 (= the normal formula: aF 2, dF 1, round(2/3 x 2 x 4.5) = 6; Polyfish infiltrate_city uses a fixed 2, which doesn't fit), the Scuba is gone in t19, and 3 Mermaid Daggers 270-272 stand on (3,23), (2,23), (2,24) (water/ocean around the city). engine/replay.py RULES infiltrate: A/B units 7385/7397 -> 7385/7396 (one miss fewer), stars hold, holdout holds. Number and placement of the Daggers not settled (Polyfish: up to min(5, city production), random tiles). | 27 Oct unit-cards: Polyfish now spawns min(5, city level) Daggers (Mermaid Daggers for Aquarion, any free tile in the borders, row-major order: the game 6 case took (2,23), (3,23), (2,24), n=1, random not excluded) and pays the same stars (INFILTRATE-STARS). It is the only infiltration of a city in all saves."
   },
   {
    "id": "PUSH-PORT-FIRST",
@@ -1341,6 +1341,13 @@
    "level": "L3 (n=1)",
    "game_version": "v123 (measured in a save)",
    "evidence": "9906f7da t18 #1481: p9's star row t18->19 was +3 off; the attacked city (3,24) is level 3 (production 2), and paying min(5, level) makes the row exact (stars 1514 -> 1515, units and holdout hold). Polyfish infiltrate_city paid min(5, city production). Cap 5 and the Cloak case untested."
+  },
+  {
+   "id": "CYMANTI-TECH-49",
+   "rule": "Save tech 49 (the engine's Oceantology) is researched by a Cymanti bot after Navigation (14) and with no Hydrology (37); its price is tier 3 in the referee. Not Pescetism-needs-Hydrology: that prerequisite was not held. What 49 is called and unlocks is unknown.",
+   "level": "L3 (n=1)",
+   "game_version": "v123 (measured in a save)",
+   "evidence": "6e1bf8e0 p16 research order 6, 20, 1, 7, 38, 44, 13, 14 (#1495), 49 (#1678); AvailableTech at t15 [0,1,6,7,8,10,13,14,20,38,44,49], no 37. The earlier note 'without Navigation' read the t11 save, which predates #1495. Polyfish: Oceantology requires Navigation (research legal 631 -> 632 of 634). Referee price: tiers 3, 2 and 1 give the same p16 row (the t11->15 gap hides it). Jason's card has Hydrology -> Pescetism -> Oceanology with Oceanology saved as 14, so the Hydrology/Pescetism ids are still open: test item, a Cymanti player that researches the tier-1 Hydrology."
   }
  ]
 }

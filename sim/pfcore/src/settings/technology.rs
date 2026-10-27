@@ -339,7 +339,10 @@ fn tech_setting_table(tech_type: TechnologyType) -> TechnologySetting {
             ..Default::default()
         },
         Oceantology => TechnologySetting {
-            tier: Some(3), // TRIBE-TECH-TIERS (7 at 1 city); its prerequisite (Pescetism) isn't modelled
+            tier: Some(3), // TRIBE-TECH-TIERS (7 at 1 city)
+            // CYMANTI-TECH-49 (n=1, 6e1bf8e0 t11 #1678): the bot researched 49 right after Navigation (14) and held no
+            // Hydrology; the card's "needs Pescetism" cannot be placed on a save id, so the prerequisite is the one seen
+            requires: Some(Navigation),
             tribe_type: Some(TribeType::Cymanti),
             unlocks_unit: Some(UnitType::LivingIsland),
             ..Default::default()

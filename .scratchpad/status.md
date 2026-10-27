@@ -59,7 +59,7 @@ _Last updated 2026-10-26 (Jason's games 1-5 ingested, scored held-out, released)
      fit game 2 with adjacent animals; radius 1 vs 2 not separated.)
   2. ~~Mermaid Dagger card~~ answered 27 Oct: same as a Dagger but amphibious.
   3. ~~Infiltration~~ answered 27 Oct: Daggers = city level, cap 5, only empty tiles in its borders (INFILTRATE).
-  4. Jelly / Mermaid Defender / Shark prices: cards say 8/8/8 (27 Oct), but game 6 p9 star rows still don't fit: a real conflict. Re-check on a turn where an Aquarion trains one, with stars before and after.
+  4. Mermaid Defender price: card says 8, game 6 p9 rows fit 3 (4 rows; Jelly and Shark fit 8). Both engines use 3 (MERMAID-DEFENDER-PRICE). Re-check: train one Defender with stars before and after.
 
 - pf-port-3 (26 Oct), one in-game check for the Polaris Outpost network (OUTPOST-NETWORK, fits 80/83 save states):
   build two Outposts 5 tiles apart with ice between them, a city next to each. Does the far city get connected
