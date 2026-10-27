@@ -442,6 +442,18 @@ pub fn capture_ruin(
                 undos.push(crate::actions::connection::update_capital_connections(
                     state, pov_id,
                 ));
+                // v123 (AQUARION-LOST-CITY): the unit that found it now belongs to the Lost City (9906f7da t12:
+                // Mermaid 62 homed at (10,27), the Lost City it found at t11 #692)
+                let size = state.settings.size;
+                if let Some(u) = crate::functions::get_unit_at_mut(state, tile_idx).filter(|u| u.owner == pov_id) {
+                    let old_home = u.home_coords.clone();
+                    u.home_coords = Some(crate::coords::Coords::from_index(tile_idx, size));
+                    undos.push(Box::new(move |s: &mut GameState| {
+                        if let Some(u) = crate::functions::get_unit_at_mut(s, tile_idx) {
+                            u.home_coords = old_home;
+                        }
+                    }));
+                }
             }
             _ => {}
         }

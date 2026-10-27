@@ -398,6 +398,8 @@ fn aquarion_lost_city_rewards_pending() {
     let c = s.tribes[&1].cities.iter().find(|c| c.idx == idx(5, 5)).expect("Lost City");
     assert_eq!((c.level, c.rewards.len()), (3, 0));
     assert!(has(&s, &RewardMove::new(idx(5, 5), CityRewardType::Workshop)));
+    // the Mermaid that found it is now homed there (9906f7da t12: Mermaid 62 home (10,27))
+    assert_eq!(s.tribes[&1].units[0].home_coords.as_ref().map(|c| c.idx), Some(idx(5, 5)));
 }
 
 /// AQUARION-AQUA-FARM-WATER (L3 n=5): the Aqua Farm also goes on plain ocean or water and makes the AquaCrop.

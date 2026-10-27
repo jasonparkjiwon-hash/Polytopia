@@ -107,7 +107,7 @@ For search and scenarios. It adds no rules: every call goes through Polyfish's o
 - Swift (Swarm's effect, save effect 6) gives +1 movement like Boosted (`functions.rs` get_unit_movement) [SWIFT-MOVE, new ledger entry].
 - New Aquarion units Mermaid Defender (49, Strategy), Scuba (50, Diplomacy), Mermaid Dagger (51, from a Scuba's infiltration) and Jelly (52, no unlocking tech known yet) with the v123 card stats (`types.rs`, `settings/units.rs`, `settings/technology.rs`, `actions/units.rs`) [AQUARION-UNITS-49-52, new ledger entry].
 - Cymanti train the Living Island (57) with Navigation, which their save stores in place of Oceanology (`settings/technology.rs`) [CYMANTI-OCEANOLOGY-ID].
-- An Aquarion Lost City (ocean ruin) starts at level 3 with both level-up rewards to choose and production 1; the harness reads it from the next save (`actions/structure.rs`, `tools/pf_jobs.py`) [AQUARION-LOST-CITY, new ledger entry].
+- An Aquarion Lost City (ocean ruin) starts at level 3 with both level-up rewards to choose and production 1, and its finder is rehomed there; the harness reads it from the next save (`actions/structure.rs`, `tools/pf_jobs.py`) [AQUARION-LOST-CITY, new ledger entry].
 - Aquarion research the base Free Spirit; Free Diving (25) no longer replaces it (`settings/technology.rs`) [AQUARION-FREE-SPIRIT, new ledger entry].
 - Land units walk onto flooded land without a water tech (`moves/mod.rs` is_navigationable_terrain) [FLOOD-ALGAE].
 - Water units (Shark) sail on through an own port; only land units stop there (`moves/mod.rs`) [WATER-UNIT-PORT-PASS, new ledger entry].
