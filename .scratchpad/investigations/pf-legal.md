@@ -53,6 +53,15 @@ python3 -I tools/pf_miss.py --detail "<type: cause>" 50
   `tools/trace.py`: `--city` (owning city + city record), `--players` (tribe, stars, techs, kills, tasks,
   diplomacy), `--acts P` (every action of player P).
 
+- pf-tail-2 (28 Oct): CAPTURE-DISCONNECT (a captured connected city loses 1 pop, the captor's capital keeps its
+  population; af181c8f t8 #755) CityReward legal 403 -> 404; WATER-ROUTE (ports link over water in up to 5 steps,
+  diagonals count, not through enemy tiles, to own ports and to own cities with an own port beside them; a
+  port-side city is also a route source; the saves mark the route in the tile flag HasWaterRoute, which `tools/trace.py`
+  does not print: see the grid script idea below) 404 -> 413, Train +1; EMBASSY-AT-PEACE (embassies can be built at a
+  tribe at peace, 6e1bf8e0 t11 #1839) Embassy 5/7 -> 6/7. Referee: RULES mooni_capture_freezes_units (off), scores
+  unchanged (units 7389/7392, stars 1511/1540, held-out 187/187, 64/64). `tools/trace.py --city` now also prints
+  ConnectedPlayerCapital.
+
 ## Scores
 
 | commit | legal | units | stars |
@@ -66,6 +75,7 @@ python3 -I tools/pf_miss.py --detail "<type: cause>" 50
 | pf-legal-3 start (12 games) | 13145/13257 99.2% | 7386/7398 | 1500/1540 |
 | a2176ce CLATHRUS-ON-LAND | 13165/13257 99.3% | 7389/7397 | 1512/1540 |
 | Lost City finder rehomed | 13181/13257 99.4% | 7391/7394 | 1512/1540 |
+| pf-tail-2: CAPTURE-DISCONNECT, WATER-ROUTE, EMBASSY-AT-PEACE | 13216/13257 99.7% (held-out 354/354) | 7391/7394 | 1512/1540 |
 
 ## Next step (pf-legal-3 handoff, 27 Oct)
 
@@ -88,3 +98,22 @@ not move generation:
 Legal by type: Move 5608/5614, Attack 1442/1444, Train 1397/1407, Build 1015/1029, Research 631/634, CityReward
 380/419, Embassy 5/7; all others 100% (EndTurn, Capture, Upgrade, Recover, BreakIce, ExamineRuins, OfferPeace,
 PeaceReply, Promote, Explode, Swarm, HealOthers, BreakPeace, FreezeArea).
+
+## Next step (pf-tail-2 handoff, 28 Oct)
+
+Legal 13216/13257 (99.7%), held-out 354/354; units 7391/7394, stars 1512/1540. Illegal left: 41.
+- **CityReward not pending 6** (413/419): 09a5bf1e t7 #820 (p13 (27,2) gains +2 with no logged cause; its capital
+  +2 is the Mine), af181c8f t8 #795 (Polaris capital, Outposts: real total is 1 above Polyfish's, Outposts' own pop
+  not modelled?), af181c8f t12 #1479 (Cymanti Mycelium), e15f392c t5 #417, 9906f7da t12 #808 (after ExamineRuins),
+  6e1bf8e0 t11 #2003. Each is 1 short. `HasWaterRoute` (tile flag, also set on ice for Polaris routes) is the real
+  network record: print it with a small script over the save (grid of terrain digit, `*` for HasWaterRoute, `P` port,
+  `C` city) before touching connection rules; Cymanti Mycelium and Polaris ice routes may deserve the same check.
+- **Stars short ~20 are economy itself** (`tools/pf_stars.py`: "econ itself off", the Python economy misses the same
+  player-turns): the Aquarion bot p9 of 9906f7da is off +3, +3, -2, +5, +8, +5 over t13-t19 (no link found to
+  Train 49/53 counts or Build 46); 6e1bf8e0 t5->11 has 9 players off by 2-6 over six turns (too coarse to tell).
+- **Kill/position drift (unchanged):** 6e1bf8e0 t11 #1623/#1624 find no defender at (7,3) (XinXi's Swordsman 199 left it
+  at #1437, so who stood there is unlogged); #1805/#2014 no unit at source are the same tile; Gate of Power x2 follow
+  from the missing kills. af181c8f t24 #4071 already moved, 9906f7da t17 #1252 / af181c8f t22 #3456 targets unchanged.
+- **Embassy #818** (9906f7da t13): p1 rebuilds an embassy at p9 while the save shows level 1 (cost 4): a level-2
+  rebuild or a stale record; not modelled (EMBASSY-AT-PEACE ledger text).
+- **Jason:** Jelly (52) tech, Cymanti bot tech 49, as before.
