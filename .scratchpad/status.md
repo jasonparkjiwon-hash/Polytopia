@@ -53,18 +53,13 @@ _Last updated 2026-10-26 (Jason's games 1-5 ingested, scored held-out, released)
   held-out game covers turns 1-5 only. Also useful: one game where you note, for 3-4 bot turns, how many stars the bot held at the end of its
   turn (what stops a bot building).
 
-- pf-legal-3 (27 Oct): in the bot war game (6e1bf8e0, turn 11) a Cymanti bot researched tech 49 without owning Navigation. Which Cymanti tech is that, and what does it require? (A Cymanti tech tree screenshot showing what each tech needs would settle it.)
-- pf-port-4 (27 Oct): game 6 (9906f7da) t11, an Aquarion bot used Build 7 (normally Fishing) on two Ocean tiles with no fish, and each Ocean tile became shallow Water (n=2). What is this action? Check in an Aquarion game whether some tech (Aquaculture? Waterways?) lets you turn Ocean into Water, and its price.
-
 - ref-fix (27 Oct), four in-game checks:
   1. **Sanctuary "nearby":** build a Sanctuary with a wild animal exactly 2 tiles away (none adjacent); note stars right before
      and after building and over the next 2 turns. Does the far animal pay +1? (SANCTUARY-V123: card price 5 and +1 per animal
      fit game 2 with adjacent animals; radius 1 vs 2 not separated.)
-  2. **Mermaid Dagger card** (Aquarion unit 51): HP, attack, defence, skills. The engine uses Polyfish's Dagger stats.
-  3. **Infiltration:** when an Aquarion Scuba (or a Cloak) infiltrates a city, how many Daggers appear, and does the unit in the
-     city take normal attack damage? (Game 6: 6 damage, 3 Mermaid Daggers; Polyfish says a fixed 2 and up to the city's production.)
-  4. **Jelly / Mermaid Defender / Shark prices** (Aquarion p9 game 6 star rows don't fit the card prices 8/8/8; the
-     cards' train price for each would settle it).
+  2. ~~Mermaid Dagger card~~ answered 27 Oct: same as a Dagger but amphibious.
+  3. ~~Infiltration~~ answered 27 Oct: Daggers = city level, cap 5, only empty tiles in its borders (INFILTRATE).
+  4. Jelly / Mermaid Defender / Shark prices: cards say 8/8/8 (27 Oct), but game 6 p9 star rows still don't fit: a real conflict. Re-check on a turn where an Aquarion trains one, with stars before and after.
 
 - pf-port-3 (26 Oct), one in-game check for the Polaris Outpost network (OUTPOST-NETWORK, fits 80/83 save states):
   build two Outposts 5 tiles apart with ice between them, a city next to each. Does the far city get connected
