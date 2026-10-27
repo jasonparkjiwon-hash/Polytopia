@@ -255,6 +255,10 @@ pub fn generate_build_moves(state: &GameState, moves: &mut Vec<Box<dyn Move>>) {
                     if !terrain_valid {
                         continue;
                     }
+                    // AQUARION-AQUA-FARM-WATER: on an empty water tile; an AquaCrop tile gets it from the resource path above
+                    if struct_type == StructureType::AquaFarm && get_resource_at(state, idx).is_some() {
+                        continue;
+                    }
 
                     if settings.limited_per_city {
                         let already_has = city._territory.iter().any(|&t_idx| {

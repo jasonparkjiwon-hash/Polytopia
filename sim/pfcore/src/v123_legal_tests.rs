@@ -399,3 +399,28 @@ fn aquarion_lost_city_rewards_pending() {
     assert_eq!((c.level, c.rewards.len()), (3, 0));
     assert!(has(&s, &RewardMove::new(idx(5, 5), CityRewardType::Workshop)));
 }
+
+/// AQUARION-AQUA-FARM-WATER (L3 n=5): the Aqua Farm also goes on plain ocean or water and makes the AquaCrop.
+/// 9906f7da t12 #787/#789/#792/#794: p9 builds 49 on empty ocean (7,27), (4,18), (5,27), (6,18); the t13 save
+/// shows imp49 with resource 9 on each. One move per tile (an AquaCrop tile isn't offered it twice).
+#[test]
+fn aqua_farm_on_plain_ocean() {
+    use crate::moves::build::BuildMove;
+    use crate::states::{ResourceState, TechnologyState};
+    let t = |k| TechnologyState { tech_type: k, discovered: true, discovered_turn: 0 };
+    let mut s = board();
+    explore(&mut s);
+    add_city(&mut s, 1, 5, 5);
+    s.tribes.get_mut(&1).unwrap().cities[0]._territory = vec![idx(5, 5), idx(5, 4), idx(6, 4), idx(4, 4)];
+    s.tiles.get_mut(&idx(5, 4)).unwrap().terrain_type = TerrainType::Ocean;
+    s.tiles.get_mut(&idx(6, 4)).unwrap().terrain_type = TerrainType::Water;
+    s.resources.insert(idx(6, 4), Some(ResourceState { resource_type: ResourceType::AquaCrop }));
+    let tr = s.tribes.get_mut(&1).unwrap();
+    tr.stars = 20;
+    tr.tribe_type = TribeType::Aquarion;
+    tr.tech_vanilla = vec![t(TechnologyType::AquaBase), t(TechnologyType::Aquaculture)];
+    assert!(has(&s, &BuildMove::new(idx(5, 4), StructureType::AquaFarm)));
+    let farm = BuildMove::new(idx(6, 4), StructureType::AquaFarm).serialize().to_string();
+    assert_eq!(legal(&s).iter().filter(|m| **m == farm).count(), 1);
+    assert!(!has(&s, &BuildMove::new(idx(4, 4), StructureType::AquaFarm)), "dry land stays closed");
+}

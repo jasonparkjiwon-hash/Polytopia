@@ -87,9 +87,9 @@ pub fn get_structure_setting(struct_type: StructureType) -> StructureSetting {
         // own territory): the Aqua Farm on AquaCrop (water or ocean), +2 population (3edee0ec t6 #393, 9be1198d
         // t5 #260); the Atoll on water, ocean (6e1bf8e0 t11 #1428) or flooded land (`moves/build.rs`), population not modelled (Jason: it
         // grows with the cities it connects; untested). 5 stars each (ECON-PRICES-V123).
+        // AQUARION-AQUA-FARM-WATER: also on plain water or ocean, where it makes the AquaCrop (9906f7da t12 #787-#794)
         StructureType::AquaFarm => StructureSetting {
             cost: Some(5),
-            resource_type: Some(ResourceType::AquaCrop),
             terrain_types: terrains![TerrainType::Water, TerrainType::Ocean],
             reward_pop: 2,
             tribe_type: Some(TribeType::Aquarion),
