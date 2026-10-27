@@ -7,7 +7,8 @@ UNIT = {int(k): v for k, v in E["UnitType"].items()}
 UNIT.update({46: "Mermaid",   # v123 id, measured: Aquarion's start unit (22/22 saves), 10 HP, trainable with no tech
              53: "Shark",   # v123 id, inferred: best replay fit (96 exact HP at turn 15 vs 90 for the others), 10 HP
              48: "Swordsmaid",   # v123 id, measured (af181c8f): Aquarion only (45/45), first trained right after Smithery, 15 HP fresh
-             47: "MermaidArcher"})   # v123 id, measured (05ade18c): trained right after Archery, 10 HP, price 3 (AQUARION-UNIT-47); stats from the v123 card
+             47: "MermaidArcher",
+             49: "MermaidDefender", 50: "Scuba", 51: "MermaidDagger", 52: "Jelly"})   # AQUARION-UNITS-49-52: ids by HP and tech order (9906f7da)   # v123 id, measured (05ade18c): trained right after Archery, 10 HP, price 3 (AQUARION-UNIT-47); stats from the v123 card
 UNIT_ID = {v: k for k, v in UNIT.items()}
 TERRAIN = {int(k): v for k, v in E["TerrainType"].items()}
 TECH = {int(k): v for k, v in E["TechnologyType"].items()}
