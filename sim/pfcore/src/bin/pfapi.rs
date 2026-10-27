@@ -3,6 +3,7 @@
 //!   pfapi moves <save.json> <player>             legal moves for <player> at the end of the save: one JSON line each {key, label}
 //!   pfapi serve                                  JSON-lines session on stdin/stdout (tools/pf_api.py drives it)
 //!   pfapi bench <save.json> <player> [secs]      speed: move generation, apply+undo, clone, random playouts
+//!   pfapi playout <save.json|gen4> <player|0> [secs] [play]   random-policy playouts with search_move (or play_move with `play`): player-turns/s, rounds/s
 //!   pfapi dice <distributions.json> <save.json> <player> [n]   sample n ruin rewards; frequencies vs the table
 use polyfish::actions::UndoCallback;
 use polyfish::api;
@@ -97,6 +98,13 @@ fn bench(a: &[String]) {
         let p = g0.state.tribes.iter().max_by_key(|(_, t)| t.units.len()).map(|(k, _)| *k).unwrap_or(1);
         g0 = api::load_save_file(&a[2], "current", p).unwrap();
     }
+    // PF_MOVEGEN_ONLY=n: just n move generations (for callgrind)
+    if let Some(n) = std::env::var("PF_MOVEGEN_ONLY").ok().and_then(|s| s.parse::<u64>().ok()) {
+        let mut listed = 0usize;
+        for _ in 0..n { listed += g0.legal_moves().len(); }
+        println!("{listed}");
+        return;
+    }
     let secs: f64 = a.get(4).and_then(|s| s.parse().ok()).unwrap_or(2.0);
     let n_tribes = g0.state.tribes.len();
     let n_units: usize = g0.state.tribes.values().map(|t| t.units.len()).sum();
@@ -140,6 +148,55 @@ fn bench(a: &[String]) {
         "clone_per_s": clone_s.round(), "playout_player_turns_per_s": (turns as f64 / el * 10.0).round() / 10.0,
         "playout_rounds_per_s": (turns as f64 / el / n_tribes as f64 * 100.0).round() / 100.0,
         "playout_movegens_per_s": (gens as f64 / el).round(), "playouts": playouts}));
+}
+
+/// `random_turn` through `search_move` (no reveals, no fog memory, real EndTurn to the next player).
+fn random_turn_search(g: &mut Game, rng: &mut Rng, moves: &mut u64) {
+    for _ in 0..200 {
+        if g.is_game_over() { return; }
+        let ms = g.legal_moves();
+        *moves += 1;
+        let others: Vec<_> = ms.iter().filter(|m| m.move_type() != MoveType::EndTurn).collect();
+        if others.is_empty() || rng.below(8) == 0 { break; }
+        g.search_move(others[rng.below(others.len())].as_ref());
+    }
+    if let Some(e) = g.legal_moves().into_iter().find(|m| m.move_type() == MoveType::EndTurn) { g.search_move(e.as_ref()); }
+}
+
+/// Random playouts for `secs`: clone the state, play 3 rounds (each tribe a random turn), repeat.
+fn playout(a: &[String]) {
+    let secs: f64 = a.get(4).and_then(|s| s.parse().ok()).unwrap_or(4.0);
+    let use_play = a.get(5).map(|s| s.as_str()) == Some("play");
+    let mut g0 = if a[2] == "gen4" {
+        use polyfish::mapgen::{generate, MapGenSettings};
+        let tribes = vec![TribeType::XinXi, TribeType::Imperius, TribeType::Bardur, TribeType::Oumaji];
+        let mut g = Game { state: generate(MapGenSettings { size: MapSize::Normal, map_type: MapType::Continents, tribes, seed: 11, version: 115, symmetric: false }) };
+        g.post_load();
+        g
+    } else {
+        load(a, 2)
+    };
+    if a.get(3).map(|s| s.as_str()) == Some("0") && a[2] != "gen4" {
+        let p = g0.state.tribes.iter().max_by_key(|(_, t)| t.units.len()).map(|(k, _)| *k).unwrap_or(1);
+        g0 = api::load_save_file(&a[2], "current", p).unwrap();
+    }
+    let n_tribes = g0.state.tribes.len();
+    let n_units: usize = g0.state.tribes.values().map(|t| t.units.len()).sum();
+    let mut rng = Rng(0x9E3779B97F4A7C15);
+    let (t, mut turns, mut gens, mut playouts) = (Instant::now(), 0u64, 0u64, 0u64);
+    while t.elapsed().as_secs_f64() < secs {
+        let mut p = g0.clone();
+        playouts += 1;
+        for _ in 0..(3 * n_tribes) {
+            if p.is_game_over() { break; }
+            if use_play { random_turn(&mut p, &mut rng, &mut gens) } else { random_turn_search(&mut p, &mut rng, &mut gens) }
+            turns += 1;
+        }
+    }
+    let el = t.elapsed().as_secs_f64();
+    println!("{}", json!({"mode": if use_play { "play_move" } else { "search_move" }, "tribes": n_tribes, "units": n_units, "turn": g0.state.settings.turn,
+        "player_turns_per_s": (turns as f64 / el * 10.0).round() / 10.0, "rounds_per_s": (turns as f64 / el / n_tribes as f64 * 100.0).round() / 100.0,
+        "movegens_per_s": (gens as f64 / el).round(), "playouts": playouts}));
 }
 
 fn dice(a: &[String]) {
@@ -187,6 +244,7 @@ fn main() {
         }
         Some("serve") => serve(),
         Some("bench") => bench(&a),
+        Some("playout") => playout(&a),
         Some("dice") => dice(&a),
         _ => eprintln!("usage: pfapi moves|serve|bench|dice ... (see the header of src/bin/pfapi.rs)"),
     }

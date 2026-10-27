@@ -87,6 +87,12 @@ pub fn apply(g: &mut Game, mv: &dyn Move) -> Option<UndoCallback> {
     g.play_move(mv)
 }
 
+/// Apply a move for search (`Game::search_move`): like `apply` but no tile reveals, no fog memory, no history
+/// entry, and `EndTurn` passes control to the next player. The undo is exact.
+pub fn apply_search(g: &mut Game, mv: &dyn Move) -> Option<UndoCallback> {
+    g.search_move(mv)
+}
+
 /// Undo a move applied with `apply` (undos must be run newest first).
 pub fn undo(g: &mut Game, u: UndoCallback) {
     u(&mut g.state);

@@ -388,6 +388,17 @@ impl Game {
     /// permanently reveal tiles on the map. `EndTurn` hands control to the next
     /// player under `adversarial_search()`, and skips back to the mover otherwise.
     pub fn simulate_move(&mut self, game_move: &dyn Move) -> Option<UndoCallback> {
+        self.simulate_move_with(game_move, adversarial_search())
+    }
+
+    /// Apply a move for search: no tile reveals (`_are_you_sure` stays false), no fog memory update, no
+    /// `_history` entry, and `EndTurn` hands control to the next player (never skips back to the mover,
+    /// whatever `adversarial_search()` says). Same rules as `play_move` otherwise; the undo is exact.
+    pub fn search_move(&mut self, game_move: &dyn Move) -> Option<UndoCallback> {
+        self.simulate_move_with(game_move, true)
+    }
+
+    fn simulate_move_with(&mut self, game_move: &dyn Move, adversarial: bool) -> Option<UndoCallback> {
         if self.state.settings._game_over {
             return None;
         }
@@ -406,7 +417,7 @@ impl Game {
 
             // Legacy single-player search: keep ending turns until control is
             // back with the mover, i.e. delete every opponent turn in between.
-            if !adversarial_search() {
+            if !adversarial {
                 let max_players = 16; // Safety limit to prevent infinite loop
                 let mut iterations = 0;
                 while self.state.settings.current_player_turn_id != original_player
