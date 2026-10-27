@@ -131,7 +131,8 @@ def spend(b, pl, a):
     if t == 11:
         rw = struct.unpack("<BIIH", r)[3]; return -REWARD_STARS.get(rw, 0)
     if t == 30 and EMBASSY_ACTION30:
-        return EMBASSY_COST + EMBASSY_STEP * sum(1 for e in b.embassies if e[0] == pl)
+        host = struct.unpack("<BIIB", r)[3]             # EMBASSY_STEP_OTHER_HOSTS: a rebuild at the same host doesn't count its own old embassy
+        return EMBASSY_COST + EMBASSY_STEP * sum(1 for e in b.embassies if e[0] == pl and not (EMBASSY_STEP_OTHER_HOSTS and e[1] == host))
     return 0
 
 def book(b, a):
@@ -171,6 +172,7 @@ EMBASSY_ACTION30 = True    # MEASURED: action 30 (player, host capital x,y, host
 EMBASSY_BUILDER_PAID = True  # EMBASSY-INCOME-NEUTRAL: the builder also earns 2 while neutral (9906f7da, 5 embassies; Jason). The old 09a5bf1e "nothing" case is explained by combat ending the embassy (A/B 1493 -> 1505 with the two flags below)
 EMBASSY_FROM_SAVE = True    # EMBASSY-INCOME-NEUTRAL: embassies standing in save a, read from the host's Diplomacy EmbassyLevel (9906f7da)
 EMBASSY_COMBAT_DESTROYS = True    # EMBASSY-DESTROYED-BY-COMBAT: an attack or capture between builder and host removes the embassy (Jason, 9906f7da)
+EMBASSY_STEP_OTHER_HOSTS = True    # ECON-EMBASSY: the +2 step counts only the builder's embassies at other hosts (9906f7da t13 rebuild cost 4)
 SANCTUARY_INCOME = True     # SANCTUARY-V123 (v123 card): price 5, +1 a turn per adjacent wild animal (b2448ead: the old "net 3" = 5 - the first +2; A/B 1505 -> 1506)
 TRACK_PEACE = True          # an accepted peace (action 28 reply 1) counts from then on for embassy income (A/B 779 -> 780)
 PAID_AT_TURN_START = False  # MEASURED: a save taken right at a turn start does not hold that turn's income yet; a mid-turn save does (596 vs 562 exact)
