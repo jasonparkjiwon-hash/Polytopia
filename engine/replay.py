@@ -16,6 +16,7 @@ LAND_UNITS = {"Warrior", "Rider", "Archer", "Defender", "MindBender", "Swordsman
               "Centipede", "Segment", "Larva", "SteamWagon", "SteamFortress", "Pyro", "AshArcher"}   # Aquarion units are amphibious/water: never embark
 WATER_UNITS = {"Shark", "Raychi", "Puffer", "Jelly", "Crab"}   # MEASURED: seen only on water, flooded tiles or cities (Mermaid walks on land)
 RULES = {   # one switch per line; A/B each in tools/miss.py before keeping a change
+    'infiltrate': True,                  # INFILTRATE: a Cloak or Scuba attacking an enemy city deals normal damage (no retaliation) and disappears (9906f7da t18, n=1)
     'retaliation_uses_bonus': True,
     'melee_moves_in_on_kill': True,
     't18_disband': False,
@@ -371,6 +372,10 @@ def apply(st, a, turn):
                 df = min(near, key=lambda u: dist((u.x, u.y), (tx, ty))); place(st, df, tx, ty); LOG["defender recovered by proximity"] += 1
         if at is None or df is None:
             LOG["attack: missing " + ("attacker" if at is None else "defender")] += 1; return
+        if RULES["infiltrate"] and at.type in ("Cloak", "Scuba") and st.city.get((tx, ty)) not in (None, pl):   # INFILTRATE: a Cloak/Scuba attacking an enemy city
+            dmg, _, _ = fight(st, at, df); df.hp -= dmg                                                         # deals its normal damage, no retaliation, and is used
+            if df.hp <= 0: remove(st, df)                                                                       # up; its Daggers are read from the next save
+            remove(st, at); LOG["infiltrate"] += 1; return
         if at.type == "MindBender" or (RULES["shaman_convert"] and at.type == "Shaman"):   # Convert (Shaman: Polyfish + e15f392c t9)
             if at.type == "Shaman" and RULES["shaman_damage"]:   # MEASURED (n=1, e15f392c t9): the Shaman also deals its normal damage, no retaliation
                 dmg, _, _ = fight(st, at, df); df.hp -= dmg

@@ -1145,6 +1145,13 @@
    "level": "L3",
    "game_version": "v123 (Jason in game + saves)",
    "evidence": "Jason 26 Oct 2026 (in game). Saves 2026-10-26: 25 Outposts, 23 on ice when first seen; af181c8f (8,11) ice in the save before and water after, (8,16) water in both saves (ice formed and went in that window). Polyfish already allows ice only (settings/structures.rs). Explains the OUTPOST-NETWORK misfit af181c8f t14 (9,16): its Outpost was on ice when built."
+  },
+  {
+   "id": "INFILTRATE",
+   "rule": "A Cloak or Aquarion Scuba (50) attacking an enemy city (infiltrate) deals its normal attack damage to the unit in the city, takes no retaliation, and is used up; Daggers (Aquarion: Mermaid Daggers, 51) appear on free tiles around the city, placement not modelled (the replay reads them from the next save).",
+   "level": "L3 (n=1)",
+   "game_version": "v123 (measured in a save)",
+   "evidence": "2026-10-27 ref-fix, 9906f7da t18 #1481: p9 Scuba 223 (5 HP, atk 2) attacked Jason's city (3,24) holding his Shaman (10 HP, def 1): Shaman 10 -> 4 (= the normal formula: aF 2, dF 1, round(2/3 x 2 x 4.5) = 6; Polyfish infiltrate_city uses a fixed 2, which doesn't fit), the Scuba is gone in t19, and 3 Mermaid Daggers 270-272 stand on (3,23), (2,23), (2,24) (water/ocean around the city). engine/replay.py RULES infiltrate: A/B units 7385/7397 -> 7385/7396 (one miss fewer), stars hold, holdout holds. Number and placement of the Daggers not settled (Polyfish: up to min(5, city production), random tiles)."
   }
  ]
 }

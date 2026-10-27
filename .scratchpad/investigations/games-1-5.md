@@ -88,3 +88,4 @@ Stars (11):
 | 5 | EMBASSY-INCOME-NEUTRAL, EMBASSY-DESTROYED-BY-COMBAT | `engine/economy.py`: `EMBASSY_FROM_SAVE` (host Diplomacy EmbassyLevel > 0 = standing embassy in save a), `EMBASSY_BUILDER_PAID = True` (builder +2 while neutral), `EMBASSY_COMBAT_DESTROYS` (an Attack on, or capture of, the other side ends it) | 7372/7439, 1505/1540 |
 | 6 | SANCTUARY-V123 | `engine/economy.py` `SANCTUARY_INCOME`: price 5 (v123 card) and +1 a turn per adjacent Game tile present in both saves and not hunted/enchanted between; spawn every 2 turns not simulated | 7372/7439, 1506/1540 |
 | 7 | AQUARION-UNITS-49-52 | `engine/state.py` names 49 MermaidDefender, 50 Scuba, 51 MermaidDagger, 52 Jelly (card stats/prices from `data/measured_ui.json`) | 7385/7397, 1508/1540 |
+| 8 | INFILTRATE | `engine/replay.py` RULES `infiltrate`: Cloak/Scuba attacking an enemy city deals normal damage, no retaliation, and is removed (Polyfish uses a fixed 2: split) | 7385/7396, 1508/1540 |
