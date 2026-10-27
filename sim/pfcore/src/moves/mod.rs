@@ -193,6 +193,7 @@ impl Move for ResignMove {
 
 /// Generate all legal moves for the current player
 pub fn generate_legal_moves(state: &GameState) -> Vec<Box<dyn Move>> {
+    let _unit_index = crate::functions::UnitIndexGuard::new(state);
     let mut moves: Vec<Box<dyn Move>> = Vec::new();
 
     // let pov_id = state.settings.current_player_turn_id;

@@ -2,7 +2,38 @@
 
 use crate::coords::Coords;
 use crate::types::*;
-use indexmap::IndexMap;
+/// Integer-key hasher for the state maps (SipHash was ~35% of move generation). Iteration order is insertion order
+/// whatever the hasher, so serialization and fingerprints are unchanged.
+#[derive(Default, Clone, Copy)]
+pub struct FastHasher(u64);
+
+impl std::hash::Hasher for FastHasher {
+    #[inline]
+    fn finish(&self) -> u64 {
+        self.0
+    }
+    #[inline]
+    fn write(&mut self, bytes: &[u8]) {
+        for b in bytes {
+            self.write_u64(*b as u64);
+        }
+    }
+    #[inline]
+    fn write_u64(&mut self, x: u64) {
+        self.0 = (self.0.rotate_left(5) ^ x).wrapping_mul(0x517c_c1b7_2722_0a95);
+    }
+    #[inline]
+    fn write_i32(&mut self, x: i32) {
+        self.write_u64(x as u32 as u64);
+    }
+    #[inline]
+    fn write_i8(&mut self, x: i8) {
+        self.write_u64(x as u8 as u64);
+    }
+}
+
+pub type FastBuild = std::hash::BuildHasherDefault<FastHasher>;
+pub type IndexMap<K, V> = indexmap::IndexMap<K, V, FastBuild>;
 use serde::{Deserialize, Serialize};
 use std::collections::HashSet;
 
@@ -40,7 +71,7 @@ mod flex_bool {
 //         D: Deserializer<'de>,
 //     {
 //         let tiles: Vec<TileState> = Vec::deserialize(deserializer)?;
-//         let mut map = IndexMap::new();
+//         let mut map = IndexMap::default();
 //         for (i, mut tile) in tiles.into_iter().enumerate() {
 //             if tile.coords.idx == 0 && i > 0 {
 //                 tile.coords.idx = i as i32;
@@ -117,7 +148,7 @@ pub struct TileState {
     #[serde(rename = "type")]
     pub terrain_type: TerrainType,
     #[serde(default)]
-    pub explorers: HashSet<i32>,
+    pub explorers: std::collections::HashSet<i32, FastBuild>,
     #[serde(alias = "hasRoad", default)]
     pub has_road: bool,
     #[serde(default)]
@@ -147,7 +178,7 @@ impl Default for TileState {
             coords: Coords::default(),
             ruling_city_coords: None,
             terrain_type: TerrainType::None,
-            explorers: HashSet::new(),
+            explorers: Default::default(),
             has_road: false,
             has_route: false,
             had_route: false,
@@ -458,15 +489,15 @@ impl Default for TribeState {
             tech_vanilla: Vec::new(),
             cities: Vec::new(),
             units: Vec::new(),
-            relations: IndexMap::new(),
+            relations: IndexMap::default(),
             killed_turn: 0,
             resigned_turn: 0,
             starting_tile_coords: Coords::default(),
             attacked_this_turn: false,
             pacifist_turns: 0,
             conversions: 0,
-            memory_units: IndexMap::new(),
-            memory_attacks: IndexMap::new(),
+            memory_units: IndexMap::default(),
+            memory_attacks: IndexMap::default(),
         }
     }
 }
@@ -631,10 +662,10 @@ impl Default for GameState {
     fn default() -> Self {
         Self {
             settings: GameSettings::default(),
-            tiles: IndexMap::new(),
-            structures: IndexMap::new(),
-            resources: IndexMap::new(),
-            tribes: IndexMap::new(),
+            tiles: IndexMap::default(),
+            structures: IndexMap::default(),
+            resources: IndexMap::default(),
+            tribes: IndexMap::default(),
             _prediction: None,
             _end_of_turn_queue: Vec::new(),
             _messages: Vec::new(),

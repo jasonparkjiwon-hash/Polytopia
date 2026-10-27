@@ -1,7 +1,26 @@
 //! Unit settings and stats
 
 use crate::types::{SkillType, TribeType, UnitType};
-use std::collections::HashSet;
+
+/// A unit's skills as a bit set (SkillType values are 0..=63): `contains` is a mask test, no hashing.
+#[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]
+pub struct SkillSet(u64);
+
+impl SkillSet {
+    pub fn new() -> Self {
+        Self(0)
+    }
+    pub fn insert(&mut self, skill: SkillType) -> bool {
+        let bit = 1u64 << (skill as i8 as u32);
+        let new = self.0 & bit == 0;
+        self.0 |= bit;
+        new
+    }
+    #[inline]
+    pub fn contains(&self, skill: &SkillType) -> bool {
+        self.0 & (1u64 << (*skill as i8 as u32)) != 0
+    }
+}
 
 /// Unit stat configuration
 #[derive(Debug, Clone)]
@@ -14,7 +33,7 @@ pub struct UnitSetting {
     pub health: f32, // todo move to Option to enfoce passenger inheritance?
     pub upgrade_from: Option<UnitType>,
     pub is_unique: bool,
-    pub skills: HashSet<SkillType>,
+    pub skills: SkillSet,
     pub is_super: bool,
     pub tribe_type: TribeType,
 }
@@ -30,7 +49,7 @@ impl Default for UnitSetting {
             health: 10.0,
             upgrade_from: None,
             is_unique: false,
-            skills: HashSet::new(),
+            skills: SkillSet::new(),
             is_super: false,
             tribe_type: TribeType::None,
         }
@@ -40,14 +59,26 @@ impl Default for UnitSetting {
 /// Helper macro to create skill sets
 macro_rules! skills {
     ($($skill:expr),* $(,)?) => {{
-        let mut set = HashSet::new();
+        let mut set = SkillSet::new();
         $(set.insert($skill);)*
         set
     }};
 }
 
-/// Get unit settings by type
-pub fn get_unit_setting(unit_type: UnitType) -> UnitSetting {
+/// Get unit settings by type (built once, shared)
+pub fn get_unit_setting(unit_type: UnitType) -> &'static UnitSetting {
+    static TABLE: std::sync::OnceLock<Vec<Option<UnitSetting>>> = std::sync::OnceLock::new();
+    let table = TABLE.get_or_init(|| {
+        (-128i16..128)
+            .map(|i| UnitType::from_repr(i as i8).map(build_unit_setting))
+            .collect()
+    });
+    table[(unit_type as i8 as i16 + 128) as usize]
+        .as_ref()
+        .expect("unit type in table")
+}
+
+fn build_unit_setting(unit_type: UnitType) -> UnitSetting {
     use SkillType as S;
     use UnitType as U;
 

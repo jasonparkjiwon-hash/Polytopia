@@ -6,7 +6,7 @@
 use crate::functions::get_adjacent_indices;
 use crate::states::GameState;
 use crate::types::{TerrainType, TribeType};
-use indexmap::IndexMap;
+use crate::states::IndexMap;
 
 /// Maps TribeType to corresponding TribeType
 pub fn climate_to_tribe(climate: TribeType) -> TribeType {
@@ -109,7 +109,7 @@ pub fn predict_villages(state: &GameState) -> IndexMap<i32, (TribeType, bool)> {
         .unwrap_or(TribeType::None);
     let pov_climate = tribe_to_climate(pov_tribe_type);
 
-    let mut candidates: IndexMap<i32, (i32, TribeType)> = IndexMap::new();
+    let mut candidates: IndexMap<i32, (i32, TribeType)> = IndexMap::default();
 
     // Collect all known cities/villages
     let mut known_cities = std::collections::HashSet::new();
@@ -159,7 +159,7 @@ pub fn predict_villages(state: &GameState) -> IndexMap<i32, (TribeType, bool)> {
                         if !validate_village_candidate(
                             state,
                             n_idx,
-                            &IndexMap::new(),
+                            &IndexMap::default(),
                             &known_cities,
                         ) {
                             continue;
@@ -187,7 +187,7 @@ pub fn predict_villages(state: &GameState) -> IndexMap<i32, (TribeType, bool)> {
                     .map(|t| t.explorers.contains(&pov_id))
                     .unwrap_or(false);
                 if !idx_explored {
-                    if !validate_village_candidate(state, idx, &IndexMap::new(), &known_cities) {
+                    if !validate_village_candidate(state, idx, &IndexMap::default(), &known_cities) {
                         continue;
                     }
                     let entry = candidates.entry(idx).or_insert((0, tile.climate));
@@ -231,7 +231,7 @@ pub fn predict_villages(state: &GameState) -> IndexMap<i32, (TribeType, bool)> {
         }
     }
 
-    let mut prediction_map: IndexMap<i32, (TribeType, bool)> = IndexMap::new();
+    let mut prediction_map: IndexMap<i32, (TribeType, bool)> = IndexMap::default();
     let mut sorted: Vec<_> = candidates.into_iter().collect();
     sorted.sort_by_key(|(_, (count, _))| -count);
 
@@ -308,7 +308,7 @@ pub fn predict_terrain(
         crate::MapType::WaterWorld => 0.05,
     };
 
-    let mut predictions = IndexMap::new();
+    let mut predictions = IndexMap::default();
 
     for &tile_idx in fog_tiles {
         let nearest_tribe = get_nearest_known_tribe(state, tile_idx).unwrap_or(TribeType::Imperius); // Default to Imperius rates if totally lost
@@ -488,7 +488,7 @@ mod tests {
         assert!(!validate_village_candidate(
             &state,
             adj_idx,
-            &IndexMap::new(),
+            &IndexMap::default(),
             &known_cities
         ));
 
@@ -498,13 +498,13 @@ mod tests {
         assert!(!validate_village_candidate(
             &state,
             city_idx + 1,
-            &IndexMap::new(),
+            &IndexMap::default(),
             &cities
         ));
         assert!(validate_village_candidate(
             &state,
             city_idx + 3,
-            &IndexMap::new(),
+            &IndexMap::default(),
             &cities
         ));
     }

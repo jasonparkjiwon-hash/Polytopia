@@ -29,7 +29,19 @@ pub struct TechnologySetting {
 /// Get technology settings by type.
 /// v123 (ledger TRIBE-TECH-TIERS): a tribe's own tech costs like the base tech it replaces, and needs what that
 /// one needs (its tribe's version of it), unless it says otherwise.
-pub fn get_technology_setting(tech_type: TechnologyType) -> TechnologySetting {
+pub fn get_technology_setting(tech_type: TechnologyType) -> &'static TechnologySetting {
+    static TABLE: std::sync::OnceLock<Vec<Option<TechnologySetting>>> = std::sync::OnceLock::new();
+    let table = TABLE.get_or_init(|| {
+        (-128i16..128)
+            .map(|i| TechnologyType::from_repr(i as i8).map(build_technology_setting))
+            .collect()
+    });
+    table[(tech_type as i8 as i16 + 128) as usize]
+        .as_ref()
+        .expect("tech type in table")
+}
+
+fn build_technology_setting(tech_type: TechnologyType) -> TechnologySetting {
     let mut s = tech_setting_table(tech_type);
     if let (Some(_), Some(base)) = (s.tribe_type, s.replaces_tech) {
         let b = tech_setting_table(base);
@@ -448,15 +460,21 @@ pub fn get_tech_unlocking_unit(unit_type: UnitType) -> Option<TechnologyType> {
 
 /// Resolve technology replacement for a specific tribe
 pub fn resolve_tech_for_tribe(tech: TechnologyType, tribe: TribeType) -> TechnologyType {
+    // (tech, tribe) -> the first candidate (enum order) that replaces `tech` for `tribe`
+    static TABLE: std::sync::OnceLock<std::collections::HashMap<(i8, i8), TechnologyType>> =
+        std::sync::OnceLock::new();
     use strum::IntoEnumIterator;
-    for candidate_tech in TechnologyType::iter() {
-        let settings = get_technology_setting(candidate_tech);
-        if settings.replaces_tech == Some(tech) && settings.tribe_type == Some(tribe) {
-            return candidate_tech;
+    let table = TABLE.get_or_init(|| {
+        let mut m = std::collections::HashMap::new();
+        for candidate in TechnologyType::iter() {
+            let s = get_technology_setting(candidate);
+            if let (Some(r), Some(t)) = (s.replaces_tech, s.tribe_type) {
+                m.entry((r as i8, t as i8)).or_insert(candidate);
+            }
         }
-    }
-
-    tech
+        m
+    });
+    table.get(&(tech as i8, tribe as i8)).copied().unwrap_or(tech)
 }
 
 /// Get a list of technologies that are currently researchable by a tribe

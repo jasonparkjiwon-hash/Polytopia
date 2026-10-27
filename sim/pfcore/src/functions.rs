@@ -228,7 +228,68 @@ pub fn get_structure_type_at(state: &GameState, idx: i32) -> Option<StructureTyp
 }
 
 /// Find unit at a tile index
+thread_local! {
+    /// While `generate_legal_moves` runs: (the state it borrows, first unit on each tile index).
+    static UNIT_INDEX: std::cell::RefCell<(usize, Vec<*const UnitState>)> =
+        const { std::cell::RefCell::new((0, Vec::new())) };
+}
+
+/// Per-call unit lookup for move generation. The state is borrowed shared for the guard's life, so the units
+/// can't move; the table answers `get_unit_at` for exactly that state (found by address), first unit wins as in the scan.
+pub struct UnitIndexGuard {
+    prev: (usize, Vec<*const UnitState>),
+}
+
+impl UnitIndexGuard {
+    pub fn new(state: &GameState) -> Self {
+        let mut table: Vec<*const UnitState> = Vec::new();
+        for tribe in state.tribes.values() {
+            for unit in &tribe.units {
+                let i = unit.coords.idx;
+                if i < 0 {
+                    continue;
+                }
+                let i = i as usize;
+                if i >= table.len() {
+                    table.resize(i + 1, std::ptr::null());
+                }
+                if table[i].is_null() {
+                    table[i] = unit as *const UnitState;
+                }
+            }
+        }
+        let prev = UNIT_INDEX.with(|c| std::mem::replace(&mut *c.borrow_mut(), (state as *const GameState as usize, table)));
+        Self { prev }
+    }
+}
+
+impl Drop for UnitIndexGuard {
+    fn drop(&mut self) {
+        let prev = std::mem::take(&mut self.prev);
+        UNIT_INDEX.with(|c| *c.borrow_mut() = prev);
+    }
+}
+
+#[inline]
+fn indexed_unit_at<'a>(state: &'a GameState, idx: i32) -> Option<Option<&'a UnitState>> {
+    if idx < 0 {
+        return None;
+    }
+    UNIT_INDEX.with(|c| {
+        let c = c.borrow();
+        if c.0 != state as *const GameState as usize {
+            return None;
+        }
+        let p = c.1.get(idx as usize).copied().unwrap_or(std::ptr::null());
+        // SAFETY: the table was built from `state` and `state` is borrowed shared until the guard drops.
+        Some(if p.is_null() { None } else { Some(unsafe { &*p }) })
+    })
+}
+
 pub fn get_unit_at<'a>(state: &'a GameState, idx: i32) -> Option<&'a UnitState> {
+    if let Some(r) = indexed_unit_at(state, idx) {
+        return r;
+    }
     for tribe in state.tribes.values() {
         for unit in &tribe.units {
             if unit.coords.idx == idx {
@@ -250,6 +311,9 @@ pub fn get_unit_at<'a>(state: &'a GameState, idx: i32) -> Option<&'a UnitState> 
 
 /// Find the actual unit at a tile (including ships, not just passengers)
 pub fn get_true_unit_at<'a>(state: &'a GameState, idx: i32) -> Option<&'a UnitState> {
+    if let Some(r) = indexed_unit_at(state, idx) {
+        return r;
+    }
     for tribe in state.tribes.values() {
         for unit in &tribe.units {
             if unit.coords.idx == idx {
