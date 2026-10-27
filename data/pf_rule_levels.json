@@ -3,9 +3,9 @@
  "kinds": {
   "Step": [
    {
-    "ledger": "UPSTREAM",
-    "level": null,
-    "below_L1": null
+    "ledger": "MOVE-BASE",
+    "level": "L2",
+    "below_L1": false
    },
    {
     "ledger": "ALGAE-MOVE",
@@ -247,9 +247,9 @@
     "below_L1": false
    },
    {
-    "ledger": "UPSTREAM",
-    "level": null,
-    "below_L1": null
+    "ledger": "TRAIN-BASE",
+    "level": "L2",
+    "below_L1": false
    }
   ],
   "Upgrade": [
@@ -264,9 +264,9 @@
     "below_L1": false
    },
    {
-    "ledger": "UPSTREAM",
-    "level": null,
-    "below_L1": null
+    "ledger": "UPGRADE-BASE",
+    "level": "L2",
+    "below_L1": false
    }
   ],
   "Build": [

@@ -37,6 +37,7 @@ _Last updated 2026-10-26 (Jason's games 1-5 ingested, scored held-out, released)
 | Jason | — |
 | Minjae | — |
 | Claude (orchestrator) | Phase 3 prep (backlog item 0): runs the sessions below |
+| Claude: fm-speed-2 | Done: movegen ~9k/s (was 1.1k), search_move, MOVE/TRAIN/UPGRADE-BASE; see investigations/fm-speed.md |
 | Claude: pf-loader | Load saves into Polyfish, score it, legality check |
 | Claude: pf-port | Port v123 corrections into Polyfish (pf-port-3 handoff 26 Oct: units 6455/6456, stars 1320/1342, legal 99.3%) |
 | Claude: sim-dist | First pass done (held-out check, `data/distributions.json`, `data/bot_turns.csv`); see `investigations/sim-dist.md` |

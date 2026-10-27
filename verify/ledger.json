@@ -1306,6 +1306,27 @@
    "level": "L3",
    "game_version": "v123 (measured in game)",
    "evidence": "pffog sweep over 1876 (save, player) pairs: with 'any capital_of > 0 sees radius 2' the engine rule adds 26 tiles the save does not hold, in 11 pairs (af181c8f p5, e15f392c p3, both games with captured capitals); with 'capital_of == tribe' it adds 0 in all 1876 and nothing else changes (pf_miss identical: units 7391/7394, stars 1512/1540). The capture itself is inferred from capital_of, not logged."
+  },
+  {
+   "id": "MOVE-BASE",
+   "rule": "Movement base rules used as Polyfish v115 has them: move points per unit, terrain cost, roads, zone of control stops a move, which tiles a unit may enter. No v123 change is known.",
+   "level": "L2",
+   "game_version": "v115 (Polyfish upstream)",
+   "evidence": "Polyfish v115 source (upstream) + 5739 Step moves replayed from the saves: every logged move in the generated list (Move 5608/5614 legal; the 6 misses are other causes). Replay test pf_accept (a)."
+  },
+  {
+   "id": "TRAIN-BASE",
+   "rule": "Training base rules used as Polyfish v115 has them: which units a city may train (tech, tribe), price, one unit per tile, city unit limits. Prices follow ECON-PRICES-V123 where it changes them.",
+   "level": "L2",
+   "game_version": "v115 (Polyfish upstream)",
+   "evidence": "Polyfish v115 source (upstream) + 1433 Summon moves replayed from the saves (Train 1398/1407 legal; the 9 misses are stars/other, see fm-accept.md)."
+  },
+  {
+   "id": "UPGRADE-BASE",
+   "rule": "Upgrade base rules used as Polyfish v115 has them: Boat to Ship to Battleship on port/city, Rider/Knight style upgrades by tech, price, heals to full.",
+   "level": "L2",
+   "game_version": "v115 (Polyfish upstream)",
+   "evidence": "Polyfish v115 source (upstream) + 185 Upgrade moves replayed from the saves (Upgrade 184/184 legal)."
   }
  ]
 }
