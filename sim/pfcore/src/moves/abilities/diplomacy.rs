@@ -547,7 +547,9 @@ pub fn generate_diplomacy_moves(state: &GameState, moves: &mut Vec<Box<dyn Move>
 
         if relation.state == 1 {
             moves.push(Box::new(BreakPeaceMove::new(other_id)));
-        } else if has_diplomacy {
+        }
+        // v123 (ledger EMBASSY-AT-PEACE): an embassy can be built at peace too (6e1bf8e0 t11 #1839)
+        if has_diplomacy {
             if relation.embassy_level == 0 && tribe.stars >= crate::functions::get_embassy_cost(tribe, other_id) {
                 if let Some(other_capital) = crate::functions::get_capital_city(state, other_id) {
                     moves.push(Box::new(EstablishEmbassyMove::new(
@@ -556,6 +558,8 @@ pub fn generate_diplomacy_moves(state: &GameState, moves: &mut Vec<Box<dyn Move>
                     )));
                 }
             }
+        }
+        if relation.state != 1 && has_diplomacy {
 
             // Only offer if NOT already at peace and NOT already offered
             // We need to check if WE have offered peace to THEM

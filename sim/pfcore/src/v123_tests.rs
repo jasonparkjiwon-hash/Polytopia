@@ -760,6 +760,25 @@ fn embassy_cost_and_income() {
     assert_eq!((get_embassy_income(&s, &s.tribes[&1]), get_embassy_income(&s, &s.tribes[&2])), (4, 4));
 }
 
+/// EMBASSY-AT-PEACE (L3, n=1: 6e1bf8e0 t11 #1839): p12 built an embassy at p7's capital while the two were at peace
+/// (accepted at #1400); the generator used to offer embassies only to tribes not at peace.
+#[test]
+fn embassy_offered_at_peace() {
+    use crate::moves::Move;
+    let mut s = board();
+    add_city(&mut s, 2, 8, 8);
+    s.tiles.get_mut(&idx(8, 8)).unwrap().capital_of = 2;
+    for (a, b) in [(1, 2), (2, 1)] {
+        let mut r = DiplomacyRelationState::default();
+        r.state = 1;
+        s.tribes.get_mut(&a).unwrap().relations.insert(b, r);
+    }
+    s.tribes.get_mut(&1).unwrap().stars = 10;
+    s.tribes.get_mut(&1).unwrap().tech_vanilla.push(TechnologyState { tech_type: TechnologyType::Diplomacy, discovered: true, ..Default::default() });
+    let h = crate::moves::abilities::diplomacy::EstablishEmbassyMove::new(idx(8, 8), 2).serialize();
+    assert!(crate::moves::generate_legal_moves(&s).iter().any(|m| m.serialize() == h));
+}
+
 /// EMBASSY-INCOME-NEUTRAL: a save holds the embassy on the host's record (9906f7da t7: p9's Diplomacy entry for p1
 /// has EmbassyLevel 1); loaded, it is the builder's, so the builder's next one costs 6 and both earn 2.
 #[test]

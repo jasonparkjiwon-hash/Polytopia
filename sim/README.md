@@ -120,3 +120,4 @@ For search and scenarios. It adds no rules: every call goes through Polyfish's o
 - The harness hints a ruin's +3 population (to the capital) when the next save's capital grew 3+ more than builds explain; such ruins used to fall to Explorer (`tools/pf_jobs.py`) [RUIN-POP-HINT, new ledger entry].
 - A captured city that was connected to its old owner's capital loses 1 population and its link; the captor's capital keeps its population (`actions/city.rs` capture_city) [CAPTURE-DISCONNECT, new ledger entry].
 - Ports link over water in up to 5 steps (diagonals count, not through enemy tiles) to own ports and to own cities with a port beside them, instead of a 4-tile box between ports (`actions/connection.rs` water_route_targets) [WATER-ROUTE, new ledger entry].
+- An embassy can be built at a tribe at peace, not only at neutral ones (`moves/abilities/diplomacy.rs` generate_diplomacy_moves) [EMBASSY-AT-PEACE, new ledger entry].

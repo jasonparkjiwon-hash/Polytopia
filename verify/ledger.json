@@ -1292,6 +1292,13 @@
    "level": "L3 (measured, statistical; held-out ed6cb932 (Crazy) turns 1-5 only, 342 decisions)",
    "game_version": "v123 (measured in game)",
    "evidence": "tools/bot_policy.py eval v2 / play --held; .scratchpad/investigations/bot-policy.md; 27 Oct. | 27 Oct final offsets EndTurn -1.25, Train +1.0 (chosen on tuned playouts): all-moves top-1 tuned 0.345, held-out 0.533; held-out 2-round playouts real/sim units +1.07/+0.80, cities +0.38/+0.24, stars +0.62/+1.12, kills +0.22/+0.27."
+  },
+  {
+   "id": "EMBASSY-AT-PEACE",
+   "rule": "An embassy can be built at a tribe you are at peace with (not only at neutral ones).",
+   "level": "L3",
+   "game_version": "v123 (measured in a save)",
+   "evidence": "6e1bf8e0 t11 #1839: p12 (Quetzali) builds an embassy at p7's capital (2,9); p7 accepted p12's peace at #1400 and nobody broke it; the t15 save holds p7's record for p12 as state 1, EmbassyLevel 1. Polyfish offered embassies only when not at peace: Embassy legal 5/7 -> 6/7. Open: 9906f7da t13 #818 rebuilds p1's embassy at p9 while the t13 save still shows level 1 (cost 4 as a first one, ECON-EMBASSY), probably a level-2 rebuild or a destroyed embassy whose record is stale; not modelled."
   }
  ]
 }
