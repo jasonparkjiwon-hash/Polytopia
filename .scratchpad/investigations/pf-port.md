@@ -113,6 +113,8 @@ Status: **done** = ported with a test; **pf ok** = Polyfish already does it;
 | 84 | Pushed land unit boards own port as fallback too | PUSH-PORT-FIRST (changed 27 Oct) | L3 | first choice only | done (+1 unit) |
 | 85 | Embassy rebuilt at the same host pays 4 | ECON-EMBASSY | L1 | +2 for its own old one | done (+1 star) |
 | 86 | Water Temple 20, Clear Forest +1, Waterways tier 2 | WATER-TEMPLE-PRICE, CLEAR-FOREST-V123, AQUARION-WATERWAYS-ID | L3 | same | pf ok |
+| 87 | Cloak/Scuba attacking a unit in an enemy city: normal damage, no retaliation, infiltrates (Daggers), used up | INFILTRATE | L3 n=1 | plain attack, attacker stays | done (+2 units) |
+| 88 | Jelly Tentacles: hits adjacent enemies after its move; enemies moving/following a kill next to it are hit | TENTACLES | L3 | none | done (unit misses 8 -> 3) |
 | 57 | Bridge carries land units | BRIDGE-LAND | L3 | pf ok (is_steppable) | done (pf: is_steppable allows bridges for walkers; boats pass under) |
 
 ## Flagged (below L1, off)
@@ -173,6 +175,12 @@ Misses = compared - exact.
 - Saves: meets are one-way in 124 of 290 new meets (A knows B, B doesn't know A yet).
 
 ## Scores (pf_miss)
+
+27 Oct (pf-port-4) final, at dad658f: units 7391/7394, stars 1512/1540, legal 13164/13257 = 99.3%; held-out ed6cb932
+187/187, 64/64, 99.7%. Referee (miss.py) same time: 7389/7392, 1511/1540. Polyfish now has every referee star miss
+except 3 (it is exact where the referee isn't: 3edee0ec t5->6, t9->10 p1, 9906f7da t13->14 p9 +5 -> pf +3) and only
+one row of its own: 9906f7da t11->12 p9 -4 (the unknown Aquarion Build 7 on Ocean, Findings).
+
 
 27 Oct (pf-port-4), start at f65480d: units 7386/7398, stars 1500/1540, legal 99.2%. After rows 80-85 (b7c2371):
 units 7387/7397, stars 1512/1540, legal 99.3% (pf-legal's work included); held-out 187/187, 64/64, 99.7%.
@@ -245,6 +253,16 @@ pf-port keeps: economy / star drift, unit HP and position misses, the rest of th
   the capital via Polaris Outposts (09a5bf1e t5, af181c8f t8/t13), Aquarion Atoll 51 (3edee0ec t9, 6e1bf8e0 t11,
   e15f392c t4) and ports (09a5bf1e t7, e15f392c t5/t8, af181c8f t21); 3 lighthouse discoveries (af181c8f t8,
   6e1bf8e0 t11); the rest unexplained so far.
+
+## Next step (pf-port-4 handoff, 27 Oct)
+
+1. Unit misses left (3): 6e1bf8e0 t11->15 Swordsman 198 (gap drift, see pf-port-3 notes); 9906f7da t18->19 one
+   Mermaid Dagger placed on (4,23) where the save has (2,24) (INFILTRATE: placement not settled, n=1; Polyfish takes
+   the first 3 free tiles in adjacency order).
+2. Stars: only the Aquarion Build 7 on fish-less Ocean (Ocean -> Water, n=2) is Polyfish-only; ask Jason what that
+   action is (orchestrator: add to Waiting on Jason). Everything else is shared with the referee (6e1bf8e0 gaps,
+   9906f7da Aquarion prices: ref-fix's Waiting on Jason list).
+3. Keep porting whatever ref-fix lands next (check `git log -- engine/` since dad658f).
 
 ## Next step (pf-port-3 handoff, 26 Oct)
 
