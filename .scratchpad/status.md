@@ -40,9 +40,15 @@ _Last updated 2026-10-26 (Jason's games 1-5 ingested, scored held-out, released)
 | Claude: pf-loader | Load saves into Polyfish, score it, legality check |
 | Claude: pf-port | Port v123 corrections into Polyfish (pf-port-3 handoff 26 Oct: units 6455/6456, stars 1320/1342, legal 99.3%) |
 | Claude: sim-dist | First pass done (held-out check, `data/distributions.json`, `data/bot_turns.csv`); see `investigations/sim-dist.md` |
+| Claude: bot-policy-2 | Done 27 Oct: bot move policy v1/v2 (`sim/pfcore/src/botpolicy.rs`, `data/bot_policy_v2.json`), playout bin `pfbot`, distribution check; held-out next-group 0.78 (random 0.36), move 0.62 (0.49); see `investigations/bot-policy-2.md` |
 | Claude: fm-accept | Done 27 Oct: forward-model API (`sim/README.md`), `tools/pf_accept.py` (end of check.sh), gaps ranked in `investigations/fm-accept.md` |
 
 ## Waiting on Jason
+
+- bot-policy-2 (27 Oct), optional, makes the bot model much better: full-length Hard bot games exported **every turn** (turn 1 to the end,
+  like game 6), ideally 2-3 games, plus one Crazy game the same way. Right now Attack/Capture/Build rest on 400-1400 decisions and the
+  held-out game covers turns 1-5 only. Also useful: one game where you note, for 3-4 bot turns, how many stars the bot held at the end of its
+  turn (what stops a bot building).
 
 - pf-legal-3 (27 Oct): in the bot war game (6e1bf8e0, turn 11) a Cymanti bot researched tech 49 without owning Navigation. Which Cymanti tech is that, and what does it require? (A Cymanti tech tree screenshot showing what each tech needs would settle it.)
 - pf-port-4 (27 Oct): game 6 (9906f7da) t11, an Aquarion bot used Build 7 (normally Fishing) on two Ocean tiles with no fish, and each Ocean tile became shallow Water (n=2). What is this action? Check in an Aquarion game whether some tech (Aquaculture? Waterways?) lets you turn Ocean into Water, and its price.

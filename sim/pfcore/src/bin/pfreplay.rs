@@ -345,6 +345,10 @@ impl Replay {
         let legal = self.game.legal_moves();
         let keys: Vec<Value> = legal.iter().map(|m| m.serialize()).collect();
         let pick = cands.iter().position(|c| keys.contains(&c.serialize()));
+        if polyfish::botpolicy2::dump_on() {   // bot-policy-2: every legal move's features + which one the log chose (PF_BOTDUMP=file)
+            let chosen = pick.and_then(|p| { let k = cands[p].serialize(); keys.iter().position(|x| *x == k) });
+            polyfish::botpolicy2::dump(&self.game, &legal, chosen, i);
+        }
         let e = self.legal.entry(name.clone()).or_insert([0, 0]);
         e[1] += 1;
         let played_ok;
@@ -713,6 +717,7 @@ fn main() {
     }
     let jobs: Value = serde_json::from_str(&std::fs::read_to_string(&a[1]).expect("jobs file")).expect("jobs json");
     for job in jobs.as_array().expect("jobs list") {
+        polyfish::botpolicy2::set_tag(job["tag"].as_str().unwrap_or(""));
         let out = std::panic::catch_unwind(|| run_job(job));
         let line = match out {
             Ok(Ok(v)) => v,

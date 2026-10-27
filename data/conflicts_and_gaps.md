@@ -373,3 +373,4 @@ Jason (Imperius) vs 15 Hard bots on a 30x30 map, exported every turn from 1 to 1
 - 2026-10-27 MOONI-CAPTURE-NO-UNIT-FREEZE (L3 n=1): a Mooni capture freezes tiles, not adjacent enemy units (e15f392c t5 #371 -> #397/#398/#403/#404). Test item: does a Mooni MOVE freeze adjacent units (Jason: yes; saves: 3 of 4 frozen units next to an enemy Mooni)? engine/replay.py still freezes on capture (ref-fix).
 - 2026-10-27 CITY-UNITS-OWN-ONLY (L3 n=4): city unit limit counts only the owner's units (foreign units homed before a capture don't count).
 - 2026-10-27 ATOLL-ON-ALGAE (L3 n=1): Atoll on algae water (9906f7da t18 #1494).
+- BOT-POLICY-V2 (bot-policy-2, 27 Oct): bots do not spend all their stars (Build used in 36% of turns where one is possible), so playouts leave stars unspent; what makes a bot build or hold stars is open (bot-policy-2.md, v3 idea 1). Needs per-turn logs of Hard bot games, every turn, full length.

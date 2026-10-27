@@ -3,6 +3,7 @@
 pub mod actions;
 pub mod api;
 pub mod botpolicy;
+pub mod botpolicy2;
 pub mod coords;
 pub mod dotnet_rng;
 pub mod fow;
@@ -29,3 +30,5 @@ mod v123_tests;
 mod v123_legal_tests;
 #[cfg(test)]
 mod api_tests;
+#[cfg(test)]
+mod botpolicy2_tests;

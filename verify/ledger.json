@@ -1250,6 +1250,27 @@
    "level": "L3",
    "game_version": "v123 (measured in saves)",
    "evidence": "The HasWaterRoute tile flag marks the route. af181c8f t22 p12: port (8,20) to city (12,20) (4 steps, port (13,20) 5 away) marked (9..11,20), city connected; 09a5bf1e t8 p6: (1,16) to (6,14) is a 5-step route ((2,15),(3,14),(4,14),(5,13)), (6,14) to (5,17) 4 steps; af181c8f t12 p16: the only water path from (3,17) to (7,19) is 7 steps, no route, not connected; 6e1bf8e0 t11 p15: city (7,9) without a port stays unconnected. Replaces the Chebyshev-4 box (Polyfish v115): 4 steps fix 405, 5 or 6 steps 412 (CityReward legal 404 -> 412, Train +1); orthogonal-only steps and Chebyshev-3 are worse."
+  },
+  {
+   "id": "BOT-CAPTURE-FIRST",
+   "rule": "When a bot can capture (village, city or ruin) at some decision of its turn, it makes a capture that turn in 94% of the cases (n=385 bot turns in the 11 tuned games). At a single decision the capture is the next action only 29% of the time (other units act first), so a per-decision model must force it: policy rules.capture_first 0.94 raised simulated cities taken at 1 round from 17 to 24 (real 25).",
+   "level": "L3 (measured, statistical: 363/385 bot turns)",
+   "game_version": "v123 (measured in game)",
+   "evidence": "tools/bot_dump.py decision dump + a per-turn count of groups available vs used (bot-policy-2.md); sim/pfcore botpolicy.rs capture_first; tools/bot_dist.py k=1 check."
+  },
+  {
+   "id": "BOT-TURN-SHAPE",
+   "rule": "A bot turn runs units first (capture, attack, move), then economy (harvest, build, level-up reward, train, research), then EndTurn: mean relative position in the turn Capture 0.23, Step 0.29, Attack 0.35, Harvest 0.65, Build and Reward 0.70, Train and Research 0.74, Upgrade 0.78. The order of units within the turn is not unit-id order (af181c8f: 8 of 255 turns ascending, 8 descending). Bots do not spend everything: per turn, when available, Train is used in 78%, Attack 74%, Upgrade 59%, Research 38%, Build 36%, Harvest 31%.",
+   "level": "L3 (measured, statistical: 12 849 bot decisions)",
+   "game_version": "v123 (measured in game)",
+   "evidence": "tools/bot_dump.py + sequence stats (bot-policy-2.md); engine-free, from the replayed logs."
+  },
+  {
+   "id": "BOT-POLICY-V2",
+   "rule": "Two-stage move policy (group, then move) fitted on the 11 tuned games predicts bot moves: turns 1-5 held-out (ed6cb932, n=342) next-group top-1 0.784 (random 0.361), move within group top-1 0.617 (0.492) / top-3 0.864 (0.715), log-likelihood -1.47 per decision vs -2.37 random; tuned same turns 0.772 / 0.639 / 0.850. Target given attacker 0.898 (0.762) on all turns; destination given unit 0.464 (0.240). Playouts from real saves match real counts of units, cities, kills, attacks, trains, captures within ~10-25% at 1 round; they drift low at 2-3 rounds (attacks -25%, trains -20%, builds -45%, cities taken -55% at 3) and stars pile up. Hard only.",
+   "level": "L3 (measured, statistical: held-out agreement; a model, not a game rule)",
+   "game_version": "v123 (measured in game)",
+   "evidence": "data/bot_policy_v2.json; tools/bot_policy2.py eval, tools/bot_dist.py; .scratchpad/investigations/bot-policy-2.md."
   }
  ]
 }
