@@ -129,6 +129,10 @@ pub fn player_view(g: &Game, pov: i32) -> Game {
             if !t.explorers.contains(&pov) {
                 t.capital_of = 0;
                 t.ruling_city_coords = None;
+                t.climate = TribeType::Nature;
+                t.skin_type = 0;
+                t.had_route = false;
+                t.frozen_from = None;
             }
         }
     }
@@ -172,6 +176,7 @@ pub fn check_view(save: &Value, g: &Game, pov: i32, scrub: bool) -> ViewCheck {
             leak("structure", st1.is_some());
             leak("capital_of", t1.capital_of != 0);
             leak("ruling_city", t1.ruling_city_coords.is_some());
+            leak("climate", t1.climate != TribeType::Nature);
             let _ = sz;
         }
     }

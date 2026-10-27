@@ -1,6 +1,7 @@
 //! Slim build of the Polyfish game engine (HenBOMB/Polyfish polyfish-rs, Apache-2.0):
 //! engine modules only (no AI, network, replay or server), so it builds from GitHub sources alone.
 pub mod actions;
+pub mod belief;
 pub mod api;
 pub mod botpolicy;
 pub mod botpolicy2;

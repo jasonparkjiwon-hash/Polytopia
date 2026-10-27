@@ -30,6 +30,11 @@ For search and scenarios. It adds no rules: every call goes through Polyfish's o
 - Acceptance: `python3 -I tools/pf_accept.py [--full] [--fails]` prints the `FM ACCEPT` lines (end of `scripts/check.sh`, informational). The per-action checks run inside `pfreplay` when `PF_ACCEPT=n` is set (every n-th legal logged action). Rust tests: `src/api_tests.rs`.
 - Rule labels: `python3 -I tools/pf_rule_levels.py [--check]` writes `data/pf_rule_levels.json` (move kinds, the v123 bullets below and the `v123_flags` switches -> ledger id and level).
 
+## Fog inference (fog-inference; `src/fog.rs`, `src/belief.rs`, bin `pffog`, `tools/pf_belief.py`)
+
+- `fog::player_view(game, pov)`: `clone_for_mcts` plus a scrub of hidden-tile `capital_of`/`ruling_city_coords`/climate (obscure_fog leaks every capital's position). `fog::load_exact` loads with the save's exact explored sets. `pffog sweep saves/*.json` checks both against the saves.
+- `belief::sample_belief(&game, pov, &model, Mode::Full, seed)` -> a full Game with pov's view kept and the hidden map drawn; Python `sample_belief(save, pov, n, seed, outdir)`. Scores and limits: `.scratchpad/investigations/fog-inference.md`.
+
 ## v123 corrections (pf-port; ledger ids in brackets, tests in `src/v123_tests.rs`)
 
 - Poison halves only the defence bonus; the v115 extra -30% on defence is removed (`functions.rs`) [C7].
