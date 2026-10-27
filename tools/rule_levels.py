@@ -98,6 +98,7 @@ MAP = {   # rule name -> ledger id
     "economy.ECON_RULES.aquarion51_price": "ECON-PRICES-V123",
     "economy.ECON_RULES.infiltrate_stars": "INFILTRATE-STARS",
     "economy.ECON_RULES.moth_infiltrate": "MOTH-INFILTRATE",
+    "economy.ECON_RULES.meet_score_by_turn": "MEET-SCORE-TURN",
     "economy.ECON_RULES.mermaid_defender_price": "MERMAID-DEFENDER-PRICE",
     # module constants
     "replay.FMT": "SAVE-FORMAT",

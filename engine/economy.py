@@ -26,7 +26,8 @@ BUILD = {3: ("Road", 3), 5: ("Farm", 5), 6: ("Windmill", 5), 7: ("Fishing", 2), 
          30: ("EnchantAnimal", 3), 46: ("Starfish", -8), 49: ("AquaFarm", 5), 51: ("Aquarion51", 5),
          32: ("Sanctuary", 3),   # SANCTUARY-V123: net 3 on b2448ead t4 if Sanctuaries paid nothing; with SANCTUARY_INCOME the card price 5 is used
          10: ("ClearForest", -1),   # CLEAR-FOREST-V123: gives 1 star (028182a9 t8, n=1)
-         19: ("WaterTemple", 20)}   # WATER-TEMPLE-PRICE: 9906f7da p10 t17, t19
+         19: ("WaterTemple", 20),   # WATER-TEMPLE-PRICE: 9906f7da p10 t17, t19
+         18: ("ForestTemple", 15)}   # FOREST-TEMPLE-PRICE: 64795ee3 p15 t4 (13 stars before, 3 after, one Build)
 # MEASURED (implied by the star check on turns where it was the only unknown): Enchant Animal 3 (5/5); harvesting Starfish
 # GIVES 8 stars (18/22); AquaFarm 5 (n=1, and 5 on Jason's in-game card); Aquarion structure 51 5 (n=2, thin).
 UPGRADE_COST = {"Scoutship": 5, "Rammership": 5, "Bomber": 15}
@@ -48,6 +49,7 @@ ECON_RULES = {
     'market_income': True,       # ECON-MARKET-CLATHRUS: v123 card + Polyfish agree; one Market in the saves, never next to a Windmill/Forge/Sawmill
     'clathrus_income': True,     # ECON-MARKET-CLATHRUS: v123 card says adjacent Fungi, Polyfish says adjacent Algae; no Clathrus in any save
     'mermaid_defender_price': 3,   # AQUARION-PRICES: the v123 card says 8 (None keeps it); game 6 p9 star rows fit 3 (see ledger)
+    'meet_score_by_turn': True,  # MEET-SCORE-TURN: a tribe met in the later save's turn counts with its score in that save (64795ee3 t6->7 p1 +4)
     'moth_infiltrate': False,    # MOTH-INFILTRATE: the Moth pays no city level (g7 t8->9, t18->19: stars -2 if it does)
     'infiltrate_stars': True,    # INFILTRATE-STARS: a Cloak/Scuba attack on an enemy city pays the attacker the city's level (cap 5); n=1, 9906f7da t18
     'aquarion51_price': 5,       # ECON-PRICES-V123: Aquarion structure 51, implied by the star check (n=2); name unknown
@@ -255,6 +257,8 @@ def check(a, b, acts, model="levels", siege=True):
         if pl not in pb: continue
         for o in set(pb[pl]["Encountered"]) - set(pa[pl]["Encountered"]):
             score = (pa if o > pl and o in pa else pb).get(o, {}).get("Score", 0)   # the met tribe's score when met: before its own turn if it plays later
+            fm = {d["PlayerId"]: d["FirstMeet"] for d in pb[pl].get("Diplomacy", ())}.get(o)
+            if ECON_RULES["meet_score_by_turn"] and b["currentTurn"] - a["currentTurn"] == 1 and fm == b["currentTurn"] and o in pb: score = pb[o]["Score"]   # met in the later save's own turn: the round before it is over
             r["income"] += meet_stars(score); r["met"] = r.get("met", 0) + 1
     for pl, r in rows.items():
         r["after"] = after.get(pl); r["predicted"] = r["before"] + r["income"] - r["spent"]

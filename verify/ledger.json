@@ -1376,6 +1376,20 @@
    "level": "L3",
    "game_version": "v123 (measured in saves)",
    "evidence": "710ddb20 t12-t18 (head 286: 1 segment at t13, 2 at t14, 3 at t16; promotion of 330 at t17, 376 at t18), game 7. A/B 27 Oct: units 10175 -> 10183 over games 1-8, stars hold, no older game worse. engine/replay.py RULES centipede_chain (remove, place, cent_follow); engine/state.py keeps leader/follower."
+  },
+  {
+   "id": "FOREST-TEMPLE-PRICE",
+   "rule": "Forest Temple (Build 18) costs 15 stars (card price; Temple 20, Water Temple 20).",
+   "level": "L3",
+   "game_version": "v123 (measured in a save)",
+   "evidence": "64795ee3 t4->5 p15 (Hoodrick, Crazy): 13 stars before, 3 after one Build 18; the engine with price 0 was 15 too high. n=1; matches the wiki card. engine/economy.py BUILD[18]."
+  },
+  {
+   "id": "MEET-SCORE-TURN",
+   "rule": "The stars for meeting a tribe use its Score when you meet it. If the meeting happens in your own turn after a full round (the later save's turn, Diplomacy FirstMeet = that turn), that is the met tribe's score in the later save, not the earlier one. Fits one-turn gaps only; the engine keeps the earlier-save rule for longer gaps.",
+   "level": "L3",
+   "game_version": "v123 (measured in saves)",
+   "evidence": "A/B 27 Oct, stars over games 1-8: 1939 -> 1943 of 1972 with no pair worse (028182a9 t3->4 p1, b2448ead t6->7 p1, 64795ee3 t6->7 p1 +4 and t9->10 p1 +2). Tried for all gaps: worse (6e1bf8e0 t5->11, af181c8f). engine/economy.py ECON_RULES meet_score_by_turn."
   }
  ]
 }
