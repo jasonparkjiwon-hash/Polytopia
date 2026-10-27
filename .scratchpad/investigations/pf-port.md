@@ -106,6 +106,13 @@ Status: **done** = ported with a test; **pf ok** = Polyfish already does it;
 | 77 | Fungi save level 0/1 = Polyfish 1/2 (grows once, +1 pop) | FUNGI-GROWTH (new) | L3 | loaded as is: new Fungi never grew | done (CityReward legal +9) |
 | 78 | Polaris Outpost network: roads, cities, ports, Outposts, ice within 2 of an Outpost | OUTPOST-NETWORK (new) | L3 (80/83 states) | no Polaris network at all | done (legal +8); ice formed later doesn't re-run the connection update |
 | 79 | Aquarion Atoll links own cities/Atolls within 3 | ATOLL-NETWORK (new) | L3 (49/50 states) | none | done (CityReward +5) |
+| 80 | Embassy pays builder and host 2 while neutral; loader moves the save's host-side EmbassyLevel to the builder | EMBASSY-INCOME-NEUTRAL | L3 | host 2, builder only at peace | done (stars 1500 -> 1506) |
+| 81 | Attack or capture between the pair destroys the embassy | EMBASSY-DESTROYED-BY-COMBAT | L3 | never destroyed | done (+1 star) |
+| 82 | Sanctuary: price 5, +1 per adjacent animal (ref-fix settled the card, 6170bba) | SANCTUARY-V123 | L3 | same | pf ok (my price-3 commit 382fe60 reverted) |
+| 83 | Enchant Animal removes the Game | ENCHANT-REMOVES-GAME (new) | L3 25/26 | Game put back | done (+1 star, b2448ead t5->6) |
+| 84 | Pushed land unit boards own port as fallback too | PUSH-PORT-FIRST (changed 27 Oct) | L3 | first choice only | done (+1 unit) |
+| 85 | Embassy rebuilt at the same host pays 4 | ECON-EMBASSY | L1 | +2 for its own old one | done (+1 star) |
+| 86 | Water Temple 20, Clear Forest +1, Waterways tier 2 | WATER-TEMPLE-PRICE, CLEAR-FOREST-V123, AQUARION-WATERWAYS-ID | L3 | same | pf ok |
 | 57 | Bridge carries land units | BRIDGE-LAND | L3 | pf ok (is_steppable) | done (pf: is_steppable allows bridges for walkers; boats pass under) |
 
 ## Flagged (below L1, off)
@@ -149,6 +156,14 @@ Misses = compared - exact.
 
 ## Findings
 
+- pf-port-4: 9906f7da t11 #693/#697 p9 Aquarion Build 7 on fish-less Ocean tiles (9,27), (11,27): the tiles turn
+  Ocean -> Water (shallow). The only 2 such builds in the saves (scratch scan of every build 7). An unknown Aquarion
+  tile action priced 2 by the referee (as Fishing); Polyfish doesn't offer it (pf stars -4 at t11->12). n=2, one
+  game: ask Jason what it is before porting.
+- pf-port-4: 9906f7da t13 #818 Embassy rebuilt while the t6 one still stood (save level 1): Polyfish doesn't offer a
+  rebuild at a standing embassy (legal miss); 6e1bf8e0 t11 #1839 Embassy not offered since the loader fix (cause not
+  looked at: saves can't be opened whole; pf-legal's area).
+
 - Meeting stars (the biggest star gap left, ~57 player-turns): Polyfish's rule (a tribe meets another at its turn
   start when an enemy unit stands on a tile it has explored) fits the saves; the misses come from exploration that
   Polyfish doesn't reproduce, mostly Explorer rewards (city reward 4, ruin Explorer: random path). Example 09a5bf1e
@@ -158,6 +173,11 @@ Misses = compared - exact.
 - Saves: meets are one-way in 124 of 290 new meets (A knows B, B doesn't know A yet).
 
 ## Scores (pf_miss)
+
+27 Oct (pf-port-4), start at f65480d: units 7386/7398, stars 1500/1540, legal 99.2%. After rows 80-85 (b7c2371):
+units 7387/7397, stars 1512/1540, legal 99.3% (pf-legal's work included); held-out 187/187, 64/64, 99.7%.
+Referee (miss.py) at the same time: 7387/7395, 1511/1540.
+
 
 26 Oct (pf-port-3), at f42844c, games 1-5 released into the tuned set: tuned units 6455/6456, stars 1320/1342,
 legal 99.2% (referee on the same set, tools/miss.py: units 6452/6461, stars 1314/1342). Held-out (ed6cb932 only
