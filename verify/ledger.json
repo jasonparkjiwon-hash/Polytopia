@@ -1081,7 +1081,7 @@
    "rule": "Water Temple (build 19) costs 20 stars.",
    "level": "L3 (n=2) + Jason",
    "game_version": "v123 (measured in a save)",
-   "evidence": "Game 9906f7da (Jason's game 6): p10 Zebasi built 19 on turn 17 (#1370) and turn 19 (#1632); both turns the star check is off by exactly -20 with build 19 the only unpriced item. Jason 26 Oct: '20 stars at once must be one of the temples'. engine/economy.py BUILD has no 19 (rule sessions)."
+   "evidence": "Game 9906f7da (Jason's game 6): p10 Zebasi built 19 on turn 17 (#1370) and turn 19 (#1632); both turns the star check is off by exactly -20 with build 19 the only unpriced item. Jason 26 Oct: '20 stars at once must be one of the temples'. engine/economy.py BUILD has no 19 (rule sessions). | 2026-10-27 ref-fix: engine/economy.py BUILD[19] = WaterTemple, 20; A/B stars 1508 -> 1510 (9906f7da p10 t17->18, t19->20 exact), units and holdout hold."
   },
   {
    "id": "CYMANTI-OCEANOLOGY-ID",

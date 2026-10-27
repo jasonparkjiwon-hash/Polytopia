@@ -25,7 +25,8 @@ BUILD = {3: ("Road", 3), 5: ("Farm", 5), 6: ("Windmill", 5), 7: ("Fishing", 2), 
          28: ("ParkOfFortune", 0), 29: ("EyeOfGod", 0),                                   # monuments are free
          30: ("EnchantAnimal", 3), 46: ("Starfish", -8), 49: ("AquaFarm", 5), 51: ("Aquarion51", 5),
          32: ("Sanctuary", 3),   # SANCTUARY-V123: net 3 on b2448ead t4 if Sanctuaries paid nothing; with SANCTUARY_INCOME the card price 5 is used
-         10: ("ClearForest", -1)}   # CLEAR-FOREST-V123: gives 1 star (028182a9 t8, n=1)
+         10: ("ClearForest", -1),   # CLEAR-FOREST-V123: gives 1 star (028182a9 t8, n=1)
+         19: ("WaterTemple", 20)}   # WATER-TEMPLE-PRICE: 9906f7da p10 t17, t19
 # MEASURED (implied by the star check on turns where it was the only unknown): Enchant Animal 3 (5/5); harvesting Starfish
 # GIVES 8 stars (18/22); AquaFarm 5 (n=1, and 5 on Jason's in-game card); Aquarion structure 51 5 (n=2, thin).
 UPGRADE_COST = {"Scoutship": 5, "Rammership": 5, "Bomber": 15}
