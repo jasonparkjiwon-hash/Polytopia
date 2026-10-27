@@ -48,6 +48,7 @@ ECON_RULES = {
     'market_income': True,       # ECON-MARKET-CLATHRUS: v123 card + Polyfish agree; one Market in the saves, never next to a Windmill/Forge/Sawmill
     'clathrus_income': True,     # ECON-MARKET-CLATHRUS: v123 card says adjacent Fungi, Polyfish says adjacent Algae; no Clathrus in any save
     'mermaid_defender_price': 3,   # AQUARION-PRICES: the v123 card says 8 (None keeps it); game 6 p9 star rows fit 3 (see ledger)
+    'infiltrate_stars': True,    # INFILTRATE-STARS: a Cloak/Scuba attack on an enemy city pays the attacker the city's level (cap 5); n=1, 9906f7da t18
     'aquarion51_price': 5,       # ECON-PRICES-V123: Aquarion structure 51, implied by the star check (n=2); name unknown
 }
 
@@ -216,6 +217,10 @@ def check(a, b, acts, model="levels", siege=True):
             occ = {q: st.units[i].owner for q, i in st.at.items() if i in st.units} if st else None
             rows[pl]["income"] += bk.income(pl, model, occ); rows[pl]["turns"] += 1
         prev_end = x["type"] == 15
+        if st is not None and x["type"] == 2 and ECON_RULES["infiltrate_stars"] and pl in rows:
+            _, uid, _, _, tx, ty = struct.unpack("<BIIIII", bytes.fromhex(x["raw"])); u = st.units.get(uid)
+            if u is not None and u.type in ("Cloak", "Scuba") and st.city.get((tx, ty)) not in (None, pl) and (tx, ty) in bk.city:
+                rows[pl]["spent"] -= min(5, bk.city[(tx, ty)]["Level"])
         if st is not None:
             if x["type"] == 15 and pl == 255: turn += 1
             R.apply(st, x, turn)

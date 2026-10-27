@@ -1334,6 +1334,13 @@
    "level": "L3 (n=4, conflicts with card)",
    "game_version": "v123 (measured in a save)",
    "evidence": "9906f7da p9 star rows t13->14, t17->18, t18->19, t19->20 each come out +5 (spent 5 less than the card price predicts) with exactly one Defender trained; with price 3 stars exact 1511 -> 1514 of 1540, units and holdout hold. Clean rows: t16->17 Shark + 2 Scuba = 24 and t12->13 Jelly fit 8 each. Left: t14->15 -2 and t15->16 -2 (both have a Research), t18->19 +3 (Atoll builds). SPLIT with the card: kept behind economy.ECON_RULES.mermaid_defender_price (None = card 8), TEST ITEM: train one Defender with stars before/after."
+  },
+  {
+   "id": "INFILTRATE-STARS",
+   "rule": "A Cloak or Scuba infiltrating an enemy city pays its owner stars equal to the city's level (cap 5), same count as the Daggers.",
+   "level": "L3 (n=1)",
+   "game_version": "v123 (measured in a save)",
+   "evidence": "9906f7da t18 #1481: p9's star row t18->19 was +3 off; the attacked city (3,24) is level 3 (production 2), and paying min(5, level) makes the row exact (stars 1514 -> 1515, units and holdout hold). Polyfish infiltrate_city paid min(5, city production). Cap 5 and the Cloak case untested."
   }
  ]
 }
