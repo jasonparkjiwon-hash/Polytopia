@@ -30,6 +30,14 @@ For search and scenarios. It adds no rules: every call goes through Polyfish's o
 - Acceptance: `python3 -I tools/pf_accept.py [--full] [--fails]` prints the `FM ACCEPT` lines (end of `scripts/check.sh`, informational). The per-action checks run inside `pfreplay` when `PF_ACCEPT=n` is set (every n-th legal logged action). Rust tests: `src/api_tests.rs`.
 - Rule labels: `python3 -I tools/pf_rule_levels.py [--check]` writes `data/pf_rule_levels.json` (move kinds, the v123 bullets below and the `v123_flags` switches -> ledger id and level).
 
+## What-if advisor (what-if; `src/whatif.rs`, bin `whatif`, `tools/whatif.py`, `tools/whatif_validate.py`)
+
+- For Jason's workflow: he exports a save on the iPhone (text: device path, then base64), pastes it into the cloud session, and the session runs
+  `python3 -I tools/whatif.py <export.txt> [--player N] [--all] [--top N] [--no-lookahead] [--json]` (`-` reads stdin; a `.state` or decoded `saves/*.json` also works).
+  It prints the player's situation as that player sees it (`fog::player_view`), a shortlist (best attacks, threats, moves that lose a unit, economy) and with `--all` every legal move with its predicted outcome.
+- Engine: `whatif::analyze(save, &Opts)` -> JSON `{situation, moves, threats_now}`. Each move is played on a clone with `play_move` and the two states are diffed (exact by construction); ruins are a table of measured chances; each shortlisted move gets the worst-case reply of every visible enemy (Attack, and Step then Attack, each played exactly). Moves on a rule below L1 are tagged from `data/pf_rule_levels.json`.
+- Validation: `python3 -I tools/whatif_validate.py [--fails]` (`PF_WHATIF=1` in `pfreplay`; line in `check.sh`, informational): prediction from the mover's view vs the engine at every logged legal move (99.8%), attacks vs the next real save (kills 769/770, survivor HP 1790/1799). Details, limits and example output: `.scratchpad/investigations/what-if.md`.
+
 ## Fog inference (fog-inference; `src/fog.rs`, `src/belief.rs`, bin `pffog`, `tools/pf_belief.py`)
 
 - `fog::player_view(game, pov)`: `clone_for_mcts` plus a scrub of hidden-tile `capital_of`/`ruling_city_coords`/climate (obscure_fog leaks every capital's position). `fog::load_exact` loads with the save's exact explored sets. `pffog sweep saves/*.json` checks both against the saves.

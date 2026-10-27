@@ -48,6 +48,7 @@ _Last updated 2026-10-26 (Jason's games 1-5 ingested, scored held-out, released)
 | Claude: bot-policy | Handoff 27 Oct: one-softmax bot policy over all legal moves (`botpolicy.rs`, `data/bot_policy.json`, bin `botplay`, `tools/bot_policy.py`), all-moves top-1 held-out 0.53 (random 0.20), given the actor 0.69 (0.34); 2-round playouts match stars/cities/kills on held-out, units low; see `investigations/bot-policy.md` (and bot-policy-2 below, built in parallel) |
 | Claude: bot-policy-2 | Done 27 Oct: bot move policy v1/v2 (`sim/pfcore/src/botpolicy.rs`, `data/bot_policy_v2.json`), playout bin `pfbot`, distribution check; held-out next-group 0.78 (random 0.36), move 0.62 (0.49); see `investigations/bot-policy-2.md` |
 | Claude: fog-inference | Handoff 27 Oct: player view exact vs saves (1876 pairs), belief sampler v1 (`belief.rs`, `pffog`, `tools/pf_belief.py`); capitals good, terrain only near explored, villages biased low; see `investigations/fog-inference.md` |
+| Claude: what-if | Done 27 Oct (first version): advisor mode `tools/whatif.py` (situation, every legal move with exact outcome, shortlist, worst-case replies); validation 17694/17734 predictions = engine, attacks vs real saves kills 769/770; steps for Jason and gaps in `investigations/what-if.md` |
 | Claude: fm-accept | Done 27 Oct: forward-model API (`sim/README.md`), `tools/pf_accept.py` (end of check.sh), gaps ranked in `investigations/fm-accept.md` |
 
 ## Waiting on Jason

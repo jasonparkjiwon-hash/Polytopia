@@ -372,7 +372,7 @@ impl Replay {
                     if let Some(h) = self.ruin_move(i, &v) { mv = h; }
                 }
                 if self.wi {
-                    let w = polyfish::whatif::validate_move(&self.game, actor, &cands[p].serialize(), mv.as_ref(), Some("data/distributions.json"));
+                    let w = polyfish::whatif::validate_move(&self.game, actor, &cands[p].serialize(), mv.as_ref(), Some(&std::env::var("PF_DIST").unwrap_or_else(|_| "data/distributions.json".into())));
                     self.wi_record(i, &name, w);
                 }
                 self.acc_seen += 1;

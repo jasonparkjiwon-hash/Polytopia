@@ -42,7 +42,10 @@ def load_input(arg):
     data = sys.stdin.buffer.read() if arg == "-" else open(arg, "rb").read()
     if arg != "-" and arg.endswith(".json"):
         return arg
-    d, name = decode_export(data)
+    try:
+        d, name = decode_export(data)
+    except Exception as e:
+        raise SystemExit("could not read this as a Polytopia save export (%s). Paste the whole text again: the first line is the device path, the rest is the base64 block." % str(e)[:120])
     cache = os.environ.get("WHATIF_CACHE") or os.path.join(os.environ.get("TMPDIR", "/tmp"), "whatif_cache")
     os.makedirs(cache, exist_ok=True)
     p = os.path.join(cache, hashlib.sha1(data).hexdigest()[:12] + ".json")
@@ -68,7 +71,7 @@ def run_engine(path, player, lookahead):
 def unverified_map():
     """move kind -> [ledger ids whose rule is below L1] (data/pf_rule_levels.json, written by tools/pf_rule_levels.py)."""
     try:
-        d = json.load(open(os.path.join(ROOT, "data", "pf_rule_levels.json")))
+        d = json.load(open(os.environ.get("WHATIF_RULE_LEVELS") or os.path.join(ROOT, "data", "pf_rule_levels.json")))
     except OSError:
         return {}
     return {k: [x["ledger"] for x in v if x.get("below_L1")] for k, v in d.get("kinds", {}).items()}

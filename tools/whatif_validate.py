@@ -7,6 +7,7 @@ import collections, json, os, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import pf_jobs as PJ
 os.environ["PF_WHATIF"] = "1"
+os.environ["PF_DIST"] = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "distributions.json"))
 
 jobs, _ = PJ.jobs_for("", lambda g, t: True)
 R = PJ.run(jobs)
