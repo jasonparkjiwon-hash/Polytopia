@@ -359,3 +359,4 @@ Jason (Imperius) vs 15 Hard bots on a 30x30 map, exported every turn from 1 to 1
 - WATER-TEMPLE-PRICE (27 Oct, ref-fix): Water Temple (build 19) priced 20 in the engine.
 - ECON-EMBASSY (27 Oct, ref-fix): rebuilding an embassy at the same host costs the base 4; the +2 step (if real) counts only other hosts.
 - AQUARION-UNITS-49-52 (27 Oct, ref-fix): Mermaid Dagger stats from Polyfish (= Dagger, Surprise); no v123 card yet (test item).
+- PUSH-PORT-FIRST (27 Oct, ref-fix): changed: an own port takes a pushed land unit as a fallback too, not only as first choice (9906f7da t15; the old 6e1bf8e0 case is explained by the counter-clockwise order).

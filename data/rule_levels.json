@@ -507,7 +507,7 @@
   },
   "replay.RULES.push_port_first_only": {
    "ledger": "PUSH-PORT-FIRST",
-   "level": "L3 (5 pushes) + replay A/B",
+   "level": "L3 (6 pushes) + replay A/B",
    "source": "engine/replay.py:74",
    "unverified": false
   },

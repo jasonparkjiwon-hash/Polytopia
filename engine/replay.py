@@ -71,7 +71,7 @@ RULES = {   # one switch per line; A/B each in tools/miss.py before keeping a ch
     'push_centre_round': 'angle',
     'stomp_after_boarding': True,
     'push_toward_attacker': True,
-    'push_port_first_only': True,
+    'push_port_first_only': False,   # PUSH-PORT-FIRST: off since 27 Oct; an own port takes a pushed land unit as a fallback too (9906f7da t15)
     'ruin_boat_passenger': True,
     'push_dir_persists': True,
     'push_dir_round': True,

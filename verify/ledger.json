@@ -804,13 +804,6 @@
    "evidence": "engine RULES explode_poison_halves; af181c8f t15 (Boomchi id313 at 25,15; save t15 UnitEffects [1] on both targets)"
   },
   {
-   "id": "PUSH-PORT-FIRST",
-   "rule": "A pushed land unit boards onto its own port only when the port is its first-choice push direction; as a fallback the port is skipped like other water.",
-   "level": "L3 (5 pushes) + replay A/B",
-   "game_version": "v123 (measured in game)",
-   "evidence": "Engine pushes onto an own port: 6e1bf8e0 t6 (Defender, first choice), af181c8f t9 x2 and t10 (first choice) all land on the port in the saves; 6e1bf8e0 t11 action 1372, Zebasi Warrior 257 in (21,5): first choice (20,6) blocked, fallbacks port (21,6) and (20,5); it was on (20,5) (moves from there at 1548). Engine RULES push_port_first_only; miss.py units 4725/4733 -> 4725/4732."
-  },
-  {
    "id": "RUIN-BOAT-PASSENGER",
    "rule": "A water ruin's unit reward is a boat with a passenger; the veteran level is on the passenger record (the boat record shows 0), so a Rammership with a veteran Warrior has 15 HP.",
    "level": "L3 (n=1) + replay A/B",
@@ -1152,6 +1145,13 @@
    "level": "L3 (n=1)",
    "game_version": "v123 (measured in a save)",
    "evidence": "2026-10-27 ref-fix, 9906f7da t18 #1481: p9 Scuba 223 (5 HP, atk 2) attacked Jason's city (3,24) holding his Shaman (10 HP, def 1): Shaman 10 -> 4 (= the normal formula: aF 2, dF 1, round(2/3 x 2 x 4.5) = 6; Polyfish infiltrate_city uses a fixed 2, which doesn't fit), the Scuba is gone in t19, and 3 Mermaid Daggers 270-272 stand on (3,23), (2,23), (2,24) (water/ocean around the city). engine/replay.py RULES infiltrate: A/B units 7385/7397 -> 7385/7396 (one miss fewer), stars hold, holdout holds. Number and placement of the Daggers not settled (Polyfish: up to min(5, city production), random tiles)."
+  },
+  {
+   "id": "PUSH-PORT-FIRST",
+   "rule": "A pushed land unit boards its own port whether the port is its first-choice push direction or a fallback; the fallback order (counter-clockwise first) decides. (Until 27 Oct the rule was: first choice only.)",
+   "level": "L3 (6 pushes) + replay A/B",
+   "game_version": "v123 (measured in a save)",
+   "evidence": "Engine pushes onto an own port: 6e1bf8e0 t6 (Defender, first choice), af181c8f t9 x2 and t10 (first choice) all land on the port in the saves; 6e1bf8e0 t11 action 1372, Zebasi Warrior 257 in (21,5): first choice (20,6) blocked, fallbacks port (21,6) and (20,5); it was on (20,5) (moves from there at 1548). Engine RULES push_port_first_only; miss.py units 4725/4733 -> 4725/4732. | 2026-10-27 ref-fix: 9906f7da t15 #1134, a Hoodrick Super Unit spawn in (18,11) pushes Archer 186 (never moved: toward the centre, (17,12) Ocean); the game put it on the fallback own port (17,11) (it is upgraded to Bomber 210 there at #1136); the engine with first-only sent it to (18,10). The 6e1bf8e0 t11 case fits too: with push_ccw_first the fallback order is (20,5) before the port (21,6), so the unit lands on (20,5) either way. engine RULES push_port_first_only = False: A/B --all units 7573/7583 -> 7574/7582, stars hold, no game worse."
   }
  ]
 }
