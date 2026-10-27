@@ -40,6 +40,7 @@ _Last updated 2026-10-26 (Jason's games 1-5 ingested, scored held-out, released)
 | Claude: pf-loader | Load saves into Polyfish, score it, legality check |
 | Claude: pf-port | Port v123 corrections into Polyfish (pf-port-3 handoff 26 Oct: units 6455/6456, stars 1320/1342, legal 99.3%) |
 | Claude: sim-dist | First pass done (held-out check, `data/distributions.json`, `data/bot_turns.csv`); see `investigations/sim-dist.md` |
+| Claude: fm-accept | Done 27 Oct: forward-model API (`sim/README.md`), `tools/pf_accept.py` (end of check.sh), gaps ranked in `investigations/fm-accept.md` |
 
 ## Waiting on Jason
 
