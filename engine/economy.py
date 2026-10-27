@@ -24,7 +24,7 @@ BUILD = {3: ("Road", 3), 5: ("Farm", 5), 6: ("Windmill", 5), 7: ("Fishing", 2), 
          23: ("AltarOfPeace", 0), 24: ("TowerOfWisdom", 0), 25: ("GrandBazaar", 0), 26: ("EmperorsTomb", 0), 27: ("GateOfPower", 0),
          28: ("ParkOfFortune", 0), 29: ("EyeOfGod", 0),                                   # monuments are free
          30: ("EnchantAnimal", 3), 46: ("Starfish", -8), 49: ("AquaFarm", 5), 51: ("Aquarion51", 5),
-         32: ("Sanctuary", 3),   # SANCTUARY-V123: b2448ead t4, net 3 (n=1)
+         32: ("Sanctuary", 3),   # SANCTUARY-V123: net 3 on b2448ead t4 if Sanctuaries paid nothing; with SANCTUARY_INCOME the card price 5 is used
          10: ("ClearForest", -1)}   # CLEAR-FOREST-V123: gives 1 star (028182a9 t8, n=1)
 # MEASURED (implied by the star check on turns where it was the only unknown): Enchant Animal 3 (5/5); harvesting Starfish
 # GIVES 8 stars (18/22); AquaFarm 5 (n=1, and 5 on Jason's in-game card); Aquarion structure 51 5 (n=2, thin).
@@ -119,6 +119,7 @@ def spend(b, pl, a):
         imp = struct.unpack("<BHII", r)[1]
         if imp == 70: return EMBASSY_COST + EMBASSY_STEP * sum(1 for e in b.embassies if e[0] == pl)
         if imp == 51: return ECON_RULES["aquarion51_price"]
+        if imp == 32 and SANCTUARY_INCOME: return 5
         return BUILD.get(imp, (None, None))[1]
     if t == 16:
         ut = UNIT.get(struct.unpack("<BHII", r)[1]); return UPGRADE_COST.get(ut)
@@ -169,6 +170,7 @@ EMBASSY_ACTION30 = True    # MEASURED: action 30 (player, host capital x,y, host
 EMBASSY_BUILDER_PAID = True  # EMBASSY-INCOME-NEUTRAL: the builder also earns 2 while neutral (9906f7da, 5 embassies; Jason). The old 09a5bf1e "nothing" case is explained by combat ending the embassy (A/B 1493 -> 1505 with the two flags below)
 EMBASSY_FROM_SAVE = True    # EMBASSY-INCOME-NEUTRAL: embassies standing in save a, read from the host's Diplomacy EmbassyLevel (9906f7da)
 EMBASSY_COMBAT_DESTROYS = True    # EMBASSY-DESTROYED-BY-COMBAT: an attack or capture between builder and host removes the embassy (Jason, 9906f7da)
+SANCTUARY_INCOME = True     # SANCTUARY-V123 (v123 card): price 5, +1 a turn per adjacent wild animal (b2448ead: the old "net 3" = 5 - the first +2; A/B 1505 -> 1506)
 TRACK_PEACE = True          # an accepted peace (action 28 reply 1) counts from then on for embassy income (A/B 779 -> 780)
 PAID_AT_TURN_START = False  # MEASURED: a save taken right at a turn start does not hold that turn's income yet; a mid-turn save does (596 vs 562 exact)
 
@@ -223,6 +225,18 @@ def check(a, b, acts, model="levels", siege=True):
         if nxt in rows:
             occ = {q: st.units[i].owner for q, i in st.at.items() if i in st.units} if st else None
             rows[nxt]["income"] += bk.income(nxt, model, occ); rows[nxt]["turns"] += 1
+    if SANCTUARY_INCOME:                                # a Sanctuary pays 1 a turn per wild animal (Game) next to it; an animal that
+        gone = set()                                    # spawns this turn pays from the next (read from both saves, like ruin rewards)
+        for x in acts[len(a["actions"]):len(b["actions"])]:
+            if x["type"] == 1:
+                _, imp, gx, gy = struct.unpack("<BHII", bytes.fromhex(x["raw"]))
+                if imp in (9, 30): gone.add((gx, gy))   # hunted or enchanted
+        game = lambda d, q: 0 <= q[1] < len(d["currentTiles"]) and 0 <= q[0] < len(d["currentTiles"][0]) and d["currentTiles"][q[1]][q[0]].get("ResourceExists") and d["currentTiles"][q[1]][q[0]]["ResourceType"] == 1
+        for (sx, sy), (imp, owner) in bk.structure.items():
+            if imp != 32 or owner not in rows: continue
+            n = sum(1 for dx in (-1, 0, 1) for dy in (-1, 0, 1) if (dx or dy)
+                    for q in [(sx + dx, sy + dy)] if q not in gone and game(a, q) and game(b, q))
+            rows[owner]["income"] += n * rows[owner]["turns"]
     pa = {p["PlayerId"]: p for p in a["currentPlayers"]}; pb = {p["PlayerId"]: p for p in b["currentPlayers"]}
     for pl, r in rows.items():                          # tribes met between the saves (the log has no meet event)
         if pl not in pb: continue

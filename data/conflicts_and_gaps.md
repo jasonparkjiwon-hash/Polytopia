@@ -353,3 +353,4 @@ Jason (Imperius) vs 15 Hard bots on a 30x30 map, exported every turn from 1 to 1
 - SANCTUARY-V123 (26 Oct, ref-fix): Sanctuary (build 32) priced 3 in the engine (n=1).
 - CLEAR-FOREST-V123 (26 Oct, ref-fix): Clear Forest (build 10) gives +1 star in the engine (n=1).
 - EMBASSY-INCOME-NEUTRAL / EMBASSY-DESTROYED-BY-COMBAT (27 Oct, ref-fix): engine now reads standing embassies from the save, pays the builder too while neutral, and drops an embassy after any attack or capture between the two; stars 1493 -> 1505, no game worse.
+- SANCTUARY-V123 (27 Oct, ref-fix): v123 card says 5 stars and +1 a turn per nearby wild animal; the save's 'net 3' is 5 minus the first turn's +2 (two adjacent animals), so card and save agree. Engine: SANCTUARY_INCOME (price 5 + adjacent-animal income). Open test item: 'nearby' = radius 1 or 2, and whether an animal spawned this turn pays at once.
