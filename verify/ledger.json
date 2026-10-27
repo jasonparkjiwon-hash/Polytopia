@@ -1299,6 +1299,13 @@
    "level": "L3",
    "game_version": "v123 (measured in a save)",
    "evidence": "6e1bf8e0 t11 #1839: p12 (Quetzali) builds an embassy at p7's capital (2,9); p7 accepted p12's peace at #1400 and nobody broke it; the t15 save holds p7's record for p12 as state 1, EmbassyLevel 1. Polyfish offered embassies only when not at peace: Embassy legal 5/7 -> 6/7. Open: 9906f7da t13 #818 rebuilds p1's embassy at p9 while the t13 save still shows level 1 (cost 4 as a first one, ECON-EMBASSY), probably a level-2 rebuild or a destroyed embassy whose record is stale; not modelled."
+  },
+  {
+   "id": "FOG-CAPTURED-CAPITAL",
+   "rule": "A captured capital reveals only its border, not the 5x5 an original capital sees: the capital reveal (radius 2) applies to a city whose tile is the tribe's own capital (capital_of == the tribe); a captured capital keeps the old owner's capital_of.",
+   "level": "L3",
+   "game_version": "v123 (measured in game)",
+   "evidence": "pffog sweep over 1876 (save, player) pairs: with 'any capital_of > 0 sees radius 2' the engine rule adds 26 tiles the save does not hold, in 11 pairs (af181c8f p5, e15f392c p3, both games with captured capitals); with 'capital_of == tribe' it adds 0 in all 1876 and nothing else changes (pf_miss identical: units 7391/7394, stars 1512/1540). The capture itself is inferred from capital_of, not logged."
   }
  ]
 }

@@ -243,7 +243,8 @@ pub fn update_exploration(state: &mut GameState, player_id: PlayerId) -> UndoCal
 
         for city in &tribe.cities {
             let city_coords = Coords::from_index(city.idx, map_size);
-            let range = if state.tiles.get(&city.idx).map_or(0, |t| t.capital_of) > 0 {
+            // a captured capital keeps `capital_of` of its old owner and sees only its border (FOG-CAPTURED-CAPITAL)
+            let range = if state.tiles.get(&city.idx).map_or(0, |t| t.capital_of) == player_id {
                 2
             } else {
                 city.border_size

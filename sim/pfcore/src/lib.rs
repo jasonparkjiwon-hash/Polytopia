@@ -6,6 +6,7 @@ pub mod botpolicy;
 pub mod botpolicy2;
 pub mod coords;
 pub mod dotnet_rng;
+pub mod fog;
 pub mod fow;
 pub mod functions;
 pub mod game;

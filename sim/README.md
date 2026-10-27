@@ -86,6 +86,7 @@ For search and scenarios. It adds no rules: every call goes through Polyfish's o
 - A Cloak or Scuba attacking a unit in an enemy city deals its normal damage (no retaliation), then infiltrates as into an empty city (Daggers) and is used up (`actions/units.rs` attack_unit) [INFILTRATE].
 - Aquarion Jelly Tentacles: after a Jelly moves it hits every adjacent enemy, and an enemy that moves (or follows a kill) next to a Jelly is hit by it; normal damage, defender bonus, no retaliation (`actions/units.rs` tentacles_after_step, called from `moves/step.rs` and the kill move-in) [TENTACLES].
 - Clathrus earns +1 per adjacent Fungi (v123 card; upstream counted Algae) (`functions.rs` get_city_production) [ECON-MARKET-CLATHRUS].
+- A captured capital reveals only its border (radius `border_size`); the radius-2 capital reveal is for a tribe's own capital (`capital_of == tribe`) (`actions/mod.rs` update_exploration) [FOG-CAPTURED-CAPITAL, new ledger entry].
 
 ## Legal-move generation (pf-legal; tests in `src/v123_legal_tests.rs`)
 

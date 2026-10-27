@@ -1399,11 +1399,19 @@
   },
   {
    "rule": "A city's building income (Market, Clathrus, ...) counts only tiles that city rules; post_load's territories overlap (`functions.rs` get_city",
-   "ledger": [],
+   "ledger": [
+    "ECON-MARKET-CLATHRUS"
+   ],
    "files": [
     "functions.rs"
    ],
-   "labels": []
+   "labels": [
+    {
+     "ledger": "ECON-MARKET-CLATHRUS",
+     "level": "L3 (Market by level n=1 + n=1 at level 1; Clathrus per adjac",
+     "below_L1": false
+    }
+   ]
   },
   {
    "rule": "Embassy: costs 4 plus 2 per embassy the tribe has at another host (a rebuild at the same host pays 4); while it stands the builder and the h",
@@ -1547,13 +1555,27 @@
   },
   {
    "rule": "Resource harvests accept the tribe's version of the tech, and Aquarion's 47 counts as Fishing (`settings/technology.rs` has_tech_for_tribe, ",
-   "ledger": [],
+   "ledger": [
+    "AQUARION-TECH-SLOTS",
+    "CYMANTI-TECHS"
+   ],
    "files": [
     "functions.rs",
     "moves/mod.rs",
     "settings/technology.rs"
    ],
-   "labels": []
+   "labels": [
+    {
+     "ledger": "AQUARION-TECH-SLOTS",
+     "level": "L3 (logged research order in all Aquarion saves; Polyfish ch",
+     "below_L1": false
+    },
+    {
+     "ledger": "CYMANTI-TECHS",
+     "level": "L3 (saves: 57 Cymanti player records)",
+     "below_L1": false
+    }
+   ]
   },
   {
    "rule": "Cymanti use the base Sailing, Ramming, Navigation and Diplomacy; Raychi unlock with Sailing, Boomchi with Ramming, Algae with Fishing, Moth ",
@@ -1759,6 +1781,22 @@
     {
      "ledger": "ECON-MARKET-CLATHRUS",
      "level": "L3 (Market by level n=1 + n=1 at level 1; Clathrus per adjac",
+     "below_L1": false
+    }
+   ]
+  },
+  {
+   "rule": "A captured capital reveals only its border (radius `border_size`); the radius-2 capital reveal is for a tribe's own capital (`capital_of == ",
+   "ledger": [
+    "FOG-CAPTURED-CAPITAL"
+   ],
+   "files": [
+    "actions/mod.rs"
+   ],
+   "labels": [
+    {
+     "ledger": "FOG-CAPTURED-CAPITAL",
+     "level": "L3",
      "below_L1": false
     }
    ]
