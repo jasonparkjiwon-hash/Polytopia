@@ -44,6 +44,7 @@ _Last updated 2026-10-26 (Jason's games 1-5 ingested, scored held-out, released)
 
 ## Waiting on Jason
 
+- pf-legal-3 (27 Oct): in the bot war game (6e1bf8e0, turn 11) a Cymanti bot researched tech 49 without owning Navigation. Which Cymanti tech is that, and what does it require? (A Cymanti tech tree screenshot showing what each tech needs would settle it.)
 - pf-port-4 (27 Oct): game 6 (9906f7da) t11, an Aquarion bot used Build 7 (normally Fishing) on two Ocean tiles with no fish, and each Ocean tile became shallow Water (n=2). What is this action? Check in an Aquarion game whether some tech (Aquaculture? Waterways?) lets you turn Ocean into Water, and its price.
 
 - ref-fix (27 Oct), four in-game checks:
