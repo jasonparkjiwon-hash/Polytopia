@@ -43,6 +43,8 @@ _Last updated 2026-10-26 (Jason's games 1-5 ingested, scored held-out, released)
 
 ## Waiting on Jason
 
+- pf-port-4 (27 Oct): game 6 (9906f7da) t11, an Aquarion bot used Build 7 (normally Fishing) on two Ocean tiles with no fish, and each Ocean tile became shallow Water (n=2). What is this action? Check in an Aquarion game whether some tech (Aquaculture? Waterways?) lets you turn Ocean into Water, and its price.
+
 - ref-fix (27 Oct), four in-game checks:
   1. **Sanctuary "nearby":** build a Sanctuary with a wild animal exactly 2 tiles away (none adjacent); note stars right before
      and after building and over the next 2 turns. Does the far animal pay +1? (SANCTUARY-V123: card price 5 and +1 per animal
