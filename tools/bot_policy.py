@@ -3,7 +3,7 @@
   python3 -I tools/bot_policy.py collect      # replay every game with PF_DECISIONS=1 -> saves/bot_decisions.jsonl
   python3 -I tools/bot_policy.py eval [v2]    # top-1 / top-3 agreement: v1 rules (or the fitted v2) vs random
   python3 -I tools/bot_policy.py fit          # conditional logit on the tuned games -> data/bot_policy.json
-  python3 -I tools/bot_policy.py play [--held|--game ID] [--rounds 2] [--seeds 5] [--every 3] [--policy v2|v1|random]
+  python3 -I tools/bot_policy.py play [--held|--game ID] [--rounds 2] [--seeds 5] [--every 3] [--policy v2|v1|random] [--endbias x] [--bias feature=x ...]
                                               # playouts from real saves vs what happened (distribution check)
 
 A decision = one legal logged action by a bot player: every legal Polyfish move at that point, with the features
@@ -74,6 +74,7 @@ def actor_set(d):
 def v2_scorer(pj):
     """The playout policy: fitted weights + endturn_bias + capture_first, as botpolicy.rs scores them."""
     w = dict(pj["weights"]); w["k:EndTurn"] = w.get("k:EndTurn", 0.0) + pj.get("endturn_bias", 0.0)
+    for k, x in pj.get("bias", {}).items(): w[k] = w.get(k, 0.0) + x
     cap = 50.0 if pj.get("capture_first") else 0.0
     return lambda d: [sum(w.get(k, 0.0) * v for k, v in c[5].items()) + (cap if c[0] in (8, 9) else 0.0) for c in d["c"]]
 
@@ -144,11 +145,14 @@ def play(args):
     while i < len(args):
         k = args[i].lstrip("-")
         if k == "held": opt["held"] = True; i += 1; continue
+        if k == "bias": opt.setdefault("bias", {})[args[i + 1].split("=")[0]] = float(args[i + 1].split("=")[1]); i += 2; continue
         opt[k] = args[i + 1] if k in ("policy", "game") else float(args[i + 1]) if k in ("endbias",) else int(args[i + 1]); i += 2
     pol = OUT if opt["policy"] == "v2" else opt["policy"]
-    if opt["endbias"] is not None:   # try an EndTurn offset without touching data/bot_policy.json
+    if opt["endbias"] is not None or opt.get("bias"):   # try offsets without touching data/bot_policy.json
         import tempfile
-        pj = json.load(open(OUT)); pj["endturn_bias"] = opt["endbias"]; pj["capture_first"] = bool(opt.get("capfirst", 1))
+        pj = json.load(open(OUT))
+        if opt["endbias"] is not None: pj["endturn_bias"] = opt["endbias"]
+        pj["bias"] = dict(pj.get("bias", {}), **opt.get("bias", {}))
         pol = os.path.join(tempfile.mkdtemp(), "policy.json"); json.dump(pj, open(pol, "w"))
     runs = []
     for gid, ds in J.checkpoints(opt["game"] or ""):
@@ -201,7 +205,7 @@ def main():
     if cmd == "fit":
         w = fit(tuned)
         prev = json.load(open(OUT)) if os.path.exists(OUT) else {}
-        json.dump(dict(endturn_bias=prev.get("endturn_bias", 0.0), capture_first=prev.get("capture_first", False),
+        json.dump(dict(endturn_bias=prev.get("endturn_bias", 0.0), capture_first=prev.get("capture_first", False), bias=prev.get("bias", {}),
                        calibration="endturn_bias and capture_first are set by hand from playouts on the tuned games "
                        "(tools/bot_policy.py play --endbias; .scratchpad/investigations/bot-policy.md); fit keeps them.",
                        about="bot-policy v2: conditional-logit weights over sim/pfcore/src/botpolicy.rs features, fitted on the "

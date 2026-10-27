@@ -397,6 +397,8 @@ impl Weights {
         for (k, x) in v["weights"].as_object().into_iter().flatten() { w.insert(col(k), x.as_f64().unwrap_or(0.0)); }
         // endturn_bias: an offset on EndTurn, calibrated on playouts (tools/bot_policy.py play --endbias)
         *w.entry(col("k:EndTurn")).or_insert(0.0) += v["endturn_bias"].as_f64().unwrap_or(0.0);
+        // bias: further offsets {feature: x}, calibrated the same way
+        for (k, x) in v["bias"].as_object().into_iter().flatten() { *w.entry(col(k)).or_insert(0.0) += x.as_f64().unwrap_or(0.0); }
         Weights { w, temperature: v["temperature"].as_f64().unwrap_or(1.0), capture_first: v["capture_first"].as_bool().unwrap_or(false) }
     }
     pub fn from_file(path: &str) -> Result<Self, String> {

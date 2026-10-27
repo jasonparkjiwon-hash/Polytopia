@@ -1,6 +1,6 @@
 # bot-policy (Phase 6 groundwork, for win % in Phase 5)
 
-_Owner: bot-policy session · started 2026-10-27 · state: v1, v2 + playout check done (handoff)_
+_Owner: bot-policy session · started 2026-10-27 · state: v1, v2 + playout check + calibration done (handoff)_
 
 **Parallel work:** bot-policy-2 (86429b1) built a two-stage policy at the same time (`botpolicy2.rs`, `pfbot`,
 `tools/bot_policy2.py`, `tools/bot_dist.py`, `data/bot_policy_v2.json`, notes `bot-policy-2.md`). This one is its
@@ -30,7 +30,8 @@ Mean 64 legal moves per decision. Bot logged actions the replay can't reproduce 
 
 ## Agreement (top-1 / top-3; tie-aware), 27 Oct, after the turn-order features
 
-v2 = the playout policy (fitted weights + EndTurn offset -1.5 + captures first). 12849 tuned / 342 held-out decisions.
+v2 = the playout policy (fitted weights + captures first + offsets; numbers below with EndTurn -1.5, no Train offset;
+with the final offsets (EndTurn -1.25, Train +1.0): all top-1 tuned 0.345, held 0.533; actor unchanged). 12849 tuned / 342 held-out decisions.
 
 | | v1 rules tuned | v2 tuned | random tuned | v1 held | v2 held | random held |
 |---|---|---|---|---|---|---|
@@ -73,10 +74,29 @@ Calibration (chosen on tuned playouts only): the raw fit ends turns too early wh
 EndTurn offset -1 / -1.5 / -2 / -3 gave stars +1.01 / +0.25 / -0.25 / -0.67, so -1.5. Captures first raised
 cities from +0.10 to +0.18 (real +0.24).
 
+### Final calibration: Train +1.0, EndTurn -1.25 (chosen on tuned playouts)
+
+Tuned, 2 rounds (n=358): base (End -1.5) units +0.70 / stars +0.33 / techs +0.79, MAE units 0.84 stars 2.43;
+Train +0.5: +0.83 / +0.22; Train +1.0: +0.90 / +0.16; **Train +1.0 End -1.25: units +0.89 (real +1.02), stars
++0.48 (+0.51), techs +0.74 (+0.73), cities +0.17 (+0.24); MAE units 0.77, stars 2.39, techs 0.51.**
+Held-out with it, 5 seeds, mean per bot tribe real / sim (inside range):
+
+| | 1 round | 2 rounds |
+|---|---|---|
+| units | +0.56 / +0.54 (0.96) | +1.07 / +0.80 (0.87) |
+| cities | +0.11 / +0.12 (1.00) | +0.38 / +0.24 (0.98) |
+| stars | +0.20 / +0.60 (0.93) | +0.62 / +1.12 (0.80) |
+| techs | +0.60 / +0.63 (0.87) | +1.13 / +1.36 (0.73) |
+| casualties / kills | +0.07 / +0.08 | +0.22 / +0.27 |
+
+Mixed on held-out against the End -1.5 version: units closer (MAE 0.45 vs 0.51), stars further (2.40 vs 1.97).
+Kept because it was chosen on tuned data only; held-out is 45 tribe-rounds of an early Crazy game.
+
 ## Gaps / next
 
-1. Units low in playouts (+0.7 vs +1.0 per 2 rounds; trains ~1.55 vs ~1.69 counting losses, losses a bit high
-   on tuned). Try a Train offset the same way, or a per-city "train this turn" model (sim-dist: train share by turn).
+1. Units still a bit low and cities taken low at 2 rounds (cities +0.17-0.24 vs +0.24-0.38): bot-policy-2 sees
+   the same drift and blames missing multi-turn plans (units walking to a target). A per-unit persistent target
+   in the playout loop is the next thing to try.
 2. Research/Build never top-1 among all moves: order inside the turn. Fine for sampling.
 3. Held-out is small (turns 1-5, 342 decisions, 16 attacks). A long held-out Hard and a Crazy game exported every
    turn would test combat and late game (request in status.md).

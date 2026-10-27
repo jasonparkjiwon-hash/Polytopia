@@ -1291,7 +1291,7 @@
    "rule": "Bot move model for playouts (data/bot_policy.json, sim/pfcore/src/botpolicy.rs): conditional logit over every legal Polyfish move with captures taken first and an EndTurn offset -1.5. Agreement with the bot's actual move, top-1 among all legal moves: tuned 0.350 (random 0.102), held-out 0.531 (random 0.199); given the acting unit/city: tuned 0.587 (random 0.328), held-out 0.691 (0.340). 2-round playouts on held-out, mean per bot tribe real vs sim: stars +0.62/+0.88, cities +0.38/+0.25, units +1.07/+0.68, kills +0.22/+0.22. Hard (handicap 2) and Crazy (4) choose moves alike.",
    "level": "L3 (measured, statistical; held-out ed6cb932 (Crazy) turns 1-5 only, 342 decisions)",
    "game_version": "v123 (measured in game)",
-   "evidence": "tools/bot_policy.py eval v2 / play --held; .scratchpad/investigations/bot-policy.md; 27 Oct."
+   "evidence": "tools/bot_policy.py eval v2 / play --held; .scratchpad/investigations/bot-policy.md; 27 Oct. | 27 Oct final offsets EndTurn -1.25, Train +1.0 (chosen on tuned playouts): all-moves top-1 tuned 0.345, held-out 0.533; held-out 2-round playouts real/sim units +1.07/+0.80, cities +0.38/+0.24, stars +0.62/+1.12, kills +0.22/+0.27."
   }
  ]
 }

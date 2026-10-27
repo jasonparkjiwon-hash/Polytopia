@@ -1,8 +1,11 @@
 {
  "about": "bot-policy v2: conditional-logit weights over sim/pfcore/src/botpolicy.rs features, fitted on the tuned games by tools/bot_policy.py fit (held-out games excluded). temperature 1 = the fitted probabilities.",
- "calibration": "endturn_bias and capture_first are set by hand from playouts on the tuned games (tools/bot_policy.py play --endbias; .scratchpad/investigations/bot-policy.md); fit keeps them.",
+ "bias": {
+  "k:Train": 1.0
+ },
+ "calibration": "endturn_bias, bias and capture_first are set by hand from 2-round playouts on the tuned games (tools/bot_policy.py play --endbias / --bias; .scratchpad/investigations/bot-policy.md); fit keeps them.",
  "capture_first": true,
- "endturn_bias": -1.5,
+ "endturn_bias": -1.25,
  "n_decisions": 12849,
  "temperature": 1.0,
  "weights": {
