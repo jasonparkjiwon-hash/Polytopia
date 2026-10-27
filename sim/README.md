@@ -63,7 +63,7 @@
 - A convert ends the converter's turn (it attacked), so it doesn't act again or idle-heal (`moves/abilities/convert.rs`) [CONVERT-ATTACK, IDLE-AUTO-RECOVER].
 - An Aquarion Atoll links own cities and Atolls within 3 tiles into the capital network (as Mycelium at 4), updated when one is built (`actions/connection.rs`, `actions/structure.rs`) [ATOLL-NETWORK, new ledger entry].
 - The loader reads a Fungi's save level 0/1 as Polyfish's 1/2, so a new Fungi grows once at its owner's next turn (+1 population) and an old one doesn't again (`save_loader.rs` structure_level) [FUNGI-GROWTH, new ledger entry].
-- The Elyrion Sanctuary: 5 stars and +1 a turn per adjacent wild animal (v123 card, as upstream) by default; cost 3 and no income behind the off switch `sanctuary_no_income` (b2448ead, one game) until SANCTUARY-V123 settles the split (`settings/structures.rs`, `functions.rs`, `v123_flags.rs`) [SANCTUARY-V123, SANCTUARY-NO-INCOME, split]. A/B: stars 1320/1342 both ways.
+- The Elyrion Sanctuary costs 3 and pays no star income, as the save measures (b2448ead) and the referee models; the v123 card's +1 a turn per adjacent wild animal is behind the off switch `sanctuary_card_income` (`settings/structures.rs`, `functions.rs`, `v123_flags.rs`) [SANCTUARY-V123, SANCTUARY-NO-INCOME]. A/B (pf_miss stars): price 3 + no income 1507, price 3 + card income 1506, old default (5 + income) 1507.
 - Clathrus earns +1 per adjacent Fungi (v123 card; upstream counted Algae) (`functions.rs` get_city_production) [ECON-MARKET-CLATHRUS].
 
 ## Legal-move generation (pf-legal; tests in `src/v123_legal_tests.rs`)
