@@ -36,7 +36,7 @@ Expected from `check.sh` (the current baseline):
 - Oasis Struggle turn by turn (`af181c8f…_t1`–`_t26`, no t11/t17): see `data/conflicts_and_gaps.md` (full replay 2252 exact over 24 checkpoints).
 - Cliff & Gods turn by turn (`09a5bf1e…_t1`–`_t8`, Crazy, 16 players): 26, 33, 47, 63, 78, 91, 109: every unit exact.
 - Stars (`engine/economy.py`, last block of `check.sh`): Ankiian 96/96, bot war 18/32 (saves 4-6 turns apart), Misty Fields 239/240, Cliff & Gods 96/96 player-turns exact. Oasis Struggle 353/355 (scored by `tools/miss.py` only, not `check.sh`).
-- Held-out check (`python3 -I tools/miss.py --holdout`, `data/holdout.json`): scored 26 Oct at rules commit 62666fa, before any tuning on them: Jason's games 1-5 (Hard, every turn) units 1724/1733, stars 512/523 (per game in `holdout.json`), released for tuning the same day; still held: `ed6cb932` (t1-t5) 187/187, 64/64. Game 6 (`9906f7da`, t2-t20) scored 26 Oct before tuning: units 917/984, stars 173/198, then released. Plain `tools/miss.py` with games 1-6 released: units 7387/7395, stars 1511/1540.
+- Held-out check (`python3 -I tools/miss.py --holdout`, `data/holdout.json`): scored 26 Oct at rules commit 62666fa, before any tuning on them: Jason's games 1-5 (Hard, every turn) units 1724/1733, stars 512/523 (per game in `holdout.json`), released for tuning the same day; still held: `ed6cb932` (t1-t5) 187/187, 64/64. Game 6 (`9906f7da`, t2-t20) scored 26 Oct before tuning: units 917/984, stars 173/198, then released. Plain `tools/miss.py` with games 1-6 released: units 7389/7393, stars 1511/1540.
 
 **Held-out protocol.** Every rule so far was tuned on the saves above, so their scores
 say how well the engine fits, not how well it predicts. To measure prediction:

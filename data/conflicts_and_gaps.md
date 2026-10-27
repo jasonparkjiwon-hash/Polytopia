@@ -363,3 +363,4 @@ Jason (Imperius) vs 15 Hard bots on a 30x30 map, exported every turn from 1 to 1
 - 2026-10-27 pf-port-4: ENCHANT-REMOVES-GAME (new, L3, 25/26 enchants): Enchant Animal removes the Game from its tile (Polyfish v115 put it back); the one exception is next to a Sanctuary that respawned it. Polyfish stars 1507 -> 1508.
 - 2026-10-27 AQUARION-LOST-CITY (L3 n=1 + wiki C14): Aquarion ocean ruin -> level-3 city with both rewards pending (9906f7da t11 #692). Terrain changes around it (ocean -> water ring, new resources) are not modelled in Polyfish; the next checkpoint re-syncs them.
 - 2026-10-27 AQUARION-AQUA-FARM-WATER (L3 n=5): the Aqua Farm goes on empty water/ocean too and creates the AquaCrop (9906f7da t12); corrects AQUARION-STRUCTURES.
+- TENTACLES (27 Oct, ref-fix, new rule): a Jelly hits each adjacent enemy after its own move (normal damage, no retaliation); 8 hits in game 6 fit. Open: does an enemy moving next to a Jelly get hit?

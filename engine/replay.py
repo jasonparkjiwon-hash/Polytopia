@@ -71,6 +71,7 @@ RULES = {   # one switch per line; A/B each in tools/miss.py before keeping a ch
     'push_centre_round': 'angle',
     'stomp_after_boarding': True,
     'push_toward_attacker': True,
+    'tentacles_after_move': True,    # TENTACLES: a Jelly (Tentacles) hits each adjacent enemy after it moves, normal damage, no retaliation
     'push_port_first_only': False,   # PUSH-PORT-FIRST: off since 27 Oct; an own port takes a pushed land unit as a fallback too (9906f7da t15)
     'ruin_boat_passenger': True,
     'push_dir_persists': True,
@@ -362,6 +363,10 @@ def apply(st, a, turn):
         if RULES["stomp"] and "stomp" in STATS.get(old, {}).get("skills", ()): stomp(st, u, old)
         elif RULES["stomp_after_boarding"] and "stomp" in STATS.get(u.type, {}).get("skills", ()): stomp(st, u, u.type)   # MEASURED 6e1bf8e0 t12: a Giant boarding as a Juggernaut stomps
         if u.type in RULES["freezers"]: mooni_freeze(st, x1, y1, u.owner)
+        if RULES["tentacles_after_move"] and "tentacles" in stat(u)["skills"]:   # TENTACLES: a Jelly that moves hits every adjacent enemy
+            for e in [w for w in st.units.values() if hostile(st, w.owner, u.owner) and dist((w.x, w.y), (x1, y1)) == 1 and st.at.get((w.x, w.y)) == w.id]:
+                e.hp -= fight(st, u, e)[0]; LOG["tentacles"] += 1   # its normal damage, no retaliation (9906f7da t15, t16)
+                if e.hp <= 0: remove(st, e)
     elif t == 2:                                 # Attack
         _, uid, ox, oy, tx, ty = v
         at = locate(st, uid, ox, oy, pl); at.acted = True

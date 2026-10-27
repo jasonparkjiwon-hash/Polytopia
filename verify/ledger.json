@@ -1173,6 +1173,13 @@
    "level": "L3 (n=5)",
    "game_version": "v123 (measured in a save)",
    "evidence": "Game 9906f7da: p9 Aquarion built 49 on empty Ocean at (9,28) t11 #696 and at (7,27), (4,18), (5,27), (6,18) t12 #787-#794; the t12/t13 saves show imp49 with resource 9 (AquaCrop) on each, none had a resource before. AQUARION-STRUCTURES' 'on AquaCrop' was read from saves taken after the build. Polyfish legal Build 1005 -> 1009."
+  },
+  {
+   "id": "TENTACLES",
+   "rule": "Aquarion Jelly (52), Tentacles: after the Jelly moves, it hits every adjacent enemy unit with its normal attack damage (combat formula, the defender's bonus included), with no retaliation. The tiles around it carry TileEffect 3 (Tentacle) in the save.",
+   "level": "L3 (8 hits, replay A/B)",
+   "game_version": "v123 (measured in a save)",
+   "evidence": "2026-10-27 ref-fix, 9906f7da: t15 #1098 Jelly 135 (20/20 HP) moves to (11,16) next to Kickoo Warrior 196 in a city with walls (CityReward 1 = CityWall, bonus 4): 10 -> 8 (= round(2/10 x 2 x 4.5) = 2); t16 #1214 the Jelly (16/20 after a Scoutship hit) moves to (12,15) next to Warrior 67 on forest: 10 -> 6 (= round(1.6/3.6 x 9) = 4); the Jelly's HP doesn't change (no retaliation). engine/replay.py RULES tentacles_after_move: 8 hits over all saves; A/B --all units 7574/7582 -> 7576/7580, stars hold, no game worse. Not tested: whether enemies that move next to a Jelly are hit too (Polyfish models Tentacles as a trigger on enemy moves)."
   }
  ]
 }

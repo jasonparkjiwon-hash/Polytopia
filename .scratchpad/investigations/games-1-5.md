@@ -93,3 +93,4 @@ Stars (11):
 | 10 | ECON-EMBASSY | `engine/economy.py` `EMBASSY_STEP_OTHER_HOSTS`: a rebuild at the same host pays the base price (the +2 step counts other hosts only) | 7385/7396, 1511/1540 |
 | 11 | AQUARION-UNITS-49-52 | `engine/stats.py` `MermaidDagger`: 10 HP, 2/2, Surprise Static Dash (Polyfish; no card) | 7386/7396, 1511/1540 |
 | 12 | PUSH-PORT-FIRST | `engine/replay.py` RULES `push_port_first_only = False`: an own port takes a pushed land unit as a fallback too | 7387/7395, 1511/1540 |
+| 13 | TENTACLES | `engine/replay.py` RULES `tentacles_after_move`: a Jelly hits each adjacent enemy after it moves (normal damage, no retaliation) | 7389/7393, 1511/1540 |

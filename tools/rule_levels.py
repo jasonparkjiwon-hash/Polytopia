@@ -12,6 +12,7 @@ SKIP = {"HERE", "ROOT", "LOG", "EVENTS", "TEMP", "RUIN", "ORACLE", "RUIN_SEEN", 
 
 MAP = {   # rule name -> ledger id
     # replay.py RULES switches
+    "replay.RULES.tentacles_after_move": "TENTACLES",
     "replay.RULES.infiltrate": "INFILTRATE",
     "replay.RULES.retaliation_uses_bonus": "C6",
     "replay.RULES.melee_moves_in_on_kill": "KILL-MOVE-IN",
