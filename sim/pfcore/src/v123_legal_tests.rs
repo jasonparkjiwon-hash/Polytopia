@@ -360,6 +360,25 @@ fn aquarion_defender_and_scuba() {
     assert!(!has(&s, &SummonMove::new(idx(5, 5), UnitType::Cloak)));
 }
 
+/// JELLY-NAVIGATION (fandom wiki L0 + 9906f7da t12 #786, t14 #1007 trained unit 52 holding Navigation): an Aquarion
+/// city trains the Jelly with Navigation, not without it.
+#[test]
+fn aquarion_navigation_trains_jelly() {
+    use crate::moves::summon::SummonMove;
+    use crate::states::TechnologyState;
+    let t = |k| TechnologyState { tech_type: k, discovered: true, discovered_turn: 0 };
+    let mut s = board();
+    add_city(&mut s, 1, 5, 5);
+    s.tiles.get_mut(&idx(5, 4)).unwrap().terrain_type = TerrainType::Water;
+    let tr = s.tribes.get_mut(&1).unwrap();
+    tr.stars = 20;
+    tr.tribe_type = TribeType::Aquarion;
+    tr.tech_vanilla = vec![t(TechnologyType::AquaBase), t(TechnologyType::Sailing)];
+    assert!(!has(&s, &SummonMove::new(idx(5, 5), UnitType::Jelly)));
+    s.tribes.get_mut(&1).unwrap().tech_vanilla.push(t(TechnologyType::Navigation));
+    assert!(has(&s, &SummonMove::new(idx(5, 5), UnitType::Jelly)));
+}
+
 /// CYMANTI-OCEANOLOGY-ID (L3 + Jason): Cymanti's Oceanology is saved as Navigation (14) and unlocks the Living
 /// Island (57). 9906f7da t11 #637: Jason's Cymanti (techs 6, 7, 38, 10, 13, 14) train unit 57 at (2,27).
 #[test]

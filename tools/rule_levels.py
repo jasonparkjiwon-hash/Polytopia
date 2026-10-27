@@ -130,6 +130,7 @@ MAP = {   # rule name -> ledger id
     "economy.EMBASSY_FROM_SAVE": "EMBASSY-INCOME-NEUTRAL",
     "economy.EMBASSY_COMBAT_DESTROYS": "EMBASSY-DESTROYED-BY-COMBAT",
     "economy.SANCTUARY_INCOME": "SANCTUARY-V123",
+    "economy.SANCTUARY_RADIUS": "SANCTUARY-V123",
     "economy.EMBASSY_STEP_OTHER_HOSTS": "ECON-EMBASSY",
     "economy.TRACK_PEACE": "EMBASSY-ACTION",
     # action handlers in replay.apply (what the engine does with each logged action)

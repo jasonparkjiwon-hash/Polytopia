@@ -177,6 +177,7 @@ EMBASSY_BUILDER_PAID = True  # EMBASSY-INCOME-NEUTRAL: the builder also earns 2 
 EMBASSY_FROM_SAVE = True    # EMBASSY-INCOME-NEUTRAL: embassies standing in save a, read from the host's Diplomacy EmbassyLevel (9906f7da)
 EMBASSY_COMBAT_DESTROYS = True    # EMBASSY-DESTROYED-BY-COMBAT: an attack or capture between builder and host removes the embassy (Jason, 9906f7da)
 EMBASSY_STEP_OTHER_HOSTS = True    # ECON-EMBASSY: the +2 step counts only the builder's embassies at other hosts (9906f7da t13 rebuild cost 4)
+SANCTUARY_RADIUS = 1       # SANCTUARY-V123 'nearby' radius (card text does not say; 2 is tested by A/B)
 SANCTUARY_INCOME = True     # SANCTUARY-V123 (v123 card): price 5, +1 a turn per adjacent wild animal (b2448ead: the old "net 3" = 5 - the first +2; A/B 1505 -> 1506)
 TRACK_PEACE = True          # an accepted peace (action 28 reply 1) counts from then on for embassy income (A/B 779 -> 780)
 PAID_AT_TURN_START = False  # MEASURED: a save taken right at a turn start does not hold that turn's income yet; a mid-turn save does (596 vs 562 exact)
@@ -245,7 +246,7 @@ def check(a, b, acts, model="levels", siege=True):
         game = lambda d, q: 0 <= q[1] < len(d["currentTiles"]) and 0 <= q[0] < len(d["currentTiles"][0]) and d["currentTiles"][q[1]][q[0]].get("ResourceExists") and d["currentTiles"][q[1]][q[0]]["ResourceType"] == 1
         for (sx, sy), (imp, owner) in bk.structure.items():
             if imp != 32 or owner not in rows: continue
-            n = sum(1 for dx in (-1, 0, 1) for dy in (-1, 0, 1) if (dx or dy)
+            n = sum(1 for dx in range(-SANCTUARY_RADIUS, SANCTUARY_RADIUS + 1) for dy in range(-SANCTUARY_RADIUS, SANCTUARY_RADIUS + 1) if (dx or dy)
                     for q in [(sx + dx, sy + dy)] if q not in gone and game(a, q) and game(b, q))
             rows[owner]["income"] += n * rows[owner]["turns"]
     pa = {p["PlayerId"]: p for p in a["currentPlayers"]}; pb = {p["PlayerId"]: p for p in b["currentPlayers"]}

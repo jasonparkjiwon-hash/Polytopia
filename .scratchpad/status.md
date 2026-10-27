@@ -74,7 +74,7 @@ _Last updated 2026-10-26 (Jason's games 1-5 ingested, scored held-out, released)
      pf-legal: the saves show Mooni at most 2 and Battle Sled at most 3, from a city or ice alike (SKATE-MOVE);
      only a Battle Sled 4 tiles over ice would change that.
 
-- pf-legal-2 (26 Oct), Aquarion Jelly (unit 52): which tech unlocks it? Look at the tech tree card for the
+- ~~pf-legal-2 Jelly tech~~ answered 27 Oct (wiki-research): Navigation (wiki + 2 saves, L1); Polyfish now offers it. Old text: Aquarion Jelly (unit 52): which tech unlocks it? Look at the tech tree card for the
   Jelly (or research Navigation alone first and see if the Jelly appears in the city's train list). The
   only bot that trained one held Navigation, Aquaculture, Marine Life, Organization and Strategy. Until
   then Polyfish never offers it.

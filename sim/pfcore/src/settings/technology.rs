@@ -217,7 +217,8 @@ fn tech_setting_table(tech_type: TechnologyType) -> TechnologySetting {
             requires: Some(Sailing), // v123 tech tree (TECH-TREE); upstream had Ramming
             unlocks_unit: Some(UnitType::Bomber),
             // CYMANTI-OCEANOLOGY-ID: Cymanti's Oceanology is saved as Navigation (14) and unlocks the Living Island
-            unlocks_special_units: vec![UnitType::LivingIsland],
+            // JELLY-NAVIGATION: the Jelly (Aquarion 52) is unlocked by Navigation (fandom wiki; 9906f7da t12/t14 trained it with Navigation)
+            unlocks_special_units: vec![UnitType::LivingIsland, UnitType::Jelly],
             ..Default::default()
         },
         Ramming => TechnologySetting {

@@ -148,7 +148,7 @@
   "economy.PAID_AT_TURN_START": {
    "ledger": "ECON-SAVE-TIMING",
    "level": "L3",
-   "source": "engine/economy.py:182",
+   "source": "engine/economy.py:183",
    "unverified": false
   },
   "economy.PEACE": {
@@ -184,6 +184,12 @@
   "economy.SANCTUARY_INCOME": {
    "ledger": "SANCTUARY-V123",
    "level": "L3 card text + 1 save (n=1 Sanctuary, 4 rows)",
+   "source": "engine/economy.py:181",
+   "unverified": false
+  },
+  "economy.SANCTUARY_RADIUS": {
+   "ledger": "SANCTUARY-V123",
+   "level": "L3 card text + 1 save (n=1 Sanctuary, 4 rows)",
    "source": "engine/economy.py:180",
    "unverified": false
   },
@@ -196,7 +202,7 @@
   "economy.TRACK_PEACE": {
    "ledger": "EMBASSY-ACTION",
    "level": "L3 (n=2)",
-   "source": "engine/economy.py:181",
+   "source": "engine/economy.py:182",
    "unverified": false
   },
   "economy.UNIT_COST": {
