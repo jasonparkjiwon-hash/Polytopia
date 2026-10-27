@@ -631,7 +631,10 @@ fn is_terminal(state: &GameState, unit: &UnitState, tile_idx: i32) -> bool {
     let is_aquatic = settings.skills.contains(&SkillType::Float);
     let is_amphibious = crate::functions::is_amphibious(unit);
 
-    if is_port && !is_aquatic && !is_amphibious {
+    // v123 (ledger WATER-UNIT-PORT-PASS): water units (Shark) sail on through an own port (e15f392c t12 #1416,
+    // 6e1bf8e0 t11 #1786)
+    let is_water_unit = settings.skills.contains(&SkillType::Water);
+    if is_port && !is_aquatic && !is_amphibious && !is_water_unit {
         return true;
     }
 

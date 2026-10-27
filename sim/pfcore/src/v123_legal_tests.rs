@@ -501,3 +501,20 @@ fn warrior_walks_onto_flooded_land() {
     let t = step_targets(&s);
     assert!(t.contains(&idx(5, 4)) && t.contains(&idx(6, 4)));
 }
+
+/// WATER-UNIT-PORT-PASS (L3 n=2): a Shark (Water skill) sails on through an own port. e15f392c t12 #1416:
+/// Shark 170 goes from its city (19,10) through the port (18,9) to (18,8); 6e1bf8e0 t11 #1786 likewise via (15,8).
+#[test]
+fn shark_passes_through_own_port() {
+    use crate::v123_tests::{add_unit, put_structure};
+    let mut s = board();
+    explore(&mut s);
+    for (x, y) in [(5, 5), (5, 4), (5, 3)] {
+        s.tiles.get_mut(&idx(x, y)).unwrap().terrain_type = TerrainType::Water;
+    }
+    put_structure(&mut s, 5, 4, StructureType::Port);
+    s.tiles.get_mut(&idx(5, 4)).unwrap().owner = 1;
+    s.tribes.get_mut(&1).unwrap().tribe_type = TribeType::Aquarion;
+    add_unit(&mut s, 1, UnitType::Shark, 5, 5, 15.0);
+    assert!(crate::v123_tests::step_targets(&s).contains(&idx(5, 3)));
+}

@@ -1201,6 +1201,13 @@
    "level": "L3 (n=1 research; 0/10 Aquarion players hold 25)",
    "game_version": "v123 (measured in saves)",
    "evidence": "Game af181c8f t3: p4 Aquarion (techs 0, 20, 45) researches 1 (#208) and 2 (#209); its t26 techs are [0, 1, 2, 20, 23, 24, 26, 45]. Last saves of all 10 Aquarion players in 11 games: none holds 25. Polyfish legal Research 630 -> 631."
+  },
+  {
+   "id": "WATER-UNIT-PORT-PASS",
+   "rule": "A water unit (Water skill: Shark) moving through an own port keeps moving; only land units stop there (embark). Polyfish upstream stopped every non-floating, non-amphibious unit at an own port.",
+   "level": "L3 (n=2)",
+   "game_version": "v123 (measured in saves)",
+   "evidence": "e15f392c t12 #1416: Aquarion Shark 170 from its city (19,10) via own port (18,9) to (18,8) (the only other route is stopped by a Hoodrick Warrior's zone of control); 6e1bf8e0 t11 #1786: Shark 273 from (14,9) via the port (15,8) to (16,7). Polyfish legal Move 5604 -> 5606."
   }
  ]
 }

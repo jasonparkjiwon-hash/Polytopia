@@ -92,6 +92,7 @@
 - An Aquarion Lost City (ocean ruin) starts at level 3 with both level-up rewards to choose and production 1; the harness reads it from the next save (`actions/structure.rs`, `tools/pf_jobs.py`) [AQUARION-LOST-CITY, new ledger entry].
 - Aquarion research the base Free Spirit; Free Diving (25) no longer replaces it (`settings/technology.rs`) [AQUARION-FREE-SPIRIT, new ledger entry].
 - Land units walk onto flooded land without a water tech (`moves/mod.rs` is_navigationable_terrain) [FLOOD-ALGAE].
+- Water units (Shark) sail on through an own port; only land units stop there (`moves/mod.rs`) [WATER-UNIT-PORT-PASS, new ledger entry].
 - Exploding on water leaves Spores with the algae, not Fruit (`moves/abilities/explode.rs`) [EXPLODE-WATER-SPORES, new ledger entry].
 - The Clathrus (41) is built on land (Field, Forest) next to an own Fungi, not on water next to Algae (`settings/structures.rs`, `moves/build.rs`) [CLATHRUS-ON-LAND, new ledger entry].
 - The Aqua Farm (49) also goes on empty water or ocean (`settings/structures.rs`, `moves/build.rs`) [AQUARION-AQUA-FARM-WATER, new ledger entry].
