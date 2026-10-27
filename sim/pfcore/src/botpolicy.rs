@@ -143,7 +143,7 @@ pub fn context(s: &GameState) -> Ctx {
     Ctx {
         me, turn: s.settings.turn, bucket: bucket(s.settings.turn), targets, enemies, capital,
         opener: opener(s, me, capital),
-        crazy: tr.map_or(false, |t| t.handicap >= 5),
+        crazy: tr.map_or(false, |t| t.handicap >= 4), // DifficultyHandicap: Hard 2, Crazy 4 in the saves (1 = one game, easier)
         stars: tr.map_or(0, |t| t.stars),
     }
 }
@@ -207,6 +207,9 @@ pub fn features(g: &Game, legal: &[Box<dyn Move>]) -> (Ctx, Vec<Cand>) {
     let (ohp0, on0) = sum_hp(s, |p| p == me);
     let pop0 = pop(s, me);
     let ncity0 = s.tribes.get(&me).map_or(0, |t| t.cities.len());
+    // turn order: own units that haven't acted yet, in the tribe's unit order; moves already made this turn
+    let ready: Vec<i32> = s.tribes.get(&me).map(|t| t.units.iter().filter(|u| !u.moved && !u.attacked).map(|u| u.coords.idx).collect()).unwrap_or_default();
+    let first_move = s.settings._recent_moves.is_empty();
     let mut out = Vec::with_capacity(legal.len());
     for mv in legal {
         let kind = kind_of(s, mv.as_ref());
@@ -223,6 +226,13 @@ pub fn features(g: &Game, legal: &[Box<dyn Move>]) -> (Ctx, Vec<Cand>) {
         put(&format!("k:{kn}"), 1.0);
         put(&format!("k:{kn}|t{}", cx.bucket), 1.0);
         if cx.crazy { put(&format!("k:{kn}|crazy"), 1.0); }
+        if first_move { put(&format!("k:{kn}|first"), 1.0); }
+        if ready.is_empty() { put(&format!("k:{kn}|allacted"), 1.0); }
+        if let Some(r) = ready.iter().position(|&k| k == src).filter(|_| matches!(kind, 1 | 2 | 13 | 19)) {
+            if r == 0 { put("ord:first", 1.0); }
+            if r + 1 == ready.len() { put("ord:last", 1.0); }
+            put("ord:rank", (r as f32 / ready.len().max(1) as f32));
+        }
         let unit = if src >= 0 { get_unit_at(s, src).filter(|u| u.owner == me) } else { None };
         let in_own_city = |i: i32| get_city_at(s, i).map_or(false, |c| c.owner == me);
         match kind {
@@ -379,13 +389,15 @@ pub fn score_v1(cx: &Ctx, c: &Cand) -> f64 {
 
 /// v2: a fitted linear score, data/bot_policy.json {"weights": {feature: w}, "temperature": t}.
 #[derive(Debug, Clone, Default)]
-pub struct Weights { pub w: HashMap<u16, f64>, pub temperature: f64 }
+pub struct Weights { pub w: HashMap<u16, f64>, pub temperature: f64, pub capture_first: bool }
 
 impl Weights {
     pub fn from_json(v: &Value) -> Self {
         let mut w = HashMap::new();
         for (k, x) in v["weights"].as_object().into_iter().flatten() { w.insert(col(k), x.as_f64().unwrap_or(0.0)); }
-        Weights { w, temperature: v["temperature"].as_f64().unwrap_or(1.0) }
+        // endturn_bias: an offset on EndTurn, calibrated on playouts (tools/bot_policy.py play --endbias)
+        *w.entry(col("k:EndTurn")).or_insert(0.0) += v["endturn_bias"].as_f64().unwrap_or(0.0);
+        Weights { w, temperature: v["temperature"].as_f64().unwrap_or(1.0), capture_first: v["capture_first"].as_bool().unwrap_or(false) }
     }
     pub fn from_file(path: &str) -> Result<Self, String> {
         let t = std::fs::read_to_string(path).map_err(|e| format!("{path}: {e}"))?;
@@ -402,7 +414,9 @@ impl Policy {
     pub fn scores(&self, cx: &Ctx, cands: &[Cand]) -> Vec<f64> {
         match self {
             Policy::V1 => cands.iter().map(|c| score_v1(cx, c)).collect(),
-            Policy::V2(w) => cands.iter().map(|c| w.score(c)).collect(),
+            // captures are near-certain for the bots (v1 rule: village 0.965, city 0.987 top-1), so v2 takes them
+            // first instead of sampling past them (cities came out low in playouts)
+            Policy::V2(w) => cands.iter().map(|c| w.score(c) + if w.capture_first && matches!(c.kind, 8 | 9) { 50.0 } else { 0.0 }).collect(),
             Policy::Random => vec![0.0; cands.len()],
         }
     }
@@ -436,7 +450,7 @@ pub fn step(g: &mut Game, pol: &Policy, temperature: f64, rng: &mut Rng) -> Opti
     let sc = pol.scores(&cx, &cands);
     let i = if matches!(pol, Policy::Random) { (rng.next_f64() * legal.len() as f64) as usize % legal.len() } else { pick(&sc, temperature, rng) };
     let mv = dyn_clone::clone_box(legal[i].as_ref());
-    g.play_move(mv.as_ref())?;
+    let _undo = g.play_move(mv.as_ref())?;
     Some(mv)
 }
 
@@ -470,4 +484,28 @@ pub fn record(g: &Game, legal: &[Box<dyn Move>], chosen: usize) -> Value {
     }).collect();
     let tribe = g.state.tribes.get(&cx.me).map(|t| format!("{:?}", t.tribe_type)).unwrap_or_default();
     json!({"pl": cx.me, "turn": cx.turn, "tribe": tribe, "crazy": cx.crazy, "handicap": g.state.tribes.get(&cx.me).map_or(0, |t| t.handicap), "stars": cx.stars, "chosen": chosen, "c": rows})
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn pick_argmax_and_seeded_sampling() {
+        let sc = [1.0, 3.0, 2.0];
+        let mut r = Rng(7);
+        assert_eq!(pick(&sc, 0.0, &mut r), 1);
+        let a: Vec<usize> = { let mut r = Rng(42); (0..50).map(|_| pick(&sc, 1.0, &mut r)).collect() };
+        let b: Vec<usize> = { let mut r = Rng(42); (0..50).map(|_| pick(&sc, 1.0, &mut r)).collect() };
+        assert_eq!(a, b);
+        assert!(a.iter().filter(|&&i| i == 1).count() > a.iter().filter(|&&i| i == 0).count());
+    }
+
+    #[test]
+    fn weights_endturn_bias() {
+        let w = Weights::from_json(&json!({"weights": {"k:EndTurn": 1.0}, "endturn_bias": -1.5, "capture_first": true}));
+        let c = Cand { kind: 0, src: -1, tgt: -1, sub: 0, f: vec![(col("k:EndTurn"), 1.0)] };
+        assert!((w.score(&c) + 0.5).abs() < 1e-9);
+        assert!(w.capture_first);
+    }
 }
