@@ -590,10 +590,10 @@ pub fn get_city_production(state: &GameState, city: &CityState) -> i32 {
                     prod += income;
                 }
                 StructureType::Sanctuary
-                    if crate::v123_flags::on(&crate::v123_flags::SANCTUARY_CARD_INCOME) =>
+                    if !crate::v123_flags::on(&crate::v123_flags::SANCTUARY_NO_INCOME) =>
                 {
-                    // +1 star for every adjacent wild animal in friendly territory (upstream and the v123 card);
-                    // off by default: the save pays none (SANCTUARY-NO-INCOME, L3)
+                    // +1 star for every adjacent wild animal in friendly territory (upstream and the v123 card;
+                    // the switch sanctuary_no_income turns it off, SANCTUARY-NO-INCOME)
                     for n_idx in crate::functions::get_adjacent_indices(state, idx, 1) {
                         let game = state.resources.get(&n_idx).and_then(|r| r.as_ref())
                             .map_or(false, |r| r.resource_type == ResourceType::Game);
