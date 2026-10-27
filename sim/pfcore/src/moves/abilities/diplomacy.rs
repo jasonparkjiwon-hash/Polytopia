@@ -270,7 +270,7 @@ impl Move for EstablishEmbassyMove {
         let pov_id = state.settings.current_player_turn_id;
         let opp_id = self.opponent_id;
         // v123: 4, +2 for each embassy the tribe already has
-        let cost = crate::functions::get_embassy_cost(&state.tribes[&pov_id]);
+        let cost = crate::functions::get_embassy_cost(&state.tribes[&pov_id], opp_id);
         require_stars(state, cost, "establish embassy")?;
 
         let mut undos = Vec::new();
@@ -548,7 +548,7 @@ pub fn generate_diplomacy_moves(state: &GameState, moves: &mut Vec<Box<dyn Move>
         if relation.state == 1 {
             moves.push(Box::new(BreakPeaceMove::new(other_id)));
         } else if has_diplomacy {
-            if relation.embassy_level == 0 && tribe.stars >= crate::functions::get_embassy_cost(tribe) {
+            if relation.embassy_level == 0 && tribe.stars >= crate::functions::get_embassy_cost(tribe, other_id) {
                 if let Some(other_capital) = crate::functions::get_capital_city(state, other_id) {
                     moves.push(Box::new(EstablishEmbassyMove::new(
                         other_capital.idx,

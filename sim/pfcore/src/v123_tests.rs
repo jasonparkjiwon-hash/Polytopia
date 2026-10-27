@@ -722,10 +722,11 @@ fn embassy_cost_and_income() {
         s.tribes.get_mut(&a).unwrap().relations.insert(b, DiplomacyRelationState::default());
     }
     s.tribes.get_mut(&1).unwrap().stars = 10;
-    assert_eq!(get_embassy_cost(&s.tribes[&1]), 4);
+    assert_eq!(get_embassy_cost(&s.tribes[&1], 2), 4);
     crate::moves::abilities::diplomacy::EstablishEmbassyMove::new(idx(8, 8), 2).execute(&mut s).unwrap();
     assert_eq!(s.tribes[&1].stars, 6);
-    assert_eq!(get_embassy_cost(&s.tribes[&1]), 6);
+    assert_eq!(get_embassy_cost(&s.tribes[&1], 3), 6); // another host: +2
+    assert_eq!(get_embassy_cost(&s.tribes[&1], 2), 4); // ECON-EMBASSY: a rebuild at the same host, 9906f7da t13 #818 cost 4
     assert_eq!((get_embassy_income(&s, &s.tribes[&1]), get_embassy_income(&s, &s.tribes[&2])), (2, 2));
     for (a, b) in [(1, 2), (2, 1)] {
         s.tribes.get_mut(&a).unwrap().relations.get_mut(&b).unwrap().state = 1;
@@ -745,7 +746,7 @@ fn embassy_from_save_is_the_builders() {
     s.tribes.get_mut(&2).unwrap().relations.get_mut(&1).unwrap().embassy_level = 1;
     crate::save_loader::embassies_to_builder_side(&mut s);
     assert_eq!((s.tribes[&1].relations[&2].embassy_level, s.tribes[&2].relations[&1].embassy_level), (1, 0));
-    assert_eq!((get_embassy_cost(&s.tribes[&1]), get_embassy_cost(&s.tribes[&2])), (6, 4));
+    assert_eq!((get_embassy_cost(&s.tribes[&1], 3), get_embassy_cost(&s.tribes[&2], 3)), (6, 4));
     assert_eq!((get_embassy_income(&s, &s.tribes[&1]), get_embassy_income(&s, &s.tribes[&2])), (2, 2));
 }
 

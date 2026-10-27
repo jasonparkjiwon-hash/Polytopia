@@ -653,9 +653,10 @@ pub fn get_embassy_income(state: &GameState, tribe: &TribeState) -> i32 {
     stars
 }
 
-/// v123 (EMBASSY-ACTION: net 4 in both saves; ECON-EMBASSY: +2 for each embassy the tribe already has)
-pub fn get_embassy_cost(tribe: &TribeState) -> i32 {
-    4 + 2 * tribe.relations.values().filter(|r| r.embassy_level > 0).count() as i32
+/// v123 (EMBASSY-ACTION: net 4 in both saves; ECON-EMBASSY: +2 for each embassy the tribe already has at another
+/// host; a rebuild at the same host doesn't count its own old one, 9906f7da t13)
+pub fn get_embassy_cost(tribe: &TribeState, host: PlayerId) -> i32 {
+    4 + 2 * tribe.relations.iter().filter(|(h, r)| **h != host && r.embassy_level > 0).count() as i32
 }
 
 /// Get total tribe SPT (stars per turn)
