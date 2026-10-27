@@ -1229,6 +1229,13 @@
    "level": "L3 (n=1)",
    "game_version": "v123 (measured in a save)",
    "evidence": "Game 9906f7da t18 #1494: Aquarion p9 builds 51 at (3,27), Water with flood 4 (algae), in the city (2,27) taken from Cymanti that turn; the t19 save shows imp51 there. Polyfish excluded algae tiles; the case is now offered and only short of stars (pf-port drift)."
+  },
+  {
+   "id": "RUIN-POP-HINT",
+   "rule": "The Polyfish harness (tools/pf_jobs.py) hints a ruin as PopGrowth (+3 population to the capital, RUIN-REWARD) when no unit, tech or stars explain it and the capital's TotalPopulation rose 3+ more than the player's builds and city PopGrowth rewards explain (the tools/distributions.py classifier); before, such ruins fell to Explorer.",
+   "level": "L3",
+   "game_version": "v123 (measured in game)",
+   "evidence": "pf_miss: CityReward legal 380 -> 403 of 419 (23 level-ups the save shows right after the ruin, e.g. 028182a9 t6 #294 -> #295: capital (24,10) TotalPopulation 0 -> 3, level 2), no unit/star/legal drop; held-out 187/187, 64/64, legal 100%."
   }
  ]
 }

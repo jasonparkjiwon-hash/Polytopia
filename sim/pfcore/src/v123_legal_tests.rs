@@ -578,3 +578,22 @@ fn atoll_on_algae() {
     tr.tech_vanilla = vec![t(TechnologyType::AquaBase), t(TechnologyType::Aquaculture)];
     assert!(has(&s, &BuildMove::new(idx(5, 4), StructureType::Atoll)));
 }
+
+/// RUIN-REWARD (+3 population to the capital), hinted by tools/pf_jobs.py (RUIN-POP-HINT): 028182a9 t6, Polaris
+/// examine (24,15) at #294 and take Explorer at the level-1, population-0 capital (24,10) at #295; the t7 save
+/// shows it level 2, TotalPopulation 3.
+#[test]
+fn ruin_pop_growth_levels_capital() {
+    use crate::moves::reward::RewardMove;
+    use crate::moves::Move;
+    use crate::v123_tests::{add_unit, put_structure};
+    let mut s = board();
+    add_city(&mut s, 1, 2, 2);
+    s.tiles.get_mut(&idx(2, 2)).unwrap().capital_of = 1;
+    put_structure(&mut s, 5, 5, StructureType::Ruin);
+    add_unit(&mut s, 1, UnitType::Warrior, 5, 5, 10.0);
+    assert!(!has(&s, &RewardMove::new(idx(2, 2), CityRewardType::Explorer)));
+    crate::moves::capture::CaptureMove::with_reward(idx(5, 5), RuinsRewardType::PopGrowth).execute(&mut s).unwrap();
+    assert_eq!(s.tribes[&1].cities[0].population, 3);
+    assert!(has(&s, &RewardMove::new(idx(2, 2), CityRewardType::Explorer)));
+}

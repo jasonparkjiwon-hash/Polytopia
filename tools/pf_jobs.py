@@ -6,9 +6,10 @@ import os, sys, json, glob, re, collections, subprocess, tempfile, struct
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 sys.path.insert(0, os.path.join(ROOT, "engine"))
 import economy as EC
+from distributions import capitals, build_pop
 BIN = os.path.join(ROOT, "sim", "pfcore", "target", "release", "pfreplay")
 HELD = {h["game"]: h for h in json.load(open(os.path.join(ROOT, "data", "holdout.json")))["held"]}
-SWORDSMAN, FREE_TECH, RESOURCES, EXPLORER, CITY = 8, 4, 1, 3, 9   # Polyfish RuinsRewardType
+SWORDSMAN, FREE_TECH, RESOURCES, POP_GROWTH, EXPLORER, CITY = 8, 4, 1, 2, 3, 9   # Polyfish RuinsRewardType
 
 def held(gid, turn): return gid in HELD and turn >= HELD[gid].get("from_turn", 0)
 
@@ -28,6 +29,22 @@ def ruin_hints(a, b, acts):
         if x["type"] == 15 and r[0] == 255: turn += 1
         if x["type"] == 8: researched[r[0]].add(struct.unpack("<BH", r)[1])
         if x["type"] == 14: ruins[r[0]].append((i, turn) + struct.unpack("<BII", r)[1:])
+    # RUIN-POP-HINT: +3 population to the capital (RUIN-REWARD) when the capital grew 3+ more than the player's builds
+    # and city PopGrowth rewards explain (the classifier in tools/distributions.py; 028182a9 t6 #294 -> CityReward #295)
+    cap_a, cap_b = capitals(a), capitals(b); pop_slack = {}
+    for pl in ruins:
+        if pl not in cap_a or pl not in cap_b or cap_a[pl][0] != cap_b[pl][0]: continue
+        explained = 0
+        for i in range(n0, n1):
+            x = acts[i]; r = bytes.fromhex(x["raw"])
+            if r[0] != pl: continue
+            if x["type"] == 1:
+                _, s, bx, by = struct.unpack("<BHII", r)
+                if tuple(b["currentTiles"][by][bx]["CapitalCoordinates"]) == cap_a[pl][0]: explained += build_pop(b, bx, by, EC.BUILD.get(s, ("?",))[0])
+            if x["type"] == 11:
+                _, cx, cy, rw = struct.unpack("<BIIH", r)
+                if (cx, cy) == cap_a[pl][0] and rw == 8: explained += 3
+        pop_slack[pl] = cap_b[pl][1] - cap_a[pl][1] - explained
     units = [(t["Unit"], x, y) for y, row in enumerate(b["currentTiles"]) for x, t in enumerate(row) if t.get("Unit")]
     made = collections.defaultdict(set)              # (owner, created turn) -> unit ids in the next save
     alive = {u["Id"] for u, _, _ in units}
@@ -54,6 +71,7 @@ def ruin_hints(a, b, acts):
             elif on_tile or walked: hints.append(dict(i=i, reward=SWORDSMAN))
             elif free: hints.append(dict(i=i, reward=FREE_TECH, tech=free.pop(0)))
             elif stars >= EC.RUIN_STARS: hints.append(dict(i=i, reward=RESOURCES)); stars -= EC.RUIN_STARS
+            elif pop_slack.get(pl, 0) >= 3: hints.append(dict(i=i, reward=POP_GROWTH)); pop_slack[pl] -= 3
             else: hints.append(dict(i=i, reward=EXPLORER))
     return hints
 
