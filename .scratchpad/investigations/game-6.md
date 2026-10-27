@@ -63,12 +63,12 @@ rebuild it from the table: it monkeypatches `EC.Books` and `R.apply`.
 ## ref-fix results (27 Oct)
 
 Kept (table in `games-1-5.md`): units 49-52 named, Mermaid Dagger stats, INFILTRATE, Water Temple 20, the three embassy
-changes, embassy rebuild at the same host costs 4. Game 6 now units 931/941 (the 10 unit misses left over all games are all here),
+changes, embassy rebuild at the same host costs 4. Game 6 now units 934/937 (the 3 unit misses left over all games are all here),
 stars 190/198. Left, classified:
-- **Units (10):** 3 Mermaid Daggers from the t18 infiltration (placement random in Polyfish; read from the next save);
-  t15->16 Hoodrick Super Unit spawn pushes Archer 186 onto its own port (17,11), engine pushes it to (18,10) (push direction,
-  then the boat is upgraded to Bomber 210: 2 misses); Warrior hp t15->16 id196, t16->17 id67; t17->18 extra Warrior -1592;
-  t19->20 Shark 153 position and extra Warrior id6 (same fight at (12,20)).
+- **Units (3 left, all games):** the 3 Mermaid Daggers from the t18 infiltration (placement random in Polyfish; the replay
+  reads them from the next save). Fixed later the same day: the Super Unit push onto a fallback own port (PUSH-PORT-FIRST
+  changed), and Jelly Tentacles (TENTACLES: a Jelly hits adjacent enemies after it moves and when an enemy moves next to it),
+  which explained the Warrior HP rows t15->16, t16->17 and the t17->18 / t19->20 fight at (12,20).
 - **Stars p9 (Aquarion):** +5 t13, +3 t14, -2 t15, +5 t17, +8 t18, +5 t19: train prices for 49/52/53 don't fit one set
   (D+J = 13 at t14; D+2S = 19 at t17 but 16 at t18). Mixed with embassy-host income; Waiting on Jason (prices).
 - **Stars p1:** t17->18 -2 (engine pays the embassy at turn 18 start, the game doesn't; no p1-p9 fight in between),

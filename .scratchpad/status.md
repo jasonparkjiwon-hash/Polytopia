@@ -12,7 +12,7 @@ _Last updated 2026-10-26 (Jason's games 1-5 ingested, scored held-out, released)
     explained; most need saves without gaps or an answer from Jason
     (`investigations/star-tail.md`).
   - Every engine rule has a ledger id (`tools/rule_levels.py`, run by `check.sh`):
-    145 rules, 1 still unverified (embassy price step; Market and Clathrus income
+    147 rules, 1 still unverified (embassy price step; Market and Clathrus income
     passed on games 1-5, 26 Oct).
 - **Jason's games 1-5 (26 Oct, Hard, every turn):** held-out score before tuning units
   1724/1733, stars 512/523; released for tuning. With them `tools/miss.py` is units
@@ -21,8 +21,8 @@ _Last updated 2026-10-26 (Jason's games 1-5 ingested, scored held-out, released)
   Clear Forest +1, siege case).
 - **Jason's game 6 (26 Oct, Cymanti, every turn t2-t20):** held-out units 917/984, stars 173/198;
   released. Embassies x5, peace offers, Aquarion units 49-52, Living Island; see `investigations/game-6.md`.
-  With games 1-6 `tools/miss.py` is units 7369/7445, stars 1487/1540 before rule fixes; after ref-fix (27 Oct, 11 kept fixes,
-  table in `investigations/games-1-5.md`): **units 7386/7396, stars 1511/1540**; holdout ed6cb932 still 187/187, 64/64.
+  With games 1-6 `tools/miss.py` is units 7369/7445, stars 1487/1540 before rule fixes; after ref-fix (27 Oct, 14 kept fixes,
+  table in `investigations/games-1-5.md`): **units 7389/7392, stars 1511/1540**; holdout ed6cb932 still 187/187, 64/64.
 - **Phase 3 prep is running** (backlog item 0): Polyfish becomes the forward
   model (`docs/simulator_choice.md`).
 - **Score baseline:** the expected `check.sh` output is under "Quick start" in
