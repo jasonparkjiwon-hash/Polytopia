@@ -26,3 +26,5 @@ echo "== Polyfish forward model (informational, not part of the baseline): tools
 python3 -I ../tools/pf_miss.py --accept 2>/dev/null | grep "^PF ACCEPT" || echo "pf_miss skipped (build sim/pfcore first)"
 echo "== Polyfish forward-model acceptance (informational, not part of the baseline): tools/pf_accept.py"
 python3 -I ../tools/pf_accept.py 2>/dev/null | grep "^FM ACCEPT" || echo "pf_accept skipped (build sim/pfcore first)"
+echo "== What-if tool validation (informational, not part of the baseline): tools/whatif_validate.py"
+python3 -I ../tools/whatif_validate.py --summary 2>/dev/null | grep "^WHATIF" || echo "whatif_validate skipped (build sim/pfcore first)"

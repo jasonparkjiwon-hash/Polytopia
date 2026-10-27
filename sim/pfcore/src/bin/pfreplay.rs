@@ -61,6 +61,10 @@ struct Replay {
     acc_fail: Vec<Value>,                // first failures, with the differing state parts
     acc_seen: usize,
     kinds: BTreeMap<String, i64>,        // rule family (api::kind) -> moves played, for data/pf_rule_levels.json
+    wi: bool,                            // PF_WHATIF=1: what-if tool prediction vs the engine's result at every legal logged move (src/whatif.rs validate_move)
+    wi_stats: BTreeMap<String, [i64; 6]>, // action name -> [moves, in the view's list, prediction = engine result, random, target in the fog, of those exact]
+    wi_fail: Vec<Value>,
+    wi_att: Vec<Value>,                  // attack predictions, checked against the next save at the end of the window
     decisions: Option<Vec<Value>>,       // PF_DECISIONS=1: every bot's legal logged action with its candidates (botpolicy::record)
 }
 
@@ -367,6 +371,10 @@ impl Replay {
                 if t == 14 {
                     if let Some(h) = self.ruin_move(i, &v) { mv = h; }
                 }
+                if self.wi {
+                    let w = polyfish::whatif::validate_move(&self.game, actor, &cands[p].serialize(), mv.as_ref(), Some("data/distributions.json"));
+                    self.wi_record(i, &name, w);
+                }
                 self.acc_seen += 1;
                 let check = self.accept > 0 && self.acc_seen % self.accept == 0;
                 let pre = if check { Some(self.accept_before(i, &name, &keys, &cands[p].serialize(), mv.as_ref())) } else { None };
@@ -427,6 +435,19 @@ impl Replay {
         if t == 5 && UnitType::from_repr(v[1] as i8).is_none() {
             for id in self.next_temp..new_before { self.real_type.insert(id, v[1] as i32); }
         }
+    }
+
+    fn wi_record(&mut self, i: usize, act: &str, mut w: Value) {
+        let e = self.wi_stats.entry(act.to_string()).or_insert([0; 6]);
+        e[0] += 1;
+        if !w["in_view"].as_bool().unwrap_or(false) { if self.wi_fail.len() < 12 { self.wi_fail.push(json!({"i": i, "type": act, "why": "not in the player's view move list"})); } return; }
+        e[1] += 1;
+        let fog = w["fog"].as_bool().unwrap_or(false);
+        if w["random"].as_bool().unwrap_or(false) { e[3] += 1; }
+        if fog { e[4] += 1; }
+        if w["match"].as_bool().unwrap_or(false) { e[2] += 1; if fog { e[5] += 1; } }
+        else if self.wi_fail.len() < 12 { self.wi_fail.push(json!({"i": i, "type": act, "why": w["why"].clone()})); }
+        if let Some(mut a) = w["attack"].take().as_object().cloned().map(Value::Object) { a["i"] = json!(i); self.wi_att.push(a); }
     }
 
     fn acc_count(&mut self, i: usize, check: &str, act: &str, ok: bool, parts: Vec<String>) {
@@ -597,6 +618,37 @@ fn tiles_vs(r: &Replay, next: &Value, player: i32) -> Value {
     json!({"parts": out, "examples": ex, "levels": lvl})
 }
 
+/// PF_WHATIF: the attack predictions against the next real save. A kill predicted -> the unit is gone from the save. A survivor
+/// whose HP the replay still holds at the end of the window (nothing hit or healed it afterwards) -> the save shows that HP.
+fn wi_real_check(r: &Replay, next: Option<&Value>) -> Value {
+    let mut real: HashMap<i64, f32> = HashMap::new();
+    for row in next.and_then(|n| n["currentTiles"].as_array()).into_iter().flatten() {
+        for tv in row.as_array().into_iter().flatten() {
+            if let Some(u) = tv.get("Unit").filter(|u| !u.is_null()) { real.insert(u["Id"].as_i64().unwrap_or(0), u["Health"].as_i64().unwrap_or(0) as f32 / 10.0); }
+        }
+    }
+    let fin: HashMap<i64, f32> = r.game.state.tribes.values().flat_map(|t| t.units.iter()).map(|u| (u.uid, u.health)).collect();
+    // [kills predicted, gone in the save] [survivors untouched afterwards, same HP in the save] [touched afterwards (not checked)] [deaths of the attacker predicted, gone]
+    let (mut k, mut kg, mut s, mut sh, mut t, mut d, mut dg) = (0, 0, 0, 0, 0, 0, 0);
+    let mut bad = Vec::new();
+    for a in &r.wi_att {
+        for (who, uid, killed, hp) in [("defender", a["def_uid"].as_i64().unwrap_or(0), a["pred_killed"].as_bool().unwrap_or(false), a["pred_def_hp"].as_f64()),
+                                        ("attacker", a["att_uid"].as_i64().unwrap_or(0), a["pred_died"].as_bool().unwrap_or(false), a["pred_att_hp"].as_f64())] {
+            if uid <= 0 || next.is_none() { continue; }
+            if killed {
+                if who == "defender" { k += 1; if !real.contains_key(&uid) { kg += 1; } else if bad.len() < 6 { bad.push(json!({"i": a["i"], "who": who, "why": "predicted dead, alive in the save"})); } }
+                else { d += 1; if !real.contains_key(&uid) { dg += 1; } else if bad.len() < 6 { bad.push(json!({"i": a["i"], "who": who, "why": "predicted dead, alive in the save"})); } }
+            } else if let Some(h) = hp {
+                let still = fin.get(&uid).map_or(false, |f| (*f as f64 - h).abs() < 1e-3);
+                if !still { t += 1; continue; }
+                s += 1;
+                match real.get(&uid) { Some(rh) if (*rh as f64 - h).abs() < 1e-3 => sh += 1, other => if bad.len() < 6 { bad.push(json!({"i": a["i"], "who": who, "pred_hp": h, "save_hp": other})); } }
+            }
+        }
+    }
+    json!({"stats": r.wi_stats, "fail": r.wi_fail, "attacks": r.wi_att.len(), "kills": [k, kg], "attacker_deaths": [d, dg], "survivor_hp": [s, sh], "touched_later": t, "bad": bad})
+}
+
 fn units_out(r: &Replay) -> Vec<Value> {
     let mut out = Vec::new();
     for tr in r.game.state.tribes.values() {
@@ -636,6 +688,7 @@ fn run_job(job: &Value) -> Result<Value, String> {
     let mut r = Replay { game, size, next_temp: 0, real_type: HashMap::new(), passenger_uid: HashMap::new(),
         legal: BTreeMap::new(), illegal: Vec::new(), notes: BTreeMap::new(), acts: acts[..to].to_vec(), done: Default::default(), hints: HashMap::new(), pad_noted: Default::default(), meets: Vec::new(),
         accept: std::env::var("PF_ACCEPT").ok().and_then(|x| x.parse().ok()).unwrap_or(0), acc: BTreeMap::new(), acc_fail: Vec::new(), acc_seen: 0, kinds: BTreeMap::new(),
+        wi: std::env::var("PF_WHATIF").is_ok(), wi_stats: BTreeMap::new(), wi_fail: Vec::new(), wi_att: Vec::new(),
         decisions: std::env::var("PF_DECISIONS").ok().map(|_| Vec::new()) };
     for h in job["hints"].as_array().into_iter().flatten() {
         r.hints.insert(h["i"].as_u64().unwrap_or(0) as usize, (h["reward"].as_i64().unwrap_or(0), h["tech"].as_i64()));
@@ -703,7 +756,8 @@ fn run_job(job: &Value) -> Result<Value, String> {
     if trace_on && !d.is_empty() { trace.push(json!([to.saturating_sub(1), 15, 255, d])); }
     let stars: BTreeMap<i32, i32> = r.game.state.tribes.iter().map(|(k, t)| (*k, t.stars)).collect();
     let tiles = if r.accept > 0 { rd("next").map(|n| tiles_vs(&r, &n, r.game.state.settings.current_player_turn_id)).unwrap_or(Value::Null) } else { Value::Null };
-    Ok(json!({"tiles": tiles, "tag": job["tag"], "units": units_out(&r), "stars": stars, "stars0": stars0, "legal": r.legal,
+    let whatif = if r.wi { wi_real_check(&r, rd("next").ok().as_ref()) } else { Value::Null };
+    Ok(json!({"whatif": whatif, "tiles": tiles, "tag": job["tag"], "units": units_out(&r), "stars": stars, "stars0": stars0, "legal": r.legal,
               "illegal": r.illegal, "notes": r.notes, "load": rep, "turn": r.game.state.settings.turn,
               "player": r.game.state.settings.current_player_turn_id, "trace": trace, "accept": r.acc, "accept_fail": r.acc_fail, "kinds": r.kinds,
               "decisions": r.decisions, "cols": if r.decisions.is_some() { json!(polyfish::botpolicy::col_names()) } else { Value::Null }}))
