@@ -1214,7 +1214,7 @@
    "rule": "When a Mooni captures a village, the water around it freezes but the enemy units next to it are not frozen: they move, attack and break ice on their next turn.",
    "level": "L3 (n=1 capture, 2 units)",
    "game_version": "v123 (measured in a save)",
-   "evidence": "Game e15f392c t5: Polaris Mooni 20 captures (16,10) at #371; Hoodrick Warrior 22 at (16,9), next to it, moves at #397 and breaks ice at #398; unit 23 moves (#403) and attacks (#404). Polyfish froze both (turn ended): 4 illegal moves, now legal (Move 5606 -> 5608, Attack 1441 -> 1442, BreakIce 118 -> 119). The Python referee (engine/replay.py mooni_freezes_units) still freezes units on a capture but never blocks their moves, so its scores can't tell; Frozen after a Mooni move is unchanged."
+   "evidence": "Game e15f392c t5: Polaris Mooni 20 captures (16,10) at #371; Hoodrick Warrior 22 at (16,9), next to it, moves at #397 and breaks ice at #398; unit 23 moves (#403) and attacks (#404). Polyfish froze both (turn ended): 4 illegal moves, now legal (Move 5606 -> 5608, Attack 1441 -> 1442, BreakIce 118 -> 119). The Python referee (engine/replay.py mooni_freezes_units) still freezes units on a capture but never blocks their moves, so its scores can't tell; Frozen after a Mooni move is unchanged. | Referee (28 Oct, pf-tail-2): engine/replay.py now has RULES mooni_capture_freezes_units, off: a capture no longer freezes adjacent units (a Mooni move still does, MOONI-FREEZE-UNITS). A/B: tuned units 7389/7392, stars 1511/1540, held-out 187/187, 64/64, all identical to on (the referee never blocks frozen units, so scores cannot tell); kept because the save contradicts the old reading."
   },
   {
    "id": "CITY-UNITS-OWN-ONLY",

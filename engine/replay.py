@@ -25,6 +25,7 @@ RULES = {   # one switch per line; A/B each in tools/miss.py before keeping a ch
     't38_swarm': True,
     't38_attack_boost': False,
     'mooni_freezes_units': True,
+    'mooni_capture_freezes_units': False,   # MOONI-CAPTURE-NO-UNIT-FREEZE: e15f392c t5 #371 says no; A/B below
     'retaliation_needs_sight': True,
     'frozen_no_retaliation': True,
     'freeze_on_hit': True,
@@ -319,7 +320,7 @@ def stomp(st, u, old):
         elif RULES["stomp_poison"] and "poison" in sa["skills"]: add_effect(d, POISON)   # Polyfish: a Poison stomper (Living Island) poisons too
         LOG["stomp"] += 1
 
-def mooni_freeze(st, x, y, owner=None):
+def mooni_freeze(st, x, y, owner=None, capture=False):
     """MEASURED (e15f392c, 4/4 cases): right after a Mooni moves or captures, the water around it is ice, so land units walk on it.
     MEASURED (af181c8f): ocean freezes too (45 of 70 new ice tiles were ocean; 61 of the 70 were next to a Mooni or Gaami)."""
     if not RULES["mooni_freeze"]: return
@@ -329,7 +330,7 @@ def mooni_freeze(st, x, y, owner=None):
             if st.terrain.get(q) in RULES["mooni_freezes"] and q not in st.at:
                 st.ice_from[q] = st.terrain[q]; st.terrain[q] = "Ice"
             e = unit_at(st, *q)                  # Jason in game + Polyfish freeze_area: adjacent enemy units are Frozen (saves: 3 of 4 frozen units sit next to an enemy Mooni)
-            if RULES["mooni_freezes_units"] and e is not None and owner is not None and e.owner != owner and q != (x, y): add_effect(e, FROZEN)
+            if RULES["mooni_freezes_units"] and not (capture and not RULES["mooni_capture_freezes_units"]) and e is not None and owner is not None and e.owner != owner and q != (x, y): add_effect(e, FROZEN)
 
 def apply(st, a, turn):
     t = a["type"]; b = bytes.fromhex(a["raw"]); f = FMT.get(t)
@@ -473,7 +474,7 @@ def apply(st, a, turn):
             for u in [u for u in st.units.values() if u.owner == old]: remove(st, u)          # and its remaining units were gone by the next save
             LOG["tribe destroyed"] += 1
         cu = st.units.get(uid)
-        if cu is not None and cu.type in RULES["freezers"]: mooni_freeze(st, x, y, pl)
+        if cu is not None and cu.type in RULES["freezers"]: mooni_freeze(st, x, y, pl, capture=True)
         if RULES["polaris_capture_freezes"] and st.players.get(pl) and st.players[pl].tribe == "Polaris":
             for dy in (-1, 0, 1):                # MEASURED af181c8f t13: a Battle Sled took a city and the water around it was ice
                 for dx in (-1, 0, 1):            # the same turn (a Warrior then walked onto it on foot)

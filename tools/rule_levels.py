@@ -23,6 +23,7 @@ MAP = {   # rule name -> ledger id
     "replay.RULES.t38_swarm": "ACTION-TYPES-V123",
     "replay.RULES.t38_attack_boost": "ACTION-TYPES-V123",
     "replay.RULES.mooni_freezes_units": "MOONI-FREEZE-UNITS",
+    "replay.RULES.mooni_capture_freezes_units": "MOONI-CAPTURE-NO-UNIT-FREEZE",
     "replay.RULES.retaliation_needs_sight": "C20",
     "replay.RULES.frozen_no_retaliation": "FROZEN-NO-RETALIATION",
     "replay.RULES.freeze_on_hit": "FROZEN-NO-RETALIATION",
