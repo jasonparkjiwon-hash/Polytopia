@@ -48,6 +48,8 @@ _Last updated 2026-10-26 (Jason's games 1-5 ingested, scored held-out, released)
 
 ## Waiting on Jason
 
+- **Jason (27 Oct): no more data collection for a while; work with games 7 and 8 (Google Docs 'Polytopia Game 7' id 18IWmxuWo7rbqXDuEwrrqhUV1x84tY5TwURr_59GXbYc, 'Polytopia Game 8' id 18VWmQLcOhgb8EmRLG7Jqo-p9Fcy0UW1tEA18mlr-LDg) plus the 12 we have. Resume work at ~8pm Juba (18:00 UTC) when usage resets: ingest 7 and 8 as held-out first, then (his go given 27 Oct) the win-% prototype, the what-if tool, and a better bot model, in that order.** New facts from his screenshots (Sanctuary level 1/8, Insect Egg card) are in the ledger.
+
 - **Jason will send full-length bot games, every turn, on 28 Oct.** Then start, in this order, on his go: (1) win-% prototype (Phase 5: playouts from a state with bot-policy v2 opponents); (2) what-if tool (capability 1: moves with exact outcomes from a save); (3) better bot model from the new games. Aquarion Build 7 on ocean answered 27 Oct: it is the Lost City's fish (AQUARION-OCEAN).
 
 - bot-policy-2 (27 Oct), optional, makes the bot model much better: full-length Hard bot games exported **every turn** (turn 1 to the end,
