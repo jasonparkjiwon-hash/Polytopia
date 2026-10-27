@@ -48,6 +48,8 @@ _Last updated 2026-10-26 (Jason's games 1-5 ingested, scored held-out, released)
 
 ## Waiting on Jason
 
+- **Jason will send full-length bot games, every turn, on 28 Oct.** Then start, in this order, on his go: (1) win-% prototype (Phase 5: playouts from a state with bot-policy v2 opponents); (2) what-if tool (capability 1: moves with exact outcomes from a save); (3) better bot model from the new games. Aquarion Build 7 on ocean answered 27 Oct: it is the Lost City's fish (AQUARION-OCEAN).
+
 - bot-policy-2 (27 Oct), optional, makes the bot model much better: full-length Hard bot games exported **every turn** (turn 1 to the end,
   like game 6), ideally 2-3 games, plus one Crazy game the same way. Right now Attack/Capture/Build rest on 400-1400 decisions and the
   held-out game covers turns 1-5 only. Also useful: one game where you note, for 3-4 bot turns, how many stars the bot held at the end of its
