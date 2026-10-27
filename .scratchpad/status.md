@@ -58,9 +58,7 @@ _Last updated 2026-10-26 (Jason's games 1-5 ingested, scored held-out, released)
   turn (what stops a bot building).
 
 - ref-fix (27 Oct), four in-game checks:
-  1. **Sanctuary "nearby":** build a Sanctuary with a wild animal exactly 2 tiles away (none adjacent); note stars right before
-     and after building and over the next 2 turns. Does the far animal pay +1? (SANCTUARY-V123: card price 5 and +1 per animal
-     fit game 2 with adjacent animals; radius 1 vs 2 not separated.)
+  1. ~~Sanctuary "nearby"~~ answered 27 Oct: adjacent tiles only; level = adjacent animals, max 8 (SANCTUARY-V123).
   2. ~~Mermaid Dagger card~~ answered 27 Oct: same as a Dagger but amphibious.
   3. ~~Infiltration~~ answered 27 Oct: Daggers = city level, cap 5, only empty tiles in its borders (INFILTRATE).
   4. Mermaid Defender price: card says 8, game 6 p9 rows fit 3 (4 rows; Jelly and Shark fit 8). Both engines use 3 (MERMAID-DEFENDER-PRICE). Re-check: train one Defender with stars before and after.
