@@ -17,6 +17,28 @@
     "stars": "16/16 new (64/64 total)",
     "rules_commit": "a70f3a3"
    }
+  },
+  {
+   "game": "710ddb20-4864-4c1c-a926-e4b0bdb3dbc7",
+   "added": "2026-10-27",
+   "note": "game 7 'Lights of Shalosa', Hard (Difficulty 2), every turn 1-19 (t0 pre-StartMatch left out; t1 clean, prefix of t2); Jason's Drive doc 'Polytopia Game 7'",
+   "scored": {
+    "date": "2026-10-27",
+    "units": "1950/1982",
+    "stars": "284/288",
+    "rules_commit": "6c1a03a"
+   }
+  },
+  {
+   "game": "64795ee3-d8c1-40ec-a2f9-325f018afa43",
+   "added": "2026-10-27",
+   "note": "game 8 'Square of Daumpo', Difficulty 3, every turn 1-10; Jason's Drive doc 'Polytopia Game 8'",
+   "scored": {
+    "date": "2026-10-27",
+    "units": "824/832",
+    "stars": "139/144",
+    "rules_commit": "6c1a03a"
+   }
   }
  ],
  "released": [
