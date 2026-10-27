@@ -72,7 +72,9 @@ class Books:
         self.tribe = {p["PlayerId"]: TRIBE.get(p["Tribe"]) for p in d["currentPlayers"]}
         self.handicap = {p["PlayerId"]: p["DifficultyHandicap"] for p in d["currentPlayers"]}
         self.relation = {(p["PlayerId"], r["PlayerId"]): r["RelationState"] for p in d["currentPlayers"] for r in p["Diplomacy"]}
-        self.embassies = set()                          # (builder, host); the save's EmbassyLevel is almost never set, so read the log
+        self.embassies = set()                          # (builder, host), from the log; with EMBASSY_FROM_SAVE also the host's Diplomacy EmbassyLevel for the builder
+        if EMBASSY_FROM_SAVE:
+            self.embassies |= {(r["PlayerId"], p["PlayerId"]) for p in d["currentPlayers"] for r in p["Diplomacy"] if r.get("EmbassyLevel", 0) > 0}
         self.structure = {(x, y): (t["ImprovementType"], t["Owner"]) for y, row in enumerate(d["currentTiles"])
                           for x, t in enumerate(row) if t["ImprovementExists"]}
 
@@ -164,7 +166,9 @@ MARKET_BY_LEVEL = True      # A/B 2026-10-23: a Market pays the level of each ad
 ROUND_START_PAID = True     # A/B 2026-10-23: a save taken right after the round-end EndTurn (player 255) already holds the next player's income
 LEVEL_FROM_REWARD = True    # MEASURED: a city's level rises by its number of CityReward actions (243/243); action 21 never changes it (201/201)
 EMBASSY_ACTION30 = True    # MEASURED: action 30 (player, host capital x,y, host id) builds an embassy: the host's Diplomacy entry gets EmbassyLevel 1 (6e1bf8e0)
-EMBASSY_BUILDER_PAID = False # MEASURED n=2: the host earns 2 (4 at peace) from its next turn; the builder earned nothing while neutral (09a5bf1e) and 4 at peace (6e1bf8e0)
+EMBASSY_BUILDER_PAID = True  # EMBASSY-INCOME-NEUTRAL: the builder also earns 2 while neutral (9906f7da, 5 embassies; Jason). The old 09a5bf1e "nothing" case is explained by combat ending the embassy (A/B 1493 -> 1505 with the two flags below)
+EMBASSY_FROM_SAVE = True    # EMBASSY-INCOME-NEUTRAL: embassies standing in save a, read from the host's Diplomacy EmbassyLevel (9906f7da)
+EMBASSY_COMBAT_DESTROYS = True    # EMBASSY-DESTROYED-BY-COMBAT: an attack or capture between builder and host removes the embassy (Jason, 9906f7da)
 TRACK_PEACE = True          # an accepted peace (action 28 reply 1) counts from then on for embassy income (A/B 779 -> 780)
 PAID_AT_TURN_START = False  # MEASURED: a save taken right at a turn start does not hold that turn's income yet; a mid-turn save does (596 vs 562 exact)
 
@@ -193,6 +197,13 @@ def check(a, b, acts, model="levels", siege=True):
     if ROUND_START_PAID and n0 > 0 and _round_end(acts[n0 - 1]): prev_end = False   # already paid in save a
     for i in range(len(a["actions"]), len(b["actions"])):
         x = acts[i]; pl = bytes.fromhex(x["raw"])[0]
+        if EMBASSY_COMBAT_DESTROYS and x["type"] in (2, 7):   # EMBASSY-DESTROYED-BY-COMBAT: an attack or city capture between builder and host ends the embassy
+            r = bytes.fromhex(x["raw"]); foe = None
+            if x["type"] == 2 and st is not None:
+                df = R.unit_at(st, *struct.unpack("<BIIIII", r)[4:6]); foe = df.owner if df else None
+            elif x["type"] == 7:
+                c = bk.city.get(struct.unpack("<BIII", r)[2:4]); foe = c["owner"] if c else None
+            if foe is not None and foe != pl: bk.embassies = {e for e in bk.embassies if set(e) != {pl, foe}}
         if pl in rows and prev_end and pl != 255:       # the first action of a player's turn: income arrives first
             occ = {q: st.units[i].owner for q, i in st.at.items() if i in st.units} if st else None
             rows[pl]["income"] += bk.income(pl, model, occ); rows[pl]["turns"] += 1

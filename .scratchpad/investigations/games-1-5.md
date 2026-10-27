@@ -85,3 +85,4 @@ Stars (11):
 | 2 | AQUARION-WATERWAYS-ID | `engine/economy.py` `TIER["Waterways"] = 2` (tech 48) | 7372/7439, 1491/1540 |
 | 3 | SANCTUARY-V123 | `engine/economy.py` `BUILD[32] = ("Sanctuary", 3)` | 7372/7439, 1492/1540 |
 | 4 | CLEAR-FOREST-V123 | `engine/economy.py` `BUILD[10] = ("ClearForest", -1)` (gives 1 star) | 7372/7439, 1493/1540 |
+| 5 | EMBASSY-INCOME-NEUTRAL, EMBASSY-DESTROYED-BY-COMBAT | `engine/economy.py`: `EMBASSY_FROM_SAVE` (host Diplomacy EmbassyLevel > 0 = standing embassy in save a), `EMBASSY_BUILDER_PAID = True` (builder +2 while neutral), `EMBASSY_COMBAT_DESTROYS` (an Attack on, or capture of, the other side ends it) | 7372/7439, 1505/1540 |

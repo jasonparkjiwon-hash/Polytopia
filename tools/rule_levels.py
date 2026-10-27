@@ -120,7 +120,9 @@ MAP = {   # rule name -> ledger id
     "economy.LEVEL_FROM_REWARD": "CITY-LEVEL-BY-REWARD",
     "economy.MARKET_BY_LEVEL": "ECON-MARKET-CLATHRUS",
     "economy.EMBASSY_ACTION30": "EMBASSY-ACTION",
-    "economy.EMBASSY_BUILDER_PAID": "EMBASSY-ACTION",
+    "economy.EMBASSY_BUILDER_PAID": "EMBASSY-INCOME-NEUTRAL",
+    "economy.EMBASSY_FROM_SAVE": "EMBASSY-INCOME-NEUTRAL",
+    "economy.EMBASSY_COMBAT_DESTROYS": "EMBASSY-DESTROYED-BY-COMBAT",
     "economy.TRACK_PEACE": "EMBASSY-ACTION",
     # action handlers in replay.apply (what the engine does with each logged action)
     "replay.action.1": "ACTION-TYPES-V123",     # Build: only Enchant Animal spawns a unit

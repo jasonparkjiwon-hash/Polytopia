@@ -352,3 +352,4 @@ Jason (Imperius) vs 15 Hard bots on a 30x30 map, exported every turn from 1 to 1
 - AQUARION-WATERWAYS-ID (26 Oct, ref-fix): Waterways (tech 48) priced as tier 2 in the engine; 3edee0ec t8->9 now exact.
 - SANCTUARY-V123 (26 Oct, ref-fix): Sanctuary (build 32) priced 3 in the engine (n=1).
 - CLEAR-FOREST-V123 (26 Oct, ref-fix): Clear Forest (build 10) gives +1 star in the engine (n=1).
+- EMBASSY-INCOME-NEUTRAL / EMBASSY-DESTROYED-BY-COMBAT (27 Oct, ref-fix): engine now reads standing embassies from the save, pays the builder too while neutral, and drops an embassy after any attack or capture between the two; stars 1493 -> 1505, no game worse.
