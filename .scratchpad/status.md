@@ -12,7 +12,7 @@ _Last updated 2026-10-26 (Jason's games 1-5 ingested, scored held-out, released)
     explained; most need saves without gaps or an answer from Jason
     (`investigations/star-tail.md`).
   - Every engine rule has a ledger id (`tools/rule_levels.py`, run by `check.sh`):
-    140 rules, 1 still unverified (embassy price step; Market and Clathrus income
+    145 rules, 1 still unverified (embassy price step; Market and Clathrus income
     passed on games 1-5, 26 Oct).
 - **Jason's games 1-5 (26 Oct, Hard, every turn):** held-out score before tuning units
   1724/1733, stars 512/523; released for tuning. With them `tools/miss.py` is units
@@ -21,7 +21,8 @@ _Last updated 2026-10-26 (Jason's games 1-5 ingested, scored held-out, released)
   Clear Forest +1, siege case).
 - **Jason's game 6 (26 Oct, Cymanti, every turn t2-t20):** held-out units 917/984, stars 173/198;
   released. Embassies x5, peace offers, Aquarion units 49-52, Living Island; see `investigations/game-6.md`.
-  With games 1-6 `tools/miss.py` is units 7369/7445, stars 1487/1540.
+  With games 1-6 `tools/miss.py` is units 7369/7445, stars 1487/1540 before rule fixes; after ref-fix (27 Oct, 11 kept fixes,
+  table in `investigations/games-1-5.md`): **units 7386/7396, stars 1511/1540**; holdout ed6cb932 still 187/187, 64/64.
 - **Phase 3 prep is running** (backlog item 0): Polyfish becomes the forward
   model (`docs/simulator_choice.md`).
 - **Score baseline:** the expected `check.sh` output is under "Quick start" in
@@ -41,6 +42,16 @@ _Last updated 2026-10-26 (Jason's games 1-5 ingested, scored held-out, released)
 | Claude: sim-dist | First pass done (held-out check, `data/distributions.json`, `data/bot_turns.csv`); see `investigations/sim-dist.md` |
 
 ## Waiting on Jason
+
+- ref-fix (27 Oct), four in-game checks:
+  1. **Sanctuary "nearby":** build a Sanctuary with a wild animal exactly 2 tiles away (none adjacent); note stars right before
+     and after building and over the next 2 turns. Does the far animal pay +1? (SANCTUARY-V123: card price 5 and +1 per animal
+     fit game 2 with adjacent animals; radius 1 vs 2 not separated.)
+  2. **Mermaid Dagger card** (Aquarion unit 51): HP, attack, defence, skills. The engine uses Polyfish's Dagger stats.
+  3. **Infiltration:** when an Aquarion Scuba (or a Cloak) infiltrates a city, how many Daggers appear, and does the unit in the
+     city take normal attack damage? (Game 6: 6 damage, 3 Mermaid Daggers; Polyfish says a fixed 2 and up to the city's production.)
+  4. **Jelly / Mermaid Defender / Shark prices** (Aquarion p9 game 6 star rows don't fit the card prices 8/8/8; the
+     cards' train price for each would settle it).
 
 - pf-port-3 (26 Oct), one in-game check for the Polaris Outpost network (OUTPOST-NETWORK, fits 80/83 save states):
   build two Outposts 5 tiles apart with ice between them, a city next to each. Does the far city get connected
