@@ -16,6 +16,7 @@ LAND_UNITS = {"Warrior", "Rider", "Archer", "Defender", "MindBender", "Swordsman
               "Centipede", "Segment", "Larva", "SteamWagon", "SteamFortress", "Pyro", "AshArcher"}   # Aquarion units are amphibious/water: never embark
 WATER_UNITS = {"Shark", "Raychi", "Puffer", "Jelly", "Crab"}   # MEASURED: seen only on water, flooded tiles or cities (Mermaid walks on land)
 RULES = {   # one switch per line; A/B each in tools/miss.py before keeping a change
+    'moth_infiltrate': True,             # MOTH-INFILTRATE: the Cymanti Moth infiltrates like a Cloak (it attacks an enemy city, is used up, InsectEggs appear)
     'infiltrate': True,                  # INFILTRATE: a Cloak or Scuba attacking an enemy city deals normal damage (no retaliation) and disappears (9906f7da t18, n=1)
     'retaliation_uses_bonus': True,
     'melee_moves_in_on_kill': True,
@@ -88,6 +89,9 @@ RULES = {   # one switch per line; A/B each in tools/miss.py before keeping a ch
     'push_no_room_removes': True,
 }
 LOG = collections.Counter(); EVENTS = []
+
+def moth_infiltrates(st, tx, ty, pl):   # MOTH-INFILTRATE: a Moth does not infiltrate a city its own side lost (6e1bf8e0 t11: attacked, survived, exploded later)
+    return pl not in getattr(st, "ex_owner", {}).get((tx, ty), ())
 
 def dist(a, b): return max(abs(a[0] - b[0]), abs(a[1] - b[1]))
 
@@ -387,7 +391,7 @@ def apply(st, a, turn):
                 df = min(near, key=lambda u: dist((u.x, u.y), (tx, ty))); place(st, df, tx, ty); LOG["defender recovered by proximity"] += 1
         if at is None or df is None:
             LOG["attack: missing " + ("attacker" if at is None else "defender")] += 1; return
-        if RULES["infiltrate"] and at.type in ("Cloak", "Scuba") and st.city.get((tx, ty)) not in (None, pl):   # INFILTRATE: a Cloak/Scuba attacking an enemy city
+        if RULES["infiltrate"] and (at.type in ("Cloak", "Scuba") or (RULES["moth_infiltrate"] and at.type == "Moth" and moth_infiltrates(st, tx, ty, pl))) and st.city.get((tx, ty)) not in (None, pl):   # INFILTRATE: a Cloak/Scuba attacking an enemy city
             dmg, _, _ = fight(st, at, df); df.hp -= dmg                                                         # deals its normal damage, no retaliation, and is used
             if df.hp <= 0: remove(st, df)                                                                       # up; its Daggers are read from the next save
             remove(st, at); LOG["infiltrate"] += 1; return
@@ -464,7 +468,7 @@ def apply(st, a, turn):
         if RULES["peace_break_disbands"]:        # Jason's pasted summary (L0): the breaker's units inside the ex-ally's borders are disbanded
             for u in [u for u in st.units.values() if u.owner == pl and st.owner.get((u.x, u.y)) == other]: remove(st, u); LOG["peace-break disband"] += 1
     elif t == 7 and RULES.get("territory", True):  # Capture: the city's tile and the 8 around it become the captor's (unowned or owned by the old owner)
-        _, uid, x, y = v; old = st.city.get((x, y))
+        _, uid, x, y = v; old = st.city.get((x, y)); st.__dict__.setdefault("ex_owner", {}).setdefault((x, y), set()).add(old)
         for dy in (-1, 0, 1):
             for dx in (-1, 0, 1):
                 q = (x + dx, y + dy)

@@ -15,6 +15,7 @@ MAP = {   # rule name -> ledger id
     "replay.RULES.tentacles_on_entry": "TENTACLES",
     "replay.RULES.tentacles_after_move": "TENTACLES",
     "replay.RULES.infiltrate": "INFILTRATE",
+    "replay.RULES.moth_infiltrate": "MOTH-INFILTRATE",
     "replay.RULES.retaliation_uses_bonus": "C6",
     "replay.RULES.melee_moves_in_on_kill": "KILL-MOVE-IN",
     "replay.RULES.t18_disband": "ACTION-18-BREAK-ICE",          # the old reading of action 18, kept off
@@ -92,6 +93,7 @@ MAP = {   # rule name -> ledger id
     "economy.ECON_RULES.clathrus_income": "ECON-MARKET-CLATHRUS",
     "economy.ECON_RULES.aquarion51_price": "ECON-PRICES-V123",
     "economy.ECON_RULES.infiltrate_stars": "INFILTRATE-STARS",
+    "economy.ECON_RULES.moth_infiltrate": "MOTH-INFILTRATE",
     "economy.ECON_RULES.mermaid_defender_price": "MERMAID-DEFENDER-PRICE",
     # module constants
     "replay.FMT": "SAVE-FORMAT",

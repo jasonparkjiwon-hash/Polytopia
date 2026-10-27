@@ -1355,6 +1355,13 @@
    "level": "L1",
    "game_version": "v123 (saves) + fandom wiki",
    "evidence": "2026-10-27 wiki-research: fandom Jelly page (via search summary, undated): 8 stars, Navigation, replaces the Bomber, 20 HP, attack 2, defence 2, movement 2, range 1. 9906f7da t12 #786 and t14 #1007: p9 trained 52 holding Navigation (also Organization, Strategy, 47, 39, 46), so the save does not isolate Navigation. pfcore: Navigation unlocks the Jelly; pf_miss Train legal +2 (the two Jelly trains), units/stars unchanged; Rust test aquarion_navigation_trains_jelly."
+  },
+  {
+   "id": "MOTH-INFILTRATE",
+   "rule": "A Cymanti Moth attacking an enemy city infiltrates like a Cloak: it deals its normal damage, is used up, and InsectEggs (the Cymanti Dagger counterpart, 10 HP) appear on free tiles of the city's border (2 for a level-2 city). It pays no stars (unlike the Cloak/Scuba city-level payout). Exception seen once: a city the Moth's own side lost earlier is attacked normally (the Moth survived).",
+   "level": "L3",
+   "game_version": "v123 (measured in saves)",
+   "evidence": "710ddb20 t8->9 #1011 (Moth 119 vs AiMo city (8,25): eggs 181,182 on (7,24),(9,25)), t18->19 #3286 (eggs 610,611), 64795ee3 t9->10 #1274 (bot Moth 148 vs (11,7): egg 216), Jason's note 27 Oct (the Moth makes insect eggs instead of daggers). Counter-case 6e1bf8e0 t11 #1494: Moth hit a Warrior in a city its tribe had lost and stayed alive (MOTH-V123). Egg count and placement not modelled (replay reads them from the save). engine/replay.py RULES moth_infiltrate, economy.py ECON_RULES moth_infiltrate=False (paying stars made g7 -2 twice)."
   }
  ]
 }

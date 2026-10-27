@@ -16,13 +16,13 @@
   "economy.BONUS_NEEDS_CAPITAL": {
    "ledger": "ECON-BOT-BONUS",
    "level": "L3",
-   "source": "engine/economy.py:169",
+   "source": "engine/economy.py:170",
    "unverified": false
   },
   "economy.BONUS_NEEDS_FREE_CAPITAL": {
    "ledger": "ECON-BOT-BONUS",
    "level": "L3",
-   "source": "engine/economy.py:170",
+   "source": "engine/economy.py:171",
    "unverified": false
   },
   "economy.BUILD": {
@@ -34,19 +34,19 @@
   "economy.Books.income": {
    "ledger": "ECON-INCOME",
    "level": "L3",
-   "source": "engine/economy.py:91",
+   "source": "engine/economy.py:92",
    "unverified": false
   },
   "economy.Books.income.siege": {
    "ledger": "ECON-SIEGE",
    "level": "L3",
-   "source": "engine/economy.py:91",
+   "source": "engine/economy.py:92",
    "unverified": false
   },
   "economy.ECON_RULES.aquarion51_price": {
    "ledger": "ECON-PRICES-V123",
    "level": "L3 (n noted)",
-   "source": "engine/economy.py:52",
+   "source": "engine/economy.py:53",
    "unverified": false
   },
   "economy.ECON_RULES.clathrus_income": {
@@ -64,7 +64,7 @@
   "economy.ECON_RULES.infiltrate_stars": {
    "ledger": "INFILTRATE-STARS",
    "level": "L3 (n=1)",
-   "source": "engine/economy.py:51",
+   "source": "engine/economy.py:52",
    "unverified": false
   },
   "economy.ECON_RULES.market_income": {
@@ -79,22 +79,28 @@
    "source": "engine/economy.py:50",
    "unverified": false
   },
+  "economy.ECON_RULES.moth_infiltrate": {
+   "ledger": "MOTH-INFILTRATE",
+   "level": "L3",
+   "source": "engine/economy.py:51",
+   "unverified": false
+  },
   "economy.EMBASSY_ACTION30": {
    "ledger": "EMBASSY-ACTION",
    "level": "L3 (n=2)",
-   "source": "engine/economy.py:175",
+   "source": "engine/economy.py:176",
    "unverified": false
   },
   "economy.EMBASSY_BUILDER_PAID": {
    "ledger": "EMBASSY-INCOME-NEUTRAL",
    "level": "L3 (A/B over all saves: stars 1550 -> 1562 of 1604, no game worse) + Jason",
-   "source": "engine/economy.py:176",
+   "source": "engine/economy.py:177",
    "unverified": false
   },
   "economy.EMBASSY_COMBAT_DESTROYS": {
    "ledger": "EMBASSY-DESTROYED-BY-COMBAT",
    "level": "L3 (n=3) + Jason",
-   "source": "engine/economy.py:178",
+   "source": "engine/economy.py:179",
    "unverified": false
   },
   "economy.EMBASSY_COST": {
@@ -106,7 +112,7 @@
   "economy.EMBASSY_FROM_SAVE": {
    "ledger": "EMBASSY-INCOME-NEUTRAL",
    "level": "L3 (A/B over all saves: stars 1550 -> 1562 of 1604, no game worse) + Jason",
-   "source": "engine/economy.py:177",
+   "source": "engine/economy.py:178",
    "unverified": false
   },
   "economy.EMBASSY_INCOME": {
@@ -124,37 +130,37 @@
   "economy.EMBASSY_STEP_OTHER_HOSTS": {
    "ledger": "ECON-EMBASSY",
    "level": "L1 (in-game text + Jason's 5-star cost, same as the v123 card); not yet seen in a save",
-   "source": "engine/economy.py:179",
+   "source": "engine/economy.py:180",
    "unverified": false
   },
   "economy.LEVEL_FROM_REWARD": {
    "ledger": "CITY-LEVEL-BY-REWARD",
    "level": "L3",
-   "source": "engine/economy.py:174",
+   "source": "engine/economy.py:175",
    "unverified": false
   },
   "economy.MARKET_BY_LEVEL": {
    "ledger": "ECON-MARKET-CLATHRUS",
    "level": "L3 (Market by level n=1 + n=1 at level 1; Clathrus per adjacent Fungi n=1 game, 3 player-turns); cards",
-   "source": "engine/economy.py:172",
+   "source": "engine/economy.py:173",
    "unverified": false
   },
   "economy.NEG_POP": {
    "ledger": "ECON-INCOME",
    "level": "L3",
-   "source": "engine/economy.py:171",
+   "source": "engine/economy.py:172",
    "unverified": false
   },
   "economy.PAID_AT_TURN_START": {
    "ledger": "ECON-SAVE-TIMING",
    "level": "L3",
-   "source": "engine/economy.py:183",
+   "source": "engine/economy.py:184",
    "unverified": false
   },
   "economy.PEACE": {
    "ledger": "DIPLO-PEACE",
    "level": "L3 (27/28); L3 n=1 (29)",
-   "source": "engine/economy.py:168",
+   "source": "engine/economy.py:169",
    "unverified": false
   },
   "economy.REWARD_INCOME": {
@@ -172,25 +178,25 @@
   "economy.ROUND_START_PAID": {
    "ledger": "ROUND-START-INCOME",
    "level": "L3",
-   "source": "engine/economy.py:173",
+   "source": "engine/economy.py:174",
    "unverified": false
   },
   "economy.RUIN_STARS": {
    "ledger": "ECON-RUIN-STARS",
    "level": "L3",
-   "source": "engine/economy.py:167",
+   "source": "engine/economy.py:168",
    "unverified": false
   },
   "economy.SANCTUARY_INCOME": {
    "ledger": "SANCTUARY-V123",
    "level": "L3 card text + 1 save (n=1 Sanctuary, 4 rows)",
-   "source": "engine/economy.py:181",
+   "source": "engine/economy.py:182",
    "unverified": false
   },
   "economy.SANCTUARY_RADIUS": {
    "ledger": "SANCTUARY-V123",
    "level": "L3 card text + 1 save (n=1 Sanctuary, 4 rows)",
-   "source": "engine/economy.py:180",
+   "source": "engine/economy.py:181",
    "unverified": false
   },
   "economy.TIER": {
@@ -202,7 +208,7 @@
   "economy.TRACK_PEACE": {
    "ledger": "EMBASSY-ACTION",
    "level": "L3 (n=2)",
-   "source": "engine/economy.py:182",
+   "source": "engine/economy.py:183",
    "unverified": false
   },
   "economy.UNIT_COST": {
@@ -220,31 +226,31 @@
   "economy.WAR": {
    "ledger": "DIPLO-PEACE",
    "level": "L3 (27/28); L3 n=1 (29)",
-   "source": "engine/economy.py:168",
+   "source": "engine/economy.py:169",
    "unverified": false
   },
   "economy.meet_stars": {
    "ledger": "ECON-MEET",
    "level": "L3",
-   "source": "engine/economy.py:55",
+   "source": "engine/economy.py:56",
    "unverified": false
   },
   "economy.tech_cost": {
    "ledger": "TECH-COST",
    "level": "L2 (tier 3 and the Literacy discount not yet seen)",
-   "source": "engine/economy.py:60",
+   "source": "engine/economy.py:61",
    "unverified": false
   },
   "replay.DASH": {
    "ledger": "ACTION-18-AFTER-MOVE",
    "level": "L3 (130/130 move-then-break uses in the saves are Dash units; Jason in game)",
-   "source": "engine/replay.py:301",
+   "source": "engine/replay.py:305",
    "unverified": false
   },
   "replay.DIRS": {
    "ledger": "PUSH-DIRECTION",
    "level": "L3 (Polyfish + 9 of 11 saved pushes land on the saved tile with the two refinements; replay A/B 44 -> 42 unit misses, stars hold)",
-   "source": "engine/replay.py:154",
+   "source": "engine/replay.py:158",
    "unverified": false
   },
   "replay.FMT": {
@@ -256,13 +262,13 @@
   "replay.FROZEN": {
    "ledger": "ENUM-IDS",
    "level": "L3",
-   "source": "engine/replay.py:297",
+   "source": "engine/replay.py:301",
    "unverified": false
   },
   "replay.INVISIBLE": {
    "ledger": "ENUM-IDS",
    "level": "L3",
-   "source": "engine/replay.py:297",
+   "source": "engine/replay.py:301",
    "unverified": false
   },
   "replay.LAND_UNITS": {
@@ -274,463 +280,469 @@
   "replay.POISON": {
    "ledger": "ENUM-IDS",
    "level": "L3",
-   "source": "engine/replay.py:296",
+   "source": "engine/replay.py:300",
    "unverified": false
   },
   "replay.RULES.algae_is_land": {
    "ledger": "FLOOD-ALGAE",
    "level": "L3",
-   "source": "engine/replay.py:46",
+   "source": "engine/replay.py:47",
    "unverified": false
   },
   "replay.RULES.algae_keeps_boats": {
    "ledger": "ALGAE-KEEPS-BOATS",
    "level": "L3 (n=2)",
-   "source": "engine/replay.py:64",
+   "source": "engine/replay.py:65",
    "unverified": false
   },
   "replay.RULES.attack_splash": {
    "ledger": "SPLASH",
    "level": "L2 (Polyfish + the save + replay A/B)",
-   "source": "engine/replay.py:58",
+   "source": "engine/replay.py:59",
    "unverified": false
   },
   "replay.RULES.boat_new_id": {
    "ledger": "BOAT-IDS",
    "level": "L3",
-   "source": "engine/replay.py:282",
+   "source": "engine/replay.py:286",
    "unverified": false
   },
   "replay.RULES.break_ice_after_move_needs_dash": {
    "ledger": "ACTION-18-AFTER-MOVE",
    "level": "L3 (130/130 move-then-break uses in the saves are Dash units; Jason in game)",
-   "source": "engine/replay.py:82",
+   "source": "engine/replay.py:83",
    "unverified": false
   },
   "replay.RULES.bridge_is_land": {
    "ledger": "BRIDGE-LAND",
    "level": "L3",
-   "source": "engine/replay.py:33",
+   "source": "engine/replay.py:34",
    "unverified": false
   },
   "replay.RULES.explode_poison": {
    "ledger": "EXPLODE-POISON",
    "level": "L3",
-   "source": "engine/replay.py:38",
+   "source": "engine/replay.py:39",
    "unverified": false
   },
   "replay.RULES.explode_poison_halves": {
    "ledger": "EXPLODE-POISON-DEFENCE",
    "level": "L3 (2/2 targets in one explosion land on the saved HP; replay A/B 13 -> 12 unit misses, stars hold)",
-   "source": "engine/replay.py:85",
+   "source": "engine/replay.py:86",
    "unverified": false
   },
   "replay.RULES.explode_round": {
    "ledger": "EXPLODE-DAMAGE",
    "level": "L3",
-   "source": "engine/replay.py:43",
+   "source": "engine/replay.py:44",
    "unverified": false
   },
   "replay.RULES.explode_round_by_type": {
    "ledger": "EXPLODE-DAMAGE",
    "level": "L3",
-   "source": "engine/replay.py:44",
+   "source": "engine/replay.py:45",
    "unverified": false
   },
   "replay.RULES.flood_keeps_form": {
    "ledger": "FLOOD-ALGAE",
    "level": "L3",
-   "source": "engine/replay.py:47",
+   "source": "engine/replay.py:48",
    "unverified": false
   },
   "replay.RULES.freeze_on_hit": {
    "ledger": "FROZEN-NO-RETALIATION",
    "level": "L3",
-   "source": "engine/replay.py:31",
+   "source": "engine/replay.py:32",
    "unverified": false
   },
   "replay.RULES.freezers": {
    "ledger": "GAAMI-FREEZE",
    "level": "L3",
-   "source": "engine/replay.py:61",
+   "source": "engine/replay.py:62",
    "unverified": false
   },
   "replay.RULES.frozen_no_retaliation": {
    "ledger": "FROZEN-NO-RETALIATION",
    "level": "L3",
-   "source": "engine/replay.py:30",
+   "source": "engine/replay.py:31",
    "unverified": false
   },
   "replay.RULES.giant_juggernaut": {
    "ledger": "GIANT-JUGGERNAUT",
    "level": "L3",
-   "source": "engine/replay.py:62",
+   "source": "engine/replay.py:63",
    "unverified": false
   },
   "replay.RULES.hidden_attacker_no_retaliation": {
    "ledger": "CLOAK-DAGGER-RETALIATION",
    "level": "L3",
-   "source": "engine/replay.py:45",
+   "source": "engine/replay.py:46",
    "unverified": false
   },
   "replay.RULES.idle_auto_recover": {
    "ledger": "IDLE-AUTO-RECOVER",
    "level": "L3 (Jason in game, 23 Oct 2026 + 1 save case af181c8f t15; applying it to AI players adds 57 replay misses, so the engine keeps it human-only)",
-   "source": "engine/replay.py:84",
+   "source": "engine/replay.py:85",
    "unverified": false
   },
   "replay.RULES.infiltrate": {
    "ledger": "INFILTRATE",
    "level": "L3 (n=1)",
-   "source": "engine/replay.py:19",
+   "source": "engine/replay.py:20",
    "unverified": false
   },
   "replay.RULES.kill_move_lands": {
    "ledger": "KILL-MOVE-IN",
    "level": "L3 + replay A/B",
-   "source": "engine/replay.py:49",
+   "source": "engine/replay.py:50",
    "unverified": false
   },
   "replay.RULES.kill_move_needs_climbing": {
    "ledger": "KILL-MOVE-CLIMBING",
    "level": "L3 (n=1) + replay A/B",
-   "source": "engine/replay.py:68",
+   "source": "engine/replay.py:69",
    "unverified": false
   },
   "replay.RULES.melee_moves_in_on_kill": {
    "ledger": "KILL-MOVE-IN",
    "level": "L3 + replay A/B",
-   "source": "engine/replay.py:21",
+   "source": "engine/replay.py:22",
    "unverified": false
   },
   "replay.RULES.mooni_capture_freezes_units": {
    "ledger": "MOONI-CAPTURE-NO-UNIT-FREEZE",
    "level": "L3 (n=1 capture, 2 units)",
-   "source": "engine/replay.py:28",
+   "source": "engine/replay.py:29",
    "unverified": false
   },
   "replay.RULES.mooni_freeze": {
    "ledger": "MOONI-FREEZE",
    "level": "L3 (4/4 Warrior-on-ice cases in e15f392c) + Polyfish AutoFreeze",
-   "source": "engine/replay.py:53",
+   "source": "engine/replay.py:54",
    "unverified": false
   },
   "replay.RULES.mooni_freezes": {
    "ledger": "MOONI-FREEZE",
    "level": "L3 (4/4 Warrior-on-ice cases in e15f392c) + Polyfish AutoFreeze",
-   "source": "engine/replay.py:60",
+   "source": "engine/replay.py:61",
    "unverified": false
   },
   "replay.RULES.mooni_freezes_units": {
    "ledger": "MOONI-FREEZE-UNITS",
    "level": "L3",
-   "source": "engine/replay.py:27",
+   "source": "engine/replay.py:28",
+   "unverified": false
+  },
+  "replay.RULES.moth_infiltrate": {
+   "ledger": "MOTH-INFILTRATE",
+   "level": "L3",
+   "source": "engine/replay.py:19",
    "unverified": false
   },
   "replay.RULES.move_blocked_by_hidden": {
    "ledger": "MOVE-BLOCKED-HIDDEN",
    "level": "L3 (n=1) + replay A/B",
-   "source": "engine/replay.py:71",
+   "source": "engine/replay.py:72",
    "unverified": false
   },
   "replay.RULES.no_cities_no_units": {
    "ledger": "NO-CITIES-NO-UNITS",
    "level": "L3 (n=1)",
-   "source": "engine/replay.py:66",
+   "source": "engine/replay.py:67",
    "unverified": false
   },
   "replay.RULES.peace_break_disbands": {
    "ledger": "DIPLO-BREAK-DISBAND",
    "level": "L3 for the disband (Jason in game, 2026-10-23); L0 for the rest (cannot attack that turn, units frozen)",
-   "source": "engine/replay.py:81",
+   "source": "engine/replay.py:82",
    "unverified": false
   },
   "replay.RULES.peace_spares_area_damage": {
    "ledger": "PEACE-AREA-DAMAGE",
    "level": "L3",
-   "source": "engine/replay.py:36",
+   "source": "engine/replay.py:37",
    "unverified": false
   },
   "replay.RULES.poison": {
    "ledger": "C7",
    "level": "L3 for the -50% (e15f392c turn 11: a Raychi one-shots a 10 HP Warrior that ended a turn on Fungi; 10 damage exactly), L1 for the cure",
-   "source": "engine/replay.py:57",
+   "source": "engine/replay.py:58",
    "unverified": false
   },
   "replay.RULES.poison_recover_cures": {
    "ledger": "C7",
    "level": "L3 for the -50% (e15f392c turn 11: a Raychi one-shots a 10 HP Warrior that ended a turn on Fungi; 10 damage exactly), L1 for the cure",
-   "source": "engine/replay.py:59",
+   "source": "engine/replay.py:60",
    "unverified": false
   },
   "replay.RULES.polaris_capture_freezes": {
    "ledger": "POLARIS-CAPTURE-FREEZE",
    "level": "L3 (n=1 replay case; supporting count: 12 of 16 water tiles newly in Polaris territory across saves were ice at the next save)",
-   "source": "engine/replay.py:83",
+   "source": "engine/replay.py:84",
    "unverified": false
   },
   "replay.RULES.port_boards": {
    "ledger": "PORT-BOARDS",
    "level": "L3",
-   "source": "engine/replay.py:41",
+   "source": "engine/replay.py:42",
    "unverified": false
   },
   "replay.RULES.port_kill_embark": {
    "ledger": "PORT-KILL-EMBARK",
    "level": "L3",
-   "source": "engine/replay.py:63",
+   "source": "engine/replay.py:64",
    "unverified": false
   },
   "replay.RULES.push_ccw_first": {
    "ledger": "PUSH-TIEBREAK",
    "level": "L3 (Jason in game, 23 Oct 2026 + the one deciding save push, af181c8f t10; no save has a push with no open tile)",
-   "source": "engine/replay.py:87",
+   "source": "engine/replay.py:88",
    "unverified": false
   },
   "replay.RULES.push_centre_round": {
    "ledger": "PUSH-NEVER-MOVED",
    "level": "L3 (871 saved facings + replay A/B)",
-   "source": "engine/replay.py:72",
+   "source": "engine/replay.py:73",
    "unverified": false
   },
   "replay.RULES.push_dir_persists": {
    "ledger": "PUSH-DIRECTION",
    "level": "L3 (Polyfish + 9 of 11 saved pushes land on the saved tile with the two refinements; replay A/B 44 -> 42 unit misses, stars hold)",
-   "source": "engine/replay.py:79",
+   "source": "engine/replay.py:80",
    "unverified": false
   },
   "replay.RULES.push_dir_round": {
    "ledger": "PUSH-DIRECTION",
    "level": "L3 (Polyfish + 9 of 11 saved pushes land on the saved tile with the two refinements; replay A/B 44 -> 42 unit misses, stars hold)",
-   "source": "engine/replay.py:80",
+   "source": "engine/replay.py:81",
    "unverified": false
   },
   "replay.RULES.push_needs_climbing": {
    "ledger": "PUSH-TERRAIN",
    "level": "L3",
-   "source": "engine/replay.py:51",
+   "source": "engine/replay.py:52",
    "unverified": false
   },
   "replay.RULES.push_no_room_removes": {
    "ledger": "PUSH-TIEBREAK",
    "level": "L3 (Jason in game, 23 Oct 2026 + the one deciding save push, af181c8f t10; no save has a push with no open tile)",
-   "source": "engine/replay.py:88",
+   "source": "engine/replay.py:89",
    "unverified": false
   },
   "replay.RULES.push_onto_port": {
    "ledger": "PUSH-ONTO-PORT",
    "level": "L3 (n=2)",
-   "source": "engine/replay.py:65",
+   "source": "engine/replay.py:66",
    "unverified": false
   },
   "replay.RULES.push_polyfish": {
    "ledger": "PUSH-DIRECTION",
    "level": "L3 (Polyfish + 9 of 11 saved pushes land on the saved tile with the two refinements; replay A/B 44 -> 42 unit misses, stars hold)",
-   "source": "engine/replay.py:50",
+   "source": "engine/replay.py:51",
    "unverified": false
   },
   "replay.RULES.push_port_first_only": {
    "ledger": "PUSH-PORT-FIRST",
    "level": "L3 (6 pushes) + replay A/B",
-   "source": "engine/replay.py:77",
+   "source": "engine/replay.py:78",
    "unverified": false
   },
   "replay.RULES.push_saved_facing": {
    "ledger": "SAVE-UNIT-FACING",
    "level": "L3 (save field matches the last logged move's direction for about 85% of units with a move, 2 games; replay A/B 6 -> 5 unit misses, stars hold)",
-   "source": "engine/replay.py:86",
+   "source": "engine/replay.py:87",
    "unverified": false
   },
   "replay.RULES.push_toward_attacker": {
    "ledger": "PUSH-NEVER-MOVED",
    "level": "L3 (871 saved facings + replay A/B)",
-   "source": "engine/replay.py:74",
+   "source": "engine/replay.py:75",
    "unverified": false
   },
   "replay.RULES.recover_lost_defender": {
    "ledger": "ENGINE-RESYNC",
    "level": "tool",
-   "source": "engine/replay.py:384",
+   "source": "engine/replay.py:388",
    "unverified": false
   },
   "replay.RULES.resync_terrain": {
    "ledger": "ENGINE-RESYNC",
    "level": "tool",
-   "source": "engine/replay.py:48",
+   "source": "engine/replay.py:49",
    "unverified": false
   },
   "replay.RULES.resync_territory": {
    "ledger": "ENGINE-RESYNC",
    "level": "tool",
-   "source": "engine/replay.py:609",
+   "source": "engine/replay.py:613",
    "unverified": false
   },
   "replay.RULES.retaliation_needs_sight": {
    "ledger": "C20",
    "level": "L3",
-   "source": "engine/replay.py:29",
+   "source": "engine/replay.py:30",
    "unverified": false
   },
   "replay.RULES.retaliation_uses_bonus": {
    "ledger": "C6",
    "level": "L2 (replay A/B)",
-   "source": "engine/replay.py:20",
+   "source": "engine/replay.py:21",
    "unverified": false
   },
   "replay.RULES.ruin_boat_passenger": {
    "ledger": "RUIN-BOAT-PASSENGER",
    "level": "L3 (n=1) + replay A/B",
-   "source": "engine/replay.py:78",
+   "source": "engine/replay.py:79",
    "unverified": false
   },
   "replay.RULES.ruin_unit": {
    "ledger": "RUIN-UNIT-SPAWN",
    "level": "L3",
-   "source": "engine/replay.py:52",
+   "source": "engine/replay.py:53",
    "unverified": false
   },
   "replay.RULES.ruin_unseen_swordsman": {
    "ledger": "RUIN-UNIT-UNSEEN",
    "level": "L3 (n=1, inferred) + replay A/B",
-   "source": "engine/replay.py:67",
+   "source": "engine/replay.py:68",
    "unverified": false
   },
   "replay.RULES.shaman_convert": {
    "ledger": "SHAMAN",
    "level": "L3 (n=1)",
-   "source": "engine/replay.py:55",
+   "source": "engine/replay.py:56",
    "unverified": false
   },
   "replay.RULES.shaman_damage": {
    "ledger": "SHAMAN",
    "level": "L3 (n=1)",
-   "source": "engine/replay.py:56",
+   "source": "engine/replay.py:57",
    "unverified": false
   },
   "replay.RULES.stiff_boat_lands": {
    "ledger": "JUGGERNAUT-KILL-MOVE",
    "level": "L3",
-   "source": "engine/replay.py:69",
+   "source": "engine/replay.py:70",
    "unverified": false
   },
   "replay.RULES.stiff_moves_in": {
    "ledger": "JUGGERNAUT-KILL-MOVE",
    "level": "L3",
-   "source": "engine/replay.py:37",
+   "source": "engine/replay.py:38",
    "unverified": false
   },
   "replay.RULES.stomp": {
    "ledger": "STOMP",
    "level": "L3",
-   "source": "engine/replay.py:34",
+   "source": "engine/replay.py:35",
    "unverified": false
   },
   "replay.RULES.stomp_after_boarding": {
    "ledger": "STOMP-ON-BOARDING",
    "level": "L3 (n=1) + replay A/B",
-   "source": "engine/replay.py:73",
+   "source": "engine/replay.py:74",
    "unverified": false
   },
   "replay.RULES.stomp_on_kill_move": {
    "ledger": "JUGGERNAUT-KILL-MOVE",
    "level": "L3",
-   "source": "engine/replay.py:70",
+   "source": "engine/replay.py:71",
    "unverified": false
   },
   "replay.RULES.stomp_poison": {
    "ledger": "STOMP",
    "level": "L3",
-   "source": "engine/replay.py:40",
+   "source": "engine/replay.py:41",
    "unverified": false
   },
   "replay.RULES.summon_promotion": {
    "ledger": "RUIN-UNIT-SPAWN",
    "level": "L3",
-   "source": "engine/replay.py:35",
+   "source": "engine/replay.py:36",
    "unverified": false
   },
   "replay.RULES.t17_freeze_area": {
    "ledger": "ACTION-17-FREEZE-AREA",
    "level": "L1 (n=1, Polyfish + one Polaris use at its Gaami's tile)",
-   "source": "engine/replay.py:42",
+   "source": "engine/replay.py:43",
    "unverified": false
   },
   "replay.RULES.t18_break_ice": {
    "ledger": "ACTION-18-BREAK-ICE",
    "level": "L3",
-   "source": "engine/replay.py:23",
+   "source": "engine/replay.py:24",
    "unverified": false
   },
   "replay.RULES.t18_disband": {
    "ledger": "ACTION-18-BREAK-ICE",
    "level": "L3",
-   "source": "engine/replay.py:22",
+   "source": "engine/replay.py:23",
    "unverified": false
   },
   "replay.RULES.t24_explode": {
    "ledger": "EXPLODE-DAMAGE",
    "level": "L3",
-   "source": "engine/replay.py:24",
+   "source": "engine/replay.py:25",
    "unverified": false
   },
   "replay.RULES.t38_attack_boost": {
    "ledger": "ACTION-TYPES-V123",
    "level": "L1",
-   "source": "engine/replay.py:26",
+   "source": "engine/replay.py:27",
    "unverified": false
   },
   "replay.RULES.t38_swarm": {
    "ledger": "ACTION-TYPES-V123",
    "level": "L1",
-   "source": "engine/replay.py:25",
+   "source": "engine/replay.py:26",
    "unverified": false
   },
   "replay.RULES.t4_heal": {
    "ledger": "ACTION-4-HEAL",
    "level": "L3 (n=1)",
-   "source": "engine/replay.py:39",
+   "source": "engine/replay.py:40",
    "unverified": false
   },
   "replay.RULES.tentacles_after_move": {
    "ledger": "TENTACLES",
    "level": "L3 (8 hits, replay A/B)",
-   "source": "engine/replay.py:76",
+   "source": "engine/replay.py:77",
    "unverified": false
   },
   "replay.RULES.tentacles_on_entry": {
    "ledger": "TENTACLES",
    "level": "L3 (8 hits, replay A/B)",
-   "source": "engine/replay.py:75",
+   "source": "engine/replay.py:76",
    "unverified": false
   },
   "replay.RULES.territory": {
    "ledger": "CAPTURE-TERRITORY",
    "level": "L2 (replay A/B)",
-   "source": "engine/replay.py:466",
+   "source": "engine/replay.py:470",
    "unverified": false
   },
   "replay.RULES.tribe_super_unit": {
    "ledger": "SUPER-UNIT-BY-TRIBE",
    "level": "L3 (Polaris, Giant tribes); L1 (Aquarion, Elyrion, Cymanti from Polyfish)",
-   "source": "engine/replay.py:32",
+   "source": "engine/replay.py:33",
    "unverified": false
   },
   "replay.RULES.water_units_stay": {
    "ledger": "WATER-UNITS",
    "level": "L2 (replay A/B)",
-   "source": "engine/replay.py:54",
+   "source": "engine/replay.py:55",
    "unverified": false
   },
   "replay.SUPER_UNIT": {
    "ledger": "SUPER-UNIT-BY-TRIBE",
    "level": "L3 (Polaris, Giant tribes); L1 (Aquarion, Elyrion, Cymanti from Polyfish)",
-   "source": "engine/replay.py:302",
+   "source": "engine/replay.py:306",
    "unverified": false
   },
   "replay.SWIFT": {
    "ledger": "ENUM-IDS",
    "level": "L3",
-   "source": "engine/replay.py:297",
+   "source": "engine/replay.py:301",
    "unverified": false
   },
   "replay.WATER_UNITS": {
@@ -742,169 +754,169 @@
   "replay.action.1": {
    "ledger": "ACTION-TYPES-V123",
    "level": "L1",
-   "source": "engine/replay.py:447",
+   "source": "engine/replay.py:451",
    "unverified": false
   },
   "replay.action.11": {
    "ledger": "CITY-REWARDS",
    "level": "L3",
-   "source": "engine/replay.py:489",
+   "source": "engine/replay.py:493",
    "unverified": false
   },
   "replay.action.13": {
    "ledger": "PROMOTE-HP",
    "level": "L3",
-   "source": "engine/replay.py:440",
+   "source": "engine/replay.py:444",
    "unverified": false
   },
   "replay.action.14": {
    "ledger": "RUIN-UNIT-SPAWN",
    "level": "L3",
-   "source": "engine/replay.py:500",
+   "source": "engine/replay.py:504",
    "unverified": false
   },
   "replay.action.15": {
    "ledger": "FROZEN-NO-RETALIATION",
    "level": "L3",
-   "source": "engine/replay.py:346",
+   "source": "engine/replay.py:350",
    "unverified": false
   },
   "replay.action.16": {
    "ledger": "BOAT-IDS",
    "level": "L3",
-   "source": "engine/replay.py:434",
+   "source": "engine/replay.py:438",
    "unverified": false
   },
   "replay.action.17": {
    "ledger": "ACTION-17-FREEZE-AREA",
    "level": "L1 (n=1, Polyfish + one Polaris use at its Gaami's tile)",
-   "source": "engine/replay.py:457",
+   "source": "engine/replay.py:461",
    "unverified": false
   },
   "replay.action.18": {
    "ledger": "ACTION-18-BREAK-ICE",
    "level": "L3",
-   "source": "engine/replay.py:509",
+   "source": "engine/replay.py:513",
    "unverified": false
   },
   "replay.action.2": {
    "ledger": "COMBAT-FORMULA",
    "level": "L2 (replay: 63/66 exact at turn 5)",
-   "source": "engine/replay.py:380",
+   "source": "engine/replay.py:384",
    "unverified": false
   },
   "replay.action.24": {
    "ledger": "EXPLODE-DAMAGE",
    "level": "L3",
-   "source": "engine/replay.py:530",
+   "source": "engine/replay.py:534",
    "unverified": false
   },
   "replay.action.28": {
    "ledger": "DIPLO-PEACE",
    "level": "L3 (27/28); L3 n=1 (29)",
-   "source": "engine/replay.py:459",
+   "source": "engine/replay.py:463",
    "unverified": false
   },
   "replay.action.29": {
    "ledger": "DIPLO-PEACE",
    "level": "L3 (27/28); L3 n=1 (29)",
-   "source": "engine/replay.py:462",
+   "source": "engine/replay.py:466",
    "unverified": false
   },
   "replay.action.3": {
    "ledger": "HEAL-TERRITORY",
    "level": "L2",
-   "source": "engine/replay.py:443",
+   "source": "engine/replay.py:447",
    "unverified": false
   },
   "replay.action.38": {
    "ledger": "ACTION-TYPES-V123",
    "level": "L1",
-   "source": "engine/replay.py:523",
+   "source": "engine/replay.py:527",
    "unverified": false
   },
   "replay.action.4": {
    "ledger": "ACTION-4-HEAL",
    "level": "L3 (n=1)",
-   "source": "engine/replay.py:452",
+   "source": "engine/replay.py:456",
    "unverified": false
   },
   "replay.action.5": {
    "ledger": "SAVE-UNIT-IDS",
    "level": "L3 (format)",
-   "source": "engine/replay.py:431",
+   "source": "engine/replay.py:435",
    "unverified": false
   },
   "replay.action.6": {
    "ledger": "SAVE-FORMAT",
    "level": "L3",
-   "source": "engine/replay.py:362",
+   "source": "engine/replay.py:366",
    "unverified": false
   },
   "replay.action.7": {
    "ledger": "CAPTURE-TERRITORY",
    "level": "L2 (replay A/B)",
-   "source": "engine/replay.py:466",
+   "source": "engine/replay.py:470",
    "unverified": false
   },
   "replay.action.8": {
    "ledger": "TECH-TREE",
    "level": "L3",
-   "source": "engine/replay.py:486",
+   "source": "engine/replay.py:490",
    "unverified": false
   },
   "replay.defence_bonus": {
    "ledger": "DEF-BONUS",
    "level": "L2 (replay A/B)",
-   "source": "engine/replay.py:97",
+   "source": "engine/replay.py:101",
    "unverified": false
   },
   "replay.enter": {
    "ledger": "BOAT-IDS",
    "level": "L3",
-   "source": "engine/replay.py:265",
+   "source": "engine/replay.py:269",
    "unverified": false
   },
   "replay.fight": {
    "ledger": "COMBAT-FORMULA",
    "level": "L2 (replay: 63/66 exact at turn 5)",
-   "source": "engine/replay.py:126",
+   "source": "engine/replay.py:130",
    "unverified": false
   },
   "replay.fight.range": {
    "ledger": "RET-RANGE",
    "level": "L2 (replay A/B)",
-   "source": "engine/replay.py:126",
+   "source": "engine/replay.py:130",
    "unverified": false
   },
   "replay.fight.retaliation": {
    "ledger": "C6",
    "level": "L2 (replay A/B)",
-   "source": "engine/replay.py:126",
+   "source": "engine/replay.py:130",
    "unverified": false
   },
   "replay.mooni_freeze": {
    "ledger": "MOONI-FREEZE",
    "level": "L3 (4/4 Warrior-on-ice cases in e15f392c) + Polyfish AutoFreeze",
-   "source": "engine/replay.py:323",
+   "source": "engine/replay.py:327",
    "unverified": false
   },
   "replay.push_target": {
    "ledger": "PUSH-DIRECTION",
    "level": "L3 (Polyfish + 9 of 11 saved pushes land on the saved tile with the two refinements; replay A/B 44 -> 42 unit misses, stars hold)",
-   "source": "engine/replay.py:157",
+   "source": "engine/replay.py:161",
    "unverified": false
   },
   "replay.sees": {
    "ledger": "C20",
    "level": "L3",
-   "source": "engine/replay.py:116",
+   "source": "engine/replay.py:120",
    "unverified": false
   },
   "replay.stomp": {
    "ledger": "STOMP",
    "level": "L3",
-   "source": "engine/replay.py:312",
+   "source": "engine/replay.py:316",
    "unverified": false
   }
  }
