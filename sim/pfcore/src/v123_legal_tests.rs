@@ -380,3 +380,22 @@ fn cymanti_navigation_trains_living_island() {
     s.tribes.get_mut(&1).unwrap().tribe_type = TribeType::Imperius;
     assert!(!has(&s, &SummonMove::new(idx(5, 5), UnitType::LivingIsland)));
 }
+
+/// AQUARION-LOST-CITY (L3 n=1 + wiki): an Aquarion ocean ruin gives a level-3 city whose two level-up rewards
+/// are still to choose. 9906f7da t11: Mermaid 62 examines (10,27) at #692, then takes Workshop (#694) and City
+/// Wall (#698) there; the t12 save shows level 3, rewards [3, 1].
+#[test]
+fn aquarion_lost_city_rewards_pending() {
+    use crate::moves::reward::RewardMove;
+    use crate::moves::Move;
+    use crate::v123_tests::{add_unit, put_structure};
+    let mut s = board();
+    s.tribes.get_mut(&1).unwrap().tribe_type = TribeType::Aquarion;
+    s.tiles.get_mut(&idx(5, 5)).unwrap().terrain_type = TerrainType::Ocean;
+    put_structure(&mut s, 5, 5, StructureType::Ruin);
+    add_unit(&mut s, 1, UnitType::Mermaid, 5, 5, 10.0);
+    crate::moves::capture::CaptureMove::with_reward(idx(5, 5), RuinsRewardType::City).execute(&mut s).unwrap();
+    let c = s.tribes[&1].cities.iter().find(|c| c.idx == idx(5, 5)).expect("Lost City");
+    assert_eq!((c.level, c.rewards.len()), (3, 0));
+    assert!(has(&s, &RewardMove::new(idx(5, 5), CityRewardType::Workshop)));
+}

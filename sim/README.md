@@ -87,3 +87,4 @@
 - Swift (Swarm's effect, save effect 6) gives +1 movement like Boosted (`functions.rs` get_unit_movement) [SWIFT-MOVE, new ledger entry].
 - New Aquarion units Mermaid Defender (49, Strategy), Scuba (50, Diplomacy), Mermaid Dagger (51, from a Scuba's infiltration) and Jelly (52, no unlocking tech known yet) with the v123 card stats (`types.rs`, `settings/units.rs`, `settings/technology.rs`, `actions/units.rs`) [AQUARION-UNITS-49-52, new ledger entry].
 - Cymanti train the Living Island (57) with Navigation, which their save stores in place of Oceanology (`settings/technology.rs`) [CYMANTI-OCEANOLOGY-ID].
+- An Aquarion Lost City (ocean ruin) starts at level 3 with both level-up rewards to choose and production 1; the harness reads it from the next save (`actions/structure.rs`, `tools/pf_jobs.py`) [AQUARION-LOST-CITY, new ledger entry].

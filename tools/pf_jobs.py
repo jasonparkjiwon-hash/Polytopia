@@ -8,7 +8,7 @@ sys.path.insert(0, os.path.join(ROOT, "engine"))
 import economy as EC
 BIN = os.path.join(ROOT, "sim", "pfcore", "target", "release", "pfreplay")
 HELD = {h["game"]: h for h in json.load(open(os.path.join(ROOT, "data", "holdout.json")))["held"]}
-SWORDSMAN, FREE_TECH, RESOURCES, EXPLORER = 8, 4, 1, 3   # Polyfish RuinsRewardType
+SWORDSMAN, FREE_TECH, RESOURCES, EXPLORER, CITY = 8, 4, 1, 3, 9   # Polyfish RuinsRewardType
 
 def held(gid, turn): return gid in HELD and turn >= HELD[gid].get("from_turn", 0)
 
@@ -49,7 +49,9 @@ def ruin_hints(a, b, acts):
             # before the next save). The Python replay's RUIN oracle does the same.
             walked = any(m[0] == pl and m[1:3] == (x, y) and m[5] not in old and (m[5] in made[(pl, t)] or m[5] not in alive)
                          for m in moves if m[6] > i)
-            if on_tile or walked: hints.append(dict(i=i, reward=SWORDSMAN))
+            c = b["currentTiles"][y][x]   # AQUARION-LOST-CITY: an Aquarion ocean ruin becomes a city (9906f7da t11 #692)
+            if c["ImprovementExists"] and c["ImprovementType"] == 1 and c["Owner"] == pl: hints.append(dict(i=i, reward=CITY))
+            elif on_tile or walked: hints.append(dict(i=i, reward=SWORDSMAN))
             elif free: hints.append(dict(i=i, reward=FREE_TECH, tech=free.pop(0)))
             elif stars >= EC.RUIN_STARS: hints.append(dict(i=i, reward=RESOURCES)); stars -= EC.RUIN_STARS
             else: hints.append(dict(i=i, reward=EXPLORER))

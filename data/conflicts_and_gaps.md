@@ -361,3 +361,4 @@ Jason (Imperius) vs 15 Hard bots on a 30x30 map, exported every turn from 1 to 1
 - AQUARION-UNITS-49-52 (27 Oct, ref-fix): Mermaid Dagger stats from Polyfish (= Dagger, Surprise); no v123 card yet (test item).
 - PUSH-PORT-FIRST (27 Oct, ref-fix): changed: an own port takes a pushed land unit as a fallback too, not only as first choice (9906f7da t15; the old 6e1bf8e0 case is explained by the counter-clockwise order).
 - 2026-10-27 pf-port-4: ENCHANT-REMOVES-GAME (new, L3, 25/26 enchants): Enchant Animal removes the Game from its tile (Polyfish v115 put it back); the one exception is next to a Sanctuary that respawned it. Polyfish stars 1507 -> 1508.
+- 2026-10-27 AQUARION-LOST-CITY (L3 n=1 + wiki C14): Aquarion ocean ruin -> level-3 city with both rewards pending (9906f7da t11 #692). Terrain changes around it (ocean -> water ring, new resources) are not modelled in Polyfish; the next checkpoint re-syncs them.

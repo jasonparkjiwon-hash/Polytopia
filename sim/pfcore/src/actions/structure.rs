@@ -407,7 +407,8 @@ pub fn capture_ruin(
                 }
             }
             RuinsRewardType::City => {
-                // Aquarion Lost City
+                // Aquarion Lost City. v123 (AQUARION-LOST-CITY, 9906f7da t11 #692): level 3 with both level-up
+                // rewards still to choose (Workshop then City Wall taken at #694/#698) and production 1 before them.
                 let territory =
                     crate::functions::get_square_indices(tile_idx, 1, state.settings.size);
                 let city = crate::states::CityState {
@@ -418,9 +419,9 @@ pub fn capture_ruin(
                     border_size: 1,
                     connected_to_capital: false,
                     level: 3,
-                    production: 3,
+                    production: 1,
                     owner: pov_id,
-                    rewards: vec![CityRewardType::CityWall],
+                    rewards: vec![],
                     _territory: territory.clone(),
                 };
                 let city_score = crate::score::get_city_transfer_score(&city);

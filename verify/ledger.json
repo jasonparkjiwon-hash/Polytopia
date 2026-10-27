@@ -1159,6 +1159,13 @@
    "level": "L3 (25/26 enchants in 9 games)",
    "game_version": "v123 (measured in saves)",
    "evidence": "2026-10-27 pf-port-4: every Enchant Animal in the saves (scratch script over consecutive saves, build 30 actions): the target tile held Game before in 26/26 and none after in 25/26 (05ade18c, 09a5bf1e, 1bf60251, 3edee0ec, 6e1bf8e0, af181c8f, e15f392c, ed6cb932, b2448ead (5,11)). The one exception, b2448ead t5->6 (3,10), sits next to Jason's Sanctuary (4,11), which attracts an animal every 2 turns (SANCTUARY-V123: Game back on (3,10) at t6). Polyfish v115 replaced the Game with Game (consume_resource Some(Game)), so the animal stayed and kept paying Sanctuary income (b2448ead t5->6 pf +2 stars). The referee doesn't track resources (economy.py SANCTUARY_INCOME skips hunted/enchanted tiles)."
+  },
+  {
+   "id": "AQUARION-LOST-CITY",
+   "rule": "An Aquarion ocean ruin gives a Lost City: the ruin tile becomes flooded land with a city at level 3, production 1, both level-up rewards still to choose; the ring around it turns from ocean to water and new resources appear nearby.",
+   "level": "L3 (n=1) + wiki",
+   "game_version": "v123 (measured in a save)",
+   "evidence": "Game 9906f7da t11: Aquarion Mermaid 62 examined the ocean ruin at (10,27) (#692); the t12 save shows a city there (Field, flooded) owned by p9, Level 3, Production 2 after the Workshop, CityRewards [3, 1] taken at #694 (Workshop) and #698 (City Wall). Ocean -> Water at (9,27), (10,26), (10,28), (11,27); new AquaCrop at (8,28), (9,26), (11,26), (12,29) and resource 3 at (12,28). Wiki Ruin page (C14): ocean ruins always give Aquarion a Lost City. Polyfish had level 3 with City Wall pre-chosen and production 3; now rewards pending, production 1. Polyfish legal 13147 -> 13155, CityReward 373 -> 380, stars 1500 -> 1502 (tools/pf_jobs.py reads the city from the next save as the ruin hint)."
   }
  ]
 }
