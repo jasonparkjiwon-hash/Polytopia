@@ -1369,6 +1369,13 @@
    "level": "L3",
    "game_version": "v123 (measured in saves)",
    "evidence": "game 6 t18 (3 Mermaid Daggers), 710ddb20 t8 (2 eggs), t16 (4 Quetzali Daggers), t18 (2 eggs), 64795ee3 t9 (1 egg). A/B 27 Oct: units 10171 -> 10175 of 10202 over games 1-8, stars hold. engine/replay.py RULES infiltrate_spawn, infiltrate_spawn_range."
+  },
+  {
+   "id": "CENTIPEDE-CHAIN",
+   "rule": "Cymanti Centipede (head, 20 HP) pulls a chain of 10-HP Segments (Leader/Follower unit ids in the save). When the head moves, each segment takes the tile its leader stood on and one new Segment appears on the old tail tile (the head's own tile before the move, when it has none). A kill that moves the head in does not step the chain again. When the head dies, its first segment becomes the Centipede with fresh 20 HP (same id). Open: a 3-segment chain lost its tail the next turn (t16->17), and a newly promoted head laid its trail differently (t17).",
+   "level": "L3",
+   "game_version": "v123 (measured in saves)",
+   "evidence": "710ddb20 t12-t18 (head 286: 1 segment at t13, 2 at t14, 3 at t16; promotion of 330 at t17, 376 at t18), game 7. A/B 27 Oct: units 10175 -> 10183 over games 1-8, stars hold, no older game worse. engine/replay.py RULES centipede_chain (remove, place, cent_follow); engine/state.py keeps leader/follower."
   }
  ]
 }

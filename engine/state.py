@@ -64,6 +64,7 @@ class State:
             un.passenger = UNIT.get(passenger["UnitType"], str(passenger["UnitType"])); un.passenger_id = passenger["Id"]
             un.promotion = passenger["PromotionLevel"]   # MEASURED: the boat record's level is always 0; the passenger keeps veteran status (HP is the boat's)
         un.max_hp = max_hp(un); un.effects = effects or []
+        un.leader, un.follower = u.get("LeaderUnitId", 0), u.get("FollowerUnitId", 0)   # Cymanti Centipede chain (head <- segments)
         un.saved_acted = bool(u.get("Moved") or u.get("Attacked"))   # flags as of the save, for a replay starting mid-turn
         if direction and len(direction) > 2 and direction[2] < 8: un.facing = FACING[direction[2]]   # the way it faces: its last move
         self.units[un.id] = un; self.at[(un.x, un.y)] = un.id

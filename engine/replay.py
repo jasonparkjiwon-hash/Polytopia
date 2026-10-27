@@ -17,6 +17,7 @@ LAND_UNITS = {"Warrior", "Rider", "Archer", "Defender", "MindBender", "Swordsman
 WATER_UNITS = {"Shark", "Raychi", "Puffer", "Jelly", "Crab"}   # MEASURED: seen only on water, flooded tiles or cities (Mermaid walks on land)
 RULES = {   # one switch per line; A/B each in tools/miss.py before keeping a change
     'moth_infiltrate': True,             # MOTH-INFILTRATE: the Cymanti Moth infiltrates like a Cloak (it attacks an enemy city, is used up, InsectEggs appear)
+    'centipede_chain': True,             # CENTIPEDE-CHAIN: segments follow the head's moves, one new segment a turn; the first segment takes over when the head dies
     'infiltrate_spawn': True,            # INFILTRATE-SPAWN: the units an infiltration leaves (Daggers, Insect Eggs) are placed where the next save shows them
     'infiltrate_spawn_range': 2,         # ... within this distance of the city
     'infiltrate': True,                  # INFILTRATE: a Cloak or Scuba attacking an enemy city deals normal damage (no retaliation) and disappears (9906f7da t18, n=1)
@@ -149,10 +150,45 @@ def fight(st, a, d):
 def remove(st, u):
     st.units.pop(u.id, None)
     if st.at.get((u.x, u.y)) == u.id: st.at.pop((u.x, u.y))
+    if RULES["centipede_chain"] and u.type in ("Centipede", "Segment"):
+        lead, fol = st.units.get(getattr(u, "leader", 0)), st.units.get(getattr(u, "follower", 0))
+        if u.type == "Centipede" and fol is not None:       # the first segment becomes the head, fresh 20 HP (710ddb20 t17, t18)
+            fol.type = "Centipede"; fol.max_hp = max_hp(fol); fol.hp = fol.max_hp; fol.leader = 0; fol.acted = False
+        elif lead is not None:
+            lead.follower = fol.id if fol is not None else 0
+            if fol is not None: fol.leader = lead.id
+
+def cent_chain(st, head):
+    segs, cur = [], head
+    while True:
+        nxt = st.units.get(getattr(cur, "follower", 0))
+        if nxt is None or nxt.type != "Segment": return segs
+        segs.append(nxt); cur = nxt
+
+def cent_follow(st, head, prev):
+    """CENTIPEDE-CHAIN (710ddb20 t12-t18, n=6 moves): after the head moves, each segment takes the tile its leader stood on, and a new
+    segment appears on the old tail tile. A second displacement the same turn (a kill that moves it in) redoes the step."""
+    segs, snap = cent_chain(st, head), getattr(head, "cstep", None)
+    if snap is not None and snap["pos"]: return       # with segments a second displacement the same turn (710ddb20 t15) moves nothing more
+    if snap is not None:
+        if snap["new"] is not None and snap["new"].id in st.units:
+            n = snap["new"]; remove(st, n); segs = [s for s in segs if s is not n]
+        for s in segs: st.at.pop((s.x, s.y), None)
+        for s, q in zip(segs, snap["pos"]): s.x, s.y = q; st.at[q] = s.id
+    L = [prev] + [(s.x, s.y) for s in segs]
+    head.cstep = {"pos": [(s.x, s.y) for s in segs], "new": None}
+    for s in segs: st.at.pop((s.x, s.y), None)
+    for s, q in zip(segs, L): s.x, s.y = q; st.at[q] = s.id
+    q = L[len(segs)]
+    if q not in st.at:
+        n = spawn(st, head.owner, "Segment", *q); n.leader = (segs[-1] if segs else head).id; n.follower = 0
+        (segs[-1] if segs else head).follower = n.id; head.cstep["new"] = n; LOG["centipede segment"] += 1
 
 def place(st, u, x, y):
+    prev = (u.x, u.y)
     if st.at.get((u.x, u.y)) == u.id: st.at.pop((u.x, u.y))
     u.x, u.y = x, y; st.at[(x, y)] = u.id
+    if RULES["centipede_chain"] and u.type == "Centipede" and prev != (x, y): cent_follow(st, u, prev)
 
 def unit_at(st, x, y):
     i = st.at.get((x, y)); return st.units.get(i) if i is not None else None
@@ -350,6 +386,9 @@ def apply(st, a, turn):
                 u.thaw = FROZEN in u.effects     # frozen before this turn: it sits this turn out, then thaws at its end
                 u.acted = False
                 u.moved_now = False              # moved this turn (break_ice_after_move_needs_dash); last_from may persist across turns
+    if t == 15 and RULES["centipede_chain"]:
+        for w in st.units.values():
+            if w.owner == pl and getattr(w, "cstep", None) is not None: w.cstep = None
     if t == 15 and RULES["frozen_no_retaliation"]:
         for u in st.units.values():
             if u.owner == pl and getattr(u, "thaw", False): u.effects = [e for e in u.effects if e != FROZEN]; u.thaw = False
