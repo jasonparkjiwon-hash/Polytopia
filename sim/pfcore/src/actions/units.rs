@@ -2059,7 +2059,8 @@ pub fn infiltrate_city(
             .iter()
             .find(|c| c.idx == target_city_idx)
             .unwrap();
-        let income = std::cmp::min(5, crate::functions::get_city_production(state, city));
+        // v123 (INFILTRATE, INFILTRATE-STARS): Daggers and stars both equal the city's level, capped at 5
+        let income = std::cmp::min(5, city.level);
 
         let pov = &state.tribes[&unit_owner];
         let has_climbing = crate::settings::technology::has_technology(
@@ -2074,8 +2075,13 @@ pub fn infiltrate_city(
         let mut def = Vec::new();
         let mut wat = Vec::new();
         let mut oth = Vec::new();
+        let aquarion = pov.tribe_type == TribeType::Aquarion;
+        // INFILTRATE tile choice (n=1, 9906f7da t18): the Daggers took the first three free tiles in row-major order
+        // (2,23), (3,23), (2,24); random is not ruled out. Mermaid Daggers are amphibious: any tile, sorted by index.
+        let mut territory = city._territory.clone();
+        territory.sort_unstable();
 
-        for &idx in &city._territory {
+        for &idx in &territory {
             if idx == target_city_idx {
                 continue;
             }
@@ -2095,6 +2101,7 @@ pub fn infiltrate_city(
                             def.push(idx);
                         }
                     }
+                    TerrainType::Water | TerrainType::Ocean if aquarion => oth.push(idx),
                     TerrainType::Water | TerrainType::Ocean => {
                         let is_cymanti = pov.tribe_type == TribeType::Cymanti;
                         // Cymanti Explorer can now move on water like other tribes (requires Hydrology/Sailing equivalent)
@@ -2111,8 +2118,13 @@ pub fn infiltrate_city(
                 }
             }
         }
+        if aquarion {
+            oth.extend(def.drain(..));
+            oth.sort_unstable_by(|a, b| b.cmp(a)); // popped smallest index first
+        }
         (def, wat, oth, income)
     };
+    let aquarion = state.tribes[&unit_owner].tribe_type == TribeType::Aquarion;
 
     // Prioritize city tile if empty
     if crate::functions::get_unit_at(state, target_city_idx).is_none() {
@@ -2123,7 +2135,7 @@ pub fn infiltrate_city(
     for _ in 0..city_income {
         let (tile_idx, unit_type) = if let Some(idx) = def_tiles.pop().or_else(|| other_tiles.pop())
         {
-            (idx, UnitType::Dagger)
+            (idx, if aquarion { UnitType::MermaidDagger } else { UnitType::Dagger })
         } else if let Some(idx) = water_tiles.pop() {
             (idx, UnitType::Pirate)
         } else {

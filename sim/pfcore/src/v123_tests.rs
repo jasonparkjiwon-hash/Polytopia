@@ -1247,13 +1247,23 @@ fn enchant_removes_game() {
 #[test]
 fn scuba_infiltrates_occupied_city() {
     let mut s = board();
+    s.tribes.get_mut(&1).unwrap().tribe_type = TribeType::Aquarion;
     add_city(&mut s, 2, 5, 5);
-    let a = add_unit(&mut s, 1, UnitType::MermaidCloak, 5, 4, 5.0);
+    {
+        let c = &mut s.tribes.get_mut(&2).unwrap().cities[0];
+        c.level = 3; // INFILTRATE: one Dagger per city level
+        c._territory = (4..=6).flat_map(|y| (4..=6).map(move |x| idx(x, y))).collect();
+    }
+    s.tiles.get_mut(&idx(5, 4)).unwrap().terrain_type = TerrainType::Water;
+    let a = add_unit(&mut s, 1, UnitType::MermaidCloak, 6, 5, 5.0);
     let d = add_unit(&mut s, 2, UnitType::Shaman, 5, 5, 10.0);
     attack(&mut s, a, d);
     assert_eq!(unit(&s, 2, d).health, 4.0);
     assert!(!s.tribes[&1].units.iter().any(|u| u.unit_type == UnitType::MermaidCloak), "used up");
-    assert_eq!(s.tribes[&1].units.iter().filter(|u| u.unit_type == UnitType::MermaidDagger).count(), 3);
+    // first three free tiles in row-major order: (4,4), (5,4) on water, (6,4)
+    let mut at: Vec<i32> = s.tribes[&1].units.iter().filter(|u| u.unit_type == UnitType::MermaidDagger).map(|u| u.coords.idx).collect();
+    at.sort();
+    assert_eq!(at, vec![idx(4, 4), idx(5, 4), idx(6, 4)]);
 }
 
 /// TENTACLES (L3, 9906f7da t16 #1214): Jelly 135 (16/20 HP) moved next to Kickoo Warrior 67 (10 HP, no bonus):
