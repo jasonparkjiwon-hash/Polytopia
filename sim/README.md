@@ -90,5 +90,6 @@
 - New Aquarion units Mermaid Defender (49, Strategy), Scuba (50, Diplomacy), Mermaid Dagger (51, from a Scuba's infiltration) and Jelly (52, no unlocking tech known yet) with the v123 card stats (`types.rs`, `settings/units.rs`, `settings/technology.rs`, `actions/units.rs`) [AQUARION-UNITS-49-52, new ledger entry].
 - Cymanti train the Living Island (57) with Navigation, which their save stores in place of Oceanology (`settings/technology.rs`) [CYMANTI-OCEANOLOGY-ID].
 - An Aquarion Lost City (ocean ruin) starts at level 3 with both level-up rewards to choose and production 1; the harness reads it from the next save (`actions/structure.rs`, `tools/pf_jobs.py`) [AQUARION-LOST-CITY, new ledger entry].
+- Exploding on water leaves Spores with the algae, not Fruit (`moves/abilities/explode.rs`) [EXPLODE-WATER-SPORES, new ledger entry].
 - The Clathrus (41) is built on land (Field, Forest) next to an own Fungi, not on water next to Algae (`settings/structures.rs`, `moves/build.rs`) [CLATHRUS-ON-LAND, new ledger entry].
 - The Aqua Farm (49) also goes on empty water or ocean (`settings/structures.rs`, `moves/build.rs`) [AQUARION-AQUA-FARM-WATER, new ledger entry].

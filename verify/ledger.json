@@ -1187,6 +1187,13 @@
    "level": "L3 (n=2)",
    "game_version": "v123 (measured in a save)",
    "evidence": "Game 9be1198d (Jason's Cymanti p1): Clathrus at (19,5) Forest t5 #288 (city 18,4) and (20,5) Field t6 #351 (city 21,5); both earn +1 per adjacent Fungi next turn (ECON-MARKET-CLATHRUS). Polyfish legal Build 1012 -> 1014, stars 1510 -> 1511."
+  },
+  {
+   "id": "EXPLODE-WATER-SPORES",
+   "rule": "A Cymanti unit exploding on water or ocean leaves algae with Spores (resource 7) on its tile, so a Fungi can be built there; Polyfish upstream spawned Fruit.",
+   "level": "L3 (n=1)",
+   "game_version": "v123 (measured in a save)",
+   "evidence": "Game af181c8f t16: Boomchi 354 explodes on Water (13,9) (#2288, tile had resource 9 before); Cymanti p11 builds Fungi (37) there at #2502; the t18 save shows flood 4 (algae), resource 7, imp37. Polyfish legal Build 1014 -> 1015."
   }
  ]
 }

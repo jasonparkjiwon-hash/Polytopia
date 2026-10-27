@@ -165,9 +165,10 @@ impl Move for ExplodeMove {
                             }));
                         }
 
-                        // Spawn Fruit
+                        // v123 (EXPLODE-WATER-SPORES, af181c8f t16 #2288 -> Fungi at #2502): the algae gets Spores
+                        // (save resource 7); upstream spawned Fruit
                         let resource = crate::states::ResourceState {
-                            resource_type: crate::types::ResourceType::Fruit,
+                            resource_type: crate::types::ResourceType::Spores,
                         };
                         let old_resource =
                             state.resources.get(&explode_tile_idx).cloned().flatten();

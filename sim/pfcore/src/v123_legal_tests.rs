@@ -451,3 +451,20 @@ fn clathrus_on_land_next_to_fungi() {
     assert!(has(&s, &BuildMove::new(idx(6, 4), StructureType::Clathrus)));
     assert!(!has(&s, &BuildMove::new(idx(4, 4), StructureType::Clathrus)), "not on water");
 }
+
+/// EXPLODE-WATER-SPORES (L3 n=1): a Boomchi exploding on water leaves algae with Spores, so a Fungi can follow.
+/// af181c8f t16: Boomchi 354 explodes on water (13,9) at #2288; Fungi (37) built there at #2502; the t18 save
+/// shows algae (flood 4) with resource 7 under it.
+#[test]
+fn explode_on_water_leaves_spores() {
+    use crate::moves::abilities::explode::ExplodeMove;
+    use crate::moves::Move;
+    use crate::v123_tests::add_unit;
+    let mut s = board();
+    s.tribes.get_mut(&1).unwrap().tribe_type = TribeType::Cymanti;
+    s.tiles.get_mut(&idx(5, 5)).unwrap().terrain_type = TerrainType::Water;
+    add_unit(&mut s, 1, UnitType::Boomchi, 5, 5, 15.0);
+    ExplodeMove::new(idx(5, 5)).execute(&mut s).unwrap();
+    assert!(s.tiles[&idx(5, 5)].is_algae());
+    assert_eq!(s.resources.get(&idx(5, 5)).cloned().flatten().map(|r| r.resource_type), Some(ResourceType::Spores));
+}
