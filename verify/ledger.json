@@ -1362,6 +1362,13 @@
    "level": "L3",
    "game_version": "v123 (measured in saves)",
    "evidence": "710ddb20 t8->9 #1011 (Moth 119 vs AiMo city (8,25): eggs 181,182 on (7,24),(9,25)), t18->19 #3286 (eggs 610,611), 64795ee3 t9->10 #1274 (bot Moth 148 vs (11,7): egg 216), Jason's note 27 Oct (the Moth makes insect eggs instead of daggers). Counter-case 6e1bf8e0 t11 #1494: Moth hit a Warrior in a city its tribe had lost and stayed alive (MOTH-V123). Egg count and placement not modelled (replay reads them from the save). engine/replay.py RULES moth_infiltrate, economy.py ECON_RULES moth_infiltrate=False (paying stars made g7 -2 twice)."
+  },
+  {
+   "id": "INFILTRATE-SPAWN",
+   "rule": "The units an infiltration leaves (Daggers; Mermaid Daggers; Cymanti Insect Eggs) are placed on empty tiles of the city's border; the replay places them where the next save shows them (CreatedTurn is the attacker's turn or the turn after for the human seat). Which tiles and how many the game picks is not modelled (Polyfish: random).",
+   "level": "L3",
+   "game_version": "v123 (measured in saves)",
+   "evidence": "game 6 t18 (3 Mermaid Daggers), 710ddb20 t8 (2 eggs), t16 (4 Quetzali Daggers), t18 (2 eggs), 64795ee3 t9 (1 egg). A/B 27 Oct: units 10171 -> 10175 of 10202 over games 1-8, stars hold. engine/replay.py RULES infiltrate_spawn, infiltrate_spawn_range."
   }
  ]
 }

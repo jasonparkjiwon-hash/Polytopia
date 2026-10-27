@@ -17,6 +17,8 @@ LAND_UNITS = {"Warrior", "Rider", "Archer", "Defender", "MindBender", "Swordsman
 WATER_UNITS = {"Shark", "Raychi", "Puffer", "Jelly", "Crab"}   # MEASURED: seen only on water, flooded tiles or cities (Mermaid walks on land)
 RULES = {   # one switch per line; A/B each in tools/miss.py before keeping a change
     'moth_infiltrate': True,             # MOTH-INFILTRATE: the Cymanti Moth infiltrates like a Cloak (it attacks an enemy city, is used up, InsectEggs appear)
+    'infiltrate_spawn': True,            # INFILTRATE-SPAWN: the units an infiltration leaves (Daggers, Insect Eggs) are placed where the next save shows them
+    'infiltrate_spawn_range': 2,         # ... within this distance of the city
     'infiltrate': True,                  # INFILTRATE: a Cloak or Scuba attacking an enemy city deals normal damage (no retaliation) and disappears (9906f7da t18, n=1)
     'retaliation_uses_bonus': True,
     'melee_moves_in_on_kill': True,
@@ -224,6 +226,7 @@ def spawn(st, owner, name, x, y):
     st.units[u.id] = u; st.at[(x, y)] = u.id; explore(st, owner, x, y)
     return u
 
+INFIL = {}    # unit id -> (owner, type, x, y, created turn): units standing on their spawn tile in a checkpoint (infiltration Daggers/Eggs)
 RUIN = {}     # (owner, x, y) -> [(created turn, unit type, promotion, passenger type)]: units a checkpoint shows standing where a ruin was examined
 ORACLE = {}   # unit id -> (owner, type, promotion) from any saved checkpoint, for units spawned by events the log doesn't spell out
 RUIN_SEEN = {}   # (owner, x, y) -> turn: ruins examined with no checkpoint showing the reward (it may be a unit that died before the next save)
@@ -394,7 +397,14 @@ def apply(st, a, turn):
         if RULES["infiltrate"] and (at.type in ("Cloak", "Scuba") or (RULES["moth_infiltrate"] and at.type == "Moth" and moth_infiltrates(st, tx, ty, pl))) and st.city.get((tx, ty)) not in (None, pl):   # INFILTRATE: a Cloak/Scuba attacking an enemy city
             dmg, _, _ = fight(st, at, df); df.hp -= dmg                                                         # deals its normal damage, no retaliation, and is used
             if df.hp <= 0: remove(st, df)                                                                       # up; its Daggers are read from the next save
-            remove(st, at); LOG["infiltrate"] += 1; return
+            remove(st, at); LOG["infiltrate"] += 1
+            if RULES["infiltrate_spawn"]:
+                used = st.__dict__.setdefault("infil_used", set())
+                for sid, (o, utype, ux, uy, ct) in sorted(INFIL.items()):
+                    if o == pl and ct in (turn, turn + 1) and sid not in used and sid not in st.units and utype in ("Dagger", "MermaidDagger", "InsectEgg") \
+                       and dist((ux, uy), (tx, ty)) <= RULES["infiltrate_spawn_range"] and (ux, uy) not in st.at:
+                        used.add(sid); spawn(st, pl, utype, ux, uy); LOG["infiltration spawn"] += 1
+            return
         if at.type == "MindBender" or (RULES["shaman_convert"] and at.type == "Shaman"):   # Convert (Shaman: Polyfish + e15f392c t9)
             if at.type == "Shaman" and RULES["shaman_damage"]:   # MEASURED (n=1, e15f392c t9): the Shaman also deals its normal damage, no retaliation
                 dmg, _, _ = fight(st, at, df); df.hp -= dmg
@@ -592,6 +602,11 @@ def compare(st, d):
     return res, bad
 
 def add_ruin_oracle(d):
+    for row in d["currentTiles"]:
+        for t in row:
+            u = t.get("Unit")
+            if u and u["CreatedTurn"] in (d["currentTurn"] - 1, d["currentTurn"]) and UNIT.get(u["UnitType"]) in ("Dagger", "MermaidDagger", "InsectEgg"):
+                INFIL[u["Id"]] = (u["Owner"], UNIT[u["UnitType"]], u["cx"], u["cy"], u["CreatedTurn"])
     for row in d["currentTiles"]:
         for t in row:
             u = t.get("Unit"); p = t.get("PassengerUnit") if RULES["ruin_boat_passenger"] else None
