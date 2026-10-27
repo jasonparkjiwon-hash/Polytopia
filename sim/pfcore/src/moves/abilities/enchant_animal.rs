@@ -28,12 +28,8 @@ impl Move for EnchantAnimalMove {
 
         let mut undos = Vec::new();
 
-        // 1. Consume Resource
-        undos.push(crate::actions::resource::consume_resource(
-            state,
-            tile_idx,
-            Some(crate::types::ResourceType::Game),
-        ));
+        // 1. Consume Resource: v123 (ENCHANT-REMOVES-GAME, L3 25/26 saves) the animal is gone (v115 put Game back)
+        undos.push(crate::actions::resource::consume_resource(state, tile_idx, None));
 
         // 2. Spend Stars (Costs three stars)
         undos.push(crate::actions::spend_stars(state, cost));

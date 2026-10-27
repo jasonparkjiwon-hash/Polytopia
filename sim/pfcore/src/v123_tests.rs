@@ -1124,3 +1124,18 @@ fn embassy_destroyed_by_attack() {
     assert_eq!(s.tribes[&2].relations[&1].embassy_level, 0);
     assert_eq!((get_embassy_income(&s, &s.tribes[&1]), get_embassy_income(&s, &s.tribes[&2])), (0, 0));
 }
+
+/// ENCHANT-REMOVES-GAME (L3, 25/26 enchants; b2448ead t5 #385: Jason enchanted the Game on (5,11), gone in t6):
+/// the animal leaves its tile, so it no longer pays a neighbouring Sanctuary.
+#[test]
+fn enchant_removes_game() {
+    use crate::moves::Move;
+    let mut s = board();
+    s.tribes.get_mut(&1).unwrap().stars = 10;
+    s.tiles.get_mut(&idx(5, 5)).unwrap().terrain_type = TerrainType::Forest;
+    s.resources.insert(idx(5, 5), Some(ResourceState { resource_type: ResourceType::Game }));
+    crate::moves::abilities::enchant_animal::EnchantAnimalMove::new(idx(5, 5)).execute(&mut s).unwrap();
+    assert!(s.resources.get(&idx(5, 5)).map_or(true, |r| r.is_none()), "Game gone");
+    assert_eq!(s.tribes[&1].stars, 7);
+    assert!(s.tribes[&1].units.iter().any(|u| u.unit_type == UnitType::Polytaur && u.coords.idx == idx(5, 5)));
+}

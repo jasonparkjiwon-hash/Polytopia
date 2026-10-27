@@ -1152,6 +1152,13 @@
    "level": "L3 (6 pushes) + replay A/B",
    "game_version": "v123 (measured in a save)",
    "evidence": "Engine pushes onto an own port: 6e1bf8e0 t6 (Defender, first choice), af181c8f t9 x2 and t10 (first choice) all land on the port in the saves; 6e1bf8e0 t11 action 1372, Zebasi Warrior 257 in (21,5): first choice (20,6) blocked, fallbacks port (21,6) and (20,5); it was on (20,5) (moves from there at 1548). Engine RULES push_port_first_only; miss.py units 4725/4733 -> 4725/4732. | 2026-10-27 ref-fix: 9906f7da t15 #1134, a Hoodrick Super Unit spawn in (18,11) pushes Archer 186 (never moved: toward the centre, (17,12) Ocean); the game put it on the fallback own port (17,11) (it is upgraded to Bomber 210 there at #1136); the engine with first-only sent it to (18,10). The 6e1bf8e0 t11 case fits too: with push_ccw_first the fallback order is (20,5) before the port (21,6), so the unit lands on (20,5) either way. engine RULES push_port_first_only = False: A/B --all units 7573/7583 -> 7574/7582, stars hold, no game worse."
+  },
+  {
+   "id": "ENCHANT-REMOVES-GAME",
+   "rule": "Enchant Animal (build 30) removes the wild animal (resource Game) from its tile; the Polytaur takes its place.",
+   "level": "L3 (25/26 enchants in 9 games)",
+   "game_version": "v123 (measured in saves)",
+   "evidence": "2026-10-27 pf-port-4: every Enchant Animal in the saves (scratch script over consecutive saves, build 30 actions): the target tile held Game before in 26/26 and none after in 25/26 (05ade18c, 09a5bf1e, 1bf60251, 3edee0ec, 6e1bf8e0, af181c8f, e15f392c, ed6cb932, b2448ead (5,11)). The one exception, b2448ead t5->6 (3,10), sits next to Jason's Sanctuary (4,11), which attracts an animal every 2 turns (SANCTUARY-V123: Game back on (3,10) at t6). Polyfish v115 replaced the Game with Game (consume_resource Some(Game)), so the animal stayed and kept paying Sanctuary income (b2448ead t5->6 pf +2 stars). The referee doesn't track resources (economy.py SANCTUARY_INCOME skips hunted/enchanted tiles)."
   }
  ]
 }
