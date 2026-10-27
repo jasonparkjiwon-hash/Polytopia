@@ -204,6 +204,8 @@ fn tech_setting_table(tech_type: TechnologyType) -> TechnologySetting {
             tier: Some(3),
             requires: Some(Sailing), // v123 tech tree (TECH-TREE); upstream had Ramming
             unlocks_unit: Some(UnitType::Bomber),
+            // CYMANTI-OCEANOLOGY-ID: Cymanti's Oceanology is saved as Navigation (14) and unlocks the Living Island
+            unlocks_special_units: vec![UnitType::LivingIsland],
             ..Default::default()
         },
         Ramming => TechnologySetting {
