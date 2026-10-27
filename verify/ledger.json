@@ -422,7 +422,7 @@
    "id": "FLOOD-ALGAE",
    "rule": "Tile effects live in the save as FloodedFlag + FloodedValue = the TileEffect enum (1 Flooded, 4 Algae). Aquarion-flooded fields and forests: a boat that sails onto one stays a boat, and a land unit walks on it without boarding; a flooded city counts as plain land. Cymanti algae on water: land units walk on it like land. Seen: 242 flooded land tiles near Aquarion, 24 algae tiles in Cymanti land.",
    "level": "L3",
-   "evidence": "all saves (unit kind by terrain and flag); engine RULES flood_keeps_form, algae_is_land",
+   "evidence": "all saves (unit kind by terrain and flag); engine RULES flood_keeps_form, algae_is_land | 27 Oct pf-legal-3: Polyfish move generation now lets every land unit walk onto flooded land with no water tech (b2448ead t2 #173, t4 #349: Yadakk Warrior, techs 0/4/6); upstream treated flooded land as water. Legal Move 5602 -> 5604.",
    "game_version": "v123 (measured in game)"
   },
   {

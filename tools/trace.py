@@ -24,7 +24,7 @@ def city(d, x, y):
     return (t["Owner"], "city at", t.get("CapitalCoordinates")) + ((c and {k: c.get(k) for k in ("Level", "CurrentPopulation", "TotalPopulation", "Production", "BorderSize", "CityRewards", "FoundedTurn")}),)
 if PLAYERS:
     for d, n in ((a, "before"), (b, "after")):
-        for p in d["currentPlayers"]: print(n, "p%d" % p["PlayerId"], TRIBE.get(p["Tribe"]), "stars", p.get("Currency"), "techs", sorted(p["AvailableTech"]))
+        for p in d["currentPlayers"]: print(n, "p%d" % p["PlayerId"], TRIBE.get(p["Tribe"]), "stars", p.get("Currency"), "techs", sorted(p["AvailableTech"]), "kills", p.get("Kills"), "tasks", p.get("Tasks"), "diplo (id, state, embassy)", [(r["PlayerId"], r["RelationState"], r["EmbassyLevel"]) for r in p.get("Diplomacy", [])])
 for x, y in pts:
     print((x, y), "before", tile(a, x, y), "| after", tile(b, x, y))
     if CITY: print("   city before", city(a, x, y), "| after", city(b, x, y))

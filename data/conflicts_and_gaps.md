@@ -368,3 +368,4 @@ Jason (Imperius) vs 15 Hard bots on a 30x30 map, exported every turn from 1 to 1
 - 2026-10-27 CLATHRUS-ON-LAND (L3 n=2): Clathrus on land next to own Fungi (9be1198d t5/t6); Polyfish upstream had water next to Algae. Clathrus one-per-city (card) stays a test item.
 - 2026-10-27 EXPLODE-WATER-SPORES (L3 n=1): explode on water -> algae + Spores (af181c8f t16 #2288); Polyfish spawned Fruit.
 - 2026-10-27 AQUARION-FREE-SPIRIT (L3): Aquarion use base Free Spirit (2), no Free Diving (25) in any save. Also open: Cymanti bot p16 (6e1bf8e0 t11 #1678) researched tech 49 holding [0,1,6,7,8,10,13,20,38,44] (no Navigation); 49's prerequisite and what it unlocks are unknown (Jason's Oceanology is 14, CYMANTI-OCEANOLOGY-ID).
+- 2026-10-27 FLOOD-ALGAE: Polyfish now walks land units onto flooded land without a water tech (b2448ead t2/t4).

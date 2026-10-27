@@ -981,14 +981,9 @@ fn is_navigationable_terrain(
             s.unlocks_terrain == Some(TerrainType::Mountain)
         }),
         _ => {
-            // If not water/mountain, it's walkable land unless it's flooded.
-            // Flooded land is treated like water.
-            if tile.is_flooded() {
-                return tribe.tech_vanilla.iter().any(|t| {
-                    let s = crate::settings::technology::get_technology_setting(t.tech_type);
-                    s.unlocks_terrain == Some(TerrainType::Water)
-                });
-            }
+            // v123 (ledger FLOOD-ALGAE, L3): flooded land is walkable land for every tribe, no water tech needed
+            // (b2448ead t2 #173: a Yadakk Warrior with techs 0, 4, 6 walks onto a flooded village); upstream
+            // treated it as water
             true
         }
     }

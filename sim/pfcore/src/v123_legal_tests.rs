@@ -486,3 +486,18 @@ fn aquarion_research_free_spirit() {
     assert!(has(&s, &ResearchMove::new(TechnologyType::FreeSpirit)));
     assert!(!has(&s, &ResearchMove::new(TechnologyType::FreeDiving)));
 }
+
+/// FLOOD-ALGAE (L3): flooded land is walkable for any land unit, no water tech needed. b2448ead t2 #173: Yadakk
+/// Warrior (techs 0, 4, 6) steps from (24,17) onto the flooded village (24,16), then (t4 #349) onto flooded forest.
+#[test]
+fn warrior_walks_onto_flooded_land() {
+    use crate::v123_tests::{add_unit, step_targets};
+    let mut s = board();
+    explore(&mut s);
+    s.tiles.get_mut(&idx(5, 4)).unwrap().effects.insert(TileEffect::Flooded);
+    s.tiles.get_mut(&idx(6, 4)).unwrap().terrain_type = TerrainType::Forest;
+    s.tiles.get_mut(&idx(6, 4)).unwrap().effects.insert(TileEffect::Flooded);
+    add_unit(&mut s, 1, UnitType::Warrior, 5, 5, 10.0);
+    let t = step_targets(&s);
+    assert!(t.contains(&idx(5, 4)) && t.contains(&idx(6, 4)));
+}
