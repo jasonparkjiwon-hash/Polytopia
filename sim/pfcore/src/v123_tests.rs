@@ -1166,6 +1166,30 @@ fn water_route_reaches_port_cities() {
     assert!(!s.tribes[&1].cities[1].connected_to_capital);
 }
 
+/// WATER-ROUTE, city end (09a5bf1e t2->3, p8): the route starts at the capital city itself when a port is beside it:
+/// capital (4,4) with port (3,3) on another pond, route (5,4),(6,3),(5,2),(6,1) to the port (7,1) of the new city (7,2).
+#[test]
+fn water_route_starts_at_port_side_city() {
+    use crate::actions::connection::update_capital_connections;
+    let mut s = board();
+    add_city(&mut s, 1, 4, 4);
+    s.tiles.get_mut(&idx(4, 4)).unwrap().capital_of = 1;
+    add_city(&mut s, 1, 7, 2);
+    for (x, y) in [(5, 4), (6, 3), (5, 2), (6, 1)] {
+        let t = s.tiles.get_mut(&idx(x, y)).unwrap();
+        t.terrain_type = TerrainType::Water;
+        t.owner = 1;
+    }
+    for (x, y) in [(3, 3), (7, 1)] {
+        let t = s.tiles.get_mut(&idx(x, y)).unwrap();
+        t.terrain_type = TerrainType::Water;
+        t.owner = 1;
+        put_structure(&mut s, x, y, StructureType::Port);
+    }
+    let _ = update_capital_connections(&mut s, 1);
+    assert!(s.tribes[&1].cities[1].connected_to_capital);
+}
+
 /// EMBASSY-DESTROYED-BY-COMBAT (L3, 9906f7da t13: p9 attacked p1 at #879 and p9's EmbassyLevel for p1 was 0 at t14;
 /// t18 capture of p1's city ended the t18 embassy): an attack between builder and host ends the embassy and its income.
 #[test]
