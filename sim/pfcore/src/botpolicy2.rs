@@ -9,6 +9,7 @@ use crate::functions as F;
 use crate::game::Game;
 use crate::moves::*;
 use crate::types::*;
+use crate::states::UnitState;
 use serde_json::Value;
 use std::collections::HashMap;
 
@@ -24,6 +25,12 @@ impl Weights {
         Ok(Weights(w.iter().filter_map(|(k, x)| x.as_f64().map(|x| (k.clone(), x as f32))).collect()))
     }
     pub fn score(&self, f: &Feats) -> f32 { f.iter().map(|(k, x)| self.0.get(k).copied().unwrap_or(0.0) * x).sum() }
+    /// v3: `crazy` adds the "C:"-prefixed delta weights (Crazy bots = the Hard fit + deltas); `has_c` says the table has any.
+    pub fn score_c(&self, f: &Feats, crazy: bool, has_c: bool) -> f32 {
+        let base = self.score(f);
+        if !(crazy && has_c) { return base; }
+        base + f.iter().map(|(k, x)| self.0.get(&format!("C:{k}")).copied().unwrap_or(0.0) * x).sum::<f32>()
+    }
 }
 
 pub fn bucket(turn: i32) -> usize { if turn < 5 { 0 } else if turn < 10 { 1 } else if turn < 20 { 2 } else { 3 } }
@@ -42,27 +49,47 @@ pub struct Ctx {
     pub cap: [f32; 5],        // 3x3 around the capital: water+ocean, metal, fruit, game, forest+mountain (for the research opener)
     pub n_techs: f32,
     pub cfeats: Feats,        // turn-level context shared by every group (see `context`)
+    // ---- v3 (bot-model-3); only filled when `ext` ----
+    pub ext: bool,
+    pub crazy: bool,          // the mover's DifficultyHandicap >= 4 (Crazy); Hard fit + "C:" deltas
+    pub stars: f32,
+    pub cheapest: f32,        // cost of the cheapest unit that can be trained now (0 if none)
+    pub ruins: Vec<i32>,
+    pub own_units: Vec<i32>,
+    pub foe_info: Vec<(i32, f32, f32)>,   // enemy unit tile, attack, max-health-weighted strength
 }
 
 fn nearest(from: i32, set: &[i32], size: i32) -> i32 {
     set.iter().map(|&t| F::get_chebyshev_distance(from, t, size)).min().unwrap_or(15).min(15)
 }
 
-pub fn context(g: &Game, legal: &[Box<dyn Move>]) -> Ctx {
+pub fn context(g: &Game, legal: &[Box<dyn Move>]) -> Ctx { context_x(g, legal, false) }
+
+/// `ext`: also fill the v3 context (difficulty, spending, threat); v2 weights ignore the extra names.
+pub fn context_x(g: &Game, legal: &[Box<dyn Move>], ext: bool) -> Ctx {
     let s = &g.state;
     let me = s.settings.current_player_turn_id;
     let size = s.settings.size;
     let mut foes = Vec::new();
+    let mut foe_info: Vec<(i32, f32, f32)> = Vec::new();
     let mut enemy_cities = Vec::new();
     let mut own_cities = Vec::new();
     for (id, tr) in s.tribes.iter() {
         if *id == me { own_cities.extend(tr.cities.iter().map(|c| c.idx)); continue; }
         if F::is_enemy(s, me, *id) {
             foes.extend(tr.units.iter().map(|u| u.coords.idx));
+            if ext { foe_info.extend(tr.units.iter().map(|u| (u.coords.idx, F::get_unit_attack(s, u), F::get_unit_attack(s, u) * u.health / 10.0))); }
             enemy_cities.extend(tr.cities.iter().filter(|c| F::is_tile_explored(s, c.idx, me)).map(|c| c.idx));
         }
     }
-    let villages = s.tiles.iter().filter(|(k, t)| t.owner == 0 && F::is_city(s, **k) && F::is_tile_explored(s, **k, me)).map(|(k, _)| *k).collect();
+    // v2 looked for unowned *cities*; a free village is a tile with the Village structure (found in bot-model-3), so v2's village
+    // features were constant 0. v3 (ext) uses the real villages; the v2 behaviour is kept for v2 weight files.
+    let villages: Vec<i32> = if ext {
+        s.tiles.iter().filter(|(k, t)| t.owner == 0 && F::get_structure_type_at(s, **k) == Some(StructureType::Village) && F::is_tile_explored(s, **k, me)).map(|(k, _)| *k).collect()
+    } else {
+        s.tiles.iter().filter(|(k, t)| t.owner == 0 && F::is_city(s, **k) && F::is_tile_explored(s, **k, me)).map(|(k, _)| *k).collect()
+    };
+    let ruins: Vec<i32> = if ext { s.tiles.keys().filter(|&&k| F::get_structure_type_at(s, k) == Some(StructureType::Ruin) && F::is_tile_explored(s, k, me)).cloned().collect() } else { vec![] };
     let mut srcs = std::collections::HashSet::new();
     for m in legal {
         if matches!(m.move_type(), MoveType::Step | MoveType::Attack | MoveType::Capture | MoveType::Ability) {
@@ -86,7 +113,7 @@ pub fn context(g: &Game, legal: &[Box<dyn Move>]) -> Ctx {
         }
     }
     let n_techs = tr.map_or(0, |t| t.tech_vanilla.len()) as f32;
-    let cfeats: Feats = vec![
+    let mut cfeats: Feats = vec![
         ("frac_acted".into(), acted as f32 / (nu.max(1) as f32)),
         ("any_unit".into(), b(nu > 0)),
         ("foe_near".into(), b(foe_near)),
@@ -96,8 +123,35 @@ pub fn context(g: &Game, legal: &[Box<dyn Move>]) -> Ctx {
         ("frac_left".into(), srcs.len() as f32 / (nu.max(1) as f32)),
         ("new_units".into(), tr.map_or(0, |t| t.units.iter().filter(|u| u.created_turn == s.settings.turn).count()) as f32 / 3.0),
     ];
+    let stars = tr.map_or(0, |t| t.stars) as f32;
+    let mut cheapest = 0f32;
+    let mut crazy = false;
+    if ext {
+        cheapest = legal.iter().filter(|m| m.move_type() == MoveType::Summon).filter_map(|m| m.unit_type().ok())
+            .map(|u| crate::settings::get_unit_setting(u).cost as f32).fold(f32::INFINITY, f32::min);
+        if !cheapest.is_finite() { cheapest = 0.0; }
+        crazy = tr.map_or(false, |t| t.handicap >= 4);
+        let near_city = own_cities.iter().any(|&c| nearest(c, &foes, size) <= 2);
+        let nfoe3 = foes.iter().filter(|&&f| own_units.iter().any(|&u| F::get_chebyshev_distance(u, f, size) <= 3)).count();
+        let pop: i32 = tr.map_or(0, |t| t.cities.iter().map(|c| c.population).sum());
+        let lvl: i32 = tr.map_or(0, |t| t.cities.iter().map(|c| c.level).sum());
+        cfeats.extend(vec![
+            ("crazy".into(), b(crazy)),
+            ("n_units".into(), (nu as f32 / 8.0).min(2.0)),
+            ("pop".into(), (pop as f32 / 10.0).min(3.0)),
+            ("income".into(), (lvl as f32 / 6.0).min(3.0)),
+            ("city_threat".into(), b(near_city)),
+            ("n_foe_near".into(), (nfoe3 as f32 / 4.0).min(2.0)),
+            ("afford_unit".into(), b(cheapest > 0.0)),
+            ("stars_over_cheap".into(), if cheapest > 0.0 { ((stars - cheapest) / 10.0).clamp(-1.0, 3.0) } else { (stars / 10.0).min(3.0) }),
+            ("n_enemy_cities".into(), (enemy_cities.len() as f32 / 4.0).min(2.0)),
+            ("n_villages".into(), (villages.len() as f32 / 4.0).min(2.0)),
+            ("turn2".into(), (s.settings.turn as f32 / 20.0).min(1.5).powi(2)),
+        ]);
+    }
     Ctx { me, turn: s.settings.turn, size, tribe: tr.map(|t| format!("{:?}", t.tribe_type)).unwrap_or_default(),
-          foes, enemy_cities, villages, own_cities, units_left: srcs.len() as f32, cap, n_techs, cfeats }
+          foes, enemy_cities, villages, own_cities, units_left: srcs.len() as f32, cap, n_techs, cfeats,
+          ext, crazy, stars, cheapest, foe_info, ruins, own_units: own_units.clone() }
 }
 
 /// The type a move names (structure, tech, unit, ability, reward), as in `api::label`.
@@ -208,7 +262,135 @@ pub fn features(g: &Game, ctx: &Ctx, mv: &dyn Move) -> Feats {
         }
         _ => {}
     }
+    if ctx.ext { ext_features(g, ctx, mv, &key, &nm, src, tgt, unit, in_city, &mut f); }
     f
+}
+
+fn role(u: UnitType) -> &'static str {
+    let st = crate::settings::get_unit_setting(u);
+    if u == UnitType::Defender { "tank" } else if st.range > 1 { "ranged" } else if st.movement >= 2 { "fast" } else { "melee" }
+}
+
+/// v3 features (bot-model-3): threat, unit role, spending and difficulty-aware move features. New names only, so v2 weights ignore them.
+#[allow(clippy::too_many_arguments)]
+fn ext_features(g: &Game, ctx: &Ctx, mv: &dyn Move, key: &str, nm: &str, src: Option<i32>, tgt: Option<i32>, unit: Option<&UnitState>, in_city: bool, f: &mut Feats) {
+    let s = &g.state;
+    let threat = |t: i32| -> f32 { ctx.foe_info.iter().filter(|e| F::get_chebyshev_distance(e.0, t, ctx.size) <= 2).map(|e| e.2).sum::<f32>() / 3.0 };
+    match mv.move_type() {
+        MoveType::Step => {
+            if let (Some(a), Some(t), Some(u)) = (src, tgt, unit) {
+                let r = role(u.unit_type);
+                let inv = |set: &[i32]| 1.0 / (1.0 + nearest(t, set, ctx.size) as f32);
+                let gain = |set: &[i32]| (nearest(a, set, ctx.size) - nearest(t, set, ctx.size)) as f32;
+                let vg = gain(&ctx.villages); let eg = gain(&ctx.enemy_cities); let fg = gain(&ctx.foes);
+                f.push(("Step.vil_inv".into(), inv(&ctx.villages)));
+                f.push(("Step.ecity_inv".into(), inv(&ctx.enemy_cities)));
+                f.push(("Step.foe_inv".into(), inv(&ctx.foes)));
+                f.push(("Step.on_village".into(), b(ctx.villages.contains(&t))));
+                f.push(("Step.on_ruin".into(), b(ctx.ruins.contains(&t))));
+                f.push(("Step.ruin_inv".into(), inv(&ctx.ruins)));
+                // target claiming: is this unit the closest own unit to its nearest village / enemy city?
+                for (nmx, set, gx) in [("vil", &ctx.villages, vg), ("ecity", &ctx.enemy_cities, eg)] {
+                    if let Some(&tv) = set.iter().min_by_key(|&&x| F::get_chebyshev_distance(a, x, ctx.size)) {
+                        let da = F::get_chebyshev_distance(a, tv, ctx.size);
+                        let closest = ctx.own_units.iter().all(|&o| o == a || F::get_chebyshev_distance(o, tv, ctx.size) >= da);
+                        f.push((format!("Step.{nmx}_gain_{}", if closest { "closest" } else { "other" }), gx));
+                    }
+                }
+                f.push(("Step.on_ecity".into(), b(ctx.enemy_cities.contains(&t))));
+                f.push((format!("Step.vil_gain@{r}"), vg));
+                f.push((format!("Step.ecity_gain@{r}"), eg));
+                f.push((format!("Step.foe_gain@{r}"), fg));
+                f.push((format!("Step.unexplored@{r}"), F::get_square_indices(t, 1, ctx.size).iter().filter(|&&k| !F::is_tile_explored(s, k, ctx.me)).count() as f32 / 4.0));
+                let th_t = threat(t); let th_a = threat(a);
+                f.push(("Step.threat_dest".into(), th_t));
+                f.push(("Step.threat_gain".into(), th_t - th_a));
+                f.push(("Step.threat_from_city".into(), if in_city { th_a } else { 0.0 }));
+                let my = crate::settings::get_unit_setting(u.unit_type);
+                let rng = my.range.max(1);
+                let tg = ctx.foe_info.iter().filter(|e| F::get_chebyshev_distance(e.0, t, ctx.size) <= rng).count();
+                f.push(("Step.targets_next".into(), tg as f32 / 2.0));
+                // nearest foe: is it stronger than this unit (attack x health)?
+                let mine = my.attack * u.health / 10.0;
+                if let Some(e) = ctx.foe_info.iter().min_by_key(|e| F::get_chebyshev_distance(e.0, a, ctx.size)) {
+                    let stronger = e.2 > mine * 1.2;
+                    f.push(("Step.foe_gain_stronger".into(), if stronger { fg } else { 0.0 }));
+                    f.push(("Step.foe_gain_weaker".into(), if stronger { 0.0 } else { fg }));
+                }
+                if let Some(tl) = s.tiles.get(&t) {
+                    let rough = matches!(tl.terrain_type, TerrainType::Forest | TerrainType::Mountain);
+                    f.push(("Step.rough_x_threat".into(), b(rough) * th_t.min(2.0)));
+                    f.push(("Step.rough".into(), b(rough)));
+                }
+                f.push(("Step.dist".into(), F::get_chebyshev_distance(a, t, ctx.size) as f32 / 3.0));
+                let crowd = F::get_square_indices(t, 1, ctx.size).iter().filter(|&&k| k != a && F::get_unit_at(s, k).map_or(false, |x| x.owner == ctx.me)).count();
+                f.push(("Step.crowd".into(), crowd as f32 / 3.0));
+                let cap_cities = ctx.own_cities.contains(&a) as i32;
+                f.push(("Step.city_left_empty".into(), (cap_cities as f32) * b(F::get_square_indices(a, 1, ctx.size).iter().all(|&k| F::get_unit_at(s, k).map_or(true, |x| x.owner != ctx.me)))));
+                f.push(("Step.hurt".into(), 1.0 - u.health / F::get_unit_max_health(u).max(1.0)));
+            }
+        }
+        MoveType::Attack => {
+            if let (Some(a), Some(t)) = (src, tgt) {
+                if let (Some(p), Some(d)) = (F::calculate_combat_preview(s, a, t), F::get_unit_at(s, t)) {
+                    f.push(("Attack.ratio".into(), p.damage_to_defender / (p.damage_to_attacker + 2.0)));
+                    f.push(("Attack.tgt_hp".into(), d.health / F::get_unit_max_health(d).max(1.0)));
+                    f.push(("Attack.tgt_atk".into(), F::get_unit_attack(s, d) / 2.0));
+                    f.push(("Attack.tgt_near_city".into(), b(nearest(t, &ctx.own_cities, ctx.size) <= 2)));
+                    if let Some(u) = unit {
+                        f.push(("Attack.value".into(), (crate::settings::get_unit_setting(d.unit_type).cost as f32 - crate::settings::get_unit_setting(u.unit_type).cost as f32) / 5.0));
+                        f.push((format!("Attack.kill@{}", role(u.unit_type)), b(p.defender_dies)));
+                    }
+                }
+            }
+        }
+        MoveType::Summon => {
+            if let Ok(ut) = mv.unit_type() {
+                let cost = crate::settings::get_unit_setting(ut).cost as f32;
+                let own_t = s.tribes.get(&ctx.me).map_or(0, |t| t.units.iter().filter(|u| u.unit_type == ut).count());
+                let nu = s.tribes.get(&ctx.me).map_or(0, |t| t.units.len());
+                f.push((format!("Train.n_same@{ut:?}"), own_t as f32 / 3.0));
+                f.push(("Train.n_same".into(), own_t as f32 / 3.0));
+                f.push(("Train.n_units".into(), nu as f32 / 8.0));
+                f.push(("Train.cheapest".into(), b((cost - ctx.cheapest).abs() < 0.5)));
+                f.push(("Train.cost_over_stars".into(), cost / ctx.stars.max(1.0)));
+                let c = src.or(tgt);
+                if let Some(ci) = c.and_then(|c| F::get_city_at(s, c)) {
+                    f.push(("Train.city_lvl".into(), ci.level as f32 / 3.0));
+                    f.push(("Train.capital".into(), b(ci.connected_to_capital && ctx.own_cities.first() == Some(&ci.idx))));
+                }
+                let near = c.map_or(false, |c| nearest(c, &ctx.foes, ctx.size) <= 3);
+                f.push((format!("Train.{ut:?}*foe_near"), b(near)));
+                f.push((format!("Train.{ut:?}*stars"), (ctx.stars / 10.0).min(3.0)));
+                f.push((format!("Train.{ut:?}*crazy"), b(ctx.crazy)));
+                f.push((format!("Train.{ut:?}*cities"), ctx.cfeats[3].1));
+            }
+        }
+        MoveType::Research => {
+            if let (Ok(tt), Some(tr)) = (mv.tech_type(), s.tribes.get(&ctx.me)) {
+                let cost = F::get_tech_cost(tr, tt) as f32;
+                f.push(("Rs.cost".into(), cost / 20.0));
+                f.push(("Rs.stars_left".into(), ((ctx.stars - cost) / 10.0).clamp(-1.0, 3.0)));
+                f.push(("Rs.tier".into(), F::get_tech_tier(tt) as f32 / 3.0));
+            }
+        }
+        MoveType::Build | MoveType::Harvest => {
+            if mv.move_type() == MoveType::Build {
+                if let Ok(st) = mv.structure_type() {
+                    let cost = crate::settings::get_structure_setting(st).cost.unwrap_or(0) as f32;
+                    f.push(("Build.cost".into(), cost / 5.0));
+                    f.push(("Build.stars_left".into(), ((ctx.stars - cost) / 10.0).clamp(-1.0, 3.0)));
+                    f.push((format!("Build.{st:?}*stars"), (ctx.stars / 10.0).min(3.0)));
+                    if let Some(t) = tgt.or(src) {
+                        let adj = F::get_square_indices(t, 1, ctx.size).iter().filter(|&&k| F::get_structure_type_at(s, k) == Some(st)).count();
+                        f.push(("Build.adj_same".into(), adj as f32 / 2.0));
+                    }
+                }
+            }
+            let _ = (key, nm);
+        }
+        _ => {}
+    }
 }
 
 /// Features of a whole move group at one decision (stage 1: which kind of move comes next): the group bias, by turn
@@ -218,6 +400,10 @@ pub fn group_feats(ctx: &Ctx, g: &str, members: &[&Feats], present: &[String]) -
     let mut f: Feats = vec![(format!("G:{g}"), 1.0), (format!("G:{g}@b{}", bucket(ctx.turn)), 1.0), (format!("G:{g}.n"), (1.0 + members.len() as f32).ln())];
     for (c, x) in &ctx.cfeats { f.push((format!("G:{g}*{c}"), *x)); }
     for h in present { if h != g { f.push((format!("G:{g}*has:{h}"), 1.0)); } }   // what else could be played now (an idle turn ends only when the economy is spent)
+    if ctx.ext && g == "EndTurn" {   // spending: an idle turn ends when what is left to buy is not affordable / not wanted
+        let st = (ctx.stars / 10.0).min(3.0);
+        for h in present { if h != g { f.push((format!("G:EndTurn*has:{h}*stars"), st)); f.push((format!("G:EndTurn*has:{h}*acted"), ctx.cfeats[0].1)); } }
+    }
     let mut mx: Vec<(String, f32)> = Vec::new();
     for m in members {
         for (k, x) in m.iter() {
@@ -250,14 +436,23 @@ pub fn dump_on() -> bool { std::env::var("PF_BOTDUMP").is_ok() }
 pub fn dump(g: &Game, legal: &[Box<dyn Move>], chosen: Option<usize>, action_i: usize) {
     use std::io::Write;
     let Ok(path) = std::env::var("PF_BOTDUMP") else { return };
-    let ctx = context(g, legal);
-    let m: Vec<Value> = legal.iter().map(|mv| {
-        let f: Vec<Value> = features(g, &ctx, mv.as_ref()).into_iter().map(|(k, x)| serde_json::json!([k, x])).collect();
+    let ctx = context_x(g, legal, true);
+    let fs: Vec<Feats> = legal.iter().map(|mv| features(g, &ctx, mv.as_ref())).collect();
+    let m: Vec<Value> = legal.iter().zip(fs.iter()).map(|(mv, f)| {
+        let f: Vec<Value> = f.iter().map(|(k, x)| serde_json::json!([k, x])).collect();
         serde_json::json!([group(mv.as_ref()), f, mv.source_idx().map_or(-1, |x| x as i64), mv.target_idx().map_or(-1, |x| x as i64)])
+    }).collect();
+    // stage-1 features per group, computed here so the Python fit never mirrors group_feats
+    let mut names: Vec<String> = Vec::new();
+    for mv in legal { let n = group(mv.as_ref()); if !names.contains(&n) { names.push(n); } }
+    let gf: serde_json::Map<String, Value> = names.iter().map(|n| {
+        let members: Vec<&Feats> = legal.iter().zip(fs.iter()).filter(|(mv, _)| &group(mv.as_ref()) == n).map(|(_, f)| f).collect();
+        let f: Vec<Value> = group_feats(&ctx, n, &members, &names).into_iter().map(|(k, x)| serde_json::json!([k, x])).collect();
+        (n.clone(), Value::Array(f))
     }).collect();
     let bot = g.state.tribes.get(&ctx.me).map_or(false, |t| t.bot);
     let line = serde_json::json!({"tag": *TAG.lock().unwrap(), "i": action_i, "t": ctx.turn, "p": ctx.me, "tr": ctx.tribe, "bot": bot,
-                                  "c": chosen.map_or(-1, |c| c as i64), "x": ctx.cfeats, "m": m});
+                                  "c": chosen.map_or(-1, |c| c as i64), "h": g.state.tribes.get(&ctx.me).map_or(0, |t| t.handicap), "st": ctx.stars, "cheap": ctx.cheapest, "gf": gf, "m": m});
     let mut o = OUT.lock().unwrap();
     if o.is_none() { *o = std::fs::OpenOptions::new().create(true).append(true).open(path).ok(); }
     if let Some(f) = o.as_mut() { let _ = writeln!(f, "{line}"); }
@@ -273,13 +468,24 @@ pub struct Policy {
     /// {"rules": {"capture_first": p}}: with chance p a capture (village, city, ruin) is taken as soon as one is possible. Bots
     /// capture in 94% of the turns where one is possible (BOT-CAPTURE-FIRST), but per decision the softmax gives it only ~0.3.
     pub capture_first: f32,
+    /// v3 file ("ext": true): features use the real villages, threat and spending context (`context_x(.., true)`).
+    pub ext: bool,
+    /// {"rules": {"group_bias": {"EndTurn": -0.5, ...}}}: added to a group's stage-1 score; playout calibration (sequence effects the
+    /// per-decision fit cannot see, e.g. a small EndTurn chance at every decision cuts turns short).
+    pub group_bias: HashMap<String, f32>,
+    pub has_c_g: bool,
+    pub has_c_w: bool,
 }
 
 impl Policy {
     pub fn from_file(path: &str) -> Result<Policy, String> {
         let v: Value = serde_json::from_str(&std::fs::read_to_string(path).map_err(|e| format!("{path}: {e}"))?).map_err(|e| format!("{path}: {e}"))?;
         let cf = v.pointer("/rules/capture_first").and_then(|x| x.as_f64()).unwrap_or(0.0) as f32;
-        Ok(Policy { g: Weights::from_value(&v, "g")?, w: Weights::from_value(&v, "w")?, capture_first: cf })
+        let ext = v.get("ext").and_then(|x| x.as_bool()).unwrap_or(false);
+        let (g, w) = (Weights::from_value(&v, "g")?, Weights::from_value(&v, "w")?);
+        let (has_c_g, has_c_w) = (g.0.keys().any(|k| k.starts_with("C:")), w.0.keys().any(|k| k.starts_with("C:")));
+        let group_bias = v.pointer("/rules/group_bias").and_then(|x| x.as_object()).map(|o| o.iter().filter_map(|(k, x)| x.as_f64().map(|x| (k.clone(), x as f32))).collect()).unwrap_or_default();
+        Ok(Policy { g, w, capture_first: cf, ext, group_bias, has_c_g, has_c_w })
     }
 }
 
@@ -300,7 +506,7 @@ fn pick(probs: &[f32], rng: &mut u64, sample: bool) -> usize {
 /// Index into `legal` of the move the policy plays. `sample`: draw from the two softmaxes; else argmax of each stage.
 /// Resign is never chosen. Falls back to the first move if nothing else is possible.
 pub fn choose(g: &Game, legal: &[Box<dyn Move>], pol: &Policy, rng: &mut u64, sample: bool) -> usize {
-    let ctx = context(g, legal);
+    let ctx = context_x(g, legal, pol.ext);
     let ok: Vec<usize> = (0..legal.len()).filter(|&i| legal[i].move_type() != MoveType::Resign).collect();
     if ok.is_empty() { return 0; }
     let feats: Vec<Feats> = ok.iter().map(|&i| features(g, &ctx, legal[i].as_ref())).collect();
@@ -312,12 +518,12 @@ pub fn choose(g: &Game, legal: &[Box<dyn Move>], pol: &Policy, rng: &mut u64, sa
     let names: Vec<String> = groups.iter().map(|e| e.0.clone()).collect();
     let gs: Vec<f32> = groups.iter().map(|(name, ps)| {
         let members: Vec<&Feats> = ps.iter().map(|&p| &feats[p]).collect();
-        pol.g.score(&group_feats(&ctx, name, &members, &names))
+        pol.g.score_c(&group_feats(&ctx, name, &members, &names), ctx.crazy, pol.has_c_g) + pol.group_bias.get(name).copied().unwrap_or(0.0)
     }).collect();
     let forced = if pol.capture_first > 0.0 { groups.iter().position(|e| e.0 == "Capture").filter(|_| xorshift(rng) < pol.capture_first as f64) } else { None };
     let gi = forced.unwrap_or_else(|| pick(&softmax(&gs), rng, sample));
     let ps = &groups[gi].1;
-    let ms: Vec<f32> = ps.iter().map(|&p| pol.w.score(&feats[p])).collect();
+    let ms: Vec<f32> = ps.iter().map(|&p| pol.w.score_c(&feats[p], ctx.crazy, pol.has_c_w)).collect();
     ok[ps[pick(&softmax(&ms), rng, sample)]]
 }
 

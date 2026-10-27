@@ -16,7 +16,7 @@ fn game() -> Game {
 
 fn pol() -> Policy {
     let w = |l: &[(&str, f32)]| Weights(l.iter().map(|(k, x)| (k.to_string(), *x)).collect::<HashMap<_, _>>());
-    Policy { g: w(&[("G:Step", 2.0), ("G:Step*frac_acted", -3.0), ("G:EndTurn*frac_acted", 4.0)]), w: w(&[("Step.village_gain", 1.0), ("Summon:Warrior", 1.0)]), capture_first: 0.9 }
+    Policy { g: w(&[("G:Step", 2.0), ("G:Step*frac_acted", -3.0), ("G:EndTurn*frac_acted", 4.0)]), w: w(&[("Step.village_gain", 1.0), ("Summon:Warrior", 1.0)]), capture_first: 0.9, ..Default::default() }
 }
 
 #[test]
@@ -53,4 +53,14 @@ fn policy_plays_whole_turns_and_is_reproducible() {
     let legal = g.legal_moves();
     let i = botpolicy2::choose_random(&legal, &mut rng);
     assert!(i < legal.len());
+}
+
+#[test]
+fn v3_file_loads_with_ext_and_rules() {
+    let p = Policy::from_file("../../data/bot_policy_v3.json").expect("v3 policy file");
+    assert!(p.ext, "v3 uses the extended features");
+    assert!((p.capture_first - 0.94).abs() < 1e-6);
+    assert!(p.group_bias.get("EndTurn").map_or(false, |&b| b < 0.0));
+    let v2 = Policy::from_file("../../data/bot_policy_v2.json").expect("v2 policy file");
+    assert!(!v2.ext && v2.group_bias.is_empty(), "v2 stays on the old features");
 }

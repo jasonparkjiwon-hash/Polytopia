@@ -49,6 +49,15 @@ For search and scenarios. It adds no rules: every call goes through Polyfish's o
 - `python3 -I tools/winpct.py <save> [--player P] [--playouts N] [--horizon H]`: per-tribe chance to lead the in-game score after H rounds (est = half playouts, half static; playout interval), full information by default.
 - Calibration (Brier, reliability, speed, weak spots): `.scratchpad/investigations/win-pct.md`; check.sh prints one `WINPCT SMOKE` line.
 
+## Bot policy (bot-policy-2 / bot-model-3; `src/botpolicy2.rs`, bin `pfbot`, `tools/bot_policy3.py`, `tools/bot_dist.py`)
+
+Two-stage logit over Polyfish's legal moves (group, then move), weights in a sparse name table: `data/bot_policy_v2.json` (Hard) and
+`data/bot_policy_v3.json` (Hard+Crazy, newer features, calibrated). Both load with `Policy::from_file`; `"ext": true` in the file selects the v3
+feature set (`context_x`), `rules.capture_first` and `rules.group_bias` are playout calibrations, `C:`-prefixed weights (unused in v3) are
+Crazy deltas. `botpolicy2::choose(&game, &legal, &policy, &mut rng, true)` is the same call for both, so a caller switches by the file path
+(v3 is ~35% slower per move). v3 beats v2 on the late-game playout check (game 7 turns 12+: units/kills/attacks within 10-20% of real, v2 off by
+2x); see `.scratchpad/investigations/bot-model-3.md`. `PF_BOTDUMP=file` in `pfreplay` dumps the features for fitting (`tools/bot_dump.py --all`).
+
 ## v123 corrections (pf-port; ledger ids in brackets, tests in `src/v123_tests.rs`)
 
 - Poison halves only the defence bonus; the v115 extra -30% on defence is removed (`functions.rs`) [C7].

@@ -1,7 +1,7 @@
 """Distribution check for the bot policy (bot-policy-2, step 4): play the policy forward from a real save for 1-3 rounds and
 compare per-bot outcomes with what the real game did between the same two saves. Needs the Polyfish build (pfbot). Pure stdlib.
 
-  python3 -I tools/bot_dist.py POLICY.json [--holdout] [--game PREFIX] [--k 1,2,3] [--runs 8] [--random] [--max N] [--json OUT]
+  python3 -I tools/bot_dist.py POLICY.json [--holdout | --set test|train] [--game PREFIX] [--k 1,2,3] [--runs 8] [--random] [--max N] [--json OUT]
 
 Windows: every checkpoint save i to save i+k of the same game (k rounds later). The simulation starts at save i (the player to move
 continues that turn), the policy plays EVERY tribe (the human too) until as many EndTurns have passed as the log shows, and the end
@@ -33,7 +33,7 @@ def windows(prefix, keep, ks):
             for k in ks:
                 if i + k >= len(ds): continue
                 (a, fa), (b, fb) = ds[i], ds[i + k]
-                if not keep(gid, b["currentTurn"]): continue
+                if not keep(gid, b["currentTurn"], a["currentTurn"]): continue
                 n0, n1 = len(a["actions"]), len(b["actions"])
                 seg = acts[n0:n1]
                 ends = sum(1 for x in seg if x["type"] == 15 and bytes.fromhex(x["raw"])[0] != 255)
@@ -56,7 +56,10 @@ def main():
     opt = lambda k, d=None: a[a.index(k) + 1] if k in a else d
     policy = a[0]; hold = "--holdout" in a; random_pol = "--random" in a
     ks = [int(x) for x in opt("--k", "1,2,3").split(",")]; runs = int(opt("--runs", 8)); cap = int(opt("--max", 10**9))
-    ws = windows(opt("--game", ""), lambda gid, turn: PJ.held(gid, turn) == hold, ks)
+    sset = opt("--set")   # bot-model-3 split: test = ed6cb932 + game 7 (710ddb20) windows that start at turn 12 or later; train = the rest
+    is_test = lambda gid, ta: gid.startswith("ed6cb932") or (gid.startswith("710ddb20") and ta >= 12)
+    keep = (lambda gid, tb, ta: is_test(gid, ta) == (sset == "test")) if sset in ("test", "train") else (lambda gid, tb, ta: PJ.held(gid, tb) == hold)
+    ws = windows(opt("--game", ""), keep, ks)
     if len(ws) > cap:
         step = len(ws) / cap; ws = [ws[int(i * step)] for i in range(cap)]
     sim_jobs = [dict(tag=w["tag"], start=w["start"], player=w["player"], end_turns=w["end_turns"], runs=runs, seed=7, sample=True, random=random_pol) for w in ws]
@@ -82,11 +85,19 @@ def main():
                 err[k]["mae " + m] += abs(mean - real_d); err[k]["mae0 " + m] += abs(real_d)
             for g in MOVES:
                 rm = w["real_moves"].get(int(pl), {}).get(g, 0)
-                sm = [sum(v for kk, v in r["counts"].get(pl, {}).items() if kk == g or (g == "Summon" and kk.startswith("Train:"))) for r in rs]
+                sm = [sum(v for kk, v in r["counts"].get(pl, {}).items() if kk == g or (g == "Summon" and kk.startswith("Train:")) or (g == "Build" and kk == "Harvest")) for r in rs]
                 tot[k]["real mv:" + g] += rm; tot[k]["sim mv:" + g] += sum(sm) / len(sm)
                 err[k]["mae mv:" + g] += abs(sum(sm) / len(sm) - rm); err[k]["mae0 mv:" + g] += rm
+    # bot-model-3 diagnostic: stars left and 'could still train' at the sim's own EndTurns (real, from the decision dumps: mean 2-3 stars, 8-14%)
+    ends = collections.Counter()
+    for w in ws:
+        for r in sim.get(w["tag"], []):
+            if "error" in r: continue
+            for pl, c in r["counts"].items():
+                if pl in r["before"] and r["before"][pl]["bot"]:
+                    for kk in ("EndStars", "EndCanTrain", "EndTurn"): ends[kk] += c.get(kk, 0)
     res = {}
-    print(f"policy {os.path.basename(policy)}{' (random legal)' if random_pol else ''}  {'held-out' if hold else 'tuned games'}  windows {len(ws)}  runs/window {runs}  bad runs {bad}")
+    print(f"policy {os.path.basename(policy)}{' (random legal)' if random_pol else ''}  {opt('--set') or ('held-out' if hold else 'tuned games')}  windows {len(ws)}  runs/window {runs}  bad runs {bad}")
     for k in sorted(tot):
         print(f"  k={k} rounds, {n_t[k]} bot-tribe windows:  total real | sim mean | per-tribe MAE sim (MAE of 'no change' / of zero)")
         res[k] = {}
@@ -94,6 +105,7 @@ def main():
             m = key.split(" ", 1)[1]; r = tot[k]["real " + m]; s = tot[k]["sim " + m]; n = n_t[k]
             res[k][m] = dict(real=round(r, 1), sim=round(s, 1), mae=round(err[k]["mae " + m] / n, 3), mae_zero=round(err[k]["mae0 " + m] / n, 3), n=n)
             print(f"    {m:<14}{r:>9.0f} |{s:>9.1f} |  {err[k]['mae ' + m] / n:6.2f}  ({err[k]['mae0 ' + m] / n:5.2f})")
+    if ends["EndTurn"]: print(f"  sim EndTurns of bots: mean stars left {ends['EndStars'] / ends['EndTurn']:.2f}, could still train {ends['EndCanTrain'] / ends['EndTurn']:.2f}  (n={ends['EndTurn']})")
     if opt("--json"): json.dump(res, open(opt("--json"), "w"), indent=1)
 
 if __name__ == "__main__": main()

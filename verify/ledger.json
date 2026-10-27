@@ -1390,6 +1390,34 @@
    "level": "L3",
    "game_version": "v123 (measured in saves)",
    "evidence": "A/B 27 Oct, stars over games 1-8: 1939 -> 1943 of 1972 with no pair worse (028182a9 t3->4 p1, b2448ead t6->7 p1, 64795ee3 t6->7 p1 +4 and t9->10 p1 +2). Tried for all gaps: worse (6e1bf8e0 t5->11, af181c8f). engine/economy.py ECON_RULES meet_score_by_turn."
+  },
+  {
+   "id": "BOT-POLICY-V3",
+   "rule": "Bot move policy v3 (two-stage logit, v3 features, fitted on 14 games minus the test set; test = Crazy ed6cb932 turns 1-4 + Hard game 7 turns 12-19, never fitted on). Test, all decisions (n=1908): stage 1 top-1 0.690 (v2 0.702, random 0.203), stage 2 top-1 0.461 (v2 0.444, random 0.292), top-3 0.703 (0.679, 0.503), log-lik -2.44 (v2 -2.52, random -3.86). Destination given the unit 0.491 (v2 0.456, chance 0.225). Attack group next 0.361 (v2 0.148), Capture 0.525 (0.350). Playouts from real saves, Hard game 7 turns 12+ (105 bot-tribe windows, 1 round): units +28.6 (real +29, v2 +74), kills 135 (real 160, v2 96), attacks 259 (294, 176), trains 163 (192, 168), builds 81 (79, 82), cities 5.0 (5). Drift at 3 rounds: attacks -19%, trains -19%, kills -24%. Stars are the weak spot (sim under by ~0.4 per tribe-window at 1 round on Hard late game). Hard and Crazy fitted together (a Crazy delta gave no gain on held-out).",
+   "level": "L3 (measured, statistical: held-out agreement; a model, not a game rule)",
+   "game_version": "v123 (measured in game)",
+   "evidence": "data/bot_policy_v3.json; tools/bot_policy3.py; tools/bot_dist.py --set test; sim/pfcore botpolicy2.rs (ext features); .scratchpad/investigations/bot-model-3.md."
+  },
+  {
+   "id": "BOT-VILLAGE-CLAIM",
+   "rule": "A bot unit steps toward the nearest free village when it is the closest own unit to it (argmax of village distance gain hits the logged step 0.557 vs chance 0.282, n=880), and steps onto a free village tile whenever it can (0.858 vs 0.16, n=395). Units that are not the closest to the village show no pull toward it. (bot-policy-2's village features were constant 0 by a bug: free villages are Village-structure tiles, not city tiles.)",
+   "level": "L3 (measured, statistical: 880 and 395 bot Step decisions)",
+   "game_version": "v123 (measured in game)",
+   "evidence": "tools/bot_policy3.py data (Step candidates, features Step.vil_gain_closest, Step.on_village); .scratchpad/investigations/bot-model-3.md."
+  },
+  {
+   "id": "BOT-SPEND",
+   "rule": "Bots end their turn almost broke: stars left at EndTurn median 1-2 (Hard), 2-5 (Crazy); mean 2.1-2.9 Hard, 2.3-7.4 Crazy (grows with the turn); only 8-14% of EndTurns (Hard) / 6-8% (Crazy) could still train the cheapest unit. A per-decision policy ends turns too early (sequence effect), so playouts pile up stars and under-act (steps -17%, builds -45%): a stage-1 offset of -0.4 on EndTurn (policy rules.group_bias) restores steps/attacks/trains/builds to within ~10% and the end-of-turn stars (sim mean 1.9-3.2, could-train 6-10%).",
+   "level": "L3 (measured, statistical: 1400+ bot EndTurn decisions)",
+   "game_version": "v123 (measured in game)",
+   "evidence": "tools/bot_policy3.py; tools/bot_dist.py (sim EndTurns line); data/bot_policy_v3.json rules.group_bias; bot-model-3.md. Real builds were compared with sim Build+Harvest (log type 1 covers both)."
+  },
+  {
+   "id": "BOT-DIFFICULTY-SAME-POLICY",
+   "rule": "Hard and Crazy bots choose moves by the same policy: a pooled fit predicts the held-out Crazy game ed6cb932 as well as a fit with Crazy-only delta weights (log-lik -1.34 pooled vs -1.35 to -1.39 with deltas; Crazy tuning data: 3 games, 3624 decisions). Crazy differs in income/handicap (rules), not in move choice, as far as 4 Crazy games show.",
+   "level": "L1 (statistical, thin: Crazy test n=342)",
+   "game_version": "v123 (measured in game)",
+   "evidence": "tools/bot_policy3.py fit --nodiff vs --l2c; bot-model-3.md."
   }
  ]
 }

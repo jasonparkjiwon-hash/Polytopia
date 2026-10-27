@@ -42,6 +42,11 @@ fn run(job: &Value, pol: &Policy, run_i: u64) -> Result<Value, String> {
         if mv.move_type() == MoveType::Summon && key == "Summon" { key = format!("Train:{}", botpolicy2::named(mv)); }
         let is_end = mv.move_type() == MoveType::EndTurn;
         *counts.entry(me.to_string()).or_default().entry(key).or_insert(0) += 1;
+        if is_end {   // bot-model-3: stars left when the turn ends and whether a unit could still be trained
+            let e = counts.entry(me.to_string()).or_default();
+            *e.entry("EndStars".into()).or_insert(0) += game.state.tribes.get(&me).map_or(0, |t| t.stars) as i64;
+            *e.entry("EndCanTrain".into()).or_insert(0) += legal.iter().any(|m| m.move_type() == MoveType::Summon) as i64;
+        }
         if api::apply_with_dice(&mut game, mv, dice.as_mut()).is_none() { return Err(format!("refused: {}", api::label(&game.state, mv))); }
         if is_end { done += 1; }
     }
