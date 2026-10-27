@@ -16,13 +16,13 @@
   "economy.BONUS_NEEDS_CAPITAL": {
    "ledger": "ECON-BOT-BONUS",
    "level": "L3",
-   "source": "engine/economy.py:165",
+   "source": "engine/economy.py:168",
    "unverified": false
   },
   "economy.BONUS_NEEDS_FREE_CAPITAL": {
    "ledger": "ECON-BOT-BONUS",
    "level": "L3",
-   "source": "engine/economy.py:166",
+   "source": "engine/economy.py:169",
    "unverified": false
   },
   "economy.BUILD": {
@@ -34,19 +34,19 @@
   "economy.Books.income": {
    "ledger": "ECON-INCOME",
    "level": "L3",
-   "source": "engine/economy.py:89",
+   "source": "engine/economy.py:90",
    "unverified": false
   },
   "economy.Books.income.siege": {
    "ledger": "ECON-SIEGE",
    "level": "L3",
-   "source": "engine/economy.py:89",
+   "source": "engine/economy.py:90",
    "unverified": false
   },
   "economy.ECON_RULES.aquarion51_price": {
    "ledger": "ECON-PRICES-V123",
    "level": "L3 (n noted)",
-   "source": "engine/economy.py:50",
+   "source": "engine/economy.py:51",
    "unverified": false
   },
   "economy.ECON_RULES.clathrus_income": {
@@ -67,22 +67,28 @@
    "source": "engine/economy.py:48",
    "unverified": false
   },
+  "economy.ECON_RULES.mermaid_defender_price": {
+   "ledger": "MERMAID-DEFENDER-PRICE",
+   "level": "L3 (n=4, conflicts with card)",
+   "source": "engine/economy.py:50",
+   "unverified": false
+  },
   "economy.EMBASSY_ACTION30": {
    "ledger": "EMBASSY-ACTION",
    "level": "L3 (n=2)",
-   "source": "engine/economy.py:171",
+   "source": "engine/economy.py:174",
    "unverified": false
   },
   "economy.EMBASSY_BUILDER_PAID": {
    "ledger": "EMBASSY-INCOME-NEUTRAL",
    "level": "L3 (A/B over all saves: stars 1550 -> 1562 of 1604, no game worse) + Jason",
-   "source": "engine/economy.py:172",
+   "source": "engine/economy.py:175",
    "unverified": false
   },
   "economy.EMBASSY_COMBAT_DESTROYS": {
    "ledger": "EMBASSY-DESTROYED-BY-COMBAT",
    "level": "L3 (n=3) + Jason",
-   "source": "engine/economy.py:174",
+   "source": "engine/economy.py:177",
    "unverified": false
   },
   "economy.EMBASSY_COST": {
@@ -94,7 +100,7 @@
   "economy.EMBASSY_FROM_SAVE": {
    "ledger": "EMBASSY-INCOME-NEUTRAL",
    "level": "L3 (A/B over all saves: stars 1550 -> 1562 of 1604, no game worse) + Jason",
-   "source": "engine/economy.py:173",
+   "source": "engine/economy.py:176",
    "unverified": false
   },
   "economy.EMBASSY_INCOME": {
@@ -112,37 +118,37 @@
   "economy.EMBASSY_STEP_OTHER_HOSTS": {
    "ledger": "ECON-EMBASSY",
    "level": "L1 (in-game text + Jason's 5-star cost, same as the v123 card); not yet seen in a save",
-   "source": "engine/economy.py:175",
+   "source": "engine/economy.py:178",
    "unverified": false
   },
   "economy.LEVEL_FROM_REWARD": {
    "ledger": "CITY-LEVEL-BY-REWARD",
    "level": "L3",
-   "source": "engine/economy.py:170",
+   "source": "engine/economy.py:173",
    "unverified": false
   },
   "economy.MARKET_BY_LEVEL": {
    "ledger": "ECON-MARKET-CLATHRUS",
    "level": "L3 (Market by level n=1 + n=1 at level 1; Clathrus per adjacent Fungi n=1 game, 3 player-turns); cards",
-   "source": "engine/economy.py:168",
+   "source": "engine/economy.py:171",
    "unverified": false
   },
   "economy.NEG_POP": {
    "ledger": "ECON-INCOME",
    "level": "L3",
-   "source": "engine/economy.py:167",
+   "source": "engine/economy.py:170",
    "unverified": false
   },
   "economy.PAID_AT_TURN_START": {
    "ledger": "ECON-SAVE-TIMING",
    "level": "L3",
-   "source": "engine/economy.py:178",
+   "source": "engine/economy.py:181",
    "unverified": false
   },
   "economy.PEACE": {
    "ledger": "DIPLO-PEACE",
    "level": "L3 (27/28); L3 n=1 (29)",
-   "source": "engine/economy.py:164",
+   "source": "engine/economy.py:167",
    "unverified": false
   },
   "economy.REWARD_INCOME": {
@@ -160,19 +166,19 @@
   "economy.ROUND_START_PAID": {
    "ledger": "ROUND-START-INCOME",
    "level": "L3",
-   "source": "engine/economy.py:169",
+   "source": "engine/economy.py:172",
    "unverified": false
   },
   "economy.RUIN_STARS": {
    "ledger": "ECON-RUIN-STARS",
    "level": "L3",
-   "source": "engine/economy.py:163",
+   "source": "engine/economy.py:166",
    "unverified": false
   },
   "economy.SANCTUARY_INCOME": {
    "ledger": "SANCTUARY-V123",
    "level": "L3 card text + 1 save (n=1 Sanctuary, 4 rows)",
-   "source": "engine/economy.py:176",
+   "source": "engine/economy.py:179",
    "unverified": false
   },
   "economy.TIER": {
@@ -184,7 +190,7 @@
   "economy.TRACK_PEACE": {
    "ledger": "EMBASSY-ACTION",
    "level": "L3 (n=2)",
-   "source": "engine/economy.py:177",
+   "source": "engine/economy.py:180",
    "unverified": false
   },
   "economy.UNIT_COST": {
@@ -202,19 +208,19 @@
   "economy.WAR": {
    "ledger": "DIPLO-PEACE",
    "level": "L3 (27/28); L3 n=1 (29)",
-   "source": "engine/economy.py:164",
+   "source": "engine/economy.py:167",
    "unverified": false
   },
   "economy.meet_stars": {
    "ledger": "ECON-MEET",
    "level": "L3",
-   "source": "engine/economy.py:53",
+   "source": "engine/economy.py:54",
    "unverified": false
   },
   "economy.tech_cost": {
    "ledger": "TECH-COST",
    "level": "L2 (tier 3 and the Literacy discount not yet seen)",
-   "source": "engine/economy.py:58",
+   "source": "engine/economy.py:59",
    "unverified": false
   },
   "replay.DASH": {

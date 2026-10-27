@@ -47,6 +47,7 @@ ECON_RULES = {
     'embassy_income': True,      # ECON-EMBASSY, EMBASSY-ACTION: tested by 2 embassies (off: 780 -> 778); the +2 price step is not
     'market_income': True,       # ECON-MARKET-CLATHRUS: v123 card + Polyfish agree; one Market in the saves, never next to a Windmill/Forge/Sawmill
     'clathrus_income': True,     # ECON-MARKET-CLATHRUS: v123 card says adjacent Fungi, Polyfish says adjacent Algae; no Clathrus in any save
+    'mermaid_defender_price': 3,   # AQUARION-PRICES: the v123 card says 8 (None keeps it); game 6 p9 star rows fit 3 (see ledger)
     'aquarion51_price': 5,       # ECON-PRICES-V123: Aquarion structure 51, implied by the star check (n=2); name unknown
 }
 
@@ -115,7 +116,9 @@ def spend(b, pl, a):
     """Stars this action costs (negative = gained). None = price not known."""
     t = a["type"]; r = bytes.fromhex(a["raw"])
     if t == 5:
-        ut = UNIT.get(struct.unpack("<BHII", r)[1]); return UNIT_COST.get(ut)
+        ut = UNIT.get(struct.unpack("<BHII", r)[1])
+        if ut == "MermaidDefender" and ECON_RULES["mermaid_defender_price"] is not None: return ECON_RULES["mermaid_defender_price"]
+        return UNIT_COST.get(ut)
     if t == 1:
         imp = struct.unpack("<BHII", r)[1]
         if imp == 70: return EMBASSY_COST + EMBASSY_STEP * sum(1 for e in b.embassies if e[0] == pl)
