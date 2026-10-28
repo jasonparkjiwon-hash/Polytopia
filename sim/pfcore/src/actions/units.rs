@@ -819,7 +819,8 @@ pub fn step_unit(
             n
         };
         let second = old_moved && old_type == UnitType::Centipede;
-        if second && chain_len > 1 {
+        // CENTIPEDE-SECOND-SHIFT: a 2-segment chain (1 old + the one this turn grew) shifts once more, no growth; longer chains stay
+        if second && chain_len > 2 {
             return crate::actions::chain_undos(undos);
         }
         // CENTIPEDE-CHAIN: the old tail tile, read before the shift (the head's old tile when it has no segment)
@@ -852,6 +853,16 @@ pub fn step_unit(
 fn grow_segment(state: &mut GameState, owner: PlayerId, head_idx: usize, tile: i32) -> UndoCallback {
     let is_head = state.tribes.get(&owner).and_then(|t| t.units.get(head_idx)).map_or(false, |u| u.unit_type == UnitType::Centipede);
     if !is_head || crate::functions::get_unit_at(state, tile).is_some() {
+        return Box::new(|_| {});
+    }
+    // CENTIPEDE-CAP: the chain stops growing at 3 segments (710ddb20 t16->17)
+    let chain_len = {
+        let t = &state.tribes[&owner];
+        let (mut cur, mut n) = (head_idx, 0);
+        while let Some(c) = t.units.get(cur).and_then(|u| u.child_unit_idx) { if c == cur || n > 64 { break; } cur = c; n += 1; }
+        n
+    };
+    if chain_len >= 3 {
         return Box::new(|_| {});
     }
     let new_idx = state.tribes[&owner].units.len();
@@ -1430,7 +1441,8 @@ pub fn attack_unit(
             .unwrap_or(attacker_idx);
 
         // Eat: Spawn segment when Centipede kills via attack (not retaliation)
-        if atk_skills.contains(&SkillType::Eat) {
+        // CENTIPEDE-CHAIN: the referee grows segments on head moves only (grow_segment); the v115 kill-time spawn is off
+        if false && atk_skills.contains(&SkillType::Eat) {
             let atk_prev_idx = {
                 state
                     .tribes
