@@ -758,14 +758,15 @@ pub fn process_start_turn_effects(state: &mut GameState, player_id: PlayerId) ->
                 if let Some(tile) = state.tiles.get(&idx) {
                     if tile.owner == player_id {
                         let age = state.settings.turn - structure.founded;
-                        // Spawns every 3 turns (turns 3, 6, 9... after building)
-                        if age > 0 && age % 3 == 0 {
+                        // SANCTUARY-SPAWN (L3, 9ac0b946, 4 of 4 spawns; Jason 28 Oct): every 2 turns after building, on a free forest
+                        // next to it inside the owner's territory (never a neutral forest), the westmost first
+                        if age > 0 && age % 2 == 0 {
                             // Find empty adjacent forests
                             let adj = get_adjacent_indices(state, idx, 1);
                             let mut forest_candidates = Vec::new();
                             for a_idx in adj {
                                 if let Some(a_tile) = state.tiles.get(&a_idx) {
-                                    if a_tile.terrain_type == TerrainType::Forest {
+                                    if a_tile.terrain_type == TerrainType::Forest && a_tile.owner == player_id {
                                         let has_resource = state
                                             .resources
                                             .get(&a_idx)
@@ -790,6 +791,9 @@ pub fn process_start_turn_effects(state: &mut GameState, player_id: PlayerId) ->
                                         ^ (state.settings.turn as u64)
                                         ^ (idx as u64),
                                 );
+                                let size = state.settings.size;
+                                let west = forest_candidates.iter().map(|i| i % size).min().unwrap_or(0);
+                                forest_candidates.retain(|i| i % size == west);
                                 if let Some(&spawn_idx) = forest_candidates.choose(&mut rng) {
                                     spawns.push(spawn_idx);
                                 }

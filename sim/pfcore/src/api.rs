@@ -161,7 +161,7 @@ pub const RANDOM_EVENTS: &[(&str, &str, &str)] = &[
     ("ruin reward type", "actions/structure.rs examine_ruins (xxhash on settings.seed, uniform over eligible)", "Dice: ruin_reward resolved_land / resolved_water (DIST-RUIN-REWARD)"),
     ("ruin free tech pick", "actions/structure.rs (xxhash, uniform over researchable)", "none: uniform kept (distributions.json has no per-tech counts)"),
     ("ruin explorer path", "actions/discovery.rs (xxhash on seed and tile)", "none: path not measured"),
-    ("Sanctuary animal spawn tile", "actions/mod.rs (DotNetRandom on seed, turn, tile)", "none: not measured"),
+    ("Sanctuary animal spawn tile", "actions/mod.rs (DotNetRandom on seed, turn, tile)", "own-territory forest next to it, westmost, every 2 turns (SANCTUARY-SPAWN)"),
     ("city level-up reward (bot choice)", "choice in the move list, not dice", "data/distributions.json city_reward_choice (bot model, Phase 6)"),
     ("combat damage", "deterministic formula, no dice", "-"),
 ];

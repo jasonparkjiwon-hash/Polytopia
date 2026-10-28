@@ -1113,6 +1113,8 @@ pub fn attack_unit(
                 // 2. Spawn Logic
                 let city_cap = state.tribes[&defender_owner].cities.iter().find(|c| c.idx == city_tile_idx)
                     .map(|c| std::cmp::min(5, c.level) as usize).unwrap_or(3);
+                // The infiltrator is used up first, so its own tile is free for a spawn (ac4b122a t11)
+                undos.push(remove_unit(state, attacker_owner, attacker_idx, None, None));
                 if is_moth {
                     // Moth: Poison adjacent units and spawn Eggs
                     let adj = crate::functions::get_adjacent_indices(state, city_tile_idx, 1);
@@ -1137,47 +1139,18 @@ pub fn attack_unit(
                         }
                     }
 
-                    // Spawn Eggs: one per city level, at most 5 (MOTH-INFILTRATE, INFILTRATE)
-                    let mut spawn_count = 0;
-                    for t_idx in &adj {
-                        if spawn_count >= city_cap {
-                            break;
-                        }
-                        if crate::functions::get_unit_at(state, *t_idx).is_none() {
-                            undos.push(spawn_unit(
-                                state,
-                                attacker_owner,
-                                UnitType::InsectEgg,
-                                *t_idx,
-                                false,
-                            ));
-                            spawn_count += 1;
-                        }
+                    // Spawn Eggs: one per city level, at most 5 (MOTH-INFILTRATE, INFILTRATE); tiles: INFILTRATE-SPAWN
+                    for t_idx in infiltration_tiles(state, city_tile_idx, atk_coords, defender_owner, false, city_cap) {
+                        undos.push(spawn_unit(state, attacker_owner, UnitType::InsectEgg, t_idx, false));
                     }
                 } else {
                     // Cloak: Spawn Daggers; v123 (AQUARION-UNITS-49-52): a Scuba spawns Mermaid Daggers
                     let dagger = if atk_type == UnitType::MermaidCloak { UnitType::MermaidDagger } else { UnitType::Dagger };
-                    let adj = crate::functions::get_adjacent_indices(state, city_tile_idx, 1);
-                    let mut spawn_count = 0;
-                    for t_idx in &adj {
-                        if spawn_count >= city_cap {
-                            break;
-                        }
-                        if crate::functions::get_unit_at(state, *t_idx).is_none() {
-                            undos.push(spawn_unit(
-                                state,
-                                attacker_owner,
-                                dagger,
-                                *t_idx,
-                                false,
-                            ));
-                            spawn_count += 1;
-                        }
+                    let water = atk_type == UnitType::MermaidCloak;
+                    for t_idx in infiltration_tiles(state, city_tile_idx, atk_coords, defender_owner, water, city_cap) {
+                        undos.push(spawn_unit(state, attacker_owner, dagger, t_idx, false));
                     }
                 }
-
-                // 3. Remove Infiltrator
-                undos.push(remove_unit(state, attacker_owner, attacker_idx, None, None));
             }
 
             return crate::actions::chain_undos(undos);
@@ -2067,6 +2040,30 @@ pub fn deal_damage(
     }
 
     crate::actions::chain_undos(undos)
+}
+
+/// INFILTRATE placement (INFILTRATE-SPAWN, 5 of 7 events exact; the other two: fog, and a ring-2 pick): the units left by a
+/// Cloak/Scuba/Moth stand on free tiles of the city's own territory, ring 1 before ring 2, row-major (y, then x) inside a ring.
+/// Land for Daggers and Eggs, water for Mermaid Daggers. The infiltrator's own tile counts as free (ac4b122a t11).
+/// A counter-clockwise chain from the attacker's side (the push rule) fits 2 of 7, so it is not used.
+fn infiltration_tiles(state: &GameState, city_idx: i32, attacker_idx: i32, owner: PlayerId, water: bool, count: usize) -> Vec<i32> {
+    let size = state.settings.size;
+    let c = Coords::from_index(city_idx, size);
+    let mut out = Vec::new();
+    for range in 1..=2 {
+        for idx in crate::functions::get_adjacent_indices(state, city_idx, 2) {
+            let q = Coords::from_index(idx, size);
+            if (q.x - c.x).abs().max((q.y - c.y).abs()) != range { continue; }
+            if out.len() >= count { return out; }
+            let Some(t) = state.tiles.get(&idx) else { continue };
+            if t.owner != owner { continue; }
+            if idx != attacker_idx && crate::functions::get_unit_at(state, idx).is_some() { continue; }
+            let is_water = matches!(t.terrain_type, TerrainType::Water | TerrainType::Ocean);
+            if is_water != water { continue; }
+            out.push(idx);
+        }
+    }
+    out
 }
 
 /// Infiltrate a city with a Cloak

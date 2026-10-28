@@ -1254,16 +1254,43 @@ fn scuba_infiltrates_occupied_city() {
         c.level = 3; // INFILTRATE: one Dagger per city level
         c._territory = (4..=6).flat_map(|y| (4..=6).map(move |x| idx(x, y))).collect();
     }
-    s.tiles.get_mut(&idx(5, 4)).unwrap().terrain_type = TerrainType::Water;
+    for (x, y) in [(4, 4), (5, 4), (6, 4), (4, 5)] {
+        s.tiles.get_mut(&idx(x, y)).unwrap().terrain_type = TerrainType::Water; // (4,5) is a 4th water tile: not needed at level 3
+    }
+    for y in 4..=6 { for x in 4..=6 { s.tiles.get_mut(&idx(x, y)).unwrap().owner = 2; } }
     let a = add_unit(&mut s, 1, UnitType::MermaidCloak, 6, 5, 5.0);
     let d = add_unit(&mut s, 2, UnitType::Shaman, 5, 5, 10.0);
     attack(&mut s, a, d);
     assert_eq!(unit(&s, 2, d).health, 4.0);
     assert!(!s.tribes[&1].units.iter().any(|u| u.unit_type == UnitType::MermaidCloak), "used up");
-    // first three free tiles in row-major order: (4,4), (5,4) on water, (6,4)
+    // the first three free water tiles of the city's territory in row-major order (INFILTRATE-SPAWN): (4,4), (5,4), (6,4)
     let mut at: Vec<i32> = s.tribes[&1].units.iter().filter(|u| u.unit_type == UnitType::MermaidDagger).map(|u| u.coords.idx).collect();
     at.sort();
     assert_eq!(at, vec![idx(4, 4), idx(5, 4), idx(6, 4)]);
+}
+
+/// INFILTRATE-SPAWN (L3, 5 of 7 events; 710ddb20 t16, ac4b122a t11): the Daggers stand on free land tiles of the city's territory,
+/// ring 1 before ring 2, row-major inside a ring, and the Cloak's own tile counts as free. Level 4 with only 3 land tiles in ring 1:
+/// all three are used and the 4th goes to ring 2; a tile outside the city's territory is never chosen.
+#[test]
+fn cloak_spawn_order_ring_then_row_major() {
+    let mut s = board();
+    add_city(&mut s, 2, 8, 8);
+    s.tribes.get_mut(&2).unwrap().cities[0].level = 4;
+    for y in 6..=10 { for x in 6..=10 { s.tiles.get_mut(&idx(x, y)).unwrap().owner = 2; } }
+    for (x, y) in [(8, 7), (9, 7), (7, 9), (8, 9), (9, 9), (9, 8)] { // leaves (7,7) and (7,8) as the land in ring 1
+        s.tiles.get_mut(&idx(x, y)).unwrap().terrain_type = TerrainType::Water;
+    }
+    s.tiles.get_mut(&idx(6, 6)).unwrap().owner = 0; // not the city's territory
+    let a = add_unit(&mut s, 1, UnitType::Cloak, 7, 8, 5.0);
+    let d = add_unit(&mut s, 2, UnitType::Warrior, 8, 8, 10.0);
+    attack(&mut s, a, d);
+    let mut at: Vec<i32> = s.tribes[&1].units.iter().filter(|u| u.unit_type == UnitType::Dagger).map(|u| u.coords.idx).collect();
+    at.sort();
+    // ring 1 has two land tiles here ((7,7) and the Cloak's (7,8)); the other two Daggers go to ring 2
+    assert_eq!(at.len(), 4);
+    assert!(at.contains(&idx(7, 7)) && at.contains(&idx(7, 8)), "ring 1 first, the Cloak's own tile included");
+    assert!(!at.contains(&idx(6, 6)), "never outside the territory");
 }
 
 /// TENTACLES (L3, 9906f7da t16 #1214): Jelly 135 (16/20 HP) moved next to Kickoo Warrior 67 (10 HP, no bonus):
@@ -1290,6 +1317,7 @@ fn moth_infiltrates_occupied_city() {
     s.tribes.get_mut(&1).unwrap().tribe_type = TribeType::Cymanti;
     add_city(&mut s, 2, 5, 5);
     s.tribes.get_mut(&2).unwrap().cities[0].level = 2;
+    for y in 4..=6 { for x in 4..=6 { s.tiles.get_mut(&idx(x, y)).unwrap().owner = 2; } }
     let a = add_unit(&mut s, 1, UnitType::Moth, 6, 5, 5.0);
     let d = add_unit(&mut s, 2, UnitType::Warrior, 5, 5, 10.0);
     attack(&mut s, a, d);

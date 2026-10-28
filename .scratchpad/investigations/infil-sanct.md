@@ -78,3 +78,14 @@ To use it for the open item (web-deep.md), Jason should send: the attacker's and
 
 - Two star misses on defenders after an infiltration: 5d15d70f t6->7 p13 (Zebasi) 5 stars less than predicted (income 5 predicted, none came); ac4b122a t10->11 p4 1 less (a 40-star turn). Not Sanctuary, not found. Infiltrated defenders in the other six cases are exact, so the infiltration itself probably costs nothing.
 - Placement of the extra tile and the order among tied tiles: needs more infiltrations (ask Jason for 3-4 more Daggers/Eggs cases with a note of which tiles were free).
+
+## 28 Oct (later): counter-clockwise order test and Polyfish port
+
+Jason asked whether the unit-push rule (counter-clockwise first) also orders infiltration spawns, and to recheck if scores drop.
+Test on all 7 events (harness replays every game and records the free territory tiles with terrain, the attacker tile and the real spawn tiles):
+ring then row-major **5/7**; the push-style chain from the attacker side (or opposite), clockwise or counter-clockwise **2/7 at best**; column-major 4/7; nearest the attacker 4/7.
+Forest/mountain-first by tech: no event separates it from row-major (no Archery in any event; Climbing only in 64795ee3 t9, where the mountain is also first row-major). So **keep row-major**, class priority untested.
+Misses: 710ddb20 t9 (N tile skipped; an enemy unit hidden in fog on (8,24) would explain it) and 710ddb20 t16 (ring-2 fourth Dagger took (17,18), the tile nearest the Cloak, not the first row-major one).
+Referee scores did not move (it reads spawns from the next save). Polyfish: placement now ring then row-major in the city's territory, land for Daggers/Eggs, water for Mermaid Daggers, the infiltrator's own tile free;
+Sanctuary spawns every 2 turns in own-territory forests, westmost first. `tools/pf_miss.py`: Polyfish units 10895/10918 -> 10899/10914.
+Jason confirmed from play: embassy +2 per embassy, Sanctuary every 2 turns.
