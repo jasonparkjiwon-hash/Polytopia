@@ -182,8 +182,10 @@ def quota_assign(rng, tiles, probs):
         k += c
     return out
 
-def generate(map_type="lakes", size=16, tribes=("Imperius", "Bardur"), seed=0, village_reading="A", mode="measured"):
-    """village_reading A: 60% (80% drylands) of the max is the TOTAL after terrain; B: 60% of the slots still free after terrain."""
+def generate(map_type="lakes", size=16, tribes=("Imperius", "Bardur"), seed=0, village_reading="A", mode="measured", village_fill=None):
+    """village_fill: "share" (settlements = share x slots) or "jam" (place villages until no valid spot is left); default: jam for measured
+    Drylands up to 12x12 (PolyVision maps, ledger C9-JAM), share otherwise.
+    village_reading A: 60% (80% drylands) of the max is the TOTAL after terrain; B: 60% of the slots still free after terrain."""
     rng = random.Random(seed); n = size; N = n * n; P = len(tribes)
     terrain = ["field"] * N; res = [None] * N; imp = [None] * N; cap_of = [0] * N
     # 1. capitals in domains
@@ -201,6 +203,9 @@ def generate(map_type="lakes", size=16, tribes=("Imperius", "Bardur"), seed=0, v
     max_v = (n // 3) ** 2
     share = village_share(map_type, mode)
     total = round(share * max_v) if village_reading == "A" else None
+    if village_fill is None: village_fill = "jam" if (mode == "measured" and map_type == "drylands" and n <= 12) else "share"
+    if village_fill == "jam":
+        total = 10 ** 9      # MEASURED (5,267 real 11x11 Bardur Drylands maps, v122): settlements fill the interior until no spot is left (jam), mean 8.16 of 9 slots, not 0.668 x 9
     cap_total = total if (mode == "measured" and total) else 10 ** 9      # MEASURED: earlier steps may not overshoot the total
     # 2. suburbs
     if map_type not in ("drylands", "waterworld"):

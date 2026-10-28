@@ -30,7 +30,7 @@
    "id": "C23",
    "rule": "Resource table rows are SHARES of land tiles per zone, so P(resource|terrain) = share / terrain share (inner fruit|field 0.375, animal|forest 0.50, metal|mountain 0.786; outer 0.125 / 0.158 / 0.214), times tribe multipliers",
    "level": "L3",
-   "evidence": "14 maps, capital rings excluded: wiki reading within |z| <= 2.8 on all 8 cells (residuals of 2-3 points on crop/outer fruit); PolyEnv reading rejected at z 5 to 48.",
+   "evidence": "14 maps, capital rings excluded: wiki reading within |z| <= 2.8 on all 8 cells (residuals of 2-3 points on crop/outer fruit); PolyEnv reading rejected at z 5 to 48. | PolyVision v122 Bardur Drylands 11x11 only (5,267 maps), rings excluded: inner P(animal|forest) .504, P(fruit|field) .486, P(metal|mountain) .805; outer .167 / .155 / .267; agrees with the Bardur saves (|z| < 1.3, inner metal z -2.1); outer metal, inner and outer fruit are above the wiki baseline.",
    "game_version": "v123 (measured in game)"
   },
   {
@@ -44,14 +44,14 @@
    "id": "C10",
    "rule": "Every capital gets a fixed identical pair: animal for Ai-Mo, Bardur, Elyrion, Hoodrick and Polaris; fish for Aquarion and Kickoo; fruit for Imperius, Oumaji, Quetzali and Yadakk; metal for Xin-xi; crop/spores for Zebasi and Cymanti. Luxidoor's ring is fixed (2 fruit, 2 animal, 2 fish, 1 crop, 1 metal on Field 3/Forest 2/Mountain 1/Water 2, 18 of 18). Vengir has no guarantee (11 of 19 paired).",
    "level": "L3",
-   "evidence": "218 of 224 capitals; all 6 failures are Vengir (6 of 13 Vengir capitals lacked a pair). | S1-S27: all 305 non-Vengir capitals paired; Vengir 11 of 19 paired. | S1-S27 per-tribe pair table in data/measured_mapgen.json capital_ring. The wiki's 'random tier-1 for the rest' is wrong: Ai-Mo 20/20 animal, Aquarion 22/22 fish.",
+   "evidence": "218 of 224 capitals; all 6 failures are Vengir (6 of 13 Vengir capitals lacked a pair). | S1-S27: all 305 non-Vengir capitals paired; Vengir 11 of 19 paired. | S1-S27 per-tribe pair table in data/measured_mapgen.json capital_ring. The wiki's 'random tier-1 for the rest' is wrong: Ai-Mo 20/20 animal, Aquarion 22/22 fish. | PolyVision v122 Bardur Drylands 11x11 only: Bardur capital ring has >= 2 animals in 5267/5267 maps (exactly 2 in 86.7%, mean 2.17).",
    "game_version": "v123 (measured in game)"
   },
   {
    "id": "RES-AREA",
    "rule": "No resources farther than distance 2 from any settlement",
    "level": "L3",
-   "evidence": "6 maps: 0 resources on 117 land tiles beyond distance 2.",
+   "evidence": "6 maps: 0 resources on 117 land tiles beyond distance 2. | PolyVision v122 Bardur Drylands 11x11 only: 0 resources on 37.4k land tiles at distance >= 3 from any settlement.",
    "game_version": "v123 (measured in game)"
   },
   {
@@ -65,14 +65,14 @@
    "id": "RUINS-900",
    "rule": "Ruin count by map size matches the wiki table exactly: 14->5, 16->7, 18->9, 20->11, 30->23",
    "level": "L3",
-   "evidence": "S1-S27, all 27 saves exact",
+   "evidence": "S1-S27, all 27 saves exact | 11x11 -> 4 ruins, 5267/5267 maps (PolyVision, v122, Bardur Drylands 11x11 only)",
    "game_version": "v123 (measured in game)"
   },
   {
    "id": "C9",
    "rule": "Settlements per map = (size//3)^2 slots times a per-map-type share: drylands 0.668, lakes 0.646, archipelago 0.603, continents 0.52, pangea 0.48, waterworld 0.24 (data/measured_mapgen.json).",
    "level": "L2 (all six map types: pre-registered held-out test passed)",
-   "evidence": "Massive, 16 players: drylands 70/61/70, lakes 62/65/63, continents 50/54/52, archipelago 59/60/62, pangea 50, waterworld 23. | S1-S27 totals (capitals+villages): Normal 16: Dry 16, Lakes 16, Cont 14, Arch 15, Pangea 12, WW 7 (generator 18.1/15.0/14.6/14.4/14.8/6.0); Lakes 14/18/20: 12/21/28 (gen 11.7/20.3/22.0). Massive Pangea 50/49/46 vs gen 58.5. A land+water linear fit misses Archipelago by +15 and Waterworld by -11, so the count depends on the map-type layout (islands), not just area. | Held-out test (verify/c9_test.md, c9_test.py) on the 6 saves not used to build the table: measured model beats 'fill every slot' (PolyEnv) by 10^530 and the wiki's 60% by 10^2.3. | 7th held-out save (09a5bf1e, archipelago 30: 65/100) keeps the verdict: MS over WK 10^2.3, over PE 10^606. | 9 held-out saves incl. new Drylands 6eccceef (67/100, table 0.668) and Pangea d71a6b1d (48/100, table 0.48): MS over WK 10^4.0, over PE 10^804. Held-out rule amended to include known-new saves (c9_test.md). | Waterworld held-out save c4a3fc8b: 24/100 (table 0.24). 10 held-out saves over all six map types: MS over WK 10^15.6, over PE 10^1008. Gate B passes.",
+   "evidence": "Massive, 16 players: drylands 70/61/70, lakes 62/65/63, continents 50/54/52, archipelago 59/60/62, pangea 50, waterworld 23. | S1-S27 totals (capitals+villages): Normal 16: Dry 16, Lakes 16, Cont 14, Arch 15, Pangea 12, WW 7 (generator 18.1/15.0/14.6/14.4/14.8/6.0); Lakes 14/18/20: 12/21/28 (gen 11.7/20.3/22.0). Massive Pangea 50/49/46 vs gen 58.5. A land+water linear fit misses Archipelago by +15 and Waterworld by -11, so the count depends on the map-type layout (islands), not just area. | Held-out test (verify/c9_test.md, c9_test.py) on the 6 saves not used to build the table: measured model beats 'fill every slot' (PolyEnv) by 10^530 and the wiki's 60% by 10^2.3. | 7th held-out save (09a5bf1e, archipelago 30: 65/100) keeps the verdict: MS over WK 10^2.3, over PE 10^606. | 9 held-out saves incl. new Drylands 6eccceef (67/100, table 0.668) and Pangea d71a6b1d (48/100, table 0.48): MS over WK 10^4.0, over PE 10^804. Held-out rule amended to include known-new saves (c9_test.md). | Waterworld held-out save c4a3fc8b: 24/100 (table 0.24). 10 held-out saves over all six map types: MS over WK 10^15.6, over PE 10^1008. Gate B passes. | PolyVision 11x11 Bardur Drylands (v122, 5,267 maps): 8.16 settlements per 9 slots = 0.907, not 0.668; the share is not constant across sizes; see C9-JAM.",
    "game_version": "v123 (measured in game)"
   },
   {
@@ -135,7 +135,7 @@
    "id": "SPACING",
    "rule": "Settlements are >= 3 apart (Chebyshev) and never on the map edge",
    "level": "L3",
-   "evidence": "6 maps: minimum spacing exactly 3, 0 on edge.",
+   "evidence": "6 maps: minimum spacing exactly 3, 0 on edge. | PolyVision v122 Bardur Drylands 11x11 only: 5,267 maps, min nearest-settlement distance 3, 0 of 42k settlements on the edge.",
    "game_version": "v123 (measured in game)"
   },
   {
@@ -149,7 +149,7 @@
    "id": "TERRAIN-MEASURED",
    "rule": "Per-tribe terrain shares on real maps: mountains run above the wiki's figure for most tribes (e.g. Zebasi 0.10 vs 0.07, Oumaji 0.12 vs 0.07, Aquarion 0.175 vs 0.14). The generator's measured mode uses the counted shares.",
    "level": "L3",
-   "evidence": "S1-S27, 391-664 land tiles per tribe, capital rings excluded",
+   "evidence": "S1-S27, 391-664 land tiles per tribe, capital rings excluded | PolyVision v122 Bardur Drylands 11x11 only: field/forest/mountain .532/.317/.152 vs saves .511/.333/.156 (|z| < 1); the wiki/Polyfish Bardur forest boost (x1.5) is not there.",
    "game_version": "v123 (measured in game)"
   },
   {
@@ -233,7 +233,7 @@
    "id": "RUIN-PLACE",
    "rule": "v123 ruin placement: never on shallow water (154 of 481 are on deep ocean); at least 2 tiles from any village (0 adjacent), at least 3 from any capital, at least 3 from any other ruin; map edges are allowed; resources can sit hidden under a ruin (62 of 481). The wiki says ruins may touch villages since 2.0.58; the saves say they never do.",
    "level": "L3",
-   "evidence": "481 ruins in 27 saves; nearest village distance 2 for 285 ruins, never 1. The generator's measured mode now applies these spacings.",
+   "evidence": "481 ruins in 27 saves; nearest village distance 2 for 285 ruins, never 1. The generator's measured mode now applies these spacings. | PolyVision v122 Bardur Drylands 11x11 only, 21,068 ruins: nearest village exactly 2 for 84.5% and never 1, >= 3 from the capital and from other ruins, 59.8% on the edge ring; hidden resource under a ruin not testable (CSV drops it).",
    "game_version": "v123 (measured in game)"
   },
   {
@@ -1488,6 +1488,13 @@
    "level": "L3",
    "game_version": "v123 (measured in saves)",
    "evidence": "2026-10-28, 9ac0b946 (Jason's Sanctuary game, t6-t11), 3 Sanctuaries, 13 readings, 13/13: (6,20) adjacent animals 1,1,2,2,3,3 = Level 1,1,2,2,3,3 (t6-t11); (11,18) 1,1,2,2,3 = 1,1,2,2,3 (t7-t11); (13,19) 1,2 = 1,2 (t10, t11). Also b2448ead (see SANCTUARY-V123)."
+  },
+  {
+   "id": "C9-JAM",
+   "rule": "Settlements are placed until no valid spot is left (random order, land, not on the edge, Chebyshev >= 3 from every settlement, capitals first); the count is the jam of that process, not a share of (n//3)^2 slots",
+   "level": "L2",
+   "game_version": "v122 (11x11 Bardur Drylands, 5,267 maps) + v123 saves (37 maps, six types)",
+   "evidence": "PolyVision 11x11 Bardur Drylands v122 only: 5,267 maps, mean 8.16 settlements; no-parameter packing with the real capital gives 8.167 and the 4-9 distribution within 1.1 points. Out of sample on 37 saves, all six map types, real land masks: mean |actual - jam| 1.13 vs 1.81 for the C9 share model (tools/jam_test.py). Inside sim/wiki_mapgen.py jam is worse than share for 14+ maps because the generator's land is more compact than real land (sum abs error 35.7 vs 16.8 over 15 rows), so the generator uses it only for measured Drylands <= 12. Not tested: other map types at small sizes, 2+ players."
   }
  ]
 }
