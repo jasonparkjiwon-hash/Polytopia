@@ -87,12 +87,17 @@ RULES = {   # one switch per line; A/B each in tools/miss.py before keeping a ch
     'break_ice_after_move_needs_dash': True,   # legality check, counts violations in LOG only: 130/130 move-then-break uses are Dash units
     'polaris_capture_freezes': True,
     'capture_acts': True,
+    'mycelium_heal': 4,                    # MYCELIUM-HEAL: HP healed per Mycelium (0 = off); search variants in tools/rule_search.py
+    'mycelium_radius': 1,                  # ... unit within this distance of the Mycelium tile (1 = on it or adjacent, Polyfish)
+    'mycelium_stack': False,               # ... every Mycelium heals separately (Polyfish does)
+    'mycelium_cures_poison': False,        # ... a poisoned unit only loses the poison (Polyfish heal_unit)
     'idle_auto_recover': True,
     'explode_poison_halves': True,
     'push_saved_facing': True,
     'push_ccw_first': True,
     'push_no_room_removes': True,
 }
+if os.environ.get('POLY_RULES'): RULES.update(json.loads(os.environ['POLY_RULES']))   # tools/rule_search.py: variants as JSON overrides
 LOG = collections.Counter(); EVENTS = []
 
 def moth_infiltrates(st, tx, ty, pl):   # MOTH-INFILTRATE: a Moth does not infiltrate a city its own side lost (6e1bf8e0 t11: attacked, survived, exploded later)
@@ -401,6 +406,17 @@ def apply(st, a, turn):
         for u in st.units.values():                             # wounded Rider (attacked the turn before) was +4 by the next save
             if u.owner == pl and not getattr(u, "acted", True) and u.hp < u.max_hp and POISON not in u.effects:
                 u.hp = min(u.max_hp, u.hp + (4 if st.owner.get((u.x, u.y)) == u.owner else 2)); LOG["idle recover"] += 1
+    if t == 15 and pl != 255 and RULES["mycelium_heal"]:   # MYCELIUM-HEAL (variants in tools/rule_search.py): Cymanti units on / next to their own Mycelium heal at the end of the turn
+        done = set()
+        for (mx, my), mo in list(st.mycelium.items()):
+            if mo != pl: continue
+            for u in list(st.units.values()):
+                if u.owner != pl or dist((u.x, u.y), (mx, my)) > RULES["mycelium_radius"]: continue
+                if not RULES["mycelium_stack"] and u.id in done: continue
+                done.add(u.id)
+                if POISON in u.effects and RULES["mycelium_cures_poison"]: u.effects = [e for e in u.effects if e != POISON]
+                else: u.hp = min(u.max_hp, u.hp + RULES["mycelium_heal"])
+                LOG["mycelium heal"] += 1
     PREV[0] = t
     if t == 7 and RULES['capture_acts'] and v[1] in st.units: st.units[v[1]].acted = True   # CAPTURE-ACTS: a unit that captured did not rest (710ddb20 t19 Warrior 439 stayed 4 HP)
     if t in (3, 4, 13, 14, 16, 18, 24, 38) and len(v) >= 3 and unit_at(st, v[1], v[2]) is not None: unit_at(st, v[1], v[2]).acted = True
@@ -504,6 +520,7 @@ def apply(st, a, turn):
         _, imp, x, y = v
         if imp == 30: spawn(st, pl, "Polytaur", x, y); LOG["enchant animal"] += 1
         if imp == 8: st.port.add((x, y))
+        if imp == 39: st.mycelium[(x, y)] = st.owner.get((x, y), pl)
         if imp == 48: st.bridge.add((x, y))
     elif t == 4 and RULES["t4_heal"]:            # Heal Others (Mind Bender): friendly units next to it +4 HP, capped
         _, x, y = v                              # MEASURED af181c8f t7: an Ai-Mo Warrior at 7 HP next to (25,18) was at 10 next turn
@@ -671,10 +688,11 @@ def run(final, checkpoints):
                 for yy, row in enumerate(cd["currentTiles"]):
                     for xx, tt in enumerate(row): st.owner[(xx, yy)] = tt["Owner"]
             if RULES["resync_terrain"]:                  # ice (Mooni freeze, melts again), Aquarion flood and Cymanti algae change outside the log
-                st.flood = {}; st.fungi = {}; st.port = set(); st.bridge = set()
+                st.flood = {}; st.fungi = {}; st.mycelium = {}; st.port = set(); st.bridge = set()
                 for yy, row in enumerate(cd["currentTiles"]):
                     for xx, tt in enumerate(row):
                         if tt.get("ImprovementExists") and tt["ImprovementType"] == 37: st.fungi[(xx, yy)] = tt["Owner"]
+                        if tt.get("ImprovementExists") and tt["ImprovementType"] == 39: st.mycelium[(xx, yy)] = tt["Owner"]
                         if tt.get("ImprovementExists") and tt["ImprovementType"] == 8: st.port.add((xx, yy))
                         if tt.get("ImprovementExists") and tt["ImprovementType"] == 48: st.bridge.add((xx, yy))
                         st.terrain[(xx, yy)] = TERRAIN.get(tt["Terrain"], tt["Terrain"])

@@ -1753,6 +1753,124 @@
    ]
   },
   {
+   "rule": "Infiltration spawns min(5, city level) Daggers (Mermaid Daggers for Aquarion, any free tile in the borders, row-major order, n=1) and pays t",
+   "ledger": [
+    "INFILTRATE",
+    "INFILTRATE-STARS"
+   ],
+   "files": [
+    "actions/units.rs"
+   ],
+   "labels": [
+    {
+     "ledger": "INFILTRATE",
+     "level": "L3 (n=1)",
+     "below_L1": false
+    },
+    {
+     "ledger": "INFILTRATE-STARS",
+     "level": "L3 (n=1)",
+     "below_L1": false
+    }
+   ]
+  },
+  {
+   "rule": "A Cymanti Moth attacking a unit in an enemy city does the same and spawns Insect Eggs (one per city level, max 5); it attacks normally a cit",
+   "ledger": [
+    "MOTH-INFILTRATE"
+   ],
+   "files": [
+    "actions/units.rs"
+   ],
+   "labels": [
+    {
+     "ledger": "MOTH-INFILTRATE",
+     "level": "L3",
+     "below_L1": false
+    }
+   ]
+  },
+  {
+   "rule": "Centipede chain: the save's Leader/Follower ids become `parent/child_unit_idx`; a head move shifts the segments and grows a Segment on the o",
+   "ledger": [
+    "CENTIPEDE-CHAIN"
+   ],
+   "files": [
+    "actions/units.rs"
+   ],
+   "labels": [
+    {
+     "ledger": "CENTIPEDE-CHAIN",
+     "level": "L3",
+     "below_L1": false
+    }
+   ]
+  },
+  {
+   "rule": "Mycelium heal: a unit on or next to its own Mycelium heals 4 HP once, at the end of its owner's own turn (upstream healed at every player's ",
+   "ledger": [
+    "MYCELIUM-HEAL"
+   ],
+   "files": [
+    "actions/mod.rs"
+   ],
+   "labels": [
+    {
+     "ledger": "MYCELIUM-HEAL",
+     "level": "L3 (n=1) + Polyfish source",
+     "below_L1": false
+    }
+   ]
+  },
+  {
+   "rule": "Cymanti Oceantology (save 49) costs tier 2, not 3 (`settings/technology.rs`) [CYMANTI-TECH-49].",
+   "ledger": [
+    "CYMANTI-TECH-49"
+   ],
+   "files": [
+    "settings/technology.rs"
+   ],
+   "labels": [
+    {
+     "ledger": "CYMANTI-TECH-49",
+     "level": "L3 (n=1)",
+     "below_L1": false
+    }
+   ]
+  },
+  {
+   "rule": "Mermaid Defender costs 3 (the card says 8; game 6 star rows fit 3, n=4) (`settings/units.rs`) [MERMAID-DEFENDER-PRICE].",
+   "ledger": [
+    "MERMAID-DEFENDER-PRICE"
+   ],
+   "files": [
+    "settings/units.rs"
+   ],
+   "labels": [
+    {
+     "ledger": "MERMAID-DEFENDER-PRICE",
+     "level": "L3 (n=4, conflicts with card)",
+     "below_L1": false
+    }
+   ]
+  },
+  {
+   "rule": "Oceantology (save tech 49) requires Navigation; upstream had no prerequisite and Research was not offered (`settings/technology.rs`) [CYMANT",
+   "ledger": [
+    "CYMANTI-TECH-49"
+   ],
+   "files": [
+    "settings/technology.rs"
+   ],
+   "labels": [
+    {
+     "ledger": "CYMANTI-TECH-49",
+     "level": "L3 (n=1)",
+     "below_L1": false
+    }
+   ]
+  },
+  {
    "rule": "Aquarion Jelly Tentacles: after a Jelly moves it hits every adjacent enemy, and an enemy that moves (or follows a kill) next to a Jelly is h",
    "ledger": [
     "TENTACLES"

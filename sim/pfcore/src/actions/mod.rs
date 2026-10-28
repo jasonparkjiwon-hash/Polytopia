@@ -829,11 +829,15 @@ pub fn process_end_turn_effects(state: &mut GameState, _player_id: PlayerId) -> 
         .map(|(&idx, _)| idx)
         .collect();
 
+    // v123 (ledger MYCELIUM-HEAL): once per unit, and only at the end of the Mycelium owner's own turn (upstream
+    // healed at every player's end of turn, so a Kiton was topped up 16 times a round)
+    let mut healed_by_mycelium: std::collections::HashSet<i32> = std::collections::HashSet::new();
     for m_idx in mycelium_tiles {
         let m_owner = state
             .tiles
             .get(&m_idx)
-            .and_then(|t| if t.owner != 0 { Some(t.owner) } else { None });
+            .and_then(|t| if t.owner != 0 { Some(t.owner) } else { None })
+            .filter(|o| *o == state.settings.current_player_turn_id);
         if let Some(owner_id) = m_owner {
             let adj = get_adjacent_indices(state, m_idx, 1);
             let mut targets = adj;
@@ -841,7 +845,7 @@ pub fn process_end_turn_effects(state: &mut GameState, _player_id: PlayerId) -> 
 
             for t_idx in targets {
                 if let Some(unit_owner) = state.tiles.get(&t_idx).and_then(|t| t._unit_owner_id) {
-                    if unit_owner == owner_id {
+                    if unit_owner == owner_id && healed_by_mycelium.insert(t_idx) {
                         if let Some(tribe) = state.tribes.get(&unit_owner) {
                             if let Some(unit_pos) =
                                 tribe.units.iter().position(|u| u.coords.idx == t_idx)

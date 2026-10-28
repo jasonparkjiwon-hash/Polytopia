@@ -1318,3 +1318,23 @@ fn centipede_chain_grows_on_move() {
     assert_eq!(p[2], idx(4, 5), "on the old tail tile");
     assert_eq!(s.tribes[&1].units[g].child_unit_idx, Some(2));
 }
+
+/// MYCELIUM-HEAL (L3, n=1: 64795ee3 t9, Kiton 177 next to its Mycelium went from 6 to 10 HP after its own attack): a unit
+/// on or next to its own Mycelium heals 4 at the end of its owner's turn, once, and not at other players' turns.
+#[test]
+fn mycelium_heals_once_at_owner_turn_end() {
+    let mut s = board();
+    s.tribes.get_mut(&1).unwrap().bot = true; // a bot unit that attacked: no idle heal, only the Mycelium
+    for (x, y) in [(5, 4), (4, 5)] {
+        s.structures.insert(idx(x, y), Some(StructureState { structure_type: StructureType::Mycelium, ..Default::default() }));
+        s.tiles.get_mut(&idx(x, y)).unwrap().owner = 1;
+    }
+    let k = add_unit(&mut s, 1, UnitType::Kiton, 5, 5, 6.0);
+    s.tribes.get_mut(&1).unwrap().units[k].attacked = true;
+    s.settings.current_player_turn_id = 2;
+    let _ = crate::actions::process_end_turn_effects(&mut s, 2);
+    assert_eq!(unit(&s, 1, k).health, 6.0); // another player's turn end: nothing
+    s.settings.current_player_turn_id = 1;
+    let _ = crate::actions::process_end_turn_effects(&mut s, 1);
+    assert_eq!(unit(&s, 1, k).health, 10.0); // two Mycelium tiles next to it, still +4
+}

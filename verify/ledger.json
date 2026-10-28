@@ -1439,6 +1439,13 @@
    "level": "L3",
    "game_version": "v123",
    "evidence": "710ddb20 t19 Warrior 439 (captured a city) stayed 4 HP, 64795ee3 t8 Warrior 1 (examined a ruin) stayed 5 HP; engine had healed both. Units 10185->10187, no game worse."
+  },
+  {
+   "id": "MYCELIUM-HEAL",
+   "rule": "At the end of its owner's turn a Cymanti unit on or next to its own Mycelium heals 4 HP (once per unit, capped at max HP). Radius 1; other amounts (2, 3, 5) and radius 0 or 2 fit worse. Polyfish heals once per Mycelium tile at EVERY player's end of turn (bug, fixed with this rule).",
+   "level": "L3 (n=1) + Polyfish source",
+   "game_version": "v123 (measured in game)",
+   "evidence": "64795ee3 t9->10: Kiton 177 (6/15 after its own attack) in its capital, next to Mycelium: the Swordsman 161 attack that left it at 3 HP with 6 retaliation fits exactly (fight formula, no defence bonus) only if the Kiton had 10 HP, i.e. +4 after its own attack. A/B grid (tools/rule_search.py, 10 variants): only amount 4 radius 1 fixes all three rows (Kiton and Swordsman 161); 3 and 5 fix fewer, radius 0 and amount 2 none, radius 2 breaks 09a5bf1e. No game worse, held-out unchanged. Found by engine_diff (both-differ rows) + the Polyfish source."
   }
  ]
 }

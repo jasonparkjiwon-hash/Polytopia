@@ -20,6 +20,10 @@ MAP = {   # rule name -> ledger id
     "replay.RULES.infiltrate_spawn": "INFILTRATE-SPAWN",
     "replay.RULES.infiltrate_spawn_range": "INFILTRATE-SPAWN",
     "replay.RULES.moth_infiltrate": "MOTH-INFILTRATE",
+    "replay.RULES.mycelium_heal": "MYCELIUM-HEAL",
+    "replay.RULES.mycelium_radius": "MYCELIUM-HEAL",
+    "replay.RULES.mycelium_stack": "MYCELIUM-HEAL",
+    "replay.RULES.mycelium_cures_poison": "MYCELIUM-HEAL",
     "replay.RULES.retaliation_uses_bonus": "C6",
     "replay.RULES.melee_moves_in_on_kill": "KILL-MOVE-IN",
     "replay.RULES.t18_disband": "ACTION-18-BREAK-ICE",          # the old reading of action 18, kept off

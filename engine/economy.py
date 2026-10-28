@@ -55,6 +55,7 @@ ECON_RULES = {
     'ruin_city': True,           # RUIN-CITY: an Aquarion water ruin examined becomes the player's level-1 city (3edee0ec t5, t9: +1 star the next income)
     'aquarion51_price': 5,       # ECON-PRICES-V123: Aquarion structure 51, implied by the star check (n=2); name unknown
 }
+if os.environ.get('POLY_ECON'): ECON_RULES.update(json.loads(os.environ['POLY_ECON']))   # tools/rule_search.py
 
 def meet_stars(score):
     """Stars for meeting a tribe, from the MET tribe's score (Polyfish get_star_exchange, v >= 83): 1 + 2*min(ceil(score/1000), 5).
