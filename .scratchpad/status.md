@@ -4,6 +4,8 @@ _Last updated 2026-10-26 (Jason's games 1-5 ingested, scored held-out, released)
 
 ## Now
 
+- **28 Oct (resumed on Jason's go):** (1) Polyfish infiltration placement = ring, row-major, own territory (land for Daggers/Eggs, water for Mermaid Daggers, infiltrator's tile free); Sanctuary spawn every 2 turns in own forests, westmost first; Polyfish units 10895/10918 -> 10899/10914, referee unchanged. Jason's counter-clockwise question: tested on all 7 infiltrations, the push-style chain fits 2/7 at best vs 5/7 row-major, so not used (`investigations/infil-sanct.md`). Embassy +2 and Sanctuary 2 turns confirmed by Jason. (2) Fog village count: bias -12.6 -> -2.8, MAE 12.6 -> 5.7 (`fog-inference.md` section 5). **Next:** refit the win-% fog model on the new samples, ruin count by map size, hidden enemy expansion.
+
 - **28 Oct infil-sanct:** Jason's infiltrate + sanctuary docs ingested (4 games), held-out 712/712 units, 109/112 stars, released; `tools/miss.py` now **units 10903/10903, stars 2057/2084**. Found: infiltration count = city level (7/7), placement ring-1 row-major 5/7; Sanctuary Level = adjacent animals, spawn every 2 turns in own forest, SANCTUARY-BUILD-TURN. See `investigations/infil-sanct.md`. Items 2 and 4 under 'Waiting on Jason' are answered.
 
 - **28 Oct web-deep session:** three rules found (PIRATE-BOARD, RUIN-CITY, CAPTURE-RUIN-ACT): referee units 10187/10195, stars 1946/1972. Findings and open questions: `investigations/web-deep.md`; short rules in `lessons.md`.

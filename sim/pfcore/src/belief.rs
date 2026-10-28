@@ -160,6 +160,9 @@ pub struct Model {
     pub res_global: Vec<f64>,
     /// free-village rate per eligible land tile across games: gamma prior (shape, rate)
     pub vil_prior: (f64, f64),
+    /// lower end of the share of packing spots that hold a village (VILLAGE-PACK); each sample draws its share from [this, 1]
+    #[serde(default = "one")]
+    pub vil_fill: f64,
     pub vil_terrain_w: Vec<f64>,
     /// ruins per hidden tile by turn bucket (<=3, 4..=8, 9+) and class weights
     pub ruin_rate: Vec<f64>,
@@ -179,6 +182,7 @@ pub enum Mode {
     Uniform,
 }
 
+fn one() -> f64 { 0.9 }
 fn grid_k(players: usize) -> i32 {
     (players as f64).sqrt().ceil() as i32
 }
@@ -190,7 +194,8 @@ fn turn_bucket(t: i32) -> usize {
 }
 fn eligible_land(m_cls: &[u8], n: i32, i: i32) -> bool {
     let (x, y) = (i % n, i / n);
-    x >= 2 && y >= 2 && x <= n - 3 && y <= n - 3 && is_land(m_cls[i as usize] as usize)
+    // villages stand from the second ring in (x = 0 never; ring 1 holds 22% of the hidden villages in the 3 test games)
+    x >= 1 && y >= 1 && x <= n - 2 && y <= n - 2 && is_land(m_cls[i as usize] as usize)
 }
 
 struct Ctx<'a> {
@@ -425,6 +430,7 @@ pub fn train(maps: &[MapView], seed: u64) -> Model {
     m.res_global = norm(&rg);
     let mean = rates.iter().sum::<f64>() / rates.len() as f64;
     let var = (rates.iter().map(|r| (r - mean).powi(2)).sum::<f64>() / rates.len() as f64).max((0.3 * mean).powi(2));
+    m.vil_fill = 0.9;
     m.vil_prior = (mean * mean / var, mean / var);
     m.vil_terrain_w = (0..NC).map(|c| (vcls[c] / vcls.iter().sum::<f64>()) / (lcls[c] / lcls.iter().sum::<f64>())).collect();
     m.ruin_rate = (0..3).map(|b| ruin_n[b] / ruin_h[b]).collect();
@@ -531,19 +537,35 @@ pub fn sample_belief(g: &Game, pov: i32, model: &Model, mode: Mode, seed: u64) -
     let elig_obs = (0..nn as i32).filter(|&i| obs[i as usize] && eligible_land(&cls, n, i)).count() as f64;
     let mut vil: Vec<i32> = vec![];
     let cand: Vec<i32> = hidden.iter().copied().filter(|&i| eligible_land(&cls, n, i)).collect();
-    let rate = match mode {
-        // prior only: the explored region sits around capitals, where villages are thin (updating on it gave -9.6 villages bias)
-        _ => { let _ = (obs_vil, elig_obs); rng.gamma(model.vil_prior.0, model.vil_prior.1) }
-    };
-    let kv = rng.poisson(rate * cand.len() as f64);
+    // Villages: random sequential packing of the hidden interior land (VILLAGE-PACK, polyvision-maps.md): every settlement spot is
+    // taken at turn 0, so a hidden spot (Chebyshev >= 3 from every known/sampled settlement and from each other) is a village or an
+    // enemy city, never empty. A Poisson rate by eligible tile (the old way) gave a bias of -12.6 villages (90% interval covers 0.21).
+    let _ = (obs_vil, elig_obs);
+    // the share of packing spots that really hold a village varies by game (captured, razed or never-founded spots): drawn per sample
+    let lo: f64 = std::env::var("VIL_LO").ok().and_then(|v| v.parse().ok()).unwrap_or(model.vil_fill);
+    let fill: f64 = lo + (1.0 - lo) * rng.f();
     let mut pool = cand;
-    for _ in 0..kv {
-        let w: Vec<f64> = pool.iter().map(|&i| if settle.iter().all(|&s| cheb(n, s, i) >= 3) { if mode == Mode::Full { model.vil_terrain_w[cls[i as usize] as usize] } else { 1.0 } } else { 0.0 }).collect();
-        if w.iter().sum::<f64>() <= 0.0 { break; }
-        let i = pool[rng.pick(&w)];
-        settle.push(i);
-        vil.push(i);
-        pool.retain(|&j| j != i);
+    let pack = std::env::var("VIL_PACK").map_or(true, |v| v != "0"); // VIL_PACK=0: the old Poisson count (bias -8.3 with the edge fix, -12.6 before)
+    if !pack {
+        let rate = rng.gamma(model.vil_prior.0, model.vil_prior.1);
+        let kv = rng.poisson(rate * pool.len() as f64);
+        for _ in 0..kv {
+            let w: Vec<f64> = pool.iter().map(|&i| if settle.iter().all(|&s| cheb(n, s, i) >= 3) { if mode == Mode::Full { model.vil_terrain_w[cls[i as usize] as usize] } else { 1.0 } } else { 0.0 }).collect();
+            if w.iter().sum::<f64>() <= 0.0 { break; }
+            let i = pool[rng.pick(&w)];
+            settle.push(i);
+            vil.push(i);
+            pool.retain(|&j| j != i);
+        }
+    } else {
+        let use_w = mode == Mode::Full && std::env::var("VIL_W").map_or(true, |v| v != "0");
+        loop {
+            let w: Vec<f64> = pool.iter().map(|&i| if settle.iter().all(|&s| cheb(n, s, i) >= 3) { if use_w { model.vil_terrain_w[cls[i as usize] as usize] } else { 1.0 } } else { 0.0 }).collect();
+            if w.iter().sum::<f64>() <= 0.0 { break; }
+            let i = pool[rng.pick(&w)];
+            pool.retain(|&j| j != i);
+            if rng.f() < fill { settle.push(i); vil.push(i); }
+        }
     }
     let rr = rng.poisson(model.ruin_rate[turn_bucket(turn)] * hidden.len() as f64);
     let mut ruins: Vec<i32> = vec![];

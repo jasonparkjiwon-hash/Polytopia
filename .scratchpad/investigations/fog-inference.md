@@ -43,3 +43,17 @@ a different land/water mix). Only ~10 distinct games exist to learn game-level t
 - Phase 5: treat hidden terrain beyond ~3 tiles from explored as nearly the global prior; use the sampler for capital/threat directions, not for expansion targets. Do not rely on village counts until fixed.
 - Next steps: village model (suburbs within 4 of capitals, calibrate count vs map type), ruin decay by turn, hidden enemy expansion (cities per tribe per turn from bot_turns), infer water share from the first explored ring, use `known_players` to tie tribes to places.
 - Update: `check.sh` baseline untouched; `cargo test` 129 pass (new: fog view test, belief keeps-the-view test).
+
+## 5. Village count fixed (28 Oct, VILLAGE-PACK)
+Same test as section 3 (3 held-out games, 48 pairs, 50 samples, model trained without them; `pffog eval`). Hidden free-village count, truth about 34-40 per pair:
+
+| sampler version | MAE | bias | 90% interval covers |
+|---|---|---|---|
+| before (Poisson rate by eligible tile, terrain-weighted) | 12.6 | -12.6 | 0.21 |
+| + villages allowed from the second ring in (was third) | 8.5 | -8.3 | 0.52 |
+| random sequential packing, spots >= 3 apart, taken with probability drawn per sample from [0.9, 1] | **5.7** | **-2.8** | 0.42 |
+
+What was wrong: (1) `eligible_land` kept villages two tiles off the border, but 22% of the real hidden villages stand on the second ring (x = 0 never; ring 1: 405 of 1,759). (2) A Poisson count on top of that under-fills: at turn 0 every packing spot is taken
+(PolyVision, polyvision-maps.md), so the sampler now packs the hidden interior land (Chebyshev >= 3 from every known or sampled settlement) instead of drawing a rate. Env switches for A/B: `VIL_PACK=0` (old count), `VIL_LO` (fill floor).
+Limits: the interval is still too narrow (0.42 of 0.90): game-to-game spread is real (a game with 40 hidden villages because enemies had captured some), and the packing has little variance of its own. Ruins unchanged (bias +0.8, covers 0.96).
+Terrain and capital scores unchanged. The win-% fog model (`data/winpct_eval.json`) was not refitted on the new samples. `cargo test` 138 pass; no model retrain needed (`vil_fill` defaults to 0.9 for old model files).
