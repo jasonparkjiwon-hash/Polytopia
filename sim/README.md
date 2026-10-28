@@ -129,6 +129,7 @@ Crazy deltas. `botpolicy2::choose(&game, &legal, &policy, &mut rng, true)` is th
 - A Cymanti Moth attacking a unit in an enemy city does the same and spawns Insect Eggs (one per city level, max 5); it attacks normally a city its own side lost (`City.ex_owners`) (`actions/units.rs` attack_unit) [MOTH-INFILTRATE].
 - Centipede chain: the save's Leader/Follower ids become `parent/child_unit_idx`; a head move shifts the segments and grows a Segment on the old tail tile; a second displacement the same turn moves a chain longer than one no further (`actions/units.rs` step_unit, grow_segment) [CENTIPEDE-CHAIN].
 - Mycelium heal: a unit on or next to its own Mycelium heals 4 HP once, at the end of its owner's own turn (upstream healed at every player's turn end, once per Mycelium tile) (`actions/mod.rs` process_end_turn_effects, test `mycelium_heals_once_at_owner_turn_end`) [MYCELIUM-HEAL].
+- Ice Archer freeze first: an attacker with Freeze freezes the surviving defender before retaliation, so it takes no return fire (`actions/units.rs` attack_unit `def_frozen`, test `ice_archer_hit_takes_no_retaliation`) [FREEZE-BEFORE-RETALIATION].
 - Cymanti Oceantology (save 49) costs tier 2, not 3 (`settings/technology.rs`) [CYMANTI-TECH-49].
 - Mermaid Defender costs 3 (the card says 8; game 6 star rows fit 3, n=4) (`settings/units.rs`) [MERMAID-DEFENDER-PRICE].
 - Oceantology (save tech 49) requires Navigation; upstream had no prerequisite and Research was not offered (`settings/technology.rs`) [CYMANTI-TECH-49].

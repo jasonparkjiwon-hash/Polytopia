@@ -1572,7 +1572,10 @@ pub fn attack_unit(
             .tribes
             .get(&defender_owner)
             .and_then(|t| t.units.get(defender_idx))
-            .map_or(false, |u| u.effects.contains(&UnitEffect::Frozen));
+            .map_or(false, |u| u.effects.contains(&UnitEffect::Frozen))
+            // v123 (ledger FREEZE-BEFORE-RETALIATION): an Ice Archer's hit freezes a surviving defender before it
+            // could hit back
+            || atk_skills.contains(&SkillType::Freeze);
 
         let can_retaliate = !def_skills.contains(&SkillType::Stiff)
             && !atk_skills.contains(&SkillType::Surprise)

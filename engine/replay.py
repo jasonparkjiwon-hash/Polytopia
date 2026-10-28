@@ -33,6 +33,7 @@ RULES = {   # one switch per line; A/B each in tools/miss.py before keeping a ch
     'retaliation_needs_sight': True,
     'frozen_no_retaliation': True,
     'freeze_on_hit': True,
+    'freeze_blocks_retaliation': True,    # FREEZE-BEFORE-RETALIATION (64795ee3 t7 IceArcher 70): the freeze lands before the defender could hit back
     'tribe_super_unit': True,
     'bridge_is_land': True,
     'stomp': True,
@@ -148,7 +149,7 @@ def fight(st, a, d):
     d_hp = d.hp - dmg
     unseen = RULES["retaliation_needs_sight"] and not sees(st, d.owner, (a.x, a.y))      # Jason's in-game test: no return fire from fog
     hidden = RULES["hidden_attacker_no_retaliation"] and "hide" in sa["skills"]        # Jason: a Cloak never takes retaliation
-    frozen = RULES["frozen_no_retaliation"] and FROZEN in d.effects                   # MEASURED 09a5bf1e t7: a Frozen Warrior did not hit back
+    frozen = RULES["frozen_no_retaliation"] and (FROZEN in d.effects or (RULES["freeze_blocks_retaliation"] and "freeze" in sa["skills"]))   # MEASURED 09a5bf1e t7: a Frozen Warrior did not hit back; FREEZE-BEFORE-RETALIATION: an Ice Archer's hit freezes the defender first
     if d_hp > 0 and not unseen and not hidden and not frozen and "stiff" not in sd["skills"] and "surprise" not in sa["skills"] and dist((a.x, a.y), (d.x, d.y)) <= sd.get("range", 1):
         dfr = df if RULES["retaliation_uses_bonus"] else dfn * d.hp / d.max_hp
         ret = rnd(dfr / tot * dfn * 4.5) if tot > 0 else 0

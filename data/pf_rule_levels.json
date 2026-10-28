@@ -1823,6 +1823,22 @@
    ]
   },
   {
+   "rule": "Ice Archer freeze first: an attacker with Freeze freezes the surviving defender before retaliation, so it takes no return fire (`actions/uni",
+   "ledger": [
+    "FREEZE-BEFORE-RETALIATION"
+   ],
+   "files": [
+    "actions/units.rs"
+   ],
+   "labels": [
+    {
+     "ledger": "FREEZE-BEFORE-RETALIATION",
+     "level": "L3 (n=1)",
+     "below_L1": false
+    }
+   ]
+  },
+  {
    "rule": "Cymanti Oceantology (save 49) costs tier 2, not 3 (`settings/technology.rs`) [CYMANTI-TECH-49].",
    "ledger": [
     "CYMANTI-TECH-49"

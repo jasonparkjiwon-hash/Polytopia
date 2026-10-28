@@ -1338,3 +1338,16 @@ fn mycelium_heals_once_at_owner_turn_end() {
     let _ = crate::actions::process_end_turn_effects(&mut s, 1);
     assert_eq!(unit(&s, 1, k).health, 10.0); // two Mycelium tiles next to it, still +4
 }
+
+/// FREEZE-BEFORE-RETALIATION (L3, n=1: 64795ee3 t7, a Polaris Ice Archer hit an adjacent Warrior and took no return fire;
+/// the Rider's later hit then fits an Ice Archer at full HP): the freeze lands first, the frozen defender does not hit back.
+#[test]
+fn ice_archer_hit_takes_no_retaliation() {
+    let mut s = board();
+    let a = add_unit(&mut s, 1, UnitType::IceArcher, 5, 5, 10.0);
+    let w = add_unit(&mut s, 2, UnitType::Warrior, 6, 5, 10.0);
+    attack(&mut s, a, w);
+    assert_eq!(unit(&s, 1, a).health, 10.0);
+    assert!(unit(&s, 2, w).health < 10.0);
+    assert!(unit(&s, 2, w).effects.contains(&UnitEffect::Frozen));
+}

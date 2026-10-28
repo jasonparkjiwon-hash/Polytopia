@@ -1446,6 +1446,13 @@
    "level": "L3 (n=1) + Polyfish source",
    "game_version": "v123 (measured in game)",
    "evidence": "64795ee3 t9->10: Kiton 177 (6/15 after its own attack) in its capital, next to Mycelium: the Swordsman 161 attack that left it at 3 HP with 6 retaliation fits exactly (fight formula, no defence bonus) only if the Kiton had 10 HP, i.e. +4 after its own attack. A/B grid (tools/rule_search.py, 10 variants): only amount 4 radius 1 fixes all three rows (Kiton and Swordsman 161); 3 and 5 fix fewer, radius 0 and amount 2 none, radius 2 breaks 09a5bf1e. No game worse, held-out unchanged. Found by engine_diff (both-differ rows) + the Polyfish source."
+  },
+  {
+   "id": "FREEZE-BEFORE-RETALIATION",
+   "rule": "An Ice Archer's hit freezes the defender before it could retaliate: a surviving defender takes the Frozen effect and does not hit back (same no-retaliation as a unit that was already Frozen, FROZEN-NO-RETALIATION).",
+   "level": "L3 (n=1)",
+   "game_version": "v123 (measured in game)",
+   "evidence": "64795ee3 t7->8: Polaris IceArcher 70 (10/10) hit an adjacent Warrior (act 788) and was not hurt; the later Rider hit (act 964) of 6 with no retaliation, no defence bonus leaves it at 4 HP = the save. With the old order (Warrior hits back 5) the Archer would have died to the Rider. Referee and Polyfish both predicted the kill. Found by tools/engine_diff.py (both-same row), settled with tools/rule_search.py; no game worse."
   }
  ]
 }

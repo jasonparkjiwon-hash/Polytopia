@@ -21,6 +21,7 @@ MAP = {   # rule name -> ledger id
     "replay.RULES.infiltrate_spawn_range": "INFILTRATE-SPAWN",
     "replay.RULES.moth_infiltrate": "MOTH-INFILTRATE",
     "replay.RULES.mycelium_heal": "MYCELIUM-HEAL",
+    "replay.RULES.freeze_blocks_retaliation": "FREEZE-BEFORE-RETALIATION",
     "replay.RULES.mycelium_radius": "MYCELIUM-HEAL",
     "replay.RULES.mycelium_stack": "MYCELIUM-HEAL",
     "replay.RULES.mycelium_cures_poison": "MYCELIUM-HEAL",
