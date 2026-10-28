@@ -17,7 +17,7 @@ use crate::states::*;
 use serde_json::{json, Value};
 use std::collections::{BTreeMap, HashMap};
 
-pub const FEATS: [&str; 14] = ["alive", "cities", "pop", "level", "units", "unit_cost", "unit_hp_cost", "stars", "income", "techs", "kills", "casualties", "score", "connected"];
+pub const FEATS: [&str; 17] = ["alive", "cities", "pop", "level", "units", "unit_cost", "unit_hp_cost", "stars", "income", "techs", "kills", "casualties", "score", "connected", "threat", "pressure", "water"];
 const FI_CITIES: usize = 1;
 const FI_UNITS: usize = 4;
 const FI_VALUE: usize = 6;
@@ -34,6 +34,15 @@ fn tribe_name(s: &GameState, id: i32) -> String { s.tribes.get(&id).map_or("?".i
 /// Same feature vector as pfwin (kept in the same order so tools/winpct_lib.py can read it).
 pub fn feats(g: &Game, id: i32) -> Vec<f64> {
     let t = &g.state.tribes[&id];
+    // threat / pressure / water: as in bin/pfwin.rs (win-pct-3)
+    let size = g.state.settings.size;
+    let armed = |u: &&UnitState| get_unit_setting(u.unit_type).attack > 0.0;
+    let foe_units: Vec<i32> = g.state.tribes.iter().filter(|(k, _)| **k != id).flat_map(|(_, o)| o.units.iter().filter(armed).map(|u| u.coords.idx)).collect();
+    let my_units: Vec<i32> = t.units.iter().filter(armed).map(|u| u.coords.idx).collect();
+    let near = |c: i32, set: &[i32]| set.iter().any(|&u| f::get_chebyshev_distance(c, u, size) <= 3);
+    let threat = t.cities.iter().filter(|c| near(c.idx, &foe_units)).count() as f64;
+    let pressure = g.state.tribes.iter().filter(|(k, _)| **k != id).flat_map(|(_, o)| o.cities.iter()).filter(|c| near(c.idx, &my_units)).count() as f64;
+    let water = g.state.tiles.values().filter(|tl| tl.is_water_terrain()).count() as f64 / (g.state.tiles.len().max(1) as f64);
     let cost = |u: &UnitState| get_unit_setting(u.unit_type).cost as f64 + u.passenger_type.map(|p| get_unit_setting(p).cost as f64).unwrap_or(0.0);
     vec![
         (t.killed_turn <= 0 && t.resigned_turn <= 0 && !t.cities.is_empty()) as i32 as f64,
@@ -50,6 +59,7 @@ pub fn feats(g: &Game, id: i32) -> Vec<f64> {
         t.casualties as f64,
         t.score as f64,
         t.cities.iter().filter(|c| c.connected_to_capital).count() as f64,
+        threat, pressure, water,
     ]
 }
 
