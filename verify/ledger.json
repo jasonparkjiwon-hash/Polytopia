@@ -1453,6 +1453,13 @@
    "level": "L3 (n=1)",
    "game_version": "v123 (measured in game)",
    "evidence": "64795ee3 t7->8: Polaris IceArcher 70 (10/10) hit an adjacent Warrior (act 788) and was not hurt; the later Rider hit (act 964) of 6 with no retaliation, no defence bonus leaves it at 4 HP = the save. With the old order (Warrior hits back 5) the Archer would have died to the Rider. Referee and Polyfish both predicted the kill. Found by tools/engine_diff.py (both-same row), settled with tools/rule_search.py; no game worse."
+  },
+  {
+   "id": "EMBASSY-DESTROYED-BY-ENTRY",
+   "rule": "A unit stepping onto a city of its embassy partner ends the embassy, as combat between them does (EMBASSY-DESTROYED-BY-COMBAT): the stars it paid stop at once. Seen once; the only entry-into-partner-city event in all 18 games.",
+   "level": "L3 (n=1)",
+   "game_version": "v123 (measured in game)",
+   "evidence": "9906f7da t17->18: p9's Shark 70 moved onto Jason's city (2,27) (act 1324); no attack or capture between 1 and 9 in the window, yet the (1,9) embassy was gone in the t18 save and Jason's round-18 income was 5, not the 7 the embassy gave. Siege adjacency (enemy within 1 or 2 tiles stops income) tested and rejected: +188..+519 star misses. Found by tools/residual.py + engine_diff."
   }
  ]
 }

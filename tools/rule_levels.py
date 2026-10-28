@@ -101,6 +101,7 @@ MAP = {   # rule name -> ledger id
     # economy.py ECON_RULES switches
     "economy.ECON_RULES.ruin_city": "RUIN-CITY",
     "economy.ECON_RULES.embassy_income": "ECON-EMBASSY",
+    "economy.ECON_RULES.embassy_entry_destroys": "EMBASSY-DESTROYED-BY-ENTRY",
     "economy.ECON_RULES.market_income": "ECON-MARKET-CLATHRUS",
     "economy.ECON_RULES.clathrus_income": "ECON-MARKET-CLATHRUS",
     "economy.ECON_RULES.aquarion51_price": "ECON-PRICES-V123",

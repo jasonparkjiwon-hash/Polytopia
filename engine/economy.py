@@ -45,6 +45,7 @@ REWARD_INCOME = {3: 1, 2: 1}                # Workshop, Park: +1 star per turn
 # Switches for income rules, mostly untested by any save: best guess on, labelled unverified in data/rule_levels.json (tools/rule_levels.py) so a
 # simulation can flag moves that depend on them.
 ECON_RULES = {
+    'embassy_entry_destroys': True,    # EMBASSY-DESTROYED-BY-ENTRY: a unit entering the partner's city ends the embassy
     'embassy_income': True,      # ECON-EMBASSY, EMBASSY-ACTION: tested by 2 embassies (off: 780 -> 778); the +2 price step is not
     'market_income': True,       # ECON-MARKET-CLATHRUS: v123 card + Polyfish agree; one Market in the saves, never next to a Windmill/Forge/Sawmill
     'clathrus_income': True,     # ECON-MARKET-CLATHRUS: v123 card says adjacent Fungi, Polyfish says adjacent Algae; no Clathrus in any save
@@ -219,6 +220,9 @@ def check(a, b, acts, model="levels", siege=True):
             elif x["type"] == 7:
                 c = bk.city.get(struct.unpack("<BIII", r)[2:4]); foe = c["owner"] if c else None
             if foe is not None and foe != pl: bk.embassies = {e for e in bk.embassies if set(e) != {pl, foe}}
+        if ECON_RULES["embassy_entry_destroys"] and x["type"] == 6:   # EMBASSY-DESTROYED-BY-ENTRY: a unit stepping onto a city of its embassy partner ends the embassy (9906f7da t17->18, n=1)
+            _, _, _, mx, my, _ = struct.unpack("<BIIIII", bytes.fromhex(x["raw"])); c = bk.city.get((mx, my))
+            if c is not None and c["owner"] != pl: bk.embassies = {e for e in bk.embassies if set(e) != {pl, c["owner"]}}
         if pl in rows and prev_end and pl != 255:       # the first action of a player's turn: income arrives first
             occ = {q: st.units[i].owner for q, i in st.at.items() if i in st.units} if st else None
             rows[pl]["income"] += bk.income(pl, model, occ); rows[pl]["turns"] += 1
