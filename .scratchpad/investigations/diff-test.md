@@ -52,3 +52,7 @@ Lesson: web-deep reads the same Polyfish source, so pf-only rows get fixed twice
 | 2 residual clustering (`tools/residual.py`) | Units: nothing to cluster (8-13 misses in 10.4k rows). Stars: late rounds / many cities, p<0.001 but not one rule; led to the embassy windows via the OfferPeace/Embassy lift. |
 | 3 hypothesis search (`tools/rule_search.py`) | Settled MYCELIUM-HEAL (amount/radius grid), FREEZE order, CENTIPEDE cap and shift, EMBASSY entry; rejected siege-by-adjacency (+188..+519) and fresh-embassy timing (-2 net). 10-15 variants in under a minute. |
 | 4 per-game deltas | Built into rule_search (any game worse = not KEEPABLE, held-out checked). |
+
+## Jason's pasted Centipede text (28 Oct, source not given) tested against the saves
+
+It says: no length cap; a segment is added only when the head makes a kill, on the tile it vacated; 0 segments = move 2, 1+ = move 1. Replayed as variants (`tools/rule_search.py`): growth only on kill = +2 unit misses (710ddb20), no cap = +1, so the saves disagree with both claims (segments appeared on plain moves, and a 3-segment chain did not get a 4th on t16->17). The movement part (2 then 1) is consistent with the saves but untested here. Kept: cap 3, growth on every head move. If the text comes from the game's own card, the cap row may be a different mechanism (e.g. the exploded tail on t16->17 consumed the new segment); the variant was not run with that reading.
