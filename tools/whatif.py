@@ -319,7 +319,7 @@ def report(d, args):
     r = R(d); s = r.s
     L = []
     L.append("WHAT-IF · %s (player %d)%s · turn %d · stars %d (+%d a turn)" % (s["tribe"], s["player"], " [bot]" if s["is_bot"] else "", s["turn"], s["stars"], s["income"]))
-    L.append("Tiles are written (x,y): x = column, y = row of the save's grid (map %dx%d, counting from 0). Which screen corner is (0,0) is not confirmed yet, so every place also names its nearest city." % (s["map_size"], s["map_size"]))
+    L.append("Tiles are written (x,y): x = column counted from the left, y = row counted from the top; (0,0) is the top-left corner (map %dx%d, counting from 0). Places also name their nearest city." % (s["map_size"], s["map_size"]))
     if os.environ.get("PF_FLAGS"): L.append("WARNING: rule switches are on (PF_FLAGS=%s): results depend on unverified rules." % os.environ["PF_FLAGS"])
     L.append("")
     L.append("== 1. YOUR SITUATION ==")

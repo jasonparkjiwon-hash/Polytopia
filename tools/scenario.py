@@ -311,7 +311,7 @@ def main(argv):
     s = d["situation"]
     base = next((by[o["name"]] for o in opts if not o["moves"]), by[opts[0]["name"]])
     L = ["SCENARIOS · %s (player %d) · turn %d · stars %d (+%d a turn) · %d options%s" % (s["tribe"], s["player"], s["turn"], s["stars"], s["income"], len(opts), " (picked by --auto, best first)" if a.auto else ""),
-         "Tiles are written (x,y) of the save's grid; places also name the nearest city. Which screen corner is (0,0) is not confirmed."]
+         "Tiles are written (x,y): x = column from the left, y = row from the top; (0,0) is the top-left corner. Places also name the nearest city."]
     if res["hypos"]:
         L.append("HYPOTHETICAL position (edited, not the real game): " + "; ".join(res["hypos"]))
     L += ["How to read it: lines marked [exact] are the engine's own numbers for your moves (combat has no dice).",

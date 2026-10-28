@@ -43,7 +43,7 @@ Tags on a line: `[exact]` (combat has no dice), `RANDOM` (a table of measured ch
 `depends on an unverified rule: <ledger id>` for any move kind that touches a rule below L1 (`data/pf_rule_levels.json`, written by
 `tools/pf_rule_levels.py`; at this commit no move kind does, so the tag is checked only by a test with a fake entry).
 
-Coordinates are `(x,y)` of the save's grid, counted from 0: x = column, y = row. **Which screen corner is (0,0) in the game is not known**,
+Coordinates are `(x,y)` of the save's grid, counted from 0: x = column, y = row. **(0,0) is the top-left corner of the screen (Jason, 28 Oct): x counts columns from the left, y rows from the top.**
 so every place also names its nearest city, and cities whose name decodes to symbols are called "your city 1/2" and "<tribe> city 1". Open question for Jason:
 point at your capital on the screen and tell me its (x,y) from the report (for example whether it sits left/right/top/bottom of the map)
 and the wording can be fixed once.
@@ -306,7 +306,7 @@ lead % = chance to lead the in-game score after 2 rounds (half sampled playouts,
 (Only a few real options exist this early; the differences between them are inside the noise, which the tool prints.)
 
 ## Open items
-1. (0,0) corner: still unanswered by Jason; places are named by nearest city and the output says the corner is not confirmed.
+1. (0,0) corner: ANSWERED by Jason 28 Oct: top left. Both tools now say so; places still also name the nearest city.
 2. The win-% is "lead the in-game score after H rounds", with the weak calibration of win-pct.md; it is near 0% for everyone when the player is far behind, so it does not rank options there.
 3. Later rounds use one policy for everybody including the player: it is a drift check, not a plan. `--auto` only builds single moves (plus best attack + best train); sequences of 3+ moves must be written by hand.
 4. Validation needs more human turns with enemy contact (ask Jason for games where he is at war).
