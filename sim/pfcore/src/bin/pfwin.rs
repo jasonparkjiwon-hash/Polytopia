@@ -72,16 +72,25 @@ fn playout(base: &Game, pol: &Policy, model: &Model, pov: Option<i32>, unseen: O
     let (t0, sp) = (game.state.settings.turn, game.state.settings.current_player_turn_id);
     let mut rng = (seed.wrapping_mul(1_000_003) ^ 0x9E37_79B9_7F4A_7C15) | 1;
     let (mut guard, mut applied, mut h) = (0u64, 0u64, 1);
+    let (mut last_turn, mut in_turn) = ((t0, sp), 0u32);
+    let (mut stall_turn, mut stall) = (t0, 0usize);   // tribe turns since the turn counter last moved: if the first player is eliminated the counter can stop for good (engine), so a round is declared after 2 x tribes switches
+    let ntribes = base.state.tribes.len().max(1);   // moves in the current tribe turn: a policy loop (11.8M legal moves in one playout) is cut by a forced EndTurn
     let mut snaps = Vec::new();
     while h <= horizon && guard < 40_000 {
         let (turn, cur) = (game.state.settings.turn, game.state.settings.current_player_turn_id);
-        if turn >= t0 + h && (cur == sp || turn > t0 + h) { if keep.contains(&h) { snaps.push(all_feats(&game)); } h += 1; continue; }
+        if turn != stall_turn { stall_turn = turn; stall = 0; }
+        let stuck = stall > 2 * ntribes;
+        if (turn >= t0 + h && (cur == sp || turn > t0 + h)) || stuck {
+            if stuck { stall = 0; } if keep.contains(&h) { snaps.push(all_feats(&game)); } h += 1; continue; }
         if game.is_game_over() { break; }
         guard += 1;
         let t1 = Instant::now();
         let legal = game.legal_moves();
         let t2 = Instant::now();
-        let i = botpolicy2::choose(&game, &legal, pol, &mut rng, true);
+        let now = (game.state.settings.turn, game.state.settings.current_player_turn_id);
+        if now != last_turn { if now.0 == last_turn.0 { stall += 1; } last_turn = now; in_turn = 0; }
+        in_turn += 1;
+        let i = if in_turn > 400 { legal.iter().position(|m| m.move_type() == polyfish::types::MoveType::EndTurn).unwrap_or_else(|| botpolicy2::choose(&game, &legal, pol, &mut rng, true)) } else { botpolicy2::choose(&game, &legal, pol, &mut rng, true) };
         let t3 = Instant::now();
         let ok = api::apply_search(&mut game, legal[i].as_ref()).is_none();
         PROF.with(|p| { let mut p = p.borrow_mut(); p[0] += (t2 - t1).as_secs_f64(); p[1] += (t3 - t2).as_secs_f64(); p[2] += t3.elapsed().as_secs_f64(); p[3] += legal.len() as f64; });

@@ -350,7 +350,7 @@ def calib_bins(rows):
         if b: out.append({"lo": lo, "hi": min(hi, 1.0), "n": len(b), "games": len({g for g, t, pr, y in rows}), "pred": round(sum(a for a, _ in b) / len(b), 4), "obs": round(sum(c for _, c in b) / len(b), 4)})
     return out
 
-def pack_model(m, names): return {"w": [round(float(x), 5) for x in m[0]], "mu": [round(float(x), 5) for x in m[1]], "sd": [round(float(x), 5) for x in m[2]]}
+def pack_model(m, names): return {"w": [round(float(x), 5) for x in m[0]], "mu": [round(float(x), 5) for x in m[1]], "sd": [round(max(float(x), 1e-6), 8) for x in m[2]]}
 
 def cmd_write(label="power", B=20):
     G = load(); allg, pool, tuned = games_split(G); play = json.load(open(os.path.join(CACHE, "play_6.json")))
@@ -384,7 +384,7 @@ def cmd_write(label="power", B=20):
             r3 = [(g, t, None, np.array(pr), np.array(y)) for g, t, pr, y in rows[k + "|logo"]]
             met[k] = {"brier_logo": round(mean(sq(r3)), 5), "n_points": len(r3)}
             rh = rows.get(k + "|held", []); met[k]["brier_held"] = round(mean([float(v) for g, t, pr, y in rh for v in (np.array(pr) - np.array(y)) ** 2]), 5) if rh else None; met[k]["n_held"] = len(rh)
-        out["lags"][str(H)] = {"n_points": len(pts), "full": pack_model(mf, names_full), "fog": pack_model(mg, names_fog), "stack_w": [round(float(x), 4) for x in sw[0]],
+        out["lags"][str(H)] = {"n_points": len(pts), "full": pack_model(mf, names_full), "fog": pack_model(mg, names_fog), "stack_w": [round(float(x), 4) for x in sw[0] / sw[2]],
                                "boot_full": [pack_model(b[0], names_full) for b in boots], "boot_fog": [pack_model(b[1], names_fog) for b in boots], "calib": calib, "metrics": met}
         print("lag", H, "points", len(pts), "stack w", out["lags"][str(H)]["stack_w"], {k: v["brier_logo"] for k, v in met.items()})
     json.dump(out, open(os.path.join(W.ROOT, "data", "winpct_eval.json"), "w"))

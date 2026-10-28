@@ -360,6 +360,7 @@ fn option_run(g: &Game, pov: i32, opt: &Value, k: usize, h_max: i32, pol: &Polic
                       "p_any_city_lost": lost_cities.iter().filter(|x| **x > 0.0).count() as f64 / nf, "top_attacks": top_attacks},
             "tribes": tribes, "near": near.iter().take(3).map(|x| json!({"id": x.0, "tribe": tribe_name(&post.state, x.0), "near_objects": x.1})).collect::<Vec<_>>()},
         "start_feats": start_json, "feats_h": feats_h,
+        "tribe_names": post.state.tribes.iter().map(|(id, t)| (id.to_string(), json!(format!("{:?}", t.tribe_type)))).collect::<serde_json::Map<_, _>>(),
     })
 }
 

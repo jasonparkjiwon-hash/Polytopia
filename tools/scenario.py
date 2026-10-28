@@ -18,7 +18,7 @@
 What is exact and what is not: your own moves and their immediate result are the engine's exact numbers (`[exact]`; a ruin is a table
 of chances). Everything after your turn is an ESTIMATE from the bot model (policy v3, data/bot_policy_v3.json): K enemy turns are
 drawn from it and counted. From round 2 on the model also plays YOUR side. Agreement of the model with real bots:
-.scratchpad/investigations/bot-model-3.md. The win-% is the chance to LEAD the in-game score after H rounds, not to win the game."""
+.scratchpad/investigations/bot-model-3.md. The win-% is the chance to hold the MOST CITIES after H rounds (full information, 90% interval), not to win the game."""
 import argparse, json, math, os, re, subprocess, sys, tempfile
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import whatif as W
@@ -146,26 +146,19 @@ def run_engine(path, player, opts, k, h, seed, policy, hypos, want_feats):
 
 # ------------------------------------------------------------------ win-%
 def win_estimates(res, H, pov):
-    """Per option: playout share of leading the in-game score after H rounds (Wilson interval), static estimate, blend (tools/winpct.py's
-    recommended 'est'), for the subject. Uses tools/winpct_lib.py read-only."""
+    """Per option, for the subject: chance of holding the MOST CITIES H rounds later (win-pct-3 label 'power'): the sampled futures (full
+    information, from the save: CHEATING for a fogged game) stacked with the static eval; 90% interval, trust note. tools/winpct_est.py."""
     try:
-        import winpct_lib as WL
+        import winpct_est as WE
     except Exception:
         return None
-    sp = os.path.join(ROOT, "data", "winpct_static.json")
-    static = json.load(open(sp)) if os.path.exists(sp) else None
     out = {}
     for o in res["options"]:
-        if "error" in o or not o.get("feats_h"): continue
-        N = len(o["feats_h"]); lead = 0.0
-        for e in o["feats_h"]: lead += WL.leader_share({t: v for t, v in e.items()}, "score").get(str(pov), 0.0)
-        lo, hi = WL.wilson(lead, N)
-        st = None
-        if static:
-            lag = str(min((int(x) for x in static["lags"]), key=lambda x: abs(x - H)))
-            st = WL.softmax_probs(static["lags"][lag]["w"], o["start_feats"], static["names"]).get(str(pov))
-        est = lead / N if st is None else 0.5 * lead / N + 0.5 * st
-        out[o["name"]] = {"playout": lead / N, "lo": lo, "hi": hi, "static": st, "est": est, "n": N}
+        if "error" in o or not o.get("feats_h") or not o.get("tribe_names"): continue
+        names = {i: {"tribe": n, "bot": True} for i, n in o["tribe_names"].items()}
+        e = WE.estimate(o["start_feats"], names, H, "full", player=pov, ends=o["feats_h"], seed=1)
+        r = e[str(pov)]; N = len(o["feats_h"])
+        out[o["name"]] = {"est": r["est"], "lo": r["lo"], "hi": r["hi"], "n": N, "trust": r["trust"], "model_sd": r["model_sd"], "playout_sd": r["playout_sd"], "lag": r["lag"]}
     return out
 
 
@@ -231,8 +224,9 @@ def option_text(o, r, d, H, win, base):
         L.append("     %s (p%s, near you) after %d: units %s (now %s), cities %s (now %s), score %s" % (t["tribe"], tid, H, rng(l2["units"]), W.n(t["start"]["units"]), rng(l2["cities"]), W.n(t["start"]["cities"]), rng(l2["score"], 0)))
     if win and nm in win:
         w = win[nm]
-        L.append("     chance you lead the in-game score after %d round%s: %s (playouts %s, 95%% interval %s-%s%s) [ESTIMATE; not the chance to win the game]" % (
-            H, "" if H == 1 else "s", pc(w["est"]), pc(w["playout"]), pc(w["lo"]), pc(w["hi"]), ", static model %s" % pc(w["static"]) if w["static"] is not None else ""))
+        L.append("     chance you hold the most cities after %d round%s: %s (90%% interval %s-%s; %d sampled futures) [ESTIMATE, full information; not the chance to win the game]" % (
+            H, "" if H == 1 else "s", pc(w["est"]), pc(w["lo"]), pc(w["hi"]), w["n"]))
+        L.append("       trust: " + w["trust"])
     return L
 
 
@@ -325,7 +319,7 @@ def main(argv):
         L.append("")
     L.append("== COMPARISON (H=%d round%s, K=%d; 'now' is exact, every other column is an ESTIMATE) ==" % (a.h, "" if a.h == 1 else "s", res["k"]))
     L += table(opts, by, win, a.h, r)
-    if not a.no_win: L.append("lead %% = chance to lead the in-game score after %d round%s (half sampled playouts, half the static model fitted on real games; see .scratchpad/investigations/win-pct.md for its calibration). It is NOT the chance to win the game." % (a.h, "" if a.h == 1 else "s"))
+    if not a.no_win: L.append("lead %% = chance to hold the MOST CITIES after %d round%s (ties: strongest army, then score): sampled futures stacked with the static model fitted on the real games, 90%% interval and calibration in .scratchpad/investigations/win-pct.md. FULL INFORMATION (reads the save's hidden state): an upper bound for a fogged game, and NOT the chance to win the game." % (a.h, "" if a.h == 1 else "s"))
     L.append("(%.1f s; seed %d)" % (res["secs"], a.seed))
     print("\n".join(L))
 
