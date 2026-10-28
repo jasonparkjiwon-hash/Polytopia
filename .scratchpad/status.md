@@ -4,6 +4,13 @@ _Last updated 2026-10-26 (Jason's games 1-5 ingested, scored held-out, released)
 
 ## Now
 
+- **28 Oct, handoff to forward-model sessions (Jason: "let other sessions work on the forward model"):** I am stepping back from Polyfish work. Everything is pushed (`main`). Open items for the next sessions, in this order:
+  1. Polyfish units 10899/10914 (referee is exact): run `tools/engine_diff.py` / `tools/pf_miss.py --list` and port the remaining referee rules; one fix per loop, `check.sh` must not regress.
+  2. Refit the win-% fog model (`tools/winpct_eval.py`, `data/winpct_eval.json`) on the new belief samples (village count now unbiased-ish, bias -2.8).
+  3. Fog: ruin count by map size (fixed count 4/5/7/9/11/23 for 11/14/16/18/20/30, minus used), hidden enemy expansion, village interval too narrow (covers 0.42 of 0.90).
+  4. Phase 5 search on top of `tools/scenario.py` / `whatif.py`.
+  Star tail (5 rows) is parked until a game saved every turn exists (`investigations/star-tail.md`).
+
 - **28 Oct (star tail 2):** Polyfish got REBELLION-NO-INCOME too (`rebelling` flag on cities): Polyfish stars 2046 -> 2052/2084, units unchanged. The 5 star rows still open (embassy first turn p9 x2, p3 x2, 64795ee3 p12) were tried and are logged with the failed hypotheses in `investigations/star-tail.md`; each is a single row.
 
 - **28 Oct (star tail):** Jason: games with missing turns are not counted. Found REBELLION-NO-INCOME: a city with RebellionFlag (left by an infiltration) pays nothing at its owner's next income, a rebelling capital also loses the bot bonus; fixes 5 rows (5d15d70f p13 -5, 710ddb20 p9 -2 and p2 -7, 9906f7da p1 -5, ac4b122a p4 -1). `tools/miss.py` stars 2057 -> **2062/2084**, units 10903/10903. Still unexplained (5): 64795ee3 t9->10 p12 -1, 710ddb20 t16->17 p3 +2 and t18->19 p3 -1, 9906f7da t14->15 p9 -2 and t15->16 p9 -2. Polyfish has no rebellion handling (follow-up).
