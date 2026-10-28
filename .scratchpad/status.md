@@ -4,6 +4,8 @@ _Last updated 2026-10-26 (Jason's games 1-5 ingested, scored held-out, released)
 
 ## Now
 
+- **HALTED by Jason (28 Oct 2026): no sessions, check-ins or new work until he gives a go.** Where things stood: referee 10183/10196 units, 1944/1972 stars over 18 games, held-out ed6cb932 187/187, 64/64; Polyfish forward model accepted (fm-accept); what-if tool done (`tools/whatif.py`); win-% prototype (win-pct.md) and bot model v3 (bot-model-3.md) were mid-run: resume from those files, on Sonnet.
+
 - **Phase 1 (data and verification) is done.** All six exit gates passed on
   2026-10-23 (`docs/polytopia_ai_phase_1_spec.md`).
 - **Polish program is done** (four parallel sessions, 23 Oct):
