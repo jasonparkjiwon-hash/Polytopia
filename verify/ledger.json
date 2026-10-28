@@ -1418,6 +1418,13 @@
    "level": "L1 (statistical, thin: Crazy test n=342)",
    "game_version": "v123 (measured in game)",
    "evidence": "tools/bot_policy3.py fit --nodiff vs --l2c; bot-model-3.md."
+  },
+  {
+   "id": "PIRATE-BOARD",
+   "rule": "A Dagger that boards a boat/port becomes a Pirate (10 HP, attack 2, Surprise, carries the Dagger); other land units become a Raft.",
+   "level": "L3",
+   "game_version": "v123",
+   "evidence": "710ddb20 t18->19: Dagger 469 boards at (20,20), save shows Pirate 550 with Dagger passenger, attacks without retaliation. Polyfish agrees (Dagger->Pirate on embark). Units 10183->10185, no game worse."
   }
  ]
 }

@@ -65,6 +65,7 @@ MAP = {   # rule name -> ledger id
     "replay.RULES.poison_recover_cures": "C7",
     "replay.RULES.freezers": "GAAMI-FREEZE",
     "replay.RULES.giant_juggernaut": "GIANT-JUGGERNAUT",
+    "replay.RULES.dagger_pirate": "PIRATE-BOARD",
     "replay.RULES.port_kill_embark": "PORT-KILL-EMBARK",
     "replay.RULES.algae_keeps_boats": "ALGAE-KEEPS-BOATS",
     "replay.RULES.push_onto_port": "PUSH-ONTO-PORT",

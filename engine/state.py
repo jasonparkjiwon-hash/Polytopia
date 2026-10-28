@@ -14,7 +14,7 @@ TERRAIN = {int(k): v for k, v in E["TerrainType"].items()}
 TECH = {int(k): v for k, v in E["TechnologyType"].items()}
 TRIBE = {int(k): v for k, v in E["TribeType"].items()}
 START = json.load(open(os.path.join(ROOT, "data", "measured_start.json")))
-BOATS = {"Raft", "Scoutship", "Rammership", "Bomber", "Juggernaut"}   # Juggernaut: a Giant at sea (af181c8f, 19/19 Juggernauts carry a Giant)
+BOATS = {"Raft", "Scoutship", "Rammership", "Bomber", "Juggernaut", "Pirate"}   # Juggernaut: a Giant at sea (af181c8f, 19/19 Juggernauts carry a Giant)
 
 FACING = [(-1, -1), (-1, 0), (-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1)]   # UnitDirection byte 2 (MEASURED: = last move's direction)
 

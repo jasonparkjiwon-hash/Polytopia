@@ -64,6 +64,7 @@ RULES = {   # one switch per line; A/B each in tools/miss.py before keeping a ch
     'mooni_freezes': ('Water', 'Ocean'),
     'freezers': ('Mooni', 'Gaami'),
     'giant_juggernaut': True,
+    'dagger_pirate': True,               # PIRATE-BOARD: a Dagger boarding a boat becomes a Pirate (MEASURED 710ddb20 t18: Dagger 469 -> Pirate 550); Polyfish agrees
     'port_kill_embark': True,
     'algae_keeps_boats': True,
     'push_onto_port': True,
@@ -321,7 +322,7 @@ def enter(st, u, x0, y0, x1, y1):
         pass                                     # MEASURED: on Aquarion-flooded land a boat stays a boat and a land unit stays on foot (a city is plain land)
     elif (ter in water or (RULES["port_boards"] and (x1, y1) in st.port and st.owner.get((x1, y1)) == u.owner and ter != "Ice")) and ter0 not in water and u.type in LAND_UNITS and u.type not in BOATS:
         u.passenger = u.type                         # a land unit stepping into water becomes a Raft; MEASURED (af181c8f): a Giant becomes a Juggernaut
-        u.type = "Juggernaut" if RULES["giant_juggernaut"] and u.type == "Giant" else "Raft"
+        u.type = "Juggernaut" if RULES["giant_juggernaut"] and u.type == "Giant" else "Pirate" if RULES["dagger_pirate"] and u.type == "Dagger" else "Raft"
         if RULES.get("boat_new_id", True):            # MEASURED: the boat is a new unit id; the passenger keeps its own id
             u.passenger_id = u.id; TEMP[0] -= 1; st.units.pop(u.id, None)
             if st.at.get((u.x, u.y)) == u.id: st.at[(u.x, u.y)] = TEMP[0]
