@@ -42,6 +42,8 @@ impl Bank {
 pub struct Opts {
     /// condition the profile on the tribe's score when pov has met it (the scoreboard shows it)
     pub use_score: bool,
+    /// condition on the score of every opposing tribe, met or not (the save's player records; an upper bound for what a scoreboard gives)
+    pub score_all: bool,
     /// diagnostics: take the TRUE number of cities / of units of each opposing tribe (placement and composition still sampled)
     pub oracle_cities: bool,
     pub oracle_units: bool,
@@ -89,7 +91,7 @@ pub fn complete(v: &mut Game, truth: &Game, pov: i32, bank: &Bank, o: &Opts, rng
             let dt = (p.t - turn) as f64 / 1.5; let mut x = (-dt * dt / 2.0).exp();
             x *= if p.h == h { 1.0 } else { 0.25 };
             x *= if p.tr == tr { 1.5 } else { 1.0 };
-            if o.use_score && met { let d = (p.sc - score) as f64 / (0.2 * (score.max(40)) as f64); x *= (-d * d / 2.0).exp(); }
+            if o.use_score && (met || o.score_all) { let d = (p.sc - score) as f64 / (0.2 * (score.max(40)) as f64); x *= (-d * d / 2.0).exp(); }
             if o.oracle_cities { let nc = truth.state.tribes[&id].cities.len(); x *= if p.cities.len() == nc { 1.0 } else { 0.05 }; }
             else if p.cities.len() < seen_c { x *= 0.05; }
             x

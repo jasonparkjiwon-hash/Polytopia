@@ -77,7 +77,7 @@ def brier_rows(play, states, H, policy_blend=None):
         rows["tuned" if g in tuned else "held"].append((g, t, f, y, pp))
     return rows
 
-def cmd_report(H, policy="v2", variants=("full", "belief", "noscore", "score", "oracle_cities", "oracle_all")):
+def cmd_report(H, policy="v2", variants=("full", "belief", "noscore", "score", "scoreall", "oracle_cities", "oracle_all")):
     states = json.load(open(os.path.join(CACHE, "states.json")))
     tuned = E.tuned_games(states)
     plays = {v: json.load(open(pb_name(H, v, policy))) for v in variants if os.path.exists(pb_name(H, v, policy))}

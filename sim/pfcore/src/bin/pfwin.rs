@@ -113,7 +113,7 @@ fn main() {
         let pov = job["belief_pov"].as_i64().map(|p| p as i32);
         // "unseen": "none" | "noscore" | "score" | "oracle_cities" | "oracle_all": complete the hidden opponents from the profile bank (a[4])
         let umode = job["unseen"].as_str().unwrap_or("none").to_string();
-        let uopts = unseen::Opts { use_score: umode != "noscore", oracle_cities: umode.starts_with("oracle"), oracle_units: umode == "oracle_all",
+        let uopts = unseen::Opts { use_score: umode != "noscore", score_all: umode == "scoreall", oracle_cities: umode.starts_with("oracle"), oracle_units: umode == "oracle_all",
             exclude: job["bank_exclude"].as_array().map(|v| v.iter().filter_map(|x| x.as_str().map(String::from)).collect()).unwrap_or_default() };
         let useen = if umode != "none" && pov.is_some() { Some((&bank, &uopts)) } else { None };
         let t0 = Instant::now();
