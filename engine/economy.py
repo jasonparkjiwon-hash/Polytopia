@@ -52,6 +52,7 @@ ECON_RULES = {
     'mermaid_defender_price': 3,   # AQUARION-PRICES: the v123 card says 8 (None keeps it); game 6 p9 star rows fit 3 (see ledger)
     'meet_score_by_turn': True,  # MEET-SCORE-TURN: a tribe met in the later save's turn counts with its score in that save (64795ee3 t6->7 p1 +4)
     'moth_infiltrate': False,    # MOTH-INFILTRATE: the Moth pays no city level (g7 t8->9, t18->19: stars -2 if it does)
+    'sanctuary_build_no_income': True,   # SANCTUARY-BUILD-TURN: a Sanctuary pays from the income that arrives after it is built (9ac0b946 t6->7: B built as the first action of turn 7, income came before it)
     'infiltrate_stars': True,    # INFILTRATE-STARS: a Cloak/Scuba attack on an enemy city pays the attacker the city's level (cap 5); n=1, 9906f7da t18
     'ruin_city': True,           # RUIN-CITY: an Aquarion water ruin examined becomes the player's level-1 city (3edee0ec t5, t9: +1 star the next income)
     'aquarion51_price': 5,       # ECON-PRICES-V123: Aquarion structure 51, implied by the star check (n=2); name unknown
@@ -208,7 +209,7 @@ def check(a, b, acts, model="levels", siege=True):
     after = {p["PlayerId"]: p["Currency"] for p in b["currentPlayers"]}
     rows = {pl: dict(before=s, income=0, spent=0, unknown=collections.Counter(), turns=0) for pl, s in bk.stars.items()}
     st = State(a, "current") if siege else None; R.PREV[0] = None; turn = a["currentTurn"]
-    n0 = len(a["actions"])
+    n0 = len(a["actions"]); built = {}
     prev_end = PAID_AT_TURN_START is False and n0 > 0 and acts[n0 - 1]["type"] == 15   # see PAID_AT_TURN_START
     if ROUND_START_PAID and n0 > 0 and _round_end(acts[n0 - 1]): prev_end = False   # already paid in save a
     for i in range(len(a["actions"]), len(b["actions"])):
@@ -240,6 +241,8 @@ def check(a, b, acts, model="levels", siege=True):
             _, rx, ry = struct.unpack("<BII", bytes.fromhex(x["raw"])); rt = b["currentTiles"][ry][rx]
             if rt["ImprovementExists"] and rt["ImprovementType"] == 1 and rt["Owner"] == pl and (rx, ry) not in bk.city:
                 bk.city[(rx, ry)] = dict(owner=pl, Level=1, Production=1, CityRewards=[], CurrentPopulation=0)
+        if x["type"] == 1 and struct.unpack("<BHII", bytes.fromhex(x["raw"]))[1] == 32:
+            built[struct.unpack("<BHII", bytes.fromhex(x["raw"]))[2:4]] = rows[pl]["turns"] if pl in rows else 0
         c = spend(bk, pl, x)
         if c is None: rows[pl]["unknown"][(x["name"], x["raw"][2:6])] += 1
         else: rows[pl]["spent"] += c
@@ -261,7 +264,7 @@ def check(a, b, acts, model="levels", siege=True):
             if imp != 32 or owner not in rows: continue
             n = sum(1 for dx in range(-SANCTUARY_RADIUS, SANCTUARY_RADIUS + 1) for dy in range(-SANCTUARY_RADIUS, SANCTUARY_RADIUS + 1) if (dx or dy)
                     for q in [(sx + dx, sy + dy)] if q not in gone and game(a, q) and game(b, q))
-            rows[owner]["income"] += n * rows[owner]["turns"]
+            rows[owner]["income"] += n * max(0, rows[owner]["turns"] - (built.get((sx, sy), 0) if ECON_RULES["sanctuary_build_no_income"] else 0))
     pa = {p["PlayerId"]: p for p in a["currentPlayers"]}; pb = {p["PlayerId"]: p for p in b["currentPlayers"]}
     for pl, r in rows.items():                          # tribes met between the saves (the log has no meet event)
         if pl not in pb: continue

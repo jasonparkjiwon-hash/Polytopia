@@ -1368,7 +1368,7 @@
    "rule": "The units an infiltration leaves (Daggers; Mermaid Daggers; Cymanti Insect Eggs) are placed on empty tiles of the city's border; the replay places them where the next save shows them (CreatedTurn is the attacker's turn or the turn after for the human seat). Which tiles and how many the game picks is not modelled (Polyfish: random).",
    "level": "L3",
    "game_version": "v123 (measured in saves)",
-   "evidence": "game 6 t18 (3 Mermaid Daggers), 710ddb20 t8 (2 eggs), t16 (4 Quetzali Daggers), t18 (2 eggs), 64795ee3 t9 (1 egg). A/B 27 Oct: units 10171 -> 10175 of 10202 over games 1-8, stars hold. engine/replay.py RULES infiltrate_spawn, infiltrate_spawn_range."
+   "evidence": "game 6 t18 (3 Mermaid Daggers), 710ddb20 t8 (2 eggs), t16 (4 Quetzali Daggers), t18 (2 eggs), 64795ee3 t9 (1 egg). A/B 27 Oct: units 10171 -> 10175 of 10202 over games 1-8, stars hold. engine/replay.py RULES infiltrate_spawn, infiltrate_spawn_range. | 2026-10-28 placement (8 infiltrations, 7 with spawns): spawned tiles are valid free tiles of the city's own territory, ring 1 first: in 710ddb20 t16 all 3 free ring-1 land tiles were used before a ring-2 tile; candidates sorted ring then row-major (y, then x) predict the exact tile set in 5/7 (5d15d70f t7, 64795ee3 t9, 710ddb20 t19, 9906f7da t18, ac4b122a t11); the two misses are one tile off (710ddb20 t9: second Egg on (9,25) instead of (8,24); t16: fourth Dagger on (17,18) instead of (17,17)). NOT terrain-first (forest/mountain), not nearest to the infiltrator, not Euclid-from-city (3/7), not column-major (4/7). The attacker's own tile counts as free (2 cases). Occupied tiles and the wrong terrain kind (Scuba: water; others: land) are skipped. Creation order (unit ids) is not row-major."
   },
   {
    "id": "CENTIPEDE-CHAIN",
@@ -1460,6 +1460,34 @@
    "level": "L3 (n=1)",
    "game_version": "v123 (measured in game)",
    "evidence": "9906f7da t17->18: p9's Shark 70 moved onto Jason's city (2,27) (act 1324); no attack or capture between 1 and 9 in the window, yet the (1,9) embassy was gone in the t18 save and Jason's round-18 income was 5, not the 7 the embassy gave. Siege adjacency (enemy within 1 or 2 tiles stops income) tested and rejected: +188..+519 star misses. Found by tools/residual.py + engine_diff."
+  },
+  {
+   "id": "INFILTRATE-COUNT",
+   "rule": "An infiltration (Cloak, Scuba, Moth) leaves as many units (Daggers, Mermaid Daggers, Insect Eggs) as the infiltrated city's level at the moment of the attack, on free tiles of its borders (cap 5 untested: levels seen 1-4); the infiltrator is used up and the defender takes the normal attack damage.",
+   "level": "L3",
+   "game_version": "v123 (measured in saves)",
+   "evidence": "2026-10-28, 7 of 7 infiltrations fit (level at attack time, read from the pair's city tile after any level-up earlier in the same pair): 5d15d70f t7 lvl1 -> 1 Dagger, 64795ee3 t9 lvl1 -> 1 Egg, 710ddb20 t9 lvl2 -> 2 Eggs, t19 lvl2 -> 2 Eggs, t16 lvl4 (grew 3 -> 4 earlier that round) -> 4 Daggers, 9906f7da t18 lvl3 -> 3 Mermaid Daggers, ac4b122a t11 lvl2 (grew 1 -> 2 earlier that pair) -> 2 Daggers. Not level+1, not production, not free-tile count (9906 left a free water tile unused; ac4b had exactly 2 free land tiles). Jason's Infiltrate test docs (.scratchpad/investigations/infil-sanct.md)."
+  },
+  {
+   "id": "SANCTUARY-SPAWN",
+   "rule": "A Sanctuary attracts a new wild animal every 2 turns: on turns T with (T - FoundedTurn) even and T > FoundedTurn, at the start of its owner's turn, onto an empty forest tile next to it that is inside its owner's territory; no animal appears when no such forest is free; two Sanctuaries wanting the same tile give one animal.",
+   "level": "L3",
+   "game_version": "v123 (measured in saves)",
+   "evidence": "2026-10-28, 9ac0b946: Sanctuary (6,20) founded t6: new animals at t8 (5,20) and t10 (7,19); (11,18) founded t7: t9 (10,18), t11 (12,19); (13,19) founded t9: due t11 and wanted (12,19) too, only one animal appeared there. 5 of 5 due turns, no animal on an off turn. All 4 chosen tiles were own-territory forests; neutral forests next to the Sanctuary ((6,21), (11,17)) were never chosen. Which of several free own forests: the western one first twice ((5,20) before (7,19); (10,18) before (12,19)): column-major or random, n=2. Polyfish said every 3 turns (does not fit)."
+  },
+  {
+   "id": "SANCTUARY-BUILD-TURN",
+   "rule": "A Sanctuary pays its +1 per adjacent animal only from the first income that arrives after it was built: built as the first action of a turn it does not pay that turn's income (the income arrives before the build); built earlier in a turn it pays from the next turn.",
+   "level": "L3",
+   "game_version": "v123 (measured in a save)",
+   "evidence": "2026-10-28, 9ac0b946 p1 t6->7: Sanctuary (11,18) built as the first action of turn 7 with the animal (12,18) next to it; the star row was +1 off (-1) with the old model, exact now; the pairs where a Sanctuary was built earlier (13,19) t9 and paid next turn stay exact. engine/economy.py ECON_RULES sanctuary_build_no_income: held-out stars 173/176 -> 174/176, tuned games 1947/1972 hold."
+  },
+  {
+   "id": "SANCTUARY-LEVEL",
+   "rule": "A Sanctuary's ImprovementData.Level equals the number of wild animals (resource Game) on the 8 tiles next to it, read in the same save (no lag); a Sanctuary starts at Level 1 when an animal already stands next to it.",
+   "level": "L3",
+   "game_version": "v123 (measured in saves)",
+   "evidence": "2026-10-28, 9ac0b946 (Jason's Sanctuary game, t6-t11), 3 Sanctuaries, 13 readings, 13/13: (6,20) adjacent animals 1,1,2,2,3,3 = Level 1,1,2,2,3,3 (t6-t11); (11,18) 1,1,2,2,3 = 1,1,2,2,3 (t7-t11); (13,19) 1,2 = 1,2 (t10, t11). Also b2448ead (see SANCTUARY-V123)."
   }
  ]
 }
