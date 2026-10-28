@@ -1,6 +1,6 @@
 # diff-test (28 Oct 2026)
 
-_Owner: diff-test · state: in progress_
+_Owner: diff-test · state: handoff 28 Oct (see the end)_
 
 Order from Jason: chase the last engine misses with new methods (differential testing, residual clustering, hypothesis search, leave-one-game-out), not by tracing one by one.
 
@@ -31,3 +31,24 @@ Lesson: web-deep reads the same Polyfish source, so pf-only rows get fixed twice
 - Tried and rejected with rule_search: siege by ADJACENT enemy units (radius 1 or 2, all cities or capital only) to explain 9906f7da t18->19 p1 (-5): +188 to +519 star misses.
 - 9906f7da t18->19 p1 -5 stays open: Jason's capital paid 0 at round 19 (nothing on the tile, enemy adjacent at (4,25), city 2 captured the same round), the embassy + peace offer he made that turn price as modelled (OfferPeace/embassy windows are exact 31/33).
 - **Embassy income timing (open, 9906f7da p9 t14->15 and t15->16, -2 each):** Jason built an embassy at p9 in round 14 and round 15 (p1 acts first, p9 later in the same round); p9's income at its turn start is 2 lower than modelled both times. A variant "an embassy built this round pays its host only from the next round" (`embassy_fresh`) fixes those two rows but breaks four others where a same-round embassy DID pay the host (09a5bf1e t7->8 p7, 9906f7da t6->7 p9 and t18->19 p9, 6e1bf8e0 t11->15 p7): net -2 stars. Relation state (neutral/peace), rebuild-after-destruction and order in the round do not separate the two groups. Needs a controlled in-game test (see Waiting on Jason): build an embassy in a foreign capital at neutral, note the host's stars at the start of its turn in the same round. Switch removed again.
+- **Infiltration spawn placement (open, 5 cases, 9 placements):** replayed to the action with the exact free tiles. What each simple ordering explains: smallest tile index first among allowed tiles: g8 t9 (Mountain with Climbing), 710ddb20 t19 (7,24),(8,24), 9906f7da Mermaid Daggers (mountain excluded, no Climbing) = 3 of 5; fails 710ddb20 t9 (second egg (9,25), not (8,24)) and t16 (the 4th Dagger (17,18) on the outer ring while (17,17) is free). "Within Chebyshev 1 of the infiltrator's own tile" explains t16 (all four) but not the others. PF's popped-largest-index order explains none for non-Aquarion tribes. n is too small to separate rules; random is not ruled out (same conclusion as pf-port). Placement stays read from the next save (INFILTRATE-SPAWN). A sixth case with the free tiles known would settle it.
+
+## Open after this session (for the next rule session)
+
+- **Referee units: none** (10191/10191 on the tuned games, held-out 187/187). **Polyfish units** 21 rows (`python3 -I tools/pf_miss.py --list`): Centipede chain (cap 3 and the one-segment second shift are not ported), egg/Dagger placement, game 8 t8->10 fights.
+- **Referee stars: 25 of 1972.** 14 are 6e1bf8e0 (4-6 turn gaps, meeting stars; unsolvable without in-between saves). Single rows: 9906f7da p9 t14/t15 (-2, embassy income timing, above), 9906f7da p1 t18 (-5, capital paid 0), 710ddb20 p3 t16 (+2: a Cloak infiltrated a level-4 city the same window; the 9906f7da Scuba case pays the level exactly, the Cloak case pays 2 more) and t18 (-1: the captured city has population -1), p2 t17 (-7), p9 t9 (-2), 64795ee3 p12 (-1), af181c8f t10->12 (2-turn gap), e15f392c p5 (-4, trade route).
+- **Polyfish stars 1938/1972** (referee 1947): it has no embassy-destroyed-by-combat / by-entry rule and no ruin-city; not ported.
+
+## Needs Jason (one in-game test each, if he wants these rows closed)
+
+1. Embassy income timing: build an embassy in a foreign capital at neutral; write down the host's stars at the start of its turn in the SAME round and the next one (9906f7da p9 t14/t15 say not paid the first round, other games say paid).
+2. Infiltration: after any Cloak/Dagger infiltration, a screenshot of the free tiles around the city before the attack and where the Daggers/Eggs appear (placement rule), and the stars gained.
+
+## Methods scoreboard
+
+| Method | Result |
+|---|---|
+| 1 differential (`tools/engine_diff.py`) | Found 3 of the 6 kept rules' leads (Warrior idle heal, Pirate, Kiton/Mycelium); web-deep found the first two in parallel from the same Polyfish source. 10 min per lead. |
+| 2 residual clustering (`tools/residual.py`) | Units: nothing to cluster (8-13 misses in 10.4k rows). Stars: late rounds / many cities, p<0.001 but not one rule; led to the embassy windows via the OfferPeace/Embassy lift. |
+| 3 hypothesis search (`tools/rule_search.py`) | Settled MYCELIUM-HEAL (amount/radius grid), FREEZE order, CENTIPEDE cap and shift, EMBASSY entry; rejected siege-by-adjacency (+188..+519) and fresh-embassy timing (-2 net). 10-15 variants in under a minute. |
+| 4 per-game deltas | Built into rule_search (any game worse = not KEEPABLE, held-out checked). |
