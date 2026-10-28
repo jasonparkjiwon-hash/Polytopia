@@ -21,6 +21,7 @@ pub mod score;
 pub mod settings;
 pub mod states;
 pub mod types;
+pub mod unseen;
 pub mod version_sync;
 pub mod whatif;
 pub mod v123_flags;

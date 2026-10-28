@@ -14,6 +14,7 @@ use polyfish::botpolicy2::{self, Policy};
 use polyfish::fog;
 use polyfish::functions::{get_bot_bonus, get_total_production, get_unit_max_health};
 use polyfish::game::Game;
+use polyfish::unseen::{self, Bank};
 use polyfish::settings::units::get_unit_setting;
 use serde_json::{json, Value};
 use std::time::Instant;
@@ -49,9 +50,13 @@ fn all_feats(g: &Game) -> Value {
 
 /// One playout. Returns the feature vectors of every tribe at the start of each round h = 1..=horizon (the moment the turn counter
 /// reaches start + h with the starting player to move again), the final turn and the number of moves applied.
-fn playout(base: &Game, pol: &Policy, model: &Model, pov: Option<i32>, horizon: i32, keep: &[i32], seed: u64) -> (Vec<Value>, i32, u64) {
+fn playout(base: &Game, pol: &Policy, model: &Model, pov: Option<i32>, unseen: Option<(&Bank, &unseen::Opts)>, horizon: i32, keep: &[i32], seed: u64) -> (Vec<Value>, i32, u64) {
     let mut game = match pov {
-        Some(p) => belief::sample_belief(base, p, model, Mode::Full, seed),
+        Some(p) => {
+            let mut g = belief::sample_belief(base, p, model, Mode::Full, seed);
+            if let Some((bank, o)) = unseen { unseen::complete(&mut g, base, p, bank, o, &mut belief::Rng(seed ^ 0x51EE_D00D_F00D_BEEF)); }
+            g
+        }
         None => api::clone(base),
     };
     let (t0, sp) = (game.state.settings.turn, game.state.settings.current_player_turn_id);
@@ -77,11 +82,14 @@ fn playout(base: &Game, pol: &Policy, model: &Model, pov: Option<i32>, horizon: 
     (snaps, game.state.settings.turn, applied)
 }
 
+fn unseen_profile(g: &Game, id: i32, gid: &str) -> unseen::Profile { unseen::profile_of(g, id, gid) }
+
 fn main() {
     let a: Vec<String> = std::env::args().collect();
     let pol = Policy::from_file(&a[1]).unwrap_or_else(|e| { eprintln!("{e}"); std::process::exit(2) });
     let model: Model = serde_json::from_str(&std::fs::read_to_string(&a[2]).expect("belief model")).expect("belief model json");
     let jobs: Value = serde_json::from_str(&std::fs::read_to_string(&a[3]).expect("jobs file")).expect("jobs json");
+    let bank = a.get(4).map(|p| Bank::from_file(p).unwrap_or_else(|e| { eprintln!("{e}"); std::process::exit(2) })).unwrap_or_default();
     for job in jobs.as_array().expect("jobs list") {
         let player = job["player"].as_i64().unwrap_or(1) as i32;
         let path = job["start"].as_str().unwrap_or("");
@@ -91,7 +99,11 @@ fn main() {
         let tribes: serde_json::Map<String, Value> = base.state.tribes.iter().map(|(id, t)| (id.to_string(), json!({"tribe": format!("{:?}", t.tribe_type), "bot": t.bot}))).collect();
         let start = all_feats(&base);
         if job["state_only"].as_bool() == Some(true) {
-            println!("PFWIN {}", json!({"tag": job["tag"], "names": FEATS, "turn": base.state.settings.turn, "tribes": tribes, "start": start}));
+            let profiles: Value = match job["game"].as_str() {
+                Some(gid) => json!(base.state.tribes.keys().map(|id| serde_json::to_value(unseen_profile(&base, *id, gid)).unwrap()).collect::<Vec<_>>()),
+                None => Value::Null,
+            };
+            println!("PFWIN {}", json!({"tag": job["tag"], "names": FEATS, "turn": base.state.settings.turn, "tribes": tribes, "start": start, "profiles": profiles}));
             continue;
         }
         let n = job["playouts"].as_u64().unwrap_or(20);
@@ -99,10 +111,15 @@ fn main() {
         let seed = job["seed"].as_u64().unwrap_or(1);
         let keep: Vec<i32> = job["snap_hs"].as_array().map(|v| v.iter().filter_map(|x| x.as_i64()).map(|x| x as i32).collect()).unwrap_or_else(|| (1..=horizon).collect());
         let pov = job["belief_pov"].as_i64().map(|p| p as i32);
+        // "unseen": "none" | "noscore" | "score" | "oracle_cities" | "oracle_all": complete the hidden opponents from the profile bank (a[4])
+        let umode = job["unseen"].as_str().unwrap_or("none").to_string();
+        let uopts = unseen::Opts { use_score: umode != "noscore", oracle_cities: umode.starts_with("oracle"), oracle_units: umode == "oracle_all",
+            exclude: job["bank_exclude"].as_array().map(|v| v.iter().filter_map(|x| x.as_str().map(String::from)).collect()).unwrap_or_default() };
+        let useen = if umode != "none" && pov.is_some() { Some((&bank, &uopts)) } else { None };
         let t0 = Instant::now();
         let (mut outs, mut rounds, mut moves, mut err) = (Vec::new(), Vec::new(), 0u64, 0);
         for k in 0..n {
-            let r = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| playout(&base, &pol, &model, pov, horizon, &keep, seed * 1_000_003 + k)));
+            let r = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| playout(&base, &pol, &model, pov, useen, horizon, &keep, seed * 1_000_003 + k)));
             match r { Ok((f, turn, m)) => { outs.push(json!(f)); rounds.push(turn); moves += m; } Err(_) => err += 1 }
         }
         let secs = t0.elapsed().as_secs_f64();

@@ -93,7 +93,7 @@ impl Rng {
             k += 1;
         }
     }
-    fn pick(&mut self, w: &[f64]) -> usize {
+    pub fn pick(&mut self, w: &[f64]) -> usize {
         let t: f64 = w.iter().sum();
         let mut r = self.f() * t;
         for (i, x) in w.iter().enumerate() {

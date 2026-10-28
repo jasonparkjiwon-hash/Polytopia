@@ -6,6 +6,7 @@ import os, sys, json, glob, re, subprocess, tempfile, math, concurrent.futures a
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 BIN = os.path.join(ROOT, "sim", "pfcore", "target", "release", "pfwin")
 POLICY = os.path.join(ROOT, "data", "bot_policy_v2.json")
+BANK = os.path.join(ROOT, "data", "win_bank.json")        # tribe profiles for belief mode (tools/winpct_unseen.py bank)
 BELIEF = os.path.join(ROOT, "data", "belief_model.json")
 FEATS = ["alive", "cities", "pop", "level", "units", "unit_cost", "unit_hp_cost", "stars", "income", "techs", "kills", "casualties", "score", "connected"]
 FI = {n: i for i, n in enumerate(FEATS)}
@@ -13,7 +14,7 @@ FI = {n: i for i, n in enumerate(FEATS)}
 def _run_chunk(jobs, policy):
     with tempfile.TemporaryDirectory() as tmp:
         jf = os.path.join(tmp, "jobs.json"); json.dump(jobs, open(jf, "w"))
-        out = subprocess.run([BIN, policy, BELIEF, jf], capture_output=True, text=True, cwd=ROOT).stdout
+        out = subprocess.run([BIN, policy, BELIEF, jf] + ([BANK] if os.path.exists(BANK) else []), capture_output=True, text=True, cwd=ROOT).stdout
     return [json.loads(l[6:]) for l in out.splitlines() if l.startswith("PFWIN ")]
 
 def run(jobs, procs=4, policy=POLICY):
