@@ -118,16 +118,21 @@ pub struct MapView {
     pub ruin: Vec<bool>,
     /// tribe whose capital stands on the tile (0 none)
     pub cap: Vec<i32>,
+    /// the tile belongs to some tribe's border
+    pub owned: Vec<bool>,
+    /// cities beyond the capital per tribe (all cities / tribes - 1)
+    pub extra: f64,
     pub explored: BTreeMap<i32, Vec<bool>>,
 }
 impl MapView {
     pub fn from_game(g: &Game) -> MapView {
         let n = g.state.settings.size;
         let nn = (n * n) as usize;
-        let mut m = MapView { n, turn: g.state.settings.turn, players: g.state.tribes.len(), cls: vec![5; nn], res: vec![0; nn], village: vec![false; nn], ruin: vec![false; nn], cap: vec![0; nn], explored: BTreeMap::new() };
+        let mut m = MapView { n, turn: g.state.settings.turn, players: g.state.tribes.len(), cls: vec![5; nn], res: vec![0; nn], village: vec![false; nn], ruin: vec![false; nn], cap: vec![0; nn], owned: vec![false; nn], extra: 0.0, explored: BTreeMap::new() };
         for (i, t) in g.state.tiles.iter() {
             m.cls[*i as usize] = cls_of(t.terrain_type) as u8;
             m.cap[*i as usize] = t.capital_of;
+            m.owned[*i as usize] = t.owner > 0;
         }
         for (i, r) in g.state.resources.iter() {
             if let Some(r) = r {
@@ -143,6 +148,8 @@ impl MapView {
                 }
             }
         }
+        let alive = g.state.tribes.values().filter(|t| t.killed_turn == 0).count().max(1) as f64;
+        m.extra = (g.state.tribes.values().filter(|t| t.killed_turn == 0).map(|t| t.cities.len()).sum::<usize>() as f64 / alive - 1.0).max(0.0);
         for p in g.state.tribes.keys() {
             m.explored.insert(*p, (0..nn as i32).map(|i| g.state.tiles.get(&i).map_or(false, |t| t.explorers.contains(p))).collect());
         }
@@ -167,6 +174,12 @@ pub struct Model {
     /// ruins per hidden tile by turn bucket (<=3, 4..=8, 9+) and class weights
     pub ruin_rate: Vec<f64>,
     pub ruin_class_w: Vec<f64>,
+    /// ruin decay rate k: ruins left = fixed count * exp(-k * players * turn) (RUIN-COUNT-FIXED)
+    #[serde(default)]
+    pub ruin_used_per_turn: f64,
+    /// mean extra cities per living tribe by turn bucket (<=3, 4..=8, 9..=14, 15+) (HIDDEN-EXPANSION)
+    #[serde(default)]
+    pub city_extra: Vec<f64>,
     /// capital positions inside their sector, as fractions (fx, fy)
     pub cap_frac: Vec<(f32, f32)>,
     /// neighbour-feature scale used when sampling (0 = independent tiles, 1 = the fitted coupling)
@@ -188,6 +201,13 @@ fn grid_k(players: usize) -> i32 {
 }
 fn sector_of(n: i32, k: i32, idx: i32) -> (i32, i32) {
     (((idx % n) * k / n), ((idx / n) * k / n))
+}
+/// Fixed ruin count at map creation by map size (polyvision-maps.md, RUINS-900): 4/5/7/9/11/23 for 11/14/16/18/20/30.
+fn ruin_total(n: i32) -> Option<i32> {
+    match n { 11 => Some(4), 14 => Some(5), 16 => Some(7), 18 => Some(9), 20 => Some(11), 30 => Some(23), _ => None }
+}
+fn exp_bucket(t: i32) -> usize {
+    if t <= 3 { 0 } else if t <= 8 { 1 } else if t <= 14 { 2 } else { 3 }
 }
 fn turn_bucket(t: i32) -> usize {
     if t <= 3 { 0 } else if t <= 8 { 1 } else { 2 }
@@ -355,6 +375,8 @@ pub fn train(maps: &[MapView], seed: u64) -> Model {
     let (mut rates, mut vcls, mut lcls) = (vec![], vec![0.5f64; NC], vec![0.5f64; NC]);
     let (mut ruin_n, mut ruin_h) = (vec![0.0f64; 3], vec![1.0f64; 3]);
     let mut rcls = vec![0.5f64; NC];
+    let (mut used_sum, mut used_turns) = (0.0f64, 1.0f64);
+    let (mut ex_sum, mut ex_n) = (vec![0.0f64; 4], vec![0.0f64; 4]);
     let mut allcls = vec![1.0f64; NC];
     let (mut sec_ok, mut sec_all) = (0, 0);
     for mv in maps {
@@ -403,6 +425,14 @@ pub fn train(maps: &[MapView], seed: u64) -> Model {
         }
         rates.push(settle / elig.max(1.0));
         let tb = turn_bucket(mv.turn);
+        ex_sum[exp_bucket(mv.turn)] += mv.extra;
+        ex_n[exp_bucket(mv.turn)] += 1.0;
+        if let Some(tot) = ruin_total(n) {
+            let left = mv.ruin.iter().filter(|&&r| r).count() as i32;
+            // ruins left decay like exp(-k * players * turn): fit k on -ln(left / total) (left floored at a tenth of a ruin)
+            used_sum += -((left as f64).max(0.1) / tot as f64).ln();
+            used_turns += (mv.turn.max(1) * mv.players as i32) as f64;
+        }
         ruin_n[tb] += mv.ruin.iter().filter(|&&r| r).count() as f64;
         ruin_h[tb] += (n * n) as f64;
         for (pov, obs) in mv.explored.iter() {
@@ -433,6 +463,8 @@ pub fn train(maps: &[MapView], seed: u64) -> Model {
     m.vil_fill = 0.9;
     m.vil_prior = (mean * mean / var, mean / var);
     m.vil_terrain_w = (0..NC).map(|c| (vcls[c] / vcls.iter().sum::<f64>()) / (lcls[c] / lcls.iter().sum::<f64>())).collect();
+    m.city_extra = (0..4).map(|b| if ex_n[b] > 0.0 { ex_sum[b] / ex_n[b] } else { 0.0 }).collect();
+    m.ruin_used_per_turn = used_sum / used_turns;
     m.ruin_rate = (0..3).map(|b| ruin_n[b] / ruin_h[b]).collect();
     m.ruin_class_w = (0..NC).map(|c| (rcls[c] / rcls.iter().sum::<f64>()) / (allcls[c] / allcls.iter().sum::<f64>())).collect();
     m.notes = format!("{} maps, {} (map,pov) pairs, {} examples; capital sector grid holds one capital per sector in {}/{} maps; villages/eligible land {:.3}±{:.3}", maps.len(), pairs, ex.len(), sec_ok, sec_all, mean, var.sqrt());
@@ -567,7 +599,17 @@ pub fn sample_belief(g: &Game, pov: i32, model: &Model, mode: Mode, seed: u64) -
             if rng.f() < fill { settle.push(i); vil.push(i); }
         }
     }
-    let rr = rng.poisson(model.ruin_rate[turn_bucket(turn)] * hidden.len() as f64);
+    let obs_ruins = (0..nn as i32).filter(|&i| obs[i as usize] && v.state.structures.get(&i).and_then(|s| s.as_ref()).map_or(false, |s| s.structure_type == StructureType::Ruin)).count() as i32;
+    let fixed = std::env::var("RUIN_FIXED").map_or(false, |v| v == "1"); // RUIN_FIXED=1: fixed count by map size; off by default, it did not beat the Poisson count (fog-inference.md section 6)
+    let rr = match ruin_total(n) {
+        Some(tot) if fixed => {
+            let left_frac = (-model.ruin_used_per_turn * (turn.max(1) as usize * v.state.tribes.len()) as f64).exp();
+            // survivors drawn binomially (each ruin survives with the fitted probability): gives the count a spread
+            let surv = (0..tot).filter(|_| rng.f() < left_frac).count() as i32;
+            (surv - obs_ruins).max(0) as usize
+        }
+        _ => rng.poisson(model.ruin_rate[turn_bucket(turn)] * hidden.len() as f64),
+    };
     let mut ruins: Vec<i32> = vec![];
     for _ in 0..rr {
         let w: Vec<f64> = hidden.iter().map(|&i| {
@@ -577,6 +619,26 @@ pub fn sample_belief(g: &Game, pov: i32, model: &Model, mode: Mode, seed: u64) -
         }).collect();
         if w.iter().sum::<f64>() <= 0.0 { break; }
         ruins.push(hidden[rng.pick(&w)]);
+    }
+    // hidden expansion (HIDDEN-EXPANSION): each living enemy tribe holds extra cities on packed spots near its capital
+    let mut cities: Vec<(i32, i32)> = vec![]; // (tribe, tile), hidden tiles only
+    if std::env::var("EXPAND").map_or(true, |x| x != "0") && !model.city_extra.is_empty() {
+        let mean = model.city_extra[exp_bucket(turn)];
+        let mut caps_of: Vec<(i32, i32)> = placed.clone();
+        for &c in &known_caps { let o = v.state.tiles[&c].capital_of; if o != pov { caps_of.push((o, c)); } }
+        let mut taken: Vec<i32> = vec![];
+        for &(tribe, c) in &caps_of {
+            if v.state.tribes.get(&tribe).map_or(true, |t| t.killed_turn != 0) { continue; }
+            let seen = v.state.tribes[&tribe].cities.len().saturating_sub(1) as f64;
+            let want = rng.poisson((mean - seen).max(0.0));
+            for _ in 0..want {
+                let w: Vec<f64> = vil.iter().map(|&i| if taken.contains(&i) || cheb(n, c, i) > 7 { 0.0 } else { (-(cheb(n, c, i) as f64) / 2.5).exp() }).collect();
+                if w.iter().sum::<f64>() <= 0.0 { break; }
+                let i = vil[rng.pick(&w)];
+                taken.push(i);
+                cities.push((tribe, i));
+            }
+        }
     }
     // write into the game
     for &i in &hidden {
@@ -591,6 +653,23 @@ pub fn sample_belief(g: &Game, pov: i32, model: &Model, mode: Mode, seed: u64) -
     }
     for &i in &ruins {
         v.state.structures.insert(i, Some(StructureState { structure_type: StructureType::Ruin, level: 1, founded: 0 }));
+    }
+    // grown cities own a wider border: radius 2 from turn 9 (level 3+ cities), 1 before
+    let rad: i32 = std::env::var("EXP_RAD").ok().and_then(|x| x.parse().ok()).unwrap_or(if turn >= 9 { 2 } else { 1 });
+    for &(tribe, c) in &cities {
+        let cc = Coords::from_index(c, n);
+        for dy in -rad..=rad {
+            for dx in -rad..=rad {
+                let j = (cc.y + dy) * n + cc.x + dx;
+                if cc.x + dx < 0 || cc.x + dx >= n || cc.y + dy < 0 || cc.y + dy >= n || obs.get(j as usize).copied().unwrap_or(true) { continue; }
+                if let Some(t) = v.state.tiles.get_mut(&j) {
+                    if t.owner == 0 { t.owner = tribe; t.ruling_city_coords = Some(cc); }
+                }
+            }
+        }
+        if let Some(tr) = v.state.tribes.get_mut(&tribe) {
+            tr.cities.push(CityState { owner: tribe, idx: c, level: 1, production: 1, population: 0, border_size: 1, ..Default::default() });
+        }
     }
     for &(tribe, c) in &placed {
         let cc = Coords::from_index(c, n);

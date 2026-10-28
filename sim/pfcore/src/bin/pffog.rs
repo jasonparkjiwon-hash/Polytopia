@@ -26,11 +26,12 @@ fn turn_of(path: &str) -> i32 {
 struct Acc {
     pairs: usize,
     tiles: usize,
-    ll: [f64; 4],        // terrain, resource, village, ruin (sum of ln p of the truth)
+    ll: [f64; 5],        // terrain, resource, village, ruin (sum of ln p of the truth)
     acc: usize,          // terrain mode correct
     viol: usize,         // observed tiles changed by the sampler
     vil: Vec<(f64, f64, f64, f64)>, // truth, mean, p5, p95 hidden free-village counts
     ruin: Vec<(f64, f64, f64, f64)>,
+    own: Vec<(f64, f64, f64, f64)>, // hidden owned tiles (borders of capitals and sampled cities)
     caps: usize,
     cap_k: [f64; 3],     // fraction of samples with a sampled hidden capital within 2, 4, 6 of a true hidden capital
     cap_d: f64,
@@ -68,10 +69,12 @@ fn score_pair(truth: &MapView, pov: i32, samples: &[MapView], a: &mut Acc) {
         a.calib.push((pv, truth.village[i]));
         let pr = (cnt(&|s| s.ruin[i]) + al) / (ns + 2.0 * al);
         a.ll[3] += if truth.ruin[i] { pr.ln() } else { (1.0 - pr).ln() };
+        let po = (cnt(&|s| s.owned[i]) + al) / (ns + 2.0 * al);
+        a.ll[4] += if truth.owned[i] { po.ln() } else { (1.0 - po).ln() };
     }
     let count = |m: &MapView, f: &dyn Fn(&MapView, usize) -> bool| (0..nn).filter(|&i| !obs[i] && f(m, i)).count() as f64;
-    for (which, out) in [(0, &mut a.vil), (1, &mut a.ruin)] {
-        let f = |m: &MapView, i: usize| if which == 0 { m.village[i] } else { m.ruin[i] };
+    for (which, out) in [(0, &mut a.vil), (1, &mut a.ruin), (2, &mut a.own)] {
+        let f = |m: &MapView, i: usize| match which { 0 => m.village[i], 1 => m.ruin[i], _ => m.owned[i] };
         let mut c: Vec<f64> = samples.iter().map(|s| count(s, &f)).collect();
         c.sort_by(|x, y| x.partial_cmp(y).unwrap());
         let q = |p: f64| c[((p * (c.len() - 1) as f64).round() as usize).min(c.len() - 1)];
@@ -96,8 +99,8 @@ fn report(name: &str, a: &Acc) {
     let bias = |v: &Vec<(f64, f64, f64, f64)>| v.iter().map(|x| x.1 - x.0).sum::<f64>() / v.len().max(1) as f64;
     let c = a.caps.max(1) as f64;
     println!("{name:10} terrain ln p by distance to explored region 1-2/3-5/6+: {:.3} ({}) / {:.3} ({}) / {:.3} ({})", a.by_dist[0].0 / a.by_dist[0].1.max(1) as f64, a.by_dist[0].1, a.by_dist[1].0 / a.by_dist[1].1.max(1) as f64, a.by_dist[1].1, a.by_dist[2].0 / a.by_dist[2].1.max(1) as f64, a.by_dist[2].1);
-    println!("{name:10} pairs {} hidden tiles {} | mean ln p(truth): terrain {:.3} (acc {:.3}) resource {:.3} village {:.4} ruin {:.4} | free villages hidden: MAE {:.1} bias {:+.1} 90%-interval covers {:.2} | ruins: MAE {:.1} bias {:+.1} covers {:.2} | hidden capitals {}: within 2/4/6 tiles {:.2}/{:.2}/{:.2}, mean dist {:.1} | observed-fact violations {}",
-        a.pairs, a.tiles, a.ll[0] / t, a.acc as f64 / t, a.ll[1] / t, a.ll[2] / t, a.ll[3] / t, mae(&a.vil), bias(&a.vil), cov(&a.vil), mae(&a.ruin), bias(&a.ruin), cov(&a.ruin), a.caps, a.cap_k[0] / c, a.cap_k[1] / c, a.cap_k[2] / c, a.cap_d / c, a.viol);
+    println!("{name:10} pairs {} hidden tiles {} | mean ln p(truth): terrain {:.3} (acc {:.3}) resource {:.3} village {:.4} ruin {:.4} | free villages hidden: MAE {:.1} bias {:+.1} 90%-interval covers {:.2} | ruins: MAE {:.1} bias {:+.1} covers {:.2} | owned ln p {:.4}, hidden owned tiles MAE {:.1} bias {:+.1} covers {:.2} | hidden capitals {}: within 2/4/6 tiles {:.2}/{:.2}/{:.2}, mean dist {:.1} | observed-fact violations {}",
+        a.pairs, a.tiles, a.ll[0] / t, a.acc as f64 / t, a.ll[1] / t, a.ll[2] / t, a.ll[3] / t, mae(&a.vil), bias(&a.vil), cov(&a.vil), mae(&a.ruin), bias(&a.ruin), cov(&a.ruin), a.ll[4] / t, mae(&a.own), bias(&a.own), cov(&a.own), a.caps, a.cap_k[0] / c, a.cap_k[1] / c, a.cap_k[2] / c, a.cap_d / c, a.viol);
 }
 
 fn main2(a: &[String]) -> bool {
