@@ -58,6 +58,15 @@ _Last updated 2026-10-26 (Jason's games 1-5 ingested, scored held-out, released)
 
 ## Waiting on Jason
 
+**web-deep (28 Oct): the six questions that now matter most** (details in `investigations/web-deep.md`; the older items below still stand unless struck):
+
+1. **Defender in a village or city takes far too little damage in our model.** Two fights (g8 t7->8 Ice Archer on a neutral village; g8 t9->10 Kiton in its own capital) show a defender hit for 1-3 where we predict a kill. Next time you are about to hit an enemy unit standing in a village or city, open the attack preview and write down: the defender, its HP, the damage the preview shows for you and for the counter-hit, and whether a shield or "x1.5/x4" icon shows. One screenshot is enough.
+2. **Sanctuary animal spawn.** Build a Sanctuary next to 3+ empty forests and export every turn for 8 turns. Note on which turns a new animal appears and in which forest (3 saves so far: first animal the turn after building, a second 4 turns later; Polyfish's "every 3 turns" does not fit).
+3. **Embassy price.** Build several embassies in a row and write down the price shown before each (we only have the second, 5 -> 7).
+4. **Infiltration spawn tiles.** After a Cloak/Moth/Scuba infiltration, tell us which of the city's border tiles stayed empty (terrain) and what the Daggers or Eggs landed on. We only have 5 cases; the order may be forest/mountain first, then plain, then water.
+5. **Quetzali/any Dagger on a boat.** Confirm in game: a Dagger stepping onto a port becomes a Pirate (10 HP, attack 2, no counter-hit when it attacks). Our save says yes (PIRATE-BOARD, L3); the card text would make it L3 twice.
+6. Still open from before: **Mermaid Defender price** (train one with stars before/after) and the **Outpost network** break test (see items below).
+
 - **Jason (27 Oct): no more data collection for a while; work with games 7 and 8 (Google Docs 'Polytopia Game 7' id 18IWmxuWo7rbqXDuEwrrqhUV1x84tY5TwURr_59GXbYc, 'Polytopia Game 8' id 18VWmQLcOhgb8EmRLG7Jqo-p9Fcy0UW1tEA18mlr-LDg) plus the 12 we have. Resume work at ~8pm Juba (18:00 UTC) when usage resets: ingest 7 and 8 as held-out first, then (his go given 27 Oct) the win-% prototype, the what-if tool, and a better bot model, in that order.** New facts from his screenshots (Sanctuary level 1/8, Insect Egg card) are in the ledger.
 
 - **Jason will send full-length bot games, every turn, on 28 Oct.** Then start, in this order, on his go: (1) win-% prototype (Phase 5: playouts from a state with bot-policy v2 opponents); (2) what-if tool (capability 1: moves with exact outcomes from a save); (3) better bot model from the new games. Aquarion Build 7 on ocean answered 27 Oct: it is the Lost City's fish (AQUARION-OCEAN).
