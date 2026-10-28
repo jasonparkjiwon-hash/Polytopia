@@ -4,6 +4,8 @@ _Last updated 2026-10-26 (Jason's games 1-5 ingested, scored held-out, released)
 
 ## Now
 
+- **28 Oct FM-2 (refit win-% fog model):** no-op. The fog model never reads the belief sampler (explored-tile cities, public scores, full-information distillation), so the village fix cannot change it. Re-run H=4 Brier fog .0566 (was .0563), same within playout noise; weights not changed. A model that uses sampled unseen cities would be a new feature, not a refit (`investigations/win-pct.md`). **Next:** FM-3 (fog ruins by map size, hidden expansion).
+
 - **28 Oct FM-1 (pf-port, Polyfish vs referee):** Polyfish Centipede chain now matches the referee (cap 3 segments, a 2-segment chain shifts once on a second displacement, the v115 kill-time Eat spawn is off): **PF ACCEPT units 10899/10914 -> 10901/10906**, stars 2052/2084, held-out 187/187 + 64/64, check.sh baseline unchanged, `cargo test` 139 ok (a114261). Left (5 unit rows): 710ddb20 t8->9 and t16->17 infiltration placement (random not ruled out; the referee reads it from the next save) and 6e1bf8e0 t11->15 id198 (4-turn gap). Not fixable without a new case; stopped after 1 fix loop. Stars: the 22 Polyfish-only gaps are the same parked star tail plus 6e1bf8e0 gaps. **Next:** FM-2 (refit win-% fog model), FM-3 (fog ruins, hidden expansion).
 
 - **28 Oct, handoff to forward-model sessions (Jason: "let other sessions work on the forward model"):** I am stepping back from Polyfish work. Everything is pushed (`main`). Open items for the next sessions, in this order:

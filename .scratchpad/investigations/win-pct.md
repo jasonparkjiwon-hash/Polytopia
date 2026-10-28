@@ -217,3 +217,10 @@ python3 -I tools/winpct.py <save> --mode both --horizon 4
 ### Weak spots / next
 Few games (14 in LOGO), no finished game (a final-win label needs one); top-probability bins are sparse; the new weights were chosen on the same folds that report them (held agrees, 17-31 points);
 the fog model assumes other tribes' scores are visible (if Jason's iPhone view hides unmet tribes' scores, drop `score` for them: refit with `met * score`); the human is modelled as policy v2 only in full mode.
+
+## 28 Oct 2026 (FM-2): refit on the new belief samples - not applicable, weights kept
+Asked: refit the fog win-% model after the village-count fix (bias -12.6 -> -2.8). Finding: the fog model (`winpct_fit.py fog`, `winpct_est.py`) does not use the belief sampler at all.
+Its features are the mover's own tribe, public scores, cities on explored tiles and tribes met (read from the save by `pfwin state_only`), and its distillation target is full-information
+playouts. The village fix only touches `belief` mode (`winpct_unseen.py`), which is not shipped. Rebuilt pfwin, states (168) and playouts (6 rounds x 16), reran `fog`:
+H=4 LOGO Brier fog_distilled .0566 (before .0563; playout seeds differ), held .0495; uniform .0648, static_full .0518. H=6 fog_distilled .0563/.0515. Same within noise: nothing to refit, `data/winpct_eval.json` untouched.
+One loop, then stopped (a second would repeat it). To use the new samples the model needs a feature that reads them (e.g. expected unseen cities per tribe from `pffog`); that is a new design, not a refit - not done.
