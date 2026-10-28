@@ -295,3 +295,5 @@ Older:
 Movement, Explode, Convert, Outpost and 49/51 belong to pf-legal (pf-legal.md). pf-port next: star drift
 (`tools/pf_stars.py`: city rewards Polyfish doesn't offer, "econ itself off" rows in 6e1bf8e0) and the 11 unit
 misses (6e1bf8e0 HP drift; af181c8f t16 is the harness ruin hint).
+
+28 Oct (FM-1): Centipede chain ported (rows 89-90 below the table, ledger CENTIPEDE-CHAIN): cap 3 (`grow_segment`), second displacement with a 2-segment chain shifts without growth (`chain_len > 2` returns), Eat kill-time segment spawn disabled (referee grows on head moves only). PF ACCEPT units 10899/10914 -> 10901/10906 (710ddb20 1966/1980 -> 1968/1972), stars 2052, held-out 187/187, 64/64. Left: 710ddb20 t8->9 and t16->17 infiltration placement (the two cases diff-test.md could not order; Polyfish now ring row-major, save has (9,25) / outer ring), 6e1bf8e0 t11->15 id198 (4-turn gap). Nothing more to port without a new infiltration case with the free tiles known.
