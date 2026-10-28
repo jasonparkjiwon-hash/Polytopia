@@ -139,3 +139,81 @@ early stop. Brier before/after identical (same playouts). pfwin prints `prof_leg
 
 **Not done (tasks 4-5):** second label (survival/city count/military), refit on all 18 games, tools/winpct.py help, ledger entries (no new
 settled game rule came out of this). Next: that refit, and a cheaper per-tribe playout (skip distant tribes) if more speed is wanted.
+
+## 28 Oct 2026 (win-pct-3): honest label, refit eval, fog, intervals, speed
+
+Code: `tools/winpct_fit.py` (research harness, numpy: `labels`, `sets`, `fog`, `write`), `tools/winpct_est.py` (estimator), `tools/winpct.py` (CLI, rewritten),
+weights `data/winpct_eval.json`. pfwin/scenario features grew by `threat` (own cities with an armed foreign unit within 3), `pressure` (foreign cities with an
+own armed unit within 3), `water` (map water share); `pfwin state_only` also returns `fog` (per tribe: cities on the mover's explored tiles, met) and `explored`.
+Data: **15 games have saves** (CLAUDE.md says 18; the other 3 have no decoded checkpoints here), 157 checkpoints. Protocol: leave-one-game-out (LOGO) over the 14 games
+other than ed6cb932 (n per cell below = points x alive tribes; points are serially correlated inside a game, so intervals are bootstrap over games, 90%);
+"held" = ed6cb932 + games 7-8 predicted by models fitted on the 11 tuned games only (17-31 points per cell: noisy). Playouts 16 per state, policy v2.
+
+### 1. Labels (LOGO, same features; skill = 1 - Brier/uniform Brier; points / games)
+| label | H=1 | H=2 | H=3 | H=4 | H=6 |
+|---|---|---|---|---|---|
+| score leader (old) | .27 | .18 | .20 | .15 | .08 [-.05,.22] |
+| most cities (tie: army) | .34 | .23 | .23 | .20 | .11 [-.01,.21] |
+| strongest army | **.51** | .25 | .13 | .07 | .06 |
+| **power** = most cities, tie: army, then score | .33 | .22 | .23 | .20 | .10 [-.01,.20] |
+| survival to t+H | 0 dead of 1957 | 1 of 1771 | 2 of 1601 | 4 of 1431 | 5 of 1106 |
+points: 137 / 124 / 112 / 100 / 77 (13-14 games). **No saved game finished** (max 26 rounds, 15 dead tribe-states in 2256): no final-winner label, survival is noise.
+Army lead is predictable one round out (persistence) and is gone by H=4 (units die and are rebuilt). Score lead is the least predictable and does not encode combat.
+**Primary label = "power": the tribe holds the most cities at t+H (ties: strongest army, then score)**. Why: cities are what combat takes and loses, it is the land-based
+win condition, it moves slowly enough to be predictable 2-6 rounds out (unlike army), it has no ties in practice (tie-breaks), and it is nearly as predictable as the best label at each H.
+
+### 2. Evaluation function refit (label power, conditional logit over alive tribes, standardised, ridge l2 by LOGO, per-H weights)
+Feature groups tried (LOGO skill / held skill, H=2,4,6): old 8-feature eval .21/.16/.08 (held .25/.16/.13); +relative shares and logs .21/.17/.10; **+war
+(threat share, pressure, casualties, kills-casualties, units, connected share) .24/.19/.10 (held .31/.20/.12)**; +turn x features .20/.15/.08 (no gain); +water x features
+.20/.15/.07 (no gain: 15 distinct water values); +tribe one-hots helps at H=6 (.14 vs .08); lead-margin features (cities / army margin to the best other tribe): no gain.
+Shipped: **share+war+tribe** (l2 8; 30 at H=6). Table (Brier per (point, tribe), LOGO / held, n = 133,121,110,99,77 points LOGO and 31,28,25,22,17 held):
+
+| H | uniform | score only | old eval | **new static (full info)** | playouts alone | **playouts+static stacked (full info)** | **fog (shipped)** | fog static on fog features | fog_lite |
+|---|---|---|---|---|---|---|---|---|---|
+| 1 | .0652/.0586 | .0568 | .0464/.0409 | .0451/.0383 | .0166/.0097 | **.0164/.0099** | .0541/.0499 | .0560/.0517 | .0571/.0560 |
+| 2 | .0651/.0586 | .0580 | .0516/.0442 | .0503/.0427 | .0440/.0365 | **.0422/.0340** | .0561/.0516 | .0588/.0529 | .0579/.0563 |
+| 3 | .0650/.0586 | .0583 | .0535/.0468 | .0500/.0435 | .0591/.0472 | **.0484/.0402** | .0566/.0523 | .0591/.0528 | .0585/.0568 |
+| 4 | .0649/.0586 | .0590 | .0549/.0491 | .0519/.0444 | .0642/.0542 | **.0512/.0433** | .0563/.0487 | .0613/.0547 | .0600/.0580 |
+| 6 | .0646/.0586 | .0629 | .0594/.0508 | .0546/.0436 | .0658/.0618 | **.0549/.0465** | .0563/.0515 | .0699/.0659 | .0678/.0691 |
+
+Skill (LOGO, 90% bootstrap over games): new static .31 / .23 / .23 / .20 / .16 (H=1,2,3,4,6; H=6 [.02,.28]); stacked playouts .75 [.65,.85] / .35 [.23,.44] / .26 / .21 / .15;
+fog .17 [.07,.27] / .14 [.03,.26] / .13 / .13 / .13 [-.01,.25]. Reading:
+- **Playouts matter only at H<=2** (H=1: Brier .0166 vs static .0451, the next round almost decides who holds the most cities) and add a little at H=3; from H=4 the
+  stacked estimate equals the new static eval (.0512 vs .0519; .0549 vs .0546): raw playouts are worse than uniform-ish at H=6 (.0658). The 50/50 blend of win-pct-1 is replaced by a learned stack
+  (log-linear weights per H, fitted on out-of-fold static predictions: playout weight 1.38/.88/.48/.38/.37, static .55/.60/.92/.91/.81).
+- The new static eval beats the old one at every H (e.g. H=4 .0519 vs .0549, held .0444 vs .0491) and beats score-only everywhere.
+- Reliability (LOGO, pred% -> obs%, n tribe-cases), H=4 new static: 1->1 (562), 3->5 (301), 7->7 (283), 13->11 (162), 25->27 (63), 39->44 (16), 64->47 (15), 89->92 (13);
+  fog: 1->1 (237), 3->4 (532), 7->6 (389), 14->12 (184), 25->25 (53), 41->56 (9). Calibrated where there are data (<=30%); above 40% each bin has <20 cases (rough). H=6 static:
+  25->16 (43), 41->88 (8), 87->44 (9): the top is not trustworthy at H=6. Tables per mode and H are in `data/winpct_eval.json` (`calib`) and are what the "trust" line prints.
+
+### 3. Fog (what the mover can know: own tribe in full; others: public score [assumption: the scoreboard shows every tribe's score], cities on explored tiles, tribes met, tribe)
+Tested (LOGO / held Brier at H=4; uniform .0649/.0586): (c) static eval on the fog features .0613/.0547 (H=6: .0699, WORSE than uniform); fog_lite (score, cities seen, met, me) .0600/.0580;
+(a) **distillation: fit the fog model to the soft target 0.5 x full-information playout share + 0.5 x full static prediction (no outcomes), ridge 3** .0563/.0487 (H=6 .0563/.0515);
+(b) Platt/stack on the fog prediction .0615/.0539 (no gain), fog+fog_lite stack no gain; imputation (ridge-impute the other tribes' true features from score and visible cities, then the full eval) .0576/.0524 (H=6 .0657: bad).
+**Winner = (a) distilled fog model**: it uses 2-3x the training signal (every tribe's smooth full-information prediction, not one 0/1 outcome) and is the only fog variant that beats uniform at H=6.
+It beats the plain static eval in fog at every H (the gap grows with H) and recovers ~55-85% of the full-information static skill (.13 vs .20 at H=4; .13 vs .16 at H=6; .17 vs .31 at H=1). What is
+lost is exactly the hidden state (units, cities not yet seen). Caveats: stage-1 soft targets for the training games use out-of-fold static predictions (no label leak), but the distilled model was
+chosen among ~8 variants on the same LOGO folds (mild optimism; held-out agrees: .0487 vs uniform .0586). Playouts from the player's view (belief + unseen sampling, 28 Oct earlier) stay a negative result.
+
+### 4. Intervals and trust (tools/winpct_est.py)
+Every printed percentage has: label name and horizon; a 90% interval = 5-95 percentile over 20 bootstrap fits of the model (games resampled; plus Dirichlet-resampled playout lead shares in full mode, prior 0.5 per tribe so
+unanimous playouts keep an interval); `model +-` and `playouts +-` standard deviations separately; a trust line from the out-of-fold calibration bin of the prediction; the mode flag (**FULL INFORMATION is printed as CHEATING for a fogged real game**).
+Not in the interval: bot-policy drift after 2-3 rounds, a human who plays unlike policy v2, and the "scores are public" assumption. `tools/scenario.py` now prints the same label, interval and trust per option (full-information futures, flagged).
+
+### 5. Speed
+Found and fixed a tail bug: when a save's first (starting) player is eliminated inside a playout the forward model's turn counter stops and the others cycle forever until the 40,000-move guard (e.g. 9847d452 t6, seed 1065: 11.9M legal moves, 18 s for 2 playouts; the
+state's other seeds take 0.05 s). pfwin now declares a round after 2 x tribes tribe-turns without a counter change (and forces EndTurn after 400 moves in one tribe turn). Normal playouts are bit-identical.
+CLI uses all cores and stops early once every plausible tribe has a 90% Wilson half-width below 7 points (at least 16 playouts).
+Before -> after, 48 playouts x 4 rounds, 4 cores, wall seconds: 9847d452 t6 (4 tribes) 18.6 -> 0.3; af181c8f t5 1.1 -> 1.1; t15 51 -> 2.5 (early stop: 24 playouts, 1.1 s, top tribe .780 -> .795); t24 114 -> 3.3.
+The full calibration run (157 states x 16 playouts x 6 rounds) fell from >40 CPU-minutes to 6 CPU-minutes. Brier of playouts identical before/after (H=4 .0642 -> .0642, H=2 .0441 -> .0440; the stuck playouts were a few).
+
+### Reproduce
+```sh
+cd sim/pfcore && cargo build --release; git restore Cargo.lock          # pfwin with the 17 features
+python3 -I tools/winpct_eval.py states; python3 -I tools/winpct_eval.py playouts 6 16      # ~6 CPU-minutes now
+python3 -I tools/winpct_fit.py labels; python3 -I tools/winpct_fit.py sets power; python3 -I tools/winpct_fit.py fog; python3 -I tools/winpct_fit.py write
+python3 -I tools/winpct.py <save> --mode both --horizon 4
+```
+### Weak spots / next
+Few games (14 in LOGO), no finished game (a final-win label needs one); top-probability bins are sparse; the new weights were chosen on the same folds that report them (held agrees, 17-31 points);
+the fog model assumes other tribes' scores are visible (if Jason's iPhone view hides unmet tribes' scores, drop `score` for them: refit with `met * score`); the human is modelled as policy v2 only in full mode.
