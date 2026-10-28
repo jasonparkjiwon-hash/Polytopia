@@ -18,6 +18,7 @@ use polyfish::settings::units::get_unit_setting;
 use serde_json::{json, Value};
 use std::time::Instant;
 
+thread_local! { static PROF: std::cell::RefCell<[f64; 4]> = std::cell::RefCell::new([0.0; 4]); }
 const FEATS: [&str; 14] = ["alive", "cities", "pop", "level", "units", "unit_cost", "unit_hp_cost", "stars", "income", "techs", "kills", "casualties", "score", "connected"];
 
 fn feats(g: &Game, id: i32) -> Vec<f64> {
@@ -62,9 +63,14 @@ fn playout(base: &Game, pol: &Policy, model: &Model, pov: Option<i32>, horizon: 
         if turn >= t0 + h && (cur == sp || turn > t0 + h) { if keep.contains(&h) { snaps.push(all_feats(&game)); } h += 1; continue; }
         if game.is_game_over() { break; }
         guard += 1;
+        let t1 = Instant::now();
         let legal = game.legal_moves();
+        let t2 = Instant::now();
         let i = botpolicy2::choose(&game, &legal, pol, &mut rng, true);
-        if api::apply_search(&mut game, legal[i].as_ref()).is_none() { break; }
+        let t3 = Instant::now();
+        let ok = api::apply_search(&mut game, legal[i].as_ref()).is_none();
+        PROF.with(|p| { let mut p = p.borrow_mut(); p[0] += (t2 - t1).as_secs_f64(); p[1] += (t3 - t2).as_secs_f64(); p[2] += t3.elapsed().as_secs_f64(); p[3] += legal.len() as f64; });
+        if ok { break; }
         applied += 1;
     }
     while h <= horizon { if keep.contains(&h) { snaps.push(all_feats(&game)); } h += 1; }   // game over: the final state stands
@@ -102,6 +108,6 @@ fn main() {
         let secs = t0.elapsed().as_secs_f64();
         let played: i64 = rounds.iter().map(|t| (*t - base.state.settings.turn).max(0) as i64).sum();
         println!("PFWIN {}", json!({"tag": job["tag"], "names": FEATS, "turn": base.state.settings.turn, "tribes": tribes, "start": start, "hs": keep, "playouts": outs,
-            "final_turn": rounds, "panics": err, "secs": secs, "moves_per_s": moves as f64 / secs, "rounds_per_s": played as f64 / secs}));
+            "prof_legal_choose_apply_nlegal": PROF.with(|p| *p.borrow()), "final_turn": rounds, "panics": err, "secs": secs, "moves_per_s": moves as f64 / secs, "rounds_per_s": played as f64 / secs}));
     }
 }

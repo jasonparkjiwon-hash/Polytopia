@@ -15,7 +15,7 @@ fn game() -> Game {
 }
 
 fn pol() -> Policy {
-    let w = |l: &[(&str, f32)]| Weights(l.iter().map(|(k, x)| (k.to_string(), *x)).collect::<HashMap<_, _>>());
+    let w = |l: &[(&str, f32)]| Weights(l.iter().map(|(k, x)| (k.to_string(), *x)).collect());
     Policy { g: w(&[("G:Step", 2.0), ("G:Step*frac_acted", -3.0), ("G:EndTurn*frac_acted", 4.0)]), w: w(&[("Step.village_gain", 1.0), ("Summon:Warrior", 1.0)]), capture_first: 0.9, ..Default::default() }
 }
 
@@ -27,7 +27,7 @@ fn features_and_groups() {
     assert_eq!(ctx.me, g.state.settings.current_player_turn_id);
     let f = botpolicy2::features(&g, &ctx, legal.iter().find(|m| m.move_type() == MoveType::Step).unwrap().as_ref());
     assert!(f.iter().any(|(k, _)| k == "Step") && f.iter().any(|(k, _)| k == "Step.village_gain"));
-    let gf = botpolicy2::group_feats(&ctx, "Step", &[&f], &["Step".to_string(), "EndTurn".to_string()]);
+    let gf = botpolicy2::group_feats(&ctx, "Step", &[&f], &["Step", "EndTurn"]);
     assert!(gf.iter().any(|(k, _)| k == "Gmax:Step.village_gain") && gf.iter().any(|(k, _)| k == "G:Step") && gf.iter().any(|(k, _)| k == "G:Step*has:EndTurn"));
 }
 
