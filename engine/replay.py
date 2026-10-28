@@ -86,6 +86,7 @@ RULES = {   # one switch per line; A/B each in tools/miss.py before keeping a ch
     'peace_break_disbands': True,       # Jason in game (L3): the breaker's units inside the ex-ally's territory are disbanded; no save shows it yet
     'break_ice_after_move_needs_dash': True,   # legality check, counts violations in LOG only: 130/130 move-then-break uses are Dash units
     'polaris_capture_freezes': True,
+    'capture_acts': True,
     'idle_auto_recover': True,
     'explode_poison_halves': True,
     'push_saved_facing': True,
@@ -401,7 +402,8 @@ def apply(st, a, turn):
             if u.owner == pl and not getattr(u, "acted", True) and u.hp < u.max_hp and POISON not in u.effects:
                 u.hp = min(u.max_hp, u.hp + (4 if st.owner.get((u.x, u.y)) == u.owner else 2)); LOG["idle recover"] += 1
     PREV[0] = t
-    if t in (3, 4, 13, 16, 18, 24, 38) and len(v) >= 3 and unit_at(st, v[1], v[2]) is not None: unit_at(st, v[1], v[2]).acted = True
+    if t == 7 and RULES['capture_acts'] and v[1] in st.units: st.units[v[1]].acted = True   # CAPTURE-ACTS: a unit that captured did not rest (710ddb20 t19 Warrior 439 stayed 4 HP)
+    if t in (3, 4, 13, 14, 16, 18, 24, 38) and len(v) >= 3 and unit_at(st, v[1], v[2]) is not None: unit_at(st, v[1], v[2]).acted = True
     if t == 15 and RULES["poison"]:              # Polyfish process_end_turn_effects: Fungi poisons non-Cymanti units of other owners on it
         for q, owner in st.fungi.items():
             u = unit_at(st, *q)

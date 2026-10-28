@@ -1432,6 +1432,13 @@
    "level": "L3",
    "game_version": "v123",
    "evidence": "3edee0ec t5->6 (18,21) and t9->10 (15,20) p1 +1 star each; 6e1bf8e0 t11 (14,16) p9 same tile change. Stars 1944->1946, 3edee0ec 144/144. No source on the web."
+  },
+  {
+   "id": "CAPTURE-RUIN-ACT",
+   "rule": "A unit that captures a city or examines a ruin has acted that turn: no end-of-turn rest heal for it (the human idle-heal rule IDLE-AUTO-RECOVER only applies to units that did nothing).",
+   "level": "L3",
+   "game_version": "v123",
+   "evidence": "710ddb20 t19 Warrior 439 (captured a city) stayed 4 HP, 64795ee3 t8 Warrior 1 (examined a ruin) stayed 5 HP; engine had healed both. Units 10185->10187, no game worse."
   }
  ]
 }

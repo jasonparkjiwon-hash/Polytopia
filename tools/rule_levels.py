@@ -87,6 +87,7 @@ MAP = {   # rule name -> ledger id
     "replay.RULES.push_dir_persists": "PUSH-DIRECTION",
     "replay.RULES.polaris_capture_freezes": "POLARIS-CAPTURE-FREEZE",
     "replay.RULES.idle_auto_recover": "IDLE-AUTO-RECOVER",
+    "replay.RULES.capture_acts": "CAPTURE-RUIN-ACT",
     "replay.RULES.explode_poison_halves": "EXPLODE-POISON-DEFENCE",
     "replay.RULES.push_saved_facing": "SAVE-UNIT-FACING",
     "replay.RULES.push_ccw_first": "PUSH-TIEBREAK",
