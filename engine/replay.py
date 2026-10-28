@@ -17,6 +17,8 @@ LAND_UNITS = {"Warrior", "Rider", "Archer", "Defender", "MindBender", "Swordsman
 WATER_UNITS = {"Shark", "Raychi", "Puffer", "Jelly", "Crab"}   # MEASURED: seen only on water, flooded tiles or cities (Mermaid walks on land)
 RULES = {   # one switch per line; A/B each in tools/miss.py before keeping a change
     'moth_infiltrate': True,             # MOTH-INFILTRATE: the Cymanti Moth infiltrates like a Cloak (it attacks an enemy city, is used up, InsectEggs appear)
+    'cent_cap': 3,                       # CENTIPEDE-CAP: max segments (0 = none)
+    'cent_second': 'shift_maxseg1',             # second displacement the same turn: 'never' re-shifts (710ddb20 t15), 'always', 'maxseg1' (only a 1-segment chain), 'oldhead' (never for a freshly promoted head)
     'centipede_chain': True,             # CENTIPEDE-CHAIN: segments follow the head's moves, one new segment a turn; the first segment takes over when the head dies
     'infiltrate_spawn': True,            # INFILTRATE-SPAWN: the units an infiltration leaves (Daggers, Insect Eggs) are placed where the next save shows them
     'infiltrate_spawn_range': 2,         # ... within this distance of the city
@@ -161,7 +163,7 @@ def remove(st, u):
     if RULES["centipede_chain"] and u.type in ("Centipede", "Segment"):
         lead, fol = st.units.get(getattr(u, "leader", 0)), st.units.get(getattr(u, "follower", 0))
         if u.type == "Centipede" and fol is not None:       # the first segment becomes the head, fresh 20 HP (710ddb20 t17, t18)
-            fol.type = "Centipede"; fol.max_hp = max_hp(fol); fol.hp = fol.max_hp; fol.leader = 0; fol.acted = False
+            fol.type = "Centipede"; fol.max_hp = max_hp(fol); fol.hp = fol.max_hp; fol.leader = 0; fol.acted = False; fol.fresh_head = True
         elif lead is not None:
             lead.follower = fol.id if fol is not None else 0
             if fol is not None: fol.leader = lead.id
@@ -177,7 +179,13 @@ def cent_follow(st, head, prev):
     """CENTIPEDE-CHAIN (710ddb20 t12-t18, n=6 moves): after the head moves, each segment takes the tile its leader stood on, and a new
     segment appears on the old tail tile. A second displacement the same turn (a kill that moves it in) redoes the step."""
     segs, snap = cent_chain(st, head), getattr(head, "cstep", None)
-    if snap is not None and snap["pos"]: return       # with segments a second displacement the same turn (710ddb20 t15) moves nothing more
+    mode = RULES["cent_second"]
+    if snap is not None and snap["pos"] and (mode == "never" or (mode in ("maxseg1", "shift_maxseg1") and len(snap["pos"]) >= 2) or (mode in ("oldhead", "shift_oldhead") and not getattr(head, "fresh_head", False))): return   # a second displacement the same turn (710ddb20 t15 moves nothing more; t18 shifts again): variants in tools/rule_search.py
+    if snap is not None and snap["pos"] and mode.startswith("shift"):   # CENTIPEDE-SECOND-SHIFT: the second displacement shifts the chain as it stands (new segment already grown this turn: no more)
+        L2 = [prev] + [(s.x, s.y) for s in segs]
+        for s in segs: st.at.pop((s.x, s.y), None)
+        for s, q in zip(segs, L2): s.x, s.y = q; st.at[q] = s.id
+        return
     if snap is not None:
         if snap["new"] is not None and snap["new"].id in st.units:
             n = snap["new"]; remove(st, n); segs = [s for s in segs if s is not n]
@@ -188,7 +196,7 @@ def cent_follow(st, head, prev):
     for s in segs: st.at.pop((s.x, s.y), None)
     for s, q in zip(segs, L): s.x, s.y = q; st.at[q] = s.id
     q = L[len(segs)]
-    if q not in st.at:
+    if q not in st.at and (not RULES["cent_cap"] or len(segs) < RULES["cent_cap"]):   # CENTIPEDE-CAP: the chain stops growing at this many segments (710ddb20 t16->17)
         n = spawn(st, head.owner, "Segment", *q); n.leader = (segs[-1] if segs else head).id; n.follower = 0
         (segs[-1] if segs else head).follower = n.id; head.cstep["new"] = n; LOG["centipede segment"] += 1
 
@@ -396,7 +404,7 @@ def apply(st, a, turn):
                 u.moved_now = False              # moved this turn (break_ice_after_move_needs_dash); last_from may persist across turns
     if t == 15 and RULES["centipede_chain"]:
         for w in st.units.values():
-            if w.owner == pl and getattr(w, "cstep", None) is not None: w.cstep = None
+            if w.owner == pl and getattr(w, "cstep", None) is not None: w.cstep = None; w.fresh_head = False
     if t == 15 and RULES["frozen_no_retaliation"]:
         for u in st.units.values():
             if u.owner == pl and getattr(u, "thaw", False): u.effects = [e for e in u.effects if e != FROZEN]; u.thaw = False

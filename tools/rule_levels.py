@@ -16,6 +16,8 @@ MAP = {   # rule name -> ledger id
     "replay.RULES.tentacles_after_move": "TENTACLES",
     "replay.RULES.infiltrate": "INFILTRATE",
     "replay.RULES.centipede_chain": "CENTIPEDE-CHAIN",
+    "replay.RULES.cent_cap": "CENTIPEDE-CHAIN",
+    "replay.RULES.cent_second": "CENTIPEDE-CHAIN",
     "replay.INFIL": "INFILTRATE-SPAWN",
     "replay.RULES.infiltrate_spawn": "INFILTRATE-SPAWN",
     "replay.RULES.infiltrate_spawn_range": "INFILTRATE-SPAWN",
