@@ -38,6 +38,19 @@ For search and scenarios. It adds no rules: every call goes through Polyfish's o
 - Engine: `whatif::analyze(save, &Opts)` -> JSON `{situation, moves, threats_now}`. Each move is played on a clone with `play_move` and the two states are diffed (exact by construction); ruins are a table of measured chances; each shortlisted move gets the worst-case reply of every visible enemy (Attack, and Step then Attack, each played exactly). Moves on a rule below L1 are tagged from `data/pf_rule_levels.json`.
 - Validation: `python3 -I tools/whatif_validate.py [--fails]` (`PF_WHATIF=1` in `pfreplay`; line in `check.sh`, informational): prediction from the mover's view vs the engine at every logged legal move (99.8%), attacks vs the next real save (kills 769/770, survivor HP 1790/1799). Details, limits and example output: `.scratchpad/investigations/what-if.md`.
 
+## Scenarios and likely replies (what-if-2; `src/scenario.rs`, bin `scen`, `tools/scenario.py`, `tools/scenario_validate.py`)
+
+- Jason's workflow (iPhone export pasted into a cloud session, as for the what-if advisor):
+  `python3 -I tools/scenario.py <export.txt> --moves "Attack Polytaur (5,16)->(4,16)" "Summon Warrior (4,12); Step Warrior (4,9)->(3,8)" "nothing" [--h 2] [--k 30] [--hypo "..."]`
+  or `--auto` (builds the options from the what-if shortlist and shows the best five). Moves are the labels of `tools/whatif.py --all`; a unique part of a label is enough.
+- Engine: `scenario::run(save, job)` plays each option exactly (`play_move`, ruins from the measured table), then `draw` samples K turns of every other tribe with bot policy v3 for H rounds
+  (`Game::search_move`, 4 threads) and reports the first-round attacks on the player's units and cities (chance attacked / killed, expected losses, most likely attack) and each tribe's cities / units / stars / score per round (mean, 10th-90th percentile).
+  From round 2 the policy plays the player's side too. Everything after the player's own moves is an estimate; the text says so and quotes the agreement figures of `bot-model-3.md`.
+- Win-%: `tools/scenario.py` feeds the sampled end states to `tools/winpct_lib.py` (chance to lead the in-game score after H rounds; half playouts, half the static model of `data/winpct_static.json`), labelled as in `win-pct.md`.
+- `--hypo` edits the loaded TRUE state before anything is played. Supported: unit HP ("enemy unit at 4,16 has 5 more HP", "less", "has N HP", "my unit at ..."; the tile must be explored), stars ("I have 5 more stars", "Cymanti has 3 more stars"), "peace with <tribe|player N>", "war with ...". Anything else is refused with this list.
+- `tools/whatif.py` shows a "likely reply" line (K=12 samples) under each best attack and cheapest threat; `--no-likely` skips it.
+- Validation: `python3 -I tools/scenario_validate.py [--k 20] [--game PREFIX]` (`PF_REPLY=k` in `pfreplay`, `scenario::ReplyProbe`): at every real end of the human's turn in the saves it samples the reply, then compares with the real bot actions that followed. Numbers: `.scratchpad/investigations/what-if.md` (2nd section).
+
 ## Fog inference (fog-inference; `src/fog.rs`, `src/belief.rs`, bin `pffog`, `tools/pf_belief.py`)
 
 - `fog::player_view(game, pov)`: `clone_for_mcts` plus a scrub of hidden-tile `capital_of`/`ruling_city_coords`/climate (obscure_fog leaks every capital's position). `fog::load_exact` loads with the save's exact explored sets. `pffog sweep saves/*.json` checks both against the saves.

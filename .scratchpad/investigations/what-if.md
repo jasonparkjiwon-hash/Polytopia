@@ -181,3 +181,132 @@ Moves that lose a unit (or leave one exposed), 22 found, first 5:
 
 ## Files
 `sim/pfcore/src/whatif.rs`, `src/bin/whatif.rs`, `src/bin/pfreplay.rs` (PF_WHATIF hook), `tools/whatif.py`, `tools/whatif_validate.py`, `scripts/check.sh` (one informational block), 2 cargo tests (`whatif::tests`).
+
+
+---
+
+# Part 2 (what-if-2, 28 Oct 2026): likely replies, scenario comparison, hypotheticals
+
+_Owner: what-if-2 session · state: done (first version). Code: `sim/pfcore/src/scenario.rs`, bin `scen`, `tools/scenario.py`, `tools/scenario_validate.py`, `PF_REPLY` hook in `pfreplay.rs`; `tools/whatif.py` got the "likely reply" lines._
+
+## How Jason uses it (iPhone export -> cloud session)
+
+1. In the game, export the save as text (device path line + base64), paste it into the chat and say what you want.
+2. The session saves the paste to a file (`cat > /tmp/export.txt`) and runs, e.g.:
+   ```sh
+   python3 -I tools/whatif.py /tmp/export.txt                       # situation + shortlist, now with a "likely reply" line per best attack / threat
+   python3 -I tools/scenario.py /tmp/export.txt --auto               # it builds 5 options itself and ranks them
+   python3 -I tools/scenario.py /tmp/export.txt --moves "Attack Polytaur (5,16)->(4,16)" "Summon Warrior (4,12); Step Warrior (4,9)->(3,8)" "nothing" --h 2 --k 30
+   python3 -I tools/scenario.py /tmp/export.txt --moves "A" "B" --hypo "enemy unit at 4,16 has 5 more HP" --hypo "peace with Cymanti"
+   ```
+   Moves are written like the lines of `whatif.py --all` (the engine's own labels); one unique part of a label is enough. `a; b` = two moves in a row. `nothing` = end the turn.
+   `--h` 1-3 rounds ahead (default 1), `--k` sampled futures (default 20; 20 takes 0.4 s early, 3-7 s late with 16 tribes), `--player`, `--no-win`, `--json`.
+3. Jason can ask follow-ups in plain words ("what if I had 5 more stars", "what if the Warrior had 5 more HP") and the session turns them into `--hypo`.
+
+Supported `--hypo` edits (applied to the loaded true state, the report says so in a "HYPOTHETICAL position" line): unit HP of a visible unit ("enemy unit at 4,16 has 5 more HP", "less HP", "has 7 HP", "my unit at ...", capped at 1..max),
+stars ("I have 5 more stars", "I have 5 fewer stars", "I have 12 stars", "Cymanti has 3 more stars"), "peace with <tribe | player N>", "war with ...". Everything else (new units or cities, techs, terrain, a relation between two other tribes) is refused with that list.
+The tile of a unit edit must be explored by the player.
+
+## What is exact and what is an estimate
+
+- Exact: the player's own moves and what they do now (engine `play_move`; a ruin is a table), the worst-case danger after them (`[exact]`).
+- ESTIMATE (every such line says so): K enemy turns drawn from bot policy v3 (`data/bot_policy_v3.json`) for all other tribes, then H rounds; from round 2 the model plays the player's side too. Shown: chance each unit is attacked / killed, expected losses, most likely attack,
+  per tribe units / cities / stars / score after H rounds (mean and 10th-90th percentile of the samples), and the chance to LEAD the in-game score (half playouts, half `data/winpct_static.json`, interval from the playouts only; calibration in win-pct.md). The saved score is not comparable with the later ones, so only options are compared.
+- Agreement quoted in the output (bot-model-3.md): same move as the real bot 46% (random 29%), attack target 89% given the attacker, one-round counts of attacks/kills within 10-20% of real, 3 rounds about 20% low. `--auto` ranks by mean score after H rounds; with K=20 differences are often inside the noise and the verdict says "no clear difference".
+
+## Validation of the likely reply (`python3 -I tools/scenario_validate.py --k 20`, 1.5 min)
+
+At every real end of the human's turn in the saves the reply is sampled from the position, then the real bot actions that follow are read (replay, `PF_REPLY`). 147 windows, 310 human units; tuned games (the policy was FITTED on most of them: in-sample):
+
+| check | result |
+|---|---|
+| really attacked units (56) given chance >=50% / >=20% / >0 | 46% / 89% / 95% |
+| really killed units (16) given chance >=50% / >=20% / >0 | 62% / 88% / 94% |
+| Brier, attacked (model vs always the base rate) | 0.087 vs 0.148 |
+| Brier, killed | 0.023 vs 0.049 |
+| calibration, attacked: predicted bin -> real rate | 0%->2%, 12%->15%, 35%->48%, 65%->65%, 84%->79% |
+| real units lost in the central 80% of the samples | 145/147 windows |
+| real attacks (tribe, tile) with predicted chance >0 / >=10% / >=30% | 55/58, 54/58, 39/58 |
+| predicted most likely attack really happened / one of the top 3 | 33/69 (48%) / 41/69 (59%) windows |
+
+Out-of-sample parts: game 7 (710ddb20) turns 12-19, which v3 never saw (8 windows, 68 units, 12 attacked): attacked units with chance >=20%: 9/12, >0: 10/12; Brier 0.109 vs 0.145 base; real attacks with chance >0: 11/13, >=30%: 9/13.
+The held-out game ed6cb932 has only 4 windows with a human turn end and no attack on the human: nothing to score (4/4 windows inside the central 80%). So the honest reading: well calibrated and better than the base rate in-sample, the same direction out-of-sample but on 12 attacked units only. More human games with attacks would settle it.
+Not covered by the reply sampler: abilities (Explode, Freeze), multi-turn plans of the bots, and any bot knowledge of what the player cannot see (the model plays on the true map; the real bots play on their own fog).
+
+## Three end-to-end runs (trimmed: first lines of each section; exports in the iPhone format work the same, see Part 1)
+
+### Run 1, early game: b2448ead t4 (Elyrion), `--moves "Attack Polytaur (5,16)->(4,16)" "Summon Warrior (4,12)" "nothing" --k 30`
+```
+[A] Attack Polytaur (5,16)->(4,16)
+   exactly: Attack Polytaur (5,16)->(4,16) → your Polytaur moves (5,16)→(4,16); enemy Cymanti Warrior at (4,16) is destroyed [exact]
+   you then hold 8 stars; units: Warrior (4,9) HP 10, Polytaur (4,16) HP 6
+   danger, worst case [exact, what visible enemies could do to you if they all go for it]: Polytaur at (4,16) (HP 6) could be killed by 1 unit (up to 6 damage)
+   ESTIMATE - 30 sampled enemy turns:
+     chance each unit is attacked next turn: Polytaur (4,16) 67% (killed 67%)
+     expected losses in the enemy reply: 0.67 (0-1) units (1.3 (0-2) unit-cost), chance of losing at least one 67%
+     most likely attack: enemy Cymanti Warrior hits your Polytaur at (4,16) (67% of samples)
+
+== COMPARISON (H=1 round, K=30; 'now' is exact, every other column is an ESTIMATE) ==
+     now (exact)       lose unit  units lost  H=1 units  cities  stars  score  near enemy units  lead %
+  A  1 kill, 8 stars   67%        0.67        1.3        2.0     11.0   1088   3.0→4.1           1%    
+  B  no kill, 6 stars  27%        0.27        2.7        2.0     9.0    1087   4.0→4.5           1%    
+  C  no kill, 8 stars  27%        0.27        1.7        2.0     11.0   1077   4.0→4.5           1%    
+lead % = chance to lead the in-game score after 1 round (half sampled playouts, half the static model fitted on real games; see .scratchpad/investigations/win-pct.md for its calibration). It is NOT the chance to win the game.
+(0.6 s; seed 1)
+```
+Reading: the attack kills the 1-HP Warrior now (exact) but the Polytaur (HP 6) is then exposed: the model has it attacked and killed in about two thirds of the samples; doing nothing risks it less (27%), because the enemy has two units that can reach it either way.
+
+### Run 2, late game, 16 tribes, with a hypothetical: af181c8f t14 (Bardur), `--auto --top 3 --h 2 --hypo "I have 10 more stars"` (2.4 s)
+```
+HYPOTHETICAL position (edited, not the real game): you have 21 stars instead of 11
+[A] do nothing (end the turn)
+   exactly: nothing changes now; the turn ends with the units where they are.
+   you then hold 21 stars; units: Rider (23,7) HP 6, Defender (23,8) HP 15
+   danger, worst case [exact]: no visible enemy can kill any of your units next turn.
+   ESTIMATE - 20 sampled enemy turns:
+     chance each unit is attacked next turn: Defender (23,8) 20% (killed 0%); Rider (23,7) 15% (killed 5%)
+     your city at (23,8): unit in it attacked 20%, city captured 0%
+     expected losses in the enemy reply: 0.05 (0-0) units (0.1 (0-0) unit-cost), chance of losing at least one 5%
+     most likely attack: enemy Yadakk Raft hits your Rider at (23,7) (10% of samples); next: Cymanti Raychi → Defender at (23,8) (5%); Yadakk Bomber → Rider at (23,7) (5%)
+     you after 2 rounds (mean, 10th-90th percentile of the samples): units 2.2 (1.9-3) (now 2), cities 1 (1-1) (now 1), stars 10.8 (5-18.1) (now 21), score 2529 (2193-2900) (the saved score is not comparable with the later ones, s
+     Yadakk (p13, near you) after 2: units 15.8 (14.9-17) (now 15), cities 6.2 (5-7) (now 7), score 4754 (4530-4992)
+     chance you lead the in-game score after 2 rounds: 0% (playouts 0%, 95% interval 0%-16%, static model 0%) [ESTIMATE; not the chance to win the game]
+   verdict: 5% chance to lose a unit next turn
+
+[B] Research Fishing
+== COMPARISON (H=2 rounds, K=20; 'now' is exact, every other column is an ESTIMATE) ==
+     now (exact)        lose unit  units lost  H=2 units  cities  stars  score  near enemy units  lead %
+  A  no kill, 21 stars  5%         0.05        2.2        1.0     10.8   2529   15.0→15.8         0%    
+  B  no kill, 16 stars  5%         0.05        2.2        1.0     10.5   2492   15.0→15.8         0%    
+lead % = chance to lead the in-game score after 2 rounds (half sampled playouts, half the static model fitted on real games; see .scratchpad/investigations/win-pct.md for its calibration). It is NOT the chance to win the game.
+(2.4 s; seed 1)
+```
+
+### Run 3, held-out game: ed6cb932 t4 (Aquarion, Crazy), `--auto --top 3 --h 2` (1.6 s)
+```
+
+[C] Summon Mermaid (19,22)
+   exactly: Summon Mermaid (19,22) → a new Mermaid appears at (19,22) [exact]
+   you then hold 6 stars; units: Mermaid (15,21) HP 10, Mermaid (19,22) HP 10
+   danger, worst case [exact]: no visible enemy can kill any of your units next turn.
+   ESTIMATE - 20 sampled enemy turns:
+     none of your units was attacked in any sample.
+     expected losses in the enemy reply: 0 (0-0) units (-0 (0-0) unit-cost), chance of losing at least one 0%
+     you after 2 rounds (mean, 10th-90th percentile of the samples): units 2.8 (2-3) (now 2), cities 1 (1-1) (now 1), stars 5.5 (4-8) (now 6), score 860 (854-870) (now 640)
+
+== COMPARISON (H=2 rounds, K=20; 'now' is exact, every other column is an ESTIMATE) ==
+     now (exact)       lose unit  units lost  H=2 units  cities  stars  score  near enemy units  lead %
+  C  no kill, 6 stars  0%         0.00        2.8        1.0     5.5    860    -                 0%    
+  B  no kill, 6 stars  0%         0.00        2.7        1.0     5.5    860    -                 0%    
+  D  no kill, 3 stars  0%         0.00        1.6        1.0     5.6    857    -                 0%    
+  A  no kill, 8 stars  0%         0.00        1.9        1.0     6.6    852    -                 0%    
+lead % = chance to lead the in-game score after 2 rounds (half sampled playouts, half the static model fitted on real games; see .scratchpad/investigations/win-pct.md for its calibration). It is NOT the chance to win the game.
+(1.6 s; seed 1)
+```
+(Only a few real options exist this early; the differences between them are inside the noise, which the tool prints.)
+
+## Open items
+1. (0,0) corner: still unanswered by Jason; places are named by nearest city and the output says the corner is not confirmed.
+2. The win-% is "lead the in-game score after H rounds", with the weak calibration of win-pct.md; it is near 0% for everyone when the player is far behind, so it does not rank options there.
+3. Later rounds use one policy for everybody including the player: it is a drift check, not a plan. `--auto` only builds single moves (plus best attack + best train); sequences of 3+ moves must be written by hand.
+4. Validation needs more human turns with enemy contact (ask Jason for games where he is at war).

@@ -1,11 +1,12 @@
 """What-if advisor: the situation of one player in a save, and every legal move with the outcome the forward model predicts.
 Plain-language text for someone who does not read code. Engine: sim/pfcore bin `whatif` (src/whatif.rs); docs: sim/README.md "What-if".
 
-    python3 -I tools/whatif.py <save> [--player N] [--all] [--top N] [--no-lookahead] [--json]
+    python3 -I tools/whatif.py <save> [--player N] [--all] [--top N] [--no-lookahead] [--no-likely] [--json]
     <save> = the iPhone export (a text file: device path on line 1, base64 below), a raw .state file, a decoded saves/*.json,
              or - to read the pasted export from stdin.
 Default player = the human (non-bot) player of the save. Default output = situation + shortlist; --all adds every legal move.
-Needs the binary: cd sim/pfcore && cargo build --release --bin whatif   (the script builds it when missing)."""
+The best attacks and threats also get a "likely reply" line, an ESTIMATE from the bot model (tools/scenario.py; --no-likely skips it).
+Compare whole plans with tools/scenario.py. Needs the binary: cd sim/pfcore && cargo build --release --bin whatif   (the script builds it when missing)."""
 import base64, hashlib, json, os, re, subprocess, sys
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
@@ -286,6 +287,34 @@ class R:
 
 
 # ------------------------------------------------------------------ report
+def likely_map(args, moves):
+    """label -> the sampled bot-model reply (ESTIMATE) of each shortlisted move, from the scenario engine; {} when switched off or unavailable."""
+    if not moves or getattr(args, "no_likely", False) or not getattr(args, "path", None): return {}
+    try:
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        import scenario as SC
+        opts = [{"name": "o%d" % i, "moves": [m["label"]]} for i, m in enumerate(moves)]
+        res = SC.run_engine(args.path, args.player, opts, args.likely_k, 1, 1, "v3", [], False)
+        return {m["label"]: (o["estimate"]["reply"], o["estimate"]["k"]) for m, o in zip(moves, res["options"]) if "error" not in o}
+    except (SystemExit, Exception) as e:
+        print("(likely replies not available: %s)" % str(e)[:120], file=sys.stderr)
+        return {}
+
+
+def likely_txt(lk, m):
+    got = lk.get(m["label"])
+    if not got: return None
+    rp, k = got
+    att = sorted([u for u in rp["units"] if u["p_attacked"] > 0], key=lambda u: -u["p_attacked"])
+    parts = ["your %s at %s attacked %d%% / killed %d%%" % (nice(u["type"]), xy((u["x"], u["y"])), round(100 * u["p_attacked"]), round(100 * u["p_killed"])) for u in att[:3]]
+    if not parts: parts = ["none of your units was attacked in any sample"]
+    top = rp["top_attacks"][0] if rp["top_attacks"] else None
+    tail = "; most likely attack: %s → %s (%d%%)" % (nice(top["enemy"]), nice(top["target"]), round(100 * top["chance"])) if top else ""
+    caps = "; chance of losing a city %d%%" % round(100 * rp["p_any_city_lost"]) if rp["p_any_city_lost"] else ""
+    return "likely reply (ESTIMATE from the bot model, %d sampled enemy turns; model agreement: bot-model-3.md): %s%s; chance of losing a unit in that reply %d%%, expected %.2f%s" % (
+        k, "; ".join(parts), tail, round(100 * rp["p_any_unit_lost"]), rp["lost_units"][0], caps)
+
+
 def report(d, args):
     r = R(d); s = r.s
     L = []
@@ -333,10 +362,13 @@ def report(d, args):
     atk = sorted([m for m in mv if m["group"] == "attack" and m.get("attack") and m["attack"]["defender"]], key=lambda m: -m["score"])
     if atk:
         L.append("Best attacks (a kill first, then damage dealt against damage taken). Combat results are EXACT unless a line says otherwise:")
+        lk = likely_map(args, atk[:top])
         for i, m in enumerate(atk[:top], 1):
             L.append("  %d. %s" % (i, r.line(m)))
             rp = r.reply_txt(m)
             if rp: L.append("       afterwards, worst case: " + "; ".join(rp))
+            lt = likely_txt(lk, m)
+            if lt: L.append("       " + lt)
     else:
         L.append("Attacks: none available right now.")
     def newt(m): return [x for x in (m.get("then_attack") or []) if (x["x"], x["y"]) not in r.cur_targets.get(tuple(m["src"]), set())]
@@ -347,10 +379,13 @@ def report(d, args):
     thr.sort(key=thr_key)
     if thr:
         L.append("Cheapest threats (a move that puts an enemy in reach to attack this turn, safest first):")
+        lk = likely_map(args, thr[:top])
         for i, m in enumerate(thr[:top], 1):
             L.append("  %d. %s" % (i, r.line(m)))
             rp = r.reply_txt(m)
             if rp: L.append("       afterwards, worst case: " + "; ".join(rp))
+            lt = likely_txt(lk, m)
+            if lt: L.append("       " + lt)
     lose = []
     for m in mv:
         if m["group"] == "attack" and m.get("attack") and m["attack"]["attacker"]["died"]:
@@ -392,8 +427,11 @@ def main(argv):
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("save"); ap.add_argument("--player", type=int); ap.add_argument("--all", action="store_true")
     ap.add_argument("--top", type=int, default=5); ap.add_argument("--no-lookahead", action="store_true"); ap.add_argument("--json", action="store_true")
+    ap.add_argument("--no-likely", action="store_true", help="skip the sampled (bot model) likely replies of the shortlist")
+    ap.add_argument("--likely-k", type=int, default=12, help="sampled enemy turns per shortlisted move (default 12)")
     args = ap.parse_args(argv)
     path = load_input(args.save)
+    args.path = path
     d = run_engine(path, args.player, not args.no_lookahead)
     print(json.dumps(d) if args.json else report(d, args))
 

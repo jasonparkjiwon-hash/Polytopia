@@ -169,7 +169,7 @@ fn eval_attack(base: &Game, pov: i32, e: i32, from_idx: i32, t: i32, via: Option
 }
 
 /// Summary of the worst case for `pov`'s units: per unit, the attacks it can take and whether the enemies together can kill it.
-fn reply_json(g: &Game, pov: i32) -> Value {
+pub fn reply_json(g: &Game, pov: i32) -> Value {
     let (hits, caps) = enemy_hits(g, pov);
     let sz = g.state.settings.size;
     let mut per: BTreeMap<(i32, i32), Vec<&Hit>> = BTreeMap::new();

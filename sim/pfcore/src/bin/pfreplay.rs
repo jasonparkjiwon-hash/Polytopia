@@ -737,8 +737,11 @@ fn run_job(job: &Value) -> Result<Value, String> {
     // PF_TRACE=1: every star change, as [action index, type, first byte, {player: delta}]
     let trace_on = std::env::var("PF_TRACE").is_ok();
     let mut trace = Vec::new();
+    let mut probe = polyfish::scenario::ReplyProbe::from_env();   // PF_REPLY=k: predicted vs real enemy reply (scenario.rs, tools/scenario_validate.py)
     for i in from..to {
         let t = acts[i]["type"].as_i64().unwrap_or(0);
+        let first = i64::from_str_radix(acts[i]["raw"].as_str().unwrap_or("").get(0..2).unwrap_or("00"), 16).unwrap_or(0);
+        if let Some(pr) = probe.as_mut() { pr.before(&r.game, t, first); }
         let v = unpack(t, acts[i]["raw"].as_str().unwrap_or(""));
         if v.first().is_some_and(|&p| p != 255) && t != 20 && t != 21 {
             let d = r.grant_meets(Some(v[0] as i32));
@@ -746,18 +749,20 @@ fn run_job(job: &Value) -> Result<Value, String> {
         }
         let s0: Vec<(i32, i32)> = if trace_on { r.game.state.tribes.iter().map(|(k, t)| (*k, t.stars)).collect() } else { vec![] };
         r.apply(i, &acts[i]);
+        if let Some(pr) = probe.as_mut() { pr.after(&r.game, first); }
         if trace_on {
             let d: BTreeMap<i32, i32> = s0.iter().filter_map(|(k, s)| { let n = r.game.state.tribes[k].stars; (n != *s).then(|| (*k, n - s)) }).collect();
             let raw = acts[i]["raw"].as_str().unwrap_or("");
             if !d.is_empty() { trace.push(json!([i, acts[i]["type"], i64::from_str_radix(raw.get(0..2).unwrap_or("0"), 16).unwrap_or(0), d])); }
         }
     }
+    let reply = probe.map(|mut p| { p.finish(); p.results }).map(Value::from).unwrap_or(Value::Null);
     let d = r.grant_meets(None);
     if trace_on && !d.is_empty() { trace.push(json!([to.saturating_sub(1), 15, 255, d])); }
     let stars: BTreeMap<i32, i32> = r.game.state.tribes.iter().map(|(k, t)| (*k, t.stars)).collect();
     let tiles = if r.accept > 0 { rd("next").map(|n| tiles_vs(&r, &n, r.game.state.settings.current_player_turn_id)).unwrap_or(Value::Null) } else { Value::Null };
     let whatif = if r.wi { wi_real_check(&r, rd("next").ok().as_ref()) } else { Value::Null };
-    Ok(json!({"whatif": whatif, "tiles": tiles, "tag": job["tag"], "units": units_out(&r), "stars": stars, "stars0": stars0, "legal": r.legal,
+    Ok(json!({"reply": reply, "whatif": whatif, "tiles": tiles, "tag": job["tag"], "units": units_out(&r), "stars": stars, "stars0": stars0, "legal": r.legal,
               "illegal": r.illegal, "notes": r.notes, "load": rep, "turn": r.game.state.settings.turn,
               "player": r.game.state.settings.current_player_turn_id, "trace": trace, "accept": r.acc, "accept_fail": r.acc_fail, "kinds": r.kinds,
               "decisions": r.decisions, "cols": if r.decisions.is_some() { json!(polyfish::botpolicy::col_names()) } else { Value::Null }}))
