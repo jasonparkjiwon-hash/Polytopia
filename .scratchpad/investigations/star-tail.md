@@ -47,3 +47,18 @@ python3 -I tools/miss.py --list | grep star
 
 - A save every turn for any game would turn the meet rows into checks.
 - Optional: trade-route model, if more saves show connection losses.
+
+## 28 Oct (later): rebellion found, five rows left (Jason: gaps between saves are not counted)
+
+**Fixed: REBELLION-NO-INCOME** (referee stars 2057 -> 2062/2084; Polyfish 2046 -> 2052). A city whose save record has RebellionFlag 1 (an enemy Cloak/Scuba/Moth infiltrated it) pays nothing at its owner's next
+income, and a rebelling capital also loses the bot bonus. Rows: 5d15d70f t6->7 p13 -5, 710ddb20 t17->18 p2 -7 and t9->10 p9 -2, 9906f7da t18->19 p1 -5, ac4b122a t10->11 p4 -1. Polyfish: `CityState.rebelling`
+(loaded from RebellionFlag, set by infiltration, cleared after the owner's income; `get_city_production`, `get_bot_bonus`), test `infiltrated_city_pays_nothing`.
+
+**Still open (5 rows), what was tried:**
+- **9906f7da p9 t14->15 and t15->16 (-2 each):** p9 hosts Jason's embassy, rebuilt in two rounds in a row (actions 925, 1029). A rule "a new embassy pays its host from the host's next turn" fixes both but breaks three exact
+  cases where the first turn WAS paid (9906f7da t6->7, t18->19; 09a5bf1e t7->8), so it is not the rule. Only 5 host first-turn cases exist (3 paid, 2 unpaid). Not separated by: host's Diplomacy tech
+  (p9 was paid at t6 without it; a rule "host needs Diplomacy" breaks 9906f7da t6-12 and 710ddb20, 2062 -> 2046), LastAttackTurn, EmbassyBuildTurn, relation (all neutral), starfish harvests (price -8 is fine, 62 other harvest windows exact).
+- **710ddb20 t16->17 p3 (+2):** p3 (Quetzali) infiltrated p2's capital (level 4) with a Cloak, captured a village and bought Archery (modelled 16 = tier 2 x 6 cities + 4; 14 would fit with 5 cities).
+  A rule "a village captured this turn does not count for tech prices" fits this row but breaks ~130 others (2062 -> 1938), so no. Open: infiltration pay for a capital (6 instead of 4?) or a tech discount.
+- **710ddb20 t18->19 p3 (-1):** p3 captured p2's capital (level 4, population -1). 64795ee3 t9->10 p12 (-1): captured a village. Both involve a capture in the window; not traced further.
+Needs: more rows (a save every turn) before another hypothesis is worth testing; each one above is a single row.

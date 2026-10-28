@@ -350,6 +350,9 @@ pub struct CityState {
     /// MOTH-INFILTRATE: tribes that held this city before it was captured (a Moth does not infiltrate a city its side lost)
     #[serde(default)]
     pub ex_owners: Vec<PlayerId>,
+    /// REBELLION-NO-INCOME (L3): an infiltration leaves the city in rebellion (save RebellionFlag): it pays nothing at its owner's next income
+    #[serde(default)]
+    pub rebelling: bool,
 }
 
 impl Default for CityState {
@@ -367,6 +370,7 @@ impl Default for CityState {
             rewards: Vec::new(),
             _territory: Vec::new(),
             ex_owners: Vec::new(),
+            rebelling: false,
         }
     }
 }

@@ -298,6 +298,7 @@ pub fn load(d: &Value, which: &str, current_player: i32) -> Result<(Game, LoadRe
                                 rewards,
                                 _territory: Vec::new(),
                                 ex_owners: Vec::new(),
+                                rebelling: i(&data, "RebellionFlag") != 0,
                             };
                             t.ruling_city_coords = Some(c);
                             match st.tribes.get_mut(&t.owner) {

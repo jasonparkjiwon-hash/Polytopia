@@ -591,6 +591,18 @@ impl Game {
                     undos.push(gain_stars(state, spt));
                 }
             }
+            // REBELLION-NO-INCOME: the flag lasts for one income
+            let flagged: Vec<usize> = state.tribes.get(&new_pov).map_or(vec![], |t| t.cities.iter().enumerate().filter(|(_, c)| c.rebelling).map(|(i, _)| i).collect());
+            if !flagged.is_empty() {
+                if let Some(t) = state.tribes.get_mut(&new_pov) {
+                    for &i in &flagged { t.cities[i].rebelling = false; }
+                }
+                undos.push(Box::new(move |s: &mut GameState| {
+                    if let Some(t) = s.tribes.get_mut(&new_pov) {
+                        for &i in &flagged { if let Some(c) = t.cities.get_mut(i) { c.rebelling = true; } }
+                    }
+                }));
+            }
         }
 
         // Process start turn effects

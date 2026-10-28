@@ -424,6 +424,7 @@ pub fn capture_ruin(
                     rewards: vec![],
                     _territory: territory.clone(),
                     ex_owners: Vec::new(),
+            rebelling: false,
                 };
                 let city_score = crate::score::get_city_transfer_score(&city);
                 if let Some(tribe) = state.tribes.get_mut(&pov_id) {
@@ -690,6 +691,7 @@ pub fn capture_ruin(
                 rewards: vec![CityRewardType::CityWall], // Grant City Walls
                 _territory: territory.clone(),
                 ex_owners: Vec::new(),
+            rebelling: false,
             };
 
             // 3. Add to tribe

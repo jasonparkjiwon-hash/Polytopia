@@ -574,8 +574,8 @@ pub fn get_defense_bonus(state: &GameState, unit: &UnitState) -> f32 {
 /// Get city production (stars per turn)
 pub fn get_city_production(state: &GameState, city: &CityState) -> i32 {
     // If city is on riot or the tile is occupied by an enemy then production is nullified
-    if is_under_siege(state, city.idx) {
-        return 0;
+    if city.rebelling || is_under_siege(state, city.idx) {
+        return 0; // REBELLION-NO-INCOME
     }
 
     let mut prod = city.production;
@@ -693,7 +693,7 @@ pub fn get_bot_bonus(state: &GameState, tribe: &TribeState) -> i32 {
         return 0;
     }
     let holds_capital = tribe.cities.iter().any(|c| {
-        state.tiles.get(&c.idx).map_or(false, |t| t.capital_of == tribe.id) && !is_under_siege(state, c.idx)
+        state.tiles.get(&c.idx).map_or(false, |t| t.capital_of == tribe.id) && !c.rebelling && !is_under_siege(state, c.idx)
     });
     if holds_capital { bonus } else { 0 }
 }

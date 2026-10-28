@@ -1113,6 +1113,16 @@ pub fn attack_unit(
                 // 2. Spawn Logic
                 let city_cap = state.tribes[&defender_owner].cities.iter().find(|c| c.idx == city_tile_idx)
                     .map(|c| std::cmp::min(5, c.level) as usize).unwrap_or(3);
+                // REBELLION-NO-INCOME (L3): the city pays nothing at its owner's next income
+                if let Some(c) = state.tribes.get_mut(&defender_owner).and_then(|t| t.cities.iter_mut().find(|c| c.idx == city_tile_idx)) {
+                    if !c.rebelling {
+                        c.rebelling = true;
+                        let (own, ci) = (defender_owner, city_tile_idx);
+                        undos.push(Box::new(move |s: &mut GameState| {
+                            if let Some(c) = s.tribes.get_mut(&own).and_then(|t| t.cities.iter_mut().find(|c| c.idx == ci)) { c.rebelling = false; }
+                        }));
+                    }
+                }
                 // The infiltrator is used up first, so its own tile is free for a spawn (ac4b122a t11)
                 undos.push(remove_unit(state, attacker_owner, attacker_idx, None, None));
                 if is_moth {

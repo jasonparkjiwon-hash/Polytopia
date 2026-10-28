@@ -1293,6 +1293,27 @@ fn cloak_spawn_order_ring_then_row_major() {
     assert!(!at.contains(&idx(6, 6)), "never outside the territory");
 }
 
+/// REBELLION-NO-INCOME (L3, 5 star rows: 5d15d70f t6->7 p13, 710ddb20 t17->18 p2, ...): an infiltrated city is in rebellion and pays
+/// nothing at its owner's next income; a rebelling capital also loses the bot bonus.
+#[test]
+fn infiltrated_city_pays_nothing() {
+    let mut s = board();
+    add_city(&mut s, 2, 5, 5);
+    s.tribes.get_mut(&2).unwrap().cities[0].level = 3;
+    s.tribes.get_mut(&2).unwrap().cities[0].production = 3;
+    s.tribes.get_mut(&2).unwrap().handicap = 2;
+    s.tiles.get_mut(&idx(5, 5)).unwrap().capital_of = 2;
+    for y in 4..=6 { for x in 4..=6 { s.tiles.get_mut(&idx(x, y)).unwrap().owner = 2; } }
+    let before = crate::functions::get_total_production(&s, &s.tribes[&2].cities) + crate::functions::get_bot_bonus(&s, &s.tribes[&2]);
+    assert_eq!(before, 5, "level 3 + capital 1 + bot bonus 1");
+    let a = add_unit(&mut s, 1, UnitType::Cloak, 6, 5, 5.0);
+    let d = add_unit(&mut s, 2, UnitType::Warrior, 5, 5, 10.0);
+    attack(&mut s, a, d);
+    assert!(s.tribes[&2].cities[0].rebelling);
+    let after = crate::functions::get_total_production(&s, &s.tribes[&2].cities) + crate::functions::get_bot_bonus(&s, &s.tribes[&2]);
+    assert_eq!(after, 0);
+}
+
 /// TENTACLES (L3, 9906f7da t16 #1214): Jelly 135 (16/20 HP) moved next to Kickoo Warrior 67 (10 HP, no bonus):
 /// 10 -> 6, the Jelly untouched. t19 #1563: a Warrior that moves in next to a Jelly is hit by it too.
 #[test]

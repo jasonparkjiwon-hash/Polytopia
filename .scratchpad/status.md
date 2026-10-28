@@ -4,6 +4,8 @@ _Last updated 2026-10-26 (Jason's games 1-5 ingested, scored held-out, released)
 
 ## Now
 
+- **28 Oct (star tail 2):** Polyfish got REBELLION-NO-INCOME too (`rebelling` flag on cities): Polyfish stars 2046 -> 2052/2084, units unchanged. The 5 star rows still open (embassy first turn p9 x2, p3 x2, 64795ee3 p12) were tried and are logged with the failed hypotheses in `investigations/star-tail.md`; each is a single row.
+
 - **28 Oct (star tail):** Jason: games with missing turns are not counted. Found REBELLION-NO-INCOME: a city with RebellionFlag (left by an infiltration) pays nothing at its owner's next income, a rebelling capital also loses the bot bonus; fixes 5 rows (5d15d70f p13 -5, 710ddb20 p9 -2 and p2 -7, 9906f7da p1 -5, ac4b122a p4 -1). `tools/miss.py` stars 2057 -> **2062/2084**, units 10903/10903. Still unexplained (5): 64795ee3 t9->10 p12 -1, 710ddb20 t16->17 p3 +2 and t18->19 p3 -1, 9906f7da t14->15 p9 -2 and t15->16 p9 -2. Polyfish has no rebellion handling (follow-up).
 
 - **28 Oct (resumed on Jason's go):** (1) Polyfish infiltration placement = ring, row-major, own territory (land for Daggers/Eggs, water for Mermaid Daggers, infiltrator's tile free); Sanctuary spawn every 2 turns in own forests, westmost first; Polyfish units 10895/10918 -> 10899/10914, referee unchanged. Jason's counter-clockwise question: tested on all 7 infiltrations, the push-style chain fits 2/7 at best vs 5/7 row-major, so not used (`investigations/infil-sanct.md`). Embassy +2 and Sanctuary 2 turns confirmed by Jason. (2) Fog village count: bias -12.6 -> -2.8, MAE 12.6 -> 5.7 (`fog-inference.md` section 5). **Next:** refit the win-% fog model on the new samples, ruin count by map size, hidden enemy expansion.
