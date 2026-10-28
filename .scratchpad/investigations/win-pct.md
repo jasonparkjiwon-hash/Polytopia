@@ -107,3 +107,35 @@ python3 -I tools/winpct_eval.py playouts 6 16     # ~1.5 h on 4 cores; resumable
 python3 -I tools/winpct_eval.py report 6          # the table above
 python3 -I tools/winpct_eval.py write             # data/winpct_static.json
 ```
+
+## 28 Oct 2026 (win-pct-2): belief with unseen opponents, v2 vs v3, speed
+
+**Belief mode with unseen opponents (task 1) — negative result.** `sim/pfcore/src/unseen.rs` + `data/win_bank.json` (2099 real bot-tribe
+profiles: cities with levels, units with hp, stars) + `tools/winpct_unseen.py`. After `sample_belief`, each opposing tribe gets cities/units
+drawn from a profile (same bot level, Gaussian turn kernel sigma 1.5, tribe bonus, score kernel); new cities prefer sampled villages within 6 of
+its cities, new units sit on unexplored tiles within 4; observed cities/units untouched; stars replaced by the profile's; techs left as saved.
+Bank never contains the test game or the held-out games (ed6cb932, 710ddb20, 64795ee3). Opponent cities/units at H=1 move from 1.0/1.3 (old
+belief) to ~2.4/5.5 (full information 3.3/8.3). H=4, 16 playouts, 100 points, raw playout lead share, Brier tuned / held:
+
+| uniform | static | full info | belief old | unseen noscore | unseen score (met tribes) | unseen scoreall | oracle cities | oracle cities+units |
+|---|---|---|---|---|---|---|---|---|
+| .0660/.0586 | .0567/.0559 | **.0552/.0446** | .0705/.0626 | .0762/.0622 | .0772/.0640 | .0760/.0643 | .0754/.0665 | .0783/.0696 |
+
+With 50% static blended in: full .0519/.0468, belief old .0588/.0544, noscore .0611/.0547, scoreall .0612/.0553. **Belief mode cannot beat the
+static eval** (tuned .0567/.0559); filling in unseen units did NOT help, even with the true city and unit counts (oracle_*): drawing profiles
+at random per tribe removes WHICH tribes are strong, which is most of the signal, and conditioning on the saved score (all tribes) did not recover it.
+Advice: for a fogged game use the static eval (or full-information playouts only as an upper bound). Reproduce:
+`python3 -I tools/winpct_unseen.py bank; ... run 4 16 VARIANT [v2|v3]; ... report 4 v2` (variants full belief noscore score scoreall oracle_cities oracle_all).
+
+**Policy v3 vs v2 for the opponents (task 2):** full information, H=4, 16 playouts, same 100 points, Brier tuned/held: v2 .0552/.0446, v3 .0584/.0456.
+v3 is not better and ~2x slower on late states: **keep v2** (POLICY unchanged).
+
+**Speed (task 3, partly done).** Profile: ~70% of a playout was `botpolicy2::choose` (feature strings, `format!`, malloc, repeated nearest-distance scans,
+failing accessors building error Strings). Changes in `botpolicy2.rs` (feature names are `Cow<'static,str>`, interned/memoised names,
+fast hasher, per-decision distance maps, caches for threat/unexplored): **playouts with the same seed are bit-identical** (md5 of the playout
+features checked for v2 and v3 on 5 states). One process, 16 tribes, 4 rounds, v2: t15 2.04 -> 4.11 playouts/s, t24 1.36 -> 3.13 (2.0-2.3x; choose
+2.16 s -> 0.72 s); v3 about 2x. Not done: 3x target missed (engine `legal_moves`/`apply` are now ~35% and out of my scope), threads inside pfwin,
+early stop. Brier before/after identical (same playouts). pfwin prints `prof_legal_choose_apply_nlegal` timings.
+
+**Not done (tasks 4-5):** second label (survival/city count/military), refit on all 18 games, tools/winpct.py help, ledger entries (no new
+settled game rule came out of this). Next: that refit, and a cheaper per-tribe playout (skip distant tribes) if more speed is wanted.
