@@ -1425,6 +1425,13 @@
    "level": "L3",
    "game_version": "v123",
    "evidence": "710ddb20 t18->19: Dagger 469 boards at (20,20), save shows Pirate 550 with Dagger passenger, attacks without retaliation. Polyfish agrees (Dagger->Pirate on embark). Units 10183->10185, no game worse."
+  },
+  {
+   "id": "RUIN-CITY",
+   "rule": "An Aquarion water ruin examined (ocean tile, improvement 2) becomes a level-1 city of the examiner (flooded field); it pays +1 star from the next income. Not seen for other tribes' ruins.",
+   "level": "L3",
+   "game_version": "v123",
+   "evidence": "3edee0ec t5->6 (18,21) and t9->10 (15,20) p1 +1 star each; 6e1bf8e0 t11 (14,16) p9 same tile change. Stars 1944->1946, 3edee0ec 144/144. No source on the web."
   }
  ]
 }

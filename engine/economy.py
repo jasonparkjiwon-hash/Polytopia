@@ -52,6 +52,7 @@ ECON_RULES = {
     'meet_score_by_turn': True,  # MEET-SCORE-TURN: a tribe met in the later save's turn counts with its score in that save (64795ee3 t6->7 p1 +4)
     'moth_infiltrate': False,    # MOTH-INFILTRATE: the Moth pays no city level (g7 t8->9, t18->19: stars -2 if it does)
     'infiltrate_stars': True,    # INFILTRATE-STARS: a Cloak/Scuba attack on an enemy city pays the attacker the city's level (cap 5); n=1, 9906f7da t18
+    'ruin_city': True,           # RUIN-CITY: an Aquarion water ruin examined becomes the player's level-1 city (3edee0ec t5, t9: +1 star the next income)
     'aquarion51_price': 5,       # ECON-PRICES-V123: Aquarion structure 51, implied by the star check (n=2); name unknown
 }
 
@@ -230,6 +231,10 @@ def check(a, b, acts, model="levels", siege=True):
             R.apply(st, x, turn)
         if pl not in rows: continue
         if x["type"] == 14: rows[pl]["ruins"] = rows[pl].get("ruins", 0) + 1
+        if x["type"] == 14 and ECON_RULES["ruin_city"]:        # the ruin tile is a city of the examiner in save b (Aquarion water ruin): it pays from the next income
+            _, rx, ry = struct.unpack("<BII", bytes.fromhex(x["raw"])); rt = b["currentTiles"][ry][rx]
+            if rt["ImprovementExists"] and rt["ImprovementType"] == 1 and rt["Owner"] == pl and (rx, ry) not in bk.city:
+                bk.city[(rx, ry)] = dict(owner=pl, Level=1, Production=1, CityRewards=[], CurrentPopulation=0)
         c = spend(bk, pl, x)
         if c is None: rows[pl]["unknown"][(x["name"], x["raw"][2:6])] += 1
         else: rows[pl]["spent"] += c
