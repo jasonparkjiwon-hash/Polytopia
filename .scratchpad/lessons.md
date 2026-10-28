@@ -60,12 +60,20 @@ Add to it when a hunt turns up a gotcha worth remembering.
 - **Giant/Juggernaut:** a Giant boarding its port becomes a Juggernaut and stomps; a Juggernaut follows a kill onto land (as a Giant, stomping), but not onto a mountain without Climbing.
 - **`engine/stats.py`:** an inline `#` comment once swallowed the Exida, Larva and Moth rows. Check new rows actually load.
 
+- **Boarding:** a Dagger that boards a port/boat becomes a Pirate (10 HP, atk 2, Surprise), the Dagger rides as passenger; Giant -> Juggernaut; others -> Raft (PIRATE-BOARD, L3).
+- **Acting blocks the idle heal:** a city capture (type 7) and an examined ruin (type 14) count as the unit acting (CAPTURE-RUIN-ACT, L3).
+
 ## Economy gotchas
 
 - Tech price = tier × cities + 4, tribe techs included.
 - City level rises with each CityReward in the log, not with action 21.
 - A save taken right after the round-end EndTurn (player 255) already holds the round opener's income.
 - A besieged capital loses the bot star bonus.
+- **Aquarion water ruin = new city:** examining an ocean ruin (improvement 2) turns it into the examiner's level-1 city; +1 star from the next income (RUIN-CITY, L3).
+- **Prices from Jason (28 Oct):** Mermaid Defender 3 stars (the card's 8 is wrong); each embassy costs 2 stars more than the previous.
+- **Meeting stars** 1+2*min(ceil(score/1000),5) is L3 (370/373 rows); don't re-tune it.
+- **Settled, don't redo:** action 38 = Shaman Swarm; the g8 'Polaris IceArcher without a Train' is a fight miss, not a spawn; the web (devtrackers.gg, fandom) is unreachable except by WebSearch snippets: see investigations/web-deep.md before searching again.
+- **Still open (see web-deep.md):** defender on a village/city tile survives a predicted kill (g8 t7->8, t9->10); infiltration tile order (Jason: city tile, forest/mountain by tech, plain, then water Pirates; direction loop from where the Cloak came, counter-clockwise first); Sanctuary spawn period.
 
 ## Tools worth knowing
 
