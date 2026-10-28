@@ -563,7 +563,7 @@ fn amphibious_on_water() {
 }
 
 /// TRIBE-TECH-TIERS (L3, n=1-2 each): tribe techs cost tier x cities + 4 at the tier of the base tech they replace
-/// (Ice Fishing 2, Sledding 2, Polar Warfare 3, Spearing 3, Polarism 3, Oceantology 3), and need what it needs.
+/// (Ice Fishing 2, Sledding 2, Polar Warfare 3, Spearing 3, Polarism 3; CYMANTI-TECH-49: Oceantology 2), and need what it needs.
 #[test]
 fn tribe_tech_tiers() {
     use crate::settings::technology::get_researchable_techs;
@@ -576,7 +576,7 @@ fn tribe_tech_tiers() {
         (TechnologyType::PolarWarfare, 7),
         (TechnologyType::Polarism, 7),
         (TechnologyType::Spearing, 7),
-        (TechnologyType::Oceantology, 7),
+        (TechnologyType::Oceantology, 6),
     ] {
         assert_eq!(crate::functions::get_tech_cost(&t, tech), cost, "{tech:?}");
     }
@@ -1280,4 +1280,41 @@ fn jelly_tentacles() {
     let w2 = add_unit(&mut s, 2, UnitType::Warrior, 4, 4, 10.0);
     let _ = tentacles_after_step(&mut s, idx(4, 4));
     assert_eq!((unit(&s, 2, w2).health, unit(&s, 2, w).health), (6.0, 6.0));
+}
+
+/// MOTH-INFILTRATE (L3, 710ddb20 t8->9 #1011, t18->19, 64795ee3 t9->10): a Cymanti Moth attacking an enemy city that
+/// holds a unit hits it normally, is used up, and Insect Eggs (one per city level, here 2) appear around the city.
+#[test]
+fn moth_infiltrates_occupied_city() {
+    let mut s = board();
+    s.tribes.get_mut(&1).unwrap().tribe_type = TribeType::Cymanti;
+    add_city(&mut s, 2, 5, 5);
+    s.tribes.get_mut(&2).unwrap().cities[0].level = 2;
+    let a = add_unit(&mut s, 1, UnitType::Moth, 6, 5, 5.0);
+    let d = add_unit(&mut s, 2, UnitType::Warrior, 5, 5, 10.0);
+    attack(&mut s, a, d);
+    assert!(unit(&s, 2, d).health < 10.0, "normal damage");
+    assert!(!s.tribes[&1].units.iter().any(|u| u.unit_type == UnitType::Moth), "used up");
+    assert_eq!(s.tribes[&1].units.iter().filter(|u| u.unit_type == UnitType::InsectEgg).count(), 2);
+}
+
+/// CENTIPEDE-CHAIN (L3, 710ddb20 t12-t18, 6 head moves): when the head moves, each segment takes the tile its leader
+/// left and a new Segment appears on the old tail tile; a second displacement the same turn moves a longer chain no further.
+#[test]
+fn centipede_chain_grows_on_move() {
+    let mut s = board();
+    let h = add_unit(&mut s, 1, UnitType::Centipede, 5, 5, 20.0);
+    let g = add_unit(&mut s, 1, UnitType::Segment, 4, 5, 10.0);
+    {
+        let t = s.tribes.get_mut(&1).unwrap();
+        t.units[h].child_unit_idx = Some(g);
+        t.units[g].parent_unit_idx = Some(h);
+    }
+    step(&mut s, 1, h, 6, 5);
+    let pos = |s: &GameState| -> Vec<i32> { s.tribes[&1].units.iter().map(|u| u.coords.idx).collect() };
+    let p = pos(&s);
+    assert_eq!((p[h], p[g]), (idx(6, 5), idx(5, 5)));
+    assert_eq!(s.tribes[&1].units.len(), 3, "one new Segment");
+    assert_eq!(p[2], idx(4, 5), "on the old tail tile");
+    assert_eq!(s.tribes[&1].units[g].child_unit_idx, Some(2));
 }

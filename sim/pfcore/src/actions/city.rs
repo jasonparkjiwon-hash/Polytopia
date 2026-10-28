@@ -274,6 +274,7 @@ pub fn capture_city(state: &mut GameState, tile_idx: i32) -> Result<UndoCallback
                 .unwrap_or(0);
 
             // Update city ownership and name
+            if city.owner != pov_id { city.ex_owners.push(city.owner); }
             city.owner = pov_id;
             let tribe_type = state
                 .tribes
@@ -479,6 +480,7 @@ pub fn capture_city(state: &mut GameState, tile_idx: i32) -> Result<UndoCallback
             owner: pov_id,
             rewards: Vec::new(),
             _territory: territory.clone(),
+            ex_owners: Vec::new(),
         };
 
         if let Some(tribe) = state.tribes.get_mut(&pov_id) {

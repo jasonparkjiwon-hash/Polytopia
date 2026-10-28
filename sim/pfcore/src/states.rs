@@ -347,6 +347,9 @@ pub struct CityState {
     pub rewards: Vec<CityRewardType>,
     #[serde(default)]
     pub _territory: Vec<i32>,
+    /// MOTH-INFILTRATE: tribes that held this city before it was captured (a Moth does not infiltrate a city its side lost)
+    #[serde(default)]
+    pub ex_owners: Vec<PlayerId>,
 }
 
 impl Default for CityState {
@@ -363,6 +366,7 @@ impl Default for CityState {
             owner: 0,
             rewards: Vec::new(),
             _territory: Vec::new(),
+            ex_owners: Vec::new(),
         }
     }
 }

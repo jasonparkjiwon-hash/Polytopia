@@ -216,6 +216,7 @@ pub fn load(d: &Value, which: &str, current_player: i32) -> Result<(Game, LoadRe
     embassies_to_builder_side(&mut st);
 
     // Tiles, structures, resources, cities, units
+    let mut links: Vec<(i32, i64, i64, i64)> = Vec::new(); // (owner, unit id, leader id, follower id): Centipede chains
     for (y, row) in tiles.iter().enumerate() {
         for (x, tv) in row.as_array().ok_or("bad tile row")?.iter().enumerate() {
             let c = Coords::from_xy(x as i32, y as i32, size);
@@ -296,6 +297,7 @@ pub fn load(d: &Value, which: &str, current_player: i32) -> Result<(Game, LoadRe
                                 production: i(&data, "Level") as i32,
                                 rewards,
                                 _territory: Vec::new(),
+                                ex_owners: Vec::new(),
                             };
                             t.ruling_city_coords = Some(c);
                             match st.tribes.get_mut(&t.owner) {
@@ -310,7 +312,7 @@ pub fn load(d: &Value, which: &str, current_player: i32) -> Result<(Game, LoadRe
             if let Some(u) = tv.get("Unit").filter(|u| !u.is_null()) {
                 if let Some(us) = unit_state(u, tv.get("PassengerUnit").filter(|p| !p.is_null()), tv.get("UnitEffects"), tv.get("UnitDirection"), size, &mut rep) {
                     if i(u, "FollowerUnitId") != 0 || i(u, "LeaderUnitId") != 0 {
-                        rep.drop("centipede leader/follower links".into());
+                        links.push((us.owner, i(u, "Id"), i(u, "LeaderUnitId"), i(u, "FollowerUnitId")));
                     }
                     t._unit_owner_id = Some(us.owner);
                     match st.tribes.get_mut(&us.owner) {
@@ -320,6 +322,17 @@ pub fn load(d: &Value, which: &str, current_player: i32) -> Result<(Game, LoadRe
                 }
             }
             st.tiles.insert(c.idx, t);
+        }
+    }
+    // CENTIPEDE-CHAIN: leader/follower ids become unit-list indices (parent = leader, child = follower)
+    for &(owner, id, leader, follower) in &links {
+        if let Some(tr) = st.tribes.get_mut(&owner) {
+            let at = |tr: &TribeState, want: i64| tr.units.iter().position(|u| want != 0 && u.uid as i64 == want);
+            let (me, par, chi) = (at(tr, id), at(tr, leader), at(tr, follower));
+            if let Some(me) = me {
+                tr.units[me].parent_unit_idx = par;
+                tr.units[me].child_unit_idx = chi;
+            }
         }
     }
     let mut game = Game { state: st };

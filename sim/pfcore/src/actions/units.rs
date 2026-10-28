@@ -810,10 +810,69 @@ pub fn step_unit(
             .and_then(|t| t.units.get(unit_idx))
             .and_then(|u| u.child_unit_idx)
     } {
+        // CENTIPEDE-CHAIN: a second displacement the same turn (a kill that moves the head in) moves a longer chain no
+        // further; a chain of one is the segment this turn's first step grew, and it follows to the head's new old tile
+        let chain_len = {
+            let t = &state.tribes[&unit_owner];
+            let (mut cur, mut n) = (child_idx, 1);
+            while let Some(c) = t.units.get(cur).and_then(|u| u.child_unit_idx) { if c == cur || n > 64 { break; } cur = c; n += 1; }
+            n
+        };
+        let second = old_moved && old_type == UnitType::Centipede;
+        if second && chain_len > 1 {
+            return crate::actions::chain_undos(undos);
+        }
+        // CENTIPEDE-CHAIN: the old tail tile, read before the shift (the head's old tile when it has no segment)
+        let tail_tile = {
+            let t = &state.tribes[&unit_owner];
+            let (mut cur, mut tile) = (child_idx, old_tile_idx);
+            loop {
+                match t.units.get(cur) {
+                    Some(u) => {
+                        tile = u.coords.idx;
+                        match u.child_unit_idx { Some(n) if n != cur => cur = n, _ => break }
+                    }
+                    None => break,
+                }
+            }
+            tile
+        };
         // Move child to this unit's previous position
         undos.push(step_unit(state, unit_owner, child_idx, old_tile_idx, true));
+        if !second { undos.push(grow_segment(state, unit_owner, unit_idx, tail_tile)); }
+    } else {
+        undos.push(grow_segment(state, unit_owner, unit_idx, old_tile_idx));
     }
 
+    crate::actions::chain_undos(undos)
+}
+
+/// CENTIPEDE-CHAIN (L3, 710ddb20 t12-t18, 6 head moves): when a Centipede head moves, a new Segment appears on the
+/// tile the old tail stood on (the head's old tile when it has no segment) and joins the end of the chain.
+fn grow_segment(state: &mut GameState, owner: PlayerId, head_idx: usize, tile: i32) -> UndoCallback {
+    let is_head = state.tribes.get(&owner).and_then(|t| t.units.get(head_idx)).map_or(false, |u| u.unit_type == UnitType::Centipede);
+    if !is_head || crate::functions::get_unit_at(state, tile).is_some() {
+        return Box::new(|_| {});
+    }
+    let new_idx = state.tribes[&owner].units.len();
+    let mut undos: Vec<UndoCallback> = vec![spawn_unit(state, owner, UnitType::Segment, tile, false)];
+    let tail = {
+        let t = &state.tribes[&owner];
+        let mut cur = head_idx;
+        while let Some(n) = t.units.get(cur).and_then(|u| u.child_unit_idx) {
+            if n == new_idx || n == cur { break; }
+            cur = n;
+        }
+        cur
+    };
+    let t = state.tribes.get_mut(&owner).unwrap();
+    t.units[new_idx].parent_unit_idx = Some(tail);
+    t.units[tail].child_unit_idx = Some(new_idx);
+    undos.push(Box::new(move |s| {
+        if let Some(u) = s.tribes.get_mut(&owner).and_then(|t| t.units.get_mut(tail)) {
+            u.child_unit_idx = None;
+        }
+    }));
     crate::actions::chain_undos(undos)
 }
 
@@ -972,9 +1031,10 @@ pub fn attack_unit(
         )
     };
 
+    // v123 (MOTH-INFILTRATE, L3 710ddb20 t8->9, t18->19, 64795ee3 t9->10): a Cymanti Moth does the same and spawns Insect Eggs.
     // v123 (INFILTRATE, L3 9906f7da t18 #1481): a Cloak or Scuba attacking a unit in an enemy city deals its normal
     // damage (no retaliation), then infiltrates as into an empty city (Daggers) and is used up.
-    if let (Some(d), true) = (defender_idx, matches!(atk_type, UnitType::Cloak | UnitType::MermaidCloak)) {
+    if let (Some(d), true) = (defender_idx, matches!(atk_type, UnitType::Cloak | UnitType::MermaidCloak | UnitType::Moth)) {
         let (dmg, dc) = {
             let u = &state.tribes[&defender_owner].units[d];
             let r = calculate_combat(atk_atk, atk_health, atk_max_health, get_unit_defense(u), u.health,
@@ -984,7 +1044,10 @@ pub fn attack_unit(
         let city_owner = state.tribes.iter()
             .find(|(_, t)| t.cities.iter().any(|c| c.idx == dc))
             .map(|(&id, _)| id)
-            .filter(|&id| id != attacker_owner);
+            .filter(|&id| id != attacker_owner)
+            // MOTH-INFILTRATE: a Moth attacks a city its own side lost normally (6e1bf8e0 t11 #1494)
+            .filter(|&id| atk_type != UnitType::Moth
+                || !state.tribes[&id].cities.iter().any(|c| c.idx == dc && c.ex_owners.contains(&attacker_owner)));
         if let Some(city_owner) = city_owner {
             undos.push(deal_damage(state, defender_owner, d, dmg, Some(attacker_owner)));
             undos.push(attack_unit(state, attacker_owner, attacker_idx, city_owner, None));
@@ -1048,6 +1111,8 @@ pub fn attack_unit(
                 // }
 
                 // 2. Spawn Logic
+                let city_cap = state.tribes[&defender_owner].cities.iter().find(|c| c.idx == city_tile_idx)
+                    .map(|c| std::cmp::min(5, c.level) as usize).unwrap_or(3);
                 if is_moth {
                     // Moth: Poison adjacent units and spawn Eggs
                     let adj = crate::functions::get_adjacent_indices(state, city_tile_idx, 1);
@@ -1072,10 +1137,10 @@ pub fn attack_unit(
                         }
                     }
 
-                    // Spawn Eggs
+                    // Spawn Eggs: one per city level, at most 5 (MOTH-INFILTRATE, INFILTRATE)
                     let mut spawn_count = 0;
                     for t_idx in &adj {
-                        if spawn_count >= 3 {
+                        if spawn_count >= city_cap {
                             break;
                         }
                         if crate::functions::get_unit_at(state, *t_idx).is_none() {
@@ -1095,7 +1160,7 @@ pub fn attack_unit(
                     let adj = crate::functions::get_adjacent_indices(state, city_tile_idx, 1);
                     let mut spawn_count = 0;
                     for t_idx in &adj {
-                        if spawn_count >= 3 {
+                        if spawn_count >= city_cap {
                             break;
                         }
                         if crate::functions::get_unit_at(state, *t_idx).is_none() {

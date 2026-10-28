@@ -113,6 +113,9 @@ Crazy deltas. `botpolicy2::choose(&game, &legal, &policy, &mut rng, true)` is th
 - Enchant Animal removes the wild animal from its tile (v115 put the Game back, so it kept paying a Sanctuary) (`moves/abilities/enchant_animal.rs`) [ENCHANT-REMOVES-GAME].
 - A Cloak or Scuba attacking a unit in an enemy city deals its normal damage (no retaliation), then infiltrates as into an empty city (Daggers) and is used up (`actions/units.rs` attack_unit) [INFILTRATE].
 - Infiltration spawns min(5, city level) Daggers (Mermaid Daggers for Aquarion, any free tile in the borders, row-major order, n=1) and pays the same number of stars; upstream used min(5, city production) (`actions/units.rs` infiltrate_city) [INFILTRATE, INFILTRATE-STARS].
+- A Cymanti Moth attacking a unit in an enemy city does the same and spawns Insect Eggs (one per city level, max 5); it attacks normally a city its own side lost (`City.ex_owners`) (`actions/units.rs` attack_unit) [MOTH-INFILTRATE].
+- Centipede chain: the save's Leader/Follower ids become `parent/child_unit_idx`; a head move shifts the segments and grows a Segment on the old tail tile; a second displacement the same turn moves a chain longer than one no further (`actions/units.rs` step_unit, grow_segment) [CENTIPEDE-CHAIN].
+- Cymanti Oceantology (save 49) costs tier 2, not 3 (`settings/technology.rs`) [CYMANTI-TECH-49].
 - Mermaid Defender costs 3 (the card says 8; game 6 star rows fit 3, n=4) (`settings/units.rs`) [MERMAID-DEFENDER-PRICE].
 - Oceantology (save tech 49) requires Navigation; upstream had no prerequisite and Research was not offered (`settings/technology.rs`) [CYMANTI-TECH-49].
 - Aquarion Jelly Tentacles: after a Jelly moves it hits every adjacent enemy, and an enemy that moves (or follows a kill) next to a Jelly is hit by it; normal damage, defender bonus, no retaliation (`actions/units.rs` tentacles_after_step, called from `moves/step.rs` and the kill move-in) [TENTACLES].
