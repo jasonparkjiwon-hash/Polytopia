@@ -4,11 +4,11 @@ Pure stdlib. pfwin plays bot policy v2 for every tribe from a save (Game::search
 import os, sys, json, glob, re, subprocess, tempfile, math, concurrent.futures as cf
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
-BIN = os.path.join(ROOT, "sim", "pfcore", "target", "release", "pfwin")
+BIN = os.environ.get("PFWIN_BIN") or os.path.join(ROOT, "sim", "pfcore", "target", "release", "pfwin")
 POLICY = os.path.join(ROOT, "data", "bot_policy_v2.json")
 BANK = os.path.join(ROOT, "data", "win_bank.json")        # tribe profiles for belief mode (tools/winpct_unseen.py bank)
 BELIEF = os.path.join(ROOT, "data", "belief_model.json")
-FEATS = ["alive", "cities", "pop", "level", "units", "unit_cost", "unit_hp_cost", "stars", "income", "techs", "kills", "casualties", "score", "connected"]
+FEATS = ["alive", "cities", "pop", "level", "units", "unit_cost", "unit_hp_cost", "stars", "income", "techs", "kills", "casualties", "score", "connected", "threat", "pressure", "water"]
 FI = {n: i for i, n in enumerate(FEATS)}
 
 def _run_chunk(jobs, policy):

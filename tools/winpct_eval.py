@@ -33,7 +33,7 @@ def cmd_states():
     for r in W.run(jobs):
         if "error" in r: print("ERR", r["tag"], r["error"]); continue
         g, t, pl, turn = meta[r["tag"]]
-        out[r["tag"]] = {"game": g, "t": t, "player": pl, "turn": turn, "tribes": r["tribes"], "feats": r["start"]}
+        out[r["tag"]] = {"game": g, "t": t, "player": pl, "turn": turn, "tribes": r["tribes"], "feats": r["start"], "fog": r.get("fog"), "explored": r.get("explored")}
     json.dump(out, open(os.path.join(CACHE, "states.json"), "w"))
     print(len(out), "states ->", CACHE)
 

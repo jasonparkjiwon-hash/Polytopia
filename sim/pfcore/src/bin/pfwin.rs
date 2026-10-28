@@ -20,10 +20,19 @@ use serde_json::{json, Value};
 use std::time::Instant;
 
 thread_local! { static PROF: std::cell::RefCell<[f64; 4]> = std::cell::RefCell::new([0.0; 4]); }
-const FEATS: [&str; 14] = ["alive", "cities", "pop", "level", "units", "unit_cost", "unit_hp_cost", "stars", "income", "techs", "kills", "casualties", "score", "connected"];
+const FEATS: [&str; 17] = ["alive", "cities", "pop", "level", "units", "unit_cost", "unit_hp_cost", "stars", "income", "techs", "kills", "casualties", "score", "connected", "threat", "pressure", "water"];
 
 fn feats(g: &Game, id: i32) -> Vec<f64> {
     let t = &g.state.tribes[&id];
+    // threat: own cities with a foreign attacking unit within 3 (Chebyshev); pressure: foreign cities with an own attacking unit within 3; water: share of water tiles
+    let size = g.state.settings.size;
+    let armed = |u: &&polyfish::states::UnitState| get_unit_setting(u.unit_type).attack > 0.0;
+    let foe_units: Vec<i32> = g.state.tribes.iter().filter(|(k, _)| **k != id).flat_map(|(_, o)| o.units.iter().filter(armed).map(|u| u.coords.idx)).collect();
+    let my_units: Vec<i32> = t.units.iter().filter(armed).map(|u| u.coords.idx).collect();
+    let near = |c: i32, set: &[i32]| set.iter().any(|&u| polyfish::functions::get_chebyshev_distance(c, u, size) <= 3);
+    let threat = t.cities.iter().filter(|c| near(c.idx, &foe_units)).count() as f64;
+    let pressure = g.state.tribes.iter().filter(|(k, _)| **k != id).flat_map(|(_, o)| o.cities.iter()).filter(|c| near(c.idx, &my_units)).count() as f64;
+    let water = g.state.tiles.values().filter(|tl| tl.is_water_terrain()).count() as f64 / (g.state.tiles.len().max(1) as f64);
     let cost = |u: &polyfish::states::UnitState| get_unit_setting(u.unit_type).cost as f64 + u.passenger_type.map(|p| get_unit_setting(p).cost as f64).unwrap_or(0.0);
     vec![
         (t.killed_turn <= 0 && t.resigned_turn <= 0 && !t.cities.is_empty()) as i32 as f64,
@@ -40,6 +49,7 @@ fn feats(g: &Game, id: i32) -> Vec<f64> {
         t.casualties as f64,
         t.score as f64,
         t.cities.iter().filter(|c| c.connected_to_capital).count() as f64,
+        threat, pressure, water,
     ]
 }
 
@@ -103,7 +113,15 @@ fn main() {
                 Some(gid) => json!(base.state.tribes.keys().map(|id| serde_json::to_value(unseen_profile(&base, *id, gid)).unwrap()).collect::<Vec<_>>()),
                 None => Value::Null,
             };
-            println!("PFWIN {}", json!({"tag": job["tag"], "names": FEATS, "turn": base.state.settings.turn, "tribes": tribes, "start": start, "profiles": profiles}));
+            // fog features of the mover's view (win-pct-3): per tribe [cities on explored tiles, met by pov (known_players or a city seen)], and the explored share of the map
+            let ex = fog::explored(&base, player);
+            let known = base.state.tribes.get(&player).map(|t| t.known_players.clone()).unwrap_or_default();
+            let fogf: serde_json::Map<String, Value> = base.state.tribes.iter().map(|(id, t)| {
+                let vc = t.cities.iter().filter(|c| ex.contains(&c.idx)).count();
+                (id.to_string(), json!([vc, (*id == player || known.contains(id) || vc > 0) as i32]))
+            }).collect();
+            let exs = ex.len() as f64 / (base.state.tiles.len().max(1) as f64);
+            println!("PFWIN {}", json!({"tag": job["tag"], "names": FEATS, "turn": base.state.settings.turn, "tribes": tribes, "start": start, "profiles": profiles, "fog": fogf, "explored": exs}));
             continue;
         }
         let n = job["playouts"].as_u64().unwrap_or(20);
