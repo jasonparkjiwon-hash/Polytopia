@@ -1495,6 +1495,13 @@
    "level": "L2",
    "game_version": "v122 (11x11 Bardur Drylands, 5,267 maps) + v123 saves (37 maps, six types)",
    "evidence": "PolyVision 11x11 Bardur Drylands v122 only: 5,267 maps, mean 8.16 settlements; no-parameter packing with the real capital gives 8.167 and the 4-9 distribution within 1.1 points. Out of sample on 37 saves, all six map types, real land masks: mean |actual - jam| 1.13 vs 1.81 for the C9 share model (tools/jam_test.py). Inside sim/wiki_mapgen.py jam is worse than share for 14+ maps because the generator's land is more compact than real land (sum abs error 35.7 vs 16.8 over 15 rows), so the generator uses it only for measured Drylands <= 12. Not tested: other map types at small sizes, 2+ players."
+  },
+  {
+   "id": "REBELLION-NO-INCOME",
+   "rule": "A city whose save record has RebellionFlag 1 (set when an enemy Cloak/Scuba/Moth infiltrates it) produces no stars at its owner's next income, and a rebelling capital also loses the bot bonus; the flag lasts for that one income.",
+   "level": "L3",
+   "game_version": "v123 (measured in saves)",
+   "evidence": "2026-10-28 star misses: 5d15d70f t6->7 p13 -5 (capital level 3 + capital 1 + bonus 1; flag 1 in save a), 710ddb20 t17->18 p2 -7 (capital level 4 + 1 + bonus 2; infiltrated t16), 710ddb20 t9->10 p9 -2, 9906f7da t18->19 p1 -5, ac4b122a t10->11 p4 -1: all five exact with the rule (stars 2057 -> 2062 of 2084, units unchanged). engine/economy.py ECON_RULES rebellion_no_income."
   }
  ]
 }

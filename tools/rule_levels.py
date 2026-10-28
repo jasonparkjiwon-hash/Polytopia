@@ -102,6 +102,7 @@ MAP = {   # rule name -> ledger id
     "replay.RULES.push_dir_round": "PUSH-DIRECTION",
     # economy.py ECON_RULES switches
     "economy.ECON_RULES.ruin_city": "RUIN-CITY",
+    "economy.ECON_RULES.rebellion_no_income": "REBELLION-NO-INCOME",
     "economy.ECON_RULES.embassy_income": "ECON-EMBASSY",
     "economy.ECON_RULES.embassy_entry_destroys": "EMBASSY-DESTROYED-BY-ENTRY",
     "economy.ECON_RULES.market_income": "ECON-MARKET-CLATHRUS",

@@ -55,6 +55,7 @@ ECON_RULES = {
     'sanctuary_build_no_income': True,   # SANCTUARY-BUILD-TURN: a Sanctuary pays from the income that arrives after it is built (9ac0b946 t6->7: B built as the first action of turn 7, income came before it)
     'infiltrate_stars': True,    # INFILTRATE-STARS: a Cloak/Scuba attack on an enemy city pays the attacker the city's level (cap 5); n=1, 9906f7da t18
     'ruin_city': True,           # RUIN-CITY: an Aquarion water ruin examined becomes the player's level-1 city (3edee0ec t5, t9: +1 star the next income)
+    'rebellion_no_income': True,  # REBELLION-NO-INCOME: a city with RebellionFlag (left by an infiltration) pays nothing at its owner's next income; a rebelling capital also loses the bot bonus
     'aquarion51_price': 5,       # ECON-PRICES-V123: Aquarion structure 51, implied by the star check (n=2); name unknown
 }
 if os.environ.get('POLY_ECON'): ECON_RULES.update(json.loads(os.environ['POLY_ECON']))   # tools/rule_search.py
@@ -97,6 +98,7 @@ class Books:
 
     def income(self, pl, model, units=None):
         cs = [(q, c) for q, c in self.city.items() if c["owner"] == pl]
+        if ECON_RULES['rebellion_no_income']: cs = [(q, c) for q, c in cs if not c.get('RebellionFlag')]
         if units is not None:                           # a city with an enemy unit on it produces nothing (siege; Polyfish get_city_production)
             cs = [(q, c) for q, c in cs if not (units.get(q) is not None and units[q] != pl)]
         if model == "production": return sum(c["Production"] for _, c in cs)
@@ -227,11 +229,13 @@ def check(a, b, acts, model="levels", siege=True):
         if pl in rows and prev_end and pl != 255:       # the first action of a player's turn: income arrives first
             occ = {q: st.units[i].owner for q, i in st.at.items() if i in st.units} if st else None
             rows[pl]["income"] += bk.income(pl, model, occ); rows[pl]["turns"] += 1
+            for c in bk.cities(pl): c["RebellionFlag"] = 0   # REBELLION-NO-INCOME: the flag lasts for one income
         prev_end = x["type"] == 15
         if st is not None and x["type"] == 2 and ECON_RULES["infiltrate_stars"] and pl in rows:
             _, uid, _, _, tx, ty = struct.unpack("<BIIIII", bytes.fromhex(x["raw"])); u = st.units.get(uid)
             if u is not None and (u.type in ("Cloak", "Scuba") or (ECON_RULES["moth_infiltrate"] and u.type == "Moth")) and st.city.get((tx, ty)) not in (None, pl) and (tx, ty) in bk.city:
                 rows[pl]["spent"] -= min(5, bk.city[(tx, ty)]["Level"])
+                bk.city[(tx, ty)]["RebellionFlag"] = 1   # REBELLION-NO-INCOME: the infiltrated city pays nothing at its owner's next income
         if st is not None:
             if x["type"] == 15 and pl == 255: turn += 1
             R.apply(st, x, turn)
@@ -253,6 +257,7 @@ def check(a, b, acts, model="levels", siege=True):
         if nxt in rows:
             occ = {q: st.units[i].owner for q, i in st.at.items() if i in st.units} if st else None
             rows[nxt]["income"] += bk.income(nxt, model, occ); rows[nxt]["turns"] += 1
+            for c in bk.cities(nxt): c["RebellionFlag"] = 0
     if SANCTUARY_INCOME:                                # a Sanctuary pays 1 a turn per wild animal (Game) next to it; an animal that
         gone = set()                                    # spawns this turn pays from the next (read from both saves, like ruin rewards)
         for x in acts[len(a["actions"]):len(b["actions"])]:
