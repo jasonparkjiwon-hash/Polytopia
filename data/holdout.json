@@ -17,6 +17,62 @@
     "stars": "16/16 new (64/64 total)",
     "rules_commit": "a70f3a3"
    }
+  },
+  {
+   "game": "5d15d70f-6947-4a46-9df0-2e6a5ba22dc3",
+   "added": "2026-10-28",
+   "note": "infiltration test doc, t6-7; Jason's Drive docs 'Polytopia infiltrate' / 'Polytopia sanctuary game' (from_turn start not t1)",
+   "scored": {
+    "date": "2026-10-28",
+    "units": "65/65",
+    "stars": "15/16",
+    "rules_commit": "9d14312",
+    "polyfish": {
+     "units": "65/65",
+     "stars": "14/16"
+    }
+   }
+  },
+  {
+   "game": "5f3ffaea-667d-4873-adb2-6ccf51cfa68e",
+   "added": "2026-10-28",
+   "note": "infiltration test doc, t5 only (no pair); Jason's Drive docs 'Polytopia infiltrate' / 'Polytopia sanctuary game' (from_turn start not t1)",
+   "scored": {
+    "date": "2026-10-28",
+    "units": "0/0 (single save, no pair)",
+    "stars": "0/0",
+    "rules_commit": "9d14312"
+   }
+  },
+  {
+   "game": "ac4b122a-dcfb-4599-95aa-99bb63cdbdc4",
+   "added": "2026-10-28",
+   "note": "infiltration test doc, t10-11; Jason's Drive docs 'Polytopia infiltrate' / 'Polytopia sanctuary game' (from_turn start not t1)",
+   "scored": {
+    "date": "2026-10-28",
+    "units": "129/129",
+    "stars": "15/16",
+    "rules_commit": "9d14312",
+    "polyfish": {
+     "units": "127/131",
+     "stars": "14/16"
+    }
+   }
+  },
+  {
+   "game": "9ac0b946-f621-4efc-85c2-0de9d4b32c05",
+   "added": "2026-10-28",
+   "note": "sanctuary test doc, t6-11; Jason's Drive docs 'Polytopia infiltrate' / 'Polytopia sanctuary game' (from_turn start not t1)",
+   "scored": {
+    "date": "2026-10-28",
+    "units": "518/518",
+    "stars": "79/80",
+    "rules_commit": "9d14312",
+    "polyfish": {
+     "units": "518/518",
+     "stars": "80/80"
+    }
+   }
   }
  ],
  "released": [
